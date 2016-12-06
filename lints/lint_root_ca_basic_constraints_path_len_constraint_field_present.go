@@ -1,0 +1,51 @@
+// lint_root_ca_basic_constraints_path_len_constraint_field_present.go
+/************************************************************************************************************
+7.1.2.1. Root CA Certificate
+a. basicConstraints
+This extension MUST appear as a critical extension. The cA field MUST be set true. The pathLenConstraint field SHOULD NOT be present.
+***********************************************************************************************************/
+
+package lints
+
+import (
+
+	"encoding/asn1"
+	"github.com/teamnsrg/zlint/util"
+	"github.com/zmap/zgrab/ztools/x509"
+)
+
+type rootCaPathLenPresent struct {
+	// Internal data here
+}
+
+func (l *rootCaPathLenPresent) Initialize() error {
+	return nil
+}
+
+func (l *rootCaPathLenPresent) CheckApplies(c *x509.Certificate) bool {
+	return util.IsRootCA(c) && util.IsExtInCert(c, util.BasicConstOID)
+}
+
+func (l *rootCaPathLenPresent) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	bc := util.GetExtFromCert(c, util.BasicConstOID)
+	var seq asn1.RawValue
+	var isCa bool
+	asn1.Unmarshal(bc.Value, &seq)
+	if len(seq.Bytes) == 0 {
+		return ResultStruct{Result: Pass}, nil
+	}
+	rest, _ := asn1.Unmarshal(seq.Bytes, &isCa)
+	if len(rest) > 0 {
+		return ResultStruct{Result: Warn}, nil
+	}
+	return ResultStruct{Result: Pass}, nil
+}
+
+func init() {
+	RegisterLint(&Lint{
+		Name:          "root_ca_basic_constraints_path_len_constraint_field_present",
+		Description:   "Root CA certificate basicConstraint extension pathLenConstraint field should not be present",
+		Providence:    "CAB: 7.1.2.1",
+		EffectiveDate: util.CABEffectiveDate,
+		Test:          &rootCaPathLenPresent{}})
+}

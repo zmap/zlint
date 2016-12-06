@@ -1,0 +1,45 @@
+// lint_ca_country_name_missing.go
+/************************************************
+CAB: 7.1.2.1e
+The	Certificate	Subject	MUST contain the following:
+‐	countryName	(OID 2.5.4.6).	This field MUST	contain	the	two‐letter	ISO	3166‐1 country code	for	the
+country	in which the CA’s place	of business	is located.
+************************************************/
+
+package lints
+
+import (
+
+	"github.com/teamnsrg/zlint/util"
+	"github.com/zmap/zgrab/ztools/x509"
+)
+
+type caCountryNameMissing struct {
+	// Internal data here
+}
+
+func (l *caCountryNameMissing) Initialize() error {
+	return nil
+}
+
+func (l *caCountryNameMissing) CheckApplies(c *x509.Certificate) bool {
+	// Add conditions for application here
+	return c.IsCA
+}
+
+func (l *caCountryNameMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	if c.Subject.Country != nil && c.Subject.Country[0] != "" {
+		return ResultStruct{Result: Pass}, nil
+	} else {
+		return ResultStruct{Result: Error}, nil
+	}
+}
+
+func init() {
+	RegisterLint(&Lint{
+		Name:          "ca_country_name_missing",
+		Description:   "Root & Subordinate CA certificates must have a countryName present in subject information",
+		Providence:    "CAB: 7.1.2.1",
+		EffectiveDate: util.CABEffectiveDate,
+		Test:          &caCountryNameMissing{}})
+}

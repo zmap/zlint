@@ -1,0 +1,50 @@
+// lint_ca_country_name_invalid.go
+/************************************************
+CAB: 7.1.2.1e
+The	Certificate	Subject	MUST contain the following:
+‐	countryName	(OID 2.5.4.6).	This field MUST	contain	the	two‐letter	ISO	3166‐1 country code	for	the
+country	in which the CA’s place	of business	is located.
+************************************************/
+
+package lints
+
+import (
+
+	"github.com/teamnsrg/zlint/util"
+	"github.com/zmap/zgrab/ztools/x509"
+)
+
+type caCountryNameInvalid struct {
+	// Internal data here
+}
+
+func (l *caCountryNameInvalid) Initialize() error {
+	return nil
+}
+
+func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
+	// Add conditions for application here
+	return c.IsCA
+}
+
+func (l *caCountryNameInvalid) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	if c.Subject.Country != nil {
+		for _, j := range c.Subject.Country {
+			if !util.IsCountryInList(j) {
+				return ResultStruct{Result: Error, Details: "Unknown Country Code: " + j}, nil
+			}
+		}
+		return ResultStruct{Result: Pass}, nil
+	} else {
+		return ResultStruct{Result: NA}, nil
+	}
+}
+
+func init() {
+	RegisterLint(&Lint{
+		Name:          "ca_country_name_invalid",
+		Description:   "Root & Subordinate CA certificates must have a two-letter country code that is in ISO 3166-1",
+		Providence:    "CAB: 7.1.2.1",
+		EffectiveDate: util.CABEffectiveDate,
+		Test:          &caCountryNameInvalid{}})
+}
