@@ -18,7 +18,7 @@ package lints
 
 import (
 
-	"github.com/teamnsrg/zlint/util"
+	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
 )
 

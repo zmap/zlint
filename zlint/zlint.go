@@ -7,8 +7,8 @@ package zlint
 import (
 	"encoding/base64"
 	"errors"
-	"github.com/teamnsrg/zlint/lints"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/lints"
 )
 
 //Calls all other checks on parsed certs

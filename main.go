@@ -13,9 +13,9 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/teamnsrg/zlint/lints"
-	"github.com/teamnsrg/zlint/zlint"
-	"github.com/teamnsrg/zlint/zlint/ringbuff"
+	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/zlint"
+	"github.com/zmap/zlint/zlint/ringbuff"
 )
 
 const CHUNKSIZE int = 10000 //number of certs per work unit, must be >=1

@@ -17,7 +17,7 @@ package lints
 import (
 
 	"encoding/asn1"
-	"github.com/teamnsrg/zlint/util"
+	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
 	"github.com/zmap/zgrab/ztools/x509/pkix"
 )

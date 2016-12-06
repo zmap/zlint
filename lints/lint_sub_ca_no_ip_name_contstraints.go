@@ -13,7 +13,7 @@ package lints
 import (
 
 	"bytes"
-	"github.com/teamnsrg/zlint/util"
+	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
 	"net"
 )
