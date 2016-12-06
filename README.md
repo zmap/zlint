@@ -20,5 +20,3 @@ or for Windows under cmd:
 Then, simply install certlint:
 
 `$ go get github.com/zmap/zlint`
-
-This command will also resolve and install outside dependancies. The zlint or zlint.exe file will be in GOPATH/bin. If you do not have access to this private repo, the command will fail.
