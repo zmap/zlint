@@ -99,10 +99,10 @@ func multiMode() (err error) {
 	//main computation
 	var done bool = false
 	for !done { //loops until read error, consider reworking this
-		certs := make([]string, 0, CHUNKSIZE)                          //input buffer
-		reports := make([]map[string]lints.ResultStruct, 0, CHUNKSIZE) //output buffer
-		var readIn, lintOut int = 0, 0                                 //reading and processing counters
-		for ; readIn < CHUNKSIZE && !done; readIn++ {                  //read in CHUNKSIZE # certs
+		certs := make([]string, 0, CHUNKSIZE)                         //input buffer
+		reports := make([]map[string]lints.FinalResult, 0, CHUNKSIZE) //output buffer
+		var readIn, lintOut int = 0, 0                                //reading and processing counters
+		for ; readIn < CHUNKSIZE && !done; readIn++ {                 //read in CHUNKSIZE # certs
 			lineIn, err := buffReader.ReadString('\n')
 			if err != nil { //read error, stop reading and process anything that was read
 				done = true

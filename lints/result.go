@@ -13,6 +13,11 @@ const (
 )
 
 type ResultStruct struct {
-	Result  ResultEnum `json:"Result"` //this is the ResultEnum enumeration and uses the values found there
-	Details string     `json:"Details,omitempty"`
+	Result  ResultEnum `json:"result"` //this is the ResultEnum enumeration and uses the values found there
+	Details string     `json:"details,omitempty"`
+}
+
+type FinalResult struct {
+	Result  string `json:"result"`
+	Details string `json:"details,omitempty"`
 }
