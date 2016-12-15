@@ -6,9 +6,8 @@ Certificates MUST be of type X.509 v3.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type InvalidCertificateVersion struct {
@@ -25,7 +24,7 @@ func (l *InvalidCertificateVersion) CheckApplies(cert *x509.Certificate) bool {
 
 func (l *InvalidCertificateVersion) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 	if cert.Version != 3 {
-		return ResultStruct{Result: Error, Details: "version " + string(cert.Version)}, nil
+		return ResultStruct{Result: Error}, nil
 	}
 	//else
 	return ResultStruct{Result: Pass}, nil

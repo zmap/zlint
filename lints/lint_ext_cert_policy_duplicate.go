@@ -10,10 +10,8 @@
 package lints
 
 import (
-
-	"fmt"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type ExtCertPolicyDuplicate struct {
@@ -34,7 +32,7 @@ func (l *ExtCertPolicyDuplicate) RunTest(cert *x509.Certificate) (ResultStruct, 
 		for j := i + 1; j < len(cert.PolicyIdentifiers); j++ {
 			if i != j && cert.PolicyIdentifiers[i].Equal(cert.PolicyIdentifiers[j]) {
 				temp := ResultStruct{Result: Error}
-				temp.Details = fmt.Sprintf("%v", cert.PolicyIdentifiers[i])
+				//temp.Details = fmt.Sprintf("%v", cert.PolicyIdentifiers[i])
 				return temp, nil // Any one duplicate fails the test, so return here
 			}
 		}
