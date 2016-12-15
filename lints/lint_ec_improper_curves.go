@@ -8,10 +8,9 @@ ECC Curve: NIST P-256, P-384, or P-521
 package lints
 
 import (
-
 	"crypto/ecdsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type ecImproperCurves struct {
@@ -44,7 +43,7 @@ func (l *ecImproperCurves) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	case "P-256", "P-384", "P-521":
 		return ResultStruct{Result: Pass}, nil
 	default:
-		return ResultStruct{Result: Error, Details: "ECDSA Subject key using unsupported curve: " + theParams.Name}, nil
+		return ResultStruct{Result: Error}, nil
 	}
 }
 

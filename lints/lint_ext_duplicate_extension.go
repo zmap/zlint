@@ -6,9 +6,8 @@
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type ExtDuplicateExtension struct {
@@ -28,7 +27,7 @@ func (l *ExtDuplicateExtension) RunTest(cert *x509.Certificate) (ResultStruct, e
 	for i := 0; i < len(cert.Extensions); i++ {
 		for j := i + 1; j < len(cert.Extensions); j++ {
 			if i != j && cert.Extensions[i].Id.Equal(cert.Extensions[j].Id) {
-				return ResultStruct{Result: Error, Details: cert.Extensions[i].Id.String()}, nil
+				return ResultStruct{Result: Error}, nil
 			}
 		}
 	}

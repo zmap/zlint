@@ -9,9 +9,8 @@ country	in which the CA’s place	of business	is located.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type caCountryNameInvalid struct {
@@ -31,7 +30,7 @@ func (l *caCountryNameInvalid) RunTest(c *x509.Certificate) (ResultStruct, error
 	if c.Subject.Country != nil {
 		for _, j := range c.Subject.Country {
 			if !util.IsCountryInList(j) {
-				return ResultStruct{Result: Error, Details: "Unknown Country Code: " + j}, nil
+				return ResultStruct{Result: Error}, nil
 			}
 		}
 		return ResultStruct{Result: Pass}, nil

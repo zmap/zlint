@@ -14,9 +14,8 @@ domain name.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type gtldUnderConsideration struct {
@@ -34,11 +33,11 @@ func (l *gtldUnderConsideration) CheckApplies(c *x509.Certificate) bool {
 func (l *gtldUnderConsideration) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	//Need to run the GTLD test for both Subject.Common_Name and DNSNames(from SAN)
 	if util.IsValidGTLD(c.Subject.CommonName) == 0 {
-		return ResultStruct{Result: Warn, Details: string("CommonName " + c.Subject.CommonName + " contains invalid gtld")}, nil
+		return ResultStruct{Result: Warn}, nil
 	}
 	for _, dnsname := range c.DNSNames {
 		if util.IsValidGTLD(dnsname) == 0 {
-			return ResultStruct{Result: Warn, Details: string("DNSName " + dnsname + " contains invalid gtld")}, nil
+			return ResultStruct{Result: Warn}, nil
 		}
 	}
 
