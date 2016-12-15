@@ -23,7 +23,7 @@ func ParsedTestHandler(cert *x509.Certificate, m map[string]int) (map[string]str
 		if err != nil {
 			return out, err
 		}
-		out[l.Name] = enumToString(result.Result)
+		out[l.Name] = lints.EnumToString(result.Result)
 		if result.Result == lints.Warn || result.Result == lints.Error {
 			m[l.Name]++
 		}
@@ -46,25 +46,4 @@ func Lint64(certIn string, m map[string]int) (map[string]string, error) {
 	}
 
 	return ParsedTestHandler(cert, m) //return available reports & error from main testing function
-}
-
-func enumToString(e lints.ResultEnum) string {
-	switch e {
-	case lints.NA:
-		return "NA"
-	case lints.NE:
-		return "NE"
-	case lints.Pass:
-		return "pass"
-	case lints.Info:
-		return "info"
-	case lints.Warn:
-		return "warn"
-	case lints.Error:
-		return "error"
-	case lints.Fatal:
-		return "fatal"
-	default:
-		return ""
-	}
 }

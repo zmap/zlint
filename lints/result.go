@@ -21,3 +21,24 @@ type FinalResult struct {
 	Result string `json:"result"`
 	//Details string `json:"details,omitempty"`
 }
+
+func EnumToString(e ResultEnum) string {
+	switch e {
+	case NA:
+		return "NA"
+	case NE:
+		return "NE"
+	case Pass:
+		return "pass"
+	case Info:
+		return "info"
+	case Warn:
+		return "warn"
+	case Error:
+		return "error"
+	case Fatal:
+		return "fatal"
+	default:
+		return ""
+	}
+}
