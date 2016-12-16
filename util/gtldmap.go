@@ -55,7 +55,6 @@ func fetchTLDMap() map[string]bool {
 	tldMap = make(map[string]bool, datSize)
 
 	for _, entry := range entries {
-		fmt.Println(entry)
 		tldMap[strings.ToUpper(entry)] = true
 	}
 
