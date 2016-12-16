@@ -10,9 +10,8 @@ import (
 	"strings"
 	"net/http"
 	"io/ioutil"
-	"bufio"
+	//"fmt"
 	"fmt"
-	"os"
 )
 
 var tldMap map[string]bool
@@ -39,7 +38,8 @@ func IsValidGTLD(input string) int {
 	theGTLD := strings.ToUpper(containsgtld.FindString(input)[1:]) //Shave off the .
 
 	theMap := fetchTLDMap()
-	if theMap[theGTLD] {
+
+	if _, ok := theMap[theGTLD]; ok {
 		return 1
 	} else {
 		return 0
@@ -55,6 +55,7 @@ func fetchTLDMap() map[string]bool {
 	tldMap = make(map[string]bool, datSize)
 
 	for _, entry := range entries {
+		fmt.Println(entry)
 		tldMap[strings.ToUpper(entry)] = true
 	}
 
@@ -80,6 +81,7 @@ func parseData()  ([]string, int){
 		if body[i] == '\n'{
 			tld_data = append(tld_data, temp)
 			temp = ""
+			continue
 		}
 		temp += string(body[i])
 	}
