@@ -10,8 +10,6 @@ import (
 	"strings"
 	"net/http"
 	"io/ioutil"
-	//"fmt"
-	"fmt"
 )
 
 var tldMap map[string]bool
