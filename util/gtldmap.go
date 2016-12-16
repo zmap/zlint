@@ -5,12 +5,14 @@
 package util
 
 import (
-	"bufio"
-	"fmt"
 	"net"
-	"os"
 	"regexp"
 	"strings"
+	"net/http"
+	"io/ioutil"
+	"bufio"
+	"fmt"
+	"os"
 )
 
 var tldMap map[string]bool
@@ -60,54 +62,26 @@ func fetchTLDMap() map[string]bool {
 
 }
 
-func parseData() ([]string, int) {
-
-	// open a file
-	file, err := os.Open("../data/newgtlds.txt")
+func parseData()  ([]string, int){
+	//Read data from IANA
+	url := "http://data.iana.org/TLD/tlds-alpha-by-domain.txt"
+	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err)
-		return nil, 0
+		//handle error
 	}
+	defer resp.Body.Close()
 
-	// make sure it gets closed
-	defer file.Close()
+	body, err := ioutil.ReadAll(resp.Body)
 
-	// create a new scanner and read the file line by line
-	scanner := bufio.NewScanner(file)
+	var tld_data []string
+	var temp string = ""
 
-	var theTlds []string
-
-	for scanner.Scan() {
-		theTlds = append(theTlds, scanner.Text())
+	for i := 0; i < len(body); i++{
+		if body[i] == '\n'{
+			tld_data = append(tld_data, temp)
+			temp = ""
+		}
+		temp += string(body[i])
 	}
-
-	return theTlds[1:], len(theTlds) //Shave off the header
-
-	/*
-		    // Load the csv from it's relative location
-		    f, _ := os.Open("data/newgtlds.csv")
-
-		    // Create a new reader.
-		    r := csv.NewReader(bufio.NewReader(f))
-
-		    // I'm certain there is a better way to do this, but I kept getting weird errors
-		    r.Read() // Header line
-		    r.Read() // Column definition line
-		    r.FieldsPerRecord = 6 // It defaulted to 1 because of the header line, correct
-		    r.LazyQuotes = true // Not sure why this is off by default
-
-		    // Read all of the remaining data into a [][]string
-			records, err := r.ReadAll()
-			if err != nil {
-				fmt.Println(err)
-			}
-
-		    var theTlds []string
-
-		    // Grab only the first element (the tld) from each row
-			for _, row := range records {
-		        theTlds = append(theTlds, row[0])
-		    }
-		    return theTlds, len(theTlds)
-	*/
+	return tld_data[1:], len(tld_data)
 }
