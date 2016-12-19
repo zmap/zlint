@@ -21,9 +21,8 @@
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type CertExtensionsVersonNot3 struct {
@@ -47,7 +46,7 @@ func (l *CertExtensionsVersonNot3) RunTest(cert *x509.Certificate) (ResultStruct
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_extensions_verson_not_3",
+		Name:          "cert_extensions_version_not_3",
 		Description:   "The extensions field must only appear in version 3 certificates.",
 		Providence:    "RFC 5280: 4.1.2.9",
 		EffectiveDate: util.RFC2459Date,
