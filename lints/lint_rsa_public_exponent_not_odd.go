@@ -26,8 +26,11 @@ func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaParsedTestsKeyExpOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	theKey := c.PublicKey.(*rsa.PublicKey)
-	if theKey.E%2 == 1 {
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
+	if key.E%2 == 1 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Error}, nil

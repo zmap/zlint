@@ -26,7 +26,11 @@ func (l *rootCaModSize) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rootCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	mod := c.PublicKey.(*rsa.PublicKey).N
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
+	mod := key.N
 	if mod.BitLen() < 2048 {
 		return ResultStruct{Result: Error}, nil
 	} else {

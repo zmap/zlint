@@ -10,7 +10,6 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"strconv"
 	"sync"
 
 	"github.com/zmap/zlint/lints"
@@ -19,7 +18,7 @@ import (
 )
 
 const CHUNKSIZE int = 10000 //number of certs per work unit, must be >=1
-const THREADS int = 4       //number of processing threads for --threads mode, must be >=1
+const THREADS int = 16       //number of processing threads for --threads mode, must be >=1
 
 var ( //flags
 	inPath   string
@@ -95,7 +94,6 @@ func multiMode() (err error) {
 		}
 		defer fileWriter.Close()
 	}
-	m := make(map[string]int)
 	//main computation
 	var done bool = false
 	for !done { //loops until read error, consider reworking this
@@ -119,7 +117,7 @@ func multiMode() (err error) {
 		//process read certs
 
 		for x := 0; x < len(certs); x++ {
-			reportOut, err := zlint.Lint64(certs[x], m) //lint the cert
+			reportOut, err := zlint.Lint64(certs[x]) //lint the cert
 			if err != nil {
 				fmt.Println(err)
 			} else {
@@ -129,15 +127,6 @@ func multiMode() (err error) {
 		}
 
 		//output results
-		var fileWriter2 *os.File
-		if outStat != "" && outStat != "-" {
-			fileWriter2, err = os.OpenFile(outStat, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
-			for i, j := range m {
-				fileWriter2.WriteString(i + " : " + strconv.Itoa(j) + "\n")
-			}
-			fileWriter2.Close()
-		}
-
 		for x := 0; x < len(reports); x++ {
 			theJSON, err := json.Marshal(reports[x])
 			if err != nil {
@@ -247,7 +236,6 @@ func readChunks() {
 // cert processing worker thread function for threaded --multi mode
 func processChunks() {
 	//var lintOut int = 0//local processed counter (unused)
-	m := make(map[string]int)
 	for true {
 		var chunk []string = inBuffer.Dequeue()             //get job from work queue
 		var reports []string = make([]string, 0, CHUNKSIZE) //output buffer
@@ -257,14 +245,16 @@ func processChunks() {
 		}
 
 		for x := 0; x < len(chunk); x++ { //process read certs
-			reportOut, err := zlint.Lint64(chunk[x], m) //lint the cert, reportOut is a map[string]zlint.ResultStruct
+			reportOut, err := zlint.Lint64(chunk[x]) //lint the cert, reportOut is a map[string]zlint.ResultStruct
 			if err != nil {
 				fmt.Println(err)
+				reports = append(reports, fmt.Sprintf("%s",err)) 
 			} else {
 				//convert cert to string for output
 				stringOut, err := json.Marshal(reportOut)
 				if err != nil {
 					fmt.Println(err)
+					reports = append(reports, fmt.Sprintf("%s",err)) 
 				} else {
 					reports = append(reports, string(stringOut)) //move report to out buffer
 					//lintOut++ (unused)
@@ -336,8 +326,7 @@ func singleMode() ([]byte, error) {
 	if theCert == nil {
 		return nil, errors.New("Parsing Failed")
 	}
-	m := make(map[string]int)
-	theReport, err := zlint.ParsedTestHandler(theCert, m)
+	theReport, err := zlint.ParsedTestHandler(theCert)
 	if err != nil {
 		return nil, err
 	}

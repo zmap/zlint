@@ -22,7 +22,11 @@ func (l *rsaExpNegative) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaExpNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	pubKey := c.PublicKey.(*rsa.PublicKey).E
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
+	pubKey := key.E
 	if pubKey < 0 {
 		return ResultStruct{Result: Error}, nil
 	}

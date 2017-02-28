@@ -27,9 +27,12 @@ func (l *rsaParsedTestsKeyModOdd) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaParsedTestsKeyModOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	theKey := c.PublicKey.(*rsa.PublicKey)
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
 	z := big.NewInt(0)
-	if (z.Mod(theKey.N, big.NewInt(2)).Cmp(big.NewInt(1))) == 0 {
+	if (z.Mod(key.N, big.NewInt(2)).Cmp(big.NewInt(1))) == 0 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Warn}, nil

@@ -26,7 +26,11 @@ func (l *rsaModSmallFactor) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaModSmallFactor) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	mod := c.PublicKey.(*rsa.PublicKey).N
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
+	mod := key.N	
 	if util.PrimeNoSmallerThan752(mod) {
 		return ResultStruct{Result: Pass}, nil
 	}

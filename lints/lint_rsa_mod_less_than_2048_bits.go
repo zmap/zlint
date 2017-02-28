@@ -25,8 +25,11 @@ func (l *rsaParsedTestsKeySize) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaParsedTestsKeySize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	theKey := c.PublicKey.(*rsa.PublicKey)
-	if theKey.N.BitLen() < 2048 {
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
+	if key.N.BitLen() < 2048 {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil

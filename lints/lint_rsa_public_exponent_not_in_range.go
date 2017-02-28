@@ -27,7 +27,11 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	pubKey := c.PublicKey.(*rsa.PublicKey).E
+	key, found := c.PublicKey.(*rsa.PublicKey)
+	if !found {
+		return ResultStruct{Result: Error}, nil
+	}
+	pubKey := key.E	
 	lowerBound := 65536 // 2^16 + 1
 	var upperBound big.Int
 	upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
