@@ -7,18 +7,19 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 package lints
 
 import (
-
 	"crypto/rsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 	"math/big"
 )
 
 type rsaParsedTestsExpInRange struct {
-	// Internal data here
+	upperBound *big.Int
 }
 
 func (l *rsaParsedTestsExpInRange) Initialize() error {
+	l.upperBound = &big.Int{}
+	l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
 	return nil
 }
 
@@ -27,12 +28,16 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	pubKey := c.PublicKey.(*rsa.PublicKey).E
-	lowerBound := 65536 // 2^16 + 1
-	var upperBound big.Int
-	upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
-
-	if pubKey > lowerBound && upperBound.Cmp(big.NewInt(int64(pubKey))) == 1 {
+	key, ok := c.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: Error}, nil
+	}
+	exponent := key.E
+	const lowerBound = 65536 // 2^16 + 1
+//	if l.upperBound.Cmp(big.NewInt(0)) == 0 {	
+//		l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)	
+//	}
+	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Warn}, nil

@@ -7,10 +7,9 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 package lints
 
 import (
-
 	"crypto/rsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type rsaParsedTestsKeyExpOdd struct {
@@ -26,8 +25,11 @@ func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaParsedTestsKeyExpOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	theKey := c.PublicKey.(*rsa.PublicKey)
-	if theKey.E%2 == 1 {
+	key, ok := c.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: Error}, nil
+	}
+	if key.E%2 == 1 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Error}, nil

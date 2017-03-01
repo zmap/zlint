@@ -4,10 +4,9 @@
 package lints
 
 import (
-
 	"crypto/rsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type subModSize struct {
@@ -24,8 +23,11 @@ func (l *subModSize) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	mod := c.PublicKey.(*rsa.PublicKey).N
-	if mod.BitLen() < 1024 {
+	key, ok := c.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: Error}, nil
+	}
+	if key.N.BitLen() < 1024 {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil

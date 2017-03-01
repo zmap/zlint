@@ -3,10 +3,9 @@
 package lints
 
 import (
-
 	"crypto/rsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type rsaExpNegative struct {
@@ -22,8 +21,11 @@ func (l *rsaExpNegative) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaExpNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	pubKey := c.PublicKey.(*rsa.PublicKey).E
-	if pubKey < 0 {
+	key, ok := c.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: Error}, nil
+	}
+	if key.E < 0 {
 		return ResultStruct{Result: Error}, nil
 	}
 	return ResultStruct{Result: Pass}, nil
