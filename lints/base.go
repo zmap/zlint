@@ -2,12 +2,14 @@ package lints
 
 import (
 	"github.com/zmap/zgrab/ztools/x509"
+	"math/big"
 	"time"
 )
 
 // global
 var (
-	Lints map[string]*Lint = make(map[string]*Lint)
+	Lints      map[string]*Lint = make(map[string]*Lint)
+	upperBound                  = &big.Int{}
 )
 
 type LintTest interface {
@@ -23,6 +25,10 @@ type Lint struct {
 	Providence    string
 	EffectiveDate time.Time
 	Test          LintTest
+}
+
+func Init() {
+	upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
 }
 
 func (l *Lint) ExecuteTest(cert *x509.Certificate) (ResultStruct, error) {

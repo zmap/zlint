@@ -48,6 +48,7 @@ func init() {
 	flag.BoolVar(&threaded, "threads", false, "Use this flag to specify that -multi mode runs multi-threaded. This has no effect otherwise.")
 	flag.UintVar(&numThreads, "num-threads", DEFAULT_THREADS, "Use this flag to specify the number of threads in -threads mode.  This has no effect otherwise.")
 	flag.Parse()
+	lints.Init()
 }
 
 func main() {

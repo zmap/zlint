@@ -7,10 +7,9 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 package lints
 
 import (
-
 	"crypto/rsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type rsaModSmallFactor struct {
@@ -26,8 +25,11 @@ func (l *rsaModSmallFactor) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaModSmallFactor) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	mod := c.PublicKey.(*rsa.PublicKey).N
-	if util.PrimeNoSmallerThan752(mod) {
+	key, ok := c.PublicKey.(*rsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: Error}, nil
+	}
+	if util.PrimeNoSmallerThan752(key.N) {
 		return ResultStruct{Result: Pass}, nil
 	}
 	return ResultStruct{Result: Warn}, nil
