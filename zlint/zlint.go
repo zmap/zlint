@@ -12,7 +12,7 @@ import (
 )
 
 //Calls all other checks on parsed certs
-func ParsedTestHandler(cert *x509.Certificate, m map[string]int) (map[string]string, error) {
+func ParsedTestHandler(cert *x509.Certificate) (map[string]string, error) {
 	if cert == nil {
 		return nil, errors.New("zlint: nil pointer passed in, no data returned")
 	}
@@ -24,16 +24,13 @@ func ParsedTestHandler(cert *x509.Certificate, m map[string]int) (map[string]str
 			return out, err
 		}
 		out[l.Name] = lints.EnumToString(result.Result)
-		if result.Result == lints.Warn || result.Result == lints.Error {
-			m[l.Name]++
-		}
 	}
 
 	return out, nil
 }
 
 //expects Base64 encoded ASN.1 DER string, wrapper for ParsedTestHandler
-func Lint64(certIn string, m map[string]int) (map[string]string, error) {
+func Lint64(certIn string) (map[string]string, error) {
 
 	der, err := base64.StdEncoding.DecodeString(certIn) //decode string
 	if err != nil {
@@ -45,5 +42,5 @@ func Lint64(certIn string, m map[string]int) (map[string]string, error) {
 		return nil, err //parsing error, no tests performed
 	}
 
-	return ParsedTestHandler(cert, m) //return available reports & error from main testing function
+	return ParsedTestHandler(cert) //return available reports & error from main testing function
 }
