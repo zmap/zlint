@@ -9,10 +9,9 @@ Minimum DSA modulus and divisor size (bits)***: L=2048,	N=224 or L=2048, N=256.
 package lints
 
 import (
-
 	"crypto/dsa"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type dsaImproperSize struct {

@@ -13,9 +13,8 @@ Further, if the only subject identity included in the certificate is an
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type ExtSANCriticalWithSubjectDN struct {

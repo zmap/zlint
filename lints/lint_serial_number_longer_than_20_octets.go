@@ -19,9 +19,8 @@ RFC 5280: 4.1.2.2.  Serial Number
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type serialNumberTooLong struct {

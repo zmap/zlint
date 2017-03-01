@@ -11,9 +11,8 @@ Address or Internal Name.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type sanReservedIP struct {
@@ -30,7 +29,7 @@ func (l *sanReservedIP) CheckApplies(c *x509.Certificate) bool {
 
 func (l *sanReservedIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, ip := range c.IPAddresses {
-		if util.ValidIP(ip) && util.IsReservedIP(ip){
+		if util.ValidIP(ip) && util.IsReservedIP(ip) {
 			return ResultStruct{Result: Error}, nil
 		}
 	}

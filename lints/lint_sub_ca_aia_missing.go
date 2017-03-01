@@ -10,9 +10,8 @@ marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP res
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type caAiaMissing struct {

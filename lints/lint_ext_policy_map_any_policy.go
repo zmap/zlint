@@ -10,9 +10,8 @@ Each issuerDomainPolicy named in the policy mappings extension SHOULD
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type policyMapAnyPolicy struct {

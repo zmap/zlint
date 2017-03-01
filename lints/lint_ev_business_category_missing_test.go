@@ -1,7 +1,6 @@
 package lints
 
 import (
-
 	"testing"
 )
 

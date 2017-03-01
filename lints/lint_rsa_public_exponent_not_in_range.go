@@ -34,9 +34,9 @@ func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, e
 	}
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1
-//	if l.upperBound.Cmp(big.NewInt(0)) == 0 {	
-//		l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)	
-//	}
+	//	if l.upperBound.Cmp(big.NewInt(0)) == 0 {
+	//		l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
+	//	}
 	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
 		return ResultStruct{Result: Pass}, nil
 	} else {

@@ -20,8 +20,8 @@ package lints
 import (
 	"encoding/asn1"
 
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type ianDnsNotIa5 struct {

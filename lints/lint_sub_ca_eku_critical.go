@@ -10,9 +10,8 @@ If present, this extension SHOULD be marked non‐critical.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type subCAEKUCrit struct {

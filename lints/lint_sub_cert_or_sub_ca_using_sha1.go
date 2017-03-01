@@ -6,9 +6,8 @@ SHA‐1	MAY	be	used	with	RSA	keys	in	accordance	with	the	criteria	defined	in	Sec
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type sigAlgTestsSHA1 struct {

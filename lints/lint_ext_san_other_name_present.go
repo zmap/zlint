@@ -13,9 +13,8 @@ Wildcard FQDNs are permitted.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type sanOtherName struct {

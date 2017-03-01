@@ -8,10 +8,9 @@ This extension MUST appear as a critical extension. The cA field MUST be set tru
 package lints
 
 import (
-
 	"encoding/asn1"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type rootCaPathLenPresent struct {
