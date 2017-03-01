@@ -14,10 +14,12 @@ import (
 )
 
 type rsaParsedTestsExpInRange struct {
-	// Internal data here
+	upperBound *big.Int
 }
 
 func (l *rsaParsedTestsExpInRange) Initialize() error {
+	l.upperBound = &big.Int{}
+	l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
 	return nil
 }
 
@@ -32,10 +34,10 @@ func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, e
 	}
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1
-	if upperBound.Cmp(big.NewInt(0)) == 0 {	
-		upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)	
-	}
-	if exponent > lowerBound && upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
+//	if l.upperBound.Cmp(big.NewInt(0)) == 0 {	
+//		l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)	
+//	}
+	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Warn}, nil
