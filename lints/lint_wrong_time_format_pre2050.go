@@ -10,10 +10,9 @@ are encoded in either UTCTime or GeneralizedTime.
 package lints
 
 import (
-
 	"encoding/asn1"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 	"time"
 )
 

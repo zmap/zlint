@@ -6,9 +6,8 @@ The subject information access extension indicates how to access information and
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type siaCrit struct {

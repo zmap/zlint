@@ -15,9 +15,8 @@ is zero.  GeneralizedTime values MUST NOT include fractional seconds.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type generalizedNotZulu struct {

@@ -7,9 +7,8 @@ Conforming CAs MUST mark this extension as critical.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type policyConstraintsCritical struct {

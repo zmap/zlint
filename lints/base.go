@@ -7,7 +7,7 @@ import (
 
 // global
 var (
-	Lints      map[string]*Lint = make(map[string]*Lint)
+	Lints map[string]*Lint = make(map[string]*Lint)
 )
 
 type LintTest interface {

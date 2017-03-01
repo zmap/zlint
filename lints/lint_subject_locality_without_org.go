@@ -11,9 +11,8 @@ field without including other Subject Identity Information pursuant to Section 9
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type localNoOrg struct {

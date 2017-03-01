@@ -6,10 +6,9 @@ The freshest CRL extension identifies how delta CRL information is obtained. The
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
 	"github.com/zmap/zgrab/ztools/x509/pkix"
+	"github.com/zmap/zlint/util"
 )
 
 type ExtFreshestCrlMarkedCritical struct {

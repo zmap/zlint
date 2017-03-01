@@ -7,9 +7,8 @@ RFC 5280: 4.2.1.2
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type subjectKeyIdCritical struct {

@@ -13,9 +13,8 @@ qualifiers returned as a result of path validation are considered.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type unrecommendedQualifier struct {

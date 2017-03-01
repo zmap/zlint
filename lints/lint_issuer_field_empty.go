@@ -10,9 +10,8 @@ The issuer field identifies the entity that has signed and issued the
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type issuerFieldEmpty struct {

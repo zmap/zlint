@@ -10,9 +10,8 @@ Conforming CAs MUST include this extension in certificates that
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type caKeyUsageMissing struct {

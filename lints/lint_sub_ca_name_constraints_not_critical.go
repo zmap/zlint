@@ -6,9 +6,8 @@ Change this to match providence TEXT
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type SubCANameConstraintsNotCritical struct {

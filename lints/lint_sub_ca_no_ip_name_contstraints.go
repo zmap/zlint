@@ -11,10 +11,9 @@ Otherwise, the Subordinate CA Certificate MUST include at least one iPAddress in
 package lints
 
 import (
-
 	"bytes"
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 	"net"
 )
 

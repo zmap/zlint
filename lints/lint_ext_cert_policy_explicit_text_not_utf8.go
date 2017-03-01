@@ -15,9 +15,8 @@ to Unicode normalization form C (NFC) [NFC].
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type explicitTextUtf8 struct {

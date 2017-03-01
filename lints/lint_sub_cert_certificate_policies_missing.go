@@ -8,9 +8,8 @@ This extension MUST be present and SHOULD NOT be marked critical.
 package lints
 
 import (
-
-	"github.com/zmap/zlint/util"
 	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type subCertPolicy struct {
