@@ -15,7 +15,7 @@ Further, if the only subject identity included in the certificate is
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

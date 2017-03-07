@@ -10,7 +10,7 @@ CAs complying with these Requirements MAY also assert one of the reserved policy
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

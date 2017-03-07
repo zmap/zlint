@@ -3,8 +3,8 @@ package util
 import (
 	"encoding/asn1"
 	"errors"
-	"github.com/zmap/zgrab/ztools/x509"
-	"github.com/zmap/zgrab/ztools/x509/pkix"
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zcrypto/x509/pkix"
 )
 
 var (

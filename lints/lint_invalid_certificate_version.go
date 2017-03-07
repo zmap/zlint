@@ -6,7 +6,7 @@ Certificates MUST be of type X.509 v3.
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

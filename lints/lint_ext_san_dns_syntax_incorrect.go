@@ -10,7 +10,7 @@ Section 3.5 of [RFC1034] and as modified by Section 2.1 of [RFC1123].
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 	"net"
 )

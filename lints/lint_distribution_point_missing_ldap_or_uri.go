@@ -7,7 +7,7 @@ When present, DistributionPointName SHOULD include at least one LDAP or HTTP URI
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 	"strings"
 )

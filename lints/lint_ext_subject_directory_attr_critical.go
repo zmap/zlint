@@ -10,7 +10,7 @@ The subject directory attributes extension is used to convey
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

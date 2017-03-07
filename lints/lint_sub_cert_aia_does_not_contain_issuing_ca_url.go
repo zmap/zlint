@@ -9,7 +9,7 @@ HTTP URL of the CA’s CRL service. See Section 13.2.1 for details.
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

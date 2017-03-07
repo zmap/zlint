@@ -14,7 +14,7 @@ If the issuerAltName extension is present, the sequence MUST contain
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

@@ -15,7 +15,7 @@ If a CA includes extended key usages to satisfy such applications,
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

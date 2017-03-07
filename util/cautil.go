@@ -4,8 +4,8 @@
 package util
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
-	"github.com/zmap/zgrab/ztools/x509/pkix"
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zcrypto/x509/pkix"
 )
 
 func IsCaCert(cert *x509.Certificate) bool {

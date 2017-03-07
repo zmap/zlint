@@ -13,7 +13,7 @@ An authorityInfoAccess extension may include multiple instances of
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 	"strings"
 )
