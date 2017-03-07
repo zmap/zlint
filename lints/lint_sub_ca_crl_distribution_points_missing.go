@@ -8,7 +8,7 @@ It MUST contain the HTTP URL of the CA’s CRL service.
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

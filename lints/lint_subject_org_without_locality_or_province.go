@@ -6,7 +6,7 @@ Required/Optional: The organization name is OPTIONAL. If organization name is pr
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

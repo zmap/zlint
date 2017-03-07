@@ -13,7 +13,7 @@ qualifiers returned as a result of path validation are considered.
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

@@ -8,7 +8,7 @@ This extension MUST be present and SHOULD NOT be marked critical.
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

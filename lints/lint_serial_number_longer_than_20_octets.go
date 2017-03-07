@@ -19,7 +19,7 @@ RFC 5280: 4.1.2.2.  Serial Number
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

@@ -20,7 +20,7 @@ systems MUST interpret the year field (YY) as follows:
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

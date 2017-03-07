@@ -6,7 +6,7 @@ The CRL distribution points extension identifies how CRL information is obtained
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 

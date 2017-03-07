@@ -9,7 +9,7 @@ CAs and Subscribers using such certificates do so at their own risk.
 package lints
 
 import (
-	"github.com/zmap/zgrab/ztools/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 	"time"
 )
