@@ -35,7 +35,7 @@ func (l *ExtCrlDistributionMarkedCritical) RunTest(cert *x509.Certificate) (Resu
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_crl_distribution_marked_critical",
+		Name:          "w_ext_crl_distribution_marked_critical",
 		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical.",
 		Providence:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC2459Date,

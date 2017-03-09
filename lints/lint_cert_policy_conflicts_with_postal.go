@@ -33,7 +33,7 @@ func (l *certPolicyConflictsWithPostal) RunTest(cert *x509.Certificate) (ResultS
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_policy_conflicts_with_postal",
+		Name:          "e_cert_policy_conflicts_with_postal",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, postalCode must not be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,

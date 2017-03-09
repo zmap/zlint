@@ -36,7 +36,7 @@ func (l *subDirAttrCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_subject_directory_attr_critical",
+		Name:          "e_ext_subject_directory_attr_critical",
 		Description:   "Conforming CAs must mark the Subject Directory Attributes extension as not critical",
 		Providence:    "RFC 5280: 4.2.1.8",
 		EffectiveDate: util.RFC2459Date,

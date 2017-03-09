@@ -8,7 +8,7 @@ import (
 func TestSanURIMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanCaGood.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSanURIMissing(t *testing.T) {
 func TestSanURIPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanURIBeginning.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSanURIPresent(t *testing.T) {
 func TestSanURIPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanURIEnd.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -8,7 +8,7 @@ import (
 func TestUtcHasSeconds(t *testing.T) {
 	inputPath := "../testlint/testCerts/utcHasSeconds.cer"
 	desEnum := Pass
-	out, _ := Lints["utc_time_does_not_include_seconds"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_utc_time_does_not_include_seconds"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestUtcHasSeconds(t *testing.T) {
 func TestUtcNoSeconds(t *testing.T) {
 	inputPath := "../testlint/testCerts/utcNoSeconds.cer"
 	desEnum := Error
-	out, _ := Lints["utc_time_does_not_include_seconds"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_utc_time_does_not_include_seconds"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

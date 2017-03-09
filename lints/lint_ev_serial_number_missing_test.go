@@ -7,7 +7,7 @@ import (
 func TestEvHasSN(t *testing.T) {
 	inputPath := "../testlint/testCerts/evAllGood.cer"
 	desEnum := Pass
-	out, _ := Lints["ev_serial_number_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ev_serial_number_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -20,7 +20,7 @@ func TestEvHasSN(t *testing.T) {
 func TestEvNoSN(t *testing.T) {
 	inputPath := "../testlint/testCerts/evNoSN.cer"
 	desEnum := Error
-	out, _ := Lints["ev_serial_number_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ev_serial_number_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

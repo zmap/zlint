@@ -8,7 +8,7 @@ import (
 func TestLocalNoOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/localNoOrg.cer"
 	desEnum := Error
-	out, _ := Lints["subject_locality_without_org"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_locality_without_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestLocalNoOrg(t *testing.T) {
 func TestLocalYesOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/localYesOrg.cer"
 	desEnum := Pass
-	out, _ := Lints["subject_locality_without_org"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_locality_without_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

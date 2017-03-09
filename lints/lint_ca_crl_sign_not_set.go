@@ -35,7 +35,7 @@ func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ca_crl_sign_not_set",
+		Name:          "e_ca_crl_sign_not_set",
 		Description:   "Root & Subordinate CA certificate keyUsage extension's crlSign bit must be set",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,

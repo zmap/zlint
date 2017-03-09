@@ -34,7 +34,7 @@ func (l *rootCAContainsCertPolicy) RunTest(c *x509.Certificate) (ResultStruct, e
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "root_ca_contains_cert_policy",
+		Name:          "w_root_ca_contains_cert_policy",
 		Description:   "Root CA certs SHOULD NOT contain the certificat policies extension.",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,

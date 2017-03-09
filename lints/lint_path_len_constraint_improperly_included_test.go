@@ -8,7 +8,7 @@ import (
 func TestCaMaxLenPresentNoCertSign(t *testing.T) {
 	inputPath := "../testlint/testCerts/caMaxPathLenPresentNoCertSign.cer"
 	desEnum := Error
-	out, _ := Lints["path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestCaMaxLenPresentNoCertSign(t *testing.T) {
 func TestCaMaxLenPresentGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/caMaxPathLenPositive.cer"
 	desEnum := Pass
-	out, _ := Lints["path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestCaMaxLenPresentGood(t *testing.T) {
 func TestCaMaxLenMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caMaxPathLenMissing.cer"
 	desEnum := Pass
-	out, _ := Lints["path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -47,7 +47,7 @@ func TestCaMaxLenMissing(t *testing.T) {
 func TestSubCertMaxLenPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertPathLenPositive.cer"
 	desEnum := Error
-	out, _ := Lints["path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -60,7 +60,7 @@ func TestSubCertMaxLenPresent(t *testing.T) {
 func TestSubCertMaxLenNone(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
 	desEnum := Pass
-	out, _ := Lints["path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -35,7 +35,7 @@ func (l *subCACRLDistMissing) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_crl_distribution_points_missing",
+		Name:          "e_sub_ca_crl_distribution_points_missing",
 		Description:   "Subordinate CA certificates must have a cRLDistributionPoints extension",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,

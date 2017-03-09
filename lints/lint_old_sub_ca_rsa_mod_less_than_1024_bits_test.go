@@ -8,7 +8,7 @@ import (
 func TestOldCaRsaModSizeSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/oldSubModTooSmall.cer"
 	desEnum := Error
-	out, _ := Lints["old_sub_ca_rsa_mod_less_than_1024_bits"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_old_sub_ca_rsa_mod_less_than_1024_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestOldCaRsaModSizeSmall(t *testing.T) {
 func TestOldCaRsaModSizeNotSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/oldSubModSmall.cer"
 	desEnum := Pass
-	out, _ := Lints["old_sub_ca_rsa_mod_less_than_1024_bits"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_old_sub_ca_rsa_mod_less_than_1024_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

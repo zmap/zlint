@@ -43,7 +43,7 @@ func (l *sanDNSPrefSyntax) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_san_dns_syntax_incorrect",
+		Name:          "e_ext_san_dns_syntax_incorrect",
 		Description:   "DNSNames must be in the preferred syntax.",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC3280Date,

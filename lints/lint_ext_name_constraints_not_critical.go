@@ -41,7 +41,7 @@ func (l *nameConstraintCrit) RunTest(c *x509.Certificate) (ResultStruct, error) 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_name_constraints_not_critical",
+		Name:          "e_ext_name_constraints_not_critical",
 		Description:   "If it is included, conforming CAs must mark the name constrains extension as critical.",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,

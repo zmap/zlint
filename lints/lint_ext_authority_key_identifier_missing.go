@@ -43,7 +43,7 @@ func (l *authorityKeyIdMissing) RunTest(c *x509.Certificate) (ResultStruct, erro
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_authority_key_identifier_missing",
+		Name:          "e_ext_authority_key_identifier_missing",
 		Description:   "CAs must support key identifiers and include them in all certs",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,

@@ -34,7 +34,7 @@ func (l *caOrganizationNameMissing) RunTest(c *x509.Certificate) (ResultStruct, 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ca_organization_name_missing",
+		Name:          "e_ca_organization_name_missing",
 		Description:   "Root & Subordinate CA certificates must have a organizationName present in subject information",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,

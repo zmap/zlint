@@ -40,7 +40,7 @@ func (l *ncOnRegisteredId) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "name_constraint_on_registered_id",
+		Name:          "w_name_constraint_on_registered_id",
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the registeredID name form",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,

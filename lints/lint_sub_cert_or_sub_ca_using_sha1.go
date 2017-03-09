@@ -39,7 +39,7 @@ func (l *sigAlgTestsSHA1) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_cert_or_sub_ca_using_sha1",
+		Name:          "e_sub_cert_or_sub_ca_using_sha1",
 		Description:   "Subscriber certificates and subordinate CA certificates must not use the SHA-1 hash algorithm on a certificate with a NotBefore date after 1 Jan 2016",
 		Providence:    "CAB: 7.1.3",
 		EffectiveDate: util.CABEffectiveDate,

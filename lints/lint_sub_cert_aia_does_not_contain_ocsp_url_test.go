@@ -8,7 +8,7 @@ import (
 func TestSubCertNoIssuerOcsp(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWIssuerURL.cer"
 	desEnum := Error
-	out, _ := Lints["sub_cert_aia_does_not_contain_ocsp_url"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCertNoIssuerOcsp(t *testing.T) {
 func TestSubCertHasIssuerOcsp(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWOcspURL.cer"
 	desEnum := Pass
-	out, _ := Lints["sub_cert_aia_does_not_contain_ocsp_url"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

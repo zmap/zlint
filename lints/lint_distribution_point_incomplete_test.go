@@ -9,7 +9,7 @@ func crlCompleteDp(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/crlComlepteDp.cer"
 	desEnum := Pass
-	out, _ := Lints["distribution_point_incomplete"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_distribution_point_incomplete"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func crlIncompleteDp(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/crlIncomlepteDp.cer"
 	desEnum := Error
-	out, _ := Lints["distribution_point_incomplete"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_distribution_point_incomplete"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

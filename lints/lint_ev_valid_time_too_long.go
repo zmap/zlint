@@ -28,7 +28,7 @@ func (l *evValidTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ev_valid_time_too_long",
+		Name:          "e_ev_valid_time_too_long",
 		Description:   "EV certificates must be 27 months in validity or less",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

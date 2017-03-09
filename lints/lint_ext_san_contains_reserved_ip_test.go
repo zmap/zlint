@@ -8,7 +8,7 @@ import (
 func TestSanIPReserved(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanReservedIP.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_contains_reserved_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_contains_reserved_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSanIPReserved(t *testing.T) {
 func TestSanIPReserved6(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanReservedIP6.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_contains_reserved_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_contains_reserved_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSanIPReserved6(t *testing.T) {
 func TestSanIPNotReserved(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanValidIP.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_san_contains_reserved_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_contains_reserved_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

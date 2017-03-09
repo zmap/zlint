@@ -8,7 +8,7 @@ import (
 func TestIanCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianCritical.cer"
 	desEnum := Warn
-	out, _ := Lints["ext_ian_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_ian_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestIanCrit(t *testing.T) {
 func TestIanNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianNotCritical.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_ian_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_ian_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

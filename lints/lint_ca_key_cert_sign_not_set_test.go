@@ -9,7 +9,7 @@ func TestCaKeyUsageNoCertSign(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.cer"
 	desEnum := Error
-	out, _ := Lints["ca_key_cert_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ca_key_cert_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestKeyUsageCertSign(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageCrit.cer"
 	desEnum := Pass
-	out, _ := Lints["ca_key_cert_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ca_key_cert_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -8,7 +8,7 @@ import (
 func TestRsaExpEven(t *testing.T) {
 	inputPath := "../testlint/testCerts/badRsaExp.cer"
 	desEnum := Error
-	out, _ := Lints["rsa_public_exponent_not_odd"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_rsa_public_exponent_not_odd"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestRsaExpEven(t *testing.T) {
 func TestRsaExpOdd(t *testing.T) {
 	inputPath := "../testlint/testCerts/goodRsaExp.cer"
 	desEnum := Pass
-	out, _ := Lints["rsa_public_exponent_not_odd"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_rsa_public_exponent_not_odd"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

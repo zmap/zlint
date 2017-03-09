@@ -8,7 +8,7 @@ import (
 func TestSanDNSSyntaxEndingHyphen(t *testing.T) {
 	inputPath := "../testlint/testCerts/sandnshyphensyntax.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSanDNSSyntaxEndingHyphen(t *testing.T) {
 func TestSanDNSSyntaxExtraPeriods(t *testing.T) {
 	inputPath := "../testlint/testCerts/sandnsbadsyntax.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSanDNSSyntaxExtraPeriods(t *testing.T) {
 func TestSanDNSSyntaxNotAllowedChar(t *testing.T) {
 	inputPath := "../testlint/testCerts/sandnsdollarsyntax.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -47,7 +47,7 @@ func TestSanDNSSyntaxNotAllowedChar(t *testing.T) {
 func TestSanDNSSyntaxCorrect(t *testing.T) {
 	inputPath := "../testlint/testCerts/sandnsgoodsyntax.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_dns_syntax_incorrect"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

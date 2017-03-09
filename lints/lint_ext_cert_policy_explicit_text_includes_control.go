@@ -68,7 +68,7 @@ func (l *controlChar) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_cert_policy_explicit_text_includes_control",
+		Name:          "w_ext_cert_policy_explicit_text_includes_control",
 		Description:   "Explicit text should not include any control charaters",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,

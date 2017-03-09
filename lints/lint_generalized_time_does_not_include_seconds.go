@@ -71,7 +71,7 @@ func checkSeconds(r *ResultEnum, t asn1.RawValue) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "generalized_time_does_not_include_seconds",
+		Name:          "e_generalized_time_does_not_include_seconds",
 		Description:   "Generalized time values must include seconds",
 		Providence:    "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,

@@ -8,7 +8,7 @@ import (
 func TestBrIanBareWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianBareWildcard.cer"
 	desEnum := Error
-	out, _ := Lints["ian_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ian_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestBrIanBareWildcard(t *testing.T) {
 func TestBrIanNotBareWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianURIValid.cer"
 	desEnum := Pass
-	out, _ := Lints["ian_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ian_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -56,7 +56,7 @@ func (l *illegalChar) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "subject_contains_noninformational_value",
+		Name:          "e_subject_contains_noninformational_value",
 		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been ommited.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,

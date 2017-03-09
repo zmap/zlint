@@ -36,7 +36,7 @@ func (l *distribNoLDAPorURI) RunTest(c *x509.Certificate) (ResultStruct, error) 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "distribution_point_missing_ldap_or_uri",
+		Name:          "w_distribution_point_missing_ldap_or_uri",
 		Description:   "When present in the CRLDistributionPoints extension, DistributionPointName SHOULD include at least one LDAP or HTTP URI.",
 		Providence:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC5280Date,

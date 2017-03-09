@@ -37,7 +37,7 @@ func (l *subCaOcspUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_aia_does_not_contain_ocsp_url",
+		Name:          "e_sub_ca_aia_does_not_contain_ocsp_url",
 		Description:   "Subordinate CA certificates authorityInformationAccess extension must contain the HTTP URL of the Issuing CA’s OCSP responder",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,

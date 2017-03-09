@@ -28,7 +28,7 @@ func (l *evSNMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ev_serial_number_missing",
+		Name:          "e_ev_serial_number_missing",
 		Description:   "EV certificates must include serialNumber in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

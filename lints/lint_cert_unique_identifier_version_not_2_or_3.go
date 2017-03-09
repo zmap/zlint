@@ -42,7 +42,7 @@ func (l *certUniqueIdVersion) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_unique_identifier_version_not_2_or_3",
+		Name:          "e_cert_unique_identifier_version_not_2_or_3",
 		Description:   "Unique identifiers must only appear if the version is 2 or 3.",
 		Providence:    "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,

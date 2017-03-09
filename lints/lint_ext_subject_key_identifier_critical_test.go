@@ -8,7 +8,7 @@ import (
 func TestSkiCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/skiCriticalCA.cer"
 	desEnum := Error
-	out, _ := Lints["ext_subject_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_subject_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSkiCrit(t *testing.T) {
 func TestSkiNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/skiNotCriticalCA.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_subject_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_subject_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -8,7 +8,7 @@ import (
 func TestDnsFqdn(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsFqdn.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestDnsFqdn(t *testing.T) {
 func TestDnsNotFqdn(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanOtherName.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -36,7 +36,7 @@ func (l *sha1ExpireLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_cert_sha1_expiration_too_long",
+		Name:          "w_sub_cert_sha1_expiration_too_long",
 		Description:   "Subscriber certificates using the SHA1 algorithm should not have an expiration date greater than 1 Jan 2017",
 		Providence:    "CAB: 7.1.3",
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),

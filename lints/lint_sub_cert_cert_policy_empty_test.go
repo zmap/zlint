@@ -8,7 +8,7 @@ import (
 func TestCertPolicyMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertPolicyMissing.cer"
 	desEnum := Warn
-	out, _ := Lints["sub_cert_cert_policy_empty"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_sub_cert_cert_policy_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestCertPolicyMissing(t *testing.T) {
 func TestCertPolicyPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertPolicyNoCrit.cer"
 	desEnum := Pass
-	out, _ := Lints["sub_cert_cert_policy_empty"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_sub_cert_cert_policy_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

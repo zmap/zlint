@@ -37,7 +37,7 @@ func (l *extSanURINotIA5) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_san_uri_not_ia5",
+		Name:          "e_ext_san_uri_not_ia5",
 		Description:   "When SAN contains a URI, the name must be an IA5 string",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,

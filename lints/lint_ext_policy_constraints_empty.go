@@ -50,7 +50,7 @@ func (l *policyConstraintsContents) RunTest(c *x509.Certificate) (ResultStruct, 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_policy_constraints_empty",
+		Name:          "e_ext_policy_constraints_empty",
 		Description:   "Conforming CAs MUST NOT issue certificates where policy constraints is an empty sequence. That is, either the inhibitPolicyMapping field or the requireExplicityPolicy field MUST be present",
 		Providence:    "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC2459Date,

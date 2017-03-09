@@ -8,7 +8,7 @@ import (
 func TestRsaSha1TooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/sha1ExpireAfter2017.cer"
 	desEnum := Warn
-	out, _ := Lints["sub_cert_sha1_expiration_too_long"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_sub_cert_sha1_expiration_too_long"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestRsaSha1TooLong(t *testing.T) {
 func TestRsaSha1NotTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/sha1ExpirePrior2017.cer"
 	desEnum := Pass
-	out, _ := Lints["sub_cert_sha1_expiration_too_long"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_sub_cert_sha1_expiration_too_long"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

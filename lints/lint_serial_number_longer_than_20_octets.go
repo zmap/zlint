@@ -46,7 +46,7 @@ func (l *serialNumberTooLong) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "serial_number_longer_than_20_octets",
+		Name:          "e_serial_number_longer_than_20_octets",
 		Description:   "Certificates must not have a serial number longer than 20 octets",
 		Providence:    "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,

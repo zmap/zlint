@@ -7,7 +7,7 @@ import (
 func TestEvNoBiz(t *testing.T) {
 	inputPath := "../testlint/testCerts/evAllGood.cer"
 	desEnum := Error
-	out, _ := Lints["ev_business_category_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ev_business_category_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

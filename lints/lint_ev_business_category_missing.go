@@ -29,7 +29,7 @@ func (l *evNoBiz) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ev_business_category_missing",
+		Name:          "e_ev_business_category_missing",
 		Description:   "EV certificates must include businessCategory in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

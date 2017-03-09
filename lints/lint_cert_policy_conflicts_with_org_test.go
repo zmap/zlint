@@ -9,7 +9,7 @@ func TestCertPolicyNotConflictWithOrg(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
 	desEnum := Pass
-	out, _ := Lints["cert_policy_conflicts_with_org"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_cert_policy_conflicts_with_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestCertPolicyConflictsWithOrg(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/domainValWithOrg.cer"
 	desEnum := Error
-	out, _ := Lints["cert_policy_conflicts_with_org"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_cert_policy_conflicts_with_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

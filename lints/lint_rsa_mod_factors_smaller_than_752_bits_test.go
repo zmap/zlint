@@ -8,7 +8,7 @@ import (
 func TestRsaModFactorTooSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/evenRsaMod.cer"
 	desEnum := Warn
-	out, _ := Lints["rsa_mod_factors_smaller_than_752"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_rsa_mod_factors_smaller_than_752"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestRsaModFactorTooSmall(t *testing.T) {
 func TestRsaModFactorNotTooSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/goodRsaExp.cer"
 	desEnum := Pass
-	out, _ := Lints["rsa_mod_factors_smaller_than_752"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_rsa_mod_factors_smaller_than_752"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

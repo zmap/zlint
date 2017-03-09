@@ -30,7 +30,7 @@ func (l *rsaParsedPubKeyExist) RunTest(c *x509.Certificate) (ResultStruct, error
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "rsa_no_public_key",
+		Name:          "e_rsa_no_public_key",
 		Description:   "The RSA public key should be present",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

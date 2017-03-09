@@ -35,7 +35,7 @@ func (l *ExtFreshestCrlMarkedCritical) RunTest(cert *x509.Certificate) (ResultSt
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_freshest_crl_marked_critical",
+		Name:          "e_ext_freshest_crl_marked_critical",
 		Description:   "Freshest CRL MUST be marked as non-critical by conforming CAs.",
 		Providence:    "RFC 5280: 4.2.1.15",
 		EffectiveDate: util.RFC3280Date,

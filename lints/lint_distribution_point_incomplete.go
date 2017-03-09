@@ -59,7 +59,7 @@ func (l *dpIncomplete) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "distribution_point_incomplete",
+		Name:          "e_distribution_point_incomplete",
 		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
 		Providence:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC3280Date,

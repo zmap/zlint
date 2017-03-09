@@ -9,7 +9,7 @@ func TestAKICrit(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/akiCritical.cer"
 	desEnum := Error
-	out, _ := Lints["ext_authority_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_authority_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestAKINoCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_authority_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_authority_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -35,7 +35,7 @@ func (l *subCACRLDistCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_crl_distribution_points_marked_critical",
+		Name:          "e_sub_ca_crl_distribution_points_marked_critical",
 		Description:   "Subordinate CA certificates must not mark the cRLDistributionPoints extension as critical",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,

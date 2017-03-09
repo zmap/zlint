@@ -8,7 +8,7 @@ import (
 func TestSubCertKeyUsageWithoutBits(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyUsageNoBits.cer"
 	desEnum := Error
-	out, _ := Lints["ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCertKeyUsageWithoutBits(t *testing.T) {
 func TestSubCertKeyUsageWithBits(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageCrit.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSubCertKeyUsageWithBits(t *testing.T) {
 func TestSubCertKeyUsageNotIncludedBits(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageMissing.cer"
 	desEnum := NA
-	out, _ := Lints["ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

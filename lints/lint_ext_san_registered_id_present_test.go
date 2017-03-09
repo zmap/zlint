@@ -8,7 +8,7 @@ import (
 func TestSanRegIdMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanCaGood.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_san_registered_id_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_registered_id_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSanRegIdMissing(t *testing.T) {
 func TestSanRegIdPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanRegisteredIdBeginning.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_registered_id_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_registered_id_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSanRegIdPresent(t *testing.T) {
 func TestSanRegIdPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanRegisteredIdEnd.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_registered_id_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_registered_id_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

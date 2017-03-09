@@ -38,7 +38,7 @@ func (l *sanDirName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_san_directory_name_present",
+		Name:          "e_ext_san_directory_name_present",
 		Description:   "The Subject Alternate Name extension must contain only dnsName and ipaddress name types.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,

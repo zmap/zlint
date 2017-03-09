@@ -37,7 +37,7 @@ func (l *subCAEKUCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_eku_critical",
+		Name:          "w_sub_ca_eku_critical",
 		Description:   "Subordinate CA certificate extkeyUsage extension should be marked non-critical if present.",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,

@@ -40,7 +40,7 @@ func (l *CertContainsUniqueIdentifier) RunTest(cert *x509.Certificate) (ResultSt
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_contains_unique_identifier",
+		Name:          "e_cert_contains_unique_identifier",
 		Description:   "CAs must not generate certificate with unique identifiers.",
 		Providence:    "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,

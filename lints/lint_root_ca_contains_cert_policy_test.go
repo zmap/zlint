@@ -9,7 +9,7 @@ func TestRootCACertPolicy(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/rootCAWithEKUCertPolicy.cer"
 	desEnum := Warn
-	out, _ := Lints["root_ca_contains_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_root_ca_contains_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestRootCANoCertPolicy(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/rootCAValid.cer"
 	desEnum := Pass
-	out, _ := Lints["root_ca_contains_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_root_ca_contains_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

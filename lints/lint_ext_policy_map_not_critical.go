@@ -35,7 +35,7 @@ func (l *policyMapCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_policy_map_not_critical",
+		Name:          "w_ext_policy_map_not_critical",
 		Description:   "Policy mappings should be marked as critical",
 		Providence:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC2459Date,

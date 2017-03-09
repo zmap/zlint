@@ -32,7 +32,7 @@ func (l *InvalidCertificateVersion) RunTest(cert *x509.Certificate) (ResultStruc
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "invalid_certificate_version",
+		Name:          "e_invalid_certificate_version",
 		Description:   "Certificate must be version 3 (encoded as 2)",
 		Providence:    "CAB: 7.1.1",
 		EffectiveDate: util.CABV130Date,

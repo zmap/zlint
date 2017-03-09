@@ -39,7 +39,7 @@ func (l *nameConstraintNotCa) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_name_constraints_not_in_ca",
+		Name:          "e_ext_name_constraints_not_in_ca",
 		Description:   "The name constraints extension must only be used in CA certificates",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,

@@ -40,7 +40,7 @@ func (l *rsaParsedTestsKeyModOdd) RunTest(c *x509.Certificate) (ResultStruct, er
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "rsa_mod_not_odd",
+		Name:          "w_rsa_mod_not_odd",
 		Description:   "The modulus of a RSA public key should be an odd number",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,

@@ -46,7 +46,7 @@ func (l *CertExtensionsVersonNot3) RunTest(cert *x509.Certificate) (ResultStruct
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_extensions_version_not_3",
+		Name:          "e_cert_extensions_version_not_3",
 		Description:   "The extensions field must only appear in version 3 certificates.",
 		Providence:    "RFC 5280: 4.1.2.9",
 		EffectiveDate: util.RFC2459Date,
