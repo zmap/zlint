@@ -8,7 +8,7 @@ import (
 func TestBadExclude(t *testing.T) {
 	inputPath := "../testlint/testCerts/emptyPermittedIpExcludedIPv4.cer"
 	desEnum := Error
-	out, _ := Lints["e_sub_ca_no_ip_name_contstraints"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_sub_ca_no_ip_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
