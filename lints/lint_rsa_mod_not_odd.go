@@ -22,14 +22,12 @@ func (l *rsaParsedTestsKeyModOdd) Initialize() error {
 }
 
 func (l *rsaParsedTestsKeyModOdd) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return c.PublicKeyAlgorithm == x509.RSA && ok
 }
 
 func (l *rsaParsedTestsKeyModOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	z := big.NewInt(0)
 	if (z.Mod(key.N, big.NewInt(2)).Cmp(big.NewInt(1))) == 0 {
 		return ResultStruct{Result: Pass}, nil

@@ -17,14 +17,12 @@ func (l *rsaExpNegative) Initialize() error {
 }
 
 func (l *rsaExpNegative) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return c.PublicKeyAlgorithm == x509.RSA && ok
 }
 
 func (l *rsaExpNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E < 0 {
 		return ResultStruct{Result: Error}, nil
 	}
