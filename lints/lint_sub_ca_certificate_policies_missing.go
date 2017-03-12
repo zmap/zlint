@@ -34,7 +34,7 @@ func (l *subCACertPolicyMissing) RunTest(c *x509.Certificate) (ResultStruct, err
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_certificate_policies_missing",
+		Name:          "e_sub_ca_certificate_policies_missing",
 		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,

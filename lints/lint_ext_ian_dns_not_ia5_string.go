@@ -68,7 +68,7 @@ func (l *ianDnsNotIa5) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_ian_dns_not_ia5_string",
+		Name:          "e_ext_ian_dns_not_ia5_string",
 		Description:   "dNSNames are IA5 strings",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,

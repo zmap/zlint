@@ -39,7 +39,7 @@ func (l *subCaBadDnsConstraint) RunTest(c *x509.Certificate) (ResultStruct, erro
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_no_dns_name_contstraints",
+		Name:          "e_sub_ca_no_dns_name_constraints",
 		Description:   "Subordanate CA certs must include in the name contraints extension either premitted dns names or prohibit the empty DNS name.",
 		Providence:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,

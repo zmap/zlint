@@ -9,7 +9,7 @@ func TestECP224(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP224.cer"
 	desEnum := Error
-	out, _ := Lints["ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestECP256(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP256.cer"
 	desEnum := Pass
-	out, _ := Lints["ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -37,7 +37,7 @@ func TestECP384(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP384.cer"
 	desEnum := Pass
-	out, _ := Lints["ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -51,7 +51,7 @@ func TestECP521(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP521.cer"
 	desEnum := Pass
-	out, _ := Lints["ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ec_improper_curves"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

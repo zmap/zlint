@@ -43,7 +43,7 @@ func (l *BadCommonName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "subject_common_name_disallowed",
+		Name:          "e_subject_common_name_disallowed",
 		Description:   "If present Common name MUST contain a single IP address or Fully‐Qualified Domain Name that is one of the values contained in the Certificate’s subjectAltName extension",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,

@@ -34,7 +34,7 @@ func (l *subModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:        "old_sub_cert_rsa_mod_less_than_1024_bits",
+		Name:        "e_old_sub_cert_rsa_mod_less_than_1024_bits",
 		Description: "In a validity period ending on or before 31 dec 2013, subscriber certificates using RSA public key algorithm must have 1024 bits of modulus",
 		Providence:  "CAB: 6.1.5",
 		// since effective date should be checked against end date in this specific case, putting time check into checkApplies instead, ZeroDate here to automatically pass NE test

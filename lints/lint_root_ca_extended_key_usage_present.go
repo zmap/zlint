@@ -35,7 +35,7 @@ func (l *rootCAContainsEKU) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "root_ca_extended_key_usage_present",
+		Name:          "e_root_ca_extended_key_usage_present",
 		Description:   "Root CA certificates must not have the extendedKeyUsage extension present",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,

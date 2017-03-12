@@ -70,7 +70,7 @@ func utcNotGmt(t time.Time, r *ResultEnum) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "utc_time_not_in_zulu",
+		Name:          "e_utc_time_not_in_zulu",
 		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Providence:    "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,

@@ -105,7 +105,7 @@ func (l *nameConstMin) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "name_constraint_minimum_non_zero",
+		Name:          "e_name_constraint_minimum_non_zero",
 		Description:   "In the name constraints name forms the minimum is not used and therefore MUST be zero",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,

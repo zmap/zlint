@@ -61,7 +61,7 @@ func (l *sanEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_san_empty_name",
+		Name:          "e_ext_san_empty_name",
 		Description:   "general name fields must not be empty in san",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,

@@ -44,7 +44,7 @@ func (l *ExtCertPolicyExplicitTextNotNFC) RunTest(c *x509.Certificate) (ResultSt
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_cert_policy_explicit_text_not_nfc",
+		Name:          "w_ext_cert_policy_explicit_text_not_nfc",
 		Description:   "When utf8string or bmpstring encoding is used for explicitText field in cert policy, it SHOULD BE normalized by NFC format",
 		Providence:    "Fill this in...",
 		EffectiveDate: util.RFC6818Date,

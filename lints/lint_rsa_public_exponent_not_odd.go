@@ -36,7 +36,7 @@ func (l *rsaParsedTestsKeyExpOdd) RunTest(c *x509.Certificate) (ResultStruct, er
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "rsa_public_exponent_not_odd",
+		Name:          "e_rsa_public_exponent_not_odd",
 		Description:   "RSA public key has to be an odd number",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,

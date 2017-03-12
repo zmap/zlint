@@ -105,7 +105,7 @@ func (l *nameConstraintMax) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "name_constraint_maximum_not_absent",
+		Name:          "e_name_constraint_maximum_not_absent",
 		Description:   "In the name constraints name forms the maximum is not used and therefore MUST be absent",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,

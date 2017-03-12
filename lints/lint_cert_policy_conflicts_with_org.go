@@ -33,7 +33,7 @@ func (l *certPolicyConflictsWithOrg) RunTest(cert *x509.Certificate) (ResultStru
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_policy_conflicts_with_org",
+		Name:          "e_cert_policy_conflicts_with_org",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, organization name must not be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,

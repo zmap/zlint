@@ -45,7 +45,7 @@ func (l *noticeRefPres) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_cert_policy_contains_noticeref",
+		Name:          "w_ext_cert_policy_contains_noticeref",
 		Description:   "Compliant certificates should not use the noticeRef option",
 		Providence:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC5280Date,

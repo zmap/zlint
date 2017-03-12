@@ -35,7 +35,7 @@ func (l *subCertKeyUsageBitSet) RunTest(c *x509.Certificate) (ResultStruct, erro
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_cert_key_usage_cert_sign_bit_set",
+		Name:          "e_sub_cert_key_usage_cert_sign_bit_set",
 		Description:   "Subscriber certificates keyUsage extension keyCertSign bit must not be set",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,

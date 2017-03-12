@@ -8,7 +8,7 @@ import (
 func TestBrIanDnsNull(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianDnsNull.cer"
 	desEnum := Error
-	out, _ := Lints["ian_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ian_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestBrIanDnsNull(t *testing.T) {
 func TestBrIanDnsNotNull(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianURIValid.cer"
 	desEnum := Pass
-	out, _ := Lints["ian_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ian_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

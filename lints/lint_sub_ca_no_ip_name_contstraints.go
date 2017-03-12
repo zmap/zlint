@@ -55,7 +55,7 @@ func (l *subCaBadIpConstraint) RunTest(c *x509.Certificate) (ResultStruct, error
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_no_ip_name_contstraints",
+		Name:          "e_sub_ca_no_ip_name_constraints",
 		Description:   "Subordanate CA certs must include in the name contraints extension either premitted ip ranges or prohibit all ip addresses.",
 		Providence:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,

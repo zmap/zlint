@@ -37,7 +37,7 @@ func (l *keyUsageBitsSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_key_usage_without_bits",
+		Name:          "e_ext_key_usage_without_bits",
 		Description:   "when included, at least one bit must be set to 1",
 		Providence:    "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC5280Date,

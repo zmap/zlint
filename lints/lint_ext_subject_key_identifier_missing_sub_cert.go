@@ -48,7 +48,7 @@ func (l *subjectKeyIdMissingSubscriber) RunTest(cert *x509.Certificate) (ResultS
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_subject_key_identifier_missing_sub_cert",
+		Name:          "w_ext_subject_key_identifier_missing_sub_cert",
 		Description:   "Sub certs should include ski in end entity certs",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,

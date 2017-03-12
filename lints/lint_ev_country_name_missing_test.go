@@ -7,7 +7,7 @@ import (
 func TestEvHasCountry(t *testing.T) {
 	inputPath := "../testlint/testCerts/evAllGood.cer"
 	desEnum := Pass
-	out, _ := Lints["ev_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ev_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -20,7 +20,7 @@ func TestEvHasCountry(t *testing.T) {
 func TestEvNoCountry(t *testing.T) {
 	inputPath := "../testlint/testCerts/evNoCountry.cer"
 	desEnum := Error
-	out, _ := Lints["ev_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ev_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

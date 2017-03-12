@@ -33,7 +33,7 @@ func (l *commonNames) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "subject_common_name_included",
+		Name:          "w_subject_common_name_included",
 		Description:   "Use of the common name field is discouraged.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,

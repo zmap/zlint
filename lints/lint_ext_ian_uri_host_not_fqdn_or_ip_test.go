@@ -8,7 +8,7 @@ import (
 func TestIanUriNotFqdn(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianUriHostNotFqdnOrIp.cer"
 	desEnum := Error
-	out, _ := Lints["ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestIanUriNotFqdn(t *testing.T) {
 func TestIanUriFqdn(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianUriHostFqdn.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestIanUriFqdn(t *testing.T) {
 func TestIanUriIp(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianUriHostIp.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -8,7 +8,7 @@ func TestExplicitTextUtf8NFC(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticeExpTextUtf8.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -22,7 +22,7 @@ func TestExplicitTextUtf8NotNFC(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/explicitTextUtf8NotNFC.cer"
 	desEnum := Warn
-	out, _ := Lints["ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -36,7 +36,7 @@ func TestExplicitTextBMPNFC(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/explicitTextBMPNFC.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -50,7 +50,7 @@ func TestExplicitTextBMPNotNFC(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/explicitTextBMPNotNFC.cer"
 	desEnum := Warn
-	out, _ := Lints["ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_cert_policy_explicit_text_not_nfc"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

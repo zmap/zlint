@@ -8,7 +8,7 @@ import (
 func TestFreshestCrlCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/frshCRLCritical.cer"
 	desEnum := Error
-	out, _ := Lints["ext_freshest_crl_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_freshest_crl_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestFreshestCrlCrit(t *testing.T) {
 func TestFreshestCrlNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/frshCRLNotCritical.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_freshest_crl_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_freshest_crl_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

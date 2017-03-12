@@ -9,7 +9,7 @@ func TestRootCAEKU(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/rootCAWithEKUCertPolicy.cer"
 	desEnum := Error
-	out, _ := Lints["root_ca_extended_key_usage_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_root_ca_extended_key_usage_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestRootCANoEKU(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/rootCAValid.cer"
 	desEnum := Pass
-	out, _ := Lints["root_ca_extended_key_usage_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_root_ca_extended_key_usage_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

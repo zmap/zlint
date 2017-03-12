@@ -35,7 +35,7 @@ func (l *subCACertPolicyCrit) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_ca_certificate_policies_marked_critical",
+		Name:          "w_sub_ca_certificate_policies_marked_critical",
 		Description:   "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,

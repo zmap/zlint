@@ -39,7 +39,7 @@ func (l *subExtKeyUsageClientOrServer) RunTest(c *x509.Certificate) (ResultStruc
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_cert_eku_server_auth_client_auth_missing",
+		Name:          "e_sub_cert_eku_server_auth_client_auth_missing",
 		Description:   "Subscriber certificates must have have either id-kp-serverAuth or id-kp-clientAuth or both present in extKeyUsage",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,

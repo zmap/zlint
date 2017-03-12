@@ -31,7 +31,7 @@ func (l *validityNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "validity_time_not_positive",
+		Name:          "e_validity_time_not_positive",
 		Description:   "Certificates MUST have a positive time for which they are valid",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

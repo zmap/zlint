@@ -8,7 +8,7 @@ import (
 func TestSubCertKeyUsageNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyUsageNotCriticalSubCert.cer"
 	desEnum := Warn
-	out, _ := Lints["ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCertKeyUsageNotCrit(t *testing.T) {
 func TestSubCaKeyUsageNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageNotCrit.cer"
 	desEnum := Warn
-	out, _ := Lints["ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSubCaKeyUsageNotCrit(t *testing.T) {
 func TestSubCertKeyUsageCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -47,7 +47,7 @@ func TestSubCertKeyUsageCrit(t *testing.T) {
 func TestCaKeyUsageCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageCrit.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -60,7 +60,7 @@ func TestCaKeyUsageCrit(t *testing.T) {
 func TestSubCertKeyUsageNotIncludedCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageMissing.cer"
 	desEnum := NA
-	out, _ := Lints["ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

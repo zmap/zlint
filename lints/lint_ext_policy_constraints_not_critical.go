@@ -34,7 +34,7 @@ func (l *policyConstraintsCritical) RunTest(c *x509.Certificate) (ResultStruct, 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_policy_constraints_not_critical",
+		Name:          "e_ext_policy_constraints_not_critical",
 		Description:   "Conforming CAs must mark the policy constraints extension as critical.",
 		Providence:    "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC5280Date,

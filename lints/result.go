@@ -3,13 +3,14 @@ package lints
 type ResultEnum int
 
 const (
-	NA    ResultEnum = iota // 0
-	NE                      // 1
-	Pass                    // 2
-	Info                    // 3
-	Warn                    // 4
-	Error                   // 5
-	Fatal                   // 6
+	Reserved ResultEnum = iota //0
+	NA    			// 1
+	NE                      // 2
+	Pass                    // 3
+	Info                    // 4
+	Warn                    // 5
+	Error                   // 6
+	Fatal                   // 7
 )
 
 type ResultStruct struct {
@@ -18,8 +19,8 @@ type ResultStruct struct {
 }
 
 type FinalResult struct {
-	Result string `json:"result"`
-	//Details string `json:"details,omitempty"`
+	Result 	ResultEnum 	`json:"result"`
+	Details string 		`json:"details,omitempty"`
 }
 
 func EnumToString(e ResultEnum) string {

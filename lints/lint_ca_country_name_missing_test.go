@@ -9,7 +9,7 @@ func TestCaCountryNameMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caBlankCountry.cer"
 	desEnum := Error
-	out, _ := Lints["ca_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ca_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestCaCountryNamePresent(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caValCountry.cer"
 	desEnum := Pass
-	out, _ := Lints["ca_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ca_country_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

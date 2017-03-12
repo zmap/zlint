@@ -8,7 +8,7 @@ import (
 func TestSanGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_san_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSanGood(t *testing.T) {
 func TestSanSpace(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanWithSpaceDns.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

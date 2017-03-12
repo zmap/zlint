@@ -32,7 +32,7 @@ func (l *CertPolicyOVRequiresProvinceOrLocal) RunTest(cert *x509.Certificate) (R
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_policy_ov_requires_province_or_locality",
+		Name:          "e_cert_policy_ov_requires_province_or_locality",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName must be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,

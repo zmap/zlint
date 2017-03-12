@@ -42,7 +42,7 @@ func (l *rootCaPathLenPresent) RunTest(c *x509.Certificate) (ResultStruct, error
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "root_ca_basic_constraints_path_len_constraint_field_present",
+		Name:          "w_root_ca_basic_constraints_path_len_constraint_field_present",
 		Description:   "Root CA certificate basicConstraint extension pathLenConstraint field should not be present",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,

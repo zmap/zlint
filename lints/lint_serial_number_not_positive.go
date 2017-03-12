@@ -45,7 +45,7 @@ func (l *SerialNumberNotPositive) RunTest(cert *x509.Certificate) (ResultStruct,
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "serial_number_not_positive",
+		Name:          "e_serial_number_not_positive",
 		Description:   "Certificates must have a positive serial number",
 		Providence:    "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,

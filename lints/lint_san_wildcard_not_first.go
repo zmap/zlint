@@ -32,7 +32,7 @@ func (l *sanWildCardFirst) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "san_wildcard_not_first",
+		Name:          "e_san_wildcard_not_first",
 		Description:   "Wildcard MUST be in the first label of FQDN, ie not: www.*.com (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

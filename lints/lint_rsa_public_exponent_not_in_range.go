@@ -44,7 +44,7 @@ func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, e
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "rsa_public_exponent_not_in_range",
+		Name:          "w_rsa_public_exponent_not_in_range",
 		Description:   "The RSA public exponent SHOULD be in the range between 2^16 + 1 and 2^256 - 1",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,

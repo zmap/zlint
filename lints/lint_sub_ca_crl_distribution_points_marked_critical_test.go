@@ -8,7 +8,7 @@ import (
 func TestSubCaCrlCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWcrlDistCrit.cer"
 	desEnum := Error
-	out, _ := Lints["sub_ca_crl_distribution_points_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_sub_ca_crl_distribution_points_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCaCrlCrit(t *testing.T) {
 func TestSubCaCrlNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWcrlDistNoCrit.cer"
 	desEnum := Pass
-	out, _ := Lints["sub_ca_crl_distribution_points_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_sub_ca_crl_distribution_points_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

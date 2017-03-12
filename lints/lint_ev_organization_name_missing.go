@@ -29,7 +29,7 @@ func (l *evOrgMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ev_organization_name_missing",
+		Name:          "e_ev_organization_name_missing",
 		Description:   "EV certificates must include organizationName in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

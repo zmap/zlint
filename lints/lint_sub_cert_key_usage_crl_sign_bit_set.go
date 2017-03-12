@@ -36,7 +36,7 @@ func (l *subCrlSignAllowed) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "sub_cert_key_usage_crl_sign_bit_set",
+		Name:          "e_sub_cert_key_usage_crl_sign_bit_set",
 		Description:   "Subscriber certificates keyUsage extension cRLSign bit must not be set",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,

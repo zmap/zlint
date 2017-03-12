@@ -35,7 +35,7 @@ func (l *rsaModSmallFactor) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "rsa_mod_factors_smaller_than_752",
+		Name:          "w_rsa_mod_factors_smaller_than_752",
 		Description:   "The modulus of a RSA public key should have no factors smaller than 752",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,

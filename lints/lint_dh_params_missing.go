@@ -31,7 +31,7 @@ func (l *dsaParamsMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "dh_params_missing",
+		Name:          "e_dh_params_missing",
 		Description:   "DH keys must have parameters",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

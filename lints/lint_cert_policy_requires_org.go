@@ -32,7 +32,7 @@ func (l *CertPolicyRequiresOrg) RunTest(cert *x509.Certificate) (ResultStruct, e
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "cert_policy_requires_org",
+		Name:          "e_cert_policy_requires_org",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, organizationName must be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,

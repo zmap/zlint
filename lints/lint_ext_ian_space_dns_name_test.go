@@ -8,7 +8,7 @@ import (
 func TestIanEmptyDns(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianEmptyDns.cer"
 	desEnum := Error
-	out, _ := Lints["ext_ian_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_ian_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestIanEmptyDns(t *testing.T) {
 func TestIanNotEmptyDns(t *testing.T) {
 	inputPath := "../testlint/testCerts/ianNonEmptyDns.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_ian_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_ian_space_dns_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

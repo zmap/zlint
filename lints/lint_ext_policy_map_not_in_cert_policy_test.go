@@ -8,7 +8,7 @@ import (
 func TestPolicyMapInCertPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyMapIssuerNotInCertPolicy.cer"
 	desEnum := Warn
-	out, _ := Lints["ext_policy_map_not_in_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_policy_map_not_in_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestPolicyMapInCertPolicy(t *testing.T) {
 func TestPolicyMapNotInCertPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyMapGood.cer"
 	desEnum := Pass
-	out, _ := Lints["ext_policy_map_not_in_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ext_policy_map_not_in_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

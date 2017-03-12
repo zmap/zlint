@@ -43,7 +43,7 @@ func (l *policyMapMatchesCertPolicy) RunTest(c *x509.Certificate) (ResultStruct,
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_policy_map_not_in_cert_policy",
+		Name:          "w_ext_policy_map_not_in_cert_policy",
 		Description:   "each issuerDomainPolicy named in policy mappings extension should also be asserted in a certificate policies extension",
 		Providence:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,

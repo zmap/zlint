@@ -8,7 +8,7 @@ import (
 func TestSanUriNotFqdn(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanUriNotFqdn.cer"
 	desEnum := Error
-	out, _ := Lints["ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -47,7 +47,7 @@ func (l *extSanURIFormatInvalid) RunTest(c *x509.Certificate) (ResultStruct, err
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_san_uri_format_invalid",
+		Name:          "e_ext_san_uri_format_invalid",
 		Description:   "URIs in SAN extension must have a scheme and scheme specific part",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,

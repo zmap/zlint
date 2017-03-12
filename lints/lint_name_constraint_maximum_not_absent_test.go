@@ -8,7 +8,7 @@ import (
 func TestNcMaxPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncAllPres.cer"
 	desEnum := Error
-	out, _ := Lints["name_constraint_maximum_not_absent"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_name_constraint_maximum_not_absent"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestNcMaxPresent(t *testing.T) {
 func TestNcMinPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncMinPres.cer"
 	desEnum := Pass
-	out, _ := Lints["name_constraint_maximum_not_absent"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_name_constraint_maximum_not_absent"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestNcMinPresent(t *testing.T) {
 func TestNcEmptyValue(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncEmptyValue.cer"
 	desEnum := Pass
-	out, _ := Lints["name_constraint_maximum_not_absent"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_name_constraint_maximum_not_absent"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

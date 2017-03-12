@@ -8,7 +8,7 @@ import (
 func TestSnNeagtive(t *testing.T) {
 	inputPath := "../testlint/testCerts/serialNumberNegative.cer"
 	desEnum := Error
-	out, _ := Lints["serial_number_not_positive"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_serial_number_not_positive"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSnNeagtive(t *testing.T) {
 func TestSnNotNeagtive(t *testing.T) {
 	inputPath := "../testlint/testCerts/serialNumberValid.cer"
 	desEnum := Pass
-	out, _ := Lints["serial_number_not_positive"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_serial_number_not_positive"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

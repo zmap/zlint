@@ -34,7 +34,7 @@ func (l *ExtAiaMarkedCritical) RunTest(cert *x509.Certificate) (ResultStruct, er
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "ext_aia_marked_critical",
+		Name:          "e_ext_aia_marked_critical",
 		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
 		Providence:    "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC2459Date,
