@@ -22,7 +22,7 @@ func (l *rootCaModSize) Initialize() error {
 func (l *rootCaModSize) CheckApplies(c *x509.Certificate) bool {
 	issueDate := c.NotBefore
 	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return (c.PublicKeyAlgorithm == x509.RSA && util.IsRootCA(c) && issueDate.Before(util.RsaDate2)) && ok
+	return ok && (c.PublicKeyAlgorithm == x509.RSA && util.IsRootCA(c) && issueDate.Before(util.RsaDate2))
 }
 
 func (l *rootCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {

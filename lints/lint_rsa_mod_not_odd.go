@@ -23,7 +23,7 @@ func (l *rsaParsedTestsKeyModOdd) Initialize() error {
 
 func (l *rsaParsedTestsKeyModOdd) CheckApplies(c *x509.Certificate) bool {
 	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return c.PublicKeyAlgorithm == x509.RSA && ok
+	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *rsaParsedTestsKeyModOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
