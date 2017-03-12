@@ -21,14 +21,12 @@ func (l *rsaModSmallFactor) Initialize() error {
 }
 
 func (l *rsaModSmallFactor) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *rsaModSmallFactor) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	if util.PrimeNoSmallerThan752(key.N) {
 		return ResultStruct{Result: Pass}, nil
 	}

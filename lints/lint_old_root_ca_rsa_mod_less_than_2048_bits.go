@@ -21,14 +21,12 @@ func (l *rootCaModSize) Initialize() error {
 
 func (l *rootCaModSize) CheckApplies(c *x509.Certificate) bool {
 	issueDate := c.NotBefore
-	return (c.PublicKeyAlgorithm == x509.RSA && util.IsRootCA(c) && issueDate.Before(util.RsaDate2))
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.RSA && util.IsRootCA(c) && issueDate.Before(util.RsaDate2)
 }
 
 func (l *rootCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 2048 {
 		return ResultStruct{Result: Error}, nil
 	} else {

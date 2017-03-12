@@ -24,14 +24,12 @@ func (l *rsaParsedTestsExpInRange) Initialize() error {
 }
 
 func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1
 	//	if l.upperBound.Cmp(big.NewInt(0)) == 0 {

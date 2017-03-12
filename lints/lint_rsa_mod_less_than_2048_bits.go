@@ -20,14 +20,12 @@ func (l *rsaParsedTestsKeySize) Initialize() error {
 }
 
 func (l *rsaParsedTestsKeySize) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *rsaParsedTestsKeySize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 2048 {
 		return ResultStruct{Result: Error}, nil
 	} else {

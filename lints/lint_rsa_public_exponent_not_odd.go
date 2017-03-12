@@ -21,14 +21,12 @@ func (l *rsaParsedTestsKeyExpOdd) Initialize() error {
 }
 
 func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *rsaParsedTestsKeyExpOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E%2 == 1 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
