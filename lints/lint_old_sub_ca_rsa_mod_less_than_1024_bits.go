@@ -20,14 +20,12 @@ func (l *subCaModSize) Initialize() error {
 func (l *subCaModSize) CheckApplies(c *x509.Certificate) bool {
 	issueDate := c.NotBefore
 	endDate := c.NotAfter
-	return (util.IsSubCA(c) && issueDate.Before(util.RsaDate2) && endDate.Before(util.RsaDate3))
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && util.IsSubCA(c) && issueDate.Before(util.RsaDate2) && endDate.Before(util.RsaDate3)
 }
 
 func (l *subCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key, ok := c.PublicKey.(*rsa.PublicKey)
-	if !ok {
-		return ResultStruct{Result: Error}, nil
-	}
+	key:= c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 1024 {
 		return ResultStruct{Result: Error}, nil
 	} else {
