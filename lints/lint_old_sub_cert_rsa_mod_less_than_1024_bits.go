@@ -20,7 +20,7 @@ func (l *subModSize) Initialize() error {
 func (l *subModSize) CheckApplies(c *x509.Certificate) bool {
 	endDate := c.NotAfter
 	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return ok && (c.PublicKeyAlgorithm == x509.RSA && !util.IsCaCert(c) && endDate.Before(util.RsaDate3))
+	return ok && c.PublicKeyAlgorithm == x509.RSA && !util.IsCaCert(c) && endDate.Before(util.RsaDate3)
 }
 
 func (l *subModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {

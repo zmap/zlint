@@ -21,7 +21,7 @@ func (l *subCaModSize) CheckApplies(c *x509.Certificate) bool {
 	issueDate := c.NotBefore
 	endDate := c.NotAfter
 	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return ok && (util.IsSubCA(c) && issueDate.Before(util.RsaDate2) && endDate.Before(util.RsaDate3))
+	return ok && util.IsSubCA(c) && issueDate.Before(util.RsaDate2) && endDate.Before(util.RsaDate3)
 }
 
 func (l *subCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
