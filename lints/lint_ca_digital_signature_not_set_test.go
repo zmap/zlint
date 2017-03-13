@@ -23,7 +23,7 @@ func TestKeyUsageDigSign(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageWDigSign.cer"
 	desEnum := Pass
-	out, _ := Lints["w_ca_digitial_signature_not_set"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["w_ca_digital_signature_not_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
