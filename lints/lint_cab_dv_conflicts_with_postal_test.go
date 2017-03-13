@@ -1,15 +1,15 @@
-// lint_ca_dig_sign_not_set_test.go
+// lint_cert_policy_conflicts_with_postal_test.go
 package lints
 
 import (
 	"testing"
 )
 
-func TestCaKeyUsageNoDigSign(t *testing.T) {
+func TestCertPolicyNotConflictWithPostal(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.cer"
-	desEnum := Warn
-	out, _ := Lints["w_ca_dig_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
+	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
+	desEnum := Pass
+	out, _ := Lints["e_cab_dv_conflicts_with_postal"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -19,11 +19,11 @@ func TestCaKeyUsageNoDigSign(t *testing.T) {
 	}
 }
 
-func TestKeyUsageDigSign(t *testing.T) {
+func TestCertPolicyConflictsWithPostal(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caKeyUsageWDigSign.cer"
-	desEnum := Pass
-	out, _ := Lints["w_ca_dig_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
+	inputPath := "../testlint/testCerts/domainValWithPostal.cer"
+	desEnum := Error
+	out, _ := Lints["e_cab_dv_conflicts_with_postal"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -1,15 +1,15 @@
-// lint_cert_policy_conflicts_with_locality_test.go
+// lint_cert_policy_requires_org_test.go
 package lints
 
 import (
 	"testing"
 )
 
-func TestCertPolicyNotConflictWithLocal(t *testing.T) {
+func TestCertPolicyOvHasOrg(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
 	desEnum := Pass
-	out, _ := Lints["e_cert_policy_conflicts_with_locality"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_cab_ov_requires_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -19,11 +19,11 @@ func TestCertPolicyNotConflictWithLocal(t *testing.T) {
 	}
 }
 
-func TestCertPolicyConflictsWithLocal(t *testing.T) {
+func TestCertPolicyOvNoOrg(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/domainValWithLocal.cer"
+	inputPath := "../testlint/testCerts/orgValNoOrg.cer"
 	desEnum := Error
-	out, _ := Lints["e_cert_policy_conflicts_with_locality"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_cab_ov_requires_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
