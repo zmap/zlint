@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestIanUriRelative(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianURINoScheme.cer"
+func TestIanURIRelative(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURINoScheme.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestIanUriRelative(t *testing.T) {
 	}
 }
 
-func TestIanUriAbsolute(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianURIValid.cer"
+func TestIanURIAbsolute(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIValid.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

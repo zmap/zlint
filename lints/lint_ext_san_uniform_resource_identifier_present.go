@@ -17,19 +17,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sanUri struct {
+type SANURI struct {
 	// Internal data here
 }
 
-func (l *sanUri) Initialize() error {
+func (l *SANURI) Initialize() error {
 	return nil
 }
 
-func (l *sanUri) CheckApplies(c *x509.Certificate) bool {
+func (l *SANURI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *sanUri) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANURI) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.URIs != nil {
 		return ResultStruct{Result: Error}, nil
 	}
@@ -42,5 +42,5 @@ func init() {
 		Description:   "The Subject Alternate Name extension must contain only dnsName and ipaddress name types.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &sanUri{}})
+		Test:          &SANURI{}})
 }

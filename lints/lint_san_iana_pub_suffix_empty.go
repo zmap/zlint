@@ -1,4 +1,4 @@
-// lint_san_iana_pub_suffix_empty.go
+// lint_SAN_IANa_pub_suffix_empty.go
 
 package lints
 
@@ -31,7 +31,7 @@ func (l *pubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_san_iana_pub_suffix_empty",
+		Name:          "w_SAN_IANa_pub_suffix_empty",
 		Description:   "Domain SHOULD NOT have bare public suffix",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

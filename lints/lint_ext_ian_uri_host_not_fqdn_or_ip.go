@@ -18,24 +18,24 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ianUriFqdnOrIp struct {
+type IANURIFQDNOrIp struct {
 	// Internal data here
 }
 
-func (l *ianUriFqdnOrIp) Initialize() error {
+func (l *IANURIFQDNOrIp) Initialize() error {
 	return nil
 }
 
-func (l *ianUriFqdnOrIp) CheckApplies(c *x509.Certificate) bool {
+func (l *IANURIFQDNOrIp) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianUriFqdnOrIp) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANURIFQDNOrIp) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.IANURIs {
 		auth := util.GetAuthority(uri)
 		if auth != "" {
 			host := util.GetHost(auth)
-			if !util.AuthIsFqdnOrIp(host) {
+			if !util.AuthIsFQDNOrIp(host) {
 				return ResultStruct{Result: Error}, nil
 			}
 		}
@@ -49,5 +49,5 @@ func init() {
 		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host.",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ianUriFqdnOrIp{}})
+		Test:          &IANURIFQDNOrIp{}})
 }

@@ -19,19 +19,19 @@ import (
 	"strings"
 )
 
-type ianEmail struct {
+type IANEmail struct {
 	// Internal data here
 }
 
-func (l *ianEmail) Initialize() error {
+func (l *IANEmail) Initialize() error {
 	return nil
 }
 
-func (l *ianEmail) CheckApplies(c *x509.Certificate) bool {
+func (l *IANEmail) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianEmail) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANEmail) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, str := range c.IANEmailAddresses {
 		if strings.Contains(str, " ") {
 			return ResultStruct{Result: Error}, nil
@@ -48,5 +48,5 @@ func init() {
 		Description:   "email must not be surrounded with `<>`, and there must be no trailing comments in `()`",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ianEmail{}})
+		Test:          &IANEmail{}})
 }

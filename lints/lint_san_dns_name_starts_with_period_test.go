@@ -1,4 +1,4 @@
-// lint_san_dns_name_starts_with_period_test.go
+// lint_SAN_dns_name_starts_with_period_test.go
 package lints
 
 import (
@@ -6,9 +6,9 @@ import (
 )
 
 func TestBrSanDnsStartsWithPeriod(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanDnsPeriod.cer"
+	inputPath := "../testlint/testCerts/SANDnsPeriod.cer"
 	desEnum := Error
-	out, _ := Lints["e_san_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_SAN_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -19,9 +19,9 @@ func TestBrSanDnsStartsWithPeriod(t *testing.T) {
 }
 
 func TestBrSanDnsNotPeriod(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanURIValid.cer"
+	inputPath := "../testlint/testCerts/SANURIValid.cer"
 	desEnum := Pass
-	out, _ := Lints["e_san_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_SAN_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

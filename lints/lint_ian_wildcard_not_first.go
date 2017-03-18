@@ -1,4 +1,4 @@
-// lint_br_ian_wildcard_not_first.go
+// lint_br_IAN_wildcard_not_first.go
 
 package lints
 
@@ -32,7 +32,7 @@ func (l *brIanWildcardFirst) RunTest(c *x509.Certificate) (ResultStruct, error) 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ian_wildcard_not_first",
+		Name:          "e_IAN_wildcard_not_first",
 		Description:   "Wildcard MUST be in the first label of FQDN, ie not: www.*.com (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

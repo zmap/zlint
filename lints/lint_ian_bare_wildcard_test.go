@@ -1,4 +1,4 @@
-// lint_br_ian_bare_wildcard_test.go
+// lint_br_IAN_bare_wildcard_test.go
 package lints
 
 import (
@@ -6,9 +6,9 @@ import (
 )
 
 func TestBrIanBareWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianBareWildcard.cer"
+	inputPath := "../testlint/testCerts/IANBareWildcard.cer"
 	desEnum := Error
-	out, _ := Lints["e_ian_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_IAN_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -19,9 +19,9 @@ func TestBrIanBareWildcard(t *testing.T) {
 }
 
 func TestBrIanNotBareWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianURIValid.cer"
+	inputPath := "../testlint/testCerts/IANURIValid.cer"
 	desEnum := Pass
-	out, _ := Lints["e_ian_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_IAN_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

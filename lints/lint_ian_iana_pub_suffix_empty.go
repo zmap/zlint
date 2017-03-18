@@ -1,4 +1,4 @@
-// lint_ian_iana_pub_suffix_empty.go
+// lint_IAN_IANa_pub_suffix_empty.go
 
 package lints
 
@@ -8,19 +8,19 @@ import (
 	"strings"
 )
 
-type ianPubSuffix struct {
+type IANPubSuffix struct {
 	// Internal data here
 }
 
-func (l *ianPubSuffix) Initialize() error {
+func (l *IANPubSuffix) Initialize() error {
 	return nil
 }
 
-func (l *ianPubSuffix) CheckApplies(c *x509.Certificate) bool {
+func (l *IANPubSuffix) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianPubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANPubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.IANDNSNames {
 		if len(strings.Split(dns, ".")) < 3 {
 			return ResultStruct{Result: Warn}, nil
@@ -31,9 +31,9 @@ func (l *ianPubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_ian_iana_pub_suffix_empty",
+		Name:          "w_IAN_IANa_pub_suffix_empty",
 		Description:   "Domain SHOULD NOT have bare public suffix",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &ianPubSuffix{}})
+		Test:          &IANPubSuffix{}})
 }

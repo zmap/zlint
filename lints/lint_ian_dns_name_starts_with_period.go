@@ -1,4 +1,4 @@
-// lint_ian_dns_name_starts_with_period.go
+// lint_IAN_dns_name_starts_with_period.go
 
 package lints
 
@@ -8,19 +8,19 @@ import (
 	"strings"
 )
 
-type ianDnsPeriod struct {
+type IANDnsPeriod struct {
 	// Internal data here
 }
 
-func (l *ianDnsPeriod) Initialize() error {
+func (l *IANDnsPeriod) Initialize() error {
 	return nil
 }
 
-func (l *ianDnsPeriod) CheckApplies(c *x509.Certificate) bool {
+func (l *IANDnsPeriod) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianDnsPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANDnsPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.IANDNSNames {
 		if strings.HasPrefix(dns, ".") {
 			return ResultStruct{Result: Error}, nil
@@ -31,9 +31,9 @@ func (l *ianDnsPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ian_dns_name_starts_with_period",
+		Name:          "e_IAN_dns_name_starts_with_period",
 		Description:   "DNSName MUST NOT start with a period",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &ianDnsPeriod{}})
+		Test:          &IANDnsPeriod{}})
 }

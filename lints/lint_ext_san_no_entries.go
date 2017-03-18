@@ -18,21 +18,21 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sanNoEntry struct {
+type SANNoEntry struct {
 	// Internal data here
 }
 
-func (l *sanNoEntry) Initialize() error {
+func (l *SANNoEntry) Initialize() error {
 	return nil
 }
 
-func (l *sanNoEntry) CheckApplies(c *x509.Certificate) bool {
+func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *sanNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	san := util.GetExtFromCert(c, util.SanOID)
-	if (san.Value)[1] == 0 {
+func (l *SANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	SAN := util.GetExtFromCert(c, util.SanOID)
+	if (SAN.Value)[1] == 0 {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil
@@ -42,8 +42,8 @@ func (l *sanNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_no_entries",
-		Description:   "if present, the san extension must contain at least one entry",
+		Description:   "if present, the SAN extension must contain at least one entry",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &sanNoEntry{}})
+		Test:          &SANNoEntry{}})
 }

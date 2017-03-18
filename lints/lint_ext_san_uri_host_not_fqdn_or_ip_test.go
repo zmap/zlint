@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestSanUriHostNotFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanUriNotFqdn.cer"
+func TestSANURIHostNotFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURINotFQDN.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestSanUriHostNotFqdn(t *testing.T) {
 	}
 }
 
-func TestSanUriHostWildcardFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanUriHostWildcardFqdn.cer"
+func TestSANURIHostWildcardFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURIHostWildcardFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -31,8 +31,8 @@ func TestSanUriHostWildcardFqdn(t *testing.T) {
 	}
 }
 
-func TestSanUriHostWrongWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanUriHostWrongWildcard.cer"
+func TestSANURIHostWrongWildcard(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURIHostWrongWildcard.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -44,8 +44,8 @@ func TestSanUriHostWrongWildcard(t *testing.T) {
 	}
 }
 
-func TestSanUriHostAsterisk(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanUriHostAsterisk.cer"
+func TestSANURIHostAsterisk(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURIHostAsterisk.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -57,8 +57,8 @@ func TestSanUriHostAsterisk(t *testing.T) {
 	}
 }
 
-func TestSanUriHostFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanUriHostFqdn.cer"
+func TestSANURIHostFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURIHostFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

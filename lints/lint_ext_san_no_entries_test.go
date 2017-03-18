@@ -6,7 +6,7 @@ import (
 )
 
 func TestSanNoEntry(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanNoEntries.cer"
+	inputPath := "../testlint/testCerts/SANNoEntries.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_no_entries"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

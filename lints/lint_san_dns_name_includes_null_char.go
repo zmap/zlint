@@ -1,4 +1,4 @@
-// lint_san_dns_name_includes_null_char.go
+// lint_SAN_dns_name_includes_null_char.go
 
 package lints
 
@@ -7,19 +7,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sanDnsNull struct {
+type SANDnsNull struct {
 	// Internal data here
 }
 
-func (l *sanDnsNull) Initialize() error {
+func (l *SANDnsNull) Initialize() error {
 	return nil
 }
 
-func (l *sanDnsNull) CheckApplies(c *x509.Certificate) bool {
+func (l *SANDnsNull) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *sanDnsNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANDnsNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
 		for i := 0; i < len(dns); i++ {
 			if dns[i] == 0 {
@@ -32,9 +32,9 @@ func (l *sanDnsNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_san_dns_name_includes_null_char",
+		Name:          "e_SAN_dns_name_includes_null_char",
 		Description:   "DNSNames MUST NOT include a null character ",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &sanDnsNull{}})
+		Test:          &SANDnsNull{}})
 }

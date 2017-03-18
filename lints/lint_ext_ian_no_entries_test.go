@@ -6,7 +6,7 @@ import (
 )
 
 func TestIanNoEntry(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianEmpty.cer"
+	inputPath := "../testlint/testCerts/IANEmpty.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_no_entries"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestIanNoEntry(t *testing.T) {
 }
 
 func TestIanHasEntry(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianDnsIa5.cer"
+	inputPath := "../testlint/testCerts/IANDnsIa5.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_no_entries"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

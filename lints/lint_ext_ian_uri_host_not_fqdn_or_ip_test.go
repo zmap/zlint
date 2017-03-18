@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestIanHostUriNotFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianUriHostNotFqdnOrIp.cer"
+func TestIanHostURINotFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIHostNotFQDNOrIp.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestIanHostUriNotFqdn(t *testing.T) {
 	}
 }
 
-func TestIanHostUriFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianUriHostFqdn.cer"
+func TestIanHostURIFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIHostFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -31,8 +31,8 @@ func TestIanHostUriFqdn(t *testing.T) {
 	}
 }
 
-func TestIanHostUriIp(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianUriHostIp.cer"
+func TestIanHostURIIp(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIHostIp.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -44,8 +44,8 @@ func TestIanHostUriIp(t *testing.T) {
 	}
 }
 
-func TestIanHostWildcardFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianUriHostWildcardFqdn.cer"
+func TestIanHostWildcardFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIHostWildcardFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -58,7 +58,7 @@ func TestIanHostWildcardFqdn(t *testing.T) {
 }
 
 func TestIanHostWrongWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianUriHostWrongWildcard.cer"
+	inputPath := "../testlint/testCerts/IANURIHostWrongWildcard.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -71,7 +71,7 @@ func TestIanHostWrongWildcard(t *testing.T) {
 }
 
 func TestIanHostAsterisk(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianUriHostAsterisk.cer"
+	inputPath := "../testlint/testCerts/IANURIHostAsterisk.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestIanUriIA5(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianURIIa5.cer"
+func TestIanURIIA5(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIIa5.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_not_ia5"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestIanUriIA5(t *testing.T) {
 	}
 }
 
-func TestIanUriNotIA5(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianURINotIa5.cer"
+func TestIanURINotIA5(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURINotIa5.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_not_ia5"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

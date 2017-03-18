@@ -30,8 +30,8 @@ func (l *ExtSANCriticalWithSubjectDN) CheckApplies(cert *x509.Certificate) bool 
 }
 
 func (l *ExtSANCriticalWithSubjectDN) RunTest(cert *x509.Certificate) (ResultStruct, error) {
-	san := util.GetExtFromCert(cert, util.SanOID)
-	if san.Critical && util.NotAllNameFieldsAreEmpty(&cert.Subject) {
+	SAN := util.GetExtFromCert(cert, util.SanOID)
+	if SAN.Critical && util.NotAllNameFieldsAreEmpty(&cert.Subject) {
 		return ResultStruct{Result: Warn}, nil
 	}
 	return ResultStruct{Result: Pass}, nil

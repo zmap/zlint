@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestSanUriValid(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanURIValid.cer"
+func TestSanURIValid(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURIValid.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestSanUriValid(t *testing.T) {
 	}
 }
 
-func TestSanUriNoScheme(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanURINoScheme.cer"
+func TestSanURINoScheme(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURINoScheme.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -31,8 +31,8 @@ func TestSanUriNoScheme(t *testing.T) {
 	}
 }
 
-func TestSanUriNoSchemeSpecificPart(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanURINoSchemeSpecificPart.cer"
+func TestSanURINoSchemeSpecificPart(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANURINoSchemeSpecificPart.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

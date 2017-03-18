@@ -1,4 +1,4 @@
-// lint_br_ian_bare_wildcard.go
+// lint_br_IAN_bare_wildcard.go
 
 package lints
 
@@ -31,7 +31,7 @@ func (l *brIanBareWildcard) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ian_bare_wildcard",
+		Name:          "e_IAN_bare_wildcard",
 		Description:   "Wildcard MUST be accompanied by other data to it's right (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

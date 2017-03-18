@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestDnsFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsFqdn.cer"
+func TestDnsFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestDnsFqdn(t *testing.T) {
 	}
 }
 
-func TestDnsWildcardFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanDnsWildcard.cer"
+func TestDnsWildcardFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANDnsWildcard.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -31,8 +31,8 @@ func TestDnsWildcardFqdn(t *testing.T) {
 	}
 }
 
-func TestDnsNotFqdn(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanOtherName.cer"
+func TestDnsNotFQDN(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANOtherName.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -45,7 +45,7 @@ func TestDnsNotFqdn(t *testing.T) {
 }
 
 func TestDnsWrongWildward(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanDnsWrongWildcard.cer"
+	inputPath := "../testlint/testCerts/SANDnsWrongWildcard.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -58,7 +58,7 @@ func TestDnsWrongWildward(t *testing.T) {
 }
 
 func TestDnsAsterisk(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanDnsAsterisk.cer"
+	inputPath := "../testlint/testCerts/SANDnsAsterisk.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

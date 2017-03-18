@@ -15,19 +15,19 @@ import (
 	"net"
 )
 
-type sanDNSPrefSyntax struct {
+type SANDNSPrefSyntax struct {
 	// Internal data here
 }
 
-func (l *sanDNSPrefSyntax) Initialize() error {
+func (l *SANDNSPrefSyntax) Initialize() error {
 	return nil
 }
 
-func (l *sanDNSPrefSyntax) CheckApplies(c *x509.Certificate) bool {
+func (l *SANDNSPrefSyntax) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *sanDNSPrefSyntax) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANDNSPrefSyntax) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dnsname := range c.DNSNames {
 		// Make sure the dnsname isn't an IP, which auto-passes
 		if net.ParseIP(dnsname) != nil {
@@ -47,5 +47,5 @@ func init() {
 		Description:   "DNSNames must be in the preferred syntax.",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &sanDNSPrefSyntax{}})
+		Test:          &SANDNSPrefSyntax{}})
 }

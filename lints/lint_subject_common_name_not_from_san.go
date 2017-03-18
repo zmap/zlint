@@ -1,4 +1,4 @@
-// lint_subject_common_name_not_from_san.go
+// lint_subject_common_name_not_from_SAN.go
 /************************************************
 CAB: 7.1.4.2.2
 If present, this field MUST contain a single IP address
@@ -45,7 +45,7 @@ func (l *subjectCommonNameNotFromSAN) RunTest(c *x509.Certificate) (ResultStruct
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_subject_common_name_not_from_san",
+		Name:          "e_subject_common_name_not_from_SAN",
 		Description:   "The common name field must include only names from the SAN extension.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,

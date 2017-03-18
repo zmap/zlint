@@ -12,19 +12,19 @@ import (
 	"net/url"
 )
 
-type ianUriFormat struct {
+type IANURIFormat struct {
 	// Internal data here
 }
 
-func (l *ianUriFormat) Initialize() error {
+func (l *IANURIFormat) Initialize() error {
 	return nil
 }
 
-func (l *ianUriFormat) CheckApplies(c *x509.Certificate) bool {
+func (l *IANURIFormat) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianUriFormat) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANURIFormat) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.IANURIs {
 		parsed_uri, err := url.Parse(uri)
 
@@ -51,5 +51,5 @@ func init() {
 		Description:   "URIs in SAN extension must have a scheme and scheme specific part",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ianUriFormat{}})
+		Test:          &IANURIFormat{}})
 }

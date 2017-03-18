@@ -1,4 +1,4 @@
-// lint_subject_common_name_not_from_san_test.go
+// lint_subject_common_name_not_from_SAN_test.go
 package lints
 
 import (
@@ -6,9 +6,9 @@ import (
 )
 
 func TestCnNotFromSan(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanWithMissingCN.cer"
+	inputPath := "../testlint/testCerts/SANWithMissingCN.cer"
 	desEnum := Error
-	out, _ := Lints["e_subject_common_name_not_from_san"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_common_name_not_from_SAN"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -19,9 +19,9 @@ func TestCnNotFromSan(t *testing.T) {
 }
 
 func TestCnFromSan(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanRegisteredIdBeginning.cer"
+	inputPath := "../testlint/testCerts/SANRegisteredIdBeginning.cer"
 	desEnum := Pass
-	out, _ := Lints["e_subject_common_name_not_from_san"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_common_name_not_from_SAN"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
