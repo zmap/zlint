@@ -8,7 +8,7 @@ import (
 func TestSubEmptyNoSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectEmptyNoSAN.cer"
 	desEnum := Error
-	out, _ := Lints["e_subject_empty_without_SAN"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_empty_without_san"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubEmptyNoSAN(t *testing.T) {
 func TestSubEmptyYesSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.cer"
 	desEnum := Pass
-	out, _ := Lints["e_subject_empty_without_SAN"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_empty_without_san"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

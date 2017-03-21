@@ -32,7 +32,7 @@ func (l *SANDNSNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_SAN_dns_name_includes_null_char",
+		Name:          "e_san_dns_name_includes_null_char",
 		Description:   "DNSNames MUST NOT include a null character ",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

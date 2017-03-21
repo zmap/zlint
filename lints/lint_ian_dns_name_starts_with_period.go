@@ -31,7 +31,7 @@ func (l *IANDNSPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_IAN_dns_name_starts_with_period",
+		Name:          "e_ian_dns_name_starts_with_period",
 		Description:   "DNSName MUST NOT start with a period",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,

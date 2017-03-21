@@ -8,7 +8,7 @@ import (
 func TestCnNotFromSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWithMissingCN.cer"
 	desEnum := Error
-	out, _ := Lints["e_subject_common_name_not_from_SAN"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_common_name_not_from_san"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestCnNotFromSAN(t *testing.T) {
 func TestCnFromSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANRegisteredIdBeginning.cer"
 	desEnum := Pass
-	out, _ := Lints["e_subject_common_name_not_from_SAN"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_subject_common_name_not_from_san"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
