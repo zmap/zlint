@@ -33,6 +33,9 @@ func (l *IANEmail) CheckApplies(c *x509.Certificate) bool {
 
 func (l *IANEmail) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, str := range c.IANEmailAddresses {
+		if str == "" {
+			continue
+		}
 		if strings.Contains(str, " ") {
 			return ResultStruct{Result: Error}, nil
 		} else if str[0] == '<' || str[len(str)-1] == ')' {
