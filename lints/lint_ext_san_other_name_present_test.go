@@ -19,7 +19,7 @@ func TestSANOtherNamePresent(t *testing.T) {
 }
 
 func TestSANOtherNameMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANEdiParty.cer"
+	inputPath := "../testlint/testCerts/SANEDIParty.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_other_name_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
