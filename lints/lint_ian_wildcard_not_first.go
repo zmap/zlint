@@ -1,4 +1,4 @@
-// lint_br_IAN_wildcard_not_first.go
+// lint_br_ian_wildcard_not_first.go
 
 package lints
 

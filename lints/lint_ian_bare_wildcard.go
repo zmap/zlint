@@ -1,4 +1,4 @@
-// lint_br_IAN_bare_wildcard.go
+// lint_br_ian_bare_wildcard.go
 
 package lints
 

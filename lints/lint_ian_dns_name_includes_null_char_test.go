@@ -1,4 +1,4 @@
-// lint_IAN_dns_name_includes_null_char_test.go
+// lint_ian_dns_name_includes_null_char_test.go
 package lints
 
 import (

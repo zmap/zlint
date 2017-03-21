@@ -1,4 +1,4 @@
-// lint_SAN_dns_name_starts_with_period_test.go
+// lint_san_dns_name_starts_with_period_test.go
 package lints
 
 import (

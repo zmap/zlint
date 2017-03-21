@@ -1,4 +1,4 @@
-// lint_br_SAN_wildcard_not_first_test.go
+// lint_br_san_wildcard_not_first_test.go
 package lints
 
 import (

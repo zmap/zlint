@@ -1,4 +1,4 @@
-// lint_SAN_dns_name_includes_null_char.go
+// lint_san_dns_name_includes_null_char.go
 
 package lints
 
