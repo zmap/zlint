@@ -18,19 +18,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ianNoEntry struct {
+type IANNoEntry struct {
 	// Internal data here
 }
 
-func (l *ianNoEntry) Initialize() error {
+func (l *IANNoEntry) Initialize() error {
 	return nil
 }
 
-func (l *ianNoEntry) CheckApplies(c *x509.Certificate) bool {
+func (l *IANNoEntry) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	ian := util.GetExtFromCert(c, util.IssuerANOID)
 	if (ian.Value)[1] == 0 {
 		return ResultStruct{Result: Error}, nil
@@ -42,8 +42,8 @@ func (l *ianNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_no_entries",
-		Description:   "if present, the ian extension must contain at least one entry",
+		Description:   "if present, the IAN extension must contain at least one entry",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ianNoEntry{}})
+		Test:          &IANNoEntry{}})
 }

@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestIanDnsIa5(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianDnsIa5.cer"
+func TestIANDNSIA5String(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANDNSIA5String.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_dns_not_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestIanDnsIa5(t *testing.T) {
 	}
 }
 
-func TestIanDnsNotIa5(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianDnsNotIa5.cer"
+func TestIANDNSNotIA5String(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANDNSNotIA5String.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_dns_not_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

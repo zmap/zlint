@@ -1,14 +1,14 @@
-// lint_ext_san_other_name_present_test.go
+// lint_ext_san_space_dns_name_test.go
 package lints
 
 import (
 	"testing"
 )
 
-func TestSanEmailPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanRFC822Beginning.cer"
+func TestSANInvalidEmail(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANWithInvalidEmail.cer"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_rfc822_name_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -18,10 +18,10 @@ func TestSanEmailPresent(t *testing.T) {
 	}
 }
 
-func TestSanEmailPresent2(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanRFC822End.cer"
+func TestSANInvalidEmail2(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANWithInvalidEmail2.cer"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_rfc822_name_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -31,10 +31,10 @@ func TestSanEmailPresent2(t *testing.T) {
 	}
 }
 
-func TestSanEmailMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanCaGood.cer"
+func TestSANValidEmail(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANWithValidEmail.cer"
 	desEnum := Pass
-	out, _ := Lints["e_ext_san_rfc822_name_present"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

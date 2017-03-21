@@ -12,19 +12,19 @@ import (
 	"net/url"
 )
 
-type extSanURIFormatInvalid struct {
+type extSANURIFormatInvalid struct {
 	// Internal data here
 }
 
-func (l *extSanURIFormatInvalid) Initialize() error {
+func (l *extSANURIFormatInvalid) Initialize() error {
 	return nil
 }
 
-func (l *extSanURIFormatInvalid) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+func (l *extSANURIFormatInvalid) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.SANOID)
 }
 
-func (l *extSanURIFormatInvalid) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *extSANURIFormatInvalid) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.URIs {
 		parsed_uri, err := url.Parse(uri)
 
@@ -51,5 +51,5 @@ func init() {
 		Description:   "URIs in SAN extension must have a scheme and scheme specific part",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &extSanURIFormatInvalid{}})
+		Test:          &extSANURIFormatInvalid{}})
 }

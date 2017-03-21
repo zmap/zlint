@@ -8,19 +8,19 @@ import (
 	"strings"
 )
 
-type ianDnsPeriod struct {
+type IANDNSPeriod struct {
 	// Internal data here
 }
 
-func (l *ianDnsPeriod) Initialize() error {
+func (l *IANDNSPeriod) Initialize() error {
 	return nil
 }
 
-func (l *ianDnsPeriod) CheckApplies(c *x509.Certificate) bool {
+func (l *IANDNSPeriod) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianDnsPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANDNSPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.IANDNSNames {
 		if strings.HasPrefix(dns, ".") {
 			return ResultStruct{Result: Error}, nil
@@ -35,5 +35,5 @@ func init() {
 		Description:   "DNSName MUST NOT start with a period",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &ianDnsPeriod{}})
+		Test:          &IANDNSPeriod{}})
 }

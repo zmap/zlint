@@ -19,20 +19,20 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type extSanNotCritNoSubject struct {
+type extSANNotCritNoSubject struct {
 	// Internal data here
 }
 
-func (l *extSanNotCritNoSubject) Initialize() error {
+func (l *extSANNotCritNoSubject) Initialize() error {
 	return nil
 }
 
-func (l *extSanNotCritNoSubject) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+func (l *extSANNotCritNoSubject) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.SANOID)
 }
 
-func (l *extSanNotCritNoSubject) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if e := util.GetExtFromCert(c, util.SanOID); !util.NotAllNameFieldsAreEmpty(&c.Subject) && !e.Critical {
+func (l *extSANNotCritNoSubject) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	if e := util.GetExtFromCert(c, util.SANOID); !util.NotAllNameFieldsAreEmpty(&c.Subject) && !e.Critical {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil
@@ -42,8 +42,8 @@ func (l *extSanNotCritNoSubject) RunTest(c *x509.Certificate) (ResultStruct, err
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_not_critical_without_subject",
-		Description:   "If there is an empty subject field, then the san extension must be critical",
+		Description:   "If there is an empty subject field, then the SAN extension must be critical",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &extSanNotCritNoSubject{}})
+		Test:          &extSANNotCritNoSubject{}})
 }

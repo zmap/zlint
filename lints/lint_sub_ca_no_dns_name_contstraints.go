@@ -12,19 +12,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCaBadDnsConstraint struct {
+type subCaBadDNSConstraint struct {
 	// Internal data here
 }
 
-func (l *subCaBadDnsConstraint) Initialize() error {
+func (l *subCaBadDNSConstraint) Initialize() error {
 	return nil
 }
 
-func (l *subCaBadDnsConstraint) CheckApplies(c *x509.Certificate) bool {
+func (l *subCaBadDNSConstraint) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *subCaBadDnsConstraint) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCaBadDNSConstraint) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if len(c.PermittedDNSDomains) == 0 {
 		for _, excluded := range c.ExcludedDNSDomains {
 			if len(excluded.Data) == 0 {
@@ -43,5 +43,5 @@ func init() {
 		Description:   "Subordanate CA certs must include in the name contraints extension either premitted dns names or prohibit the empty DNS name.",
 		Providence:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCaBadDnsConstraint{}})
+		Test:          &subCaBadDNSConstraint{}})
 }

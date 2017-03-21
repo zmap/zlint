@@ -20,19 +20,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ianEmptyName struct {
+type IANEmptyName struct {
 	// Internal data here
 }
 
-func (l *ianEmptyName) Initialize() error {
+func (l *IANEmptyName) Initialize() error {
 	return nil
 }
 
-func (l *ianEmptyName) CheckApplies(c *x509.Certificate) bool {
+func (l *IANEmptyName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *ianEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	value := util.GetExtFromCert(c, util.IssuerANOID).Value
 	var seq asn1.RawValue
 	var err error
@@ -62,8 +62,8 @@ func (l *ianEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_empty_name",
-		Description:   "general name fields must not be empty in ian",
+		Description:   "general name fields must not be empty in IAN",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ianEmptyName{}})
+		Test:          &IANEmptyName{}})
 }

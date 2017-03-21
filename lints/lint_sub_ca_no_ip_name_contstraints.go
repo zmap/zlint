@@ -17,19 +17,19 @@ import (
 	"net"
 )
 
-type subCaBadIpConstraint struct {
+type subCaBadIPConstraint struct {
 	// Internal data here
 }
 
-func (l *subCaBadIpConstraint) Initialize() error {
+func (l *subCaBadIPConstraint) Initialize() error {
 	return nil
 }
 
-func (l *subCaBadIpConstraint) CheckApplies(c *x509.Certificate) bool {
+func (l *subCaBadIPConstraint) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *subCaBadIpConstraint) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCaBadIPConstraint) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if len(c.PermittedIPAddresses) == 0 {
 		v4 := false
 		v6 := false
@@ -59,5 +59,5 @@ func init() {
 		Description:   "Subordanate CA certs must include in the name contraints extension either premitted ip ranges or prohibit all ip addresses.",
 		Providence:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCaBadIpConstraint{}})
+		Test:          &subCaBadIPConstraint{}})
 }

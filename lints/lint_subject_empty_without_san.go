@@ -18,20 +18,20 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type emptyWithoutSan struct {
+type emptyWithoutSAN struct {
 	// Internal data here
 }
 
-func (l *emptyWithoutSan) Initialize() error {
+func (l *emptyWithoutSAN) Initialize() error {
 	return nil
 }
 
-func (l *emptyWithoutSan) CheckApplies(cert *x509.Certificate) bool {
+func (l *emptyWithoutSAN) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *emptyWithoutSan) RunTest(cert *x509.Certificate) (ResultStruct, error) {
-	if subjectIsEmpty(cert) && !util.IsExtInCert(cert, util.SanOID) {
+func (l *emptyWithoutSAN) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+	if subjectIsEmpty(cert) && !util.IsExtInCert(cert, util.SANOID) {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil
@@ -51,5 +51,5 @@ func init() {
 		Description:   "CAs must support subject alternative name if the subject field is an empty sequence.",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &emptyWithoutSan{}})
+		Test:          &emptyWithoutSAN{}})
 }

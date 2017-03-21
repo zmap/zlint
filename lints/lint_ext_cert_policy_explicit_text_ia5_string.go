@@ -20,15 +20,15 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type explicitTextIa5 struct {
+type explicitTextIA5String struct {
 	// Internal data here
 }
 
-func (l *explicitTextIa5) Initialize() error {
+func (l *explicitTextIA5String) Initialize() error {
 	return nil
 }
 
-func (l *explicitTextIa5) CheckApplies(c *x509.Certificate) bool {
+func (l *explicitTextIA5String) CheckApplies(c *x509.Certificate) bool {
 	for _, text := range c.ExplicitTexts {
 		if text != nil {
 			return true
@@ -37,7 +37,7 @@ func (l *explicitTextIa5) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextIa5) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *explicitTextIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag == 22 {
@@ -54,5 +54,5 @@ func init() {
 		Description:   "Compliant certificates must not encode explicitTest as IA5String",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &explicitTextIa5{}})
+		Test:          &explicitTextIA5String{}})
 }

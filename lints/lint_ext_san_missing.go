@@ -13,20 +13,20 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sanMissing struct {
+type SANMissing struct {
 	// Internal data here
 }
 
-func (l *sanMissing) Initialize() error {
+func (l *SANMissing) Initialize() error {
 	return nil
 }
 
-func (l *sanMissing) CheckApplies(c *x509.Certificate) bool {
+func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *sanMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if util.IsExtInCert(c, util.SanOID) {
+func (l *SANMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	if util.IsExtInCert(c, util.SANOID) {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Error}, nil
@@ -39,5 +39,5 @@ func init() {
 		Description:   "Certificates must contain the Subject Alternate Name extension.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &sanMissing{}})
+		Test:          &SANMissing{}})
 }

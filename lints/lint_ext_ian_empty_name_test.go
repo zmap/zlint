@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestIanEmptyName(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianEmptyName.cer"
+func TestIANEmptyName(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANEmptyName.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_empty_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,8 +18,8 @@ func TestIanEmptyName(t *testing.T) {
 	}
 }
 
-func TestIanNotEmptyName(t *testing.T) {
-	inputPath := "../testlint/testCerts/ianDnsIa5.cer"
+func TestIANNotEmptyName(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANDNSIA5String.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_empty_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

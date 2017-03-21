@@ -22,19 +22,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sanIsSpaceDNS struct {
+type SANIsSpaceDNS struct {
 	// Internal data here
 }
 
-func (l *sanIsSpaceDNS) Initialize() error {
+func (l *SANIsSpaceDNS) Initialize() error {
 	return nil
 }
 
-func (l *sanIsSpaceDNS) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+func (l *SANIsSpaceDNS) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.SANOID)
 }
 
-func (l *sanIsSpaceDNS) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANIsSpaceDNS) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
 		if dns == " " {
 			return ResultStruct{Result: Error}, nil
@@ -49,5 +49,5 @@ func init() {
 		Description:   "the dNSName ` ` must not be used",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &sanIsSpaceDNS{}})
+		Test:          &SANIsSpaceDNS{}})
 }

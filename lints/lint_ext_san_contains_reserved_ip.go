@@ -15,19 +15,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sanReservedIP struct {
+type SANReservedIP struct {
 	// Internal data here
 }
 
-func (l *sanReservedIP) Initialize() error {
+func (l *SANReservedIP) Initialize() error {
 	return nil
 }
 
-func (l *sanReservedIP) CheckApplies(c *x509.Certificate) bool {
+func (l *SANReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *sanReservedIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANReservedIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, ip := range c.IPAddresses {
 		if util.ValidIP(ip) && util.IsReservedIP(ip) {
 			return ResultStruct{Result: Error}, nil
@@ -43,5 +43,5 @@ func init() {
 		Description:   "Certs and expiring after 2015-11-01 must not contain a reserved ip address in the subjectAlternativeName extension.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &sanReservedIP{}})
+		Test:          &SANReservedIP{}})
 }

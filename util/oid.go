@@ -29,7 +29,7 @@ var (
 	QcStateOid            = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 3}        // QC Statements
 	TimestampOID          = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 2} // Signed Certificate Timestamp List
 	SmimeOID              = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 15}      // Smime Capabilities
-	SanOID                = asn1.ObjectIdentifier{2, 5, 29, 17}                     // Subject Alt Name
+	SANOID                = asn1.ObjectIdentifier{2, 5, 29, 17}                     // Subject Alt Name
 	SubjectDirAttrOID     = asn1.ObjectIdentifier{2, 5, 29, 9}                      // Subject Directory Attributes
 	SubjectInfoAccessOID  = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}       // Subject Info Access Syntax
 	SubjectKeyIdentityOID = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier

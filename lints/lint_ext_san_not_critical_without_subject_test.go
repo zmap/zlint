@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestSubjectEmptySanNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanSubjectEmptyNotCritical.cer"
+func TestSubjectEmptySANNotCrit(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_not_critical_without_subject"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,7 +18,7 @@ func TestSubjectEmptySanNotCrit(t *testing.T) {
 	}
 }
 
-func TestSubjectEmptySanCrit(t *testing.T) {
+func TestSubjectEmptySANCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCaEmptySubject.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_not_critical_without_subject"].ExecuteTest(ReadCertificate(inputPath))
@@ -31,8 +31,8 @@ func TestSubjectEmptySanCrit(t *testing.T) {
 	}
 }
 
-func TestSubjectNotEmptySanCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanCriticalSubjectUncommonOnly.cer"
+func TestSubjectNotEmptySANCrit(t *testing.T) {
+	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_not_critical_without_subject"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
