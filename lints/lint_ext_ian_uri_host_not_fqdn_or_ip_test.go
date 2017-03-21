@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestIanHostURINotFQDN(t *testing.T) {
+func TestIANHostURINotFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostNotFQDNOrIp.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestIanHostURINotFQDN(t *testing.T) {
 	}
 }
 
-func TestIanHostURIFQDN(t *testing.T) {
+func TestIANHostURIFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
@@ -31,7 +31,7 @@ func TestIanHostURIFQDN(t *testing.T) {
 	}
 }
 
-func TestIanHostURIIp(t *testing.T) {
+func TestIANHostURIIp(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostIp.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
@@ -44,7 +44,7 @@ func TestIanHostURIIp(t *testing.T) {
 	}
 }
 
-func TestIanHostWildcardFQDN(t *testing.T) {
+func TestIANHostWildcardFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostWildcardFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
@@ -57,7 +57,7 @@ func TestIanHostWildcardFQDN(t *testing.T) {
 	}
 }
 
-func TestIanHostWrongWildcard(t *testing.T) {
+func TestIANHostWrongWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostWrongWildcard.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
@@ -70,7 +70,7 @@ func TestIanHostWrongWildcard(t *testing.T) {
 	}
 }
 
-func TestIanHostAsterisk(t *testing.T) {
+func TestIANHostAsterisk(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostAsterisk.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))

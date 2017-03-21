@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestBrIanBareWildcard(t *testing.T) {
+func TestBrIANBareWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANBareWildcard.cer"
 	desEnum := Error
 	out, _ := Lints["e_IAN_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestBrIanBareWildcard(t *testing.T) {
 	}
 }
 
-func TestBrIanNotBareWildcard(t *testing.T) {
+func TestBrIANNotBareWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.cer"
 	desEnum := Pass
 	out, _ := Lints["e_IAN_bare_wildcard"].ExecuteTest(ReadCertificate(inputPath))

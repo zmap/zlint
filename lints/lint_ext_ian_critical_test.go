@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestIanCrit(t *testing.T) {
+func TestIANCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANCritical.cer"
 	desEnum := Warn
 	out, _ := Lints["w_ext_ian_critical"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestIanCrit(t *testing.T) {
 	}
 }
 
-func TestIanNotCrit(t *testing.T) {
+func TestIANNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANNotCritical.cer"
 	desEnum := Pass
 	out, _ := Lints["w_ext_ian_critical"].ExecuteTest(ReadCertificate(inputPath))

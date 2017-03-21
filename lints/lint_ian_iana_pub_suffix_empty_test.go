@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestIanBarePubSuffix(t *testing.T) {
+func TestIANBarePubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANBareSuffix.cer"
 	desEnum := Warn
 	out, _ := Lints["w_IAN_IANa_pub_suffix_empty"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestIanBarePubSuffix(t *testing.T) {
 	}
 }
 
-func TestIanGoodPubSuffix(t *testing.T) {
+func TestIANGoodPubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANGoodSuffix.cer"
 	desEnum := Pass
 	out, _ := Lints["w_IAN_IANa_pub_suffix_empty"].ExecuteTest(ReadCertificate(inputPath))

@@ -7,19 +7,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type brIanWildcardFirst struct {
+type brIANWildcardFirst struct {
 	// Internal data here
 }
 
-func (l *brIanWildcardFirst) Initialize() error {
+func (l *brIANWildcardFirst) Initialize() error {
 	return nil
 }
 
-func (l *brIanWildcardFirst) CheckApplies(c *x509.Certificate) bool {
+func (l *brIANWildcardFirst) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *brIanWildcardFirst) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *brIANWildcardFirst) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.IANDNSNames {
 		for i := 1; i < len(dns); i++ {
 			if dns[i] == '*' {
@@ -36,5 +36,5 @@ func init() {
 		Description:   "Wildcard MUST be in the first label of FQDN, ie not: www.*.com (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &brIanWildcardFirst{}})
+		Test:          &brIANWildcardFirst{}})
 }

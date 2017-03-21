@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestIanDNSIa5(t *testing.T) {
+func TestIANDNSIa5(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSIa5.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_dns_not_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestIanDNSIa5(t *testing.T) {
 	}
 }
 
-func TestIanDNSNotIa5(t *testing.T) {
+func TestIANDNSNotIa5(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSNotIa5.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_dns_not_ia5_string"].ExecuteTest(ReadCertificate(inputPath))

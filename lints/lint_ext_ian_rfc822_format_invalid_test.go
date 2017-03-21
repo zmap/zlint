@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestIanInvalidEmail(t *testing.T) {
+func TestIANInvalidEmail(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANInvalidEmail.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestIanInvalidEmail(t *testing.T) {
 	}
 }
 
-func TestIanValidEmail(t *testing.T) {
+func TestIANValidEmail(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANValidEmail.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))

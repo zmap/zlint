@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestIanURIValid(t *testing.T) {
+func TestIANURIValid(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestIanURIValid(t *testing.T) {
 	}
 }
 
-func TestIanURINoScheme(t *testing.T) {
+func TestIANURINoScheme(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURINoScheme.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
@@ -31,7 +31,7 @@ func TestIanURINoScheme(t *testing.T) {
 	}
 }
 
-func TestIanURINoSchemeSpecificPart(t *testing.T) {
+func TestIANURINoSchemeSpecificPart(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURINoSchemeSpecificPart.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
