@@ -35,7 +35,7 @@ func (l *SANURIHost) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		auth := util.GetAuthority(uri)
 		if auth != "" {
 			host := util.GetHost(auth)
-			if !util.AuthIsFQDNOrIp(host) {
+			if !util.AuthIsFQDNOrIP(host) {
 				return ResultStruct{Result: Error}, nil
 			}
 		}

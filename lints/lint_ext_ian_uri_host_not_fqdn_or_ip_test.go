@@ -6,7 +6,7 @@ import (
 )
 
 func TestIANHostURINotFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostNotFQDNOrIp.cer"
+	inputPath := "../testlint/testCerts/IANURIHostNotFQDNOrIP.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -31,8 +31,8 @@ func TestIANHostURIFQDN(t *testing.T) {
 	}
 }
 
-func TestIANHostURIIp(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostIp.cer"
+func TestIANHostURIIP(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANURIHostIP.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

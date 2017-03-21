@@ -42,7 +42,7 @@ func GetHost(auth string) string {
 	return auth[begin+1 : end]
 }
 
-func AuthIsFQDNOrIp(auth string) bool {
+func AuthIsFQDNOrIP(auth string) bool {
 	if IsFQDN(auth) {
 		return true
 	}
