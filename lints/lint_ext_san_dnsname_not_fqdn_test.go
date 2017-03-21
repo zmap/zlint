@@ -6,7 +6,7 @@ import (
 )
 
 func TestDNSFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsFQDN.cer"
+	inputPath := "../testlint/testCerts/DNSFQDN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

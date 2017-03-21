@@ -17,19 +17,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type dnsFQDN struct {
+type DNSFQDN struct {
 	// Internal data here
 }
 
-func (l *dnsFQDN) Initialize() error {
+func (l *DNSFQDN) Initialize() error {
 	return nil
 }
 
-func (l *dnsFQDN) CheckApplies(c *x509.Certificate) bool {
+func (l *DNSFQDN) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *dnsFQDN) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSFQDN) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
 		if !util.IsFQDN(dns) {
 			return ResultStruct{Result: Error}, nil
@@ -44,5 +44,5 @@ func init() {
 		Description:   "SAN dnsnames must be a fully qualified domain name.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &dnsFQDN{}})
+		Test:          &DNSFQDN{}})
 }
