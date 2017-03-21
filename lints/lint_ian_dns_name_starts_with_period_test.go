@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestBrIanDnsStartsWithPeriod(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANDnsPeriod.cer"
+func TestBrIanDNSStartsWithPeriod(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANDNSPeriod.cer"
 	desEnum := Error
 	out, _ := Lints["e_IAN_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,7 +18,7 @@ func TestBrIanDnsStartsWithPeriod(t *testing.T) {
 	}
 }
 
-func TestBrIanDnsNotPeriod(t *testing.T) {
+func TestBrIanDNSNotPeriod(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.cer"
 	desEnum := Pass
 	out, _ := Lints["e_IAN_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))

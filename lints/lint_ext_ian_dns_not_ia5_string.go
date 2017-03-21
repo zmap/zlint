@@ -24,19 +24,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type IANDnsNotIa5 struct {
+type IANDNSNotIa5 struct {
 	// Internal data here
 }
 
-func (l *IANDnsNotIa5) Initialize() error {
+func (l *IANDNSNotIa5) Initialize() error {
 	return nil
 }
 
-func (l *IANDnsNotIa5) CheckApplies(c *x509.Certificate) bool {
+func (l *IANDNSNotIa5) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *IANDnsNotIa5) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANDNSNotIa5) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	value := util.GetExtFromCert(c, util.IssuerANOID).Value
 	var seq asn1.RawValue
 	var err error
@@ -72,5 +72,5 @@ func init() {
 		Description:   "dNSNames are IA5 strings",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &IANDnsNotIa5{}})
+		Test:          &IANDNSNotIa5{}})
 }

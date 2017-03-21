@@ -50,7 +50,7 @@ func (l *explicitTextUtf8) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_cert_policy_explicit_text_not_utf8",
-		Description:   "ComplIANt certificates should use the utf8string encoding for explicitText",
+		Description:   "Compliant certificates should use the utf8string encoding for explicitText",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextUtf8{}})

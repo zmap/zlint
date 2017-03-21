@@ -8,19 +8,19 @@ import (
 	"strings"
 )
 
-type SANDnsPeriod struct {
+type SANDNSPeriod struct {
 	// Internal data here
 }
 
-func (l *SANDnsPeriod) Initialize() error {
+func (l *SANDNSPeriod) Initialize() error {
 	return nil
 }
 
-func (l *SANDnsPeriod) CheckApplies(c *x509.Certificate) bool {
+func (l *SANDNSPeriod) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *SANDnsPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANDNSPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
 		if strings.HasPrefix(dns, ".") {
 			return ResultStruct{Result: Error}, nil
@@ -35,5 +35,5 @@ func init() {
 		Description:   "DNSName MUST NOT start with a period",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SANDnsPeriod{}})
+		Test:          &SANDNSPeriod{}})
 }

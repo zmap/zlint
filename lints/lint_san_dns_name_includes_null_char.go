@@ -7,19 +7,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANDnsNull struct {
+type SANDNSNull struct {
 	// Internal data here
 }
 
-func (l *SANDnsNull) Initialize() error {
+func (l *SANDNSNull) Initialize() error {
 	return nil
 }
 
-func (l *SANDnsNull) CheckApplies(c *x509.Certificate) bool {
+func (l *SANDNSNull) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SanOID)
 }
 
-func (l *SANDnsNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANDNSNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
 		for i := 0; i < len(dns); i++ {
 			if dns[i] == 0 {
@@ -36,5 +36,5 @@ func init() {
 		Description:   "DNSNames MUST NOT include a null character ",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SANDnsNull{}})
+		Test:          &SANDNSNull{}})
 }

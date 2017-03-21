@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestBrIanDnsNull(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANDnsNull.cer"
+func TestBrIanDNSNull(t *testing.T) {
+	inputPath := "../testlint/testCerts/IANDNSNull.cer"
 	desEnum := Error
 	out, _ := Lints["e_IAN_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,7 +18,7 @@ func TestBrIanDnsNull(t *testing.T) {
 	}
 }
 
-func TestBrIanDnsNotNull(t *testing.T) {
+func TestBrIanDNSNotNull(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.cer"
 	desEnum := Pass
 	out, _ := Lints["e_IAN_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
