@@ -31,7 +31,7 @@ func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *SANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	SAN := util.GetExtFromCert(c, util.SANOID)
+	san := util.GetExtFromCert(c, util.SANOID)
 	if (SAN.Value)[1] == 0 {
 		return ResultStruct{Result: Error}, nil
 	} else {
