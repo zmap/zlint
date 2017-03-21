@@ -31,8 +31,8 @@ func (l *IANNoEntry) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *IANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	IAN := util.GetExtFromCert(c, util.IssuerANOID)
-	if (IAN.Value)[1] == 0 {
+	ian := util.GetExtFromCert(c, util.IssuerANOID)
+	if (ian.Value)[1] == 0 {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil

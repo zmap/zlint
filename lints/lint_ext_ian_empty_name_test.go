@@ -19,7 +19,7 @@ func TestIANEmptyName(t *testing.T) {
 }
 
 func TestIANNotEmptyName(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANDNSIa5.cer"
+	inputPath := "../testlint/testCerts/IANDNSIA5String.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_empty_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

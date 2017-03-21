@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestExplicitTextIa5(t *testing.T) {
+func TestExplicitTextIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticePres.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_cert_policy_explicit_text_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,8 +18,8 @@ func TestExplicitTextIa5(t *testing.T) {
 	}
 }
 
-func TestExplicitTextNotIa5(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeExpTextNotIa5.cer"
+func TestExplicitTextNotIA5String(t *testing.T) {
+	inputPath := "../testlint/testCerts/userNoticeExpTextNotIA5String.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_cert_policy_explicit_text_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

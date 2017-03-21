@@ -19,7 +19,7 @@ func TestIANNoEntry(t *testing.T) {
 }
 
 func TestIANHasEntry(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANDNSIa5.cer"
+	inputPath := "../testlint/testCerts/IANDNSIA5String.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_no_entries"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

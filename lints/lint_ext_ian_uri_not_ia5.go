@@ -12,19 +12,19 @@ import (
 	"unicode"
 )
 
-type IANURIIa5 struct {
+type IANURIIA5String struct {
 	// Internal data here
 }
 
-func (l *IANURIIa5) Initialize() error {
+func (l *IANURIIA5String) Initialize() error {
 	return nil
 }
 
-func (l *IANURIIa5) CheckApplies(c *x509.Certificate) bool {
+func (l *IANURIIA5String) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerANOID)
 }
 
-func (l *IANURIIa5) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANURIIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.IANURIs {
 		for _, c := range uri {
 			if c > unicode.MaxASCII {
@@ -41,5 +41,5 @@ func init() {
 		Description:   "When SAN contains a URI, the name must be an IA5 string",
 		Providence:    "RFC5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &IANURIIa5{}})
+		Test:          &IANURIIA5String{}})
 }
