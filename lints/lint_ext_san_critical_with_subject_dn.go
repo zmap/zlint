@@ -26,11 +26,11 @@ func (l *ExtSANCriticalWithSubjectDN) Initialize() error {
 }
 
 func (l *ExtSANCriticalWithSubjectDN) CheckApplies(cert *x509.Certificate) bool {
-	return util.IsExtInCert(cert, util.SanOID)
+	return util.IsExtInCert(cert, util.SANOID)
 }
 
 func (l *ExtSANCriticalWithSubjectDN) RunTest(cert *x509.Certificate) (ResultStruct, error) {
-	SAN := util.GetExtFromCert(cert, util.SanOID)
+	SAN := util.GetExtFromCert(cert, util.SANOID)
 	if SAN.Critical && util.NotAllNameFieldsAreEmpty(&cert.Subject) {
 		return ResultStruct{Result: Warn}, nil
 	}

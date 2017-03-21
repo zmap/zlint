@@ -16,7 +16,7 @@ func (l *SANWildCardFirst) Initialize() error {
 }
 
 func (l *SANWildCardFirst) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANWildCardFirst) RunTest(c *x509.Certificate) (ResultStruct, error) {

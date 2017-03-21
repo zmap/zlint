@@ -12,19 +12,19 @@ import (
 	"unicode"
 )
 
-type extSanURINotIA5 struct {
+type extSANURINotIA5 struct {
 	// Internal data here
 }
 
-func (l *extSanURINotIA5) Initialize() error {
+func (l *extSANURINotIA5) Initialize() error {
 	return nil
 }
 
-func (l *extSanURINotIA5) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+func (l *extSANURINotIA5) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.SANOID)
 }
 
-func (l *extSanURINotIA5) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *extSANURINotIA5) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.URIs {
 		for _, c := range uri {
 			if c > unicode.MaxASCII {
@@ -41,5 +41,5 @@ func init() {
 		Description:   "When SAN contains a URI, the name must be an IA5 string",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &extSanURINotIA5{}})
+		Test:          &extSANURINotIA5{}})
 }

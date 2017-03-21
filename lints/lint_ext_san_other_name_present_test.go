@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSanOtherNamePresent(t *testing.T) {
+func TestSANOtherNamePresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANOtherName.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_other_name_present"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestSanOtherNamePresent(t *testing.T) {
 	}
 }
 
-func TestSanOtherNameMissing(t *testing.T) {
+func TestSANOtherNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANEdiParty.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_other_name_present"].ExecuteTest(ReadCertificate(inputPath))

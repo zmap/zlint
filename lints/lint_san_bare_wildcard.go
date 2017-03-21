@@ -8,19 +8,19 @@ import (
 	"strings"
 )
 
-type brSanBareWildcard struct {
+type brSANBareWildcard struct {
 	// Internal data here
 }
 
-func (l *brSanBareWildcard) Initialize() error {
+func (l *brSANBareWildcard) Initialize() error {
 	return nil
 }
 
-func (l *brSanBareWildcard) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+func (l *brSANBareWildcard) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.SANOID)
 }
 
-func (l *brSanBareWildcard) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *brSANBareWildcard) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
 		if strings.HasSuffix(dns, "*") {
 			return ResultStruct{Result: Error}, nil
@@ -35,5 +35,5 @@ func init() {
 		Description:   "Wildcard MUST be accompanied by other data to it's right (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &brSanBareWildcard{}})
+		Test:          &brSANBareWildcard{}})
 }

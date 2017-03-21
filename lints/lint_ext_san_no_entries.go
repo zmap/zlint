@@ -27,11 +27,11 @@ func (l *SANNoEntry) Initialize() error {
 }
 
 func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	SAN := util.GetExtFromCert(c, util.SanOID)
+	SAN := util.GetExtFromCert(c, util.SANOID)
 	if (SAN.Value)[1] == 0 {
 		return ResultStruct{Result: Error}, nil
 	} else {

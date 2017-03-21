@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestSubEmptyNoSan(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectEmptyNoSan.cer"
+func TestSubEmptyNoSAN(t *testing.T) {
+	inputPath := "../testlint/testCerts/subjectEmptyNoSAN.cer"
 	desEnum := Error
 	out, _ := Lints["e_subject_empty_without_SAN"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,7 +18,7 @@ func TestSubEmptyNoSan(t *testing.T) {
 	}
 }
 
-func TestSubEmptyYesSan(t *testing.T) {
+func TestSubEmptyYesSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.cer"
 	desEnum := Pass
 	out, _ := Lints["e_subject_empty_without_SAN"].ExecuteTest(ReadCertificate(inputPath))

@@ -26,7 +26,7 @@ func (l *SANRegId) Initialize() error {
 }
 
 func (l *SANRegId) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANRegId) RunTest(c *x509.Certificate) (ResultStruct, error) {

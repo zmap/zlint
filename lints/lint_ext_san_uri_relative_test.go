@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSanURIRelative(t *testing.T) {
+func TestSANURIRelative(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIRelative.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestSanURIRelative(t *testing.T) {
 	}
 }
 
-func TestSanURIAbsolute(t *testing.T) {
+func TestSANURIAbsolute(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIAbsolute.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_relative"].ExecuteTest(ReadCertificate(inputPath))

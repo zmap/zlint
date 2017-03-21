@@ -33,11 +33,11 @@ func (l *SANDNSNotIa5) Initialize() error {
 }
 
 func (l *SANDNSNotIa5) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANDNSNotIa5) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	value := util.GetExtFromCert(c, util.SanOID).Value
+	value := util.GetExtFromCert(c, util.SANOID).Value
 	var seq asn1.RawValue
 	var err error
 	if _, err = asn1.Unmarshal(value, &seq); err != nil {

@@ -16,7 +16,7 @@ func (l *SANDNSNull) Initialize() error {
 }
 
 func (l *SANDNSNull) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANDNSNull) RunTest(c *x509.Certificate) (ResultStruct, error) {

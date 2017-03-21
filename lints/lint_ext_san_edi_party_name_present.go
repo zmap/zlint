@@ -26,7 +26,7 @@ func (l *SANEdi) Initialize() error {
 }
 
 func (l *SANEdi) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANEdi) RunTest(c *x509.Certificate) (ResultStruct, error) {

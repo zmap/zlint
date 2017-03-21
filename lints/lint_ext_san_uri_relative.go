@@ -19,19 +19,19 @@ import (
 	"net/url"
 )
 
-type extSanURIRelative struct {
+type extSANURIRelative struct {
 	// Internal data here
 }
 
-func (l *extSanURIRelative) Initialize() error {
+func (l *extSANURIRelative) Initialize() error {
 	return nil
 }
 
-func (l *extSanURIRelative) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+func (l *extSANURIRelative) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.SANOID)
 }
 
-func (l *extSanURIRelative) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *extSANURIRelative) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.URIs {
 		parsed_uri, err := url.Parse(uri)
 
@@ -52,5 +52,5 @@ func init() {
 		Description:   "When SAN extension is present and URI is used, the name must not be a relative URI ",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &extSanURIRelative{}})
+		Test:          &extSANURIRelative{}})
 }

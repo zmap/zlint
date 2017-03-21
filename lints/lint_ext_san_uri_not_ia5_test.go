@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSanURIIA5(t *testing.T) {
+func TestSANURIIA5(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIIA5.cer"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_not_ia5"].ExecuteTest(ReadCertificate(inputPath))
@@ -18,7 +18,7 @@ func TestSanURIIA5(t *testing.T) {
 	}
 }
 
-func TestSanURINotIA5(t *testing.T) {
+func TestSANURINotIA5(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURINotIA5.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_not_ia5"].ExecuteTest(ReadCertificate(inputPath))

@@ -24,7 +24,7 @@ func (l *SANDNSPrefSyntax) Initialize() error {
 }
 
 func (l *SANDNSPrefSyntax) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SanOID)
+	return util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *SANDNSPrefSyntax) RunTest(c *x509.Certificate) (ResultStruct, error) {

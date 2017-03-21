@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestCommonNameInSan(t *testing.T) {
-	inputPath := "../testlint/testCerts/commonNameInSan.cer"
+func TestCommonNameInSAN(t *testing.T) {
+	inputPath := "../testlint/testCerts/commonNameInSAN.cer"
 	desEnum := Pass
 	out, _ := Lints["e_subject_common_name_disallowed"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,7 +18,7 @@ func TestCommonNameInSan(t *testing.T) {
 	}
 }
 
-func TestCommonNameNotInSan(t *testing.T) {
+func TestCommonNameNotInSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/utcHasSeconds.cer"
 	desEnum := Error
 	out, _ := Lints["e_subject_common_name_disallowed"].ExecuteTest(ReadCertificate(inputPath))
