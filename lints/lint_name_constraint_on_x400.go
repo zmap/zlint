@@ -19,19 +19,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ncOnX400 struct {
+type nameConstraintOnX400 struct {
 	// Internal data here
 }
 
-func (l *ncOnX400) Initialize() error {
+func (l *nameConstraintOnX400) Initialize() error {
 	return nil
 }
 
-func (l *ncOnX400) CheckApplies(c *x509.Certificate) bool {
+func (l *nameConstraintOnX400) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *ncOnX400) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintOnX400) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.PermittedX400Addresses != nil || c.ExcludedX400Addresses != nil {
 		return ResultStruct{Result: Warn}, nil
 	}
@@ -44,5 +44,5 @@ func init() {
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the x400Address name form",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ncOnX400{}})
+		Test:          &nameConstraintOnX400{}})
 }

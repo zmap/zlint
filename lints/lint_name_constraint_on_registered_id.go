@@ -19,19 +19,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ncOnRegisteredId struct {
+type nameConstraintOnRegisteredId struct {
 	// Internal data here
 }
 
-func (l *ncOnRegisteredId) Initialize() error {
+func (l *nameConstraintOnRegisteredId) Initialize() error {
 	return nil
 }
 
-func (l *ncOnRegisteredId) CheckApplies(c *x509.Certificate) bool {
+func (l *nameConstraintOnRegisteredId) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *ncOnRegisteredId) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintOnRegisteredId) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.PermittedRegisteredIDs != nil || c.ExcludedRegisteredIDs != nil {
 		return ResultStruct{Result: Warn}, nil
 	}
@@ -44,5 +44,5 @@ func init() {
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the registeredID name form",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ncOnRegisteredId{}})
+		Test:          &nameConstraintOnRegisteredId{}})
 }

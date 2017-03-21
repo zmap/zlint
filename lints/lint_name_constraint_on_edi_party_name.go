@@ -19,19 +19,19 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ncOnEDI struct {
+type nameConstraintOnEDI struct {
 	// Internal data here
 }
 
-func (l *ncOnEDI) Initialize() error {
+func (l *nameConstraintOnEDI) Initialize() error {
 	return nil
 }
 
-func (l *ncOnEDI) CheckApplies(c *x509.Certificate) bool {
+func (l *nameConstraintOnEDI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *ncOnEDI) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintOnEDI) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.PermittedEdiPartyNames != nil || c.ExcludedEdiPartyNames != nil {
 		return ResultStruct{Result: Warn}, nil
 	}
@@ -44,5 +44,5 @@ func init() {
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the ediPartyName name form",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ncOnEDI{}})
+		Test:          &nameConstraintOnEDI{}})
 }
