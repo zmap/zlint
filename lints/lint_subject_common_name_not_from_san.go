@@ -35,7 +35,7 @@ func (l *subjectCommonNameNotFromSAN) RunTest(c *x509.Certificate) (ResultStruct
 	}
 
 	for _, ip := range c.IPAddresses {
-		if cn == string(ip) {
+		if cn == ip.String() {
 			return ResultStruct{Result: Pass}, nil
 		}
 	}
