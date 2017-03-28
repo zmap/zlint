@@ -2,13 +2,18 @@ package util
 
 import (
 	"net"
-	"regexp"
 	"strings"
+	"github.com/asaskevich/govalidator"
 )
 
 func IsFQDN(domain string) bool {
-	RegExp := regexp.MustCompile(`^((([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9])|\*)\.){2,}([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})(\.)*$`)
-	return RegExp.MatchString(domain)
+	var ret bool
+	if strings.HasPrefix(domain, "?.") || strings.HasPrefix(domain, "*.") {
+		ret = govalidator.IsURL(domain[2:])
+	} else {
+		ret = govalidator.IsURL(domain)
+	}
+	return ret
 }
 
 func GetAuthority(uri string) string {
