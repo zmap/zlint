@@ -30,3 +30,16 @@ func TestCommonNameNotInSAN(t *testing.T) {
 		)
 	}
 }
+
+func TestEmptySAN(t *testing.T) {
+	inputPath := "../testlint/testCerts/EmptySAN.cer"
+	desEnum := NA
+	out, _ := Lints["e_subject_common_name_disallowed"].ExecuteTest(ReadCertificate(inputPath))
+	if out.Result != desEnum {
+		t.Error(
+			"For", inputPath,
+			"expected", desEnum,
+			"got", out.Result,
+		)
+	}
+}

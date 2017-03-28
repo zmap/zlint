@@ -22,7 +22,7 @@ func (l *subjectCommonNameNotFromSAN) Initialize() error {
 }
 
 func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
-	return c.Subject.CommonName != ""
+	return c.Subject.CommonName != "" && util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *subjectCommonNameNotFromSAN) RunTest(c *x509.Certificate) (ResultStruct, error) {
