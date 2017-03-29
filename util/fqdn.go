@@ -7,13 +7,14 @@ import (
 )
 
 func IsFQDN(domain string) bool {
-	var ret bool
-	if strings.HasPrefix(domain, "?.") || strings.HasPrefix(domain, "*.") {
-		ret = govalidator.IsURL(domain[2:])
-	} else {
-		ret = govalidator.IsURL(domain)
+	questionMarkIndex := strings.LastIndex(domain, "?.")
+	if questionMarkIndex != -1 {
+		domain = domain[questionMarkIndex+2:]
 	}
-	return ret
+	if strings.HasPrefix(domain, "*.") {
+		domain = domain[2:]
+	}
+	return govalidator.IsURL(domain)
 }
 
 func GetAuthority(uri string) string {
