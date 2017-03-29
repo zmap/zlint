@@ -30,6 +30,33 @@ func TestIsFQDNQuestionMarkFQDN(t *testing.T) {
 	}
 }
 
+func TestIsFQDNQuestionMarkIncorrectPlaceFQDN(t *testing.T) {
+	domain := "?.?.abc.?com"
+	expected := false
+	actual := IsFQDN(domain)
+	if expected != actual {
+		t.Error(
+			"For", domain,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
+func TestIsFQDNManyQuestionMarksFQDN(t *testing.T) {
+	domain := "?.?.?.?.?.?.?.abc.com"
+	expected := true
+	actual := IsFQDN(domain)
+	if expected != actual {
+		t.Error(
+			"For", domain,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
+
 func TestIsFQDNWildcardFQDN(t *testing.T) {
 	domain := "*.abc.com"
 	expected := true

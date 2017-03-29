@@ -6,11 +6,17 @@ import (
 	"github.com/asaskevich/govalidator"
 )
 
-func IsFQDN(domain string) bool {
-	questionMarkIndex := strings.LastIndex(domain, "?.")
-	if questionMarkIndex != -1 {
-		domain = domain[questionMarkIndex+2:]
+func removeQuestionMarks(domain string) string {
+	hasQuestionMarkPrefix := strings.HasPrefix(domain, "?.")
+	for hasQuestionMarkPrefix == true{
+		domain = domain[2:]
+		hasQuestionMarkPrefix = strings.HasPrefix(domain, "?.")
 	}
+	return domain
+}
+
+func IsFQDN(domain string) bool {
+	domain = removeQuestionMarks(domain)
 	if strings.HasPrefix(domain, "*.") {
 		domain = domain[2:]
 	}
