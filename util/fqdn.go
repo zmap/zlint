@@ -1,14 +1,14 @@
 package util
 
 import (
+	"github.com/asaskevich/govalidator"
 	"net"
 	"strings"
-	"github.com/asaskevich/govalidator"
 )
 
 func removeQuestionMarks(domain string) string {
 	hasQuestionMarkPrefix := strings.HasPrefix(domain, "?.")
-	for hasQuestionMarkPrefix == true{
+	for hasQuestionMarkPrefix == true {
 		domain = domain[2:]
 		hasQuestionMarkPrefix = strings.HasPrefix(domain, "?.")
 	}

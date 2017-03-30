@@ -56,7 +56,6 @@ func TestIsFQDNManyQuestionMarksFQDN(t *testing.T) {
 	}
 }
 
-
 func TestIsFQDNWildcardFQDN(t *testing.T) {
 	domain := "*.abc.com"
 	expected := true
