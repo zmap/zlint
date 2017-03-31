@@ -32,7 +32,7 @@ func TestDNSWildcardFQDN(t *testing.T) {
 }
 
 func TestDNSNotFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANOtherName.cer"
+	inputPath := "../testlint/testCerts/SANDNSNameNotFQDN.cer"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_dnsname_not_fqdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

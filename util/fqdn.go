@@ -1,14 +1,26 @@
 package util
 
 import (
+	"github.com/asaskevich/govalidator"
 	"net"
-	"regexp"
 	"strings"
 )
 
+func removeQuestionMarks(domain string) string {
+	hasQuestionMarkPrefix := strings.HasPrefix(domain, "?.")
+	for hasQuestionMarkPrefix == true {
+		domain = domain[2:]
+		hasQuestionMarkPrefix = strings.HasPrefix(domain, "?.")
+	}
+	return domain
+}
+
 func IsFQDN(domain string) bool {
-	RegExp := regexp.MustCompile(`^((([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9])|\*)\.){2,}([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})(\.)*$`)
-	return RegExp.MatchString(domain)
+	domain = removeQuestionMarks(domain)
+	if strings.HasPrefix(domain, "*.") {
+		domain = domain[2:]
+	}
+	return govalidator.IsURL(domain)
 }
 
 func GetAuthority(uri string) string {

@@ -32,9 +32,8 @@ func (l *IANURIFQDNOrIP) CheckApplies(c *x509.Certificate) bool {
 
 func (l *IANURIFQDNOrIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.IANURIs {
-		auth := util.GetAuthority(uri)
-		if auth != "" {
-			host := util.GetHost(auth)
+		if uri != "" {
+			host := util.GetHost(uri)
 			if !util.AuthIsFQDNOrIP(host) {
 				return ResultStruct{Result: Error}, nil
 			}
