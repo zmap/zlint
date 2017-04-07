@@ -25,8 +25,8 @@ func (l *subCaBadDNSConstraint) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCaBadDNSConstraint) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if len(c.PermittedDNSDomains) == 0 {
-		for _, excluded := range c.ExcludedDNSDomains {
+	if len(c.PermittedDNSNames) == 0 {
+		for _, excluded := range c.ExcludedDNSNames {
 			if len(excluded.Data) == 0 {
 				return ResultStruct{Result: Pass}, nil
 			}
