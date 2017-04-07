@@ -21,7 +21,7 @@ func TestPKTypeUnknown(t *testing.T) {
 
 func TestPKTypeRSA(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/rsawithsha1before2016.cer"
+	inputPath := "../testlint/testCerts/RSAWithSHA1before2016.cer"
 	desEnum := Pass
 	out, _ := Lints["e_public_key_type_not_allowed"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

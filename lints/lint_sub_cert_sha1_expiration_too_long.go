@@ -14,19 +14,19 @@ import (
 	"time"
 )
 
-type sha1ExpireLong struct {
+type SHA1ExpireLong struct {
 	// Internal data here
 }
 
-func (l *sha1ExpireLong) Initialize() error {
+func (l *SHA1ExpireLong) Initialize() error {
 	return nil
 }
 
-func (l *sha1ExpireLong) CheckApplies(c *x509.Certificate) bool {
+func (l *SHA1ExpireLong) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCaCert(c) && c.SignatureAlgorithm == x509.SHA1WithRSA
 }
 
-func (l *sha1ExpireLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SHA1ExpireLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.NotAfter.After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.UTC)) {
 		return ResultStruct{Result: Warn}, nil
 	} else {
@@ -40,5 +40,5 @@ func init() {
 		Description:   "Subscriber certificates using the SHA1 algorithm should not have an expiration date greater than 1 Jan 2017",
 		Providence:    "CAB: 7.1.3",
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),
-		Test:          &sha1ExpireLong{}})
+		Test:          &SHA1ExpireLong{}})
 }
