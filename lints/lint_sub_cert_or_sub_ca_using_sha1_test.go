@@ -11,7 +11,7 @@ import (
 
 func TestSHA1After2016(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/rsawithsha1after2016.cer"
+	inputPath := "../testlint/testCerts/RSAWithSHA1after2016.cer"
 	desEnum := Error
 	out, _ := Lints["e_sub_cert_or_sub_ca_using_sha1"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -25,7 +25,7 @@ func TestSHA1After2016(t *testing.T) {
 
 func TestSHA1Before2016(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/rsawithsha1before2016.cer"
+	inputPath := "../testlint/testCerts/RSAWithSHA1before2016.cer"
 	desEnum := Pass
 	out, _ := Lints["e_sub_cert_or_sub_ca_using_sha1"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

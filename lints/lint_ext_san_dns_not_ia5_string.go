@@ -43,7 +43,7 @@ func (l *SANDNSNotIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	if _, err = asn1.Unmarshal(value, &seq); err != nil {
 		return ResultStruct{Result: NA}, err
 	}
-	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
+	if !seq.IsCompound || seq.Tag != asn1.TagSequence || seq.Class != asn1.ClassUniversal {
 		err = asn1.StructuralError{Msg: "bad SAN sequence"}
 		return ResultStruct{Result: NA}, err
 	}
