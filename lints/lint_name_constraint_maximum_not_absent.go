@@ -30,22 +30,22 @@ func (l *nameConstraintMax) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintMax) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	for _, i := range c.PermittedDNSDomains {
+	for _, i := range c.PermittedDNSNames {
 		if i.Max != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
-	for _, i := range c.ExcludedDNSDomains {
+	for _, i := range c.ExcludedDNSNames {
 		if i.Max != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
-	for _, i := range c.PermittedEmailDomains {
+	for _, i := range c.PermittedDNSNames {
 		if i.Max != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
-	for _, i := range c.ExcludedEmailDomains {
+	for _, i := range c.ExcludedEmailAddresses {
 		if i.Max != 0 {
 			return ResultStruct{Result: Error}, nil
 		}

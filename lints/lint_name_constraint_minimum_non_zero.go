@@ -30,22 +30,22 @@ func (l *nameConstMin) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstMin) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	for _, i := range c.PermittedDNSDomains {
+	for _, i := range c.PermittedDNSNames {
 		if i.Min != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
-	for _, i := range c.ExcludedDNSDomains {
+	for _, i := range c.ExcludedDNSNames {
 		if i.Min != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
-	for _, i := range c.PermittedEmailDomains {
+	for _, i := range c.PermittedEmailAddresses {
 		if i.Min != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
-	for _, i := range c.ExcludedEmailDomains {
+	for _, i := range c.ExcludedEmailAddresses {
 		if i.Min != 0 {
 			return ResultStruct{Result: Error}, nil
 		}
