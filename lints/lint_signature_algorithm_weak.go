@@ -1,4 +1,4 @@
-// lint_signature_algorithm_weak.go
+// lint_serial_number_too_short.go
 
 package lints
 
@@ -8,19 +8,19 @@ import (
 	"math/big"
 )
 
-type WeakAlgo struct {
+type SNTooShort struct {
 	// Internal data here
 }
 
-func (l *WeakAlgo) Initialize() error {
+func (l *SNTooShort) Initialize() error {
 	return nil
 }
 
-func (l *WeakAlgo) CheckApplies(c *x509.Certificate) bool {
+func (l *SNTooShort) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *WeakAlgo) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SNTooShort) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	z := big.NewInt(0)
 	if c.SignatureAlgorithm == x509.SHA1WithRSA || c.SignatureAlgorithm == x509.DSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA1 {
 		z.Exp(big.NewInt(2), big.NewInt(64), nil)
@@ -41,9 +41,9 @@ func (l *WeakAlgo) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_signature_algorithm_weak",
-		Description:   "A weak alg should have at least 64 bits on entropy. A good alg should have at least 20 bits",
+		Name:          "w_serial_number_too_short",
+		Description:   "A weak algorithm should have at least 64 bits of entropy in its serial number. A good algorithm should have at least 20 bits of entropy in its serial number.",
 		Providence:    "Certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &WeakAlgo{}})
+		Test:          &SNTooShort{}})
 }

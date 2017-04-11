@@ -36,11 +36,6 @@ func (l *IssuerDNTrailingSpace) RunTest(c *x509.Certificate) (ResultStruct, erro
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, unit := range c.Issuer.OrganizationalUnit{
-		if strings.HasSuffix(unit, " ") {
-			return ResultStruct{Result: Warn}, nil
-		}
-	}
 	for _, loc := range c.Issuer.Locality{
 		if strings.HasSuffix(loc, " ") {
 			return ResultStruct{Result: Warn}, nil

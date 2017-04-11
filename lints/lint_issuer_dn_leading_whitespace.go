@@ -36,11 +36,6 @@ func (l *IssuerDNLeadingSpace) RunTest(c *x509.Certificate) (ResultStruct, error
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, unit := range c.Issuer.OrganizationalUnit{
-		if strings.HasPrefix(unit, " ") {
-			return ResultStruct{Result: Warn}, nil
-		}
-	}
 	for _, loc := range c.Issuer.Locality{
 		if strings.HasPrefix(loc, " ") {
 			return ResultStruct{Result: Warn}, nil

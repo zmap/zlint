@@ -32,7 +32,7 @@ func (l *RSANotNullParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if err != nil {
 		return ResultStruct{Result: NA}, err
 	}
-	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
+	if !seq.IsCompound || seq.Tag != asn1.TagSequence || seq.Class != asn1.ClassUniversal {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}
@@ -50,6 +50,7 @@ func (l *RSANotNullParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}
+	// skip through 5 sequences to get to get to SPKI struct
 	for i := 0; i < 5; i++ {
 		rest, err = asn1.Unmarshal(rest, &seq)
 		if err != nil {

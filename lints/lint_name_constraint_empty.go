@@ -34,7 +34,7 @@ func (l *nameConstraintEmpty) CheckApplies(c *x509.Certificate) bool {
 	nc := util.GetExtFromCert(c, util.NameConstOID)
 	var seq asn1.RawValue
 	rest, err := asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty
-	if err != nil || len(rest) != 0 || seq.Tag != 16 || seq.Class != 0 || !seq.IsCompound {
+	if err != nil || len(rest) != 0 || seq.Tag != asn1.TagSequence || seq.Class != asn1.ClassUniversal || !seq.IsCompound {
 		return false
 	}
 	return true

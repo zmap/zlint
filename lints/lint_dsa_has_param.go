@@ -27,7 +27,7 @@ func (l *DSAHasParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if err != nil {
 		return ResultStruct{Result: NA}, err
 	}
-	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
+	if !seq.IsCompound || seq.Tag != asn1.TagSequence || seq.Class != asn1.ClassUniversal {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}

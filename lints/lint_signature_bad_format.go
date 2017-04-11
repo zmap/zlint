@@ -68,7 +68,7 @@ func (l *SignatureBadFormat) RunTest(c *x509.Certificate) (ResultStruct, error) 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_signature_bad_format",
-		Description:   "Certificates signature algorithm in Certificate sequence must have the same algorithm identifier as inTBSCertificate sequence.",
+		Description:   "Certificate's signature algorithm in Certificate Sequence must have the same algorithm identifier as in TBSCertificate Sequence.",
 		Providence:    "RFC 5280 4.1.2.3",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &SignatureBadFormat{}})
