@@ -31,4 +31,3 @@ func TestSubjectRDNOneAttribute(t *testing.T) {
 		)
 	}
 }
-

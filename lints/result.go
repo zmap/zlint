@@ -4,13 +4,13 @@ type ResultEnum int
 
 const (
 	Reserved ResultEnum = iota //0
-	NA    			// 1
-	NE                      // 2
-	Pass                    // 3
-	Info                    // 4
-	Warn                    // 5
-	Error                   // 6
-	Fatal                   // 7
+	NA                         // 1
+	NE                         // 2
+	Pass                       // 3
+	Info                       // 4
+	Warn                       // 5
+	Error                      // 6
+	Fatal                      // 7
 )
 
 type ResultStruct struct {
@@ -19,8 +19,8 @@ type ResultStruct struct {
 }
 
 type FinalResult struct {
-	Result 	ResultEnum 	`json:"result"`
-	Details string 		`json:"details,omitempty"`
+	Result  ResultEnum `json:"result"`
+	Details string     `json:"details,omitempty"`
 }
 
 func EnumToString(e ResultEnum) string {

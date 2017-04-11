@@ -40,8 +40,8 @@ func (l *RSANoParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if err != nil {
 		return ResultStruct{Result: NA}, err
 	}
-	// optional version with explicit tag 0 present 
-	if  seq.Tag == 0 {
+	// optional version with explicit tag 0 present
+	if seq.Tag == 0 {
 		rest, err = asn1.Unmarshal(rest, &seq)
 		if err != nil {
 			return ResultStruct{Result: NA}, err
@@ -50,7 +50,7 @@ func (l *RSANoParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}
-	// skip through 5 sequences to get to get to SPKI struct 
+	// skip through 5 sequences to get to get to SPKI struct
 	for i := 0; i < 5; i++ {
 		rest, err = asn1.Unmarshal(rest, &seq)
 		if err != nil {
@@ -75,7 +75,7 @@ func (l *RSANoParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 	return ResultStruct{Result: Pass}, nil
 }
-	
+
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_no_param",

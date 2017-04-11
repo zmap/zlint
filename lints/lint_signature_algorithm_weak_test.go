@@ -57,5 +57,3 @@ func TestRSASHA256Weak(t *testing.T) {
 		)
 	}
 }
-
-

@@ -30,4 +30,3 @@ func TestSignatureBadFormat(t *testing.T) {
 		)
 	}
 }
-

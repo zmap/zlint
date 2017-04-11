@@ -69,5 +69,3 @@ func TestSANURIHostFQDN(t *testing.T) {
 		)
 	}
 }
-
-

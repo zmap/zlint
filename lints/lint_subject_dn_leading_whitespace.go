@@ -26,37 +26,37 @@ func (l *SubjectDNLeadingSpace) RunTest(c *x509.Certificate) (ResultStruct, erro
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, org := range c.Subject.Organization{
+	for _, org := range c.Subject.Organization {
 		if strings.HasPrefix(org, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, unit := range c.Subject.OrganizationalUnit{
+	for _, unit := range c.Subject.OrganizationalUnit {
 		if strings.HasPrefix(unit, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, loc := range c.Subject.Locality{
+	for _, loc := range c.Subject.Locality {
 		if strings.HasPrefix(loc, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, prov := range c.Subject.Province{
+	for _, prov := range c.Subject.Province {
 		if strings.HasPrefix(prov, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, addr := range c.Subject.StreetAddress{
+	for _, addr := range c.Subject.StreetAddress {
 		if strings.HasPrefix(addr, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, post := range c.Subject.PostalCode{
+	for _, post := range c.Subject.PostalCode {
 		if strings.HasPrefix(post, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
 	}
-	for _, domain := range c.Subject.DomainComponent{
+	for _, domain := range c.Subject.DomainComponent {
 		if strings.HasPrefix(domain, " ") {
 			return ResultStruct{Result: Warn}, nil
 		}
@@ -69,7 +69,7 @@ func (l *SubjectDNLeadingSpace) RunTest(c *x509.Certificate) (ResultStruct, erro
 	}
 	return ResultStruct{Result: Pass}, nil
 }
-	
+
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_subject_dn_leading_whitespace",

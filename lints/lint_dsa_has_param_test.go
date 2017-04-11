@@ -30,4 +30,3 @@ func TestDSANoParam(t *testing.T) {
 		)
 	}
 }
-

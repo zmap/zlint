@@ -8,7 +8,7 @@ import (
 
 func TestIssuerDNLeadingSpace(t *testing.T) {
 	inputPath := "../testlint/testCerts/issuerDNLeadingSpace.cer"
-	desEnum := Warn 
+	desEnum := Warn
 	out, _ := Lints["w_issuer_dn_leading_whitespace"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
@@ -21,7 +21,7 @@ func TestIssuerDNLeadingSpace(t *testing.T) {
 
 func TestIssuerDNGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
-	desEnum := Pass 
+	desEnum := Pass
 	out, _ := Lints["w_issuer_dn_leading_whitespace"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
@@ -31,4 +31,3 @@ func TestIssuerDNGood(t *testing.T) {
 		)
 	}
 }
-

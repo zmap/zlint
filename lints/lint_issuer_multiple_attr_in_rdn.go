@@ -34,7 +34,7 @@ func (l *IssuerRDNHasMultipleAttribute) RunTest(c *x509.Certificate) (ResultStru
 	}
 	return ResultStruct{Result: Pass}, nil
 }
-	
+
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_issuer_multiple_attr_in_rdn",

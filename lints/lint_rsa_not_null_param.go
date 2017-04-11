@@ -41,7 +41,7 @@ func (l *RSANotNullParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		return ResultStruct{Result: NA}, err
 	}
 	// optional version present
-	if  seq.Tag == 0 {
+	if seq.Tag == 0 {
 		rest, err = asn1.Unmarshal(rest, &seq)
 		if err != nil {
 			return ResultStruct{Result: NA}, err
@@ -82,7 +82,7 @@ func (l *RSANotNullParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	}
 	return ResultStruct{Result: Pass}, nil
 }
-	
+
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_not_null_param",

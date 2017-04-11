@@ -29,13 +29,13 @@ func (l *SNTooShort) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		}
 	}
 	if c.SignatureAlgorithm == x509.SHA256WithRSA || c.SignatureAlgorithm == x509.SHA384WithRSA || c.SignatureAlgorithm == x509.SHA512WithRSA ||
-			c.SignatureAlgorithm == x509.DSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA384 ||
-			c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
+		c.SignatureAlgorithm == x509.DSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA384 ||
+		c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
 		z.Exp(big.NewInt(2), big.NewInt(20), nil)
 		if c.SerialNumber.Cmp(z) == -1 {
 			return ResultStruct{Result: Warn}, nil
 		}
-	} 
+	}
 	return ResultStruct{Result: Pass}, nil
 }
 
