@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 	"sync"
+	"strings"
 
 	"github.com/zmap/zlint/lints"
 	"github.com/zmap/zlint/zlint"
@@ -22,6 +23,7 @@ const DEFAULT_THREADS uint = 4 //default number of processing threads for -threa
 
 var ( //flags
 	inPath     string
+	inJson	string
 	outPath    string
 	outStat    string
 	multi      bool
@@ -41,6 +43,7 @@ var ( //sync values for -threads
 
 func init() {
 	flag.StringVar(&inPath, "in-file", "", "File path for the input certificate(s).")
+	flag.StringVar(&inJson, "in-json", "", "File path for the input certificate(s).")
 	flag.StringVar(&outPath, "out-file", "-", "File path for the output JSON.")
 	flag.StringVar(&outStat, "out-stat", "-", "File path for the output stats.")
 	flag.BoolVar(&multi, "multi", false, "Use this flag to specify inserting many certs at once. Certs in this mode must be Base64 encoded DER strings, one per line.")
@@ -199,11 +202,13 @@ func readChunks() {
 	//set-up reader variables
 	var fileReader io.Reader //base file reader, to be buffered
 	fileReader, err := os.Open(inPath)
+	fileReader2, err := os.Open(inJson)
 	if err != nil { //file open/read error
 		fmt.Println(err)
 		os.Exit(1) //Fatal Error: Abort!
 	}
 	var buffReader *bufio.Reader = bufio.NewReader(fileReader) //buffered file reader from base reader
+	var buffReader2 *bufio.Reader = bufio.NewReader(fileReader2) //buffered file reader from base reader
 
 	//begin reading
 	var done bool = false
@@ -212,6 +217,7 @@ func readChunks() {
 
 		for readIn := 0; readIn < CHUNKSIZE && !done; readIn++ { //read in CHUNKSIZE # certs
 			lineIn, err := buffReader.ReadString('\n')
+			lineJson, err := buffReader2.ReadString('\n')
 			if err != nil { //read error, stop reading
 				done = true
 				if err != io.EOF {
@@ -220,7 +226,7 @@ func readChunks() {
 				}
 			}
 			if len(lineIn) > 0 { //dont add empty line at the end
-				certs = append(certs, lineIn) //add cert to local input buffer
+				certs = append(certs, lineIn+lineJson) //add cert to local input buffer
 			}
 		}
 
@@ -247,18 +253,19 @@ func processChunks() {
 		}
 
 		for x := 0; x < len(chunk); x++ { //process read certs
-			reportOut, err := zlint.Lint64(chunk[x]) //lint the cert, reportOut is a map[string]zlint.ResultStruct
+			parts := strings.Split(chunk[x], "\n")
+			reportOut, err := zlint.Lint64(parts[0]) //lint the cert, reportOut is a map[string]zlint.ResultStruct
 			if err != nil {
 				fmt.Println(err)
-				reports = append(reports, "An error has occured.") 
+				reports = append(reports, parts[1]+ "\n" +"An error has occured.") 
 			} else {
 				//convert cert to string for output
 				stringOut, err := json.Marshal(reportOut)
 				if err != nil {
 					fmt.Println(err)
-					reports = append(reports, "An error has occured.") 
+					reports = append(reports, parts[1]+ "\n" + "An error has occured.") 
 				} else {
-					reports = append(reports, string(stringOut)) //move report to out buffer
+					reports = append(reports, parts[1]+ "\n" + string(stringOut)) //move report to out buffer
 					//lintOut++ (unused)
 				}
 			}
@@ -324,7 +331,6 @@ func writeChunks() {
 func singleMode() ([]byte, error) {
 
 	theCert := lints.ReadCertificate(inPath)
-
 	if theCert == nil {
 		return nil, errors.New("Parsing Failed")
 	}
