@@ -74,7 +74,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_subject_dn_trailing_whitespace",
 		Description:   "Subject distinguished name attribute should not have trailing whitespace",
-		Providence:    "Certlint",
+		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SubjectDNTrailingSpace{}})
 }

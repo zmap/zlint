@@ -38,7 +38,7 @@ func (l *SignatureBadFormat) RunTest(c *x509.Certificate) (ResultStruct, error) 
 		if err != nil {
 			return ResultStruct{Result: NA}, err
 		}
-	} else if seq.Tag != 2 {
+	} else if seq.Tag != asn1.TagInteger {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}

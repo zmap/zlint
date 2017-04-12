@@ -41,7 +41,7 @@ func (l *DSAHasParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		if err != nil {
 			return ResultStruct{Result: NA}, err
 		}
-	} else if seq.Tag != 2 {
+	} else if seq.Tag != asn1.TagInteger {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}
@@ -64,7 +64,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dsa_has_param",
 		Description:   "DSA keys must not have a parameter specified",
-		Providence:    "Certlint",
+		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &DSAHasParam{}})
 }

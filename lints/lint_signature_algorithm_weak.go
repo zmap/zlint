@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_serial_number_too_short",
 		Description:   "A weak algorithm should have at least 64 bits of entropy in its serial number. A good algorithm should have at least 20 bits of entropy in its serial number.",
-		Providence:    "Certlint",
+		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SNTooShort{}})
 }

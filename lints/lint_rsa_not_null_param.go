@@ -46,7 +46,7 @@ func (l *RSANotNullParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		if err != nil {
 			return ResultStruct{Result: NA}, err
 		}
-	} else if seq.Tag != 2 {
+	} else if seq.Tag != asn1.TagInteger {
 		err = asn1.StructuralError{Msg: "bad asn1 sequence"}
 		return ResultStruct{Result: NA}, err
 	}
@@ -77,7 +77,8 @@ func (l *RSANotNullParam) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if err != nil {
 		return ResultStruct{Result: NA}, err
 	}
-	if seq.Tag != 5 {
+	const asn1TagNull = 5
+	if seq.Tag !=  asn1TagNull {
 		return ResultStruct{Result: Error}, nil
 	}
 	return ResultStruct{Result: Pass}, nil
