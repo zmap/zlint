@@ -7,7 +7,7 @@ import (
 
 func TestBasicConstNotCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caBasicConstNotCrit.cer"
+	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
 	desEnum := Error
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestBasicConstNotCrit(t *testing.T) {
 
 func TestBasicConstCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caBasicConstCrit.cer"
+	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

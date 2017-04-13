@@ -7,7 +7,7 @@ import (
 
 func TestCRLDistribCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/subCAWcrlDistCrit.cer"
+	inputPath := "../testlint/testCerts/subCAWcrlDistCrit.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_crl_distribution_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCRLDistribCrit(t *testing.T) {
 
 func TestCRLDistribNoCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/subCAWcrlDistNoCrit.cer"
+	inputPath := "../testlint/testCerts/subCAWcrlDistNoCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_crl_distribution_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

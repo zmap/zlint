@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubCertKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/keyUsageNotCriticalSubCert.cer"
+	inputPath := "../testlint/testCerts/keyUsageNotCriticalSubCert.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubCertKeyUsageNotCrit(t *testing.T) {
 }
 
 func TestSubCaKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageNotCrit.cer"
+	inputPath := "../testlint/testCerts/caKeyUsageNotCrit.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestSubCaKeyUsageNotCrit(t *testing.T) {
 }
 
 func TestSubCertKeyUsageCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
+	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -45,7 +45,7 @@ func TestSubCertKeyUsageCrit(t *testing.T) {
 }
 
 func TestCaKeyUsageCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageCrit.cer"
+	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_key_usage_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -58,7 +58,7 @@ func TestCaKeyUsageCrit(t *testing.T) {
 }
 
 func TestSubCertKeyUsageNotIncludedCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageMissing.cer"
+	inputPath := "../testlint/testCerts/caKeyUsageMissing.pem"
 	desEnum := NA
 	out, _ := Lints["e_ext_key_usage_without_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNcMinZero(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncMinZero.cer"
+	inputPath := "../testlint/testCerts/ncMinZero.pem"
 	desEnum := Pass
 	out, _ := Lints["e_name_constraint_minimum_non_zero"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNcMinZero(t *testing.T) {
 }
 
 func TestNcMinNotZero(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncMinPres.cer"
+	inputPath := "../testlint/testCerts/ncMinPres.pem"
 	desEnum := Error
 	out, _ := Lints["e_name_constraint_minimum_non_zero"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

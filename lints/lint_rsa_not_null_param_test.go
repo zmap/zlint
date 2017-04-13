@@ -6,7 +6,7 @@ import (
 )
 
 func TestRSANotNullParam(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSANotNullParam.cer"
+	inputPath := "../testlint/testCerts/RSANotNullParam.pem"
 	desEnum := Error
 	out, _ := Lints["e_rsa_not_null_param"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestRSANotNullParam(t *testing.T) {
 }
 
 func TestRSANullParam(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA256Good.cer"
+	inputPath := "../testlint/testCerts/RSASHA256Good.pem"
 	desEnum := Pass
 	out, _ := Lints["e_rsa_not_null_param"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANURIHostNotFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURINotFQDN.cer"
+	inputPath := "../testlint/testCerts/SANURINotFQDN.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANURIHostNotFQDN(t *testing.T) {
 }
 
 func TestSANURIHostWildcardFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostWildcardFQDN.cer"
+	inputPath := "../testlint/testCerts/SANURIHostWildcardFQDN.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestSANURIHostWildcardFQDN(t *testing.T) {
 }
 
 func TestSANURIHostWrongWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostWrongWildcard.cer"
+	inputPath := "../testlint/testCerts/SANURIHostWrongWildcard.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -45,7 +45,7 @@ func TestSANURIHostWrongWildcard(t *testing.T) {
 }
 
 func TestSANURIHostAsterisk(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostAsterisk.cer"
+	inputPath := "../testlint/testCerts/SANURIHostAsterisk.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -58,7 +58,7 @@ func TestSANURIHostAsterisk(t *testing.T) {
 }
 
 func TestSANURIHostFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostFQDN.cer"
+	inputPath := "../testlint/testCerts/SANURIHostFQDN.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

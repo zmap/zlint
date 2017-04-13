@@ -6,7 +6,7 @@ import (
 )
 
 func TestOrgNoCoun(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgNoCountry.cer"
+	inputPath := "../testlint/testCerts/orgNoCountry.pem"
 	desEnum := Error
 	out, _ := Lints["e_subject_org_without_country"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestOrgNoCoun(t *testing.T) {
 }
 
 func TestOrgYesCoun(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_subject_org_without_country"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

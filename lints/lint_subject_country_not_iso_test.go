@@ -6,7 +6,7 @@ import (
 )
 
 func TestCountryNotIso(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectInvalidCountry.cer"
+	inputPath := "../testlint/testCerts/subjectInvalidCountry.pem"
 	desEnum := Error
 	out, _ := Lints["e_subject_country_not_iso"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestCountryNotIso(t *testing.T) {
 }
 
 func TestCountryIsIso(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectValidCountry.cer"
+	inputPath := "../testlint/testCerts/subjectValidCountry.pem"
 	desEnum := Pass
 	out, _ := Lints["e_subject_country_not_iso"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

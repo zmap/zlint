@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANEDIPartyPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANEDIParty.cer"
+	inputPath := "../testlint/testCerts/SANEDIParty.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_edi_party_name_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANEDIPartyPresent(t *testing.T) {
 }
 
 func TestSANEDIPartyMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANOtherName.cer"
+	inputPath := "../testlint/testCerts/SANOtherName.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_edi_party_name_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestDSAHasParam(t *testing.T) {
-	inputPath := "../testlint/testCerts/DSAHasParam.cer"
+	inputPath := "../testlint/testCerts/DSAHasParam.pem"
 	desEnum := Error
 	out, _ := Lints["e_dsa_has_param"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestDSAHasParam(t *testing.T) {
 }
 
 func TestDSANoParam(t *testing.T) {
-	inputPath := "../testlint/testCerts/DSANoParam.cer"
+	inputPath := "../testlint/testCerts/DSANoParam.pem"
 	desEnum := Pass
 	out, _ := Lints["e_dsa_has_param"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNoSAN(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectEmptyNoSAN.cer"
+	inputPath := "../testlint/testCerts/subjectEmptyNoSAN.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNoSAN(t *testing.T) {
 }
 
 func TestHasSAN(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

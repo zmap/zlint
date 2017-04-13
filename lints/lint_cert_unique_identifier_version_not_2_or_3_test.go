@@ -6,7 +6,7 @@ import (
 )
 
 func TestUniqueIdVersionNot1(t *testing.T) {
-	inputPath := "../testlint/testCerts/uniqueIdVersion3.cer"
+	inputPath := "../testlint/testCerts/uniqueIdVersion3.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cert_unique_identifier_version_not_2_or_3"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestUniqueIdVersionNot1(t *testing.T) {
 }
 
 func TestUniqueIdVersion1(t *testing.T) {
-	inputPath := "../testlint/testCerts/uniqueIdVersion1.cer"
+	inputPath := "../testlint/testCerts/uniqueIdVersion1.pem"
 	desEnum := Error
 	out, _ := Lints["e_cert_unique_identifier_version_not_2_or_3"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

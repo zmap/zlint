@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANCritWithSubjectDn(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.cer"
+	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_san_critical_with_subject_dn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANCritWithSubjectDn(t *testing.T) {
 }
 
 func TestSANNotCritWithSubjectDn(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_san_critical_with_subject_dn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

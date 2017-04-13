@@ -7,7 +7,7 @@ import (
 
 func TestCertPolicyNotConflictWithLocal(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
+	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cab_dv_conflicts_with_locality"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCertPolicyNotConflictWithLocal(t *testing.T) {
 
 func TestCertPolicyConflictsWithLocal(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/domainValWithLocal.cer"
+	inputPath := "../testlint/testCerts/domainValWithLocal.pem"
 	desEnum := Error
 	out, _ := Lints["e_cab_dv_conflicts_with_locality"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

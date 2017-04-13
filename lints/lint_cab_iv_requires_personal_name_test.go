@@ -7,7 +7,7 @@ import (
 
 func TestCertPolicyIvHasPerson(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/indivValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cab_iv_requires_personal_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCertPolicyIvHasPerson(t *testing.T) {
 
 func TestCertPolicyIvHasSurname(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/indivValSurnameOnly.cer"
+	inputPath := "../testlint/testCerts/indivValSurnameOnly.pem"
 	desEnum := Error
 	out, _ := Lints["e_cab_iv_requires_personal_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestCertPolicyIvHasSurname(t *testing.T) {
 
 func TestCertPolicyIvHasLastName(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/indivValGivenNameOnly.cer"
+	inputPath := "../testlint/testCerts/indivValGivenNameOnly.pem"
 	desEnum := Error
 	out, _ := Lints["e_cab_iv_requires_personal_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -49,7 +49,7 @@ func TestCertPolicyIvHasLastName(t *testing.T) {
 
 func TestCertPolicyIvNoPerson(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.cer"
+	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
 	desEnum := Error
 	out, _ := Lints["e_cab_iv_requires_personal_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

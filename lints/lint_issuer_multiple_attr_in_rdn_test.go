@@ -7,7 +7,7 @@ import (
 )
 
 func TestIssuerRDNTwoAttribute(t *testing.T) {
-	inputPath := "../testlint/testCerts/issuerRDNTwoAttribute.cer"
+	inputPath := "../testlint/testCerts/issuerRDNTwoAttribute.pem"
 	desEnum := Warn
 	out, _ := Lints["w_issuer_multiple_attr_in_rdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -20,7 +20,7 @@ func TestIssuerRDNTwoAttribute(t *testing.T) {
 }
 
 func TestIssuerRDNOneAttribute(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA1Good.cer"
+	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
 	desEnum := Pass
 	out, _ := Lints["w_issuer_multiple_attr_in_rdn"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -7,7 +7,7 @@ import (
 
 func TestCAOrgNameBlank(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caOrgNameEmpty.cer"
+	inputPath := "../testlint/testCerts/caOrgNameEmpty.pem"
 	desEnum := Error
 	out, _ := Lints["e_ca_organization_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCAOrgNameBlank(t *testing.T) {
 
 func TestCAOrgNameMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caOrgNameMissing.cer"
+	inputPath := "../testlint/testCerts/caOrgNameMissing.pem"
 	desEnum := Error
 	out, _ := Lints["e_ca_organization_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestCAOrgNameMissing(t *testing.T) {
 
 func TestCAOrgNameValid(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caValOrgName.cer"
+	inputPath := "../testlint/testCerts/caValOrgName.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ca_organization_name_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

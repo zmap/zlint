@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANDNSShort(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_dns_name_underscore"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANDNSShort(t *testing.T) {
 }
 
 func TestSANDNSTooLong(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANDNSTooLong.cer"
+	inputPath := "../testlint/testCerts/SANDNSTooLong.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_dns_name_underscore"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

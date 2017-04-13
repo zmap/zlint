@@ -6,7 +6,7 @@ import (
 )
 
 func TestRsaExpNotInRange(t *testing.T) {
-	inputPath := "../testlint/testCerts/badRsaExp.cer"
+	inputPath := "../testlint/testCerts/badRsaExp.pem"
 	desEnum := Warn
 	out, _ := Lints["w_rsa_public_exponent_not_in_range"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestRsaExpNotInRange(t *testing.T) {
 }
 
 func TestRsaExpInRange(t *testing.T) {
-	inputPath := "../testlint/testCerts/validRsaExpRange.cer"
+	inputPath := "../testlint/testCerts/validRsaExpRange.pem"
 	desEnum := Pass
 	out, _ := Lints["w_rsa_public_exponent_not_in_range"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

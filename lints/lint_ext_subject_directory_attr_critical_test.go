@@ -6,7 +6,7 @@ import (
 )
 
 func TestSdaCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subDirAttCritical.cer"
+	inputPath := "../testlint/testCerts/subDirAttCritical.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_subject_directory_attr_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSdaCrit(t *testing.T) {
 }
 
 func TestSdaNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/RFC5280example2.cer"
+	inputPath := "../testlint/testCerts/RFC5280example2.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_subject_directory_attr_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -7,7 +7,7 @@ import (
 
 func TestCaSubjectMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caSubjectMissing.cer"
+	inputPath := "../testlint/testCerts/caSubjectMissing.pem"
 	desEnum := Error
 	out, _ := Lints["e_ca_subject_field_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCaSubjectMissing(t *testing.T) {
 
 func TestCaSubjectValid(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caValCountry.cer"
+	inputPath := "../testlint/testCerts/caValCountry.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ca_subject_field_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

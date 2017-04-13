@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubCertNoIssuerUrl(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertWOcspURL.cer"
+	inputPath := "../testlint/testCerts/subCertWOcspURL.pem"
 	desEnum := Warn
 	out, _ := Lints["w_sub_cert_aia_does_not_contain_issuing_ca_url"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubCertNoIssuerUrl(t *testing.T) {
 }
 
 func TestSubCertHasIssuerUrl(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertWIssuerURL.cer"
+	inputPath := "../testlint/testCerts/subCertWIssuerURL.pem"
 	desEnum := Pass
 	out, _ := Lints["w_sub_cert_aia_does_not_contain_issuing_ca_url"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

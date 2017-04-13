@@ -6,7 +6,7 @@ import (
 )
 
 func TestNoIssuerField(t *testing.T) {
-	inputPath := "../testlint/testCerts/issuerFieldMissing.cer"
+	inputPath := "../testlint/testCerts/issuerFieldMissing.pem"
 	desEnum := Error
 	out, _ := Lints["e_issuer_field_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNoIssuerField(t *testing.T) {
 }
 
 func TestHasIssuerField(t *testing.T) {
-	inputPath := "../testlint/testCerts/issuerFieldFilled.cer"
+	inputPath := "../testlint/testCerts/issuerFieldFilled.pem"
 	desEnum := Pass
 	out, _ := Lints["e_issuer_field_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

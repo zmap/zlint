@@ -7,7 +7,7 @@ import (
 )
 
 func TestRSASHA1Weak(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA1Weak.cer"
+	inputPath := "../testlint/testCerts/RSASHA1Weak.pem"
 	desEnum := Warn
 	out, _ := Lints["w_serial_number_too_short"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -20,7 +20,7 @@ func TestRSASHA1Weak(t *testing.T) {
 }
 
 func TestRSASHA1Good(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA1Good.cer"
+	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
 	desEnum := Pass
 	out, _ := Lints["w_serial_number_too_short"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -33,7 +33,7 @@ func TestRSASHA1Good(t *testing.T) {
 }
 
 func TestRSASHA256Good(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA256Good.cer"
+	inputPath := "../testlint/testCerts/RSASHA256Good.pem"
 	desEnum := Pass
 	out, _ := Lints["w_serial_number_too_short"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -46,7 +46,7 @@ func TestRSASHA256Good(t *testing.T) {
 }
 
 func TestRSASHA256Weak(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA256Weak.cer"
+	inputPath := "../testlint/testCerts/RSASHA256Weak.pem"
 	desEnum := Warn
 	out, _ := Lints["w_serial_number_too_short"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
