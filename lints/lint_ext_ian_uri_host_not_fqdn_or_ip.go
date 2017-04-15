@@ -16,6 +16,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"net/url"
 )
 
 type IANURIFQDNOrIP struct {
@@ -33,7 +34,8 @@ func (l *IANURIFQDNOrIP) CheckApplies(c *x509.Certificate) bool {
 func (l *IANURIFQDNOrIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, uri := range c.IANURIs {
 		if uri != "" {
-			host := util.GetHost(uri)
+			parsedUrl, _ := url.Parse(uri)
+			host := parsedUrl.Host
 			if !util.AuthIsFQDNOrIP(host) {
 				return ResultStruct{Result: Error}, nil
 			}
