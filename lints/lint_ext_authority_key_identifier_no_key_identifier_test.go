@@ -7,7 +7,7 @@ import (
 
 func TestAKINoKeyID(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/akiNoKeyIdentifier.cer"
+	inputPath := "../testlint/testCerts/akiNoKeyIdentifier.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_authority_key_identifier_no_key_identifier"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestAKINoKeyID(t *testing.T) {
 
 func TestAKIKeyID(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_authority_key_identifier_no_key_identifier"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestAKIKeyID(t *testing.T) {
 
 func TestAKINoKeyIDOnRoot(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/rootCANoKeyIdentifiers.cer"
+	inputPath := "../testlint/testCerts/rootCANoKeyIdentifiers.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_authority_key_identifier_no_key_identifier"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

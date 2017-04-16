@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANURIMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANCaGood.cer"
+	inputPath := "../testlint/testCerts/SANCaGood.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANURIMissing(t *testing.T) {
 }
 
 func TestSANURIPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIBeginning.cer"
+	inputPath := "../testlint/testCerts/SANURIBeginning.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestSANURIPresent(t *testing.T) {
 }
 
 func TestSANURIPresent2(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIEnd.cer"
+	inputPath := "../testlint/testCerts/SANURIEnd.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

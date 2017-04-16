@@ -6,7 +6,7 @@ import (
 )
 
 func TestGeneralizedAfter2050(t *testing.T) {
-	inputPath := "../testlint/testCerts/generalizedAfter2050.cer"
+	inputPath := "../testlint/testCerts/generalizedAfter2050.pem"
 	desEnum := Pass
 	out, _ := Lints["e_wrong_time_format_pre2050"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestGeneralizedAfter2050(t *testing.T) {
 }
 
 func TestUTCPrior2050(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_wrong_time_format_pre2050"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestUTCPrior2050(t *testing.T) {
 }
 
 func TestGeneralizedPrior2050(t *testing.T) {
-	inputPath := "../testlint/testCerts/generalizedPrior2050.cer"
+	inputPath := "../testlint/testCerts/generalizedPrior2050.pem"
 	desEnum := Error
 	out, _ := Lints["e_wrong_time_format_pre2050"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

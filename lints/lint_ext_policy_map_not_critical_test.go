@@ -6,7 +6,7 @@ import (
 )
 
 func TestPolicyMapNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/policyMapNotCritical.cer"
+	inputPath := "../testlint/testCerts/policyMapNotCritical.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_policy_map_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestPolicyMapNotCrit(t *testing.T) {
 }
 
 func TestPolicyMapCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/policyMapGood.cer"
+	inputPath := "../testlint/testCerts/policyMapGood.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_policy_map_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

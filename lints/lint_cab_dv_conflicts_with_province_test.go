@@ -7,7 +7,7 @@ import (
 
 func TestCertPolicyNotConflictWithProv(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/domainValGoodSubject.cer"
+	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cab_dv_conflicts_with_province"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCertPolicyNotConflictWithProv(t *testing.T) {
 
 func TestCertPolicyConflictsWithProv(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/domainValWithProvince.cer"
+	inputPath := "../testlint/testCerts/domainValWithProvince.pem"
 	desEnum := Error
 	out, _ := Lints["e_cab_dv_conflicts_with_province"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

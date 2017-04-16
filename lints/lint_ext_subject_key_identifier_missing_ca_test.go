@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubCaSkiMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCANoSKI.cer"
+	inputPath := "../testlint/testCerts/subCANoSKI.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_subject_key_identifier_missing_ca"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubCaSkiMissing(t *testing.T) {
 }
 
 func TestSubCaSkiPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/skiNotCriticalCA.cer"
+	inputPath := "../testlint/testCerts/skiNotCriticalCA.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_subject_key_identifier_missing_ca"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

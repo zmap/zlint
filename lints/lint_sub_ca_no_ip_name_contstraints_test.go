@@ -6,7 +6,7 @@ import (
 )
 
 func TestBadExclude(t *testing.T) {
-	inputPath := "../testlint/testCerts/emptyPermittedIPExcludedIPv4.cer"
+	inputPath := "../testlint/testCerts/emptyPermittedIPExcludedIPv4.pem"
 	desEnum := Error
 	out, _ := Lints["e_sub_ca_no_ip_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestBadExclude(t *testing.T) {
 }
 
 func TestBadExcludeV6(t *testing.T) {
-	inputPath := "../testlint/testCerts/emptyPermittedIPExcludedIPv6.cer"
+	inputPath := "../testlint/testCerts/emptyPermittedIPExcludedIPv6.pem"
 	desEnum := Error
 	out, _ := Lints["e_sub_ca_no_ip_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestBadExcludeV6(t *testing.T) {
 }
 
 func TestGoodExclude(t *testing.T) {
-	inputPath := "../testlint/testCerts/emptyPermittedIPExcludedBoth.cer"
+	inputPath := "../testlint/testCerts/emptyPermittedIPExcludedBoth.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_ca_no_ip_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -45,7 +45,7 @@ func TestGoodExclude(t *testing.T) {
 }
 
 func TestNonEmptyPermitted(t *testing.T) {
-	inputPath := "../testlint/testCerts/nonEmptyPermitted.cer"
+	inputPath := "../testlint/testCerts/nonEmptyPermitted.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_ca_no_ip_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

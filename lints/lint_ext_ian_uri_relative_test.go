@@ -6,7 +6,7 @@ import (
 )
 
 func TestIANURIRelative(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURINoScheme.cer"
+	inputPath := "../testlint/testCerts/IANURINoScheme.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestIANURIRelative(t *testing.T) {
 }
 
 func TestIANURIAbsolute(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIValid.cer"
+	inputPath := "../testlint/testCerts/IANURIValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

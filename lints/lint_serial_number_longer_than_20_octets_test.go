@@ -6,7 +6,7 @@ import (
 )
 
 func TestSnTooLarge(t *testing.T) {
-	inputPath := "../testlint/testCerts/serialNumberLarge.cer"
+	inputPath := "../testlint/testCerts/serialNumberLarge.pem"
 	desEnum := Error
 	out, _ := Lints["e_serial_number_longer_than_20_octets"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSnTooLarge(t *testing.T) {
 }
 
 func TestSnNotTooLarge(t *testing.T) {
-	inputPath := "../testlint/testCerts/serialNumberValid.cer"
+	inputPath := "../testlint/testCerts/serialNumberValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_serial_number_longer_than_20_octets"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

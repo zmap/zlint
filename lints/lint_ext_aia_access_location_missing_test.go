@@ -7,7 +7,7 @@ import (
 
 func TestAIAcaIssuerMissingHTTPorLDAP(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caIssuerNoHTTPLDAP.cer"
+	inputPath := "../testlint/testCerts/caIssuerNoHTTPLDAP.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_aia_access_location_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestAIAcaIssuerMissingHTTPorLDAP(t *testing.T) {
 
 func TestAIAcaIssuerHTTP(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caIssuerHTTP.cer"
+	inputPath := "../testlint/testCerts/caIssuerHTTP.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_aia_access_location_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestAIAcaIssuerHTTP(t *testing.T) {
 
 func TestAIAcaIssuerLDAP(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caIssuerLDAP.cer"
+	inputPath := "../testlint/testCerts/caIssuerLDAP.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_aia_access_location_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -49,7 +49,7 @@ func TestAIAcaIssuerLDAP(t *testing.T) {
 
 func TestAIAcaIssuerBlank(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caIssuerBlank.cer"
+	inputPath := "../testlint/testCerts/caIssuerBlank.pem"
 	desEnum := NA
 	out, _ := Lints["w_ext_aia_access_location_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

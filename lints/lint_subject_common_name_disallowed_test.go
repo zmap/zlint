@@ -6,7 +6,7 @@ import (
 )
 
 func TestCommonNameInSAN(t *testing.T) {
-	inputPath := "../testlint/testCerts/commonNameInSAN.cer"
+	inputPath := "../testlint/testCerts/commonNameInSAN.pem"
 	desEnum := Pass
 	out, _ := Lints["e_subject_common_name_disallowed"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestCommonNameInSAN(t *testing.T) {
 }
 
 func TestCommonNameNotInSAN(t *testing.T) {
-	inputPath := "../testlint/testCerts/utcHasSeconds.cer"
+	inputPath := "../testlint/testCerts/utcHasSeconds.pem"
 	desEnum := Error
 	out, _ := Lints["e_subject_common_name_disallowed"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

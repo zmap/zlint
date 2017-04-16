@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANInvalidEmail(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANWithInvalidEmail.cer"
+	inputPath := "../testlint/testCerts/SANWithInvalidEmail.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANInvalidEmail(t *testing.T) {
 }
 
 func TestSANInvalidEmail2(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANWithInvalidEmail2.cer"
+	inputPath := "../testlint/testCerts/SANWithInvalidEmail2.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestSANInvalidEmail2(t *testing.T) {
 }
 
 func TestSANValidEmail(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANWithValidEmail.cer"
+	inputPath := "../testlint/testCerts/SANWithValidEmail.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

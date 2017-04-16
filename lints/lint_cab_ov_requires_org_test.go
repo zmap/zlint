@@ -7,7 +7,7 @@ import (
 
 func TestCertPolicyOvHasOrg(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cab_ov_requires_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCertPolicyOvHasOrg(t *testing.T) {
 
 func TestCertPolicyOvNoOrg(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/orgValNoOrg.cer"
+	inputPath := "../testlint/testCerts/orgValNoOrg.pem"
 	desEnum := Error
 	out, _ := Lints["e_cab_ov_requires_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

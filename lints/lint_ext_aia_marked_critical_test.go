@@ -6,7 +6,7 @@ import (
 )
 
 func TestAiaCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/aiaCrit.cer"
+	inputPath := "../testlint/testCerts/aiaCrit.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_aia_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestAiaCrit(t *testing.T) {
 }
 
 func TestAiaNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAAIAValid.cer"
+	inputPath := "../testlint/testCerts/subCAAIAValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_aia_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

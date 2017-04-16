@@ -6,7 +6,7 @@ import (
 )
 
 func TestBrIANWildcardFirst(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANWildcardFirst.cer"
+	inputPath := "../testlint/testCerts/IANWildcardFirst.pem"
 	desEnum := Error
 	out, _ := Lints["e_ian_wildcard_not_first"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestBrIANWildcardFirst(t *testing.T) {
 }
 
 func TestBrIANWildcardNotFirst(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIValid.cer"
+	inputPath := "../testlint/testCerts/IANURIValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ian_wildcard_not_first"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

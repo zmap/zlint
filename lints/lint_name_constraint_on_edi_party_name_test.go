@@ -6,7 +6,7 @@ import (
 )
 
 func TestNcNoEDI(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncMinZero.cer"
+	inputPath := "../testlint/testCerts/ncMinZero.pem"
 	desEnum := Pass
 	out, _ := Lints["w_name_constraint_on_edi_party_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNcNoEDI(t *testing.T) {
 }
 
 func TestNcEDI(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncOnEDI.cer"
+	inputPath := "../testlint/testCerts/ncOnEDI.pem"
 	desEnum := Warn
 	out, _ := Lints["w_name_constraint_on_edi_party_name"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

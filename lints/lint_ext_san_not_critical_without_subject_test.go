@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubjectEmptySANNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.cer"
+	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_san_not_critical_without_subject"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubjectEmptySANNotCrit(t *testing.T) {
 }
 
 func TestSubjectEmptySANCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCaEmptySubject.cer"
+	inputPath := "../testlint/testCerts/subCaEmptySubject.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_not_critical_without_subject"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestSubjectEmptySANCrit(t *testing.T) {
 }
 
 func TestSubjectNotEmptySANCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.cer"
+	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_san_not_critical_without_subject"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

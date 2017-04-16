@@ -6,7 +6,7 @@ import (
 )
 
 func TestBrSANDNSNull(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANDNSNull.cer"
+	inputPath := "../testlint/testCerts/SANDNSNull.pem"
 	desEnum := Error
 	out, _ := Lints["e_san_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestBrSANDNSNull(t *testing.T) {
 }
 
 func TestBrSANDNSNotNull(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIValid.cer"
+	inputPath := "../testlint/testCerts/SANURIValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_san_dns_name_includes_null_char"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

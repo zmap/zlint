@@ -6,7 +6,7 @@ import (
 )
 
 func TestEkuMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/subExtKeyUsageMissing.cer"
+	inputPath := "../testlint/testCerts/subExtKeyUsageMissing.pem"
 	desEnum := Error
 	out, _ := Lints["e_sub_cert_eku_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestEkuMissing(t *testing.T) {
 }
 
 func TestEkuPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subExtKeyUsageServClient.cer"
+	inputPath := "../testlint/testCerts/subExtKeyUsageServClient.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_cert_eku_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

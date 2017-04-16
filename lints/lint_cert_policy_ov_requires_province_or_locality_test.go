@@ -7,7 +7,7 @@ import (
 
 func TestCertPolicyOvHasCountryOrLocal(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cert_policy_ov_requires_province_or_locality"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCertPolicyOvHasCountryOrLocal(t *testing.T) {
 
 func TestCertPolicyOvNoCountryOrLocal(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/orgValNoProvinceOrLocal.cer"
+	inputPath := "../testlint/testCerts/orgValNoProvinceOrLocal.pem"
 	desEnum := Error
 	out, _ := Lints["e_cert_policy_ov_requires_province_or_locality"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestGTLDCommonNameIP(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtldcnip.cer"
+	inputPath := "../testlint/testCerts/gtldcnip.pem"
 	desEnum := Pass
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -18,7 +18,7 @@ func TestGTLDCommonNameIP(t *testing.T) {
 	}
 }
 func TestGTLDCommonNameNotDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtldcnnotdn.cer"
+	inputPath := "../testlint/testCerts/gtldcnnotdn.pem"
 	desEnum := Pass
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -30,7 +30,7 @@ func TestGTLDCommonNameNotDN(t *testing.T) {
 	}
 }
 func TestGTLDCommonNameValid(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtldcnvalid.cer"
+	inputPath := "../testlint/testCerts/gtldcnvalid.pem"
 	desEnum := Pass
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -42,7 +42,7 @@ func TestGTLDCommonNameValid(t *testing.T) {
 	}
 }
 func TestGTLDCommonNameInvalid(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtldcnbad.cer"
+	inputPath := "../testlint/testCerts/gtldcnbad.pem"
 	desEnum := Warn
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -55,7 +55,7 @@ func TestGTLDCommonNameInvalid(t *testing.T) {
 }
 
 func TestGTLDDNSNamesIP(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtlddnsip.cer"
+	inputPath := "../testlint/testCerts/gtlddnsip.pem"
 	desEnum := Pass
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -67,7 +67,7 @@ func TestGTLDDNSNamesIP(t *testing.T) {
 	}
 }
 func TestGTLDDNSNamesValid(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtlddnsvalid.cer"
+	inputPath := "../testlint/testCerts/gtlddnsvalid.pem"
 	desEnum := Pass
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -80,7 +80,7 @@ func TestGTLDDNSNamesValid(t *testing.T) {
 }
 
 func TestGTLDDNSNamesNotDn(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtlddnsnotdn.cer"
+	inputPath := "../testlint/testCerts/gtlddnsnotdn.pem"
 	desEnum := Pass
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -93,7 +93,7 @@ func TestGTLDDNSNamesNotDn(t *testing.T) {
 }
 
 func TestGTLDDNSNamesInvalid(t *testing.T) {
-	inputPath := "../testlint/testCerts/gtlddnsbad.cer"
+	inputPath := "../testlint/testCerts/gtlddnsbad.pem"
 	desEnum := Warn
 	out, _ := Lints["w_gtld_under_consideration"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

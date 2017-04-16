@@ -7,7 +7,7 @@ import (
 
 func TestEKUAnyCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/ekuAnyCrit.cer"
+	inputPath := "../testlint/testCerts/ekuAnyCrit.pem"
 	desEnum := Warn
 	out, _ := Lints["w_eku_critical_improperly"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestEKUAnyCrit(t *testing.T) {
 
 func TestEKUNoCritWAny(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/ekuAnyNoCrit.cer"
+	inputPath := "../testlint/testCerts/ekuAnyNoCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["w_eku_critical_improperly"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestEKUNoCritWAny(t *testing.T) {
 
 func TestEKUNoAnyCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/ekuNoAnyCrit.cer"
+	inputPath := "../testlint/testCerts/ekuNoAnyCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["w_eku_critical_improperly"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

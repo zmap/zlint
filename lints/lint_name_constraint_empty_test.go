@@ -6,7 +6,7 @@ import (
 )
 
 func TestNoNameConstraint(t *testing.T) {
-	inputPath := "../testlint/testCerts/noNameConstraint.cer"
+	inputPath := "../testlint/testCerts/noNameConstraint.pem"
 	desEnum := Error
 	out, _ := Lints["e_name_constraint_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNoNameConstraint(t *testing.T) {
 }
 
 func TestHasNameConstraint(t *testing.T) {
-	inputPath := "../testlint/testCerts/yesNameConstraint.cer"
+	inputPath := "../testlint/testCerts/yesNameConstraint.pem"
 	desEnum := Pass
 	out, _ := Lints["e_name_constraint_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestCertVersion2(t *testing.T) {
-	inputPath := "../testlint/testCerts/certVersion2WithExtension.cer"
+	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
 	desEnum := Error
 	out, _ := Lints["e_invalid_certificate_version"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestCertVersion2(t *testing.T) {
 }
 
 func TestCertVersion3(t *testing.T) {
-	inputPath := "../testlint/testCerts/certVersion3NoExtensions.cer"
+	inputPath := "../testlint/testCerts/certVersion3NoExtensions.pem"
 	desEnum := Pass
 	out, _ := Lints["e_invalid_certificate_version"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

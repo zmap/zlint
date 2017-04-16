@@ -6,7 +6,7 @@ import (
 )
 
 func TestPostalNoOrg(t *testing.T) {
-	inputPath := "../testlint/testCerts/postalNoOrg.cer"
+	inputPath := "../testlint/testCerts/postalNoOrg.pem"
 	desEnum := Pass
 	out, _ := Lints["e_subject_postal_without_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestPostalNoOrg(t *testing.T) {
 }
 
 func TestPostalYesOrg(t *testing.T) {
-	inputPath := "../testlint/testCerts/postalYesOrg.cer"
+	inputPath := "../testlint/testCerts/postalYesOrg.pem"
 	desEnum := Error
 	out, _ := Lints["e_subject_postal_without_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

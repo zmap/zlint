@@ -7,7 +7,7 @@ import (
 
 func TestCaKeyUsageNoCRLSign(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caKeyUsageNoCRL.cer"
+	inputPath := "../testlint/testCerts/caKeyUsageNoCRL.pem"
 	desEnum := Error
 	out, _ := Lints["e_ca_crl_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestCaKeyUsageNoCRLSign(t *testing.T) {
 
 func TestKeyUsageCRLSign(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caKeyUsageCrit.cer"
+	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ca_crl_sign_not_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
