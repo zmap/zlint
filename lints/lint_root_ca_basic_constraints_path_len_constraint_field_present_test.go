@@ -6,7 +6,7 @@ import (
 )
 
 func TestRootCaMaxLenPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCaMaxPathLenPresent.cer"
+	inputPath := "../testlint/testCerts/rootCaMaxPathLenPresent.pem"
 	desEnum := Warn
 	out, _ := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestRootCaMaxLenPresent(t *testing.T) {
 }
 
 func TestRootCaMaxLenMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCaMaxPathLenMissing.cer"
+	inputPath := "../testlint/testCerts/rootCaMaxPathLenMissing.pem"
 	desEnum := Pass
 	out, _ := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

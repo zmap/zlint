@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubCaNcNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWNameConstNoCrit.cer"
+	inputPath := "../testlint/testCerts/subCAWNameConstNoCrit.pem"
 	desEnum := Warn
 	out, _ := Lints["w_sub_ca_name_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubCaNcNotCrit(t *testing.T) {
 }
 
 func TestSubCaNcCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWNameConstCrit.cer"
+	inputPath := "../testlint/testCerts/subCAWNameConstCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["w_sub_ca_name_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubCertPolicyCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertPolicyCrit.cer"
+	inputPath := "../testlint/testCerts/subCertPolicyCrit.pem"
 	desEnum := Warn
 	out, _ := Lints["w_sub_cert_certificate_policies_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubCertPolicyCrit(t *testing.T) {
 }
 
 func TestSubCertPolicyNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertPolicyNoCrit.cer"
+	inputPath := "../testlint/testCerts/subCertPolicyNoCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["w_sub_cert_certificate_policies_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

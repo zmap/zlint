@@ -6,7 +6,7 @@ import (
 )
 
 func TestSANBarePubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANBareSuffix.cer"
+	inputPath := "../testlint/testCerts/SANBareSuffix.pem"
 	desEnum := Warn
 	out, _ := Lints["w_san_iana_pub_suffix_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSANBarePubSuffix(t *testing.T) {
 }
 
 func TestSANGoodPubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANGoodSuffix.cer"
+	inputPath := "../testlint/testCerts/SANGoodSuffix.pem"
 	desEnum := Pass
 	out, _ := Lints["w_san_iana_pub_suffix_empty"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

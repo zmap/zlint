@@ -7,7 +7,7 @@ import (
 
 func TestNoticeRefUsed(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/userNoticePres.cer"
+	inputPath := "../testlint/testCerts/userNoticePres.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_cert_policy_contains_noticeref"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestNoticeRefUsed(t *testing.T) {
 
 func TestNoticeRefNotUsed(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/userNoticeMissing.cer"
+	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_cert_policy_contains_noticeref"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

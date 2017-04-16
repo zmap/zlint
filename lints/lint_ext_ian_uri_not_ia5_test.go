@@ -6,7 +6,7 @@ import (
 )
 
 func TestIANURIIA5(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIIA5String.cer"
+	inputPath := "../testlint/testCerts/IANURIIA5String.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_ian_uri_not_ia5"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestIANURIIA5(t *testing.T) {
 }
 
 func TestIANURINotIA5(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURINotIA5String.cer"
+	inputPath := "../testlint/testCerts/IANURINotIA5String.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_ian_uri_not_ia5"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestLocalNoOrg(t *testing.T) {
-	inputPath := "../testlint/testCerts/localNoOrg.cer"
+	inputPath := "../testlint/testCerts/localNoOrg.pem"
 	desEnum := Error
 	out, _ := Lints["e_subject_locality_without_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestLocalNoOrg(t *testing.T) {
 }
 
 func TestLocalYesOrg(t *testing.T) {
-	inputPath := "../testlint/testCerts/localYesOrg.cer"
+	inputPath := "../testlint/testCerts/localYesOrg.pem"
 	desEnum := Pass
 	out, _ := Lints["e_subject_locality_without_org"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

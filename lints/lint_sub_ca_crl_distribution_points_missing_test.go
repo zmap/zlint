@@ -6,7 +6,7 @@ import (
 )
 
 func TestSubCaCrlMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWNocrlDist.cer"
+	inputPath := "../testlint/testCerts/subCAWNocrlDist.pem"
 	desEnum := Error
 	out, _ := Lints["e_sub_ca_crl_distribution_points_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestSubCaCrlMissing(t *testing.T) {
 }
 
 func TestSubCaCrlPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWcrlDistNoCrit.cer"
+	inputPath := "../testlint/testCerts/subCAWcrlDistNoCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_ca_crl_distribution_points_missing"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

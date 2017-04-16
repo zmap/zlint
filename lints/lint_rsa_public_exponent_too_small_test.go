@@ -6,7 +6,7 @@ import (
 )
 
 func TestRsaExpTooSmall(t *testing.T) {
-	inputPath := "../testlint/testCerts/badRsaExpLength.cer"
+	inputPath := "../testlint/testCerts/badRsaExpLength.pem"
 	desEnum := Error
 	out, _ := Lints["e_rsa_public_exponent_too_small"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestRsaExpTooSmall(t *testing.T) {
 }
 
 func TestRsaExpNotTooSmall(t *testing.T) {
-	inputPath := "../testlint/testCerts/goodRsaExpLength.cer"
+	inputPath := "../testlint/testCerts/goodRsaExpLength.pem"
 	desEnum := Pass
 	out, _ := Lints["e_rsa_public_exponent_too_small"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

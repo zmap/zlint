@@ -6,7 +6,7 @@ import (
 )
 
 func TestNonEmptyPermittedDNS(t *testing.T) {
-	inputPath := "../testlint/testCerts/nonEmptyPermittedDNS.cer"
+	inputPath := "../testlint/testCerts/nonEmptyPermittedDNS.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_ca_no_dns_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNonEmptyPermittedDNS(t *testing.T) {
 }
 
 func TestExcludeNonEmptyDNS(t *testing.T) {
-	inputPath := "../testlint/testCerts/emptyPermittedDNSBadExcludedDNS.cer"
+	inputPath := "../testlint/testCerts/emptyPermittedDNSBadExcludedDNS.pem"
 	desEnum := Error
 	out, _ := Lints["e_sub_ca_no_dns_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestExcludeNonEmptyDNS(t *testing.T) {
 }
 
 func TestExcludeEmptyDNS(t *testing.T) {
-	inputPath := "../testlint/testCerts/emptyPermittedDNSGoodExcludedDNS.cer"
+	inputPath := "../testlint/testCerts/emptyPermittedDNSGoodExcludedDNS.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_ca_no_dns_name_constraints"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

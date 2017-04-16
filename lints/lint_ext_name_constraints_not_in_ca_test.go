@@ -6,7 +6,7 @@ import (
 )
 
 func TestNameConstraintsNotInCa(t *testing.T) {
-	inputPath := "../testlint/testCerts/noNameConstraint.cer"
+	inputPath := "../testlint/testCerts/noNameConstraint.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_name_constraints_not_in_ca"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestNameConstraintsNotInCa(t *testing.T) {
 }
 
 func TestNameConstraintsInCa(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWNameConstCrit.cer"
+	inputPath := "../testlint/testCerts/subCAWNameConstCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_name_constraints_not_in_ca"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

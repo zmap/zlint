@@ -7,7 +7,7 @@ import (
 
 func TestAKICrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/akiCritical.cer"
+	inputPath := "../testlint/testCerts/akiCritical.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_authority_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestAKICrit(t *testing.T) {
 
 func TestAKINoCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_authority_key_identifier_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

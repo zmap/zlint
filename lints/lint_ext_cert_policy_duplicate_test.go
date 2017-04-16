@@ -7,7 +7,7 @@ import (
 
 func TestCertPolicyDuplicated(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/certPolicyDuplicateShort.cer"
+	inputPath := "../testlint/testCerts/certPolicyDuplicateShort.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_cert_policy_duplicate"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -20,7 +20,7 @@ func TestCertPolicyDuplicated(t *testing.T) {
 }
 func TestCertPolicyDuplicatedAssertion(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/certPolicyAssertionDuplicated.cer"
+	inputPath := "../testlint/testCerts/certPolicyAssertionDuplicated.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_cert_policy_duplicate"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -34,7 +34,7 @@ func TestCertPolicyDuplicatedAssertion(t *testing.T) {
 
 func TestCertPolicyNotDuplicated(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/certPolicyNoDuplicate.cer"
+	inputPath := "../testlint/testCerts/certPolicyNoDuplicate.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_cert_policy_duplicate"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestBrSANDNSStartsWithPeriod(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANDNSPeriod.cer"
+	inputPath := "../testlint/testCerts/SANDNSPeriod.pem"
 	desEnum := Error
 	out, _ := Lints["e_san_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestBrSANDNSStartsWithPeriod(t *testing.T) {
 }
 
 func TestBrSANDNSNotPeriod(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIValid.cer"
+	inputPath := "../testlint/testCerts/SANURIValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_san_dns_name_starts_with_period"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

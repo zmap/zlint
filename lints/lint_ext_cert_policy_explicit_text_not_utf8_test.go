@@ -7,7 +7,7 @@ import (
 
 func TestExplicitTextNotUtf8(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/userNoticePres.cer"
+	inputPath := "../testlint/testCerts/userNoticePres.pem"
 	desEnum := Warn
 	out, _ := Lints["w_ext_cert_policy_explicit_text_not_utf8"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestExplicitTextNotUtf8(t *testing.T) {
 
 func TestExplicitTextNotPresentUtf8(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/userNoticeMissing.cer"
+	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
 	desEnum := NA
 	out, _ := Lints["w_ext_cert_policy_explicit_text_not_utf8"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestExplicitTextNotPresentUtf8(t *testing.T) {
 
 func TestExplicitTextUtf8(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/userNoticeExpTextUtf8.cer"
+	inputPath := "../testlint/testCerts/userNoticeExpTextUtf8.pem"
 	desEnum := Pass
 	out, _ := Lints["w_ext_cert_policy_explicit_text_not_utf8"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

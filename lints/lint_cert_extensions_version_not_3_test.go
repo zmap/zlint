@@ -7,7 +7,7 @@ import (
 
 func TestExtsV2(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/certVersion2WithExtension.cer"
+	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
 	desEnum := Error
 	out, _ := Lints["e_cert_extensions_version_not_3"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -21,7 +21,7 @@ func TestExtsV2(t *testing.T) {
 
 func TestExtsV3(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caBasicConstCrit.cer"
+	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cert_extensions_version_not_3"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -35,7 +35,7 @@ func TestExtsV3(t *testing.T) {
 
 func TestNoExtsV2(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/certVersion2NoExtensions.cer"
+	inputPath := "../testlint/testCerts/certVersion2NoExtensions.pem"
 	desEnum := Pass
 	out, _ := Lints["e_cert_extensions_version_not_3"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

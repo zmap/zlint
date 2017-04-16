@@ -6,7 +6,7 @@ import (
 )
 
 func TestCaMaxLenPresentNoCertSign(t *testing.T) {
-	inputPath := "../testlint/testCerts/caMaxPathLenPresentNoCertSign.cer"
+	inputPath := "../testlint/testCerts/caMaxPathLenPresentNoCertSign.pem"
 	desEnum := Error
 	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestCaMaxLenPresentNoCertSign(t *testing.T) {
 }
 
 func TestCaMaxLenPresentGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/caMaxPathLenPositive.cer"
+	inputPath := "../testlint/testCerts/caMaxPathLenPositive.pem"
 	desEnum := Pass
 	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestCaMaxLenPresentGood(t *testing.T) {
 }
 
 func TestCaMaxLenMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caMaxPathLenMissing.cer"
+	inputPath := "../testlint/testCerts/caMaxPathLenMissing.pem"
 	desEnum := Pass
 	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -45,7 +45,7 @@ func TestCaMaxLenMissing(t *testing.T) {
 }
 
 func TestSubCertMaxLenPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertPathLenPositive.cer"
+	inputPath := "../testlint/testCerts/subCertPathLenPositive.pem"
 	desEnum := Error
 	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -58,7 +58,7 @@ func TestSubCertMaxLenPresent(t *testing.T) {
 }
 
 func TestSubCertMaxLenNone(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.cer"
+	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
 	out, _ := Lints["e_path_len_constraint_improperly_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

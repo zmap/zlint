@@ -6,7 +6,7 @@ import (
 )
 
 func TestCertSignBitSet(t *testing.T) {
-	inputPath := "../testlint/testCerts/subKeyUsageInvalid.cer"
+	inputPath := "../testlint/testCerts/subKeyUsageInvalid.pem"
 	desEnum := Error
 	out, _ := Lints["e_sub_cert_key_usage_cert_sign_bit_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestCertSignBitSet(t *testing.T) {
 }
 
 func TestCertSignBitNotSet(t *testing.T) {
-	inputPath := "../testlint/testCerts/subKeyUsageValid.cer"
+	inputPath := "../testlint/testCerts/subKeyUsageValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_sub_cert_key_usage_cert_sign_bit_set"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestExplicitTextIA5String(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticePres.cer"
+	inputPath := "../testlint/testCerts/userNoticePres.pem"
 	desEnum := Error
 	out, _ := Lints["e_ext_cert_policy_explicit_text_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestExplicitTextIA5String(t *testing.T) {
 }
 
 func TestExplicitTextNotIA5String(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeExpTextNotIA5String.cer"
+	inputPath := "../testlint/testCerts/userNoticeExpTextNotIA5String.pem"
 	desEnum := Pass
 	out, _ := Lints["e_ext_cert_policy_explicit_text_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -32,7 +32,7 @@ func TestExplicitTextNotIA5String(t *testing.T) {
 }
 
 func TestExplicitTextNotPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeMissing.cer"
+	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
 	desEnum := NA
 	out, _ := Lints["e_ext_cert_policy_explicit_text_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -46,7 +46,7 @@ func TestExplicitTextNotPresent(t *testing.T) {
 
 func TestExplicitTextNotPresent2(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/userNoticeUnrecommended.cer"
+	inputPath := "../testlint/testCerts/userNoticeUnrecommended.pem"
 	desEnum := NA
 	out, _ := Lints["e_ext_cert_policy_explicit_text_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

@@ -6,7 +6,7 @@ import (
 )
 
 // func TestRsaExpNegative(t *testing.T) {
-// 	inputPath := "../testlint/testCerts/rsaExpNegative.cer"
+// 	inputPath := "../testlint/testCerts/rsaExpNegative.pem"
 // 	desEnum := Error
 // 	out, _ := Lints["rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
 // 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ import (
 // }
 
 func TestRsaExpPositive(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIValid.cer"
+	inputPath := "../testlint/testCerts/IANURIValid.pem"
 	desEnum := Pass
 	out, _ := Lints["e_rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

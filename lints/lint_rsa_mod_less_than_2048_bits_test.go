@@ -6,7 +6,7 @@ import (
 )
 
 func TestRsaModSizeSmall(t *testing.T) {
-	inputPath := "../testlint/testCerts/noRsaLength.cer"
+	inputPath := "../testlint/testCerts/noRsaLength.pem"
 	desEnum := Error
 	out, _ := Lints["e_rsa_mod_less_than_2048_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
@@ -19,7 +19,7 @@ func TestRsaModSizeSmall(t *testing.T) {
 }
 
 func TestRsaModSizeNotSmall(t *testing.T) {
-	inputPath := "../testlint/testCerts/yesRsaLength.cer"
+	inputPath := "../testlint/testCerts/yesRsaLength.pem"
 	desEnum := Pass
 	out, _ := Lints["e_rsa_mod_less_than_2048_bits"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
