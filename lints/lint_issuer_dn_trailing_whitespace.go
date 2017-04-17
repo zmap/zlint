@@ -34,5 +34,7 @@ func init() {
 		Description:   "AttributeValue in issuer RelativeDistinguishedName sequence SHOULD NOT have trailing whitespace",
 		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &IssuerDNTrailingSpace{}})
+		Test:          &IssuerDNTrailingSpace{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WIssuerDnTrailingWhitespace = result },
+	})
 }

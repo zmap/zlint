@@ -34,5 +34,7 @@ func init() {
 		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
 		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SubjectDNLeadingSpace{}})
+		Test:          &SubjectDNLeadingSpace{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubjectDnLeadingWhitespace = result },
+	})
 }

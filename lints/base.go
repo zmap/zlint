@@ -137,6 +137,8 @@ type LintReport struct {
 	WIanIanaPubSuffixEmpty                               ResultStruct `json:"w_ian_iana_pub_suffix_empty,omitempty"`
 	EInhibitAnyPolicyNotCritical                         ResultStruct `json:"e_inhibit_any_policy_not_critical,omitempty"`
 	EInvalidCertificateVersion                           ResultStruct `json:"e_invalid_certificate_version,omitempty"`
+	WIssuerDnTrailingWhitespace                          ResultStruct `json:"w_issuer_dn_trailing_whitespace,omitempty"`
+	WIssuerDnLeadingWhitespace                           ResultStruct `json:"w_issuer_dn_leading_whitespace,omitempty"`
 	EIssuerFieldEmpty                                    ResultStruct `json:"e_issuer_field_empty,omitempty"`
 	ENameConstraintEmpty                                 ResultStruct `json:"e_name_constraint_empty,omitempty"`
 	ENameConstraintMaximumNotAbsent                      ResultStruct `son:"e_name_constraint_maximum_not_absent,omitempty"`
@@ -196,6 +198,8 @@ type LintReport struct {
 	ESubjectContainsNoninformationalValue                ResultStruct `json:"e_subject_contains_noninformational_value,omitempty"`
 	ESubjectContainsReservedIp                           ResultStruct `json:"e_subject_contains_reserved_ip,omitempty"`
 	ESubjectCountryNotIso                                ResultStruct `json:"e_subject_country_not_iso,omitempty"`
+	WSubjectDnLeadingWhitespace                          ResultStruct `json:"w_subject_dn_leading_whitespace,omitempty"`
+	WSubjectDnTrailingWhitespace                         ResultStruct `json:"w_subject_dn_trailing_whitespace,omitempty"`
 	ESubjectEmptyWithoutSan                              ResultStruct `json:"e_subject_empty_without_san,omitempty"`
 	ESubjectInfoAccessMarkedCritical                     ResultStruct `json:"e_subject_info_access_marked_critical,omitempty"`
 	ESubjectLocalityWithoutOrg                           ResultStruct `json:"e_subject_locality_without_org,omitempty"`
