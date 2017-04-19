@@ -29,13 +29,13 @@ func (l *caDigSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
 		return ResultStruct{Result: Pass}, nil
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Info}, nil
 	}
 }
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_ca_digital_signature_not_set",
+		Name:          "i_ca_digital_signature_not_set",
 		Description:   "Root & Subordinate CA Certificates that wish to use their private key for signing OCSP responses will not be able to with out digital signature set",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
