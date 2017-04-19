@@ -27,13 +27,13 @@ func (l *commonNames) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.Subject.CommonName == "" {
 		return ResultStruct{Result: Pass}, nil
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Info}, nil
 	}
 }
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_subject_common_name_included",
+		Name:          "i_subject_common_name_included",
 		Description:   "Use of the common name field is discouraged.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
