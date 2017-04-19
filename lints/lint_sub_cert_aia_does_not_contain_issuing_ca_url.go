@@ -30,13 +30,13 @@ func (l *subCertIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.IssuingCertificateURL != nil {
 		return ResultStruct{Result: Pass}, nil
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Error}, nil
 	}
 }
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_sub_cert_aia_does_not_contain_issuing_ca_url",
+		Name:          "e_sub_cert_aia_does_not_contain_issuing_ca_url",
 		Description:   "Subscriber certificates authorityInformationAccess extension should contain the HTTP URL of the Issuing CA’s certificate",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,

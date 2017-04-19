@@ -31,13 +31,13 @@ func (l *subCertPolicyEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	if util.IsExtInCert(c, util.CertPolicyOID) && c.PolicyIdentifiers != nil {
 		return ResultStruct{Result: Pass}, nil
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Error}, nil
 	}
 }
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_sub_cert_cert_policy_empty",
+		Name:          "e_sub_cert_cert_policy_empty",
 		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherance to CAB standards",
 		Providence:    "CAB: 7.1.6.4",
 		EffectiveDate: util.CABEffectiveDate,
