@@ -30,7 +30,7 @@ func (l *SANDNSTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_san_dns_name_underscore",
+		Name:          "e_ext_san_dns_name_too_long",
 		Description:   "DNSName must be less than or equal to 253 bytes",
 		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
