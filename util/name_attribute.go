@@ -1,5 +1,12 @@
 package util
 
+import (
+	"encoding/asn1"
+  "github.com/zmap/zcrypto/x509"
+  "github.com/zmap/zcrypto/x509/pkix"
+	"strings"
+)
+
 var attributes = map[int]bool{
 	// Name attributes defined in RFC 5280 appendix A
 	3:  true, // id-at-commonName	AttributeType ::= { id-at 3 }
@@ -23,4 +30,38 @@ var attributes = map[int]bool{
 
 func IsAttributeInList(in int) bool {
 	return attributes[in]
+}
+
+// returns 0 when there is no space; bit 0 indicates if there is prefix space; bit 1 suffix space
+func DNSAttributeHasSpace(c *x509.Certificate, isIssuer bool) (int, error) {
+  var name pkix.RDNSequence
+	raw := c.RawSubject
+	ret := 0
+	if isIssuer {
+		raw = c.RawIssuer
+	}
+  if _, err := asn1.Unmarshal(raw, &name); err != nil {
+    return ret, err
+  }
+  for _, rdn := range name {
+    if len(rdn) == 0 {
+      continue
+    }
+    atv := rdn[0]
+    value, ok := atv.Value.(string)
+    if !ok {
+      continue
+    }
+
+    t := atv.Type
+    if len(t) == 4 && t[0] == 2 && t[1] == 5 && t[2] == 4 && IsAttributeInList(t[3]) {
+      if strings.HasPrefix(value, " ") {
+        ret |= 1
+      }
+			if strings.HasSuffix(value, " ") {
+        ret |= 1 << 1
+      }
+    }
+  }
+  return ret, nil
 }
