@@ -35,16 +35,16 @@ func (l *SANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *SANDNSNotIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
-  notIA5, err := util.DNSHasNonStringIA5(c, false)
-  if err != nil {
-    return ResultStruct{Result: Fatal}, err
-  }
-  if notIA5 {
-    return ResultStruct{Result: Error}, nil
-  } else {
-    return ResultStruct{Result: Pass}, nil
-  }
-}	
+	notIA5, err := util.DNSHasNonStringIA5(c, false)
+	if err != nil {
+		return ResultStruct{Result: Fatal}, err
+	}
+	if notIA5 {
+		return ResultStruct{Result: Error}, nil
+	} else {
+		return ResultStruct{Result: Pass}, nil
+	}
+}
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_dns_not_ia5_string",
