@@ -16,6 +16,7 @@ func TestGofmt(t *testing.T) {
 			"main.go not gofmt'ed",
 		)
 	}
+	out.Reset()
 	cmd = exec.Command("/bin/sh", "-c", "gofmt -l lints/*")
 	cmd.Stdout = &out
 	cmd.Run()
@@ -24,6 +25,7 @@ func TestGofmt(t *testing.T) {
 			"lints not gofmt'ed",
 		)
 	}
+	out.Reset()
 	cmd = exec.Command("/bin/sh", "-c", "gofmt -l util/*")
 	cmd.Stdout = &out
 	cmd.Run()
