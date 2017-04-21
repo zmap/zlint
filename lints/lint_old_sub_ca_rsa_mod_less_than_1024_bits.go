@@ -25,7 +25,7 @@ func (l *subCaModSize) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	key:= c.PublicKey.(*rsa.PublicKey)
+	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 1024 {
 		return ResultStruct{Result: Error}, nil
 	} else {

@@ -250,13 +250,13 @@ func processChunks() {
 			reportOut, err := zlint.Lint64(chunk[x]) //lint the cert, reportOut is a map[string]zlint.ResultStruct
 			if err != nil {
 				fmt.Println(err)
-				reports = append(reports, "An error has occured.") 
+				reports = append(reports, "An error has occured.")
 			} else {
 				//convert cert to string for output
 				stringOut, err := json.Marshal(reportOut)
 				if err != nil {
 					fmt.Println(err)
-					reports = append(reports, "An error has occured.") 
+					reports = append(reports, "An error has occured.")
 				} else {
 					reports = append(reports, string(stringOut)) //move report to out buffer
 					//lintOut++ (unused)

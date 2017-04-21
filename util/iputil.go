@@ -4,16 +4,16 @@
 package util
 
 import (
-	"net"
 	"bytes"
+	"net"
 )
 
 type IPRange struct {
-  	lower net.IP
-  	upper net.IP
+	lower net.IP
+	upper net.IP
 }
 
-var ReservedRanges4 = []IPRange {
+var ReservedRanges4 = []IPRange{
 	IPRange{net.ParseIP("0.0.0.0"), net.ParseIP("0.255.255.255")},
 	IPRange{net.ParseIP("10.0.0.0"), net.ParseIP("10.255.255.255")},
 	IPRange{net.ParseIP("100.64.0.0"), net.ParseIP("10.127.255.255")},
@@ -31,7 +31,7 @@ var ReservedRanges4 = []IPRange {
 	IPRange{net.ParseIP("240.0.0.0"), net.ParseIP("255.255.255.255")},
 }
 
-var ReservedRanges6 = []IPRange {
+var ReservedRanges6 = []IPRange{
 	IPRange{net.ParseIP("::"), net.ParseIP("::")},
 	IPRange{net.ParseIP("::1"), net.ParseIP("::1")},
 	IPRange{net.ParseIP("::ffff:0.0.0.0"), net.ParseIP("::ffff:255.255.255.255")},
@@ -58,8 +58,8 @@ func isInRange(ip net.IP, ipRange IPRange) bool {
 func IsReservedIP(ip net.IP) bool {
 	if ip.To4() != nil {
 		//This is to deal with the case where ip is shrinked because it is IPv4
-		if len(ip) == 4 { 
-			ip = []byte{0,0,0,0,0,0,0,0,0,0,255,255,ip[0],ip[1],ip[2],ip[3]}
+		if len(ip) == 4 {
+			ip = []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, ip[0], ip[1], ip[2], ip[3]}
 		}
 		for _, theRange := range ReservedRanges4 {
 			if isInRange(ip, theRange) {

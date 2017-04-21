@@ -5,11 +5,11 @@
 package util
 
 import (
+	"io/ioutil"
 	"net"
+	"net/http"
 	"regexp"
 	"strings"
-	"net/http"
-	"io/ioutil"
 )
 
 var tldMap map[string]bool
@@ -60,7 +60,7 @@ func fetchTLDMap() map[string]bool {
 
 }
 
-func parseData()  ([]string, int){
+func parseData() ([]string, int) {
 	//Read data from IANA
 	url := "http://data.iana.org/TLD/tlds-alpha-by-domain.txt"
 	resp, err := http.Get(url)
@@ -74,8 +74,8 @@ func parseData()  ([]string, int){
 	var tld_data []string
 	var temp string = ""
 
-	for i := 0; i < len(body); i++{
-		if body[i] == '\n'{
+	for i := 0; i < len(body); i++ {
+		if body[i] == '\n' {
 			tld_data = append(tld_data, temp)
 			temp = ""
 			continue
