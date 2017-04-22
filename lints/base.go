@@ -10,6 +10,14 @@ var (
 	Lints map[string]*Lint = make(map[string]*Lint)
 )
 
+const ZLintVersion = 1
+
+type ZLintResult struct {
+	ZLintVersion int64
+	ZLints       map[string]string
+	Timestamp    int64
+}
+
 type LintTest interface {
 	// runs once globally
 	Initialize() error
