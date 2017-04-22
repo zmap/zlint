@@ -9,7 +9,29 @@ import (
 	"errors"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lints"
+	"time"
 )
+
+//Calls all other checks on parsed certs producing version
+func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult, error) {
+	if cert == nil {
+		return nil, errors.New("zlint: nil pointer passed in, no data returned")
+	}
+	//run all tests
+	var ZLintResult lints.ZLintResult
+	var ZLintOut map[string]string = make(map[string]string)
+	for _, l := range lints.Lints {
+		result, err := l.ExecuteTest(cert)
+		if err != nil {
+			return &ZLintResult, err
+		}
+		ZLintOut[l.Name] = lints.EnumToString(result.Result)
+	}
+	ZLintResult.ZLints = ZLintOut
+	ZLintResult.ZLintVersion = lints.ZLintVersion
+	ZLintResult.Timestamp = time.Now().Unix()
+	return &ZLintResult, nil
+}
 
 //Calls all other checks on parsed certs
 func ParsedTestHandler(cert *x509.Certificate) (map[string]string, error) {
