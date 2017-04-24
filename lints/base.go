@@ -1,8 +1,9 @@
 package lints
 
 import (
-	"github.com/zmap/zcrypto/x509"
 	"time"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 // global
@@ -17,12 +18,36 @@ type LintTest interface {
 	RunTest(c *x509.Certificate) (ResultStruct, error)
 }
 
+type lintReportUpdater func(*LintReport, *ResultStruct)
+
 type Lint struct {
 	Name          string
 	Description   string
 	Providence    string
 	EffectiveDate time.Time
 	Test          LintTest
+	updateReport  lintReportUpdater
+}
+
+// LintReport holds the results of all lints ran on a certificate.
+type LintReport struct {
+	EBasicConstraintsNotCritical *ResultStruct
+	EIanBareWildcard             *ResultStruct
+	// etc.
+}
+
+// Execute runs all lints and records the results in this LintReport. If any
+// lint returns an error, Execute will not run any remaining lints and returns
+// the error.
+func (report *LintReport) Execute(c *x509.Certificate) error {
+	for _, lint := range Lints {
+		res, err := lint.ExecuteTest(c)
+		if err != nil {
+			return err
+		}
+		lint.updateReport(report, &res)
+	}
+	return nil
 }
 
 func (l *Lint) ExecuteTest(cert *x509.Certificate) (ResultStruct, error) {

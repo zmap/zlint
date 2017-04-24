@@ -51,5 +51,7 @@ func init() {
 		Description:   "Conforming CAs must mark Basic Constraints as critical when it is included in CA certs",
 		Providence:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &basicConstCrit{}})
+		Test:          &basicConstCrit{},
+		updateReport:  func(report *LintReport, result *ResultStruct) { report.EBasicConstraintsNotCritical = result },
+	})
 }
