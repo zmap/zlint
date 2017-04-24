@@ -19,15 +19,16 @@ func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult, error) 
 	}
 	//run all tests
 	var ZLintResult lints.ZLintResult
-	var ZLintOut map[string]string = make(map[string]string)
+	var ZLintOut lints.ZLints
+
 	for _, l := range lints.Lints {
 		result, err := l.ExecuteTest(cert)
 		if err != nil {
 			return &ZLintResult, err
 		}
-		ZLintOut[l.Name] = lints.EnumToString(result.Result)
+		lints.UpdateLintStruct(l.Name, &result, &ZLintOut)
 	}
-	ZLintResult.ZLints = ZLintOut
+	ZLintResult.ZLints = &ZLintOut
 	ZLintResult.ZLintVersion = lints.ZLintVersion
 	ZLintResult.Timestamp = time.Now().Unix()
 	return &ZLintResult, nil
