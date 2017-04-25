@@ -18,11 +18,12 @@ func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult, error) 
 		return nil, errors.New("zlint: nil pointer passed in, no data returned")
 	}
 	//run all tests
-	var ZLintResult lints.ZLintResult
-	var ZLintReport lints.LintReport
+	ZLintResult := lints.ZLintResult{}
+	ZLintReport := lints.LintReport{}
 	ZLintReport.Execute(cert)
 	ZLintResult.ZLintVersion = lints.ZLintVersion
 	ZLintResult.Timestamp = time.Now().Unix()
+	ZLintResult.ZLints = &ZLintReport
 	return &ZLintResult, nil
 }
 
