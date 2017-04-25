@@ -40,5 +40,7 @@ func init() {
 		Description:   "Subscriber certificates using the SHA1 algorithm should not have an expiration date greater than 1 Jan 2017",
 		Providence:    "CAB: 7.1.3",
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),
-		Test:          &sha1ExpireLong{}})
+		Test:          &sha1ExpireLong{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCertSha1ExpirationTooLong = result },
+	})
 }

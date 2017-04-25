@@ -38,5 +38,7 @@ func init() {
 		Description:   "The subject key identifier extension must be non-critical.",
 		Providence:    "RFC 5280: 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectKeyIdCritical{}})
+		Test:          &subjectKeyIdCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSubjectKeyIdentifierCritical = result },
+	})
 }

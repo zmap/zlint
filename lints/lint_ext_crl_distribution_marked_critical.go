@@ -39,5 +39,7 @@ func init() {
 		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical.",
 		Providence:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtCrlDistributionMarkedCritical{}})
+		Test:          &ExtCrlDistributionMarkedCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtCrlDistributionMarkedCritical = result },
+	})
 }

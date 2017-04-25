@@ -36,5 +36,7 @@ func init() {
 		Description:   "Wildcard MUST be in the first label of FQDN, ie not: www.*.com (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &brIANWildcardFirst{}})
+		Test:          &brIANWildcardFirst{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EIanWildcardNotFirst = result },
+	})
 }

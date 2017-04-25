@@ -39,5 +39,7 @@ func init() {
 		Description:   "The keyUsage extension SHOULD be critical.",
 		Providence:    "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &checkKeyUsageCritical{}})
+		Test:          &checkKeyUsageCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtKeyUsageNotCritical = result },
+	})
 }

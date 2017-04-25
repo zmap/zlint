@@ -51,5 +51,7 @@ func init() {
 		Description:   "email must not be surrounded with `<>`, and there must be no trailing comments in `()`",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &invalidEmail{}})
+		Test:          &invalidEmail{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanRfc822FormatInvalid = result },
+	})
 }

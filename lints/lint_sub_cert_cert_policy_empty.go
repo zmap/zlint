@@ -41,5 +41,7 @@ func init() {
 		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherance to CAB standards",
 		Providence:    "CAB: 7.1.6.4",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertPolicyEmpty{}})
+		Test:          &subCertPolicyEmpty{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertCertPolicyEmpty = result },
+	})
 }

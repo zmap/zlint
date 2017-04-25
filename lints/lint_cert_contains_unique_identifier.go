@@ -44,5 +44,7 @@ func init() {
 		Description:   "CAs must not generate certificate with unique identifiers.",
 		Providence:    "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &CertContainsUniqueIdentifier{}})
+		Test:          &CertContainsUniqueIdentifier{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECertContainsUniqueIdentifier = result },
+	})
 }

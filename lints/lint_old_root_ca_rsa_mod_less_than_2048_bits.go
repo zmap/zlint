@@ -40,5 +40,7 @@ func init() {
 		Description:   "In a validity period beginning on or before 31 dec 2010, root CA certificates using RSA public key algorithm must have 2048 bits of modulus",
 		Providence:    "CAB: 6.1.5",
 		EffectiveDate: util.ZeroDate,
-		Test:          &rootCaModSize{}})
+		Test:          &rootCaModSize{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EOldRootCaRsaModLessThan_2048Bits = result },
+	})
 }

@@ -33,5 +33,7 @@ func init() {
 		Description:   "EV certificates must include localityName in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evLocalityMissing{}})
+		Test:          &evLocalityMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvLocalityNameMissing = result },
+	})
 }

@@ -42,5 +42,9 @@ func init() {
 		Description:   "Subscriber certificate cRLDistributionPoints extension must not be marked critical if present",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCrlDistCrit{}})
+		Test:          &subCrlDistCrit{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.ESubCertCrlDistributionPointsMarkedCritical = result
+		},
+	})
 }

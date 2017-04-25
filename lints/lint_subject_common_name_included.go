@@ -37,5 +37,7 @@ func init() {
 		Description:   "Use of the common name field is discouraged.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &commonNames{}})
+		Test:          &commonNames{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ISubjectCommonNameIncluded = result },
+	})
 }

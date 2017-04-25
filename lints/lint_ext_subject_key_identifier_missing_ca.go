@@ -52,5 +52,7 @@ func init() {
 		Description:   "CAs must include ski in all CA certificates.",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectKeyIdMissingCA{}})
+		Test:          &subjectKeyIdMissingCA{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSubjectKeyIdentifierMissingCa = result },
+	})
 }

@@ -34,5 +34,7 @@ func init() {
 		Description:   "The RSA public key should be present",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &rsaParsedPubKeyExist{}})
+		Test:          &rsaParsedPubKeyExist{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaNoPublicKey = result },
+	})
 }

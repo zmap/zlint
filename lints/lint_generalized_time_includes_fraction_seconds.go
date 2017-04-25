@@ -75,5 +75,9 @@ func init() {
 		Description:   "Generalized time values must not include fraction seconds",
 		Providence:    "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &generalizedTimeFraction{}})
+		Test:          &generalizedTimeFraction{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.EGeneralizedTimeIncludesFractionSeconds = result
+		},
+	})
 }

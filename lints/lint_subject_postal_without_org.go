@@ -40,5 +40,7 @@ func init() {
 		Description:   "The postal code must not be included without an organization name.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &postalNoOrg{}})
+		Test:          &postalNoOrg{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectPostalWithoutOrg = result },
+	})
 }

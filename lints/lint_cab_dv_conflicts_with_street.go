@@ -37,5 +37,7 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, streetAddress must not be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &certPolicyConflictsWithStreet{}})
+		Test:          &certPolicyConflictsWithStreet{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECabDvConflictsWithStreet = result },
+	})
 }

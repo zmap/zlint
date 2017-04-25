@@ -65,5 +65,7 @@ func init() {
 		Description:   "general name fields must not be empty in IAN",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &IANEmptyName{}})
+		Test:          &IANEmptyName{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtIanEmptyName = result },
+	})
 }

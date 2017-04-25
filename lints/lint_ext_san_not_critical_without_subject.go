@@ -45,5 +45,7 @@ func init() {
 		Description:   "If there is an empty subject field, then the SAN extension must be critical",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &extSANNotCritNoSubject{}})
+		Test:          &extSANNotCritNoSubject{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanNotCriticalWithoutSubject = result },
+	})
 }

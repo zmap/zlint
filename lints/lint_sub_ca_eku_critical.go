@@ -41,5 +41,7 @@ func init() {
 		Description:   "Subordinate CA certificate extkeyUsage extension should be marked non-critical if present.",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCAEKUCrit{}})
+		Test:          &subCAEKUCrit{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCaEkuCritical = result },
+	})
 }

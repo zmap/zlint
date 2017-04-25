@@ -72,5 +72,9 @@ func init() {
 		Description:   "Explicit text should not include any control charaters",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &controlChar{}})
+		Test:          &controlChar{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.WExtCertPolicyExplicitTextIncludesControl = result
+		},
+	})
 }

@@ -40,5 +40,7 @@ func init() {
 		Description:   "Subscriber certificates authorityInformationAccess extension should contain the HTTP URL of the Issuing CA’s certificate",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertIssuerUrl{}})
+		Test:          &subCertIssuerUrl{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertAiaDoesNotContainIssuingCaUrl = result },
+	})
 }

@@ -62,5 +62,7 @@ func init() {
 		Description:   "UTCTime values must include seconds",
 		Providence:    "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &utcNoSecond{}})
+		Test:          &utcNoSecond{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EUtcTimeDoesNotIncludeSeconds = result },
+	})
 }

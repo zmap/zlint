@@ -53,5 +53,7 @@ func init() {
 		Description:   "explicit text has a maximum size of 200 characters",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &explicitTextTooLong{}})
+		Test:          &explicitTextTooLong{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtCertPolicyExplicitTextTooLong = result },
+	})
 }

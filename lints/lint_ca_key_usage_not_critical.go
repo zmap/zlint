@@ -39,5 +39,7 @@ func init() {
 		Description:   "Root & Subordinate CA certificate keyUsage extension must be marked as critical",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caKeyUsageNotCrit{}})
+		Test:          &caKeyUsageNotCrit{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaKeyUsageNotCritical = result },
+	})
 }

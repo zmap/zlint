@@ -41,5 +41,7 @@ func init() {
 		Description:   "The locality field must not be included without an organization name.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &localNoOrg{}})
+		Test:          &localNoOrg{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectLocalityWithoutOrg = result },
+	})
 }

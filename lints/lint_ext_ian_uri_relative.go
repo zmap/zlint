@@ -52,5 +52,7 @@ func init() {
 		Description:   "When IAN extension is present and URI is used, the name must not be a relative URI ",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &uriRelative{}})
+		Test:          &uriRelative{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtIanUriRelative = result },
+	})
 }

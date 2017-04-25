@@ -47,5 +47,7 @@ func init() {
 		Description:   "a cert policy OID must not appear more than once in the extension",
 		Providence:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ExtCertPolicyDuplicate{}})
+		Test:          &ExtCertPolicyDuplicate{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtCertPolicyDuplicate = result },
+	})
 }

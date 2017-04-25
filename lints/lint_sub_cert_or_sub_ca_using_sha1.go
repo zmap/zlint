@@ -43,5 +43,7 @@ func init() {
 		Description:   "Subscriber certificates and subordinate CA certificates must not use the SHA-1 hash algorithm on a certificate with a NotBefore date after 1 Jan 2016",
 		Providence:    "CAB: 7.1.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &sigAlgTestsSHA1{}})
+		Test:          &sigAlgTestsSHA1{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertOrSubCaUsingSha1 = result },
+	})
 }

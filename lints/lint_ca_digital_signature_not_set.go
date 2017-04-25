@@ -39,5 +39,7 @@ func init() {
 		Description:   "Root & Subordinate CA Certificates that wish to use their private key for signing OCSP responses will not be able to with out digital signature set",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caDigSignNotSet{}})
+		Test:          &caDigSignNotSet{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ICaDigitalSignatureNotSet = result },
+	})
 }

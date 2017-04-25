@@ -58,5 +58,7 @@ func init() {
 		Description:   "Where it appears, the pathLenConstraint field must be greater than or equal to zero",
 		Providence:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &pathLenNonPositive{}})
+		Test:          &pathLenNonPositive{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EPathLenConstraintZeroOrLess = result },
+	})
 }

@@ -37,5 +37,7 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, organization name must not be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &certPolicyConflictsWithOrg{}})
+		Test:          &certPolicyConflictsWithOrg{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECabDvConflictsWithOrg = result },
+	})
 }

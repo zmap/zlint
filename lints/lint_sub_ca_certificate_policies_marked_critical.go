@@ -39,5 +39,9 @@ func init() {
 		Description:   "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACertPolicyCrit{}})
+		Test:          &subCACertPolicyCrit{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.WSubCaCertificatePoliciesMarkedCritical = result
+		},
+	})
 }

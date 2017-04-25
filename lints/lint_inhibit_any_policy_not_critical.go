@@ -46,5 +46,7 @@ func init() {
 		Description:   "CAs must mark the inhibitAnyPolicy extension as critical",
 		Providence:    "RFC 5280: 4.2.1.14",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &InhibitAnyPolicyNotCritical{}})
+		Test:          &InhibitAnyPolicyNotCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EInhibitAnyPolicyNotCritical = result },
+	})
 }

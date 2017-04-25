@@ -74,5 +74,7 @@ func init() {
 		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Providence:    "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &utcTimeGMT{}})
+		Test:          &utcTimeGMT{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EUtcTimeNotInZulu = result },
+	})
 }

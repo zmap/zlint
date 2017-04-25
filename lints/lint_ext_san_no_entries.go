@@ -45,5 +45,7 @@ func init() {
 		Description:   "if present, the SAN extension must contain at least one entry",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &SANNoEntry{}})
+		Test:          &SANNoEntry{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanNoEntries = result },
+	})
 }

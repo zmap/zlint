@@ -40,5 +40,7 @@ func init() {
 		Description:   "Subscriber certificates must have the extended key usage extension present",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subExtKeyUsage{}})
+		Test:          &subExtKeyUsage{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertEkuMissing = result },
+	})
 }

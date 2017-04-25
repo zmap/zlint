@@ -40,5 +40,7 @@ func init() {
 		Description:   "The stateOrProvince name must not be included without an organization name.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &provinceNoOrg{}})
+		Test:          &provinceNoOrg{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectProvinceWithoutOrg = result },
+	})
 }

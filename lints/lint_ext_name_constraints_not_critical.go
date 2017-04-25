@@ -45,5 +45,7 @@ func init() {
 		Description:   "If it is included, conforming CAs must mark the name constrains extension as critical.",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstraintCrit{}})
+		Test:          &nameConstraintCrit{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtNameConstraintsNotCritical = result },
+	})
 }
