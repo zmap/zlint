@@ -24,7 +24,7 @@ func (l *subCRLDistNoURL) Initialize() error {
 
 func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return util.IsExtInCert(c, util.CrlDistOID) && !util.IsCaCert()
+	return util.IsExtInCert(c, util.CrlDistOID) && !util.IsCaCert(c)
 }
 
 func (l *subCRLDistNoURL) RunTest(c *x509.Certificate) (ResultStruct, error) {

@@ -20,7 +20,7 @@ func (l *sigAlgTestsSHA1) Initialize() error {
 
 func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return !util.IsCaCert(c)
+	return true
 }
 
 func (l *sigAlgTestsSHA1) RunTest(c *x509.Certificate) (ResultStruct, error) {
