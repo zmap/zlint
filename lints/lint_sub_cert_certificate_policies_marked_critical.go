@@ -20,7 +20,7 @@ func (l *subCertPolicyCrit) Initialize() error {
 }
 
 func (l *subCertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.CertPolicyOID)
+	return util.IsExtInCert(c, util.CertPolicyOID) && !util.IsCaCert(c)
 }
 
 func (l *subCertPolicyCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
