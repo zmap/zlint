@@ -41,5 +41,7 @@ func init() {
 		Providence:  "CAB: 6.1.5",
 		// Refer to CAB: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
-		Test:          &dsaTooShort{}})
+		Test:          &dsaTooShort{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EDsaShorterThan_2048Bits = result },
+	})
 }

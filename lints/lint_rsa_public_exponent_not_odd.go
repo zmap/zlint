@@ -40,5 +40,7 @@ func init() {
 		Description:   "RSA public key has to be an odd number",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsKeyExpOdd{}})
+		Test:          &rsaParsedTestsKeyExpOdd{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaPublicExponentNotOdd = result },
+	})
 }

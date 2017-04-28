@@ -36,5 +36,7 @@ func init() {
 		Description:   "Domain SHOULD NOT have bare public suffix",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &pubSuffix{}})
+		Test:          &pubSuffix{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSanIanaPubSuffixEmpty = result },
+	})
 }

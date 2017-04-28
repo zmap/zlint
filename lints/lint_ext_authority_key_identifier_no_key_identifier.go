@@ -47,5 +47,9 @@ func init() {
 		Description:   "CAs must include keyIdentifer field of aki in all non-self-issued certs",
 		Providence:    "RFC 5280: 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &authorityKeyIdNoKeyIdField{}})
+		Test:          &authorityKeyIdNoKeyIdField{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.EExtAuthorityKeyIdentifierNoKeyIdentifier = result
+		},
+	})
 }

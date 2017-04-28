@@ -41,5 +41,7 @@ func init() {
 		Description:   "when included, at least one bit must be set to 1",
 		Providence:    "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &keyUsageBitsSet{}})
+		Test:          &keyUsageBitsSet{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtKeyUsageWithoutBits = result },
+	})
 }

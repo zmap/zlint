@@ -46,5 +46,7 @@ func init() {
 		Description:   "Certs and expiring after 2015-11-01 must not contain a reserved ip address in the common name field.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subjectReservedIP{}})
+		Test:          &subjectReservedIP{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectContainsReservedIp = result },
+	})
 }

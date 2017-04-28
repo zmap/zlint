@@ -43,5 +43,7 @@ func init() {
 		Description:   "If the subject contains a distinguished name SAN should be non-critical.",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ExtSANCriticalWithSubjectDN{}})
+		Test:          &ExtSANCriticalWithSubjectDN{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtSanCriticalWithSubjectDn = result },
+	})
 }

@@ -39,5 +39,7 @@ func init() {
 		Description:   "in validity period beginning after 31 Dec 2010, all certificates using RSA public key algorithm must have 2048 bits of modulus",
 		Providence:    "CAB: 6.1.5",
 		EffectiveDate: util.RsaDate, // CA/B BR is retroactive here
-		Test:          &rsaParsedTestsKeySize{}})
+		Test:          &rsaParsedTestsKeySize{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaModLessThan_2048Bits = result },
+	})
 }

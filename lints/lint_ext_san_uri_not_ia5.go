@@ -41,5 +41,7 @@ func init() {
 		Description:   "When SAN contains a URI, the name must be an IA5 string",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &extSANURINotIA5{}})
+		Test:          &extSANURINotIA5{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanUriNotIa5 = result },
+	})
 }

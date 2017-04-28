@@ -39,5 +39,7 @@ func init() {
 		Description:   "Policy mappings should be marked as critical",
 		Providence:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &policyMapCritical{}})
+		Test:          &policyMapCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtPolicyMapNotCritical = result },
+	})
 }

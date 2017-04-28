@@ -41,5 +41,7 @@ func init() {
 		Description:   "Subordinate CA certificates authorityInformationAccess extension must contain the HTTP URL of the Issuing CA’s OCSP responder",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCaOcspUrl{}})
+		Test:          &subCaOcspUrl{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaAiaDoesNotContainOcspUrl = result },
+	})
 }

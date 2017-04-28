@@ -39,5 +39,7 @@ func init() {
 		Description:   "Subordinate CA certificates must have a cRLDistributionPoints extension",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACRLDistMissing{}})
+		Test:          &subCACRLDistMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaCrlDistributionPointsMissing = result },
+	})
 }

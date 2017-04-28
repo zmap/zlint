@@ -42,5 +42,7 @@ func init() {
 		Description:   "Subscriber certificates must have a authorityInformationAccess extension.",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertAiaMissing{}})
+		Test:          &subCertAiaMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertAiaMissing = result },
+	})
 }

@@ -42,5 +42,9 @@ func init() {
 		Description:   "The Subject Alternate Name extension must contain only dnsName and ipaddress name types.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &SANURI{}})
+		Test:          &SANURI{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.EExtSanUniformResourceIdentifierPresent = result
+		},
+	})
 }

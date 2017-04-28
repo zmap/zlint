@@ -36,5 +36,7 @@ func init() {
 		Description:   "DNSNames MUST NOT include a null character ",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SANDNSNull{}})
+		Test:          &SANDNSNull{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESanDnsNameIncludesNullChar = result },
+	})
 }

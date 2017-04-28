@@ -42,5 +42,7 @@ func init() {
 		Description:   "The modulus of a RSA public key should be an odd number",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsKeyModOdd{}})
+		Test:          &rsaParsedTestsKeyModOdd{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaModNotOdd = result },
+	})
 }

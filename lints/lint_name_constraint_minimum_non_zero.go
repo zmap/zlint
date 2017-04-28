@@ -109,5 +109,7 @@ func init() {
 		Description:   "In the name constraints name forms the minimum is not used and therefore MUST be zero",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstMin{}})
+		Test:          &nameConstMin{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ENameConstraintMinimumNonZero = result },
+	})
 }

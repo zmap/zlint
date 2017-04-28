@@ -48,5 +48,7 @@ func init() {
 		Description:   "The RSA public exponent SHOULD be in the range between 2^16 + 1 and 2^256 - 1",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsExpInRange{}})
+		Test:          &rsaParsedTestsExpInRange{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaPublicExponentNotInRange = result },
+	})
 }

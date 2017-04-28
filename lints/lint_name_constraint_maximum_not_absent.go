@@ -109,5 +109,7 @@ func init() {
 		Description:   "In the name constraints name forms the maximum is not used and therefore MUST be absent",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstraintMax{}})
+		Test:          &nameConstraintMax{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ENameConstraintMaximumNotAbsent = result },
+	})
 }

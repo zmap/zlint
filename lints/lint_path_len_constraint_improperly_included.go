@@ -51,5 +51,7 @@ func init() {
 		Description:   "CAs MUST NOT include the pathLenConstraint field unless the CA boolean is asserted and the keyCertSign bit is set.",
 		Providence:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &pathLenIncluded{}})
+		Test:          &pathLenIncluded{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EPathLenConstraintImproperlyIncluded = result },
+	})
 }

@@ -54,5 +54,7 @@ func init() {
 		Description:   "Conforming CAs MUST NOT issue certificates where policy constraints is an empty sequence. That is, either the inhibitPolicyMapping field or the requireExplicityPolicy field MUST be present",
 		Providence:    "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &policyConstraintsContents{}})
+		Test:          &policyConstraintsContents{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtPolicyConstraintsEmpty = result },
+	})
 }

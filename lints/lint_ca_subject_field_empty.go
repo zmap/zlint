@@ -45,5 +45,7 @@ func init() {
 		Description:   "CA Certificates subject field must not be empty and must have a non-empty distingushed name",
 		Providence:    "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &caSubjectEmpty{}})
+		Test:          &caSubjectEmpty{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaSubjectFieldEmpty = result },
+	})
 }

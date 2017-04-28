@@ -31,7 +31,7 @@ func TestIsFQDNQuestionMarkFQDN(t *testing.T) {
 }
 
 func TestIsFQDNQuestionMarkIncorrectPlaceFQDN(t *testing.T) {
-	domain := "?.?.abc.?com"
+	domain := "?.?.abc?.com"
 	expected := false
 	actual := IsFQDN(domain)
 	if expected != actual {

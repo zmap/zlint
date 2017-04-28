@@ -38,5 +38,7 @@ func init() {
 		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
 		Providence:    "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtAiaMarkedCritical{}})
+		Test:          &ExtAiaMarkedCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtAiaMarkedCritical = result },
+	})
 }

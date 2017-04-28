@@ -63,5 +63,7 @@ func init() {
 		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
 		Providence:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &dpIncomplete{}})
+		Test:          &dpIncomplete{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EDistributionPointIncomplete = result },
+	})
 }

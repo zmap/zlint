@@ -50,5 +50,7 @@ func init() {
 		Description:   "CAs SHOULD NOT issue Certificates containing a new gTLD under consideration by ICANN.",
 		Providence:    "CAB: 4.2.2",
 		EffectiveDate: util.CABV113Date,
-		Test:          &gtldUnderConsideration{}})
+		Test:          &gtldUnderConsideration{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WGtldUnderConsideration = result },
+	})
 }

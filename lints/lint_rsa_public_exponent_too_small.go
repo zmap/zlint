@@ -40,5 +40,7 @@ func init() {
 		Description:   "RSA public key has to be greater or equal to 3",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsExpBounds{}})
+		Test:          &rsaParsedTestsExpBounds{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaPublicExponentTooSmall = result },
+	})
 }

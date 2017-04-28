@@ -48,5 +48,7 @@ func init() {
 		Description:   "Subscriber certificates should have only id-kp-serverAuth, id-kp-clientAuth, or id-kp-emailProtection in extKeyUsage. Anything should not be included.",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subExtKeyUsageLegalUsage{}})
+		Test:          &subExtKeyUsageLegalUsage{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCertEkuExtraValues = result },
+	})
 }

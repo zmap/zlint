@@ -47,5 +47,7 @@ func init() {
 		Description:   "policies must not be mapped to or from the anyPolicy value",
 		Providence:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &policyMapAnyPolicy{}})
+		Test:          &policyMapAnyPolicy{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtPolicyMapAnyPolicy = result },
+	})
 }

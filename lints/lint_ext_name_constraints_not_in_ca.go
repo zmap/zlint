@@ -43,5 +43,7 @@ func init() {
 		Description:   "The name constraints extension must only be used in CA certificates",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstraintNotCa{}})
+		Test:          &nameConstraintNotCa{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtNameConstraintsNotInCa = result },
+	})
 }
