@@ -13,7 +13,7 @@ import (
 )
 
 //Calls all other checks on parsed certs producing version
-func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult, error) {
+func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult) {
 	if cert == nil {
 		return nil, errors.New("zlint: nil pointer passed in, no data returned")
 	}
@@ -24,7 +24,7 @@ func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult, error) 
 	ZLintResult.ZLintVersion = lints.ZLintVersion
 	ZLintResult.Timestamp = time.Now().Unix()
 	ZLintResult.ZLints = &ZLintReport
-	return &ZLintResult, nil
+	return &ZLintResult
 }
 
 //Calls all other checks on parsed certs
