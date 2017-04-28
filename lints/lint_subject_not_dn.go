@@ -42,5 +42,7 @@ func init() {
 		Description:   "When not empty, the subject field must be a distinguished name",
 		Providence:    "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectDN{}})
+		Test:          &subjectDN{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectNotDn = result },
+	})
 }

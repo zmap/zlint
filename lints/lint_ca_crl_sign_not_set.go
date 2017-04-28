@@ -39,5 +39,7 @@ func init() {
 		Description:   "Root & Subordinate CA certificate keyUsage extension's crlSign bit must be set",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCRLSignNotSet{}})
+		Test:          &caCRLSignNotSet{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCrlSignNotSet = result },
+	})
 }

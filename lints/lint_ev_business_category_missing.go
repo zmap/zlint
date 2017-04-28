@@ -33,5 +33,7 @@ func init() {
 		Description:   "EV certificates must include businessCategory in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evNoBiz{}})
+		Test:          &evNoBiz{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvBusinessCategoryMissing = result },
+	})
 }

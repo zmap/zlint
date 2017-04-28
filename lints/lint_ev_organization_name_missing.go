@@ -33,5 +33,7 @@ func init() {
 		Description:   "EV certificates must include organizationName in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evOrgMissing{}})
+		Test:          &evOrgMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvOrganizationNameMissing = result },
+	})
 }

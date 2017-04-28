@@ -52,5 +52,7 @@ func init() {
 		Description:   "When SAN extension is present and URI is used, the name must not be a relative URI ",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &extSANURIRelative{}})
+		Test:          &extSANURIRelative{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanUriRelative = result },
+	})
 }

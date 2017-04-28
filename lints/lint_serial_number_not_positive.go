@@ -49,5 +49,7 @@ func init() {
 		Description:   "Certificates must have a positive serial number",
 		Providence:    "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &SerialNumberNotPositive{}})
+		Test:          &SerialNumberNotPositive{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESerialNumberNotPositive = result },
+	})
 }

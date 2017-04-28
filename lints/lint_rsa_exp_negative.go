@@ -35,5 +35,7 @@ func init() {
 		Description:   "RSA public key exponent must be positive",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &rsaExpNegative{}})
+		Test:          &rsaExpNegative{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaExpNegative = result },
+	})
 }

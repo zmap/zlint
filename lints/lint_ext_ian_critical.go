@@ -38,5 +38,7 @@ func init() {
 		Description:   "issuer alternate name should be marked as non-critical",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtIANCritical{}})
+		Test:          &ExtIANCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtIanCritical = result },
+	})
 }

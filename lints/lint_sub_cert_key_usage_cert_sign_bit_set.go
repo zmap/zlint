@@ -39,5 +39,7 @@ func init() {
 		Description:   "Subscriber certificates keyUsage extension keyCertSign bit must not be set",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertKeyUsageBitSet{}})
+		Test:          &subCertKeyUsageBitSet{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertKeyUsageCertSignBitSet = result },
+	})
 }

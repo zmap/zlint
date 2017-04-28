@@ -36,5 +36,7 @@ func init() {
 		Description:   "Subordinate CA certificate nameConstraints extension should be marked critical if present",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABV102Date,
-		Test:          &SubCANameConstraintsNotCritical{}})
+		Test:          &SubCANameConstraintsNotCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCaNameConstraintsNotCritical = result },
+	})
 }

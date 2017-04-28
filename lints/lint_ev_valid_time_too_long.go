@@ -32,5 +32,7 @@ func init() {
 		Description:   "EV certificates must be 27 months in validity or less",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evValidTooLong{}})
+		Test:          &evValidTooLong{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvValidTimeTooLong = result },
+	})
 }

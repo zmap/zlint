@@ -43,5 +43,7 @@ func init() {
 		Description:   "Subscriber certificates must have have either id-kp-serverAuth or id-kp-clientAuth or both present in extKeyUsage",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subExtKeyUsageClientOrServer{}})
+		Test:          &subExtKeyUsageClientOrServer{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertEkuServerAuthClientAuthMissing = result },
+	})
 }

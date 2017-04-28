@@ -39,5 +39,7 @@ func init() {
 		Description:   "The modulus of a RSA public key should have no factors smaller than 752",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaModSmallFactor{}})
+		Test:          &rsaModSmallFactor{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaModFactorsSmallerThan_752 = result },
+	})
 }

@@ -36,5 +36,7 @@ func init() {
 		Description:   "Certificate must be version 3 (encoded as 2)",
 		Providence:    "CAB: 7.1.1",
 		EffectiveDate: util.CABV130Date,
-		Test:          &InvalidCertificateVersion{}})
+		Test:          &InvalidCertificateVersion{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EInvalidCertificateVersion = result },
+	})
 }

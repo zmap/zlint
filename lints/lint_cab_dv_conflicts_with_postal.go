@@ -37,5 +37,7 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, postalCode must not be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &certPolicyConflictsWithPostal{}})
+		Test:          &certPolicyConflictsWithPostal{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECabDvConflictsWithPostal = result },
+	})
 }

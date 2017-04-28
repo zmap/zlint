@@ -36,5 +36,7 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.3 is included, countryName must be included in subject.",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABV131Date,
-		Test:          &CertPolicyIVRequiresCountry{}})
+		Test:          &CertPolicyIVRequiresCountry{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECertPolicyIvRequiresCountry = result },
+	})
 }

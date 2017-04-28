@@ -40,5 +40,7 @@ func init() {
 		Description:   "Root & Subordinate CA certificates must have a countryName present in subject information",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCountryNameMissing{}})
+		Test:          &caCountryNameMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCountryNameMissing = result },
+	})
 }

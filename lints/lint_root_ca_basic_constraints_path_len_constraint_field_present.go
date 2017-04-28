@@ -46,5 +46,9 @@ func init() {
 		Description:   "Root CA certificate basicConstraint extension pathLenConstraint field should not be present",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &rootCaPathLenPresent{}})
+		Test:          &rootCaPathLenPresent{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.WRootCaBasicConstraintsPathLenConstraintFieldPresent = result
+		},
+	})
 }

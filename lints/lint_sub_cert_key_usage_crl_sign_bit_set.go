@@ -40,5 +40,7 @@ func init() {
 		Description:   "Subscriber certificates keyUsage extension cRLSign bit must not be set",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCrlSignAllowed{}})
+		Test:          &subCrlSignAllowed{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertKeyUsageCrlSignBitSet = result },
+	})
 }

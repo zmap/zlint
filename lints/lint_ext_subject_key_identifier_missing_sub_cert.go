@@ -52,5 +52,7 @@ func init() {
 		Description:   "Sub certs should include ski in end entity certs",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectKeyIdMissingSubscriber{}})
+		Test:          &subjectKeyIdMissingSubscriber{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtSubjectKeyIdentifierMissingSubCert = result },
+	})
 }

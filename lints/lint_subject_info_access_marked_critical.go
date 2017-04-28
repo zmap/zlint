@@ -35,5 +35,7 @@ func init() {
 		Description:   "Conforming CAs must mark the Subject Info Access extension as non-critical.",
 		Providence:    "RFC 5280: 4.2.2.2",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &siaCrit{}})
+		Test:          &siaCrit{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectInfoAccessMarkedCritical = result },
+	})
 }

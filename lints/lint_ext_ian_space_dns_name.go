@@ -49,5 +49,7 @@ func init() {
 		Description:   "the dNSName ` ` must not be used",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &IANSpace{}})
+		Test:          &IANSpace{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtIanSpaceDnsName = result },
+	})
 }

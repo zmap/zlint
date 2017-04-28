@@ -75,5 +75,7 @@ func init() {
 		Description:   "Generalized time values must include seconds",
 		Providence:    "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &generalizedNoSeconds{}})
+		Test:          &generalizedNoSeconds{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EGeneralizedTimeDoesNotIncludeSeconds = result },
+	})
 }

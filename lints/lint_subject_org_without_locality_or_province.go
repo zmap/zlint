@@ -36,5 +36,7 @@ func init() {
 		Description:   "If organiation is included, either stateOrProvince or locality must be included.",
 		Providence:    "CAB: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &orgNoLocalOrProvince{}})
+		Test:          &orgNoLocalOrProvince{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectOrgWithoutLocalityOrProvince = result },
+	})
 }

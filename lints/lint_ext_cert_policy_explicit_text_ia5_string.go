@@ -54,5 +54,7 @@ func init() {
 		Description:   "Compliant certificates must not encode explicitTest as IA5String",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &explicitTextIA5String{}})
+		Test:          &explicitTextIA5String{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtCertPolicyExplicitTextIa5String = result },
+	})
 }

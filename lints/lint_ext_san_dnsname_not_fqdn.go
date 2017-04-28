@@ -44,5 +44,7 @@ func init() {
 		Description:   "SAN dnsnames must be a fully qualified domain name.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &DNSFQDN{}})
+		Test:          &DNSFQDN{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanDnsnameNotFqdn = result },
+	})
 }

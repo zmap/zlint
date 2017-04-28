@@ -38,5 +38,7 @@ func init() {
 		Description:   "Root CA certs SHOULD NOT contain the certificat policies extension.",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &rootCAContainsCertPolicy{}})
+		Test:          &rootCAContainsCertPolicy{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WRootCaContainsCertPolicy = result },
+	})
 }

@@ -41,5 +41,7 @@ func init() {
 		Description:   "Certificates issuer field must not be empty and must have a non-empty distingushed name",
 		Providence:    "RFC 5280: 4.1.2.4",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &issuerFieldEmpty{}})
+		Test:          &issuerFieldEmpty{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EIssuerFieldEmpty = result },
+	})
 }

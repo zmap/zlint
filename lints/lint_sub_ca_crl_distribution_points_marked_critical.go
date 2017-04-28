@@ -39,5 +39,9 @@ func init() {
 		Description:   "Subordinate CA certificates must not mark the cRLDistributionPoints extension as critical",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACRLDistCrit{}})
+		Test:          &subCACRLDistCrit{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.ESubCaCrlDistributionPointsMarkedCritical = result
+		},
+	})
 }

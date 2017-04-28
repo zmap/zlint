@@ -57,5 +57,7 @@ func init() {
 		Description:   "Conforming CAs must not issue certificates where name constraints is an empty sequence. That is, either the permittedSubtree or excludedSubtree fields must be present",
 		Providence:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &nameConstraintEmpty{}})
+		Test:          &nameConstraintEmpty{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ENameConstraintEmpty = result },
+	})
 }

@@ -59,5 +59,7 @@ func init() {
 		Description:   "Subordanate CA certs must include in the name contraints extension either premitted ip ranges or prohibit all ip addresses.",
 		Providence:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCaBadIPConstraint{}})
+		Test:          &subCaBadIPConstraint{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaNoIpNameConstraints = result },
+	})
 }

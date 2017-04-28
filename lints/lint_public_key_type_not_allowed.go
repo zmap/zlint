@@ -34,5 +34,7 @@ func init() {
 		Description:   "Certificates must have RSA, DSA, or ECDSA public key type.",
 		Providence:    "CAB: 6.1.5",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &publicKeyAllowed{}})
+		Test:          &publicKeyAllowed{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EPublicKeyTypeNotAllowed = result },
+	})
 }

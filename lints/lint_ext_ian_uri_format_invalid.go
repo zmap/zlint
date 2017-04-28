@@ -51,5 +51,7 @@ func init() {
 		Description:   "URIs in SAN extension must have a scheme and scheme specific part",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &IANURIFormat{}})
+		Test:          &IANURIFormat{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtIanUriFormatInvalid = result },
+	})
 }

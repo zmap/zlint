@@ -38,5 +38,7 @@ func init() {
 		Description:   "Conforming CAs must mark the policy constraints extension as critical.",
 		Providence:    "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &policyConstraintsCritical{}})
+		Test:          &policyConstraintsCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtPolicyConstraintsNotCritical = result },
+	})
 }

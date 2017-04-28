@@ -39,5 +39,7 @@ func init() {
 		Providence:  "CAB: 6.1.5",
 		// since effective date should be checked against end date in this specific case, putting time check into checkApplies instead, ZeroDate here to automatically pass NE test
 		EffectiveDate: util.ZeroDate,
-		Test:          &subModSize{}})
+		Test:          &subModSize{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EOldSubCertRsaModLessThan_1024Bits = result },
+	})
 }

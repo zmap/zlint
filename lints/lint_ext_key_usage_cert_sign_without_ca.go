@@ -47,5 +47,7 @@ func init() {
 		Description:   "if the keyCertSign bit is asserted, then the cA bit MUST also be asserted",
 		Providence:    "RFC 5280: 4.2.1.3 & 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &keyUsageCertSignNoCa{}})
+		Test:          &keyUsageCertSignNoCa{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtKeyUsageCertSignWithoutCa = result },
+	})
 }
