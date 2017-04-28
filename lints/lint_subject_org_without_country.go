@@ -40,5 +40,7 @@ func init() {
 		Description:   "The organization name field must not be included without a country name.",
 		Providence:    "CAB: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &orgNoCountry{}})
+		Test:          &orgNoCountry{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectOrgWithoutCountry = result },
+	})
 }

@@ -35,5 +35,7 @@ func init() {
 		Description:   "DH keys must have parameters",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &dsaParamsMissing{}})
+		Test:          &dsaParamsMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EDhParamsMissing = result },
+	})
 }

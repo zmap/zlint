@@ -39,5 +39,7 @@ func init() {
 		Description:   "Certificates must contain the Subject Alternate Name extension.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &SANMissing{}})
+		Test:          &SANMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanMissing = result },
+	})
 }

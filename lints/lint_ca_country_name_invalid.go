@@ -45,5 +45,7 @@ func init() {
 		Description:   "Root & Subordinate CA certificates must have a two-letter country code that is in ISO 3166-1",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCountryNameInvalid{}})
+		Test:          &caCountryNameInvalid{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCountryNameInvalid = result },
+	})
 }

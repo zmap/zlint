@@ -49,5 +49,7 @@ func init() {
 		Description:   "The common name field must include only names from the SAN extension.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subjectCommonNameNotFromSAN{}})
+		Test:          &subjectCommonNameNotFromSAN{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectCommonNameNotFromSan = result },
+	})
 }

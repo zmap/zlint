@@ -50,5 +50,7 @@ func init() {
 		Description:   "The extensions field must only appear in version 3 certificates.",
 		Providence:    "RFC 5280: 4.1.2.9",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &CertExtensionsVersonNot3{}})
+		Test:          &CertExtensionsVersonNot3{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECertExtensionsVersionNot_3 = result },
+	})
 }

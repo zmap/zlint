@@ -40,5 +40,7 @@ func init() {
 		Description:   "Conforming CAs must mark the Subject Directory Attributes extension as not critical",
 		Providence:    "RFC 5280: 4.2.1.8",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subDirAttrCrit{}})
+		Test:          &subDirAttrCrit{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSubjectDirectoryAttrCritical = result },
+	})
 }

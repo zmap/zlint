@@ -50,5 +50,7 @@ func init() {
 		Description:   "Conforming CAs SHOULD NOT mark extended key usage extension as critical if the anyExtendedKeyUsage KeyPurposedID is present",
 		Providence:    "RFC 5280: 4.2.1.12",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &ekuBadCritical{}})
+		Test:          &ekuBadCritical{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WEkuCriticalImproperly = result },
+	})
 }

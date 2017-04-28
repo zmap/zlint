@@ -60,5 +60,7 @@ func init() {
 		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been ommited.",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &illegalChar{}})
+		Test:          &illegalChar{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectContainsNoninformationalValue = result },
+	})
 }

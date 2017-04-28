@@ -35,5 +35,7 @@ func init() {
 		Description:   "Certificates MUST have a positive time for which they are valid",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &validityNegative{}})
+		Test:          &validityNegative{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EValidityTimeNotPositive = result },
+	})
 }

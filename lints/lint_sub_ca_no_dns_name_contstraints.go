@@ -43,5 +43,7 @@ func init() {
 		Description:   "Subordanate CA certs must include in the name contraints extension either premitted dns names or prohibit the empty DNS name.",
 		Providence:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCaBadDNSConstraint{}})
+		Test:          &subCaBadDNSConstraint{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaNoDnsNameConstraints = result },
+	})
 }

@@ -40,5 +40,7 @@ func init() {
 		Description:   "Subscriber certificates should have certificates policies extension present",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertPolicy{}})
+		Test:          &subCertPolicy{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertCertificatePoliciesMissing = result },
+	})
 }

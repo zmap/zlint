@@ -32,5 +32,7 @@ func init() {
 		Description:   "EV certificates must include serialNumber in subject",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evSNMissing{}})
+		Test:          &evSNMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvSerialNumberMissing = result },
+	})
 }

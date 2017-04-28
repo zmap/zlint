@@ -46,5 +46,7 @@ func init() {
 		Description:   "Unique identifiers must only appear if the version is 2 or 3.",
 		Providence:    "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &certUniqueIdVersion{}})
+		Test:          &certUniqueIdVersion{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ECertUniqueIdentifierVersionNot_2Or_3 = result },
+	})
 }

@@ -35,5 +35,7 @@ func init() {
 		Description:   "DNSName MUST NOT start with a period",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SANDNSPeriod{}})
+		Test:          &SANDNSPeriod{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESanDnsNameStartsWithPeriod = result },
+	})
 }

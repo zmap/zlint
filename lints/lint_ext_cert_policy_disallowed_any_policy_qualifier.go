@@ -46,5 +46,9 @@ func init() {
 		Description:   "when qualifiers are used with the special policy anyPolicy, the must be limited to qualifiers identified in this section (4.2.1.4)",
 		Providence:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &unrecommendedQualifier{}})
+		Test:          &unrecommendedQualifier{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.EExtCertPolicyDisallowedAnyPolicyQualifier = result
+		},
+	})
 }

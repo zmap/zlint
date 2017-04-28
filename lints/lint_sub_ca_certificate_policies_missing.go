@@ -38,5 +38,7 @@ func init() {
 		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACertPolicyMissing{}})
+		Test:          &subCACertPolicyMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaCertificatePoliciesMissing = result },
+	})
 }

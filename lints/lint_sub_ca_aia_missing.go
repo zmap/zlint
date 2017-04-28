@@ -41,5 +41,7 @@ func init() {
 		Description:   "Subordinate CA certificates must have a authorityInformationAccess extension.",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caAiaMissing{}})
+		Test:          &caAiaMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaAiaMissing = result },
+	})
 }

@@ -41,5 +41,7 @@ func init() {
 		Description:   "A certificate MUST NOT include more than one instance of a particular extension.",
 		Providence:    "RFC 5280: 4.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtDuplicateExtension{}})
+		Test:          &ExtDuplicateExtension{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtDuplicateExtension = result },
+	})
 }

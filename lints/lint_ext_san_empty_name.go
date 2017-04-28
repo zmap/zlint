@@ -65,5 +65,7 @@ func init() {
 		Description:   "general name fields must not be empty in SAN",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &SANEmptyName{}})
+		Test:          &SANEmptyName{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanEmptyName = result },
+	})
 }

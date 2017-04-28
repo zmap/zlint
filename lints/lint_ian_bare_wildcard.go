@@ -35,5 +35,7 @@ func init() {
 		Description:   "Wildcard MUST be accompanied by other data to it's right (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
-		Test:          &brIANBareWildcard{}})
+		Test:          &brIANBareWildcard{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EIanBareWildcard = result },
+	})
 }

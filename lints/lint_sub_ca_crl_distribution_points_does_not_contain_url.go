@@ -40,5 +40,9 @@ func init() {
 		Description:   "Subordinate CA certificates cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service.",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACRLDistNoUrl{}})
+		Test:          &subCACRLDistNoUrl{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.ESubCaCrlDistributionPointsDoesNotContainUrl = result
+		},
+	})
 }

@@ -47,5 +47,7 @@ func init() {
 		Description:   "CAs must support key identifiers and include them in all certs",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &authorityKeyIdMissing{}})
+		Test:          &authorityKeyIdMissing{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtAuthorityKeyIdentifierMissing = result },
+	})
 }

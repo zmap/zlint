@@ -47,5 +47,7 @@ func init() {
 		Description:   "each issuerDomainPolicy named in policy mappings extension should also be asserted in a certificate policies extension",
 		Providence:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &policyMapMatchesCertPolicy{}})
+		Test:          &policyMapMatchesCertPolicy{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtPolicyMapNotInCertPolicy = result },
+	})
 }

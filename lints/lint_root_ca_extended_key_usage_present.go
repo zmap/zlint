@@ -39,5 +39,7 @@ func init() {
 		Description:   "Root CA certificates must not have the extendedKeyUsage extension present",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &rootCAContainsEKU{}})
+		Test:          &rootCAContainsEKU{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ERootCaExtendedKeyUsagePresent = result },
+	})
 }

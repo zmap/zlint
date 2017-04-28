@@ -46,5 +46,7 @@ func init() {
 		Description:   "When the id-ad-caIssuers accessMethod is used, at least one instance SHOULD specify an accessLocation that is an HTTP or LDAP URI.",
 		Providence:    "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &aiaNoHTTPorLDAP{}})
+		Test:          &aiaNoHTTPorLDAP{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtAiaAccessLocationMissing = result },
+	})
 }

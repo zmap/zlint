@@ -38,5 +38,9 @@ func init() {
 		Description:   "Subscriber certificate should have policies extension marked non-critical",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertPolicyCrit{}})
+		Test:          &subCertPolicyCrit{},
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.WSubCertCertificatePoliciesMarkedCritical = result
+		},
+	})
 }
