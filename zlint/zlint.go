@@ -13,7 +13,7 @@ import (
 )
 
 //Calls all other checks on parsed certs producing version
-func ZLintResultTestHandler(cert *x509.Certificate) (*lints.ZLintResult) {
+func ZLintResultTestHandler(cert *x509.Certificate) *lints.ZLintResult {
 	if cert == nil {
 		return nil
 	}
