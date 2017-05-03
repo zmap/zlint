@@ -7,7 +7,7 @@ const (
 	NA                         // 1
 	NE                         // 2
 	Pass                       // 3
-	Info                       // 4
+	Notice                     // 4
 	Warn                       // 5
 	Error                      // 6
 	Fatal                      // 7
@@ -31,7 +31,7 @@ func EnumToString(e ResultEnum) string {
 		return "NE"
 	case Pass:
 		return "pass"
-	case Info:
+	case Notice:
 		return "info"
 	case Warn:
 		return "warn"

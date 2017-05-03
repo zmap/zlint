@@ -7,8 +7,8 @@ import (
 
 func TestCN(t *testing.T) {
 	inputPath := "../testlint/testCerts/commonNamesURL.pem"
-	desEnum := Info
-	out, _ := Lints["i_subject_common_name_included"].ExecuteTest(ReadCertificate(inputPath))
+	desEnum := Notice
+	out, _ := Lints["n_subject_common_name_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestCN(t *testing.T) {
 func TestNoCN(t *testing.T) {
 	inputPath := "../testlint/testCerts/commonNamesGood.pem"
 	desEnum := Pass
-	out, _ := Lints["i_subject_common_name_included"].ExecuteTest(ReadCertificate(inputPath))
+	out, _ := Lints["n_subject_common_name_included"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

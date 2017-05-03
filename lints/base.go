@@ -29,7 +29,7 @@ type LintReport struct {
 	ECaCountryNameInvalid                                ResultStruct `json:"e_ca_country_name_invalid,omitempty"`
 	ECaCountryNameMissing                                ResultStruct `json:"e_ca_country_name_missing,omitempty"`
 	ECaCrlSignNotSet                                     ResultStruct `json:"e_ca_crl_sign_not_set,omitempty"`
-	ICaDigitalSignatureNotSet                            ResultStruct `json:"i_ca_digital_signature_not_set,omitempty"`
+	NCaDigitalSignatureNotSet                            ResultStruct `json:"n_ca_digital_signature_not_set,omitempty"`
 	ECaKeyCertSignNotSet                                 ResultStruct `json:"e_ca_key_cert_sign_not_set,omitempty"`
 	ECaKeyUsageMissing                                   ResultStruct `json:"e_ca_key_usage_missing,omitempty"`
 	ECaKeyUsageNotCritical                               ResultStruct `json:"e_ca_key_usage_not_critical,omitempty"`
@@ -186,7 +186,7 @@ type LintReport struct {
 	ESubCertOrSubCaUsingSha1                             ResultStruct `json:"e_sub_cert_or_sub_ca_using_sha1,omitempty"`
 	WSubCertSha1ExpirationTooLong                        ResultStruct `json:"w_sub_cert_sha1_expiration_too_long,omitempty"`
 	ESubjectCommonNameDisallowed                         ResultStruct `json:"e_subject_common_name_disallowed,omitempty"`
-	ISubjectCommonNameIncluded                           ResultStruct `json:"i_subject_common_name_included,omitempty"`
+	NSubjectCommonNameIncluded                           ResultStruct `json:"n_subject_common_name_included,omitempty"`
 	ESubjectCommonNameNotFromSan                         ResultStruct `json:"e_subject_common_name_not_from_san,omitempty"`
 	ESubjectContainsNoninformationalValue                ResultStruct `json:"e_subject_contains_noninformational_value,omitempty"`
 	ESubjectContainsReservedIp                           ResultStruct `json:"e_subject_contains_reserved_ip,omitempty"`
