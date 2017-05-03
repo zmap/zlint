@@ -15,9 +15,13 @@ type lintReportUpdater func(*LintReport, ResultStruct)
 const ZLintVersion = 1
 
 type ZLintResult struct {
-	ZLintVersion int64
-	Timestamp    int64
-	ZLints       *LintReport
+	ZLintVersion   int64
+	Timestamp      int64
+	ZLints         *LintReport
+	NoticePresent  bool
+	WarningPresent bool
+	ErrorsPresent  bool
+	FatalsPresent  bool
 }
 
 type LintReport struct {
@@ -207,11 +211,11 @@ type LintReport struct {
 	ERsaNoPublicKey                                      ResultStruct `json:"e_rsa_no_public_key,omitempty"`
 	ESubCertCertificatePoliciesMissing                   ResultStruct `json:"e_sub_cert_certificate_policies_missing,omitempty"`
 	ESubCertKeyUsageCrlSignBitSet                        ResultStruct `json:"e_sub_cert_key_usage_crl_sign_bit_set,omitempty"`
-	InfosPresent                                         bool         `json:"infos_present,omitempty"`
-	NoticesPresent                                       bool         `json:"notices_present,omitempty"`
-	WarningsPresent                                      bool         `json:"warnings_present,omitempty"`
-	ErrorsPresent                                        bool         `json:"errors_present,omitempty"`
-	FatalsPresent                                        bool         `json:"fatals_present,omitempty"`
+	infosPresent                                         bool         `json:"infos_present,omitempty"`
+	noticesPresent                                       bool         `json:"notices_present,omitempty"`
+	warningsPresent                                      bool         `json:"warnings_present,omitempty"`
+	errorsPresent                                        bool         `json:"errors_present,omitempty"`
+	fatalsPresent                                        bool         `json:"fatals_present,omitempty"`
 }
 
 func (report *LintReport) Execute(cert *x509.Certificate) error {
@@ -221,21 +225,37 @@ func (report *LintReport) Execute(cert *x509.Certificate) error {
 			return err
 		}
 		l.updateReport(report, res)
-		updateErrorStatePresent(report, res)
+		report.updateErrorStatePresent(res)
 	}
 	return nil
 }
 
-func updateErrorStatePresent(report *LintReport, result ResultStruct) {
+func (report *LintReport) GetNoticesPresent() bool {
+	return report.noticesPresent
+}
+
+func (report *LintReport) GetWarningsPresent() bool {
+	return report.warningsPresent
+}
+
+func (report *LintReport) GetErrorsPresent() bool {
+	return report.errorsPresent
+}
+
+func (report *LintReport) GetFatalsPresent() bool {
+	return report.fatalsPresent
+}
+
+func (report *LintReport) updateErrorStatePresent(result ResultStruct) {
 	switch result.Result {
 	case Notice:
-		report.NoticesPresent = true
+		report.noticesPresent = true
 	case Warn:
-		report.WarningsPresent = true
+		report.warningsPresent = true
 	case Error:
-		report.ErrorsPresent = true
+		report.errorsPresent = true
 	case Fatal:
-		report.FatalsPresent = true
+		report.fatalsPresent = true
 	}
 }
 
