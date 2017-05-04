@@ -27,11 +27,10 @@ func (l *subjectCommonNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectCommonNameMaxLength) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if len(c.Subject.CommonName) <= 64 {
-		return ResultStruct{Result: Pass}, nil
-	} else {
+	if len(c.Subject.CommonName) > 64 {
 		return ResultStruct{Result: Error}, nil
 	}
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
