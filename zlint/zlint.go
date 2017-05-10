@@ -23,9 +23,9 @@ func ZLintResultTestHandler(cert *x509.Certificate) *lints.ZLintResult {
 	ZLintReport.Execute(cert)
 	ZLintResult.ZLintVersion = lints.ZLintVersion
 	ZLintResult.Timestamp = time.Now().Unix()
-	ZLintResult.ZLints = &ZLintReport
-	ZLintResult.NoticePresent = ZLintReport.GetNoticesPresent()
-	ZLintResult.WarningPresent = ZLintReport.GetWarningsPresent()
+	ZLintResult.ZLint = &ZLintReport
+	ZLintResult.NoticesPresent = ZLintReport.GetNoticesPresent()
+	ZLintResult.WarningsPresent = ZLintReport.GetWarningsPresent()
 	ZLintResult.ErrorsPresent = ZLintReport.GetErrorsPresent()
 	ZLintResult.FatalsPresent = ZLintReport.GetFatalsPresent()
 	return &ZLintResult

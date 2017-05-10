@@ -15,13 +15,13 @@ type lintReportUpdater func(*LintReport, ResultStruct)
 const ZLintVersion = 1
 
 type ZLintResult struct {
-	ZLintVersion   int64
-	Timestamp      int64
-	ZLints         *LintReport
-	NoticePresent  bool
-	WarningPresent bool
-	ErrorsPresent  bool
-	FatalsPresent  bool
+	ZLintVersion    int64
+	Timestamp       int64
+	ZLint           *LintReport
+	NoticesPresent  bool
+	WarningsPresent bool
+	ErrorsPresent   bool
+	FatalsPresent   bool
 }
 
 type LintReport struct {
@@ -211,7 +211,6 @@ type LintReport struct {
 	ERsaNoPublicKey                                      ResultStruct `json:"e_rsa_no_public_key,omitempty"`
 	ESubCertCertificatePoliciesMissing                   ResultStruct `json:"e_sub_cert_certificate_policies_missing,omitempty"`
 	ESubCertKeyUsageCrlSignBitSet                        ResultStruct `json:"e_sub_cert_key_usage_crl_sign_bit_set,omitempty"`
-	infosPresent                                         bool         `json:"infos_present,omitempty"`
 	noticesPresent                                       bool         `json:"notices_present,omitempty"`
 	warningsPresent                                      bool         `json:"warnings_present,omitempty"`
 	errorsPresent                                        bool         `json:"errors_present,omitempty"`
