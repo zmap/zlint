@@ -15,13 +15,13 @@ type lintReportUpdater func(*LintReport, ResultStruct)
 const ZLintVersion = 1
 
 type ZLintResult struct {
-	ZLintVersion    int64
-	Timestamp       int64
-	ZLint           *LintReport
-	NoticesPresent  bool
-	WarningsPresent bool
-	ErrorsPresent   bool
-	FatalsPresent   bool
+	ZLintVersion    int64       `json:"zlint_version,omitempty"`
+	Timestamp       int64       `json:"timestamp,omitempty"`
+	ZLint           *LintReport `json:"zlint,omitempty"`
+	NoticesPresent  bool        `json:"notices_present,omitempty"`
+	WarningsPresent bool        `json:"warnings_present,omitempty"`
+	ErrorsPresent   bool        `json:"errors_present,omitempty"`
+	FatalsPresent   bool        `json:"fatals_present,omitempty"`
 }
 
 type LintReport struct {
@@ -211,10 +211,10 @@ type LintReport struct {
 	ERsaNoPublicKey                                      ResultStruct `json:"e_rsa_no_public_key,omitempty"`
 	ESubCertCertificatePoliciesMissing                   ResultStruct `json:"e_sub_cert_certificate_policies_missing,omitempty"`
 	ESubCertKeyUsageCrlSignBitSet                        ResultStruct `json:"e_sub_cert_key_usage_crl_sign_bit_set,omitempty"`
-	noticesPresent                                       bool         `json:"notices_present,omitempty"`
-	warningsPresent                                      bool         `json:"warnings_present,omitempty"`
-	errorsPresent                                        bool         `json:"errors_present,omitempty"`
-	fatalsPresent                                        bool         `json:"fatals_present,omitempty"`
+	noticesPresent                                       bool
+	warningsPresent                                      bool
+	errorsPresent                                        bool
+	fatalsPresent                                        bool
 }
 
 func (report *LintReport) Execute(cert *x509.Certificate) error {
