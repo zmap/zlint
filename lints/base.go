@@ -15,9 +15,13 @@ type lintReportUpdater func(*LintReport, ResultStruct)
 const ZLintVersion = 1
 
 type ZLintResult struct {
-	ZLintVersion int64
-	Timestamp    int64
-	ZLints       *LintReport
+	ZLintVersion    int64       `json:"zlint_version"`
+	Timestamp       int64       `json:"timestamp"`
+	ZLint           *LintReport `json:"lint_report"`
+	NoticesPresent  bool        `json:"notices_present"`
+	WarningsPresent bool        `json:"warnings_present"`
+	ErrorsPresent   bool        `json:"errors_present"`
+	FatalsPresent   bool        `json:"fatals_present"`
 }
 
 type LintReport struct {
@@ -209,15 +213,29 @@ type LintReport struct {
 	ESubCertKeyUsageCrlSignBitSet                        ResultStruct `json:"e_sub_cert_key_usage_crl_sign_bit_set,omitempty"`
 }
 
-func (report *LintReport) Execute(cert *x509.Certificate) error {
+func (result *ZLintResult) Execute(cert *x509.Certificate) error {
 	for _, l := range Lints {
 		res, err := l.ExecuteTest(cert)
 		if err != nil {
 			return err
 		}
-		l.updateReport(report, res)
+		l.updateReport(result.ZLint, res)
+		result.updateErrorStatePresent(res)
 	}
 	return nil
+}
+
+func (zlintResult *ZLintResult) updateErrorStatePresent(result ResultStruct) {
+	switch result.Result {
+	case Notice:
+		zlintResult.NoticesPresent = true
+	case Warn:
+		zlintResult.WarningsPresent = true
+	case Error:
+		zlintResult.ErrorsPresent = true
+	case Fatal:
+		zlintResult.FatalsPresent = true
+	}
 }
 
 type LintTest interface {

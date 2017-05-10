@@ -20,10 +20,10 @@ func ZLintResultTestHandler(cert *x509.Certificate) *lints.ZLintResult {
 	//run all tests
 	ZLintResult := lints.ZLintResult{}
 	ZLintReport := lints.LintReport{}
-	ZLintReport.Execute(cert)
+	ZLintResult.ZLint = &ZLintReport
+	ZLintResult.Execute(cert)
 	ZLintResult.ZLintVersion = lints.ZLintVersion
 	ZLintResult.Timestamp = time.Now().Unix()
-	ZLintResult.ZLints = &ZLintReport
 	return &ZLintResult
 }
 
