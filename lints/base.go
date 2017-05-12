@@ -15,9 +15,9 @@ type lintReportUpdater func(*LintReport, ResultStruct)
 const ZLintVersion = 1
 
 type ZLintResult struct {
-	ZLintVersion    int64       `json:"zlint_version"`
+	ZLintVersion    int64       `json:"version"`
 	Timestamp       int64       `json:"timestamp"`
-	ZLint           *LintReport `json:"lint_report"`
+	ZLint           *LintReport `json:"lints"`
 	NoticesPresent  bool        `json:"notices_present"`
 	WarningsPresent bool        `json:"warnings_present"`
 	ErrorsPresent   bool        `json:"errors_present"`
