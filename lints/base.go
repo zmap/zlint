@@ -211,6 +211,11 @@ type LintReport struct {
 	ERsaNoPublicKey                                      ResultStruct `json:"e_rsa_no_public_key,omitempty"`
 	ESubCertCertificatePoliciesMissing                   ResultStruct `json:"e_sub_cert_certificate_policies_missing,omitempty"`
 	ESubCertKeyUsageCrlSignBitSet                        ResultStruct `json:"e_sub_cert_key_usage_crl_sign_bit_set,omitempty"`
+	ESubjectCommonNameMaxLength                          ResultStruct `json:"e_subject_common_name_max_length"`
+	ESubjectLocalityNameMaxLength                        ResultStruct `json:"e_subject_locality_name_max_length"`
+	ESubjectOrganizationNameMaxLength                    ResultStruct `json:"e_subject_organization_name_max_length"`
+	ESubjectOrganizationalUnitNameMaxLength              ResultStruct `json:"e_subject_organizational_unit_name_max_length"`
+	ESubjectStateNameMaxLength                           ResultStruct `json:"e_subject_state_name_max_length"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
