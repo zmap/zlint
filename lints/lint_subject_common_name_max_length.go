@@ -39,5 +39,7 @@ func init() {
 		Description:   "The 'Common Name' field of the subject must be less than 64 characters.",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectCommonNameMaxLength{}})
+		Test:          &subjectCommonNameMaxLength{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectCommonNameMaxLength = result },
+	})
 }

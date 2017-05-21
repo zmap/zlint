@@ -42,5 +42,7 @@ func init() {
 		Description:   "The 'Organization Name' field of the subject must be less than 64 characters.",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectOrganizationNameMaxLength{}})
+		Test:          &subjectOrganizationNameMaxLength{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectOrganizationNameMaxLength = result },
+	})
 }
