@@ -1,6 +1,6 @@
 language: go
 go:
-- 1.8.1
+- 1.8.2
 before_install:
 - go get gopkg.in/check.v1
 - go get github.com/zmap/zcrypto
