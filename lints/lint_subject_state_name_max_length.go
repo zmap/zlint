@@ -42,5 +42,7 @@ func init() {
 		Description:   "The 'State Name' field of the subject must be less than 128 characters.",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectStateNameMaxLength{}})
+		Test:          &subjectStateNameMaxLength{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectStateNameMaxLength = result },
+	})
 }
