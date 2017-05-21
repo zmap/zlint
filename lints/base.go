@@ -220,10 +220,8 @@ type LintReport struct {
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
 	for _, l := range Lints {
-		res, err := l.ExecuteTest(cert)
-		if err != nil {
-			return err
-		}
+		res, _ := l.ExecuteTest(cert)
+		l.updateReport(result.ZLint, res)
 		l.updateReport(result.ZLint, res)
 		result.updateErrorStatePresent(res)
 	}
