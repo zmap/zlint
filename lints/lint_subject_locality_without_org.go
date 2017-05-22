@@ -30,7 +30,7 @@ func (l *localNoOrg) CheckApplies(cert *x509.Certificate) bool {
 func (l *localNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		return ResultStruct{Result: Error}, nil
-	} else { //if no Locality, Organization can be ommited
+	} else { //if no Locality, Organization can be omitted
 		return ResultStruct{Result: Pass}, nil
 	}
 }

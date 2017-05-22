@@ -1,4 +1,4 @@
-//certlint contains functions to check certificates for standards complience.
+//certlint contains functions to check certificates for standards compliance.
 package main
 
 import (
@@ -36,7 +36,7 @@ var ( //sync values for -threads
 	//barrier to prevent the early main thread exits
 	exittex       sync.Mutex //guards writeComplete and mainWait
 	writeComplete bool       //output complete if true
-	mainWait      *sync.Cond //condition vairable for the main thread, associated with exittex
+	mainWait      *sync.Cond //condition variable for the main thread, associated with exittex
 )
 
 func init() {
@@ -250,13 +250,13 @@ func processChunks() {
 			reportOut, err := zlint.Lint64(chunk[x]) //lint the cert, reportOut is a map[string]zlint.ResultStruct
 			if err != nil {
 				fmt.Println(err)
-				reports = append(reports, "An error has occured.")
+				reports = append(reports, "An error has occurred.")
 			} else {
 				//convert cert to string for output
 				stringOut, err := json.Marshal(reportOut)
 				if err != nil {
 					fmt.Println(err)
-					reports = append(reports, "An error has occured.")
+					reports = append(reports, "An error has occurred.")
 				} else {
 					reports = append(reports, string(stringOut)) //move report to out buffer
 					//lintOut++ (unused)
