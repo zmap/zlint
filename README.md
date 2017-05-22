@@ -2,6 +2,7 @@ zlint
 ====================
 
 [![Build Status](https://travis-ci.org/zmap/zlint.svg?branch=master)](https://travis-ci.org/zmap/zlint)
+[![Go Report Card](https://goreportcard.com/badge/github.com/zmap/zlint)](https://goreportcard.com/report/github.com/zmap/zlint)
 
 Certificate linting, written in Go.
 

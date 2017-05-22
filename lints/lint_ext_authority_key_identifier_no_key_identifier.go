@@ -34,7 +34,7 @@ func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *authorityKeyIdNoKeyIdField) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by defualt if not found in x509.parseCert
+	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by default if not found in x509.parseCert
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil

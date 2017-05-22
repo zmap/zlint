@@ -66,7 +66,7 @@ func IsExtInCert(cert *x509.Certificate, oid asn1.ObjectIdentifier) bool {
 
 // Helper function that should be used anytime an extension is needed from a certificate
 func GetExtFromCert(cert *x509.Certificate, oid asn1.ObjectIdentifier) *pkix.Extension {
-	for i, _ := range cert.Extensions {
+	for i := range cert.Extensions {
 		if oid.Equal(cert.Extensions[i].Id) {
 			return &(cert.Extensions[i])
 		}
@@ -94,7 +94,7 @@ func TypeInName(name *pkix.Name, oid asn1.ObjectIdentifier) bool {
 	return false
 }
 
-//helper function to parse policyMapping extensions, returns slices of CertPolicyIds seperated by domain
+//helper function to parse policyMapping extensions, returns slices of CertPolicyIds separated by domain
 func GetMappedPolicies(polMap *pkix.Extension) (out [][2]asn1.ObjectIdentifier, err error) {
 	if polMap == nil {
 		return nil, errors.New("policyMap: null pointer")

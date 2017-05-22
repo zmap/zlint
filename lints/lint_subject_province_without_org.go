@@ -29,7 +29,7 @@ func (l *provinceNoOrg) CheckApplies(cert *x509.Certificate) bool {
 func (l *provinceNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 	if util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		return ResultStruct{Result: Error}, nil
-	} else { //if no Province, Organization ommited
+	} else { //if no Province, Organization omitted
 		return ResultStruct{Result: Pass}, nil
 	}
 }
