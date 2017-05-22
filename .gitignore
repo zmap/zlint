@@ -111,3 +111,6 @@ _testmain.go
 # external packages folder
 vendor/
 0
+
+#lintprint
+lintprint/lintprint

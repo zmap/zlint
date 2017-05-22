@@ -7,10 +7,18 @@ package zlint
 import (
 	"encoding/base64"
 	"errors"
+	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lints"
 	"time"
 )
+
+//Pretty Print lint outputs
+func PrettyPrintZLint() {
+	for _, l := range lints.Lints {
+		fmt.Println(l.Name + " " + l.Description)
+	}
+}
 
 //Calls all other checks on parsed certs producing version
 func ZLintResultTestHandler(cert *x509.Certificate) *lints.ZLintResult {
