@@ -24,7 +24,7 @@ func (l *BadCommonName) Initialize() error {
 }
 
 func (l *BadCommonName) CheckApplies(c *x509.Certificate) bool {
-	return len(c.Subject.CommonName) != 0
+	return len(c.Subject.CommonName) != 0 && util.IsExtInCert(c, util.SANOID)
 }
 
 func (l *BadCommonName) RunTest(c *x509.Certificate) (ResultStruct, error) {

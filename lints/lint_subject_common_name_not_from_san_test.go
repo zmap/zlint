@@ -30,3 +30,16 @@ func TestCnFromSAN(t *testing.T) {
 		)
 	}
 }
+
+func TestCnEmptySAN(t *testing.T) {
+	inputPath := "../testlint/testCerts/EmptySAN.cer"
+	desEnum := NA
+	out, _ := Lints["e_subject_common_name_not_from_san"].ExecuteTest(ReadCertificate(inputPath))
+	if out.Result != desEnum {
+		t.Error(
+			"For", inputPath,
+			"expected", desEnum,
+			"got", out.Result,
+		)
+	}
+}
