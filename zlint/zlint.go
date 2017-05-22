@@ -16,7 +16,7 @@ import (
 //Pretty Print lint outputs
 func PrettyPrintZLint() {
 	for _, l := range lints.Lints {
-		fmt.Println(l.Name + " " + l.Description)
+		fmt.Println(l.Name + "," + l.Description)
 	}
 }
 
