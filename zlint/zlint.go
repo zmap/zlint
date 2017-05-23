@@ -11,12 +11,28 @@ import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lints"
 	"time"
+	"encoding/json"
+	"bytes"
 )
+
+type PrettyOutput struct {
+	Name string `json:"name"`
+	Description string `json:"description"`
+	Providence string `json:"providence"`
+}
 
 //Pretty Print lint outputs
 func PrettyPrintZLint() {
 	for _, l := range lints.Lints {
-		fmt.Println(l.Name + "," + l.Description)
+		p := PrettyOutput{}
+		p.Name = l.Name
+		p.Description = l.Description
+		p.Providence = l.Providence
+		out, _ := json.Marshal(p)
+		out = bytes.Replace(out, []byte("\\u003c"), []byte("<"), -1)
+		out = bytes.Replace(out, []byte("\\u003e"), []byte(">"), -1)
+		out = bytes.Replace(out, []byte("\\u0026"), []byte("&"), -1)
+		fmt.Println(string(out))
 	}
 }
 

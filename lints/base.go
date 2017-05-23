@@ -3,6 +3,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"time"
+	"fmt"
 )
 
 // global
@@ -222,6 +223,9 @@ func (result *ZLintResult) Execute(cert *x509.Certificate) error {
 	for _, l := range Lints {
 		res, _ := l.ExecuteTest(cert)
 		l.updateReport(result.ZLint, res)
+		if res.Result == Warn{
+			fmt.Println(l)
+		}
 		result.updateErrorStatePresent(res)
 	}
 	return nil
