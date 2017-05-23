@@ -5,20 +5,20 @@
 package zlint
 
 import (
+	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lints"
 	"time"
-	"encoding/json"
-	"bytes"
 )
 
 type PrettyOutput struct {
-	Name string `json:"name"`
+	Name        string `json:"name"`
 	Description string `json:"description"`
-	Providence string `json:"providence"`
+	Providence  string `json:"providence"`
 }
 
 //Pretty Print lint outputs
