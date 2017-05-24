@@ -55,7 +55,7 @@ func (l *pathLenNonPositive) RunTest(cert *x509.Certificate) (ResultStruct, erro
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_path_len_constraint_zero_or_less",
-		Description:   "Where it appears, the pathLenConstraint field must be greater than or equal to zero",
+		Description:   "Where it appears, the pathLenConstraint field MUST be greater than or equal to zero",
 		Providence:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &pathLenNonPositive{},

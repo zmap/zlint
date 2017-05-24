@@ -48,7 +48,7 @@ func (l *pathLenIncluded) RunTest(cert *x509.Certificate) (ResultStruct, error) 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_path_len_constraint_improperly_included",
-		Description:   "CAs MUST NOT include the pathLenConstraint field unless the CA boolean is asserted and the keyCertSign bit is set.",
+		Description:   "CAs MUST NOT include the pathLenConstraint field unless the CA boolean is asserted and the keyCertSign bit is set",
 		Providence:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &pathLenIncluded{},

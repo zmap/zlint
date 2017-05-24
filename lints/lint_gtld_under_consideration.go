@@ -47,7 +47,7 @@ func (l *gtldUnderConsideration) RunTest(c *x509.Certificate) (ResultStruct, err
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_gtld_under_consideration",
-		Description:   "CAs SHOULD NOT issue Certificates containing a new gTLD under consideration by ICANN.",
+		Description:   "CAs SHOULD NOT issue Certificates containing a new gTLD under consideration by ICANN",
 		Providence:    "CAB: 4.2.2",
 		EffectiveDate: util.CABV113Date,
 		Test:          &gtldUnderConsideration{},

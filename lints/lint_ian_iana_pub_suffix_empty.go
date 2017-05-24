@@ -32,7 +32,7 @@ func (l *IANPubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ian_iana_pub_suffix_empty",
-		Description:   "Domain SHOULD NOT have bare public suffix",
+		Description:   "Domain SHOULD NOT have a bare public suffix",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
 		Test:          &IANPubSuffix{},

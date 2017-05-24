@@ -39,7 +39,7 @@ func (l *subjectOrganizationNameMaxLength) RunTest(c *x509.Certificate) (ResultS
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_organization_name_max_length",
-		Description:   "The 'Organization Name' field of the subject must be less than 64 characters.",
+		Description:   "The 'Organization Name' field of the subject must be less than 64 characters",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectOrganizationNameMaxLength{},

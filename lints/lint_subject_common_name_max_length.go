@@ -36,7 +36,7 @@ func (l *subjectCommonNameMaxLength) RunTest(c *x509.Certificate) (ResultStruct,
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_max_length",
-		Description:   "The 'Common Name' field of the subject must be less than 64 characters.",
+		Description:   "The commonName field of the subject must be less than 64 characters",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectCommonNameMaxLength{},

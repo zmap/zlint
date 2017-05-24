@@ -32,7 +32,7 @@ func (l *brIANBareWildcard) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ian_bare_wildcard",
-		Description:   "Wildcard MUST be accompanied by other data to it's right (Only checks DNSName)",
+		Description:   "Wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
 		Test:          &brIANBareWildcard{},

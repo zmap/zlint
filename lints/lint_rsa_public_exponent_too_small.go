@@ -37,7 +37,7 @@ func (l *rsaParsedTestsExpBounds) RunTest(c *x509.Certificate) (ResultStruct, er
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_public_exponent_too_small",
-		Description:   "RSA public key has to be greater or equal to 3",
+		Description:   "RSA public key MUST be greater or equal to 3",
 		Providence:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsExpBounds{},
