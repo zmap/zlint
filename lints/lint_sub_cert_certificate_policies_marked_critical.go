@@ -35,7 +35,7 @@ func (l *subCertPolicyCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_cert_certificate_policies_marked_critical",
-		Description:   "Subscriber certificate should have policies extension marked non-critical",
+		Description:   "Subscriber certificates should have the policies extension marked non-critical",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicyCrit{},

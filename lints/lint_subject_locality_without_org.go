@@ -38,7 +38,7 @@ func (l *localNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_locality_without_org",
-		Description:   "The locality field must not be included without an organization name.",
+		Description:   "The Locality field MUST NOT be included without an organization name",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &localNoOrg{},

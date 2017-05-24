@@ -36,7 +36,7 @@ func (l *caKeyCertSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error)
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_cert_sign_not_set",
-		Description:   "Root & Subordinate CA certificate keyUsage extension's keyCertSign bit must be set",
+		Description:   "Root and Subordinate CA certificate keyUsage extension's keyCertSign bit MUST be set",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyCertSignNotSet{},

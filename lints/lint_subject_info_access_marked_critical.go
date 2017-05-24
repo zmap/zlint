@@ -32,7 +32,7 @@ func (l *siaCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_info_access_marked_critical",
-		Description:   "Conforming CAs must mark the Subject Info Access extension as non-critical.",
+		Description:   "Conforming CAs MUST mark the Subject Info Access extension as non-critical",
 		Providence:    "RFC 5280: 4.2.2.2",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &siaCrit{},

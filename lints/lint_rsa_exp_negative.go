@@ -32,7 +32,7 @@ func (l *rsaExpNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_exp_negative",
-		Description:   "RSA public key exponent must be positive",
+		Description:   "RSA public key exponent MUST be positive",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rsaExpNegative{},

@@ -43,7 +43,7 @@ func (l *unrecommendedQualifier) RunTest(c *x509.Certificate) (ResultStruct, err
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_cert_policy_disallowed_any_policy_qualifier",
-		Description:   "when qualifiers are used with the special policy anyPolicy, the must be limited to qualifiers identified in this section (4.2.1.4)",
+		Description:   "When qualifiers are used with the special policy anyPolicy, they must be limited to qualifiers identified in this section: (4.2.1.4)",
 		Providence:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &unrecommendedQualifier{},

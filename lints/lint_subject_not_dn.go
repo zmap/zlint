@@ -39,7 +39,7 @@ func (l *subjectDN) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_not_dn",
-		Description:   "When not empty, the subject field must be a distinguished name",
+		Description:   "When not empty, the subject field MUST be a distinguished name",
 		Providence:    "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectDN{},

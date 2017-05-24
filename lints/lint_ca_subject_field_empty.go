@@ -42,7 +42,7 @@ func (l *caSubjectEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_subject_field_empty",
-		Description:   "CA Certificates subject field must not be empty and must have a non-empty distingushed name",
+		Description:   "CA Certificates subject field MUST not be empty and MUST have a non-empty distingushed name",
 		Providence:    "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &caSubjectEmpty{},

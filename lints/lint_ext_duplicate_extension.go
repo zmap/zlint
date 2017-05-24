@@ -38,7 +38,7 @@ func (l *ExtDuplicateExtension) RunTest(cert *x509.Certificate) (ResultStruct, e
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_duplicate_extension",
-		Description:   "A certificate MUST NOT include more than one instance of a particular extension.",
+		Description:   "A certificate MUST NOT include more than one instance of a particular extension",
 		Providence:    "RFC 5280: 4.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &ExtDuplicateExtension{},

@@ -49,7 +49,7 @@ func (l *uriRelative) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_uri_relative",
-		Description:   "When IAN extension is present and URI is used, the name must not be a relative URI ",
+		Description:   "When issuerAltName extension is present and the URI is used, the name MUST NOT be a relative URI",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &uriRelative{},

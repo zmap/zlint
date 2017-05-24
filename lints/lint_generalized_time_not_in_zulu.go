@@ -54,7 +54,7 @@ func (l *generalizedNotZulu) RunTest(c *x509.Certificate) (ResultStruct, error) 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_generalized_time_not_in_zulu",
-		Description:   "Generalized time values must be expressed in Greenwich Mean Time (Zulu)",
+		Description:   "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Providence:    "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &generalizedNotZulu{},
