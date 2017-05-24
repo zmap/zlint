@@ -28,11 +28,12 @@ func PrettyPrintZLint() {
 		p.Name = l.Name
 		p.Description = l.Description
 		p.Providence = l.Providence
-		out, _ := json.Marshal(p)
-		out = bytes.Replace(out, []byte("\\u003c"), []byte("<"), -1)
-		out = bytes.Replace(out, []byte("\\u003e"), []byte(">"), -1)
-		out = bytes.Replace(out, []byte("\\u0026"), []byte("&"), -1)
-		fmt.Println(string(out))
+
+		buffer := new(bytes.Buffer)
+		enc := json.NewEncoder(buffer)
+		enc.SetEscapeHTML(false)
+		enc.Encode(p)
+		fmt.Print(string(buffer.String()))
 	}
 }
 
