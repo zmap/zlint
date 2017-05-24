@@ -44,7 +44,7 @@ func init() {
 	flag.StringVar(&inPath, "in-file", "", "File path for the input certificate(s).")
 	flag.StringVar(&outPath, "out-file", "-", "File path for the output JSON.")
 	flag.StringVar(&outStat, "out-stat", "-", "File path for the output stats.")
-	flag.BoolVar(&prettyPrint, "pretty", false, "Use this flag to pretty print supported lints in JSON format")
+	flag.BoolVar(&prettyPrint, "list-lints-json", false, "Use this flag to print supported lints in JSON format, one per line")
 	flag.BoolVar(&multi, "multi", false, "Use this flag to specify inserting many certs at once. Certs in this mode must be Base64 encoded DER strings, one per line.")
 	flag.BoolVar(&threaded, "threads", false, "Use this flag to specify that -multi mode runs multi-threaded. This has no effect otherwise.")
 	flag.UintVar(&numThreads, "num-threads", DEFAULT_THREADS, "Use this flag to specify the number of threads in -threads mode.  This has no effect otherwise.")
