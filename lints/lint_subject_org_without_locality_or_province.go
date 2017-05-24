@@ -19,7 +19,7 @@ func (l *orgNoLocalOrProvince) Initialize() error {
 }
 
 func (l *orgNoLocalOrProvince) CheckApplies(cert *x509.Certificate) bool {
-	return true
+	return !util.IsCaCert(cert)
 }
 
 func (l *orgNoLocalOrProvince) RunTest(cert *x509.Certificate) (ResultStruct, error) {
