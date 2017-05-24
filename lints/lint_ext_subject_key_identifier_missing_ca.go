@@ -49,7 +49,7 @@ func (l *subjectKeyIdMissingCA) RunTest(cert *x509.Certificate) (ResultStruct, e
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_subject_key_identifier_missing_ca",
-		Description:   "CAs must include ski in all CA certificates.",
+		Description:   "CAs MUST include a Subject Key Identifier in all CA certificates",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectKeyIdMissingCA{},

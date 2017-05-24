@@ -35,7 +35,7 @@ func (l *ExtIANCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_ian_critical",
-		Description:   "issuer alternate name should be marked as non-critical",
+		Description:   "Issuer alternate name should be marked as non-critical",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &ExtIANCritical{},

@@ -42,7 +42,7 @@ func (l *caCountryNameInvalid) RunTest(c *x509.Certificate) (ResultStruct, error
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_country_name_invalid",
-		Description:   "Root & Subordinate CA certificates must have a two-letter country code that is in ISO 3166-1",
+		Description:   "Root and Subordinate CA certificates MUST have a two-letter country code specified in ISO 3166-1",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caCountryNameInvalid{},

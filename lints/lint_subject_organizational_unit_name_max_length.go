@@ -39,7 +39,7 @@ func (l *subjectOrganizationalUnitNameMaxLength) RunTest(c *x509.Certificate) (R
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_organizational_unit_name_max_length",
-		Description:   "The 'Organizational Unit Name' field of the subject must be less than 64 characters",
+		Description:   "The 'Organizational Unit Name' field of the subject MUST be less than 64 characters",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectOrganizationalUnitNameMaxLength{},

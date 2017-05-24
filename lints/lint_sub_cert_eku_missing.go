@@ -37,7 +37,7 @@ func (l *subExtKeyUsage) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_eku_missing",
-		Description:   "Subscriber certificates must have the extended key usage extension present",
+		Description:   "Subscriber certificates MUST have the extended key usage extension present",
 		Providence:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subExtKeyUsage{},

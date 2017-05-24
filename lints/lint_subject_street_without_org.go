@@ -37,7 +37,7 @@ func (l *streetNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_street_without_org",
-		Description:   "The 'Street Address' field must not be included without an organization name",
+		Description:   "The 'Street Address' field MUST NOT be included without an organization name",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &streetNoOrg{},

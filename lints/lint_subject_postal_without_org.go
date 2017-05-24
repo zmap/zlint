@@ -37,7 +37,7 @@ func (l *postalNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_postal_without_org",
-		Description:   "The postal code must not be included without an organization name",
+		Description:   "The postal code MUST NOT be included without an organization name",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &postalNoOrg{},

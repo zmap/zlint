@@ -33,7 +33,7 @@ func (l *orgNoLocalOrProvince) RunTest(cert *x509.Certificate) (ResultStruct, er
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_org_without_locality_or_province",
-		Description:   "If organiation is included, either stateOrProvince or locality must be included.",
+		Description:   "If organiation is included, either stateOrProvince or locality MUST be included",
 		Providence:    "CAB: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &orgNoLocalOrProvince{},

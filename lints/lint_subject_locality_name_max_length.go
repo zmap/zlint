@@ -39,7 +39,7 @@ func (l *subjectLocalityNameMaxLength) RunTest(c *x509.Certificate) (ResultStruc
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_locality_name_max_length",
-		Description:   "The 'Locality Name' field of the subject must be less than 128 characters",
+		Description:   "The 'Locality Name' field of the subject MUST be less than 128 characters",
 		Providence:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectLocalityNameMaxLength{},

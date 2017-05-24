@@ -39,7 +39,7 @@ func (l *SANEDI) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_edi_party_name_present",
-		Description:   "The Subject Alternate Name extension must contain only dnsName and ipaddress name types.",
+		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANEDI{},

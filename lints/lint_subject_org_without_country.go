@@ -37,7 +37,7 @@ func (l *orgNoCountry) RunTest(cert *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_org_without_country",
-		Description:   "The organization name field must not be included without a country name.",
+		Description:   "The organization name field MUST not be included without a country name",
 		Providence:    "CAB: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &orgNoCountry{},
