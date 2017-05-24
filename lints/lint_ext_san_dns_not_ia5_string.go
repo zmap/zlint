@@ -18,8 +18,6 @@ encoding internationalized domain names are specified in Section 7.2.
 package lints
 
 import (
-	"encoding/asn1"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -37,35 +35,16 @@ func (l *SANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *SANDNSNotIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	value := util.GetExtFromCert(c, util.SANOID).Value
-	var seq asn1.RawValue
-	var err error
-	if _, err = asn1.Unmarshal(value, &seq); err != nil {
-		return ResultStruct{Result: NA}, err
+	notIA5, err := util.DNSHasNonStringIA5(c, false)
+	if err != nil {
+		return ResultStruct{Result: Fatal}, err
 	}
-	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
-		err = asn1.StructuralError{Msg: "bad SAN sequence"}
-		return ResultStruct{Result: NA}, err
+	if notIA5 {
+		return ResultStruct{Result: Error}, nil
+	} else {
+		return ResultStruct{Result: Pass}, nil
 	}
-
-	rest := seq.Bytes
-	for len(rest) > 0 {
-		var v asn1.RawValue
-		rest, err = asn1.Unmarshal(rest, &v)
-		if err != nil {
-			return ResultStruct{Result: NA}, err
-		}
-		if v.Tag == 2 {
-			for _, bytes := range v.Bytes {
-				if bytes > 127 {
-					return ResultStruct{Result: Error}, nil
-				}
-			}
-		}
-	}
-	return ResultStruct{Result: Pass}, nil
 }
-
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_dns_not_ia5_string",
