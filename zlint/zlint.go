@@ -33,7 +33,7 @@ func PrettyPrintZLint() {
 		enc := json.NewEncoder(buffer)
 		enc.SetEscapeHTML(false)
 		enc.Encode(p)
-		fmt.Print(string(buffer.String()))
+		fmt.Print(buffer.String())
 	}
 }
 
