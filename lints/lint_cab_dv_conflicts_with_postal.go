@@ -18,7 +18,7 @@ func (l *certPolicyConflictsWithPostal) Initialize() error {
 }
 
 func (l *certPolicyConflictsWithPostal) CheckApplies(cert *x509.Certificate) bool {
-	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRDomainValidatedOID)
+	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRDomainValidatedOID) && !util.IsCaCert(cert)
 }
 
 func (l *certPolicyConflictsWithPostal) RunTest(cert *x509.Certificate) (ResultStruct, error) {
