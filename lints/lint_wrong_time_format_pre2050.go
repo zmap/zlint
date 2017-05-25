@@ -33,15 +33,27 @@ func (l *generalizedPre2050) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	var t time.Time
 	type1, type2 := util.FindTimeType(date1, date2)
 	if type1 == 24 {
-		temp, _ := asn1.Marshal(date1)
-		asn1.Unmarshal(temp, &t)
+		temp, err := asn1.Marshal(date1)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		_, err = asn1.Unmarshal(temp, &t)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
 		if t.Before(util.GeneralizedDate) {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
 	if type2 == 24 {
-		temp, _ := asn1.Marshal(date2)
-		asn1.Unmarshal(temp, &t)
+		temp, err := asn1.Marshal(date2)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		_, err = asn1.Unmarshal(temp, &t)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
 		if t.Before(util.GeneralizedDate) {
 			return ResultStruct{Result: Error}, nil
 		}
