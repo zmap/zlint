@@ -20,7 +20,7 @@ func (l *commonNames) Initialize() error {
 
 func (l *commonNames) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return true
+	return !util.IsCaCert(c)
 }
 
 func (l *commonNames) RunTest(c *x509.Certificate) (ResultStruct, error) {

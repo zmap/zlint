@@ -12,7 +12,7 @@ var (
 
 type lintReportUpdater func(*LintReport, ResultStruct)
 
-const ZLintVersion = 1
+const ZLintVersion = 2
 
 type ZLintResult struct {
 	ZLintVersion    int64       `json:"version"`
