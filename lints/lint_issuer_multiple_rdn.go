@@ -40,6 +40,6 @@ func init() {
 		Providence:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &IssuerRDNHasMultipleAttribute{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WMultipleIssuerRDN = result },
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WMultipleIssuer_RDN = result },
 	})
 }
