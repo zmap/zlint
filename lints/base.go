@@ -217,7 +217,7 @@ type LintReport struct {
 	ESubjectOrganizationalUnitNameMaxLength              ResultStruct `json:"e_subject_organizational_unit_name_max_length"`
 	ESubjectStateNameMaxLength                           ResultStruct `json:"e_subject_state_name_max_length"`
 	WMultipleIssuer_RDN                                  ResultStruct `json:"w_multiple_rdn_issuer,omitempty"`
-	WMultipleSubject_RDN                                 ResultStruct `json:w_multiple_rdn_subject,omitempty"`
+	WMultipleSubject_RDN                                 ResultStruct `json:"w_multiple_rdn_subject,omitempty"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
