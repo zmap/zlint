@@ -29,3 +29,10 @@ or for Windows under cmd:
 Then, simply install certlint:
 
 `$ go get github.com/zmap/zlint`
+
+## Adding a new lint
+1. Create the lint 
+2. Write tests for the lint
+3. Add the lint to the `LintReport` structure in `base.go`
+4. MAKE SURE YOU IMPLEMENT THE `UpdateReport` function in the lint
+5. Run `gofmt`
