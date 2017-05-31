@@ -10,7 +10,6 @@ import (
 )
 
 type SubjectRDNHasMultipleAttribute struct {
-	// Internal data here
 }
 
 func (l *SubjectRDNHasMultipleAttribute) Initialize() error {

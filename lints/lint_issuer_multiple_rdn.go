@@ -8,7 +8,6 @@ import (
 )
 
 type IssuerRDNHasMultipleAttribute struct {
-	// Internal data here
 }
 
 func (l *IssuerRDNHasMultipleAttribute) Initialize() error {
