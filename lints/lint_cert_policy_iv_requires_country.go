@@ -33,7 +33,7 @@ func (l *CertPolicyIVRequiresCountry) RunTest(cert *x509.Certificate) (ResultStr
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cert_policy_iv_requires_country",
-		Description:   "If certificate policy 2.23.140.1.2.3 is included, countryName must be included in subject.",
+		Description:   "If certificate policy 2.23.140.1.2.3 is included, countryName MUST be included in subject",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABV131Date,
 		Test:          &CertPolicyIVRequiresCountry{},

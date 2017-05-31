@@ -46,7 +46,7 @@ func (l *IANSpace) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_space_dns_name",
-		Description:   "the dNSName ` ` must not be used",
+		Description:   "dNSName ' ' MUST NOT be used",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &IANSpace{},

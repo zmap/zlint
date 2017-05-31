@@ -48,7 +48,7 @@ func (l *basicConstCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_basic_constraints_not_critical",
-		Description:   "Conforming CAs must mark Basic Constraints as critical when it is included in CA certs",
+		Description:   "Conforming CAs MUST mark Basic Constraints as critical when included in CA certificates",
 		Providence:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &basicConstCrit{},

@@ -50,7 +50,7 @@ func (l *ecImproperCurves) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:        "e_ec_improper_curves",
-		Description: "Only one of NIST P‐256, P‐384, or P‐521 can be used for all types of certificate",
+		Description: "Only one of NIST P‐256, P‐384, or P‐521 can be used",
 		Providence:  "CAB: 6.1.5",
 		// Refer to CAB: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,

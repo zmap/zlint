@@ -42,7 +42,7 @@ func (l *IANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_no_entries",
-		Description:   "if present, the IAN extension must contain at least one entry",
+		Description:   "If present, the IAN extension must contain at least one entry",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &IANNoEntry{},

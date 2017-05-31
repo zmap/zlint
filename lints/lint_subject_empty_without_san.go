@@ -48,7 +48,7 @@ func subjectIsEmpty(cert *x509.Certificate) bool {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_empty_without_san",
-		Description:   "CAs must support subject alternative name if the subject field is an empty sequence.",
+		Description:   "CAs MUST support subject alternative name if the subject field is an empty sequence",
 		Providence:    "RFC 5280: 4.2 & 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &emptyWithoutSAN{},

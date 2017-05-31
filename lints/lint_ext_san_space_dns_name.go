@@ -46,7 +46,7 @@ func (l *SANIsSpaceDNS) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_space_dns_name",
-		Description:   "the dNSName ` ` must not be used",
+		Description:   "The dNSName ` ` MUST NOT be used",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &SANIsSpaceDNS{},

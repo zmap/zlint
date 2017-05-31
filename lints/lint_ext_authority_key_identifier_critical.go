@@ -35,7 +35,7 @@ func (l *authorityKeyIdCritical) RunTest(c *x509.Certificate) (ResultStruct, err
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_authority_key_identifier_critical",
-		Description:   "The authority key identifier extension must be non-critical.",
+		Description:   "The authority key identifier extension must be non-critical",
 		Providence:    "RFC 5280: 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &authorityKeyIdCritical{},

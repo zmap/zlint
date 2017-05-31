@@ -36,7 +36,7 @@ func (l *rsaParsedTestsKeySize) RunTest(c *x509.Certificate) (ResultStruct, erro
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_mod_less_than_2048_bits",
-		Description:   "in validity period beginning after 31 Dec 2010, all certificates using RSA public key algorithm must have 2048 bits of modulus",
+		Description:   "In the validity period beginning after 31 Dec 2010, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
 		Providence:    "CAB: 6.1.5",
 		EffectiveDate: util.RsaDate, // CA/B BR is retroactive here
 		Test:          &rsaParsedTestsKeySize{},

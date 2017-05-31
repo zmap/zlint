@@ -48,7 +48,7 @@ func (l *IANURIFormat) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_uri_format_invalid",
-		Description:   "URIs in SAN extension must have a scheme and scheme specific part",
+		Description:   "URIs in the subjectAltName extension MUST have a scheme and scheme specific part",
 		Providence:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &IANURIFormat{},

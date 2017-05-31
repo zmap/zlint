@@ -43,7 +43,7 @@ func (l *subjectReservedIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_contains_reserved_ip",
-		Description:   "Certs and expiring after 2015-11-01 must not contain a reserved ip address in the common name field.",
+		Description:   "Certificates expiring later than 11 Jan 2015 MUST NOT contain a reserved IP address in the common name field",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subjectReservedIP{},

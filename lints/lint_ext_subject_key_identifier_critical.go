@@ -35,7 +35,7 @@ func (l *subjectKeyIdCritical) RunTest(c *x509.Certificate) (ResultStruct, error
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_subject_key_identifier_critical",
-		Description:   "The subject key identifier extension must be non-critical.",
+		Description:   "The subject key identifier extension MUST be non-critical",
 		Providence:    "RFC 5280: 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectKeyIdCritical{},
