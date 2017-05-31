@@ -22,7 +22,7 @@ func (l *SANMissing) Initialize() error {
 }
 
 func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return !util.IsCaCert(c)
 }
 
 func (l *SANMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
@@ -36,7 +36,7 @@ func (l *SANMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_missing",
-		Description:   "Certificates must contain the Subject Alternate Name extension.",
+		Description:   "Subscriber certificates must contain the Subject Alternate Name extension.",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANMissing{},

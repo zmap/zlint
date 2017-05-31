@@ -24,7 +24,7 @@ func (l *BadCommonName) Initialize() error {
 }
 
 func (l *BadCommonName) CheckApplies(c *x509.Certificate) bool {
-	return len(c.Subject.CommonName) != 0
+	return len(c.Subject.CommonName) != 0 && !util.IsCaCert(c)
 }
 
 func (l *BadCommonName) RunTest(c *x509.Certificate) (ResultStruct, error) {
@@ -44,7 +44,7 @@ func (l *BadCommonName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_disallowed",
-		Description:   "If present Common name MUST contain a single IP address or Fully‐Qualified Domain Name that is one of the values contained in the Certificate’s subjectAltName extension",
+		Description:   "For subscriber certitifcates, if present, common name MUST contain a single IP address or Fully‐Qualified Domain Name that is one of the values contained in the Certificate’s subjectAltName extension",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &BadCommonName{},

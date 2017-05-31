@@ -40,7 +40,10 @@ func (l *policyConstraintsContents) CheckApplies(c *x509.Certificate) bool {
 func (l *policyConstraintsContents) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	var seq asn1.RawValue
-	asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
+	_, err := asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
+	if err != nil {
+		return ResultStruct{Result: Fatal}, nil
+	}
 	if len(seq.Bytes) == 0 {
 		return ResultStruct{Result: Error}, nil
 	}

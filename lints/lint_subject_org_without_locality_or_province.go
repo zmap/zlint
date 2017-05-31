@@ -19,7 +19,7 @@ func (l *orgNoLocalOrProvince) Initialize() error {
 }
 
 func (l *orgNoLocalOrProvince) CheckApplies(cert *x509.Certificate) bool {
-	return true
+	return !util.IsCaCert(cert)
 }
 
 func (l *orgNoLocalOrProvince) RunTest(cert *x509.Certificate) (ResultStruct, error) {
@@ -33,7 +33,7 @@ func (l *orgNoLocalOrProvince) RunTest(cert *x509.Certificate) (ResultStruct, er
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_org_without_locality_or_province",
-		Description:   "If organiation is included, either stateOrProvince or locality must be included.",
+		Description:   "For subscriber certificates, if organization is included, either stateOrProvince or locality must be included.",
 		Providence:    "CAB: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &orgNoLocalOrProvince{},
