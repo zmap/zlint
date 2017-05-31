@@ -41,7 +41,7 @@ func (l *SANEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	}
 	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
 		err = asn1.StructuralError{Msg: "bad SAN sequence"}
-		return ResultStruct{Result: NA}, err
+		return ResultStruct{Result: Fatal}, err
 	}
 
 	rest := seq.Bytes

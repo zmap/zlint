@@ -5,12 +5,37 @@
 package zlint
 
 import (
+	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lints"
 	"time"
 )
+
+type PrettyOutput struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Providence  string `json:"providence"`
+}
+
+//Pretty Print lint outputs
+func PrettyPrintZLint() {
+	for _, l := range lints.Lints {
+		p := PrettyOutput{}
+		p.Name = l.Name
+		p.Description = l.Description
+		p.Providence = l.Providence
+
+		buffer := new(bytes.Buffer)
+		enc := json.NewEncoder(buffer)
+		enc.SetEscapeHTML(false)
+		enc.Encode(p)
+		fmt.Print(buffer.String())
+	}
+}
 
 //Calls all other checks on parsed certs producing version
 func ZLintResultTestHandler(cert *x509.Certificate) *lints.ZLintResult {

@@ -30,7 +30,10 @@ func (l *pathLenIncluded) RunTest(cert *x509.Certificate) (ResultStruct, error) 
 	bc := util.GetExtFromCert(cert, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool
-	asn1.Unmarshal(bc.Value, &seq)
+	_, err := asn1.Unmarshal(bc.Value, &seq)
+	if err != nil {
+		return ResultStruct{Result: Fatal}, nil
+	}
 	if len(seq.Bytes) == 0 {
 		return ResultStruct{Result: Pass}, nil
 	}

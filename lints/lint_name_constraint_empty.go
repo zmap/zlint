@@ -43,7 +43,10 @@ func (l *nameConstraintEmpty) CheckApplies(c *x509.Certificate) bool {
 func (l *nameConstraintEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	nc := util.GetExtFromCert(c, util.NameConstOID)
 	var seq asn1.RawValue
-	asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty
+	_, err := asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty
+	if err != nil {
+		return ResultStruct{Result: Fatal}, nil
+	}
 	if len(seq.Bytes) == 0 {
 		return ResultStruct{Result: Error}, nil
 	}
