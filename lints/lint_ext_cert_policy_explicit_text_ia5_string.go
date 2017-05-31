@@ -51,7 +51,7 @@ func (l *explicitTextIA5String) RunTest(c *x509.Certificate) (ResultStruct, erro
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_cert_policy_explicit_text_ia5_string",
-		Description:   "Compliant certificates must not encode explicitTest as IA5String",
+		Description:   "Compliant certificates must not encode explicitTest as an IA5String",
 		Providence:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextIA5String{},

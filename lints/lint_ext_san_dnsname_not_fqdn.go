@@ -41,7 +41,7 @@ func (l *DNSFQDN) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_dnsname_not_fqdn",
-		Description:   "SAN dnsnames must be a fully qualified domain name.",
+		Description:   "SAN dnsnames MUST be Fully-Qualified Domain Names",
 		Providence:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &DNSFQDN{},

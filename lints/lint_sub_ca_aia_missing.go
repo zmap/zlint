@@ -38,7 +38,7 @@ func (l *caAiaMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_aia_missing",
-		Description:   "Subordinate CA certificates must have a authorityInformationAccess extension.",
+		Description:   "Subordinate CA certificates must have a authorityInformationAccess extension",
 		Providence:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caAiaMissing{},

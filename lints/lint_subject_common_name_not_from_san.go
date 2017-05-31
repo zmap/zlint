@@ -46,7 +46,7 @@ func (l *subjectCommonNameNotFromSAN) RunTest(c *x509.Certificate) (ResultStruct
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_not_from_san",
-		Description:   "For subscriber certificate, the common name field must include only names from the SAN extension.",
+		Description:   "The commonName field must include only names from the subjectAlternateName extension",
 		Providence:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subjectCommonNameNotFromSAN{},

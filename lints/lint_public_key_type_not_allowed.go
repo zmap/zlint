@@ -31,7 +31,7 @@ func (l *publicKeyAllowed) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_public_key_type_not_allowed",
-		Description:   "Certificates must have RSA, DSA, or ECDSA public key type.",
+		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
 		Providence:    "CAB: 6.1.5",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &publicKeyAllowed{},

@@ -37,7 +37,7 @@ func (l *rootCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_old_root_ca_rsa_mod_less_than_2048_bits",
-		Description:   "In a validity period beginning on or before 31 dec 2010, root CA certificates using RSA public key algorithm must have 2048 bits of modulus",
+		Description:   "In a validity period beginning on or before 31 Dec 2010, root CA certificates using RSA public key algorithm MUST use a 2048 bit modulus",
 		Providence:    "CAB: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rootCaModSize{},

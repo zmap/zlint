@@ -62,7 +62,7 @@ func (l *IANEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_empty_name",
-		Description:   "general name fields must not be empty in IAN",
+		Description:   "General name fields must not be empty in IAN",
 		Providence:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &IANEmptyName{},

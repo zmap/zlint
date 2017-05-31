@@ -34,7 +34,7 @@ func (l *certPolicyConflictsWithLocality) RunTest(cert *x509.Certificate) (Resul
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cab_dv_conflicts_with_locality",
-		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, locality name must not be included in subject.",
+		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, locality name MUST NOT be included in subject",
 		Providence:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &certPolicyConflictsWithLocality{},

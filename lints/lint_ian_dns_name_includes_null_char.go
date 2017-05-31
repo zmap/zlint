@@ -33,7 +33,7 @@ func (l *IANDNSNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ian_dns_name_includes_null_char",
-		Description:   "DNSNames MUST NOT include a null character ",
+		Description:   "DNSName MUST NOT include a null character",
 		Providence:    "",
 		EffectiveDate: util.ZeroDate,
 		Test:          &IANDNSNull{},

@@ -44,7 +44,7 @@ func (l *ExtCertPolicyDuplicate) RunTest(cert *x509.Certificate) (ResultStruct, 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_cert_policy_duplicate",
-		Description:   "a cert policy OID must not appear more than once in the extension",
+		Description:   "A certificate policy OID must not appear more than once in the extension",
 		Providence:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &ExtCertPolicyDuplicate{},

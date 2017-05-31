@@ -38,7 +38,7 @@ func (l *caKeyUsageMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_usage_missing",
-		Description:   "Root & Subordinate CA certificate keyUsage extension must be present",
+		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be present",
 		Providence:    "CAB: 7.1.2.1, RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &caKeyUsageMissing{},

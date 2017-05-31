@@ -36,7 +36,7 @@ func (l *caKeyUsageNotCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_usage_not_critical",
-		Description:   "Root & Subordinate CA certificate keyUsage extension must be marked as critical",
+		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be marked as critical",
 		Providence:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyUsageNotCrit{},

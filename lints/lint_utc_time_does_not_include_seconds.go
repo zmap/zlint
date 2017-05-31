@@ -59,7 +59,7 @@ func (l *utcNoSecond) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_utc_time_does_not_include_seconds",
-		Description:   "UTCTime values must include seconds",
+		Description:   "UTCTime values MUST include seconds",
 		Providence:    "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &utcNoSecond{},

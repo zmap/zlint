@@ -42,7 +42,7 @@ func (l *SANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_no_entries",
-		Description:   "if present, the SAN extension must contain at least one entry",
+		Description:   "If present, the SAN extension MUST contain at least one entry",
 		Providence:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &SANNoEntry{},
