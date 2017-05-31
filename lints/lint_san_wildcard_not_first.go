@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_san_wildcard_not_first",
 		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks DNSName)",
-		Providence:    "",
+		Providence:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SANWildCardFirst{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESanWildcardNotFirst = result },

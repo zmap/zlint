@@ -31,7 +31,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_locality_name_missing",
 		Description:   "EV certificates must include localityName in subject",
-		Providence:    "",
+		Providence:    "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
 		Test:          &evLocalityMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvLocalityNameMissing = result },

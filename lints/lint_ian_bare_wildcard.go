@@ -33,7 +33,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ian_bare_wildcard",
 		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
-		Providence:    "",
+		Providence:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &brIANBareWildcard{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EIanBareWildcard = result },

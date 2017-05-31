@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_san_dns_name_includes_null_char",
 		Description:   "DNSName MUST NOT include a null character",
-		Providence:    "",
+		Providence:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SANDNSNull{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESanDnsNameIncludesNullChar = result },
