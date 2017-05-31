@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_serial_number_missing",
 		Description:   "EV certificates must include serialNumber in subject",
-		Providence:    "",
+		Providence:    "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
 		Test:          &evSNMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvSerialNumberMissing = result },

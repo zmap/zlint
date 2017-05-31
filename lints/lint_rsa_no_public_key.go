@@ -32,7 +32,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_no_public_key",
 		Description:   "The RSA public key should be present",
-		Providence:    "",
+		Providence:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rsaParsedPubKeyExist{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaNoPublicKey = result },
