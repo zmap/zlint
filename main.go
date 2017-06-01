@@ -5,7 +5,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"flag"
-	"fmt"
 	log "github.com/Sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/zlint"
@@ -82,22 +81,19 @@ func WriteOutput(in <-chan []byte, outputFileName string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	var outFile *os.File
 	var err error
-	var writeOutputToFile bool = false
-	if outputFileName != "" && outputFileName != "-" {
+	if outputFileName == "" || outputFileName == "-" {
+		outFile = os.Stdout
+	} else {
 		outFile, err = os.Create(outputFileName)
 		if err != nil {
 			log.Fatal("Unable to create output file: ", err)
 		}
 		defer outFile.Close()
-		writeOutputToFile = true
 	}
+
 	for json := range in {
-		if writeOutputToFile {
-			outFile.Write(json)
-			outFile.Write([]byte{'\n'})
-		} else {
-			fmt.Println(string(json))
-		}
+		outFile.Write(json)
+		outFile.Write([]byte{'\n'})
 	}
 }
 
