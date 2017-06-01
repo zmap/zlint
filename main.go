@@ -22,6 +22,7 @@ var ( //flags
 	numCertThreads int
 	prettyPrint    bool
 	numProcs       int
+	channelSize    int
 )
 
 func init() {
@@ -32,6 +33,7 @@ func init() {
 	flag.BoolVar(&threaded, "threads", false, "Use this flag to specify that -multi mode runs multi-threaded. This has no effect otherwise.")
 	flag.IntVar(&numCertThreads, "cert-threads", 1, "Use this flag to specify the number of threads in -threads mode.  This has no effect otherwise.")
 	flag.IntVar(&numProcs, "procs", 1, "Use this flag to specify the number of processes to run on.")
+	flag.IntVar(&channelSize, "channel-size", 10000, "Use this flag to specify the number of values in the buffered channel.")
 	flag.Parse()
 }
 
@@ -84,7 +86,7 @@ func main() {
 	}
 
 	//Initialize Channel
-	certs := make(chan string, 1000)
+	certs := make(chan string, channelSize)
 	var readerWG sync.WaitGroup
 	var procWG sync.WaitGroup
 	readerWG.Add(1)
