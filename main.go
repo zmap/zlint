@@ -29,8 +29,8 @@ func init() {
 	flag.BoolVar(&prettyPrint, "list-lints-json", false, "Use this flag to print supported lints in JSON format, one per line")
 	flag.IntVar(&numCertThreads, "cert-threads", 1, "Use this flag to specify the number of threads in -threads mode.  This has no effect otherwise.")
 	flag.IntVar(&numProcs, "procs", 0, "Use this flag to specify the number of processes to run on.")
-	flag.IntVar(&channelSize, "channel-size", 10000, "Use this flag to specify the number of values in the buffered channel.")
-	flag.BoolVar(&crashIfParseFail, "crash", false, "Use this flag if you want to crash on parsing failure.")
+	flag.IntVar(&channelSize, "channel-size", 1000, "Use this flag to specify the number of values in the buffered channel.")
+	flag.BoolVar(&crashIfParseFail, "fatal-parse-errors", false, "Fatally crash if a certificate cannot be parsed. Log by default.")
 	flag.Parse()
 }
 
@@ -45,15 +45,15 @@ func ProcessCertificate(in <-chan string, out chan<- []byte, wg *sync.WaitGroup)
 		parsed, err := x509.ParseCertificate(der)
 		if err != nil { //could not parse
 			if crashIfParseFail {
-				log.Fatal("Could not parse certificate with error: ", err)
+				log.Fatal("could not parse certificate with error: ", err)
 			} else {
-				log.Info("Could not parse certificate with error: ", err)
+				log.Info("could not parse certificate with error: ", err)
 			}
 		} else { //parsed
 			zlintResult := zlint.ZLintResultTestHandler(parsed)
 			jsonResult, err := json.Marshal(zlintResult.ZLint)
 			if err != nil {
-				log.Fatal("Could not parse JSON.")
+				log.Fatal("could not parse JSON.")
 			}
 			out <- jsonResult
 		}
