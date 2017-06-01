@@ -1,27 +1,27 @@
 package main
 
 import (
-	"github.com/zmap/zlint/zlint"
-	"github.com/zmap/zcrypto/x509"
-	"flag"
-	"os"
-	"fmt"
-	"encoding/json"
 	"bufio"
+	"encoding/base64"
+	"encoding/json"
+	"flag"
+	"fmt"
 	log "github.com/Sirupsen/logrus"
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/zlint"
+	"os"
 	"runtime"
 	"sync"
-	"encoding/base64"
 )
 
 var ( //flags
-	inPath      string
-	outPath     string
-	multi       bool
-	threaded    bool
+	inPath         string
+	outPath        string
+	multi          bool
+	threaded       bool
 	numCertThreads int
-	prettyPrint bool
-	numProcs   int
+	prettyPrint    bool
+	numProcs       int
 )
 
 func init() {
