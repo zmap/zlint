@@ -23,7 +23,7 @@ func (l *subCrlDistCrit) Initialize() error {
 
 func (l *subCrlDistCrit) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return util.IsExtInCert(c, util.CrlDistOID)
+	return util.IsExtInCert(c, util.CrlDistOID) && !util.IsCaCert(c)
 }
 
 func (l *subCrlDistCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {

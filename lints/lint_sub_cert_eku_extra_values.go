@@ -22,7 +22,7 @@ func (l *subExtKeyUsageLegalUsage) Initialize() error {
 
 func (l *subExtKeyUsageLegalUsage) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return c.ExtKeyUsage != nil
+	return c.ExtKeyUsage != nil && !util.IsCaCert(c)
 }
 
 func (l *subExtKeyUsageLegalUsage) RunTest(c *x509.Certificate) (ResultStruct, error) {
