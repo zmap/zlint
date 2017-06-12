@@ -22,7 +22,7 @@ func (l *subCrlSignAllowed) Initialize() error {
 
 func (l *subCrlSignAllowed) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCaCert(c)
+	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 
 func (l *subCrlSignAllowed) RunTest(c *x509.Certificate) (ResultStruct, error) {

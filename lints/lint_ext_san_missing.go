@@ -22,7 +22,7 @@ func (l *SANMissing) Initialize() error {
 }
 
 func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCaCert(c)
+	return !util.IsCACert(c)
 }
 
 func (l *SANMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {

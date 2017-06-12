@@ -7,7 +7,7 @@ import (
 
 func TestRootCAEKU(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/rootCAWithEKUCertPolicy.pem"
+	inputPath := "../testlint/testCerts/rootCAWithEKU.pem"
 	desEnum := Error
 	out, _ := Lints["e_root_ca_extended_key_usage_present"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

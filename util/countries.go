@@ -1,5 +1,7 @@
 package util
 
+import "strings"
+
 var countries = map[string]bool{
 	"AD": true, "AE": true, "AF": true, "AG": true, "AI": true, "AL": true, "AM": true, "AN": true, "AO": true, "AQ": true, "AR": true,
 	"AS": true, "AT": true, "AU": true, "AW": true, "AX": true, "AZ": true, "BA": true, "BB": true, "BD": true, "BE": true, "BF": true, "BG": true,
@@ -24,6 +26,12 @@ var countries = map[string]bool{
 	"VG": true, "VI": true, "VN": true, "VU": true, "WF": true, "WS": true, "YE": true, "YT": true, "ZA": true, "ZM": true, "ZW": true, "XX": true,
 }
 
-func IsCountryInList(in string) bool {
-	return countries[in]
+// IsISOCountryCode returns true if the input is a known two-letter country
+// code.
+//
+// TODO: Document where the list of known countries came from.
+func IsISOCountryCode(in string) bool {
+	in = strings.ToUpper(in)
+	_, ok := countries[in]
+	return ok
 }

@@ -10,9 +10,10 @@ place of business is located.
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type countryNotIso struct {
@@ -29,7 +30,7 @@ func (l *countryNotIso) CheckApplies(c *x509.Certificate) bool {
 
 func (l *countryNotIso) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, j := range c.Subject.Country {
-		if !util.IsCountryInList(strings.ToUpper(j)) {
+		if !util.IsISOCountryCode(strings.ToUpper(j)) {
 			return ResultStruct{Result: Error}, nil
 		}
 	}

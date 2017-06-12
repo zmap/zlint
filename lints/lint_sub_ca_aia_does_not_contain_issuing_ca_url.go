@@ -24,7 +24,7 @@ func (l *subCaIssuerUrl) Initialize() error {
 
 func (l *subCaIssuerUrl) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return util.IsCaCert(c) && !util.IsRootCA(c)
+	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 
 func (l *subCaIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {

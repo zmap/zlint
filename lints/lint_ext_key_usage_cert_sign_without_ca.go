@@ -31,7 +31,7 @@ func (l *keyUsageCertSignNoCa) CheckApplies(c *x509.Certificate) bool {
 
 func (l *keyUsageCertSignNoCa) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if (c.KeyUsage & x509.KeyUsageCertSign) != 0 {
-		if c.BasicConstraintsValid && util.IsCaCert(c) { //CA certs may assert certtificate signing usage
+		if c.BasicConstraintsValid && util.IsCACert(c) { //CA certs may assert certtificate signing usage
 			return ResultStruct{Result: Pass}, nil
 		} else {
 			return ResultStruct{Result: Error}, nil

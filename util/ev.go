@@ -46,9 +46,10 @@ var evoids = map[string]bool{
 	"1.3.6.1.4.1.36305.2":              true,
 }
 
-func IsEv(in []asn1.ObjectIdentifier) bool {
+// IsEV returns true if the input is a known Extended Validation OID.
+func IsEV(in []asn1.ObjectIdentifier) bool {
 	for _, oid := range in {
-		if evoids[oid.String()] {
+		if _, ok := evoids[oid.String()]; ok {
 			return true
 		}
 	}

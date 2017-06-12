@@ -2,8 +2,6 @@ package util
 
 import (
 	"encoding/asn1"
-	"strings"
-	"unicode"
 
 	"github.com/zmap/zcrypto/x509/pkix"
 )
@@ -46,29 +44,7 @@ func IsNameAttribute(oid asn1.ObjectIdentifier) bool {
 	return ok
 }
 
-// CheckRDNSequenceWhiteSpace returns true if there is leading or trailing
-// whitespace in any name attribute in the sequence, respectively.
-func CheckRDNSequenceWhiteSpace(raw []byte) (leading, trailing bool, err error) {
-	var seq pkix.RDNSequence
-	if _, err = asn1.Unmarshal(raw, &seq); err != nil {
-		return
-	}
-	for _, rdn := range seq {
-		for _, atv := range rdn {
-			if !IsNameAttribute(atv.Type) {
-				continue
-			}
-			value, ok := atv.Value.(string)
-			if !ok {
-				continue
-			}
-			if leftStrip := strings.TrimLeftFunc(value, unicode.IsSpace); leftStrip != value {
-				leading = true
-			}
-			if rightStrip := strings.TrimRightFunc(value, unicode.IsSpace); rightStrip != value {
-				trailing = true
-			}
-		}
-	}
-	return
+func NotAllNameFieldsAreEmpty(name *pkix.Name) bool {
+	//Return true if at least one field is non-empty
+	return len(name.Names) >= 1
 }

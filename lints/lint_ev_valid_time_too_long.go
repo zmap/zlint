@@ -16,7 +16,7 @@ func (l *evValidTooLong) Initialize() error {
 }
 
 func (l *evValidTooLong) CheckApplies(c *x509.Certificate) bool {
-	return util.IsEv(c.PolicyIdentifiers)
+	return util.IsEV(c.PolicyIdentifiers)
 }
 
 func (l *evValidTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {

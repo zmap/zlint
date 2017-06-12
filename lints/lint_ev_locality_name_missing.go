@@ -16,7 +16,7 @@ func (l *evLocalityMissing) Initialize() error {
 }
 
 func (l *evLocalityMissing) CheckApplies(c *x509.Certificate) bool {
-	return util.IsEv(c.PolicyIdentifiers)
+	return util.IsEV(c.PolicyIdentifiers)
 }
 
 func (l *evLocalityMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {

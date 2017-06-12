@@ -7,7 +7,7 @@ import (
 
 func TestRootCACertPolicy(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/rootCAWithEKUCertPolicy.pem"
+	inputPath := "../testlint/testCerts/rootCAWithCertPolicy.pem"
 	desEnum := Warn
 	out, _ := Lints["w_root_ca_contains_cert_policy"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {

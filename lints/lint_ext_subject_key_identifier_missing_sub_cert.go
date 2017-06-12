@@ -35,7 +35,7 @@ func (l *subjectKeyIdMissingSubscriber) Initialize() error {
 }
 
 func (l *subjectKeyIdMissingSubscriber) CheckApplies(cert *x509.Certificate) bool {
-	return !util.IsCaCert(cert)
+	return !util.IsCACert(cert)
 }
 
 func (l *subjectKeyIdMissingSubscriber) RunTest(cert *x509.Certificate) (ResultStruct, error) {

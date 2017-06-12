@@ -24,7 +24,7 @@ func (l *subCaOcspUrl) Initialize() error {
 
 func (l *subCaOcspUrl) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return util.IsCaCert(c) && !util.IsRootCA(c)
+	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 
 func (l *subCaOcspUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
