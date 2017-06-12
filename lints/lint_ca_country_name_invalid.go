@@ -29,7 +29,7 @@ func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
 func (l *caCountryNameInvalid) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.Subject.Country != nil {
 		for _, j := range c.Subject.Country {
-			if !util.IsCountryInList(j) {
+			if !util.IsISOCountryCode(j) {
 				return ResultStruct{Result: Error}, nil
 			}
 		}
