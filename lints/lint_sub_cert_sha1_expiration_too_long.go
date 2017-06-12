@@ -23,7 +23,7 @@ func (l *sha1ExpireLong) Initialize() error {
 }
 
 func (l *sha1ExpireLong) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCaCert(c) && c.SignatureAlgorithm == x509.SHA1WithRSA
+	return !util.IsCACert(c) && c.SignatureAlgorithm == x509.SHA1WithRSA
 }
 
 func (l *sha1ExpireLong) RunTest(c *x509.Certificate) (ResultStruct, error) {

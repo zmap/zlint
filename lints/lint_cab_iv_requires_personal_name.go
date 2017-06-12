@@ -17,7 +17,7 @@ func (l *CertPolicyRequiresPersonalName) Initialize() error {
 }
 
 func (l *CertPolicyRequiresPersonalName) CheckApplies(cert *x509.Certificate) bool {
-	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID) && !util.IsCaCert(cert)
+	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID) && !util.IsCACert(cert)
 }
 
 func (l *CertPolicyRequiresPersonalName) RunTest(cert *x509.Certificate) (ResultStruct, error) {

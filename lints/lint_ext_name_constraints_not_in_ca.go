@@ -30,7 +30,7 @@ func (l *nameConstraintNotCa) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintNotCa) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if !util.IsCaCert(c) {
+	if !util.IsCACert(c) {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil
