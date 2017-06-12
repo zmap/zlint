@@ -106,6 +106,7 @@ type LintReport struct {
 	EExtSanContainsReservedIp                            ResultStruct `json:"e_ext_san_contains_reserved_ip,omitempty"`
 	WExtSanCriticalWithSubjectDn                         ResultStruct `json:"w_ext_san_critical_with_subject_dn,omitempty"`
 	EExtSanDirectoryNamePresent                          ResultStruct `json:"e_ext_san_directory_name_present,omitempty"`
+	EExtSanDNSNameTooLong                                ResultStruct `json:"e_ext_san_dns_name_too_long,omitempty"`
 	EExtSanDnsNotIa5String                               ResultStruct `json:"e_ext_san_dns_not_ia5_string,omitempty"`
 	EExtSanDnsSyntaxIncorrect                            ResultStruct `json:"e_ext_san_dns_syntax_incorrect,omitempty"`
 	EExtSanDnsnameNotFqdn                                ResultStruct `json:"e_ext_san_dnsname_not_fqdn,omitempty"`

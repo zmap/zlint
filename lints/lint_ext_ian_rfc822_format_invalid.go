@@ -28,7 +28,7 @@ func (l *IANEmail) Initialize() error {
 }
 
 func (l *IANEmail) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANEmail) RunTest(c *x509.Certificate) (ResultStruct, error) {

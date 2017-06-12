@@ -31,18 +31,22 @@ func (l *IANDNSNotIA5String) Initialize() error {
 }
 
 func (l *IANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANDNSNotIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	notIA5, err := util.DNSHasNonStringIA5(c, true)
-	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+	ext := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
+	if ext == nil {
+		return ResultStruct{Result: Fatal}, nil
 	}
-	if notIA5 {
-		return ResultStruct{Result: Error}, nil
-	} else {
+	ok, err := util.AllAlternateNameWithTagAreIA5(ext, util.DNSNameTag)
+	if err != nil {
+		return ResultStruct{Result: Fatal}, nil
+	}
+	if ok {
 		return ResultStruct{Result: Pass}, nil
+	} else {
+		return ResultStruct{Result: Error}, nil
 	}
 }
 

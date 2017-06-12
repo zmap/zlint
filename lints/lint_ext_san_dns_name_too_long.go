@@ -16,7 +16,7 @@ func (l *SANDNSTooLong) Initialize() error {
 }
 
 func (l *SANDNSTooLong) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SANOID) && len(c.DNSNames) > 0
+	return util.IsExtInCert(c, util.SubjectAlternateNameOID) && len(c.DNSNames) > 0
 }
 
 func (l *SANDNSTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
@@ -34,5 +34,7 @@ func init() {
 		Description:   "DNSName must be less than or equal to 253 bytes",
 		Providence:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SANDNSTooLong{}})
+		Test:          &SANDNSTooLong{},
+		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanDNSNameTooLong = result },
+	})
 }

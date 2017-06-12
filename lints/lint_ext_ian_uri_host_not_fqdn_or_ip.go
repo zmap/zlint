@@ -28,7 +28,7 @@ func (l *IANURIFQDNOrIP) Initialize() error {
 }
 
 func (l *IANURIFQDNOrIP) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANURIFQDNOrIP) RunTest(c *x509.Certificate) (ResultStruct, error) {

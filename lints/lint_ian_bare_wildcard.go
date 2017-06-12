@@ -17,7 +17,7 @@ func (l *brIANBareWildcard) Initialize() error {
 }
 
 func (l *brIANBareWildcard) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *brIANBareWildcard) RunTest(c *x509.Certificate) (ResultStruct, error) {

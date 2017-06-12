@@ -21,7 +21,7 @@ func (l *IANURIIA5String) Initialize() error {
 }
 
 func (l *IANURIIA5String) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANURIIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {

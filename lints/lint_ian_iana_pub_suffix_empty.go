@@ -17,7 +17,7 @@ func (l *IANPubSuffix) Initialize() error {
 }
 
 func (l *IANPubSuffix) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANPubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
