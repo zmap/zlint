@@ -28,7 +28,7 @@ func (l *extSANURIRelative) Initialize() error {
 }
 
 func (l *extSANURIRelative) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SANOID)
+	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
 func (l *extSANURIRelative) RunTest(c *x509.Certificate) (ResultStruct, error) {

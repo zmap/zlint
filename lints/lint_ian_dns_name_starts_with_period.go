@@ -17,7 +17,7 @@ func (l *IANDNSPeriod) Initialize() error {
 }
 
 func (l *IANDNSPeriod) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANDNSPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {

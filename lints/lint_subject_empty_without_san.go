@@ -31,7 +31,7 @@ func (l *emptyWithoutSAN) CheckApplies(cert *x509.Certificate) bool {
 }
 
 func (l *emptyWithoutSAN) RunTest(cert *x509.Certificate) (ResultStruct, error) {
-	if subjectIsEmpty(cert) && !util.IsExtInCert(cert, util.SANOID) {
+	if subjectIsEmpty(cert) && !util.IsExtInCert(cert, util.SubjectAlternateNameOID) {
 		return ResultStruct{Result: Error}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil

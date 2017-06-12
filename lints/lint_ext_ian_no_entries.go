@@ -27,11 +27,11 @@ func (l *IANNoEntry) Initialize() error {
 }
 
 func (l *IANNoEntry) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.IssuerANOID)
+	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
 func (l *IANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	ian := util.GetExtFromCert(c, util.IssuerANOID)
+	ian := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if (ian.Value)[1] == 0 {
 		return ResultStruct{Result: Error}, nil
 	} else {

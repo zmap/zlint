@@ -29,11 +29,11 @@ func (l *SANEmptyName) Initialize() error {
 }
 
 func (l *SANEmptyName) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SANOID)
+	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
 func (l *SANEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	value := util.GetExtFromCert(c, util.SANOID).Value
+	value := util.GetExtFromCert(c, util.SubjectAlternateNameOID).Value
 	var seq asn1.RawValue
 	var err error
 	if _, err = asn1.Unmarshal(value, &seq); err != nil {

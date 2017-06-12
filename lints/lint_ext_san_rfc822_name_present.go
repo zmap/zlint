@@ -26,7 +26,7 @@ func (l *SANRfc822) Initialize() error {
 }
 
 func (l *SANRfc822) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SANOID)
+	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
 func (l *SANRfc822) RunTest(c *x509.Certificate) (ResultStruct, error) {

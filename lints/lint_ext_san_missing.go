@@ -26,7 +26,7 @@ func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *SANMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if util.IsExtInCert(c, util.SANOID) {
+	if util.IsExtInCert(c, util.SubjectAlternateNameOID) {
 		return ResultStruct{Result: Pass}, nil
 	} else {
 		return ResultStruct{Result: Error}, nil

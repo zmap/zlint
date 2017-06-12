@@ -31,7 +31,7 @@ func (l *SANIsSpaceDNS) Initialize() error {
 }
 
 func (l *SANIsSpaceDNS) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SANOID)
+	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
 func (l *SANIsSpaceDNS) RunTest(c *x509.Certificate) (ResultStruct, error) {

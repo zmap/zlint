@@ -21,11 +21,11 @@ func (l *ExtIANCritical) Initialize() error {
 }
 
 func (l *ExtIANCritical) CheckApplies(cert *x509.Certificate) bool {
-	return util.IsExtInCert(cert, util.IssuerANOID)
+	return util.IsExtInCert(cert, util.IssuerAlternateNameOID)
 }
 
 func (l *ExtIANCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
-	if util.GetExtFromCert(cert, util.IssuerANOID).Critical {
+	if util.GetExtFromCert(cert, util.IssuerAlternateNameOID).Critical {
 		return ResultStruct{Result: Warn}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil

@@ -3,36 +3,37 @@ package util
 import (
 	"encoding/asn1"
 	"errors"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
 )
 
 var (
 	//extension OIDs
-	AiaOID                = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}        // Authority Information Access
-	AuthkeyOID            = asn1.ObjectIdentifier{2, 5, 29, 35}                     // Authority Key Identifier
-	BasicConstOID         = asn1.ObjectIdentifier{2, 5, 29, 19}                     // Basic Constraints
-	CertPolicyOID         = asn1.ObjectIdentifier{2, 5, 29, 32}                     // Certificate Policies
-	CrlDistOID            = asn1.ObjectIdentifier{2, 5, 29, 31}                     // CRL Distribution Points
-	CtPoisonOID           = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 3} // CT Poison
-	EkuSynOid             = asn1.ObjectIdentifier{2, 5, 29, 37}                     // Extended Key Usage Syntax
-	FreshCRLOID           = asn1.ObjectIdentifier{2, 5, 29, 46}                     // Freshest CRL
-	InhibitAnyPolicyOID   = asn1.ObjectIdentifier{2, 5, 29, 54}                     // Inhibit Any Policy
-	IssuerANOID           = asn1.ObjectIdentifier{2, 5, 29, 18}                     // Issuer Alt Name
-	KeyUsageOID           = asn1.ObjectIdentifier{2, 5, 29, 15}                     // Key Usage
-	LogoTypeOID           = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 12}       // Logo Type Ext
-	NameConstOID          = asn1.ObjectIdentifier{2, 5, 29, 30}                     // Name Constraints
-	OscpNoCheckOID        = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 1, 5}    // OSCP No Check
-	PolicyConstOID        = asn1.ObjectIdentifier{2, 5, 29, 36}                     // Policy Constraints
-	PolicyMapOID          = asn1.ObjectIdentifier{2, 5, 29, 33}                     // Policy Mappings
-	PrivKeyUsageOID       = asn1.ObjectIdentifier{2, 5, 29, 16}                     // Private Key Usage Period
-	QcStateOid            = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 3}        // QC Statements
-	TimestampOID          = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 2} // Signed Certificate Timestamp List
-	SmimeOID              = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 15}      // Smime Capabilities
-	SANOID                = asn1.ObjectIdentifier{2, 5, 29, 17}                     // Subject Alt Name
-	SubjectDirAttrOID     = asn1.ObjectIdentifier{2, 5, 29, 9}                      // Subject Directory Attributes
-	SubjectInfoAccessOID  = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}       // Subject Info Access Syntax
-	SubjectKeyIdentityOID = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
+	AiaOID                  = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}        // Authority Information Access
+	AuthkeyOID              = asn1.ObjectIdentifier{2, 5, 29, 35}                     // Authority Key Identifier
+	BasicConstOID           = asn1.ObjectIdentifier{2, 5, 29, 19}                     // Basic Constraints
+	CertPolicyOID           = asn1.ObjectIdentifier{2, 5, 29, 32}                     // Certificate Policies
+	CrlDistOID              = asn1.ObjectIdentifier{2, 5, 29, 31}                     // CRL Distribution Points
+	CtPoisonOID             = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 3} // CT Poison
+	EkuSynOid               = asn1.ObjectIdentifier{2, 5, 29, 37}                     // Extended Key Usage Syntax
+	FreshCRLOID             = asn1.ObjectIdentifier{2, 5, 29, 46}                     // Freshest CRL
+	InhibitAnyPolicyOID     = asn1.ObjectIdentifier{2, 5, 29, 54}                     // Inhibit Any Policy
+	IssuerAlternateNameOID  = asn1.ObjectIdentifier{2, 5, 29, 18}                     // Issuer Alt Name
+	KeyUsageOID             = asn1.ObjectIdentifier{2, 5, 29, 15}                     // Key Usage
+	LogoTypeOID             = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 12}       // Logo Type Ext
+	NameConstOID            = asn1.ObjectIdentifier{2, 5, 29, 30}                     // Name Constraints
+	OscpNoCheckOID          = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 1, 5}    // OSCP No Check
+	PolicyConstOID          = asn1.ObjectIdentifier{2, 5, 29, 36}                     // Policy Constraints
+	PolicyMapOID            = asn1.ObjectIdentifier{2, 5, 29, 33}                     // Policy Mappings
+	PrivKeyUsageOID         = asn1.ObjectIdentifier{2, 5, 29, 16}                     // Private Key Usage Period
+	QcStateOid              = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 3}        // QC Statements
+	TimestampOID            = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 2} // Signed Certificate Timestamp List
+	SmimeOID                = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 15}      // Smime Capabilities
+	SubjectAlternateNameOID = asn1.ObjectIdentifier{2, 5, 29, 17}                     // Subject Alt Name
+	SubjectDirAttrOID       = asn1.ObjectIdentifier{2, 5, 29, 9}                      // Subject Directory Attributes
+	SubjectInfoAccessOID    = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}       // Subject Info Access Syntax
+	SubjectKeyIdentityOID   = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
 	// CA/B reserved policies
 	BRDomainValidatedOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1} // CA/B BR Domain-Validated
 	BROrganizationValidatedOID = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2} // CA/B BR Organization-Validated
@@ -57,14 +58,21 @@ var (
 	CpsOID        = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1}
 )
 
+const (
+	// Tags
+	DNSNameTag = 2
+)
+
+// IsExtInCert is equivalent to GetExtFromCert() != nil.
 func IsExtInCert(cert *x509.Certificate, oid asn1.ObjectIdentifier) bool {
 	if cert != nil && GetExtFromCert(cert, oid) != nil {
 		return true
-	} //else
+	}
 	return false
 }
 
-// Helper function that should be used anytime an extension is needed from a certificate
+// GetExtFromCert returns the extension with the matching OID, if present. If
+// the extension if not present, it returns nil.
 func GetExtFromCert(cert *x509.Certificate, oid asn1.ObjectIdentifier) *pkix.Extension {
 	for i := range cert.Extensions {
 		if oid.Equal(cert.Extensions[i].Id) {
