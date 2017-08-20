@@ -1,6 +1,6 @@
 // lint_dsa_shorter_than_2048_bits.go
 /************************************************
-CAB: 6.1.5
+BRs: 6.1.5
 Certificates MUST meet the following requirements for algorithm type and key size.
 Minimum DSA modulus and divisor size (bits)***: L=2048,	N=224 or L=2048, N=256
 ************************************************/
@@ -38,8 +38,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:        "e_dsa_shorter_than_2048_bits",
 		Description: "DSA modulus size must be at least 2048 bits",
-		Provenance:  "CAB: 6.1.5",
-		// Refer to CAB: 6.1.5, taking the statement "Before 31 Dec 2010" literally
+		Provenance:  "BRs: 6.1.5",
+		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
 		Test:          &dsaTooShort{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EDsaShorterThan_2048Bits = result },

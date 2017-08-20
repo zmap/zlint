@@ -1,6 +1,6 @@
 // lint_subject_common_name_included.go
 /***************************************************************
-CAB: 7.1.4.2.2
+BRs: 7.1.4.2.2
 Required/Optional: Deprecated (Discouraged, but not prohibited)
 ***************************************************************/
 package lints
@@ -35,7 +35,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "n_subject_common_name_included",
 		Description:   "Use of the commonName field is discouraged",
-		Provenance:    "CAB: 7.1.4.2.2",
+		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &commonNames{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.NSubjectCommonNameIncluded = result },

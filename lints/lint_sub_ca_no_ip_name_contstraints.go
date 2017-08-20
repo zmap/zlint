@@ -57,7 +57,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_no_ip_name_constraints",
 		Description:   "Subordinate CA certs must include in the name contraints extension either permitted IP ranges or prohibit all IP addresses",
-		Provenance:    "CAB: 7.1.5",
+		Provenance:    "BRs: 7.1.5",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCaBadIPConstraint{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaNoIpNameConstraints = result },

@@ -3,7 +3,7 @@
 Authority Information Access
    The authority information access extension indicates how to access information and services for the issuer of the certificate in which the extension appears. Information and services may include on-line validation services and CA policy data. (The location of CRLs is not specified in this extension; that information is provided by the cRLDistributionPoints extension.) This extension may be included in end entity or CA certificates. Conforming CAs MUST mark this extension as non-critical.
 ************************************************/
-//See also: CAB: 7.1.2.3 & CAB: 7.1.2.2
+//See also: BRs: 7.1.2.3 & CAB: 7.1.2.2
 
 package lints
 

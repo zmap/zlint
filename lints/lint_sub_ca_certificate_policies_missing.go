@@ -1,6 +1,6 @@
 // lint_sub_ca_certificate_policies_missing.go
 /************************************************
-CAB: 7.1.2.2a certificatePolicies
+BRs: 7.1.2.2a certificatePolicies
 This extension MUST be present and SHOULD NOT be marked critical.
 ************************************************/
 
@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_certificate_policies_missing",
 		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
-		Provenance:    "CAB: 7.1.2.2",
+		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACertPolicyMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaCertificatePoliciesMissing = result },

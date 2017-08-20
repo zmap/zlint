@@ -1,6 +1,6 @@
 // lint_sub_cert_crl_distribution_points_marked_critical.go
 /*******************************************************************************************************
-CAB: 7.1.2.3
+BRs: 7.1.2.3
 cRLDistributionPoints
 This extension MAY be present. If present, it MUST NOT be marked critical, and it MUST contain the HTTP
 URL of the CA’s CRL service.
@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_crl_distribution_points_marked_critical",
 		Description:   "Subscriber certificate cRLDistributionPoints extension MUST NOT be marked critical if present",
-		Provenance:    "CAB: 7.1.2.3",
+		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCrlDistCrit{},
 		updateReport: func(report *LintReport, result ResultStruct) {

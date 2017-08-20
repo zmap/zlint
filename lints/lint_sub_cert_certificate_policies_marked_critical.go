@@ -1,6 +1,6 @@
 // lint_sub_cert_certificate_policies_marked_critical.go
 /******************************************************************************
-CAB: 7.1.2.3
+BRs: 7.1.2.3
 certificatePolicies
 This extension MUST be present and SHOULD NOT be marked critical.
 ******************************************************************************/
@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_cert_certificate_policies_marked_critical",
 		Description:   "Subscriber certificates should have the policies extension marked non-critical",
-		Provenance:    "CAB: 7.1.2.3",
+		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicyCrit{},
 		updateReport: func(report *LintReport, result ResultStruct) {
