@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_aia_missing",
 		Description:   "Subordinate CA certificates must have a authorityInformationAccess extension",
-		Provenance:    "CAB: 7.1.2.2",
+		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caAiaMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaAiaMissing = result },

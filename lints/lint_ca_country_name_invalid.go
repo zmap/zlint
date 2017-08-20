@@ -1,6 +1,6 @@
 // lint_ca_country_name_invalid.go
 /************************************************
-CAB: 7.1.2.1e
+BRs: 7.1.2.1e
 The	Certificate	Subject	MUST contain the following:
 ‐	countryName	(OID 2.5.4.6).	This field MUST	contain	the	two‐letter	ISO	3166‐1 country code	for	the
 country	in which the CA’s place	of business	is located.
@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_country_name_invalid",
 		Description:   "Root and Subordinate CA certificates MUST have a two-letter country code specified in ISO 3166-1",
-		Provenance:    "CAB: 7.1.2.1",
+		Provenance:    "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caCountryNameInvalid{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCountryNameInvalid = result },
