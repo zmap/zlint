@@ -1,6 +1,6 @@
 // lint_sub_cert_aia_does_not_contain_issuing_ca_url.go
 /************************************************************************
-CAB: 7.1.2.3
+BRs: 7.1.2.3
 cRLDistributionPoints
 This extension MAY be present. If present, it MUST NOT be marked critical, and it MUST contain the
 HTTP URL of the CA’s CRL service. See Section 13.2.1 for details.
@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_aia_does_not_contain_issuing_ca_url",
 		Description:   "Subscriber certificates authorityInformationAccess extension should contain the HTTP URL of the issuing CA’s certificate",
-		Provenance:    "CAB: 7.1.2.3",
+		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertIssuerUrl{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertAiaDoesNotContainIssuingCaUrl = result },

@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_mod_less_than_2048_bits",
 		Description:   "For certificates valid after 31 Dec 2013, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
-		Provenance:    "CAB: 6.1.5",
+		Provenance:    "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rsaParsedTestsKeySize{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaModLessThan_2048Bits = result },

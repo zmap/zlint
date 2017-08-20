@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_invalid_certificate_version",
 		Description:   "Certificate MUST be version 3 (encoded as 2)",
-		Provenance:    "CAB: 7.1.1",
+		Provenance:    "BRs: 7.1.1",
 		EffectiveDate: util.CABV130Date,
 		Test:          &InvalidCertificateVersion{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EInvalidCertificateVersion = result },
