@@ -11,24 +11,24 @@ type empty struct{}
 var nameAttributePrefix = asn1.ObjectIdentifier{2, 5, 4}
 var nameAttributeLeaves = map[int]empty{
 	// Name attributes defined in RFC 5280 appendix A
-	3:  empty{}, // id-at-commonName	AttributeType ::= { id-at 3 }
-	4:  empty{}, // id-at-surname	AttributeType ::= { id-at  4 }
-	5:  empty{}, // id-at-serialNumber	AttributeType ::= { id-at 5 }
-	6:  empty{}, // id-at-countryName	AttributeType ::= { id-at 6 }
-	7:  empty{}, // id-at-localityName	AttributeType ::= { id-at 7 }
-	8:  empty{}, // id-at-stateOrProvinceName	AttributeType ::= { id-at 8 }
-	10: empty{}, // id-at-organizationName	AttributeType ::= { id-at 10 }
-	11: empty{}, // id-at-organizationalUnitName	AttributeType ::= { id-at 11 }
-	12: empty{}, // id-at-title	AttributeType ::= { id-at 12 }
-	41: empty{}, // id-at-name	AttributeType ::= { id-at 41 }
-	42: empty{}, // id-at-givenName	AttributeType ::= { id-at 42 }
-	43: empty{}, // id-at-initials	AttributeType ::= { id-at 43 }
-	44: empty{}, // id-at-generationQualifier	AttributeType ::= { id-at 44 }
-	46: empty{}, // id-at-dnQualifier	AttributeType ::= { id-at 46 }
+	3:  {}, // id-at-commonName	AttributeType ::= { id-at 3 }
+	4:  {}, // id-at-surname	AttributeType ::= { id-at  4 }
+	5:  {}, // id-at-serialNumber	AttributeType ::= { id-at 5 }
+	6:  {}, // id-at-countryName	AttributeType ::= { id-at 6 }
+	7:  {}, // id-at-localityName	AttributeType ::= { id-at 7 }
+	8:  {}, // id-at-stateOrProvinceName	AttributeType ::= { id-at 8 }
+	10: {}, // id-at-organizationName	AttributeType ::= { id-at 10 }
+	11: {}, // id-at-organizationalUnitName	AttributeType ::= { id-at 11 }
+	12: {}, // id-at-title	AttributeType ::= { id-at 12 }
+	41: {}, // id-at-name	AttributeType ::= { id-at 41 }
+	42: {}, // id-at-givenName	AttributeType ::= { id-at 42 }
+	43: {}, // id-at-initials	AttributeType ::= { id-at 43 }
+	44: {}, // id-at-generationQualifier	AttributeType ::= { id-at 44 }
+	46: {}, // id-at-dnQualifier	AttributeType ::= { id-at 46 }
 
 	// Name attributes not present in RFC 5280, but appeared in golang crypto/x509/pkix.go
-	9:  empty{}, // id-at-streetName	AttributeType ::= { id-at 9 }
-	17: empty{}, // id-at-postalCodeName	AttributeType ::= { id-at 17 }
+	9:  {}, // id-at-streetName	AttributeType ::= { id-at 9 }
+	17: {}, // id-at-postalCodeName	AttributeType ::= { id-at 17 }
 }
 
 // IsNameAttribute returns true if the given ObjectIdentifier corresponds with
