@@ -141,7 +141,7 @@ type LintReport struct {
 	WIssuerDnLeadingWhitespace                           ResultStruct `json:"w_issuer_dn_leading_whitespace,omitempty"`
 	EIssuerFieldEmpty                                    ResultStruct `json:"e_issuer_field_empty,omitempty"`
 	ENameConstraintEmpty                                 ResultStruct `json:"e_name_constraint_empty,omitempty"`
-	ENameConstraintMaximumNotAbsent                      ResultStruct `son:"e_name_constraint_maximum_not_absent,omitempty"`
+	ENameConstraintMaximumNotAbsent                      ResultStruct `json:"e_name_constraint_maximum_not_absent,omitempty"`
 	ENameConstraintMinimumNonZero                        ResultStruct `json:"e_name_constraint_minimum_non_zero,omitempty"`
 	WNameConstraintOnEdiPartyName                        ResultStruct `json:"w_name_constraint_on_edi_party_name,omitempty"`
 	WNameConstraintOnRegisteredId                        ResultStruct `json:"w_name_constraint_on_registered_id,omitempty"`

@@ -1,6 +1,6 @@
 // lint_ext_san_missing.go
 /************************************************
-CAB: 7.1.4.2.1
+BRs: 7.1.4.2.1
 Subject Alternative Name Extension
 Certificate Field: extensions:subjectAltName
 Required/Optional: Required
@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_missing",
 		Description:   "Subscriber certificates MUST contain the Subject Alternate Name extension",
-		Provenance:    "CAB: 7.1.4.2.1",
+		Provenance:    "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanMissing = result },
