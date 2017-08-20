@@ -116,3 +116,4 @@ vendor/
 lintprint/lintprint
 
 zlint-main
+*.swp
