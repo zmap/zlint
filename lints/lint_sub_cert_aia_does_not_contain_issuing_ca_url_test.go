@@ -7,7 +7,7 @@ import (
 
 func TestSubCertNoIssuerUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWOcspURL.pem"
-	desEnum := Error
+	desEnum := Warn
 	out, _ := Lints["e_sub_cert_aia_does_not_contain_issuing_ca_url"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
