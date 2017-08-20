@@ -30,7 +30,7 @@ func (l *subCertIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.IssuingCertificateURL != nil {
 		return ResultStruct{Result: Pass}, nil
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Warn}, nil
 	}
 }
 
