@@ -30,7 +30,7 @@ func (l *authorityKeyIdNoKeyIdField) Initialize() error {
 }
 
 func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return util.IsSubscriberCert(c)
 }
 
 func (l *authorityKeyIdNoKeyIdField) RunTest(c *x509.Certificate) (ResultStruct, error) {
