@@ -108,7 +108,6 @@ type LintReport struct {
 	EExtSanDirectoryNamePresent                          ResultStruct `json:"e_ext_san_directory_name_present,omitempty"`
 	EExtSanDNSNameTooLong                                ResultStruct `json:"e_ext_san_dns_name_too_long,omitempty"`
 	EExtSanDnsNotIa5String                               ResultStruct `json:"e_ext_san_dns_not_ia5_string,omitempty"`
-	EExtSanDnsSyntaxIncorrect                            ResultStruct `json:"e_ext_san_dns_syntax_incorrect,omitempty"`
 	EExtSanDnsnameNotFqdn                                ResultStruct `json:"e_ext_san_dnsname_not_fqdn,omitempty"`
 	EExtSanEdiPartyNamePresent                           ResultStruct `json:"e_ext_san_edi_party_name_present,omitempty"`
 	EExtSanEmptyName                                     ResultStruct `json:"e_ext_san_empty_name,omitempty"`

@@ -36,7 +36,7 @@ func (l *SubjectRDNHasMultipleAttribute) RunTest(c *x509.Certificate) (ResultStr
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_multiple_subject_RDN",
+		Name:          "w_multiple_subject_rdn",
 		Description:   "Certificates should not have multiple attributes in a single RDN (subject)",
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
