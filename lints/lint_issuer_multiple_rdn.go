@@ -2,6 +2,7 @@ package lints
 
 import (
 	"encoding/asn1"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/util"
@@ -34,7 +35,7 @@ func (l *IssuerRDNHasMultipleAttribute) RunTest(c *x509.Certificate) (ResultStru
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_multiple_issuer_RDN",
+		Name:          "w_multiple_issuer_rdn",
 		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
