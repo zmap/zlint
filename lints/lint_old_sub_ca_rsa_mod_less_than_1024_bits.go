@@ -5,6 +5,7 @@ package lints
 
 import (
 	"crypto/rsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -21,7 +22,7 @@ func (l *subCaModSize) CheckApplies(c *x509.Certificate) bool {
 	issueDate := c.NotBefore
 	endDate := c.NotAfter
 	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return ok && util.IsSubCA(c) && issueDate.Before(util.RsaDate2) && endDate.Before(util.RsaDate3)
+	return ok && util.IsSubCA(c) && issueDate.Before(util.NoRSA1024RootDate) && endDate.Before(util.NoRSA1024Date)
 }
 
 func (l *subCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {

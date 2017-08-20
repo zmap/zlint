@@ -7,6 +7,7 @@ package lints
 
 import (
 	"crypto/rsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -21,7 +22,7 @@ func (l *rsaParsedTestsKeySize) Initialize() error {
 
 func (l *rsaParsedTestsKeySize) CheckApplies(c *x509.Certificate) bool {
 	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return ok && c.PublicKeyAlgorithm == x509.RSA
+	return ok && c.PublicKeyAlgorithm == x509.RSA && c.NotAfter.After(util.NoRSA1024Date.Add(-1))
 }
 
 func (l *rsaParsedTestsKeySize) RunTest(c *x509.Certificate) (ResultStruct, error) {
@@ -36,9 +37,9 @@ func (l *rsaParsedTestsKeySize) RunTest(c *x509.Certificate) (ResultStruct, erro
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_mod_less_than_2048_bits",
-		Description:   "In the validity period beginning after 31 Dec 2010, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
+		Description:   "For certificates valid after 31 Dec 2013, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
 		Provenance:    "BRs: 6.1.5",
-		EffectiveDate: util.RsaDate, // CA/B BR is retroactive here
+		EffectiveDate: util.ZeroDate,
 		Test:          &rsaParsedTestsKeySize{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaModLessThan_2048Bits = result },
 	})
