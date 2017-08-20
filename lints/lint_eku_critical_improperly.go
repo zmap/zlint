@@ -48,7 +48,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_eku_critical_improperly",
 		Description:   "Conforming CAs SHOULD NOT mark extended key usage extension as critical if the anyExtendedKeyUsage KeyPurposedID is present",
-		Providence:    "RFC 5280: 4.2.1.12",
+		Provenance:    "RFC 5280: 4.2.1.12",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &ekuBadCritical{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WEkuCriticalImproperly = result },

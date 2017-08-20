@@ -41,7 +41,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_san_critical_with_subject_dn",
 		Description:   "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
-		Providence:    "RFC 5280: 4.2.1.6",
+		Provenance:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &ExtSANCriticalWithSubjectDN{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtSanCriticalWithSubjectDn = result },

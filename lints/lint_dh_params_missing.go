@@ -33,7 +33,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dh_params_missing",
 		Description:   "DH keys must have parameters",
-		Providence:    "awslabs certlint",
+		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &dsaParamsMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EDhParamsMissing = result },

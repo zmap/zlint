@@ -48,7 +48,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_serial_number_longer_than_20_octets",
 		Description:   "Certificates must not have a serial number longer than 20 octets",
-		Providence:    "RFC 5280: 4.1.2.2",
+		Provenance:    "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &serialNumberTooLong{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESerialNumberLongerThan_20Octets = result },

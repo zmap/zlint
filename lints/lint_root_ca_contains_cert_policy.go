@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_root_ca_contains_cert_policy",
 		Description:   "Root CA certs SHOULD NOT contain the certificate policies extension",
-		Providence:    "CAB: 7.1.2.1",
+		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &rootCAContainsCertPolicy{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WRootCaContainsCertPolicy = result },

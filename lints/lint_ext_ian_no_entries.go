@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_no_entries",
 		Description:   "If present, the IAN extension must contain at least one entry",
-		Providence:    "RFC 5280: 4.2.1.7",
+		Provenance:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &IANNoEntry{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtIanNoEntries = result },

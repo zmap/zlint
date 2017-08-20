@@ -44,7 +44,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_contains_reserved_ip",
 		Description:   "Certificates expiring later than 11 Jan 2015 MUST NOT contain a reserved IP address in the common name field",
-		Providence:    "CAB: 7.1.4.2.1",
+		Provenance:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subjectReservedIP{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectContainsReservedIp = result },

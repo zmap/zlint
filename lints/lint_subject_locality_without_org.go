@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_locality_without_org",
 		Description:   "The Locality field MUST NOT be included without an organization name",
-		Providence:    "CAB: 7.1.4.2.2",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &localNoOrg{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectLocalityWithoutOrg = result },

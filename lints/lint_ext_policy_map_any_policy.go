@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_policy_map_any_policy",
 		Description:   "Policies must not be mapped to or from the anyPolicy value",
-		Providence:    "RFC 5280: 4.2.1.5",
+		Provenance:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &policyMapAnyPolicy{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtPolicyMapAnyPolicy = result },

@@ -10,7 +10,7 @@ func TestAllLintsHaveUpdateReport(t *testing.T) {
 	}
 }
 
-func TestAllLintsHaveNameDescriptionProvidence(t *testing.T) {
+func TestAllLintsHaveNameDescriptionProvenance(t *testing.T) {
 	for name, lint := range Lints {
 		if lint.Name == "" {
 			t.Errorf("lint %s has empty name", name)
@@ -18,7 +18,7 @@ func TestAllLintsHaveNameDescriptionProvidence(t *testing.T) {
 		if lint.Description == "" {
 			t.Errorf("lint %s has empty description", name)
 		}
-		if lint.Providence == "" {
+		if lint.Provenance == "" {
 			t.Errorf("lint %s has empty providence", name)
 		}
 	}

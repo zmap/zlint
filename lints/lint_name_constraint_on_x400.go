@@ -42,7 +42,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_name_constraint_on_x400",
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the x400Address name form",
-		Providence:    "RFC 5280: 4.2.1.10",
+		Provenance:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &nameConstraintOnX400{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WNameConstraintOnX400 = result },

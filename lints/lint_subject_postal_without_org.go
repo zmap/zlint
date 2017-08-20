@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_postal_without_org",
 		Description:   "The postal code MUST NOT be included without an organization name",
-		Providence:    "CAB: 7.1.4.2.2",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &postalNoOrg{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectPostalWithoutOrg = result },

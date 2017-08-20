@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_rsa_mod_not_odd",
 		Description:   "The modulus of a RSA public key should be an odd number",
-		Providence:    "CAB: 6.1.6",
+		Provenance:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsKeyModOdd{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaModNotOdd = result },

@@ -48,7 +48,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_gtld_under_consideration",
 		Description:   "CAs SHOULD NOT issue certificates containing a new gTLD under consideration by ICANN",
-		Providence:    "CAB: 4.2.2",
+		Provenance:    "CAB: 4.2.2",
 		EffectiveDate: util.CABV113Date,
 		Test:          &gtldUnderConsideration{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WGtldUnderConsideration = result },

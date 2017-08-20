@@ -48,7 +48,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cert_extensions_version_not_3",
 		Description:   "The extensions field MUST only appear in version 3 certificates",
-		Providence:    "RFC 5280: 4.1.2.9",
+		Provenance:    "RFC 5280: 4.1.2.9",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &CertExtensionsVersonNot3{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECertExtensionsVersionNot_3 = result },

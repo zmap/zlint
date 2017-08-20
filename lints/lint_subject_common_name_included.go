@@ -35,7 +35,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "n_subject_common_name_included",
 		Description:   "Use of the commonName field is discouraged",
-		Providence:    "CAB: 7.1.4.2.2",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &commonNames{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.NSubjectCommonNameIncluded = result },

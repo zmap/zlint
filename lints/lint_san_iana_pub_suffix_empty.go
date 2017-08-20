@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_san_iana_pub_suffix_empty",
 		Description:   "The domain SHOULD NOT have a bare public suffix",
-		Providence:    "awslabs certlint",
+		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &pubSuffix{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WSanIanaPubSuffixEmpty = result },

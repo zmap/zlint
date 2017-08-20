@@ -73,7 +73,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_generalized_time_does_not_include_seconds",
 		Description:   "Generalized time values MUST include seconds",
-		Providence:    "RFC 5280: 4.1.2.5.2",
+		Provenance:    "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &generalizedNoSeconds{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EGeneralizedTimeDoesNotIncludeSeconds = result },

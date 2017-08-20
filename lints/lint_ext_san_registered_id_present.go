@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_registered_id_present",
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
-		Providence:    "CAB: 7.1.4.2.1",
+		Provenance:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANRegId{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanRegisteredIdPresent = result },

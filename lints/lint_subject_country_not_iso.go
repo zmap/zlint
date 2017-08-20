@@ -41,7 +41,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_country_not_iso",
 		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
-		Providence:    "CAB: 7.1.4.2.2",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &countryNotIso{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectCountryNotIso = result },

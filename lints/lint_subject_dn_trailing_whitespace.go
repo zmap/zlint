@@ -32,7 +32,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_subject_dn_trailing_whitespace",
 		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have trailing whitespace",
-		Providence:    "aswlabs certlint",
+		Provenance:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SubjectDNTrailingSpace{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubjectDnTrailingWhitespace = result },

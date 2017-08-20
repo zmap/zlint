@@ -2,7 +2,7 @@
 
 The following is a list of lints run on each certificate at this time.
 
-**Lint Name** | **Description** | **Providence**
+**Lint Name** | **Description** | **Provenance**
 ------------------- | :-------------------------------------------------------------------: | ---:
 basic_constraints_not_critical | Conforming CAs must mark Basic Constraints as critical when it is included in CA certs | RFC 5280: 4.2.1.9
 br_san_bare_wildcard | Wildcard MUST be accompanied by other data to it's right (Only checks DNSName) | -
@@ -187,7 +187,7 @@ wrong_time_format_pre2050 | Certificates with validity through the year 2049 mus
 
 The following is a list of lints we plan to implement in the future.
 
-**Lint Name** | **Description** | **Providence**
+**Lint Name** | **Description** | **Provenance**
 ------------------- | :-------------------------------------------------------------------: | ---:
 br_contains_ulabel | Warning thrown if commonNames in BR certificate contains U-labels | -
 br_san_wildcard_unknown | Wildcard other than \*.<fqdn> in SAN | -

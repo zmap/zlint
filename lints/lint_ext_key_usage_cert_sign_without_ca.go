@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_key_usage_cert_sign_without_ca",
 		Description:   "if the keyCertSign bit is asserted, then the cA bit in the basic constraints extension MUST also be asserted",
-		Providence:    "RFC 5280: 4.2.1.3 & 4.2.1.9",
+		Provenance:    "RFC 5280: 4.2.1.3 & 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &keyUsageCertSignNoCa{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtKeyUsageCertSignWithoutCa = result },

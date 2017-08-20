@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_usage_not_critical",
 		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be marked as critical",
-		Providence:    "CAB: 7.1.2.1",
+		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyUsageNotCrit{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaKeyUsageNotCritical = result },

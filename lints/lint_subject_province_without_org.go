@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_province_without_org",
 		Description:   "The stateOrProvince name MUST NOT be included without an organization name",
-		Providence:    "CAB: 7.1.4.2.2",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &provinceNoOrg{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectProvinceWithoutOrg = result },

@@ -46,7 +46,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_cert_policy_explicit_text_not_nfc",
 		Description:   "When utf8string or bmpstring encoding is used for explicitText field in certificate policy, it SHOULD be normalized by NFC format",
-		Providence:    "Fill this in...",
+		Provenance:    "Fill this in...",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &ExtCertPolicyExplicitTextNotNFC{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtCertPolicyExplicitTextNotNfc = result },

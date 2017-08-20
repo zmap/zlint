@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_cert_policy_contains_noticeref",
 		Description:   "Compliant certificates SHOULD NOT use the noticeRef option",
-		Providence:    "RFC 5280: 4.2.1.4",
+		Provenance:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &noticeRefPres{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtCertPolicyContainsNoticeref = result },

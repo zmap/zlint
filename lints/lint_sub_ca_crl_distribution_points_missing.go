@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_crl_distribution_points_missing",
 		Description:   "Subordinate CA certificates must have a cRLDistributionPoints extension",
-		Providence:    "CAB: 7.1.2.2",
+		Provenance:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACRLDistMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaCrlDistributionPointsMissing = result },

@@ -44,7 +44,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_inhibit_any_policy_not_critical",
 		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
-		Providence:    "RFC 5280: 4.2.1.14",
+		Provenance:    "RFC 5280: 4.2.1.14",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &InhibitAnyPolicyNotCritical{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EInhibitAnyPolicyNotCritical = result },

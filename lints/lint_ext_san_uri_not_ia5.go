@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_uri_not_ia5",
 		Description:   "When subjectAlternateName contains a URI, the name MUST be an IA5 string",
-		Providence:    "RFC5280: 4.2.1.6",
+		Provenance:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &extSANURINotIA5{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanUriNotIa5 = result },
