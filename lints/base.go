@@ -180,7 +180,7 @@ type LintReport struct {
 	WSubCaNameConstraintsNotCritical                     ResultStruct `json:"w_sub_ca_name_constraints_not_critical,omitempty"`
 	ESubCaNoDnsNameConstraints                           ResultStruct `json:"e_sub_ca_no_dns_name_constraints,omitempty"`
 	ESubCaNoIpNameConstraints                            ResultStruct `json:"e_sub_ca_no_ip_name_constraints,omitempty"`
-	ESubCertAiaDoesNotContainIssuingCaUrl                ResultStruct `json:"e_sub_cert_aia_does_not_contain_issuing_ca_url,omitempty"`
+	ESubCertAiaDoesNotContainIssuingCaUrl                ResultStruct `json:"w_sub_cert_aia_does_not_contain_issuing_ca_url,omitempty"`
 	ESubCertAiaDoesNotContainOcspUrl                     ResultStruct `json:"e_sub_cert_aia_does_not_contain_ocsp_url,omitempty"`
 	ESubCertAiaMissing                                   ResultStruct `json:"e_sub_cert_aia_missing,omitempty"`
 	ESubCertCertPolicyEmpty                              ResultStruct `json:"e_sub_cert_cert_policy_empty,omitempty"`
