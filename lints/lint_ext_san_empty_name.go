@@ -63,7 +63,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_empty_name",
 		Description:   "General name fields MUST NOT be empty in subjectAlternateNames",
-		Providence:    "RFC 5280: 4.2.1.6",
+		Provenance:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &SANEmptyName{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanEmptyName = result },

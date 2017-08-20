@@ -44,7 +44,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:        "e_dsa_improper_modulus_or_divisor_size",
 		Description: "The minimum DSA modulus and divisor size is either L=2048, N=224 or L=2048, N=256 (extras come from FIPS 186-4)",
-		Providence:  "CAB: 6.1.5",
+		Provenance:  "CAB: 6.1.5",
 		// Refer to CAB: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
 		Test:          &dsaImproperSize{},

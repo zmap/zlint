@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_cert_sign_not_set",
 		Description:   "Root and Subordinate CA certificate keyUsage extension's keyCertSign bit MUST be set",
-		Providence:    "CAB: 7.1.2.1",
+		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyCertSignNotSet{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaKeyCertSignNotSet = result },

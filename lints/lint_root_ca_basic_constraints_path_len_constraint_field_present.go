@@ -50,7 +50,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_root_ca_basic_constraints_path_len_constraint_field_present",
 		Description:   "Root CA certificate basicConstraint extension pathLenConstraint field SHOULD NOT be present",
-		Providence:    "CAB: 7.1.2.1",
+		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &rootCaPathLenPresent{},
 		updateReport: func(report *LintReport, result ResultStruct) {

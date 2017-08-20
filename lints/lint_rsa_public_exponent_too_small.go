@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_public_exponent_too_small",
 		Description:   "RSA public key MUST be greater or equal to 3",
-		Providence:    "CAB: 6.1.6",
+		Provenance:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsExpBounds{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaPublicExponentTooSmall = result },

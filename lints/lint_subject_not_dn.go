@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_not_dn",
 		Description:   "When not empty, the subject field MUST be a distinguished name",
-		Providence:    "RFC 5280: 4.1.2.6",
+		Provenance:    "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectDN{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectNotDn = result },

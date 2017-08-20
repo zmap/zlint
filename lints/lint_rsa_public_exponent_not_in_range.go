@@ -46,7 +46,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_rsa_public_exponent_not_in_range",
 		Description:   "The RSA public exponent SHOULD be between 2^16 + 1 and 2^256 - 1",
-		Providence:    "CAB: 6.1.6",
+		Provenance:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsExpInRange{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaPublicExponentNotInRange = result },

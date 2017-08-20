@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_certificate_policies_missing",
 		Description:   "Subscriber certificates should have the certificates policies extension present",
-		Providence:    "CAB: 7.1.2.2",
+		Provenance:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicy{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertCertificatePoliciesMissing = result },

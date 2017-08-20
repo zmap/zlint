@@ -32,7 +32,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_issuer_dn_leading_whitespace",
 		Description:   "AttributeValue in issuer RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
-		Providence:    "aswlabs certlint",
+		Provenance:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &IssuerDNLeadingSpace{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WIssuerDnLeadingWhitespace = result },

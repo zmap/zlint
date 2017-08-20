@@ -41,7 +41,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_no_dns_name_constraints",
 		Description:   "Subordinate CA certificates MUST be accompanied by other data to it's right must include in the name contraints extension either permitted DNS names or prohibit the empty DNS name",
-		Providence:    "CAB: 7.1.5",
+		Provenance:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCaBadDNSConstraint{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaNoDnsNameConstraints = result },

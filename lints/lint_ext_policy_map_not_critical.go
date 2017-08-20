@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_policy_map_not_critical",
 		Description:   "Policy mappings should be marked as critical",
-		Providence:    "RFC 5280: 4.2.1.5",
+		Provenance:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &policyMapCritical{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtPolicyMapNotCritical = result },

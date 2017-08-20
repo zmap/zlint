@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_ca_certificate_policies_marked_critical",
 		Description:   "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
-		Providence:    "CAB: 7.1.2.2",
+		Provenance:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACertPolicyCrit{},
 		updateReport: func(report *LintReport, result ResultStruct) {

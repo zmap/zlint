@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_issuer_field_empty",
 		Description:   "Certificate issuer field MUST NOT be empty and must have a non-empty distingushed name",
-		Providence:    "RFC 5280: 4.1.2.4",
+		Provenance:    "RFC 5280: 4.1.2.4",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &issuerFieldEmpty{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EIssuerFieldEmpty = result },

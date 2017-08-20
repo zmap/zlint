@@ -33,7 +33,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ian_dns_name_starts_with_period",
 		Description:   "DNSName MUST NOT start with a period",
-		Providence:    "awslabs certlint",
+		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &IANDNSPeriod{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EIanDnsNameStartsWithPeriod = result },

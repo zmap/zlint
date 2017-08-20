@@ -18,7 +18,7 @@ import (
 type PrettyOutput struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	Providence  string `json:"providence"`
+	Provenance  string `json:"providence"`
 }
 
 //Pretty Print lint outputs
@@ -27,7 +27,7 @@ func PrettyPrintZLint() {
 		p := PrettyOutput{}
 		p.Name = l.Name
 		p.Description = l.Description
-		p.Providence = l.Providence
+		p.Provenance = l.Provenance
 
 		buffer := new(bytes.Buffer)
 		enc := json.NewEncoder(buffer)

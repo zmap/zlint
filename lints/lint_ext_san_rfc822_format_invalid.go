@@ -49,7 +49,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_rfc822_format_invalid",
 		Description:   "Email MUST NOT be surrounded with `<>`, and there must be no trailing comments in `()`",
-		Providence:    "RFC 5280: 4.2.1.6",
+		Provenance:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &invalidEmail{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanRfc822FormatInvalid = result },

@@ -49,7 +49,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_basic_constraints_not_critical",
 		Description:   "Conforming CAs MUST mark Basic Constraints as critical when included in CA certificates",
-		Providence:    "RFC 5280: 4.2.1.9",
+		Provenance:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &basicConstCrit{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EBasicConstraintsNotCritical = result },

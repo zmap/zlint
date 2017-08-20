@@ -58,7 +58,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_contains_noninformational_value",
 		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
-		Providence:    "CAB: 7.1.4.2.2",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &illegalChar{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectContainsNoninformationalValue = result },

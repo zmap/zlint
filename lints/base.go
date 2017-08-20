@@ -258,7 +258,7 @@ type LintTest interface {
 type Lint struct {
 	Name          string
 	Description   string
-	Providence    string
+	Provenance    string
 	EffectiveDate time.Time
 	Test          LintTest
 	updateReport  lintReportUpdater

@@ -35,7 +35,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cab_dv_conflicts_with_province",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, stateOrProvinceName MUST NOT be included in subject",
-		Providence:    "CAB: 7.1.6.1",
+		Provenance:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &certPolicyConflictsWithProvince{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECabDvConflictsWithProvince = result },

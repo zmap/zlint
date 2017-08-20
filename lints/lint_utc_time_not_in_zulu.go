@@ -72,7 +72,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_utc_time_not_in_zulu",
 		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
-		Providence:    "RFC 5280: 4.1.2.5.1",
+		Provenance:    "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &utcTimeGMT{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EUtcTimeNotInZulu = result },

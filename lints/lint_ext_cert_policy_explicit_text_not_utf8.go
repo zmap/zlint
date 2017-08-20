@@ -51,7 +51,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_cert_policy_explicit_text_not_utf8",
 		Description:   "Compliant certificates should use the utf8string encoding for explicitText",
-		Providence:    "RFC 6818: 3",
+		Provenance:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextUtf8{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtCertPolicyExplicitTextNotUtf8 = result },

@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_country_name_missing",
 		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
-		Providence:    "CAB: 7.1.2.1",
+		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caCountryNameMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCountryNameMissing = result },

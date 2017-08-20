@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_name_constraints_not_critical",
 		Description:   "If it is included, conforming CAs MUST mark the name constrains extension as critical",
-		Providence:    "RFC 5280: 4.2.1.10",
+		Provenance:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &nameConstraintCrit{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtNameConstraintsNotCritical = result },

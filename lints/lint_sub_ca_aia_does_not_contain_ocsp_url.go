@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_aia_does_not_contain_ocsp_url",
 		Description:   "Subordinate CA certificates authorityInformationAccess extension must contain the HTTP URL of the issuing CA’s OCSP responder",
-		Providence:    "CAB: 7.1.2.2",
+		Provenance:    "CAB: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCaOcspUrl{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaAiaDoesNotContainOcspUrl = result },

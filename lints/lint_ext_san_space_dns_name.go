@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_space_dns_name",
 		Description:   "The dNSName ` ` MUST NOT be used",
-		Providence:    "RFC 5280: 4.2.1.6",
+		Provenance:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &SANIsSpaceDNS{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanSpaceDnsName = result },
