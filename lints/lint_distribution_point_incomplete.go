@@ -67,6 +67,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &dpIncomplete{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EDistributionPointIncomplete = result },
 	})
 }

@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "CAB: 7.1.3",
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),
 		Test:          &sha1ExpireLong{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCertSha1ExpirationTooLong = result },
 	})
 }

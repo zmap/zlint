@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subExtKeyUsage{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertEkuMissing = result },
 	})
 }

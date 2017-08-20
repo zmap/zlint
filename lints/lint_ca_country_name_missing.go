@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caCountryNameMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCountryNameMissing = result },
 	})
 }

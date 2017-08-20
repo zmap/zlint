@@ -45,6 +45,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &CertContainsUniqueIdentifier{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECertContainsUniqueIdentifier = result },
 	})
 }

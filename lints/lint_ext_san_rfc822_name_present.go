@@ -43,6 +43,5 @@ func init() {
 		Provenance:    "CAB: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANRfc822{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanRfc822NamePresent = result },
 	})
 }

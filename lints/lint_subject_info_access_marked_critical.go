@@ -36,6 +36,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.2.2",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &siaCrit{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectInfoAccessMarkedCritical = result },
 	})
 }

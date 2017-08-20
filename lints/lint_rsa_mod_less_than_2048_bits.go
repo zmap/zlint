@@ -40,6 +40,5 @@ func init() {
 		Provenance:    "CAB: 6.1.5",
 		EffectiveDate: util.RsaDate, // CA/B BR is retroactive here
 		Test:          &rsaParsedTestsKeySize{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaModLessThan_2048Bits = result },
 	})
 }

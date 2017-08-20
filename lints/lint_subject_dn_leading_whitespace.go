@@ -35,6 +35,5 @@ func init() {
 		Provenance:    "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SubjectDNLeadingSpace{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubjectDnLeadingWhitespace = result },
 	})
 }

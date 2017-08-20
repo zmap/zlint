@@ -39,8 +39,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicyCrit{},
-		updateReport: func(report *LintReport, result ResultStruct) {
-			report.WSubCertCertificatePoliciesMarkedCritical = result
-		},
 	})
 }

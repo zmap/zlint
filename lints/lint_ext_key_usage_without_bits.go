@@ -42,6 +42,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &keyUsageBitsSet{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtKeyUsageWithoutBits = result },
 	})
 }

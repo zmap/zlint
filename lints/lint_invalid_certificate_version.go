@@ -37,6 +37,5 @@ func init() {
 		Provenance:    "CAB: 7.1.1",
 		EffectiveDate: util.CABV130Date,
 		Test:          &InvalidCertificateVersion{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EInvalidCertificateVersion = result },
 	})
 }

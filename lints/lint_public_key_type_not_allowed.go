@@ -35,6 +35,5 @@ func init() {
 		Provenance:    "CAB: 6.1.5",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &publicKeyAllowed{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EPublicKeyTypeNotAllowed = result },
 	})
 }

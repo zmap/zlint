@@ -44,6 +44,5 @@ func init() {
 		Provenance:    "CAB: 7.1.5",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCaBadDNSConstraint{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaNoDnsNameConstraints = result },
 	})
 }

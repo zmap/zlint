@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsKeyExpOdd{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaPublicExponentNotOdd = result },
 	})
 }

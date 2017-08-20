@@ -38,6 +38,5 @@ func init() {
 		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &commonNames{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.NSubjectCommonNameIncluded = result },
 	})
 }

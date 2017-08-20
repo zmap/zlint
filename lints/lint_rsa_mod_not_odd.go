@@ -43,6 +43,5 @@ func init() {
 		Provenance:    "CAB: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsKeyModOdd{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaModNotOdd = result },
 	})
 }

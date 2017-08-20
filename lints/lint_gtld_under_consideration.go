@@ -51,6 +51,5 @@ func init() {
 		Provenance:    "CAB: 4.2.2",
 		EffectiveDate: util.CABV113Date,
 		Test:          &gtldUnderConsideration{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WGtldUnderConsideration = result },
 	})
 }

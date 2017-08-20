@@ -38,6 +38,5 @@ func init() {
 		Provenance:    "CAB: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &certPolicyConflictsWithStreet{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECabDvConflictsWithStreet = result },
 	})
 }

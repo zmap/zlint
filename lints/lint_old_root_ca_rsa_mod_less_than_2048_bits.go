@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "CAB: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rootCaModSize{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EOldRootCaRsaModLessThan_2048Bits = result },
 	})
 }

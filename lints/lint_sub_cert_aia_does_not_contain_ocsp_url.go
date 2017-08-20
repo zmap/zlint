@@ -43,6 +43,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertOcspUrl{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertAiaDoesNotContainOcspUrl = result },
 	})
 }

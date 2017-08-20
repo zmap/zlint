@@ -53,8 +53,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &rootCaPathLenPresent{},
-		updateReport: func(report *LintReport, result ResultStruct) {
-			report.WRootCaBasicConstraintsPathLenConstraintFieldPresent = result
-		},
 	})
 }

@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCrlSignAllowed{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertKeyUsageCrlSignBitSet = result },
 	})
 }

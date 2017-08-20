@@ -48,6 +48,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2 & 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &authorityKeyIdMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtAuthorityKeyIdentifierMissing = result },
 	})
 }
