@@ -1,6 +1,6 @@
 // lint_root_ca_extended_key_usage_present.go
 /************************************************
-CAB: 7.1.2.1d extendedKeyUsage
+BRs: 7.1.2.1d extendedKeyUsage
 This extension MUST NOT be present.
 ************************************************/
 
@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_root_ca_extended_key_usage_present",
 		Description:   "Root CA certificates MUST NOT have the extendedKeyUsage extension present",
-		Provenance:    "CAB: 7.1.2.1",
+		Provenance:    "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &rootCAContainsEKU{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ERootCaExtendedKeyUsagePresent = result },

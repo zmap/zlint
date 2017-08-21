@@ -1,6 +1,6 @@
 // lint_sub_cert_eku_server_auth_client_auth_missing.go
 /*******************************************************************************************************
-CAB: 7.1.2.3
+BRs: 7.1.2.3
 extKeyUsage (required)
 Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or both values MUST be present. id-kp-emailProtection [RFC5280] MAY be present. Other values SHOULD NOT be present.
 *******************************************************************************************************/
@@ -41,7 +41,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_eku_server_auth_client_auth_missing",
 		Description:   "Subscriber certificates MUST have have either id-kp-serverAuth or id-kp-clientAuth or both present in extKeyUsage",
-		Provenance:    "CAB: 7.1.2.3",
+		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subExtKeyUsageClientOrServer{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertEkuServerAuthClientAuthMissing = result },

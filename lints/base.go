@@ -107,7 +107,6 @@ type LintReport struct {
 	EExtSanDirectoryNamePresent                          ResultStruct `json:"e_ext_san_directory_name_present,omitempty"`
 	EExtSanDNSNameTooLong                                ResultStruct `json:"e_ext_san_dns_name_too_long,omitempty"`
 	EExtSanDnsNotIa5String                               ResultStruct `json:"e_ext_san_dns_not_ia5_string,omitempty"`
-	EExtSanDnsSyntaxIncorrect                            ResultStruct `json:"e_ext_san_dns_syntax_incorrect,omitempty"`
 	EExtSanDnsnameNotFqdn                                ResultStruct `json:"e_ext_san_dnsname_not_fqdn,omitempty"`
 	EExtSanEdiPartyNamePresent                           ResultStruct `json:"e_ext_san_edi_party_name_present,omitempty"`
 	EExtSanEmptyName                                     ResultStruct `json:"e_ext_san_empty_name,omitempty"`
@@ -141,7 +140,7 @@ type LintReport struct {
 	WIssuerDnLeadingWhitespace                           ResultStruct `json:"w_issuer_dn_leading_whitespace,omitempty"`
 	EIssuerFieldEmpty                                    ResultStruct `json:"e_issuer_field_empty,omitempty"`
 	ENameConstraintEmpty                                 ResultStruct `json:"e_name_constraint_empty,omitempty"`
-	ENameConstraintMaximumNotAbsent                      ResultStruct `son:"e_name_constraint_maximum_not_absent,omitempty"`
+	ENameConstraintMaximumNotAbsent                      ResultStruct `json:"e_name_constraint_maximum_not_absent,omitempty"`
 	ENameConstraintMinimumNonZero                        ResultStruct `json:"e_name_constraint_minimum_non_zero,omitempty"`
 	WNameConstraintOnEdiPartyName                        ResultStruct `json:"w_name_constraint_on_edi_party_name,omitempty"`
 	WNameConstraintOnRegisteredId                        ResultStruct `json:"w_name_constraint_on_registered_id,omitempty"`
@@ -179,7 +178,7 @@ type LintReport struct {
 	WSubCaNameConstraintsNotCritical                     ResultStruct `json:"w_sub_ca_name_constraints_not_critical,omitempty"`
 	ESubCaNoDnsNameConstraints                           ResultStruct `json:"e_sub_ca_no_dns_name_constraints,omitempty"`
 	ESubCaNoIpNameConstraints                            ResultStruct `json:"e_sub_ca_no_ip_name_constraints,omitempty"`
-	ESubCertAiaDoesNotContainIssuingCaUrl                ResultStruct `json:"e_sub_cert_aia_does_not_contain_issuing_ca_url,omitempty"`
+	WSubCertAiaDoesNotContainIssuingCaUrl                ResultStruct `json:"w_sub_cert_aia_does_not_contain_issuing_ca_url,omitempty"`
 	ESubCertAiaDoesNotContainOcspUrl                     ResultStruct `json:"e_sub_cert_aia_does_not_contain_ocsp_url,omitempty"`
 	ESubCertAiaMissing                                   ResultStruct `json:"e_sub_cert_aia_missing,omitempty"`
 	ESubCertCertPolicyEmpty                              ResultStruct `json:"e_sub_cert_cert_policy_empty,omitempty"`

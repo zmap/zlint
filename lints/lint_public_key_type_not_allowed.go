@@ -32,7 +32,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_public_key_type_not_allowed",
 		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
-		Provenance:    "CAB: 6.1.5",
+		Provenance:    "BRs: 6.1.5",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &publicKeyAllowed{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EPublicKeyTypeNotAllowed = result },

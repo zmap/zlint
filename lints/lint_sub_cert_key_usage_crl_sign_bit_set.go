@@ -1,6 +1,6 @@
 // lint_sub_key_usage_crl_sign_bit_set.go
 /**************************************************************************
-CAB: 7.1.2.3
+BRs: 7.1.2.3
 keyUsage (optional)
 If present, bit positions for keyCertSign and cRLSign MUST NOT be set.
 ***************************************************************************/
@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_key_usage_crl_sign_bit_set",
 		Description:   "Subscriber certificates keyUsage extension cRLSign bit MUST NOT be set",
-		Provenance:    "CAB: 7.1.2.3",
+		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCrlSignAllowed{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertKeyUsageCrlSignBitSet = result },

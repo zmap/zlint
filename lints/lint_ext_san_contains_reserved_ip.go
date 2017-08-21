@@ -1,6 +1,6 @@
 // lint_ext_san_contains_reserved_ip.go
 /************************************************
-CAB: 7.1.4.2.1
+BRs: 7.1.4.2.1
 Also as of the Effective Date, the CA SHALL NOT
 issue a certificate with an Expiry Date later than
 1 November 2015 with a subjectAlternativeName extension
@@ -41,7 +41,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_contains_reserved_ip",
 		Description:   "Certificates expiring after 1 Nov 2015 MUST NOT contain a reserved IP address in the subjectAlternativeName extension",
-		Provenance:    "CAB: 7.1.4.2.1",
+		Provenance:    "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANReservedIP{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanContainsReservedIp = result },

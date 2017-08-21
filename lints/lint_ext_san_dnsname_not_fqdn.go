@@ -42,7 +42,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_dnsname_not_fqdn",
 		Description:   "SAN dnsnames MUST be Fully-Qualified Domain Names",
-		Provenance:    "CAB: 7.1.4.2.1",
+		Provenance:    "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &DNSFQDN{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanDnsnameNotFqdn = result },

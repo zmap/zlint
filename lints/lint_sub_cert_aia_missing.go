@@ -1,6 +1,6 @@
 // lint_sub_cert_aia_missing.go
 /**************************************************************************************************
-CAB: 7.1.2.3
+BRs: 7.1.2.3
 authorityInformationAccess
 With the exception of stapling, which is noted below, this extension MUST be present. It MUST NOT be
 marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP responder (accessMethod
@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_aia_missing",
 		Description:   "Subscriber certificates must have an authorityInformationAccess extension",
-		Provenance:    "CAB: 7.1.2.3",
+		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertAiaMissing{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertAiaMissing = result },
