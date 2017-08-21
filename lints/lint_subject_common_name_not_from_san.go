@@ -1,6 +1,6 @@
 // lint_subject_common_name_not_from_san.go
 /************************************************
-CAB: 7.1.4.2.2
+BRs: 7.1.4.2.2
 If present, this field MUST contain a single IP address
 or Fully‐Qualified Domain Name that is one of the values
 contained in the Certificate’s subjectAltName extension (see Section 7.1.4.2.1).
@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_not_from_san",
 		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
-		Provenance:    "CAB: 7.1.4.2.2",
+		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subjectCommonNameNotFromSAN{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectCommonNameNotFromSan = result },

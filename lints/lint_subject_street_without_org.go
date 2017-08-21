@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_street_without_org",
 		Description:   "The 'Street Address' field MUST NOT be included without an organization name",
-		Provenance:    "CAB: 7.1.4.2.2",
+		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &streetNoOrg{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectStreetWithoutOrg = result },

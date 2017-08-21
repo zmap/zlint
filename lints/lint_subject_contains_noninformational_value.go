@@ -1,6 +1,6 @@
 // lint_subject_contains_noninformational_value.go
 /**********************************************************************************************************************
-CAB: 7.1.4.2.2
+BRs: 7.1.4.2.2
 Other Subject Attributes
 With the exception of the subject:organizationalUnitName (OU) attribute, optional attributes, when present within
 the subject field, MUST contain information that has been verified by the CA. Metadata such as ‘.’, ‘-‘, and ‘ ‘ (i.e.
@@ -58,7 +58,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_contains_noninformational_value",
 		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
-		Provenance:    "CAB: 7.1.4.2.2",
+		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &illegalChar{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectContainsNoninformationalValue = result },

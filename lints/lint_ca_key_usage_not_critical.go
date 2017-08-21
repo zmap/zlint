@@ -1,6 +1,6 @@
 // lint_ca_key_usage_not_critical.go
 /************************************************
-CAB: 7.1.2.1b
+BRs: 7.1.2.1b
 This extension MUST be present and MUST be marked critical. Bit positions for keyCertSign and cRLSign MUST be set.
 If the Root CA Private Key is used for signing OCSP responses, then the digitalSignature bit MUST be set.
 ************************************************/
@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_usage_not_critical",
 		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be marked as critical",
-		Provenance:    "CAB: 7.1.2.1",
+		Provenance:    "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyUsageNotCrit{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaKeyUsageNotCritical = result },
