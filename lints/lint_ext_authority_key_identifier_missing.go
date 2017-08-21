@@ -30,7 +30,7 @@ func (l *authorityKeyIdMissing) Initialize() error {
 }
 
 func (l *authorityKeyIdMissing) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return !util.IsRootCA(c)
 }
 
 func (l *authorityKeyIdMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
