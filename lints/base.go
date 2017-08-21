@@ -71,7 +71,6 @@ type LintReport struct {
 	EExtAiaMarkedCritical                                ResultStruct `json:"e_ext_aia_marked_critical,omitempty"`
 	EExtAuthorityKeyIdentifierCritical                   ResultStruct `json:"e_ext_authority_key_identifier_critical,omitempty"`
 	EExtAuthorityKeyIdentifierMissing                    ResultStruct `json:"e_ext_authority_key_identifier_missing,omitempty"`
-	EExtAuthorityKeyIdentifierNoKeyIdentifier            ResultStruct `json:"e_ext_authority_key_identifier_no_key_identifier,omitempty"`
 	WExtCertPolicyContainsNoticeref                      ResultStruct `json:"w_ext_cert_policy_contains_noticeref,omitempty"`
 	EExtCertPolicyDisallowedAnyPolicyQualifier           ResultStruct `json:"e_ext_cert_policy_disallowed_any_policy_qualifier,omitempty"`
 	EExtCertPolicyDuplicate                              ResultStruct `json:"e_ext_cert_policy_duplicate,omitempty"`
