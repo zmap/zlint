@@ -222,6 +222,7 @@ type LintReport struct {
 	ESubjectStateNameMaxLength                           ResultStruct `json:"e_subject_state_name_max_length"`
 	WMultipleIssuer_RDN                                  ResultStruct `json:"w_multiple_issuer_rdn,omitempty"`
 	WMultipleSubject_RDN                                 ResultStruct `json:"w_multiple_subject_rdn,omitempty"`
+	ESignatureAlgorithmNotSupported                      ResultStruct `json:"e_signature_algorithm_not_supported,omitempty"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
