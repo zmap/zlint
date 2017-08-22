@@ -23,7 +23,7 @@ func (l *subCAEKUValidFields) RunTest(c *x509.Certificate) (ResultStruct, error)
 			ekuValue == x509.ExtKeyUsageClientAuth {
 			continue
 		} else {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Notice}, nil
 		}
 	}
 	return ResultStruct{Result: Pass}, nil
@@ -31,11 +31,11 @@ func (l *subCAEKUValidFields) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_ca_eku_valid_fields",
+		Name:          "n_sub_ca_eku_valid_fields",
 		Description:   "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present.",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCAEKUValidFields{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaEkuValidFields = result },
+		updateReport:  func(report *LintReport, result ResultStruct) { report.NSubCaEkuValidFields = result },
 	})
 }
