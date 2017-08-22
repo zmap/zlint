@@ -31,7 +31,7 @@ func (l *subCertOcspUrl) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subCertOcspUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, url := range c.OCSPServer {
-		if strings.Contains(url, "http://") {
+		if strings.HasPrefix(url, "http://") {
 			return ResultStruct{Result: Pass}, nil
 		}
 	}

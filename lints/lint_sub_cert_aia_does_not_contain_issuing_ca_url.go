@@ -29,7 +29,7 @@ func (l *subCertIssuerUrl) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subCertIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, url := range c.IssuingCertificateURL {
-		if strings.Contains(url, "http://") {
+		if strings.HasPrefix(url, "http://") {
 			return ResultStruct{Result: Pass}, nil
 		}
 	}

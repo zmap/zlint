@@ -30,7 +30,7 @@ func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
 func (l *subCRLDistNoURL) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	// Add actual lint here
 	for _, s := range c.CRLDistributionPoints {
-		if strings.Contains(s, "http://") {
+		if strings.HasPrefix(s, "http://") {
 			return ResultStruct{Result: Pass}, nil
 		}
 	}
