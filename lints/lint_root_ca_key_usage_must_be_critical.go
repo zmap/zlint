@@ -1,6 +1,7 @@
 package lints
 
 import (
+	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -15,6 +16,7 @@ func (l *rootCAKeyUsageMustBeCritical) Initialize() error {
 
 func (l *rootCAKeyUsageMustBeCritical) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
+	fmt.Println(c.SelfSigned)
 	return util.IsRootCA(c)
 }
 
