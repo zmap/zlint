@@ -18,15 +18,18 @@ func (l *subCAEKUValidFields) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCAEKUValidFields) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	validFieldsPresent := false
 	for _, ekuValue := range c.ExtKeyUsage {
 		if ekuValue == x509.ExtKeyUsageServerAuth ||
 			ekuValue == x509.ExtKeyUsageClientAuth {
-			continue
-		} else {
-			return ResultStruct{Result: Notice}, nil
+			validFieldsPresent = true
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	if validFieldsPresent {
+		return ResultStruct{Result: Pass}, nil
+	} else {
+		return ResultStruct{Result: Notice}, nil
+	}
 }
 
 func init() {
