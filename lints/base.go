@@ -222,6 +222,7 @@ type LintReport struct {
 	ESignatureAlgorithmNotSupported                      ResultStruct `json:"e_signature_algorithm_not_supported,omitempty"`
 	ERootCaKeyUsagePresent                               ResultStruct `json:"e_root_ca_key_usage_present"`
 	ERootCaKeyUsageMustBeCritical                        ResultStruct `json:"e_root_ca_key_usage_must_be_critical"`
+	ESubCaAIAMarkedCritical                              ResultStruct `json:"e_sub_ca_aia_marked_critical"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
