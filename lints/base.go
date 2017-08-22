@@ -226,7 +226,7 @@ type LintReport struct {
 	ERootCaKeyUsagePresent                               ResultStruct `json:"e_root_ca_key_usage_present"`
 	ERootCaKeyUsageMustBeCritical                        ResultStruct `json:"e_root_ca_key_usage_must_be_critical"`
 	ESubCaAIAMarkedCritical                              ResultStruct `json:"e_sub_ca_aia_marked_critical"`
-	NSubCaEkuValidFields                                 ResultStruct `json:"n_sub_ca_eku_not_technically_constrained"`
+	NSubCaEKUNotTechnicallyConstrained                   ResultStruct `json:"n_sub_ca_eku_not_technically_constrained,omitempty"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
