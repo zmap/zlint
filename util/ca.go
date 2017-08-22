@@ -1,6 +1,8 @@
 package util
 
-import "github.com/zmap/zcrypto/x509"
+import (
+	"github.com/zmap/zcrypto/x509"
+)
 
 // IsCACert returns true if c has IsCA set.
 func IsCACert(c *x509.Certificate) bool {
