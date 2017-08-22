@@ -31,7 +31,7 @@ func (l *subCAEKUValidFields) RunTest(c *x509.Certificate) (ResultStruct, error)
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "n_sub_ca_eku_valid_fields",
+		Name:          "n_sub_ca_eku_not_technically_constrained",
 		Description:   "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present to be technically constrained.",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
