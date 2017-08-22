@@ -33,7 +33,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_eku_valid_fields",
 		Description:   "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present.",
-		Provenance:    "CAB: 7.1.2.2",
+		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCAEKUValidFields{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaEkuValidFields = result },
