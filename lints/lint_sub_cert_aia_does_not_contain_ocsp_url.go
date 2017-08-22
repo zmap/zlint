@@ -13,6 +13,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"strings"
 )
 
 type subCertOcspUrl struct {
@@ -29,11 +30,12 @@ func (l *subCertOcspUrl) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCertOcspUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if c.OCSPServer != nil {
-		return ResultStruct{Result: Pass}, nil
-	} else {
-		return ResultStruct{Result: Error}, nil
+	for _, url := range c.OCSPServer {
+		if strings.Contains(url, "http://") {
+			return ResultStruct{Result: Pass}, nil
+		}
 	}
+	return ResultStruct{Result: Error}, nil
 }
 
 func init() {

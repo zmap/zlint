@@ -27,7 +27,7 @@ func (l *subCACRLDistNoUrl) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subCACRLDistNoUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, s := range c.CRLDistributionPoints {
-		if strings.Contains(s, "http") {
+		if strings.Contains(s, "http://") {
 			return ResultStruct{Result: Pass}, nil
 		}
 	}

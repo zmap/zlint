@@ -12,6 +12,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"strings"
 )
 
 type subCaIssuerUrl struct {
@@ -28,11 +29,12 @@ func (l *subCaIssuerUrl) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCaIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if c.IssuingCertificateURL != nil {
-		return ResultStruct{Result: Pass}, nil
-	} else {
-		return ResultStruct{Result: Warn}, nil
+	for _, url := range c.IssuingCertificateURL {
+		if strings.Contains(url, "http://") {
+			return ResultStruct{Result: Pass}, nil
+		}
 	}
+	return ResultStruct{Result: Warn}, nil
 }
 
 func init() {
