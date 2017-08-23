@@ -15,7 +15,7 @@ func (l *subCaAIAMarkedCritical) Initialize() error {
 
 func (l *subCaAIAMarkedCritical) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
-	return util.IsSubCA(c)
+	return util.IsSubCA(c) && util.IsExtInCert(c, util.AiaOID)
 }
 
 func (l *subCaAIAMarkedCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
