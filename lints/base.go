@@ -234,7 +234,7 @@ type LintReport struct {
 	ESubCertGivenNameSurnameContainsPolicy               ResultStruct `json:"e_sub_cert_givename_surname_contains_correct_policy_id,omitempty"`
 	ESubCertStreetAddressShouldNotExist                  ResultStruct `json:"e_sub_cert_street_address_should_not_exist,omitempty"`
 	ESubCertLocalityNameMustAppear                       ResultStruct `json:"e_sub_cert_locality_name_must_appear,omitempty"`
-	EInternationalDnsNameNotNfkc			     ResultStruct `json:"e_international_dns_name_not_nfkc,omitempty"`
+	EInternationalDnsNameNotNfkc                         ResultStruct `json:"e_international_dns_name_not_nfkc,omitempty"`
 	ESubCertLocalityNameMustNotAppear                    ResultStruct `json:"e_sub_cert_locality_name_must_not_appear,omitempty"`
 	ESubCertProvinceMustAppear                           ResultStruct `json:"e_sub_cert_province_must_appear,omitempty"`
 	ESubCertProvinceMustNotAppear                        ResultStruct `json:"e_sub_cert_province_must_not_appear,omitempty"`
