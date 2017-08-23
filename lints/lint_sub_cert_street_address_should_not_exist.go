@@ -14,7 +14,7 @@ func (l *subCertStreetAddressShouldNotExist) Initialize() error {
 }
 
 func (l *subCertStreetAddressShouldNotExist) CheckApplies(c *x509.Certificate) bool {
-	gireturn util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c)
 }
 
 func (l *subCertStreetAddressShouldNotExist) RunTest(c *x509.Certificate) (ResultStruct, error) {
