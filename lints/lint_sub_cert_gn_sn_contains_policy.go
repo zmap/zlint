@@ -29,11 +29,13 @@ func (l *subCertSubjectGnOrSnContainsPolicy) RunTest(c *x509.Certificate) (Resul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_cert_givename_surname_contains_correct_policy_id",
+		Name:          "e_sub_cert_given_name_surname_contains_correct_policy",
 		Description:   "Subscriber Certificate: A certificate containing a subject:givenName field or subject:surname field MUST contain the (2.23.140.1.2.3) certPolicy OID.",
 		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertSubjectGnOrSnContainsPolicy{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertGivenNameSurnameContainsPolicy = result },
+		updateReport: func(report *LintReport, result ResultStruct) {
+			report.ESubCertGivenNameSurnameContainsCorrectPolicy = result
+		},
 	})
 }
