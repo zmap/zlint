@@ -227,6 +227,23 @@ type LintReport struct {
 	ERootCaKeyUsageMustBeCritical                        ResultStruct `json:"e_root_ca_key_usage_must_be_critical"`
 	ESubCaAIAMarkedCritical                              ResultStruct `json:"e_sub_ca_aia_marked_critical"`
 	NSubCaEKUNotTechnicallyConstrained                   ResultStruct `json:"n_sub_ca_eku_not_technically_constrained,omitempty"`
+	ESubCertAIAMarkedCritical                            ResultStruct `json:"e_sub_cert_aia_marked_critical,omitempty"`
+	ESubCertBasicConstraintsCaFalse                      ResultStruct `json:"e_sub_cert_basic_constraints_ca_false,omitempty"`
+	ECaCommonNameMissing                                 ResultStruct `json:"e_ca_common_name_missing,omitempty"`
+	ESubCaEKUMissing                                     ResultStruct `json:"e_sub_ca_eku_missing,omitempty"`
+	ESubCertGivenNameSurnameContainsPolicy               ResultStruct `json:"e_sub_cert_givename_surname_contains_correct_policy_id,omitempty"`
+	ESubCertStreetAddressShouldNotExist                  ResultStruct `json:"e_sub_cert_street_address_should_not_exist,omitempty"`
+	ESubCertLocalityNameMustAppear                       ResultStruct `json:"e_sub_cert_locality_name_must_appear,omitempty"`
+	EInternationalDnsNameNotNfkc			     ResultStruct `json:"e_international_dns_name_not_nfkc,omitempty"`
+	ESubCertLocalityNameMustNotAppear                    ResultStruct `json:"e_sub_cert_locality_name_must_not_appear,omitempty"`
+	ESubCertProvinceMustAppear                           ResultStruct `json:"e_sub_cert_province_must_appear,omitempty"`
+	ESubCertProvinceMustNotAppear                        ResultStruct `json:"e_sub_cert_province_must_not_appear,omitempty"`
+	ESubCertPostalCodeMustNotAppear                      ResultStruct `json:"e_sub_cert_postal_code_must_not_appear,omitempty"`
+	ESubCertCountryNameMustAppear                        ResultStruct `json:"e_sub_cert_country_name_must_appear,omitempty"`
+	ESubCertCountryNameMustNotAppear                     ResultStruct `json:"w_sub_cert_country_name_must_not_appear,omitempty"`
+	ESubCaEKUNameConstraints                             ResultStruct `json:"e_sub_ca_eku_name_constraints,omitempty"`
+	ESubCaMustNotContainAnyPolicy                        ResultStruct `json:"e_sub_ca_must_not_contain_any_policy,omitempty"`
+	ESerialNumberLowEntropy                              ResultStruct `json:"e_serial_number_low_entropy,omitempty"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
