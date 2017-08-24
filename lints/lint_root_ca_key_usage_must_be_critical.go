@@ -14,7 +14,7 @@ func (l *rootCAKeyUsageMustBeCritical) Initialize() error {
 }
 
 func (l *rootCAKeyUsageMustBeCritical) CheckApplies(c *x509.Certificate) bool {
-	return util.IsRootCA(c)
+	return util.IsRootCA(c) && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
 func (l *rootCAKeyUsageMustBeCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
