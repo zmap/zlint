@@ -1,8 +1,9 @@
 package util
 
 import (
-	"github.com/asaskevich/govalidator"
+	//"github.com/asaskevich/govalidator"
 	"net"
+	"regexp"
 	"strings"
 )
 
@@ -15,12 +16,21 @@ func removeQuestionMarks(domain string) string {
 	return domain
 }
 
+func checkFQDN(domain string) bool {
+	//From https://github.com/awslabs/certlint/blob/25d5957f8c36dafcbd82870df57a8367b49650be/lib/certlint/generalnames.rb
+	dnsLabel := "([A-Za-z0-9*_-]{1,63})"
+	fqdn := `\A(` + dnsLabel + `\.)*` + dnsLabel + `\z`
+	re := regexp.MustCompile(fqdn)
+	matched := re.MatchString(domain)
+	return matched
+}
+
 func IsFQDN(domain string) bool {
 	domain = removeQuestionMarks(domain)
 	if strings.HasPrefix(domain, "*.") {
 		domain = domain[2:]
 	}
-	return govalidator.IsURL(domain)
+	return checkFQDN(domain)
 }
 
 func GetAuthority(uri string) string {
