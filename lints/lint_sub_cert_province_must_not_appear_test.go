@@ -9,7 +9,7 @@ import (
 // using the following query to find the raw data and match it to validity period
 // select raw, parsed.validity.start from certificates.pemtificates where parsed.signature_algorithm.oid = "1.2.840.113549.1.1.5" limit 200
 
-func TestSubCertProvinceProhibited(t *testing.T) {
+func TestSubCertProvinceMustNotAppear(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subCertProvinceMustNotAppear.pem"
 	desEnum := Error
@@ -23,7 +23,7 @@ func TestSubCertProvinceProhibited(t *testing.T) {
 	}
 }
 
-func TestSubCertProvinceNotProhibited(t *testing.T) {
+func TestSubCertProvinceCanAppear(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subCertProvinceCanAppear.pem"
 	desEnum := Pass
