@@ -1,6 +1,5 @@
 package lints
 
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -30,11 +29,10 @@ func (l *subCertLocalityNameMustNotAppear) RunTest(c *x509.Certificate) (ResultS
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_locality_name_must_not_appear",
-		Description:   "Subscriber Certificate: subject:localityName MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent." ,
+		Description:   "Subscriber Certificate: subject:localityName MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
 		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertLocalityNameMustNotAppear{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertLocalityNameMustNotAppear = result },
 	})
 }
-
