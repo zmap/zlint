@@ -191,7 +191,6 @@ type LintReport struct {
 	ESubCertKeyUsageCertSignBitSet                       ResultStruct `json:"e_sub_cert_key_usage_cert_sign_bit_set,omitempty"`
 	ESubCertOrSubCaUsingSha1                             ResultStruct `json:"e_sub_cert_or_sub_ca_using_sha1,omitempty"`
 	WSubCertSha1ExpirationTooLong                        ResultStruct `json:"w_sub_cert_sha1_expiration_too_long,omitempty"`
-	ESubjectCommonNameDisallowed                         ResultStruct `json:"e_subject_common_name_disallowed,omitempty"`
 	NSubjectCommonNameIncluded                           ResultStruct `json:"n_subject_common_name_included,omitempty"`
 	ESubjectCommonNameNotFromSan                         ResultStruct `json:"e_subject_common_name_not_from_san,omitempty"`
 	ESubjectContainsNoninformationalValue                ResultStruct `json:"e_subject_contains_noninformational_value,omitempty"`
@@ -201,12 +200,10 @@ type LintReport struct {
 	WSubjectDnTrailingWhitespace                         ResultStruct `json:"w_subject_dn_trailing_whitespace,omitempty"`
 	ESubjectEmptyWithoutSan                              ResultStruct `json:"e_subject_empty_without_san,omitempty"`
 	ESubjectInfoAccessMarkedCritical                     ResultStruct `json:"e_subject_info_access_marked_critical,omitempty"`
-	ESubjectLocalityWithoutOrg                           ResultStruct `json:"e_subject_locality_without_org,omitempty"`
 	ESubjectNotDn                                        ResultStruct `json:"e_subject_not_dn,omitempty"`
 	ESubjectOrgWithoutCountry                            ResultStruct `json:"e_subject_org_without_country,omitempty"`
 	ESubjectOrgWithoutLocalityOrProvince                 ResultStruct `json:"e_subject_org_without_locality_or_province,omitempty"`
 	ESubjectPostalWithoutOrg                             ResultStruct `json:"e_subject_postal_without_org,omitempty"`
-	ESubjectProvinceWithoutOrg                           ResultStruct `json:"e_subject_province_without_org,omitempty"`
 	ESubjectStreetWithoutOrg                             ResultStruct `json:"e_subject_street_without_org,omitempty"`
 	EUtcTimeDoesNotIncludeSeconds                        ResultStruct `json:"e_utc_time_does_not_include_seconds,omitempty"`
 	EUtcTimeNotInZulu                                    ResultStruct `json:"e_utc_time_not_in_zulu,omitempty"`
