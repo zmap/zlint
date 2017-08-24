@@ -7,7 +7,7 @@ import (
 
 func TestSnLowEntropy(t *testing.T) {
 	inputPath := "../testlint/testCerts/serialNumberLowEntropy.pem"
-	desEnum := Error
+	desEnum := Warn
 	out, _ := Lints["e_serial_number_low_entropy"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(

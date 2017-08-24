@@ -28,11 +28,11 @@ func (l *serialNumberLowEntropy) RunTest(c *x509.Certificate) (ResultStruct, err
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_serial_number_low_entropy",
+		Name:          "w_serial_number_low_entropy",
 		Description:   "Effective September 30, 2016, CAs SHALL generate non‐sequential Certificate serial numbers greater than zero (0) containing at least 64 bits of output from a CSPRNG.",
 		Provenance:    "BRs: 7.1",
 		EffectiveDate: util.CABSerialNumberEntropyDate,
 		Test:          &serialNumberLowEntropy{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESerialNumberLowEntropy = result },
+		updateReport:  func(report *LintReport, result ResultStruct) { report.WSerialNumberLowEntropy = result },
 	})
 }

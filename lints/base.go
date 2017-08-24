@@ -243,7 +243,7 @@ type LintReport struct {
 	ESubCertCountryNameMustNotAppear                     ResultStruct `json:"w_sub_cert_country_name_must_not_appear,omitempty"`
 	ESubCaEKUNameConstraints                             ResultStruct `json:"e_sub_ca_eku_name_constraints,omitempty"`
 	ESubCaMustNotContainAnyPolicy                        ResultStruct `json:"e_sub_ca_must_not_contain_any_policy,omitempty"`
-	ESerialNumberLowEntropy                              ResultStruct `json:"e_serial_number_low_entropy,omitempty"`
+	WSerialNumberLowEntropy                              ResultStruct `json:"w_serial_number_low_entropy,omitempty"`
 }
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
