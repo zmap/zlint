@@ -14,7 +14,6 @@ func (l *subCertLocalityNameMustAppear) Initialize() error {
 }
 
 func (l *subCertLocalityNameMustAppear) CheckApplies(c *x509.Certificate) bool {
-	//Check if GivenName or Surname fields are filled out
 	return util.IsSubscriberCert(c)
 }
 
