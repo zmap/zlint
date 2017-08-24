@@ -1,7 +1,6 @@
 package util
 
 import (
-	//"github.com/asaskevich/govalidator"
 	"net"
 	"regexp"
 	"strings"
@@ -17,7 +16,6 @@ func removeQuestionMarks(domain string) string {
 }
 
 func checkFQDN(domain string) bool {
-	//From https://github.com/awslabs/certlint/blob/25d5957f8c36dafcbd82870df57a8367b49650be/lib/certlint/generalnames.rb
 	dnsLabel := "([A-Za-z0-9*_-]{1,63})"
 	fqdn := `\A(` + dnsLabel + `\.)*` + dnsLabel + `\z`
 	re := regexp.MustCompile(fqdn)

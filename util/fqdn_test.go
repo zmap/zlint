@@ -71,7 +71,20 @@ func TestIsFQDNWildcardFQDN(t *testing.T) {
 
 func TestIsFQDNNotFQDN(t *testing.T) {
 	domain := "abc"
-	expected := false
+	expected := true
+	actual := IsFQDN(domain)
+	if expected != actual {
+		t.Error(
+			"For", domain,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
+func TestIsFQDNIDNA(t *testing.T) {
+	domain := "www.2.xn--80abixftle8gl7a.xn--p1ai"
+	expected := true
 	actual := IsFQDN(domain)
 	if expected != actual {
 		t.Error(
