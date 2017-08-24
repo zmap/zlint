@@ -19,21 +19,19 @@ func (l *subCertLocalityNameMustNotAppear) CheckApplies(c *x509.Certificate) boo
 }
 
 func (l *subCertLocalityNameMustNotAppear) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if c.Subject.GivenName != "" && len(c.Subject.Organization) > 0 && c.Subject.Surname != "" {
+	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.Locality) > 0 {
 			return ResultStruct{Result: Error}, nil
-		} else {
-			return ResultStruct{Result: Pass}, nil
 		}
 	}
-	return ResultStruct{Result: NA}, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_locality_name_must_not_appear",
-		Description:   "Subscriber Certificate: subject:localityName MUST NOT appear is subject:organizationName, subject:givenName, and subject:surname fields are present." ,
-		Provenance:    "CAB: 7.1.4.2.2",
+		Description:   "Subscriber Certificate: subject:localityName MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent." ,
+		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertLocalityNameMustNotAppear{},
 		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertLocalityNameMustNotAppear = result },
