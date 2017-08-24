@@ -20,7 +20,7 @@ func (l *serialNumberLowEntropy) CheckApplies(c *x509.Certificate) bool {
 
 func (l *serialNumberLowEntropy) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if len(c.SerialNumber.Bytes()) < 8 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Warn}, nil
 	} else {
 		return ResultStruct{Result: Pass}, nil
 	}
