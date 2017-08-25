@@ -50,6 +50,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &SerialNumberNotPositive{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESerialNumberNotPositive = result },
 	})
 }

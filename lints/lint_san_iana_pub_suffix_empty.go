@@ -37,6 +37,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &pubSuffix{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSanIanaPubSuffixEmpty = result },
 	})
 }

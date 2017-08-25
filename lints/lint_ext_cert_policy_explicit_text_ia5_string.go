@@ -55,6 +55,5 @@ func init() {
 		Provenance:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextIA5String{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtCertPolicyExplicitTextIa5String = result },
 	})
 }

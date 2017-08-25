@@ -58,6 +58,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &policyConstraintsContents{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtPolicyConstraintsEmpty = result },
 	})
 }

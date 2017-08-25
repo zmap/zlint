@@ -60,6 +60,5 @@ func init() {
 		Provenance:    "BRs: 7.1.5",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCaBadIPConstraint{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaNoIpNameConstraints = result },
 	})
 }

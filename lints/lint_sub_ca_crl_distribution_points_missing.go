@@ -40,6 +40,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACRLDistMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaCrlDistributionPointsMissing = result },
 	})
 }

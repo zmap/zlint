@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsExpBounds{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaPublicExponentTooSmall = result },
 	})
 }

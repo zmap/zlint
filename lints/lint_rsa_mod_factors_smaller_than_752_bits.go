@@ -40,6 +40,5 @@ func init() {
 		Provenance:    "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaModSmallFactor{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaModFactorsSmallerThan_752 = result },
 	})
 }

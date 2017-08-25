@@ -46,6 +46,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &caSubjectEmpty{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaSubjectFieldEmpty = result },
 	})
 }

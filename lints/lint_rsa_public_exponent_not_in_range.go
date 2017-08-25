@@ -49,6 +49,5 @@ func init() {
 		Provenance:    "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsExpInRange{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WRsaPublicExponentNotInRange = result },
 	})
 }

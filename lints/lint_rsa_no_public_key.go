@@ -35,6 +35,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rsaParsedPubKeyExist{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaNoPublicKey = result },
 	})
 }

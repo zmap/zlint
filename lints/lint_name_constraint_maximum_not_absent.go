@@ -110,6 +110,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &nameConstraintMax{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ENameConstraintMaximumNotAbsent = result },
 	})
 }

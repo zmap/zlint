@@ -42,6 +42,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.1, RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &caKeyUsageMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaKeyUsageMissing = result },
 	})
 }

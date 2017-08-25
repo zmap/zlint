@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "CAB 6.3.2",
 		EffectiveDate: util.ZeroDate,
 		Test:          &evValidTooLong{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvValidTimeTooLong = result },
 	})
 }

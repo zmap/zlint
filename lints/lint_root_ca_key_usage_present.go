@@ -34,6 +34,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &rootCAKeyUsagePresent{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERootCaKeyUsagePresent = result },
 	})
 }

@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &distribNoLDAPorURI{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WDistributionPointMissingLdapOrUri = result },
 	})
 }

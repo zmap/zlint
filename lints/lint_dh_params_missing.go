@@ -36,6 +36,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &dsaParamsMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EDhParamsMissing = result },
 	})
 }

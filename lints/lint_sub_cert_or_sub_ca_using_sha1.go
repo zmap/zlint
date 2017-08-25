@@ -44,6 +44,5 @@ func init() {
 		Provenance:    "BRs: 7.1.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &sigAlgTestsSHA1{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertOrSubCaUsingSha1 = result },
 	})
 }

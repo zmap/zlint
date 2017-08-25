@@ -49,6 +49,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &SANURIHost{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanUriHostNotFqdnOrIp = result },
 	})
 }

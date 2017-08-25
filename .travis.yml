@@ -10,7 +10,6 @@ before_script:
 - ln -s $TRAVIS_BUILD_DIR $GOPATH/src/github.com/zmap/ || true
 script:
   - go test -v ./...
-  - python lints/meta_lint.py
 notifications:
     email:
       - dkumar11@illinois.edu 

@@ -40,6 +40,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &IssuerRDNHasMultipleAttribute{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WMultipleIssuer_RDN = result },
 	})
 }

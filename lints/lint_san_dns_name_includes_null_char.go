@@ -37,6 +37,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SANDNSNull{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESanDnsNameIncludesNullChar = result },
 	})
 }

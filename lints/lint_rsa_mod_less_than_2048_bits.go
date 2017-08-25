@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &rsaParsedTestsKeySize{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERsaModLessThan_2048Bits = result },
 	})
 }

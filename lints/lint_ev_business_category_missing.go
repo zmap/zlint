@@ -34,6 +34,5 @@ func init() {
 		Provenance:    "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
 		Test:          &evNoBiz{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EEvBusinessCategoryMissing = result },
 	})
 }

@@ -61,6 +61,5 @@ func init() {
 		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &illegalChar{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectContainsNoninformationalValue = result },
 	})
 }
