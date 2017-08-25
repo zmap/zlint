@@ -9,9 +9,10 @@ HTTP URL of the CA’s CRL service. See Section 13.2.1 for details.
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type subCertIssuerUrl struct {
@@ -43,6 +44,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertIssuerUrl{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCertAiaDoesNotContainIssuingCaUrl = result },
 	})
 }

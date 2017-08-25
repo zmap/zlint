@@ -48,6 +48,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &policyMapMatchesCertPolicy{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtPolicyMapNotInCertPolicy = result },
 	})
 }

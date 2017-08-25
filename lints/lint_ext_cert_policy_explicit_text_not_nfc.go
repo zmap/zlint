@@ -49,6 +49,5 @@ func init() {
 		Provenance:    "Fill this in...",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &ExtCertPolicyExplicitTextNotNFC{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtCertPolicyExplicitTextNotNfc = result },
 	})
 }

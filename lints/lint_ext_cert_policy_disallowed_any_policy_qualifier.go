@@ -47,8 +47,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &unrecommendedQualifier{},
-		updateReport: func(report *LintReport, result ResultStruct) {
-			report.EExtCertPolicyDisallowedAnyPolicyQualifier = result
-		},
 	})
 }

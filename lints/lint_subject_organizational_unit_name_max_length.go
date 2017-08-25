@@ -43,6 +43,5 @@ func init() {
 		Provenance:    "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectOrganizationalUnitNameMaxLength{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectOrganizationalUnitNameMaxLength = result },
 	})
 }

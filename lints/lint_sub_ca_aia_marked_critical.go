@@ -34,6 +34,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.ZeroDate,
 		Test:          &subCaAIAMarkedCritical{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaAIAMarkedCritical = result },
 	})
 }

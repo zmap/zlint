@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "BRs: 7.1.4.3.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &caCommonNameMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaCommonNameMissing = result },
 	})
 }

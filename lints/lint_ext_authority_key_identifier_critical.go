@@ -39,6 +39,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &authorityKeyIdCritical{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtAuthorityKeyIdentifierCritical = result },
 	})
 }

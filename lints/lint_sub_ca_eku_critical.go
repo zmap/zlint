@@ -42,6 +42,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
 		Test:          &subCAEKUCrit{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCaEkuCritical = result },
 	})
 }

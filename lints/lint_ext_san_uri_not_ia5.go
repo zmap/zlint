@@ -42,6 +42,5 @@ func init() {
 		Provenance:    "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &extSANURINotIA5{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanUriNotIa5 = result },
 	})
 }

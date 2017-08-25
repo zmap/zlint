@@ -48,6 +48,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &ExtCertPolicyDuplicate{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtCertPolicyDuplicate = result },
 	})
 }

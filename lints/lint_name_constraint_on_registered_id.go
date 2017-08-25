@@ -45,6 +45,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &nameConstraintOnRegisteredId{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WNameConstraintOnRegisteredId = result },
 	})
 }

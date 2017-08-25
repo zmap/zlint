@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "CAB: 7.1.2.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &rootCAKeyUsageMustBeCritical{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ERootCaKeyUsageMustBeCritical = result },
 	})
 }

@@ -59,6 +59,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &pathLenNonPositive{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EPathLenConstraintZeroOrLess = result },
 	})
 }

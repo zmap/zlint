@@ -44,6 +44,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &ExtSANCriticalWithSubjectDN{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtSanCriticalWithSubjectDn = result },
 	})
 }

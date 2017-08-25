@@ -10,9 +10,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lints"
-	"time"
 )
 
 type PrettyOutput struct {
@@ -44,8 +45,6 @@ func ZLintResultTestHandler(cert *x509.Certificate) *lints.ZLintResult {
 	}
 	//run all tests
 	ZLintResult := lints.ZLintResult{}
-	ZLintReport := lints.LintReport{}
-	ZLintResult.ZLint = &ZLintReport
 	ZLintResult.Execute(cert)
 	ZLintResult.ZLintVersion = lints.ZLintVersion
 	ZLintResult.Timestamp = time.Now().Unix()

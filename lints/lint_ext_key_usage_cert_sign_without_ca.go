@@ -48,6 +48,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.3 & 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &keyUsageCertSignNoCa{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtKeyUsageCertSignWithoutCa = result },
 	})
 }

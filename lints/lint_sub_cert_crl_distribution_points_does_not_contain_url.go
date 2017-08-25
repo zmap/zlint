@@ -44,8 +44,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCRLDistNoURL{},
-		updateReport: func(report *LintReport, result ResultStruct) {
-			report.ESubCertCrlDistributionPointsDoesNotContainUrl = result
-		},
 	})
 }

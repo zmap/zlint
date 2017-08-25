@@ -37,6 +37,5 @@ func init() {
 		Provenance:    "BRs: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &orgNoLocalOrProvince{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectOrgWithoutLocalityOrProvince = result },
 	})
 }
