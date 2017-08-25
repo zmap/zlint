@@ -16,7 +16,7 @@ func (l *DNSNameUnderscoreInSLD) Initialize() error {
 }
 
 func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
+	return true
 }
 
 func underscoreInSLD(domain string) bool {
