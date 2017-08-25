@@ -1,7 +1,6 @@
 package lints
 
 import (
-	"fmt"
 	"github.com/weppos/publicsuffix-go/publicsuffix"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -39,7 +38,6 @@ func (l *DNSNameUnderscoreInSLD) RunTest(c *x509.Certificate) (ResultStruct, err
 	}
 	for _, dns := range c.DNSNames {
 		if underscoreInSLD(dns) {
-			fmt.Println(dns)
 			result = ResultStruct{Result: Error}
 		}
 	}
