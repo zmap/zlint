@@ -75,6 +75,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &utcTimeGMT{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EUtcTimeNotInZulu = result },
 	})
 }

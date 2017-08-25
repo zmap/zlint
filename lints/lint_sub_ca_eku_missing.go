@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "BRs: 7.1.5",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCAEKUMissing{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaEKUMissing = result },
 	})
 }

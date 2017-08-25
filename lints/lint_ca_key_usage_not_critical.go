@@ -40,6 +40,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyUsageNotCrit{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ECaKeyUsageNotCritical = result },
 	})
 }

@@ -56,6 +56,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &SANDNSNotIA5String{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSanDnsNotIa5String = result },
 	})
 }

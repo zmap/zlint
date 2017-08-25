@@ -42,6 +42,5 @@ func init() {
 		Provenance:    "BRs: 7.1.6.4",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicyEmpty{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCertCertPolicyEmpty = result },
 	})
 }

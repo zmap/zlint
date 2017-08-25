@@ -68,6 +68,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.1.2.5",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &generalizedPre2050{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EWrongTimeFormatPre2050 = result },
 	})
 }

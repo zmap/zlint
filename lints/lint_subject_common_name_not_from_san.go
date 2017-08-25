@@ -50,6 +50,5 @@ func init() {
 		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subjectCommonNameNotFromSAN{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubjectCommonNameNotFromSan = result },
 	})
 }

@@ -37,6 +37,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV102Date,
 		Test:          &SubCANameConstraintsNotCritical{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCaNameConstraintsNotCritical = result },
 	})
 }

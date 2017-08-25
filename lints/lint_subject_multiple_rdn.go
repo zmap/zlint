@@ -4,6 +4,7 @@ package lints
 
 import (
 	"encoding/asn1"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/util"
@@ -41,6 +42,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SubjectRDNHasMultipleAttribute{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WMultipleSubject_RDN = result },
 	})
 }

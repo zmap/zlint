@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &signatureAlgorithmNotSupported{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESignatureAlgorithmNotSupported = result },
 	})
 }

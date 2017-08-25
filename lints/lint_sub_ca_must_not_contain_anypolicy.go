@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "BRs: 7.1.6.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCaMustNotContainAnyPolicy{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.ESubCaMustNotContainAnyPolicy = result },
 	})
 }

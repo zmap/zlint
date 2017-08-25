@@ -1,4 +1,4 @@
-// lint_subject_org_without_country.go
+// lint_subject_province_without_org.go
 /*********************************************************************************************************
 Required/Optional: The organization name is OPTIONAL. If organization name is present, then localityName,
 stateOrProvinceName (where applicable), and countryName are REQUIRED and streetAddress and postalCode are
@@ -14,32 +14,32 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type orgNoCountry struct {
+type provinceNoOrg struct {
 	// Internal data here
 }
 
-func (l *orgNoCountry) Initialize() error {
+func (l *provinceNoOrg) Initialize() error {
 	return nil
 }
 
-func (l *orgNoCountry) CheckApplies(c *x509.Certificate) bool {
+func (l *provinceNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *orgNoCountry) RunTest(cert *x509.Certificate) (ResultStruct, error) {
-	if !util.TypeInName(&cert.Subject, util.CountryNameOID) && util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
+func (l *provinceNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+	if util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		return ResultStruct{Result: Error}, nil
-	} else { //if no organization, country can be nil
+	} else { //if no Province, Organization omitted
 		return ResultStruct{Result: Pass}, nil
 	}
 }
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_subject_org_without_country",
-		Description:   "The organization name field MUST not be included without a country name",
-		Provenance:    "BRs: 7.1.4.2.2 (d&e)",
+		Name:          "e_subject_province_without_org",
+		Description:   "The stateOrProvince name MUST NOT be included without an organization name",
+		Provenance:    "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &orgNoCountry{},
+		Test:          &provinceNoOrg{},
 	})
 }

@@ -33,6 +33,5 @@ func init() {
 		Provenance:    "BRs: 7.1",
 		EffectiveDate: util.CABSerialNumberEntropyDate,
 		Test:          &serialNumberLowEntropy{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSerialNumberLowEntropy = result },
 	})
 }

@@ -41,6 +41,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.8",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subDirAttrCrit{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtSubjectDirectoryAttrCritical = result },
 	})
 }

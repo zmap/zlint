@@ -44,6 +44,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCaIssuerUrl{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WSubCaAiaDoesNotContainIssuingCaUrl = result },
 	})
 }

@@ -47,6 +47,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &aiaNoHTTPorLDAP{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.WExtAiaAccessLocationMissing = result },
 	})
 }

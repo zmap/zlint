@@ -40,6 +40,5 @@ func init() {
 		Provenance:    "RFC 5280: 4.2.1.15",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &ExtFreshestCrlMarkedCritical{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtFreshestCrlMarkedCritical = result },
 	})
 }

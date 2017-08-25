@@ -55,6 +55,5 @@ func init() {
 		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
 		Test:          &ecImproperCurves{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EEcImproperCurves = result },
 	})
 }

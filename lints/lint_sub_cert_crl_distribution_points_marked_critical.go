@@ -43,8 +43,5 @@ func init() {
 		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCrlDistCrit{},
-		updateReport: func(report *LintReport, result ResultStruct) {
-			report.ESubCertCrlDistributionPointsMarkedCritical = result
-		},
 	})
 }

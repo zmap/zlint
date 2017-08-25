@@ -54,6 +54,5 @@ func init() {
 		Provenance:    "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextTooLong{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EExtCertPolicyExplicitTextTooLong = result },
 	})
 }

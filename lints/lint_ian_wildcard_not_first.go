@@ -37,6 +37,5 @@ func init() {
 		Provenance:    "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &brIANWildcardFirst{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EIanWildcardNotFirst = result },
 	})
 }
