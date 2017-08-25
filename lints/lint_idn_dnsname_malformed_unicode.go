@@ -37,7 +37,7 @@ func (l *IDNMalformedUnicode) RunTest(c *x509.Certificate) (ResultStruct, error)
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_international_dns_name_not_unicode",
-		Description:   "Internationalized DNSNames must be normalized by unicode normalization form KC",
+		Description:   "Internationalized DNSNames punycode not valid unicode",
 		Provenance:    "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
 		Test:          &IDNMalformedUnicode{},
