@@ -1,0 +1,52 @@
+package lints
+
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/util"
+	"strings"
+)
+
+type DNSNameEmptyLabel struct {
+	// Internal data here
+}
+
+func (l *DNSNameEmptyLabel) Initialize() error {
+	return nil
+}
+
+func (l *DNSNameEmptyLabel) CheckApplies(c *x509.Certificate) bool {
+	return true
+}
+
+func domainHasEmptyLabel(domain string) bool {
+	labels := strings.Split(domain, ".")
+	for _, elem := range labels {
+		if elem == "" {
+			return true
+		}
+	}
+	return false
+}
+
+func (l *DNSNameEmptyLabel) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	result := ResultStruct{Result: Pass}
+	if domainHasEmptyLabel(c.Subject.CommonName) {
+		result = ResultStruct{Result: Error}
+	}
+	for _, dns := range c.DNSNames {
+		if domainHasEmptyLabel(dns) {
+			result = ResultStruct{Result: Error}
+		}
+	}
+	return result, nil
+}
+
+func init() {
+	RegisterLint(&Lint{
+		Name:          "e_dnsname_empty_label",
+		Description:   "DNSNames should not have an empty label.",
+		Provenance:    "RFC 5280",
+		EffectiveDate: util.RFC5280Date,
+		Test:          &DNSNameEmptyLabel{},
+	})
+}
