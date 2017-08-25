@@ -22,10 +22,10 @@ func (l *IDNNotNFKC) CheckApplies(c *x509.Certificate) bool {
 
 func (l *IDNNotNFKC) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	for _, dns := range c.DNSNames {
-		splitLabels := strings.Split(dns, ".")
-		for _, label := range splitLabels {
+		labels := strings.Split(dns, ".")
+		for _, label := range labels {
 			if strings.HasPrefix(label, "xn--") {
-				//IDN domain name
+				//IDN
 				unicodeLabel, err := idna.ToUnicode(label)
 				if err != nil {
 					return ResultStruct{Result: Fatal}, nil
