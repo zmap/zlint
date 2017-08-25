@@ -46,6 +46,5 @@ func init() {
 		Provenance:    "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
 		Test:          &IDNNotNFKC{},
-		updateReport:  func(report *LintReport, result ResultStruct) { report.EInternationalDnsNameNotNfkc = result },
 	})
 }
