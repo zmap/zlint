@@ -14,7 +14,7 @@ func (l *DNSNameValidTLD) Initialize() error {
 }
 
 func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
+	return true
 }
 
 func (l *DNSNameValidTLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
