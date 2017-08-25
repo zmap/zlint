@@ -25,7 +25,6 @@ func (l *IDNNotNFKC) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {
 			if strings.HasPrefix(label, "xn--") {
-				//IDN
 				unicodeLabel, err := idna.ToUnicode(label)
 				if err != nil {
 					return ResultStruct{Result: NA}, nil
