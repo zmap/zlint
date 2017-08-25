@@ -28,7 +28,7 @@ func (l *IDNNotNFKC) RunTest(c *x509.Certificate) (ResultStruct, error) {
 				//IDN
 				unicodeLabel, err := idna.ToUnicode(label)
 				if err != nil {
-					return ResultStruct{Result: Fatal}, nil
+					return ResultStruct{Result: NA}, nil
 				}
 				if !norm.NFKC.IsNormalString(unicodeLabel) {
 					return ResultStruct{Result: Error}, nil
