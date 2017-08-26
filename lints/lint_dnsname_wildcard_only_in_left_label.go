@@ -32,16 +32,15 @@ func wildcardNotInLeftLabel(domain string) bool {
 }
 
 func (l *DNSNameWildcardOnlyInLeftlabel) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	result := ResultStruct{Result: Pass}
 	if wildcardNotInLeftLabel(c.Subject.CommonName) {
-		result = ResultStruct{Result: Error}
+		return ResultStruct{Result: Error}, nil
 	}
 	for _, dns := range c.DNSNames {
 		if wildcardNotInLeftLabel(dns) {
-			result = ResultStruct{Result: Error}
+			return ResultStruct{Result: Error}, nil
 		}
 	}
-	return result, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
