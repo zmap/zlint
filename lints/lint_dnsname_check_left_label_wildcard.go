@@ -20,12 +20,11 @@ func (l *DNSNameLeftLabelWildcardCheck) CheckApplies(c *x509.Certificate) bool {
 
 func wildcardInLeftLabelInorrect(domain string) bool {
 	labels := strings.Split(domain, ".")
-	if len(labels) > 1 {
-		for _, label := range labels {
-			if strings.Contains(label, "*") {
-				if label != "*" {
-					return true
-				}
+	if len(labels) >= 1 {
+		leftLabel := labels[0]
+		if strings.Contains(leftLabel, "*") {
+			if leftLabel != "*" {
+				return true
 			}
 		}
 	}
