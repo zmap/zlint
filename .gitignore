@@ -24,6 +24,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Vim ###
+*.swp
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
@@ -112,8 +114,8 @@ _testmain.go
 vendor/
 0
 
-#lintprint
-lintprint/lintprint
+### Build Targets ###
+zlint
+cmd/cmd
 
-zlint-main
-*.swp
+
