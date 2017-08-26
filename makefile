@@ -9,4 +9,7 @@ cmd/cmd:
 clean:
 	rm -f cmd/cmd zlint
 
-.PHONY: clean cmd/cmd zlint
+test:
+	go test ./...
+
+.PHONY: clean cmd/cmd zlint test

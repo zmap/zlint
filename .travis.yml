@@ -6,7 +6,8 @@ before_install:
 - go get ./...
 - go get -t ./...
 script:
-  - go test -v ./...
+  - make
+  - make test
 notifications:
     email:
       - dkumar11@illinois.edu 
