@@ -115,7 +115,7 @@ vendor/
 0
 
 ### Build Targets ###
-zlint
-cmd/cmd
+/zlint
+cmd/zlint/zlint
 
 

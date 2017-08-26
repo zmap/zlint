@@ -1,15 +1,15 @@
 all: zlint
 
-zlint: cmd/cmd
-	cp cmd/cmd zlint
+zlint: cmd/zlint/zlint
+	cp cmd/zlint/zlint zlint
 
-cmd/cmd:
-	cd cmd && go build
+cmd/zlint/zlint:
+	cd cmd/zlint && go build
 
 clean:
-	rm -f cmd/cmd zlint
+	rm -f cmd/cmd/zlint zlint
 
 test:
 	go test ./...
 
-.PHONY: clean cmd/cmd zlint test
+.PHONY: clean cmd/zlint/zlint zlint test
