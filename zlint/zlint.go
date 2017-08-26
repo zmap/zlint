@@ -19,7 +19,7 @@ import (
 type PrettyOutput struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	Provenance  string `json:"providence"`
+	Provenance  string `json:"provenance"`
 }
 
 //Pretty Print lint outputs
