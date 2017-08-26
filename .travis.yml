@@ -3,13 +3,11 @@ dist: trusty
 go:
 - 1.8.1
 before_install:
-- go get gopkg.in/check.v1
-- go get golang.org/x/text
-before_script:
-- mkdir -p $GOPATH/src/github.com/zmap
-- ln -s $TRAVIS_BUILD_DIR $GOPATH/src/github.com/zmap/ || true
+- go get ./...
+- go get -t ./...
 script:
-  - go test -v ./...
+  - make
+  - make test
 notifications:
     email:
       - dkumar11@illinois.edu 

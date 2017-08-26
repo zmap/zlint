@@ -1,4 +1,4 @@
-package main
+package zlint
 
 import (
 	"bytes"
@@ -7,31 +7,20 @@ import (
 )
 
 func TestGofmt(t *testing.T) {
-	cmd := exec.Command("/bin/sh", "-c", "gofmt -s -l main.go")
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Run()
-	if out.String() != "" {
-		t.Error(
-			"main.go not gofmt'ed",
-		)
+	globs := []string{
+		"*.go",
+		"cmd/*.go",
+		"lints/*.go",
+		"util/*.go",
 	}
-	out.Reset()
-	cmd = exec.Command("/bin/sh", "-c", "gofmt -s -l lints/*")
-	cmd.Stdout = &out
-	cmd.Run()
-	if out.String() != "" {
-		t.Error(
-			"lints not gofmt'ed",
-		)
-	}
-	out.Reset()
-	cmd = exec.Command("/bin/sh", "-c", "gofmt -s -l util/*")
-	cmd.Stdout = &out
-	cmd.Run()
-	if out.String() != "" {
-		t.Error(
-			"util not gofmt'ed",
-		)
+	for _, glob := range globs {
+		gofmtCmd := "gofmt -s -l " + glob
+		cmd := exec.Command("/bin/sh", "-c", gofmtCmd)
+		var out bytes.Buffer
+		cmd.Stdout = &out
+		cmd.Run()
+		if out.String() != "" {
+			t.Errorf("glob %s not gofmt'ed", glob)
+		}
 	}
 }
