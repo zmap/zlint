@@ -18,7 +18,7 @@ func (l *DNSNameLeftLabelWildcardCheck) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func wildcardInLeftLabelInorrect(domain string) bool {
+func wildcardInLeftLabelIncorrect(domain string) bool {
 	labels := strings.Split(domain, ".")
 	if len(labels) >= 1 {
 		leftLabel := labels[0]
@@ -30,16 +30,15 @@ func wildcardInLeftLabelInorrect(domain string) bool {
 }
 
 func (l *DNSNameLeftLabelWildcardCheck) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	result := ResultStruct{Result: Pass}
-	if wildcardInLeftLabelInorrect(c.Subject.CommonName) {
-		result = ResultStruct{Result: Error}
+	if wildcardInLeftLabelIncorrect(c.Subject.CommonName) {
+		return ResultStruct{Result: Error}, nil
 	}
 	for _, dns := range c.DNSNames {
-		if wildcardInLeftLabelInorrect(dns) {
-			result = ResultStruct{Result: Error}
+		if wildcardInLeftLabelIncorrect(dns) {
+			return ResultStruct{Result: Error}, nil
 		}
 	}
-	return result, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
