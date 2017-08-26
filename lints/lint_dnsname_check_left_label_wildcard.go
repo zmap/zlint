@@ -22,10 +22,8 @@ func wildcardInLeftLabelInorrect(domain string) bool {
 	labels := strings.Split(domain, ".")
 	if len(labels) >= 1 {
 		leftLabel := labels[0]
-		if strings.Contains(leftLabel, "*") {
-			if leftLabel != "*" {
-				return true
-			}
+		if strings.Contains(leftLabel, "*") && leftLabel != "*" {
+			return true
 		}
 	}
 	return false
