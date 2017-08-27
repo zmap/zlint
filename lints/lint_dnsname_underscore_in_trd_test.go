@@ -21,7 +21,7 @@ func TestDNSNameUnderscoreInTRD(t *testing.T) {
 
 func TestDNSNameNoUnderscoreInTRD(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/DNSFQDN.pem"
+	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInTRD.pem"
 	desEnum := Pass
 	out, _ := Lints["w_dnsname_underscore_in_trd"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
