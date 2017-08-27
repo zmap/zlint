@@ -1,5 +1,7 @@
 package lints
 
+import "encoding/json"
+
 type ResultEnum int
 
 const (
@@ -15,7 +17,6 @@ const (
 
 type ResultStruct struct {
 	Result ResultEnum `json:"result"` //this is the ResultEnum enumeration and uses the values found there
-	//Details string     `json:"details,omitempty"`
 }
 
 type FinalResult struct {
@@ -23,7 +24,12 @@ type FinalResult struct {
 	Details string     `json:"details,omitempty"`
 }
 
-func EnumToString(e ResultEnum) string {
+func (e ResultEnum) MarshalJSON() ([]byte, error) {
+	s := e.String()
+	return json.Marshal(s)
+}
+
+func (e ResultEnum) String() string {
 	switch e {
 	case NA:
 		return "NA"
