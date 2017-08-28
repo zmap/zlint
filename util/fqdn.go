@@ -1,7 +1,7 @@
 package util
 
 import (
-	"crypto/x509"
+	"github.com/zmap/zcrypto/x509"
 	"github.com/asaskevich/govalidator"
 	"net"
 	"strings"
