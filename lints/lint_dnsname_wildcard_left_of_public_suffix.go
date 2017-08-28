@@ -30,12 +30,14 @@ func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
 }
 
 func (l *DNSNameWildcardLeftofPublicSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
-	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
-	}
-	if wildcardFound {
-		return ResultStruct{Result: Warn}, nil
+	if c.Subject.CommonName != "" {
+		wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		if wildcardFound {
+			return ResultStruct{Result: Warn}, nil
+		}
 	}
 	for _, dns := range c.DNSNames {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(dns)
