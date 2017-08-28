@@ -4,6 +4,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	"net"
 	"strings"
+	"crypto/x509"
 )
 
 func removeQuestionMarks(domain string) string {
@@ -60,4 +61,12 @@ func AuthIsFQDNOrIP(auth string) bool {
 		return true
 	}
 	return false
+}
+
+func DNSNamesExist(cert *x509.Certificate) bool {
+	if cert.Subject.CommonName == "" && len(cert.DNSNames) == 0 {
+		return false
+	} else {
+		return true
+	}
 }
