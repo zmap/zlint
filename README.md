@@ -5,7 +5,7 @@ ZLint
 [![Go Report Card](https://goreportcard.com/badge/github.com/zmap/zlint)](https://goreportcard.com/report/github.com/zmap/zlint)
 
 ZLint is a golang-based X.509 certificate linter that checks for consistency
-with [RFC~5280](https://www.ietf.org/rfc/rfc5280.txt) and the CA/Browser Forum
+with [RFC 5280](https://www.ietf.org/rfc/rfc5280.txt) and the CA/Browser Forum
 Baseline Requirements
 ([v.1.4.8](https://cabforum.org/wp-content/uploads/CA-Browser-Forum-BR-1.4.8.pdf)).
 
