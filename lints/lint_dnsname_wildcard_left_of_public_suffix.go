@@ -18,26 +18,34 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func wildcardLeftOfPublicSuffix(domain string) (bool, ResultStruct) {
+func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
 	parsedDomain, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return true, ResultStruct{Result: Fatal}
+		return true, err
 	}
 	if parsedDomain.TRD == "" {
 		if parsedDomain.SLD == "*" {
-			return true, ResultStruct{Result: Warn}
+			return true, nil
 		}
 	}
-	return false, ResultStruct{Result: Pass}
+	return false, nil
 }
 
 func (l *DNSNameWildcardLeftofPublicSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if wildcardFound, result := wildcardLeftOfPublicSuffix(c.Subject.CommonName); wildcardFound {
-		return result, nil
+	wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
+	if err != nil {
+		return ResultStruct{Result: Fatal}, nil
+	}
+	if wildcardFound {
+		return ResultStruct{Result: Warn}, nil
 	}
 	for _, dns := range c.DNSNames {
-		if wildcardFound, result := wildcardLeftOfPublicSuffix(dns); wildcardFound {
-			return result, nil
+		wildcardFound, err := wildcardLeftOfPublicSuffix(dns)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		if wildcardFound {
+			return ResultStruct{Result: Warn}, nil
 		}
 	}
 	return ResultStruct{Result: Pass}, nil
