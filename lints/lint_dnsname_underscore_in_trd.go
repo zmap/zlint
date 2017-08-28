@@ -16,7 +16,7 @@ func (l *DNSNameUnderscoreInTRD) Initialize() error {
 }
 
 func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
 func underscoreInTRD(domain string) (bool, ResultStruct) {
