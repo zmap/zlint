@@ -86,7 +86,7 @@ func main() {
 	if prettyprint {
 		var out bytes.Buffer
 		if err := json.Indent(&out, jsonBytes, "", " "); err != nil {
-			log.Fatalf("can't format output: %s", err);
+			log.Fatalf("can't format output: %s", err)
 		}
 		os.Stdout.Write(out.Bytes())
 	} else {
