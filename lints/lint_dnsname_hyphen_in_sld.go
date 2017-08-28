@@ -19,25 +19,35 @@ func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func hyphenInSLD(domain string) (bool, ResultStruct) {
+func hyphenInSLD(domain string) (bool, error) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return true, ResultStruct{Result: NA}
+		return true, err
 	}
 	if strings.HasPrefix(domainName.SLD, "-") || strings.HasSuffix(domainName.SLD, "-") {
-		return true, ResultStruct{Result: Error}
+		return true, nil
 	} else {
-		return false, ResultStruct{Result: Pass}
+		return false, nil
 	}
 }
 
 func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if hyphenFound, result := hyphenInSLD(c.Subject.CommonName); hyphenFound {
-		return result, nil
+	if c.Subject.CommonName != "" {
+		hyphenFound, err := hyphenInSLD(c.Subject.CommonName)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		if hyphenFound {
+			return ResultStruct{Result: Error}, nil
+		}
 	}
 	for _, dns := range c.DNSNames {
-		if hyphenFound, result := hyphenInSLD(dns); hyphenFound {
-			return result, nil
+		hyphenFound, err := hyphenInSLD(dns)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		if hyphenFound {
+			return ResultStruct{Result: Error}, nil
 		}
 	}
 	return ResultStruct{Result: Pass}, nil
