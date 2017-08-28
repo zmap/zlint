@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"encoding/pem"
@@ -16,12 +17,14 @@ import (
 
 var ( //flags
 	listLintsJSON bool
+	prettyprint   bool
 	format        string
 )
 
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Use this flag to print supported lints in JSON format, one per line")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
+	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
 	flag.Parse()
 
 	log.SetLevel(log.InfoLevel)
@@ -80,7 +83,15 @@ func main() {
 	if err != nil {
 		log.Fatalf("unable to encode lints JSON: %s", err)
 	}
-	os.Stdout.Write(jsonBytes)
+	if prettyprint {
+		var out bytes.Buffer
+		if err := json.Indent(&out, jsonBytes, "", " "); err != nil {
+			log.Fatalf("can't format output: %s", err);
+		}
+		os.Stdout.Write(out.Bytes())
+	} else {
+		os.Stdout.Write(jsonBytes)
+	}
 	os.Stdout.Write([]byte{'\n'})
 	os.Stdout.Sync()
 }
