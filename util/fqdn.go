@@ -1,6 +1,7 @@
 package util
 
 import (
+	"crypto/x509"
 	"github.com/asaskevich/govalidator"
 	"net"
 	"strings"
@@ -60,4 +61,12 @@ func AuthIsFQDNOrIP(auth string) bool {
 		return true
 	}
 	return false
+}
+
+func DNSNamesExist(cert *x509.Certificate) bool {
+	if cert.Subject.CommonName == "" && len(cert.DNSNames) == 0 {
+		return false
+	} else {
+		return true
+	}
 }
