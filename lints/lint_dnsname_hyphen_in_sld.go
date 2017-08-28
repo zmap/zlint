@@ -16,7 +16,7 @@ func (l *DNSNameHyphenInSLD) Initialize() error {
 }
 
 func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
 func hyphenInSLD(domain string) (bool, ResultStruct) {
