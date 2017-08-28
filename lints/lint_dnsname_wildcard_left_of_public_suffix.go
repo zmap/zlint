@@ -23,10 +23,8 @@ func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
 	if err != nil {
 		return true, err
 	}
-	if parsedDomain.TRD == "" {
-		if parsedDomain.SLD == "*" {
-			return true, nil
-		}
+	if parsedDomain.SLD == "*" {
+		return true, nil
 	}
 	return false, nil
 }
