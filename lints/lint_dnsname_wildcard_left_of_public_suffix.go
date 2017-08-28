@@ -18,26 +18,26 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 	return util.IsSubscriberCert(c)
 }
 
-func wildcardLeftOfPublicSuffix(domain string) bool {
+func wildcardLeftOfPublicSuffix(domain string) (bool, ResultStruct) {
 	parsedDomain, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return false
+		return true, ResultStruct{Result: Fatal}
 	}
 	if parsedDomain.TRD == "" {
 		if parsedDomain.SLD == "*" {
-			return true
+			return true, ResultStruct{Result: Warn}
 		}
 	}
-	return false
+	return false, ResultStruct{Result: Pass}
 }
 
 func (l *DNSNameWildcardLeftofPublicSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if wildcardLeftOfPublicSuffix(c.Subject.CommonName) {
-		return ResultStruct{Result: Warn}, nil
+	if wildcardFound, result := wildcardLeftOfPublicSuffix(c.Subject.CommonName); wildcardFound {
+		return result, nil
 	}
 	for _, dns := range c.DNSNames {
-		if wildcardLeftOfPublicSuffix(dns) {
-			return ResultStruct{Result: Warn}, nil
+		if wildcardFound, result := wildcardLeftOfPublicSuffix(dns); wildcardFound {
+			return result, nil
 		}
 	}
 	return ResultStruct{Result: Pass}, nil
