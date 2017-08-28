@@ -16,32 +16,31 @@ func (l *DNSNameUnderscoreInSLD) Initialize() error {
 }
 
 func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return util.IsSubscriberCert(c)
 }
 
-func underscoreInSLD(domain string) bool {
+func underscoreInSLD(domain string) (bool, ResultStruct) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return false
+		return true, ResultStruct{Result: NA}
 	}
 	if strings.Contains(domainName.SLD, "_") {
-		return true
+		return true, ResultStruct{Result: Error}
 	} else {
-		return false
+		return false, ResultStruct{Result: Pass}
 	}
 }
 
 func (l *DNSNameUnderscoreInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	result := ResultStruct{Result: Pass}
-	if underscoreInSLD(c.Subject.CommonName) {
-		result = ResultStruct{Result: Error}
+	if underscoreFound, result := underscoreInSLD(c.Subject.CommonName); underscoreFound {
+		return result, nil
 	}
 	for _, dns := range c.DNSNames {
-		if underscoreInSLD(dns) {
-			result = ResultStruct{Result: Error}
+		if underscoreFound, result := underscoreInSLD(dns); underscoreFound {
+			return result, nil
 		}
 	}
-	return result, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
