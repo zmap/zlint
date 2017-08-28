@@ -19,29 +19,28 @@ func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func underscoreInTRD(domain string) bool {
+func underscoreInTRD(domain string) (bool, ResultStruct) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return false
+		return true, ResultStruct{Result: NA}
 	}
 	if strings.Contains(domainName.TRD, "_") {
-		return true
+		return true, ResultStruct{Result: Warn}
 	} else {
-		return false
+		return false, ResultStruct{Result: Pass}
 	}
 }
 
 func (l *DNSNameUnderscoreInTRD) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	result := ResultStruct{Result: Pass}
-	if underscoreInTRD(c.Subject.CommonName) {
-		result = ResultStruct{Result: Warn}
+	if underscoreFound, result := underscoreInTRD(c.Subject.CommonName); underscoreFound {
+		return result, nil
 	}
 	for _, dns := range c.DNSNames {
-		if underscoreInTRD(dns) {
-			result = ResultStruct{Result: Warn}
+		if underscoreFound, result := underscoreInTRD(dns); underscoreFound {
+			return result, nil
 		}
 	}
-	return result, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
