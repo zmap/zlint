@@ -19,7 +19,7 @@ func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func hyphenInBeginningOrEndOfSLD(domain string) (bool, error) {
+func hyphenAtStartOrEndOfSLD(domain string) (bool, error) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
 		return true, err
@@ -33,7 +33,7 @@ func hyphenInBeginningOrEndOfSLD(domain string) (bool, error) {
 
 func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.Subject.CommonName != "" {
-		hyphenFound, err := hyphenInBeginningOrEndOfSLD(c.Subject.CommonName)
+		hyphenFound, err := hyphenAtStartOrEndOfSLD(c.Subject.CommonName)
 		if err != nil {
 			return ResultStruct{Result: Fatal}, nil
 		}
@@ -42,7 +42,7 @@ func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) 
 		}
 	}
 	for _, dns := range c.DNSNames {
-		hyphenFound, err := hyphenInBeginningOrEndOfSLD(dns)
+		hyphenFound, err := hyphenAtStartOrEndOfSLD(dns)
 		if err != nil {
 			return ResultStruct{Result: Fatal}, nil
 		}
