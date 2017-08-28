@@ -20,7 +20,7 @@ _ZLint_ as well as through
 [ZCertificate](https://github.com/zmap/zcertificate), a more full-fledged
 command-line certificate parser that links against ZLint.
 
-Example ZLint CLI usage::
+Example ZLint CLI usage:
 
 	go get github.com/zmap/zlint/cmd/zlint
 	zlint mycert.pem
@@ -29,7 +29,7 @@ Example ZLint CLI usage::
 Library Usage
 -------------
 
-ZLint can also be used as a library::
+ZLint can also be used as a library:
 
 
 	import (
