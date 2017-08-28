@@ -16,32 +16,31 @@ func (l *DNSNameHyphenInSLD) Initialize() error {
 }
 
 func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return util.IsSubscriberCert(c)
 }
 
-func hyphenInSLD(domain string) bool {
+func hyphenInSLD(domain string) (bool, ResultStruct) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return false
+		return true, ResultStruct{Result: NA}
 	}
 	if strings.HasPrefix(domainName.SLD, "-") || strings.HasSuffix(domainName.SLD, "-") {
-		return true
+		return true, ResultStruct{Result: Error}
 	} else {
-		return false
+		return false, ResultStruct{Result: Pass}
 	}
 }
 
 func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	result := ResultStruct{Result: Pass}
-	if hyphenInSLD(c.Subject.CommonName) {
-		result = ResultStruct{Result: Error}
+	if hyphenFound, result := hyphenInSLD(c.Subject.CommonName); hyphenFound {
+		return result, nil
 	}
 	for _, dns := range c.DNSNames {
-		if hyphenInSLD(dns) {
-			result = ResultStruct{Result: Error}
+		if hyphenFound, result := hyphenInSLD(dns); hyphenFound {
+			return result, nil
 		}
 	}
-	return result, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
