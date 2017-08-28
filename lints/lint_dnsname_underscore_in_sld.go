@@ -22,7 +22,7 @@ func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
 func underscoreInSLD(domain string) (bool, ResultStruct) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return true, ResultStruct{Result: NA}
+		return true, ResultStruct{Result: Fatal}
 	}
 	if strings.Contains(domainName.SLD, "_") {
 		return true, ResultStruct{Result: Error}
