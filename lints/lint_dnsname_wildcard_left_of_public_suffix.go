@@ -21,7 +21,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 func wildcardLeftOfPublicSuffix(domain string) (bool, ResultStruct) {
 	parsedDomain, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return true, ResultStruct{Result: NA}
+		return true, ResultStruct{Result: Fatal}
 	}
 	if parsedDomain.TRD == "" {
 		if parsedDomain.SLD == "*" {
