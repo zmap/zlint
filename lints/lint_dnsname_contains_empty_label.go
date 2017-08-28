@@ -29,16 +29,17 @@ func domainHasEmptyLabel(domain string) bool {
 }
 
 func (l *DNSNameEmptyLabel) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	result := ResultStruct{Result: Pass}
-	if domainHasEmptyLabel(c.Subject.CommonName) {
-		result = ResultStruct{Result: Error}
+	if c.Subject.CommonName != "" {
+		if domainHasEmptyLabel(c.Subject.CommonName) {
+			return ResultStruct{Result: Error}, nil
+		}
 	}
 	for _, dns := range c.DNSNames {
 		if domainHasEmptyLabel(dns) {
-			result = ResultStruct{Result: Error}
+			return ResultStruct{Result: Error}, nil
 		}
 	}
-	return result, nil
+	return ResultStruct{Result: Pass}, nil
 }
 
 func init() {
