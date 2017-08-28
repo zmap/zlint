@@ -37,25 +37,38 @@ func main() {
 		return
 	}
 
-	var inputFile *os.File
+	var inform = strings.ToLower(format)
 	if flag.NArg() < 1 || flag.Arg(0) == "-" {
-		inputFile = os.Stdin
+		lint(os.Stdin, inform)
 	} else {
-		filePath := flag.Arg(0)
-		var err error
-		inputFile, err = os.Open(filePath)
-		if err != nil {
-			log.Fatalf("unable to open file %s: %s", filePath, err)
+		for _, filePath := range flag.Args() {
+			var inputFile *os.File
+			var err error
+			inputFile, err = os.Open(filePath)
+			if err != nil {
+				log.Fatalf("unable to open file %s: %s", filePath, err)
+			}
+			var fmt = inform
+			switch {
+			case strings.HasSuffix(filePath, ".der"):
+				fmt = "der"
+			case strings.HasSuffix(filePath, ".pem"):
+				fmt = "pem"
+			}
+			lint(inputFile, fmt)
+			inputFile.Close()
 		}
 	}
+}
 
+func lint(inputFile *os.File, inform string) {
 	fileBytes, err := ioutil.ReadAll(inputFile)
 	if err != nil {
 		log.Fatalf("unable to read file %s: %s", inputFile.Name(), err)
 	}
 
 	var asn1Data []byte
-	switch inform := strings.ToLower(format); inform {
+	switch inform {
 	case "pem":
 		p, _ := pem.Decode(fileBytes)
 		if p == nil || p.Type != "CERTIFICATE" {
@@ -86,7 +99,7 @@ func main() {
 	if prettyprint {
 		var out bytes.Buffer
 		if err := json.Indent(&out, jsonBytes, "", " "); err != nil {
-			log.Fatalf("can't format output: %s", err);
+			log.Fatalf("can't format output: %s", err)
 		}
 		os.Stdout.Write(out.Bytes())
 	} else {
