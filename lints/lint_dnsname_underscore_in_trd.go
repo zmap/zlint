@@ -19,25 +19,35 @@ func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func underscoreInTRD(domain string) (bool, ResultStruct) {
+func underscoreInTRD(domain string) (bool, error) {
 	domainName, err := publicsuffix.Parse(domain)
 	if err != nil {
-		return true, ResultStruct{Result: Fatal}
+		return true, err
 	}
 	if strings.Contains(domainName.TRD, "_") {
-		return true, ResultStruct{Result: Warn}
+		return true, nil
 	} else {
-		return false, ResultStruct{Result: Pass}
+		return false, nil
 	}
 }
 
 func (l *DNSNameUnderscoreInTRD) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	if underscoreFound, result := underscoreInTRD(c.Subject.CommonName); underscoreFound {
-		return result, nil
+	if c.Subject.CommonName != "" {
+		underscoreFound, err := underscoreInTRD(c.Subject.CommonName)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		if underscoreFound {
+			return ResultStruct{Result: Warn}, nil
+		}
 	}
 	for _, dns := range c.DNSNames {
-		if underscoreFound, result := underscoreInTRD(dns); underscoreFound {
-			return result, nil
+		underscoreFound, err := underscoreInTRD(dns)
+		if err != nil {
+			return ResultStruct{Result: Fatal}, nil
+		}
+		if underscoreFound {
+			return ResultStruct{Result: Warn}, nil
 		}
 	}
 	return ResultStruct{Result: Pass}, nil
