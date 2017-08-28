@@ -7,10 +7,8 @@ import (
 )
 
 func removeQuestionMarks(domain string) string {
-	hasQuestionMarkPrefix := strings.HasPrefix(domain, "?.")
-	for hasQuestionMarkPrefix == true {
+	for strings.HasPrefix(domain, "?.") {
 		domain = domain[2:]
-		hasQuestionMarkPrefix = strings.HasPrefix(domain, "?.")
 	}
 	return domain
 }
