@@ -15,7 +15,7 @@ func (l *DNSNameEmptyLabel) Initialize() error {
 }
 
 func (l *DNSNameEmptyLabel) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
 func domainHasEmptyLabel(domain string) bool {
