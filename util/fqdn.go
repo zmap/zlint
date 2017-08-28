@@ -1,10 +1,10 @@
 package util
 
 import (
+	"crypto/x509"
 	"github.com/asaskevich/govalidator"
 	"net"
 	"strings"
-	"crypto/x509"
 )
 
 func removeQuestionMarks(domain string) string {
