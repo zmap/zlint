@@ -75,6 +75,9 @@ func RegisterLint(l *Lint) {
 	if Lints == nil {
 		Lints = make(map[string]*Lint)
 	}
-	l.Test.Initialize()
+	err := l.Test.Initialize()
+	if err != nil {
+		panic("could not initialize lint: " + l.Name)
+	}
 	Lints[l.Name] = l
 }
