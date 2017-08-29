@@ -37,7 +37,7 @@ func (l *subCertPolicy) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_certificate_policies_missing",
-		Description:   "Subscriber certificates should have the certificates policies extension present",
+		Description:   "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicy{},

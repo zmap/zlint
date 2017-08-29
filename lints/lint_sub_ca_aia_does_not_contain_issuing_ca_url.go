@@ -40,7 +40,7 @@ func (l *subCaIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_ca_aia_does_not_contain_issuing_ca_url",
-		Description:   "Subordinate CA certificates authorityInformationAccess extension should contain the HTTP URL of the issuing CA’s certificate",
+		Description:   "Subordinate CA Certificate: authorityInformationAccess SHOULD also contain the HTTP URL of the Issuing CA's certificate.",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCaIssuerUrl{},

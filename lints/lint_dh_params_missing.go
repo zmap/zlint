@@ -31,10 +31,10 @@ func (l *dsaParamsMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_dh_params_missing",
-		Description:   "DH keys must have parameters",
-		Provenance:    "awslabs certlint",
-		EffectiveDate: util.ZeroDate,
+		Name:          "e_dsa_params_missing",
+		Description:   "DSA: Certificates MUST include all domain parameters",
+		Provenance:    "BRs: 6.1.6",
+		EffectiveDate: util.CABEffectiveDate,
 		Test:          &dsaParamsMissing{},
 	})
 }

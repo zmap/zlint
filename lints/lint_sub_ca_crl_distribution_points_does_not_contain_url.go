@@ -37,7 +37,7 @@ func (l *subCACRLDistNoUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_crl_distribution_points_does_not_contain_url",
-		Description:   "Subordinate CA certificates cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service",
+		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST contain the HTTP URL of the CA's CRL service.",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACRLDistNoUrl{},

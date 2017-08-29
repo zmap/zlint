@@ -42,10 +42,9 @@ func (l *dsaImproperSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:        "e_dsa_improper_modulus_or_divisor_size",
-		Description: "The minimum DSA modulus and divisor size is either L=2048, N=224 or L=2048, N=256 (extras come from FIPS 186-4)",
-		Provenance:  "BRs: 6.1.5",
-		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
+		Name:          "e_dsa_improper_modulus_or_divisor_size",
+		Description:   "Certificates MUST meet the following requirements for algorithm type and key size: L=2048, N=224,256 minimum DSA",
+		Provenance:    "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &dsaImproperSize{},
 	})

@@ -45,7 +45,7 @@ func (l *subExtKeyUsageLegalUsage) RunTest(c *x509.Certificate) (ResultStruct, e
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_cert_eku_extra_values",
-		Description:   "Subscriber certificates SHOULD have only id-kp-serverAuth, id-kp-clientAuth, or id-kp-emailProtection in extKeyUsage",
+		Description:   "Subscriber Certificate: extKeyUsage either the value id-kp-serverAuth or id-kp-clientAuth or both values MUST be present.",
 		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subExtKeyUsageLegalUsage{},
