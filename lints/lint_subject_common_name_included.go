@@ -34,7 +34,7 @@ func (l *commonNames) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "n_subject_common_name_included",
-		Description:   "Use of the commonName field is discouraged",
+		Description:   "Subscriber Certificate: commonName is deprecated.",
 		Provenance:    "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &commonNames{},
