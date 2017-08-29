@@ -52,7 +52,8 @@ Contributing
 
 If you would like to add a new x509 Lint:
 
-1. Fork this repository 
+0. Make sure the lint doesn't already exist.
+1. Fork this repository
 2. Add a new Lint to the `lints` directory in this project, with the title `lint_<name_of_lint>.go`
 3. If your lint returns an Error, prepend the lint _name_ with e_. If it returns a Warning, prepend
 the lint name with w_. If you want it to do both, your lint is too big.
