@@ -47,6 +47,19 @@ ZLint can also be used as a library:
 
 See https://github.com/zmap/zlint/blob/master/cmd/zlint/main.go for an example.
 
+Contributing
+-------------
+
+If you would like to add a new x509 Lint:
+
+1. Fork this repository 
+2. Add a new Lint to the `lints` directory in this project, with the title `lint_<name_of_lint>.go`
+3. If your lint returns an Error, prepend the lint _name_ with e_. If it returns a Warning, prepend
+the lint name with w_. If you want it to do both, your lint is too big.
+4. Add _tests_ for your new Lint by generating certificates using either `openssl` configs or other 
+methods of your choice. Put these tests in the `lints` directory with the title `lint_<name_of_lint>_test.go`
+5. Run `gofmt`
+6. Send a PR! 
 
 License and Copyright
 ---------------------
