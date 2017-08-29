@@ -26,31 +26,25 @@ func (l *DNSNameProperCharacters) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func labelContainsBadCharacters(domain string, compiledExpression *regexp.Regexp) (bool, error) {
+func labelContainsBadCharacters(domain string, compiledExpression *regexp.Regexp) bool {
 	labels := strings.Split(domain, ".")
 	for _, label := range labels {
 		if !compiledExpression.MatchString(label) {
-			return true, nil
+			return true
 		}
 	}
-	return false, nil
+	return false
 }
 
 func (l *DNSNameProperCharacters) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.Subject.CommonName != "" {
-		badCharacterFound, err := labelContainsBadCharacters(c.Subject.CommonName, l.CompiledExpression)
-		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
-		}
+		badCharacterFound := labelContainsBadCharacters(c.Subject.CommonName, l.CompiledExpression)
 		if badCharacterFound {
 			return ResultStruct{Result: Error}, nil
 		}
 	}
 	for _, dns := range c.DNSNames {
-		badCharacterFound, err := labelContainsBadCharacters(dns, l.CompiledExpression)
-		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
-		}
+		badCharacterFound := labelContainsBadCharacters(dns, l.CompiledExpression)
 		if badCharacterFound {
 			return ResultStruct{Result: Error}, nil
 		}
