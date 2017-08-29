@@ -19,7 +19,7 @@ func (l *DNSNameProperCharacters) Initialize() error {
 }
 
 func (l *DNSNameProperCharacters) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
 func (l *DNSNameProperCharacters) labelContainsBadCharacters(domain string) bool {
