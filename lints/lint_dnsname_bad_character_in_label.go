@@ -9,9 +9,16 @@ import (
 
 type DNSNameProperCharacters struct {
 	// Internal data here
+	CompiledExpression *regexp.Regexp
 }
 
 func (l *DNSNameProperCharacters) Initialize() error {
+	dnsLabelRegex := "^[A-Za-z0-9*_-]+$"
+	var err error
+	l.CompiledExpression, err = regexp.Compile(dnsLabelRegex)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -19,15 +26,10 @@ func (l *DNSNameProperCharacters) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func labelContainsBadCharacters(domain string) (bool, error) {
-	dnsLabelRegex := "^[A-Za-z0-9*_-]+$"
-	re, err := regexp.Compile(dnsLabelRegex)
-	if err != nil {
-		return true, err
-	}
+func labelContainsBadCharacters(domain string, compiledExpression *regexp.Regexp) (bool, error) {
 	labels := strings.Split(domain, ".")
 	for _, label := range labels {
-		if !re.MatchString(label) {
+		if !compiledExpression.MatchString(label) {
 			return true, nil
 		}
 	}
@@ -36,7 +38,7 @@ func labelContainsBadCharacters(domain string) (bool, error) {
 
 func (l *DNSNameProperCharacters) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	if c.Subject.CommonName != "" {
-		badCharacterFound, err := labelContainsBadCharacters(c.Subject.CommonName)
+		badCharacterFound, err := labelContainsBadCharacters(c.Subject.CommonName, l.CompiledExpression)
 		if err != nil {
 			return ResultStruct{Result: Fatal}, nil
 		}
@@ -45,7 +47,7 @@ func (l *DNSNameProperCharacters) RunTest(c *x509.Certificate) (ResultStruct, er
 		}
 	}
 	for _, dns := range c.DNSNames {
-		badCharacterFound, err := labelContainsBadCharacters(dns)
+		badCharacterFound, err := labelContainsBadCharacters(dns, l.CompiledExpression)
 		if err != nil {
 			return ResultStruct{Result: Fatal}, nil
 		}
