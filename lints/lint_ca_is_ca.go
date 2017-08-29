@@ -1,7 +1,7 @@
 package lints
 
 import (
-	"github.com/google/certificate-transparency/go/asn1"
+	"encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
