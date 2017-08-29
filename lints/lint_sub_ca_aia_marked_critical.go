@@ -30,7 +30,7 @@ func (l *subCaAIAMarkedCritical) RunTest(c *x509.Certificate) (ResultStruct, err
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_aia_marked_critical",
-		Description:   "Subordinate CA certificates authorityInformationAccess extension MUST NOT be marked critical",
+		Description:   "Subordinate CA Certificate: authorityInformationAccess MUST NOT be marked critical",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.ZeroDate,
 		Test:          &subCaAIAMarkedCritical{},

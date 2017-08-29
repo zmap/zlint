@@ -39,7 +39,7 @@ func (l *subCertAiaMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_aia_missing",
-		Description:   "Subscriber certificates must have an authorityInformationAccess extension",
+		Description:   "Subscriber Certiifcate: authorityInformationAccess MUST be present, with the exception of stapling.",
 		Provenance:    "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertAiaMissing{},

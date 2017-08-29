@@ -33,7 +33,7 @@ func (l *SubCANameConstraintsNotCritical) RunTest(cert *x509.Certificate) (Resul
 func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_ca_name_constraints_not_critical",
-		Description:   "Subordinate CA certificate nameConstraints extension should be marked critical if present",
+		Description:   "Subordinate CA Certificate: NameConstraints if present, SHOULD be marked critical.",
 		Provenance:    "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV102Date,
 		Test:          &SubCANameConstraintsNotCritical{},
