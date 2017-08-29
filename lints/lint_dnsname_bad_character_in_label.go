@@ -14,11 +14,7 @@ type DNSNameProperCharacters struct {
 
 func (l *DNSNameProperCharacters) Initialize() error {
 	const dnsLabelRegex = "^[A-Za-z0-9*_-]+$"
-	var err error
-	l.CompiledExpression, err = regexp.Compile(dnsLabelRegex)
-	if err != nil {
-		return err
-	}
+	l.CompiledExpression = regexp.MustCompile(dnsLabelRegex)
 	return nil
 }
 
