@@ -42,7 +42,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_international_dns_name_not_nfkc",
 		Description:   "Internationalized DNSNames must be normalized by unicode normalization form KC",
-		Provenance:    "RFC 3490",
+		Source:        "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
 		Test:          &IDNNotNFKC{},
 	})

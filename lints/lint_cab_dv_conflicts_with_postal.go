@@ -35,7 +35,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cab_dv_conflicts_with_postal",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, postalCode MUST NOT be included in subject",
-		Provenance:    "BRs: 7.1.6.1",
+		Source:        "BRs: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &certPolicyConflictsWithPostal{},
 	})

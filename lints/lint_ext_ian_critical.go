@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_ian_critical",
 		Description:   "Issuer alternate name should be marked as non-critical",
-		Provenance:    "RFC 5280: 4.2.1.7",
+		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &ExtIANCritical{},
 	})

@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_rfc822_name_present",
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
-		Provenance:    "BRs: 7.1.4.2.1",
+		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANRfc822{},
 	})

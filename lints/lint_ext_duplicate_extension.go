@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_duplicate_extension",
 		Description:   "A certificate MUST NOT include more than one instance of a particular extension",
-		Provenance:    "RFC 5280: 4.2",
+		Source:        "RFC 5280: 4.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &ExtDuplicateExtension{},
 	})

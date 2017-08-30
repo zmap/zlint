@@ -55,7 +55,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_generalized_time_not_in_zulu",
 		Description:   "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
-		Provenance:    "RFC 5280: 4.1.2.5.2",
+		Source:        "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &generalizedNotZulu{},
 	})

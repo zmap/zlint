@@ -58,7 +58,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_name_constraint_empty",
 		Description:   "Conforming CAs MUST NOT issue certificates where name constraints is an empty sequence. That is, either the permittedSubtree or excludedSubtree fields must be present",
-		Provenance:    "RFC 5280: 4.2.1.10",
+		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &nameConstraintEmpty{},
 	})

@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_crl_distribution_points_missing",
 		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST be present and MUST NOT be marked critical.",
-		Provenance:    "BRs: 7.1.2.2",
+		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACRLDistMissing{},
 	})

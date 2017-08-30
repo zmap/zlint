@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_missing",
 		Description:   "Subscriber certificates MUST contain the Subject Alternate Name extension",
-		Provenance:    "BRs: 7.1.4.2.1",
+		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &SANMissing{},
 	})

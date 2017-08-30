@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_serial_number_not_positive",
 		Description:   "Certificates must have a positive serial number",
-		Provenance:    "RFC 5280: 4.1.2.2",
+		Source:        "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &SerialNumberNotPositive{},
 	})

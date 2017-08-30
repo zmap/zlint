@@ -73,7 +73,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_generalized_time_includes_fraction_seconds",
 		Description:   "Generalized time values MUST NOT include fractional seconds",
-		Provenance:    "RFC 5280: 4.1.2.5.2",
+		Source:        "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &generalizedTimeFraction{},
 	})

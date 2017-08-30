@@ -35,7 +35,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "n_subject_common_name_included",
 		Description:   "Subscriber Certificate: commonName is deprecated.",
-		Provenance:    "BRs: 7.1.4.2.2",
+		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &commonNames{},
 	})

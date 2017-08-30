@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_eku_name_constraints",
 		Description:   "Subordinate CA: If includes id-kp-serverAuth EKU, then it MUST include Name constraints w/ constraints on DNSName, IPAddress, and DirectoryName",
-		Provenance:    "BRs: 7.1.5",
+		Source:        "BRs: 7.1.5",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCAEKUNameConstraints{},
 	})

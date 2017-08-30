@@ -41,7 +41,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_crl_distribution_points_does_not_contain_url",
 		Description:   "Subscriber certificate cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service",
-		Provenance:    "BRs: 7.1.2.3",
+		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCRLDistNoURL{},
 	})

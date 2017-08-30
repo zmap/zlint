@@ -46,7 +46,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_uri_host_not_fqdn_or_ip",
 		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host",
-		Provenance:    "RFC 5280: 4.2.1.7",
+		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &SANURIHost{},
 	})

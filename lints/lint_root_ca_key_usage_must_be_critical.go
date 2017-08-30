@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_root_ca_key_usage_must_be_critical",
 		Description:   "Root CA certificates MUST have Key Usage Extension marked critical",
-		Provenance:    "CAB: 7.1.2.1",
+		Source:        "CAB: 7.1.2.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &rootCAKeyUsageMustBeCritical{},
 	})

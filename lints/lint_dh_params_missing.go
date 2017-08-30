@@ -33,7 +33,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dsa_params_missing",
 		Description:   "DSA: Certificates MUST include all domain parameters",
-		Provenance:    "BRs: 6.1.6",
+		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &dsaParamsMissing{},
 	})

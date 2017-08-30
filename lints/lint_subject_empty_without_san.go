@@ -49,7 +49,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_empty_without_san",
 		Description:   "CAs MUST support subject alternative name if the subject field is an empty sequence",
-		Provenance:    "RFC 5280: 4.2 & 4.2.1.6",
+		Source:        "RFC 5280: 4.2 & 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &emptyWithoutSAN{},
 	})
