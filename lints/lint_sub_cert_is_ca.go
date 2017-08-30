@@ -10,11 +10,6 @@ type subCertNotCA struct {
 	// Internal data here
 }
 
-type basicConstraints struct {
-	IsCA       bool `asn1:"optional"`
-	MaxPathLen int  `asn1:"optional,default:-1"`
-}
-
 func (l *subCertNotCA) Initialize() error {
 	return nil
 }
