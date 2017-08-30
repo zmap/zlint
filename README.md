@@ -47,38 +47,67 @@ ZLint can also be used as a library:
 
 See https://github.com/zmap/zlint/blob/master/cmd/zlint/main.go for an example.
 
-Contributing
--------------
 
-If you would like to add a new x509 Lint:
+Adding New Lints
+----------------
 
-0. Make sure the lint doesn't already exist.
-1. Come up with a name for your lint. If your lint returns an error (i.e., an RFC or the BRs use a MUST 
-clause), prepend your lint name with `e_`. If your lint returns a warning (i.e., an RFC or the BRs use a SHOULD
-clause), prepend your lint name with `w_`. For example, `e_subject_common_name_not_from_san`. 
-2. Come up with a struct name for your lint. Typically just camelCase the name of your lint. From the previous example, a suitable struct name would be `subjectCommonNameNotFromSAN`. 
-3. Run the following command:
-`./newLint.sh <lint_name> <structName>`
-This will generate a new lint, in the `lints` directory, with the necessary fields filled out.
-4. Determine what prerequisites are necessary for your lint, and add code to 
-the `CheckApplies` function that ensures the prerequisites are met. For example, 
-if your lint only applies to subscriber certificates, you would add 
-`return util.IsSubscriberCert(c)` 
-in the `CheckApplies` function.
-5. Fill out the `Description` of the Lint, as well as the `Provenance` of 
-the Lint (where did the lint come from?), as well as the earliest date 
-that the lint was effective in the `EffectiveDate` field.
-6. Write the logic of your lint in the `RunTest` function.
-7. Create a test file for your lint by creating a file in the lints directory called `<lint_name>_test.go`.
-8. Create test certifiates that test your lint. You can do this via `openssl`
-configs, or writing pure Golang (https://golang.org/pkg/crypto/x509/#CreateCertificate)
-9. For each new test certificate, run the following command.
-`openssl x509 -in <testCert> -text -noout | cat - <testCert> > /tmp/out && mv /tmp/out <testCert>`
-10. Place these test certificates in the `testlint/testCerts` directory.
-11. Run 
-`go test ./...` 
-in the top level directory to ensure that your tests pass.
-12. Send a PR.
+**Generating Lint Scaffolding.** The scaffolding for a new lints can be created by running `./newLint.sh <lint_name> <structName>`. Lint names are generally of the form `e_subject_common_name_not_from_san` where the first letter is one of: `e`, `w`, or `n` (error, warning, or notice respectively). Struct names following golang conventions, e.g., `subjectCommonNameNotFromSAN`. Example: `./newLint.sh e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`. This will generate a new lint in the `lints` directory with the necessary fields filled out.
+
+**Scoping a Lint.** Lints are executed in three steps. First, the ZLint framework determines whether a certificate falls within the scope of a given lint by calling `CheckApplies`. This is often used to scope lints to only check subscriber, intermediate CA, or root CAs. This function commonly calls one of a select number of helper functions: `IsCA`, `IsSubscriber`, `IsExtInCert`, or `DNSNamesExist`. Example:
+
+```golang
+func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
+	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
+}
+```
+
+Next, the framework determines whether the certificate was issued after the effective date of a Lint by checking whether the certificate was issued prior to the lint's `EffectiveDate`. You'll also need to fill out the source and description of what the lint is checking. We encourage you to copy text directly from the BR or RFC here. Example: 
+
+```golang
+func init() {
+	RegisterLint(&Lint{
+		Name:          "e_ca_country_name_missing",
+		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
+		Provenance:    "BRs: 7.1.2.1",
+		EffectiveDate: util.CABEffectiveDate,
+		Test:          &caCountryNameMissing{},
+	})
+}
+```
+
+The meat of the lint is contained within the `RunTest` function, which is passed `x509.Certificate`. **Note:** This is an X.509 object from [ZCrypto](https://github.com/zmap/zcrypto) not Golang stdlib. Lints should perform their described test and then return a `ResultStruct` that contains a Result and optionally a `Details` string, e.g., `ResultStruct{Result: Pass}`. 
+
+Example:
+
+```golang
+func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
+		return ResultStruct{Result: Pass}, nil
+	} else {
+		return ResultStruct{Result: Error}, nil
+	}
+}
+```
+
+**Creating Tests.** Every lint should also have two corresponding tests for a success and failure condition. We have typically generated test certificates using Golang (see https://golang.org/pkg/crypto/x509/#CreateCertificate for details), but OpenSSL could also be used. Test certificates should be placed in `testlint/testCerts` and called from the test file created by `newLint.sh`. Example:
+
+```golang
+func TestBasicConstNotCrit(t *testing.T) {
+	// Only need to change these two values and the lint name
+	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
+	desEnum := Error
+	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	if out.Result != desEnum {
+		t.Error(
+			"For", inputPath, /* input path*/
+			"expected", desEnum, /* The enum you expected */
+			"got", out.Result, /* Actual Result */
+		)
+	}
+}
+
+```
+
 
 License and Copyright
 ---------------------
