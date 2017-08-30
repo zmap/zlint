@@ -57,7 +57,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_hyphen_in_sld",
 		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
-		Provenance:    "RFC 5280",
+		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &DNSNameHyphenInSLD{},
 	})

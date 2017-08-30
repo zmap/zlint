@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_postal_code_must_not_appear",
 		Description:   "Subscriber Certificate: subject:postalCode MUST NOT appear if the subject:organizationName field, subject:givenName field, or subject:surname fields are absent.",
-		Provenance:    "BRs: 7.1.4.2.2",
+		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPostalCodeMustNotAppear{},
 	})

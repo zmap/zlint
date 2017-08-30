@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_common_name_missing",
 		Description:   "CA Certificates common name MUST be included.",
-		Provenance:    "BRs: 7.1.4.3.1",
+		Source:        "BRs: 7.1.4.3.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &caCommonNameMissing{},
 	})

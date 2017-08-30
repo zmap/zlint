@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_signature_algorithm_not_supported",
 		Description:   "Certificates MUST meet the following requirements for algorithm type: SHA-1*, SHA-256, SHA-384, SHA-512",
-		Provenance:    "BRs: 6.1.5",
+		Source:        "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
 		Test:          &signatureAlgorithmNotSupported{},
 	})

@@ -61,21 +61,21 @@ func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
 }
 ```
 
-Next, the framework determines whether the certificate was issued after the effective date of a Lint by checking whether the certificate was issued prior to the lint's `EffectiveDate`. You'll also need to fill out the source and description of what the lint is checking. We encourage you to copy text directly from the BR or RFC here. Example: 
+Next, the framework determines whether the certificate was issued after the effective date of a Lint by checking whether the certificate was issued prior to the lint's `EffectiveDate`. You'll also need to fill out the source and description of what the lint is checking. We encourage you to copy text directly from the BR or RFC here. Example:
 
 ```golang
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_country_name_missing",
 		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
-		Provenance:    "BRs: 7.1.2.1",
+		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caCountryNameMissing{},
 	})
 }
 ```
 
-The meat of the lint is contained within the `RunTest` function, which is passed `x509.Certificate`. **Note:** This is an X.509 object from [ZCrypto](https://github.com/zmap/zcrypto) not Golang stdlib. Lints should perform their described test and then return a `ResultStruct` that contains a Result and optionally a `Details` string, e.g., `ResultStruct{Result: Pass}`. 
+The meat of the lint is contained within the `RunTest` function, which is passed `x509.Certificate`. **Note:** This is an X.509 object from [ZCrypto](https://github.com/zmap/zcrypto) not Golang stdlib. Lints should perform their described test and then return a `ResultStruct` that contains a Result and optionally a `Details` string, e.g., `ResultStruct{Result: Pass}`.
 
 Example:
 

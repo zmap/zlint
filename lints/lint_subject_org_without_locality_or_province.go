@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_org_without_locality_or_province",
 		Description:   "If organization is included in a subscriber certificate, either stateOrProvince or locality MUST be included",
-		Provenance:    "BRs: 7.1.4.2.2 (d&e)",
+		Source:        "BRs: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &orgNoLocalOrProvince{},
 	})

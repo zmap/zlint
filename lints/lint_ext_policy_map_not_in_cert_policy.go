@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_policy_map_not_in_cert_policy",
 		Description:   "Each issuerDomainPolicy named in the policy mappings extension should also be asserted in a certificate policies extension",
-		Provenance:    "RFC 5280: 4.2.1.5",
+		Source:        "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &policyMapMatchesCertPolicy{},
 	})

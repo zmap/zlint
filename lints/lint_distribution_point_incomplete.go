@@ -64,7 +64,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_distribution_point_incomplete",
 		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
-		Provenance:    "RFC 5280: 4.2.1.13",
+		Source:        "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &dpIncomplete{},
 	})

@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_policy_map_not_critical",
 		Description:   "Policy mappings should be marked as critical",
-		Provenance:    "RFC 5280: 4.2.1.5",
+		Source:        "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &policyMapCritical{},
 	})

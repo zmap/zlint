@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_aia_marked_critical",
 		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
-		Provenance:    "RFC 5280: 4.2.2.1",
+		Source:        "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &ExtAiaMarkedCritical{},
 	})

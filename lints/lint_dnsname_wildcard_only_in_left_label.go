@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_wildcard_only_in_left_label",
 		Description:   "DNSName should not have wildcards except in the left-most label",
-		Provenance:    "RFC 5280",
+		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &DNSNameWildcardOnlyInLeftlabel{},
 	})
