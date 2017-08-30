@@ -23,17 +23,9 @@ fi
 FILENAME=$1
 TESTNAME=$2
 
-cp template lint_$FILENAME.go
+cp template lints/lint_$FILENAME.go
 
-cat "lint_$FILENAME.go" | sed "s/SUBST/$2/g" | sed "s/SUBTEST/$1/g" > temp.go
-mv -f temp.go "lint_$FILENAME.go"
+cat "lints/lint_$FILENAME.go" | sed "s/SUBST/$2/g" | sed "s/SUBTEST/$1/g" > temp.go
+mv -f temp.go "lints/lint_$FILENAME.go"
 
 echo "Created file lint_$FILENAME.go with test name $TESTNAME"
-
-if [ $3 == sublime ]; then
-    sublime lint_$1.go
-fi
-
-if [ $3 == atom ]; then
-    atom lint_$1.go
-fi
