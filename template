@@ -27,7 +27,7 @@ func init() {
 	registerLint(&Lint{
 		Name:          "SUBTEST",
 		Description:   "Fill this in...",
-		Providence:    "Fill this in...",
+		Source:    "Fill this in...",
 		EffectiveDate: "Change this...",
 		Test:          &SUBST{},
 	})
