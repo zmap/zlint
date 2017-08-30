@@ -54,9 +54,9 @@ If you would like to add a new x509 Lint:
 
 0. Make sure the lint doesn't already exist.
 1. Come up with a name for your lint. If your lint returns an error (i.e., an RFC or the BRs use a MUST 
-clause), prepend your lint name with e_. If your lint returns a warning (i.e., an RFC or the BRs use a SHOULD
-clause), prepend your lint name with w_. For example, e_subject_common_name_not_from_san. 
-2. Come up with a struct name for your lint. Typically just camelCase the name of your lint. From the previous example, a suitable struct name would be subjectCommonNameNotFromSAN. 
+clause), prepend your lint name with `e_`. If your lint returns a warning (i.e., an RFC or the BRs use a SHOULD
+clause), prepend your lint name with `w_`. For example, `e_subject_common_name_not_from_san`. 
+2. Come up with a struct name for your lint. Typically just camelCase the name of your lint. From the previous example, a suitable struct name would be `subjectCommonNameNotFromSAN`. 
 3. Run the following command:
 `./newLint.sh <lint_name> <structName>`
 This will generate a new lint, in the `lints` directory, with the necessary fields filled out.
