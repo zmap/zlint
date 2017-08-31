@@ -9,10 +9,8 @@ func TestEvNoBiz(t *testing.T) {
 	expected := Error
 	out := Lints["e_ev_business_category_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

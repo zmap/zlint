@@ -10,11 +10,7 @@ func TestIANHostURINotFQDN(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestIANHostURIFQDN(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,11 +28,7 @@ func TestIANHostURIIP(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -49,11 +37,7 @@ func TestIANHostWildcardFQDN(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -62,11 +46,7 @@ func TestIANHostWrongWildcard(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -75,10 +55,8 @@ func TestIANHostAsterisk(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

@@ -10,11 +10,7 @@ func TestIANBarePubSuffix(t *testing.T) {
 	expected := Warn
 	out := Lints["w_ian_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestIANGoodPubSuffix(t *testing.T) {
 	expected := Pass
 	out := Lints["w_ian_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

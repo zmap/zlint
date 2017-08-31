@@ -7,16 +7,11 @@ import (
 )
 
 func TestDSACorrectOrderSubgroup(t *testing.T) {
-
 	inputPath := "../testlint/testCerts/dsaCorrectOrderInSubgroup.pem"
 	expected := Pass
 	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -30,10 +25,8 @@ func TestDSANotCorrectOrderSubgroup(t *testing.T) {
 	expected := Error
 	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(c)
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

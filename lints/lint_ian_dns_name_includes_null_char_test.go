@@ -10,11 +10,7 @@ func TestBrIANDNSNull(t *testing.T) {
 	expected := Error
 	out := Lints["e_ian_dns_name_includes_null_char"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestBrIANDNSNotNull(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ian_dns_name_includes_null_char"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

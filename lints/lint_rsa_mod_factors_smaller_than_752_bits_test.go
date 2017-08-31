@@ -10,11 +10,7 @@ func TestRsaModFactorTooSmall(t *testing.T) {
 	expected := Warn
 	out := Lints["w_rsa_mod_factors_smaller_than_752"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestRsaModFactorNotTooSmall(t *testing.T) {
 	expected := Pass
 	out := Lints["w_rsa_mod_factors_smaller_than_752"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

@@ -10,11 +10,7 @@ func TestCertSignBitSet(t *testing.T) {
 	expected := Error
 	out := Lints["e_sub_cert_key_usage_cert_sign_bit_set"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestCertSignBitNotSet(t *testing.T) {
 	expected := Pass
 	out := Lints["e_sub_cert_key_usage_cert_sign_bit_set"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

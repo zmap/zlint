@@ -9,11 +9,7 @@ func TestIDNDnsNameNotNFKC(t *testing.T) {
 	expected := Error
 	out := Lints["e_international_dns_name_not_nfkc"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -22,10 +18,8 @@ func TestIDNDnsNameIsNFKC(t *testing.T) {
 	expected := Pass
 	out := Lints["e_international_dns_name_not_nfkc"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

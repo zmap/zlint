@@ -10,11 +10,7 @@ func TestIANInvalidEmail(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_ian_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestIANValidEmail(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_ian_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

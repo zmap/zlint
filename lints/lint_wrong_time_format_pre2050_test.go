@@ -10,11 +10,7 @@ func TestGeneralizedAfter2050(t *testing.T) {
 	expected := Pass
 	out := Lints["e_wrong_time_format_pre2050"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestUTCPrior2050(t *testing.T) {
 	expected := Pass
 	out := Lints["e_wrong_time_format_pre2050"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestGeneralizedPrior2050(t *testing.T) {
 	expected := Error
 	out := Lints["e_wrong_time_format_pre2050"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

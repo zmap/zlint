@@ -10,11 +10,7 @@ func TestOrgNoLoc(t *testing.T) {
 	expected := Pass
 	out := Lints["e_subject_org_without_locality_or_province"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestOrgNoProv(t *testing.T) {
 	expected := Pass
 	out := Lints["e_subject_org_without_locality_or_province"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestOrgNoBoth(t *testing.T) {
 	expected := Error
 	out := Lints["e_subject_org_without_locality_or_province"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

@@ -10,29 +10,21 @@ import (
 // select raw, parsed.validity.start from certificates.pemtificates where parsed.signature_algorithm.oid = "1.2.840.113549.1.1.5" limit 200
 
 func TestSubCertLocalityNameProhibited(t *testing.T) {
-	
 	inputPath := "../testlint/testCerts/subCertLocalityNameProhibited.pem"
 	expected := Error
 	out := Lints["e_sub_cert_locality_name_must_not_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertLocalityNameNotProhibited(t *testing.T) {
-	
 	inputPath := "../testlint/testCerts/subCertLocalityNameNotProhibited.pem"
 	expected := Pass
 	out := Lints["e_sub_cert_locality_name_must_not_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

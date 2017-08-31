@@ -7,10 +7,8 @@ func TestDNSNameLabelTooLong(t *testing.T) {
 	expected := Error
 	out := Lints["e_dnsname_label_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

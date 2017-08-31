@@ -6,29 +6,21 @@ import (
 )
 
 func TestBasicConstNotCrit(t *testing.T) {
-
 	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
 	expected := Error
 	out := Lints["e_basic_constraints_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath,
-			"expected", expected,
-			"got", out.Status,
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBasicConstCrit(t *testing.T) {
-
 	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
 	expected := Pass
 	out := Lints["e_basic_constraints_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath,
-			"expected", expected,
-			"got", out.Status,
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

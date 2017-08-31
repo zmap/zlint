@@ -10,11 +10,7 @@ func TestRsaSha1TooLong(t *testing.T) {
 	expected := Warn
 	out := Lints["w_sub_cert_sha1_expiration_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestRsaSha1NotTooLong(t *testing.T) {
 	expected := Pass
 	out := Lints["w_sub_cert_sha1_expiration_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

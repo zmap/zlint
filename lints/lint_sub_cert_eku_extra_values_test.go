@@ -10,11 +10,7 @@ func TestEkuExtra(t *testing.T) {
 	expected := Warn
 	out := Lints["w_sub_cert_eku_extra_values"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestEkuNoExtra(t *testing.T) {
 	expected := Pass
 	out := Lints["w_sub_cert_eku_extra_values"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

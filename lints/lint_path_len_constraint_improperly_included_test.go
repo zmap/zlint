@@ -10,11 +10,7 @@ func TestCaMaxLenPresentNoCertSign(t *testing.T) {
 	expected := Error
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestCaMaxLenPresentGood(t *testing.T) {
 	expected := Pass
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,11 +28,7 @@ func TestCaMaxLenMissing(t *testing.T) {
 	expected := Pass
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -49,11 +37,7 @@ func TestSubCertMaxLenPresent(t *testing.T) {
 	expected := Error
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -62,10 +46,8 @@ func TestSubCertMaxLenNone(t *testing.T) {
 	expected := Pass
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

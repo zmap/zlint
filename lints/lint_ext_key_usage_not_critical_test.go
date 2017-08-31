@@ -10,11 +10,7 @@ func TestSubCertKeyUsageNotCrit(t *testing.T) {
 	expected := Warn
 	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestSubCaKeyUsageNotCrit(t *testing.T) {
 	expected := Warn
 	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,11 +28,7 @@ func TestSubCertKeyUsageCrit(t *testing.T) {
 	expected := Pass
 	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -49,11 +37,7 @@ func TestCaKeyUsageCrit(t *testing.T) {
 	expected := Pass
 	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -62,10 +46,8 @@ func TestSubCertKeyUsageNotIncludedCrit(t *testing.T) {
 	expected := NA
 	out := Lints["e_ext_key_usage_without_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

@@ -10,11 +10,7 @@ func TestIANURIIA5(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_ian_uri_not_ia5"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestIANURINotIA5(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_ian_uri_not_ia5"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

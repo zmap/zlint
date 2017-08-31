@@ -6,29 +6,21 @@ import (
 )
 
 func TestSubCertIsNotCA(t *testing.T) {
-	
 	inputPath := "../testlint/testCerts/subCertIsNotCA.pem"
 	expected := Pass
 	out := Lints["e_sub_cert_not_is_ca"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertIsCA(t *testing.T) {
-	
 	inputPath := "../testlint/testCerts/subCertIsCA.pem"
 	expected := Error
 	out := Lints["e_sub_cert_not_is_ca"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

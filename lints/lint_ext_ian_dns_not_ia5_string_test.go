@@ -10,11 +10,7 @@ func TestIANDNSIA5String(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_ian_dns_not_ia5_string"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestIANDNSNotIA5String(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_ian_dns_not_ia5_string"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

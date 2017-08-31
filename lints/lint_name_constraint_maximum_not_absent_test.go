@@ -10,11 +10,7 @@ func TestNcMaxPresent(t *testing.T) {
 	expected := Error
 	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestNcMinPresent(t *testing.T) {
 	expected := Pass
 	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestNcEmptyValue(t *testing.T) {
 	expected := Pass
 	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

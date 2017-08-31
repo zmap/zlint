@@ -10,10 +10,8 @@ func TestSubCaAnyPolicy(t *testing.T) {
 	expected := Error
 	out := Lints["e_sub_ca_must_not_contain_any_policy"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

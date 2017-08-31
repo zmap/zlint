@@ -10,11 +10,7 @@ func TestSubjectEmptySANNotCrit(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestSubjectEmptySANCrit(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestSubjectNotEmptySANCrit(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

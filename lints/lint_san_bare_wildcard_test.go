@@ -10,11 +10,7 @@ func TestBrSANBareWildcard(t *testing.T) {
 	expected := Error
 	out := Lints["e_san_bare_wildcard"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestBrSANNotBareWildcard(t *testing.T) {
 	expected := Pass
 	out := Lints["e_san_bare_wildcard"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

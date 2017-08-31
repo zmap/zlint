@@ -10,11 +10,7 @@ func TestSANEmailPresent(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestSANEmailPresent2(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestSANEmailMissing(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

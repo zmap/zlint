@@ -10,11 +10,7 @@ func TestSANURIMissing(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestSANURIPresent(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestSANURIPresent2(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

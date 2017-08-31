@@ -10,11 +10,7 @@ func TestNameConstraintsNotCrit(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_name_constraints_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestNameConstraintsCrit(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_name_constraints_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

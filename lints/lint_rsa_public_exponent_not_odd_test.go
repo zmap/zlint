@@ -10,11 +10,7 @@ func TestRsaExpEven(t *testing.T) {
 	expected := Error
 	out := Lints["e_rsa_public_exponent_not_odd"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestRsaExpOdd(t *testing.T) {
 	expected := Pass
 	out := Lints["e_rsa_public_exponent_not_odd"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

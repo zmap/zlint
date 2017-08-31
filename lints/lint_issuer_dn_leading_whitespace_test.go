@@ -11,11 +11,7 @@ func TestIssuerDNLeadingSpace(t *testing.T) {
 	expected := Warn
 	out := Lints["w_issuer_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -24,10 +20,8 @@ func TestIssuerDNGood(t *testing.T) {
 	expected := Pass
 	out := Lints["w_issuer_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

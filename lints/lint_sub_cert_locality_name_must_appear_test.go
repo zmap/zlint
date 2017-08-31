@@ -10,11 +10,7 @@ func TestSubCertLocalityNameMustAppear(t *testing.T) {
 	expected := Error
 	out := Lints["e_sub_cert_locality_name_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestSubCertLocalityNameDoesNotNeedToAppear(t *testing.T) {
 	expected := Pass
 	out := Lints["e_sub_cert_locality_name_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

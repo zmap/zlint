@@ -7,11 +7,7 @@ func TestDNSNameUnderscoreInSLD(t *testing.T) {
 	expected := Error
 	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -20,10 +16,8 @@ func TestDNSNameNoUnderscoreInSLD(t *testing.T) {
 	expected := Pass
 	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

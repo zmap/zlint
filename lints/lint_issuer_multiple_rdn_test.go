@@ -9,11 +9,7 @@ func TestIssuerRDNTwoAttribute(t *testing.T) {
 	expected := Warn
 	out := Lints["w_multiple_issuer_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -22,10 +18,8 @@ func TestIssuerRDNOneAttribute(t *testing.T) {
 	expected := Pass
 	out := Lints["w_multiple_issuer_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

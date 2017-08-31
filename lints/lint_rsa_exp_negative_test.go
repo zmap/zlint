@@ -11,9 +11,9 @@ import (
 // 	out := Lints["rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
 // 	if out.Result != expected {
 // 		t.Error(
-// 			"For", inputPath, 
-// 			"expected", expected, 
-// 			"got", out.Result, 
+// 			"For", inputPath,
+// 			"expected", expected,
+// 			"got", out.Result,
 // 		)
 // 	}
 // }
@@ -23,10 +23,8 @@ func TestRsaExpPositive(t *testing.T) {
 	expected := Pass
 	out := Lints["e_rsa_exp_negative"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

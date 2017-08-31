@@ -10,11 +10,7 @@ func TestPolicyMapFromAnyPolicy(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_policy_map_any_policy"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestPolicyMapToAnyPolicy(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_policy_map_any_policy"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestPolicyMapToNoAnyPolicy(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_policy_map_any_policy"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

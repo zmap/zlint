@@ -10,11 +10,7 @@ func TestSubCertKeyUsageWithoutBits(t *testing.T) {
 	expected := Error
 	out := Lints["e_ext_key_usage_without_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,11 +19,7 @@ func TestSubCertKeyUsageWithBits(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ext_key_usage_without_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -36,10 +28,8 @@ func TestSubCertKeyUsageNotIncludedBits(t *testing.T) {
 	expected := NA
 	out := Lints["e_ext_key_usage_without_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

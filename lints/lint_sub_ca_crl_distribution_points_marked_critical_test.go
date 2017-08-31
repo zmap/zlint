@@ -10,11 +10,7 @@ func TestSubCaCrlCrit(t *testing.T) {
 	expected := Error
 	out := Lints["e_sub_ca_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestSubCaCrlNotCrit(t *testing.T) {
 	expected := Pass
 	out := Lints["e_sub_ca_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

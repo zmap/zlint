@@ -11,11 +11,7 @@ func TestDSAUniqueCorrectRepresentation(t *testing.T) {
 	expected := Pass
 	out := Lints["e_dsa_unique_correct_representation"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath,
-			"expected", expected,
-			"got", out.Status,
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -33,10 +29,8 @@ func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
 	expected := Error
 	out := Lints["e_dsa_unique_correct_representation"].Execute(c)
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath,
-			"expected", expected,
-			"got", out.Status,
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

@@ -9,11 +9,7 @@ func TestDNSNameValidTLD(t *testing.T) {
 	expected := Pass
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -22,10 +18,8 @@ func TestDNSNameNotValidTLD(t *testing.T) {
 	expected := Error
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

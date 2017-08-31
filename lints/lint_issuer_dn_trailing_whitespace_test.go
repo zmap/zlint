@@ -11,11 +11,7 @@ func TestIssuerDNTrailingSpace(t *testing.T) {
 	expected := Warn
 	out := Lints["w_issuer_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -24,10 +20,8 @@ func TestIssuerDNGood2(t *testing.T) {
 	expected := Pass
 	out := Lints["w_issuer_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

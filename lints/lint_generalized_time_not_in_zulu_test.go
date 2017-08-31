@@ -10,11 +10,7 @@ func TestGenralizedNotZulu(t *testing.T) {
 	expected := Error
 	out := Lints["e_generalized_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -23,10 +19,8 @@ func TestGenralizedZulu(t *testing.T) {
 	expected := Pass
 	out := Lints["e_generalized_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+

@@ -9,11 +9,7 @@ func TestEvHasCountry(t *testing.T) {
 	expected := Pass
 	out := Lints["e_ev_country_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -22,10 +18,8 @@ func TestEvNoCountry(t *testing.T) {
 	expected := Error
 	out := Lints["e_ev_country_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
-		t.Error(
-			"For", inputPath, 
-			"expected", expected, 
-			"got", out.Status, 
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+
