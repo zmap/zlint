@@ -10,8 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type siaCrit struct {
-}
+type siaCrit struct{}
 
 func (l *siaCrit) Initialize() error {
 	return nil

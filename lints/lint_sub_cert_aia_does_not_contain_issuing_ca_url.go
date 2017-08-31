@@ -15,16 +15,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertIssuerUrl struct {
-	// Internal data here
-}
+type subCertIssuerUrl struct{}
 
 func (l *subCertIssuerUrl) Initialize() error {
 	return nil
 }
 
 func (l *subCertIssuerUrl) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubscriberCert(c)
 }
 

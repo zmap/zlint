@@ -11,16 +11,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rootCAContainsCertPolicy struct {
-	// Internal data here
-}
+type rootCAContainsCertPolicy struct{}
 
 func (l *rootCAContainsCertPolicy) Initialize() error {
 	return nil
 }
 
 func (l *rootCAContainsCertPolicy) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsRootCA(c)
 }
 

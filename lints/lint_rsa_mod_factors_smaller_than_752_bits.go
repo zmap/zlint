@@ -12,9 +12,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rsaModSmallFactor struct {
-	// Internal data here
-}
+type rsaModSmallFactor struct{}
 
 func (l *rsaModSmallFactor) Initialize() error {
 	return nil

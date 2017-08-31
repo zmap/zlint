@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintEmpty struct {
-	// Internal data here
-}
+type nameConstraintEmpty struct{}
 
 func (l *nameConstraintEmpty) Initialize() error {
 	return nil

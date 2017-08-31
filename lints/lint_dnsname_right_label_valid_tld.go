@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type DNSNameValidTLD struct {
-	// Internal data here
-}
+type DNSNameValidTLD struct{}
 
 func (l *DNSNameValidTLD) Initialize() error {
 	return nil

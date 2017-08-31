@@ -5,16 +5,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type caCommonNameMissing struct {
-	// Internal data here
-}
+type caCommonNameMissing struct{}
 
 func (l *caCommonNameMissing) Initialize() error {
 	return nil
 }
 
 func (l *caCommonNameMissing) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsCACert(c)
 }
 

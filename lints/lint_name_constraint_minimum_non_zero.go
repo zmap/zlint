@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstMin struct {
-	// Internal data here
-}
+type nameConstMin struct{}
 
 func (l *nameConstMin) Initialize() error {
 	return nil

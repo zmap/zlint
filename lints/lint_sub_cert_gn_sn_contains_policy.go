@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertSubjectGnOrSnContainsPolicy struct {
-	// Internal data here
-}
+type subCertSubjectGnOrSnContainsPolicy struct{}
 
 func (l *subCertSubjectGnOrSnContainsPolicy) Initialize() error {
 	return nil

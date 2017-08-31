@@ -13,16 +13,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type caCountryNameInvalid struct {
-	// Internal data here
-}
+type caCountryNameInvalid struct{}
 
 func (l *caCountryNameInvalid) Initialize() error {
 	return nil
 }
 
 func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.IsCA
 }
 

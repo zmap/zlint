@@ -6,9 +6,7 @@ import (
 	"strings"
 )
 
-type DNSNameEmptyLabel struct {
-	// Internal data here
-}
+type DNSNameEmptyLabel struct{}
 
 func (l *DNSNameEmptyLabel) Initialize() error {
 	return nil

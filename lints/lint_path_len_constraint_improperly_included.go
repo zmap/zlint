@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type pathLenIncluded struct {
-	// Internal data here
-}
+type pathLenIncluded struct{}
 
 func (l *pathLenIncluded) Initialize() error {
 	return nil

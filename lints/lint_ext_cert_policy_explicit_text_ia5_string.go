@@ -20,9 +20,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type explicitTextIA5String struct {
-	// Internal data here
-}
+type explicitTextIA5String struct{}
 
 func (l *explicitTextIA5String) Initialize() error {
 	return nil

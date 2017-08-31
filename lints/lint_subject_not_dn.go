@@ -17,9 +17,7 @@ import (
 	"reflect"
 )
 
-type subjectDN struct {
-	// Internal data here
-}
+type subjectDN struct{}
 
 func (l *subjectDN) Initialize() error {
 	return nil

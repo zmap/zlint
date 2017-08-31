@@ -32,9 +32,7 @@ type distributionPointName struct {
 	RelativeName pkix.RDNSequence `asn1:"optional,tag:1"`
 }
 
-type dpIncomplete struct {
-	// Internal data here
-}
+type dpIncomplete struct{}
 
 func (l *dpIncomplete) Initialize() error {
 	return nil

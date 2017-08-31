@@ -13,9 +13,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANMissing struct {
-	// Internal data here
-}
+type SANMissing struct{}
 
 func (l *SANMissing) Initialize() error {
 	return nil

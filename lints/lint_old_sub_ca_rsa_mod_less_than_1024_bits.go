@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCaModSize struct {
-	// Internal data here
-}
+type subCaModSize struct{}
 
 func (l *subCaModSize) Initialize() error {
 	return nil

@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANRegId struct {
-	// Internal data here
-}
+type SANRegId struct{}
 
 func (l *SANRegId) Initialize() error {
 	return nil

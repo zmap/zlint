@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANDNSNull struct {
-	// Internal data here
-}
+type SANDNSNull struct{}
 
 func (l *SANDNSNull) Initialize() error {
 	return nil

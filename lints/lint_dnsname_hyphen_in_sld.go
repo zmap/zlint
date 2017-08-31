@@ -7,9 +7,7 @@ import (
 	"strings"
 )
 
-type DNSNameHyphenInSLD struct {
-	// Internal data here
-}
+type DNSNameHyphenInSLD struct{}
 
 func (l *DNSNameHyphenInSLD) Initialize() error {
 	return nil

@@ -11,16 +11,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCACertPolicyCrit struct {
-	// Internal data here
-}
+type subCACertPolicyCrit struct{}
 
 func (l *subCACertPolicyCrit) Initialize() error {
 	return nil
 }
 
 func (l *subCACertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CertPolicyOID)
 }
 

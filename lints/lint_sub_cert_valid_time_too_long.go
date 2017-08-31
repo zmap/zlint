@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertValidTimeTooLong struct {
-	// Internal data here
-}
+type subCertValidTimeTooLong struct{}
 
 func (l *subCertValidTimeTooLong) Initialize() error {
 	return nil

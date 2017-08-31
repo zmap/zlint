@@ -15,16 +15,13 @@ import (
 	"strings"
 )
 
-type illegalChar struct {
-	// Internal data here
-}
+type illegalChar struct{}
 
 func (l *illegalChar) Initialize() error {
 	return nil
 }
 
 func (l *illegalChar) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return true
 }
 

@@ -8,8 +8,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type IssuerRDNHasMultipleAttribute struct {
-}
+type IssuerRDNHasMultipleAttribute struct{}
 
 func (l *IssuerRDNHasMultipleAttribute) Initialize() error {
 	return nil

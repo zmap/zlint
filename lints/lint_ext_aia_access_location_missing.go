@@ -18,16 +18,13 @@ import (
 	"strings"
 )
 
-type aiaNoHTTPorLDAP struct {
-	// Internal data here
-}
+type aiaNoHTTPorLDAP struct{}
 
 func (l *aiaNoHTTPorLDAP) Initialize() error {
 	return nil
 }
 
 func (l *aiaNoHTTPorLDAP) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.AiaOID) && c.IssuingCertificateURL != nil
 }
 

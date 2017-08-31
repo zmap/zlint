@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type signatureAlgorithmNotSupported struct {
-	// Internal data here
-}
+type signatureAlgorithmNotSupported struct{}
 
 func (l *signatureAlgorithmNotSupported) Initialize() error {
 	return nil

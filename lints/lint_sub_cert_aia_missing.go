@@ -15,16 +15,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertAiaMissing struct {
-	// Internal data here
-}
+type subCertAiaMissing struct{}
 
 func (l *subCertAiaMissing) Initialize() error {
 	return nil
 }
 
 func (l *subCertAiaMissing) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return !util.IsCACert(c)
 }
 

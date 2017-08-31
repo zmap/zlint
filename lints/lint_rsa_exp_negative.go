@@ -8,9 +8,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rsaExpNegative struct {
-	// Internal data here
-}
+type rsaExpNegative struct{}
 
 func (l *rsaExpNegative) Initialize() error {
 	return nil

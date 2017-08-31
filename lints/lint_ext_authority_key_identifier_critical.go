@@ -11,9 +11,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type authorityKeyIdCritical struct {
-	// Internal data here
-}
+type authorityKeyIdCritical struct{}
 
 func (l *authorityKeyIdCritical) Initialize() error {
 	return nil

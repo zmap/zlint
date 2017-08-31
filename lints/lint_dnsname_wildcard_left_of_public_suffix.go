@@ -6,9 +6,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type DNSNameWildcardLeftofPublicSuffix struct {
-	// Internal data here
-}
+type DNSNameWildcardLeftofPublicSuffix struct{}
 
 func (l *DNSNameWildcardLeftofPublicSuffix) Initialize() error {
 	return nil

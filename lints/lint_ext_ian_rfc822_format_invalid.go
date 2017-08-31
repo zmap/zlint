@@ -19,9 +19,7 @@ import (
 	"strings"
 )
 
-type IANEmail struct {
-	// Internal data here
-}
+type IANEmail struct{}
 
 func (l *IANEmail) Initialize() error {
 	return nil

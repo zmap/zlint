@@ -12,9 +12,7 @@ import (
 	"unicode"
 )
 
-type extSANURINotIA5 struct {
-	// Internal data here
-}
+type extSANURINotIA5 struct{}
 
 func (l *extSANURINotIA5) Initialize() error {
 	return nil

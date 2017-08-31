@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ExtDuplicateExtension struct {
-	// Internal data here
-}
+type ExtDuplicateExtension struct{}
 
 func (l *ExtDuplicateExtension) Initialize() error {
 	return nil

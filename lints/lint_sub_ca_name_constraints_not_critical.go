@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SubCANameConstraintsNotCritical struct {
-	// Internal data here
-}
+type SubCANameConstraintsNotCritical struct{}
 
 func (l *SubCANameConstraintsNotCritical) Initialize() error {
 	return nil

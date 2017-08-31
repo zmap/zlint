@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type IANDNSNull struct {
-	// Internal data here
-}
+type IANDNSNull struct{}
 
 func (l *IANDNSNull) Initialize() error {
 	return nil

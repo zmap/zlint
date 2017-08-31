@@ -23,16 +23,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type serialNumberTooLong struct {
-	// Internal data here
-}
+type serialNumberTooLong struct{}
 
 func (l *serialNumberTooLong) Initialize() error {
 	return nil
 }
 
 func (l *serialNumberTooLong) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return true
 }
 

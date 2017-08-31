@@ -26,9 +26,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subjectKeyIdMissingCA struct {
-	// Internal data here
-}
+type subjectKeyIdMissingCA struct{}
 
 func (l *subjectKeyIdMissingCA) Initialize() error {
 	return nil

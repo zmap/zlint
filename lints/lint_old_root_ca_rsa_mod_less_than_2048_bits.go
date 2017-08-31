@@ -12,9 +12,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rootCaModSize struct {
-	// Internal data here
-}
+type rootCaModSize struct{}
 
 func (l *rootCaModSize) Initialize() error {
 	return nil

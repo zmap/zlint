@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type orgNoCountry struct {
-	// Internal data here
-}
+type orgNoCountry struct{}
 
 func (l *orgNoCountry) Initialize() error {
 	return nil

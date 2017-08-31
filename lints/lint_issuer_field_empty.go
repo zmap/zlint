@@ -14,16 +14,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type issuerFieldEmpty struct {
-	// Internal data here
-}
+type issuerFieldEmpty struct{}
 
 func (l *issuerFieldEmpty) Initialize() error {
 	return nil
 }
 
 func (l *issuerFieldEmpty) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return true
 }
 

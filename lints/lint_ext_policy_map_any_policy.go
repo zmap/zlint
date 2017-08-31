@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type policyMapAnyPolicy struct {
-	// Internal data here
-}
+type policyMapAnyPolicy struct{}
 
 func (l *policyMapAnyPolicy) Initialize() error {
 	return nil

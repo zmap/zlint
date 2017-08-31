@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintOnX400 struct {
-	// Internal data here
-}
+type nameConstraintOnX400 struct{}
 
 func (l *nameConstraintOnX400) Initialize() error {
 	return nil

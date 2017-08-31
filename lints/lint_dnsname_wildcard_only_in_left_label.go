@@ -6,9 +6,7 @@ import (
 	"strings"
 )
 
-type DNSNameWildcardOnlyInLeftlabel struct {
-	// Internal data here
-}
+type DNSNameWildcardOnlyInLeftlabel struct{}
 
 func (l *DNSNameWildcardOnlyInLeftlabel) Initialize() error {
 	return nil

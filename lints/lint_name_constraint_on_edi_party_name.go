@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintOnEDI struct {
-	// Internal data here
-}
+type nameConstraintOnEDI struct{}
 
 func (l *nameConstraintOnEDI) Initialize() error {
 	return nil

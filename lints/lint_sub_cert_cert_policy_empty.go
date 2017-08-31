@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertPolicyEmpty struct {
-	// Internal data here
-}
+type subCertPolicyEmpty struct{}
 
 func (l *subCertPolicyEmpty) Initialize() error {
 	return nil

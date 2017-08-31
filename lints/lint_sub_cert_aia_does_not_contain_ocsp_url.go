@@ -16,16 +16,13 @@ import (
 	"strings"
 )
 
-type subCertOcspUrl struct {
-	// Internal data here
-}
+type subCertOcspUrl struct{}
 
 func (l *subCertOcspUrl) Initialize() error {
 	return nil
 }
 
 func (l *subCertOcspUrl) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return !util.IsCACert(c)
 }
 

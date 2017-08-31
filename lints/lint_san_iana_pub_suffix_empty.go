@@ -8,9 +8,7 @@ import (
 	"golang.org/x/net/publicsuffix"
 )
 
-type pubSuffix struct {
-	// Internal data here
-}
+type pubSuffix struct{}
 
 func (l *pubSuffix) Initialize() error {
 	return nil

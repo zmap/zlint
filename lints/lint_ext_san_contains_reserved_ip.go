@@ -15,9 +15,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANReservedIP struct {
-	// Internal data here
-}
+type SANReservedIP struct{}
 
 func (l *SANReservedIP) Initialize() error {
 	return nil

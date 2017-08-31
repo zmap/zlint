@@ -14,16 +14,13 @@ import (
 	"strings"
 )
 
-type subCRLDistNoURL struct {
-	// Internal data here
-}
+type subCRLDistNoURL struct{}
 
 func (l *subCRLDistNoURL) Initialize() error {
 	return nil
 }
 
 func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 

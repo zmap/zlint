@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rsaParsedPubKeyExist struct {
-	// Internal data here
-}
+type rsaParsedPubKeyExist struct{}
 
 func (l *rsaParsedPubKeyExist) Initialize() error {
 	return nil

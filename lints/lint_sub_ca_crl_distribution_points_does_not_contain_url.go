@@ -13,9 +13,7 @@ import (
 	"strings"
 )
 
-type subCACRLDistNoUrl struct {
-	// Internal data here
-}
+type subCACRLDistNoUrl struct{}
 
 func (l *subCACRLDistNoUrl) Initialize() error {
 	return nil

@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintOnRegisteredId struct {
-	// Internal data here
-}
+type nameConstraintOnRegisteredId struct{}
 
 func (l *nameConstraintOnRegisteredId) Initialize() error {
 	return nil

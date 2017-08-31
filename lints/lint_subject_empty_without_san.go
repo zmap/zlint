@@ -18,9 +18,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type emptyWithoutSAN struct {
-	// Internal data here
-}
+type emptyWithoutSAN struct{}
 
 func (l *emptyWithoutSAN) Initialize() error {
 	return nil

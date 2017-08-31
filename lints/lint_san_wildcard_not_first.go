@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANWildCardFirst struct {
-	// Internal data here
-}
+type SANWildCardFirst struct{}
 
 func (l *SANWildCardFirst) Initialize() error {
 	return nil

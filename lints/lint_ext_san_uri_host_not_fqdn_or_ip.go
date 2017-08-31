@@ -18,9 +18,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANURIHost struct {
-	// Internal data here
-}
+type SANURIHost struct{}
 
 func (l *SANURIHost) Initialize() error {
 	return nil

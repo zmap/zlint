@@ -19,16 +19,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type basicConstCrit struct {
-	// Internal data here
-}
+type basicConstCrit struct{}
 
 func (l *basicConstCrit) Initialize() error {
 	return nil
 }
 
 func (l *basicConstCrit) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.IsCA && util.IsExtInCert(c, util.BasicConstOID)
 }
 

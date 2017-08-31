@@ -5,16 +5,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type serialNumberLowEntropy struct {
-	// Internal data here
-}
+type serialNumberLowEntropy struct{}
 
 func (l *serialNumberLowEntropy) Initialize() error {
 	return nil
 }
 
 func (l *serialNumberLowEntropy) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return true
 }
 

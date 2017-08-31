@@ -8,9 +8,7 @@ import (
 	"strings"
 )
 
-type IANPubSuffix struct {
-	// Internal data here
-}
+type IANPubSuffix struct{}
 
 func (l *IANPubSuffix) Initialize() error {
 	return nil

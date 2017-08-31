@@ -15,9 +15,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type keyUsageBitsSet struct {
-	// Internal data here
-}
+type keyUsageBitsSet struct{}
 
 func (l *keyUsageBitsSet) Initialize() error {
 	return nil

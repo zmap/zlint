@@ -5,16 +5,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rootCAKeyUsagePresent struct {
-	// Internal data here
-}
+type rootCAKeyUsagePresent struct{}
 
 func (l *rootCAKeyUsagePresent) Initialize() error {
 	return nil
 }
 
 func (l *rootCAKeyUsagePresent) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsRootCA(c)
 }
 

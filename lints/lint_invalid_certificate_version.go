@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type InvalidCertificateVersion struct {
-	// Internal data here
-}
+type InvalidCertificateVersion struct{}
 
 func (l *InvalidCertificateVersion) Initialize() error {
 	return nil

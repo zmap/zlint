@@ -10,16 +10,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type commonNames struct {
-	// Internal data here
-}
+type commonNames struct{}
 
 func (l *commonNames) Initialize() error {
 	return nil
 }
 
 func (l *commonNames) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return !util.IsCACert(c)
 }
 

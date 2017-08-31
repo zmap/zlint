@@ -23,9 +23,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SerialNumberNotPositive struct {
-	// Internal data here
-}
+type SerialNumberNotPositive struct{}
 
 func (l *SerialNumberNotPositive) Initialize() error {
 	return nil

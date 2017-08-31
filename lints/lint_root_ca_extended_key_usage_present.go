@@ -11,16 +11,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rootCAContainsEKU struct {
-	// Internal data here
-}
+type rootCAContainsEKU struct{}
 
 func (l *rootCAContainsEKU) Initialize() error {
 	return nil
 }
 
 func (l *rootCAContainsEKU) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsRootCA(c)
 }
 

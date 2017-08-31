@@ -12,16 +12,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type caCRLSignNotSet struct {
-	// Internal data here
-}
+type caCRLSignNotSet struct{}
 
 func (l *caCRLSignNotSet) Initialize() error {
 	return nil
 }
 
 func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 

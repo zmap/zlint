@@ -12,9 +12,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type policyMapCritical struct {
-	// Internal data here
-}
+type policyMapCritical struct{}
 
 func (l *policyMapCritical) Initialize() error {
 	return nil

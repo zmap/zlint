@@ -5,16 +5,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCaAIAMarkedCritical struct {
-	// Internal data here
-}
+type subCaAIAMarkedCritical struct{}
 
 func (l *subCaAIAMarkedCritical) Initialize() error {
 	return nil
 }
 
 func (l *subCaAIAMarkedCritical) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.AiaOID)
 }
 

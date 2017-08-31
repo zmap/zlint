@@ -9,9 +9,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subModSize struct {
-	// Internal data here
-}
+type subModSize struct{}
 
 func (l *subModSize) Initialize() error {
 	return nil

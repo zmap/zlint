@@ -12,9 +12,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rsaParsedTestsKeyExpOdd struct {
-	// Internal data here
-}
+type rsaParsedTestsKeyExpOdd struct{}
 
 func (l *rsaParsedTestsKeyExpOdd) Initialize() error {
 	return nil

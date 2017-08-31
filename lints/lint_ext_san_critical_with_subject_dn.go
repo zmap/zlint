@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ExtSANCriticalWithSubjectDN struct {
-	// Internal data here
-}
+type ExtSANCriticalWithSubjectDN struct{}
 
 func (l *ExtSANCriticalWithSubjectDN) Initialize() error {
 	return nil
