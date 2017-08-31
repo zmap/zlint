@@ -1,6 +1,6 @@
 // lint_validity_time_not_positive.go
 /************************************************
-Change this to match provenance TEXT
+Change this to match source TEXT
 ************************************************/
 
 package lints

@@ -1,6 +1,6 @@
 // lint_sub_ca_name_constraints_not_critical.go
 /************************************************
-Change this to match provenance TEXT
+Change this to match source TEXT
 ************************************************/
 
 package lints

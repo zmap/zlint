@@ -1,5 +1,5 @@
 // lint_old_sub_ca_rsa_mod_less_than_1024_bits.go
-// CHANGE THIS COMMENT TO MATCH PROVENANCE TEXT
+// CHANGE THIS COMMENT TO MATCH SOURCE TEXT
 
 package lints
 
