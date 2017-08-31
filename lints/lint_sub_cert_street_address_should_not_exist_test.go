@@ -11,9 +11,9 @@ func TestStreetAddressShouldNotExist(t *testing.T) {
 	out := Lints["e_sub_cert_street_address_should_not_exist"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestStreetAddressCanExist(t *testing.T) {
 	out := Lints["e_sub_cert_street_address_should_not_exist"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

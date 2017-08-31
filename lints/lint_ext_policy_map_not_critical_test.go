@@ -11,9 +11,9 @@ func TestPolicyMapNotCrit(t *testing.T) {
 	out := Lints["w_ext_policy_map_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestPolicyMapCrit(t *testing.T) {
 	out := Lints["w_ext_policy_map_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

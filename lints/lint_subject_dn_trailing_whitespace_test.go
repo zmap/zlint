@@ -12,9 +12,9 @@ func TestSubjectDNTrailingSpace(t *testing.T) {
 	out := Lints["w_subject_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -25,9 +25,9 @@ func TestSubjectDNGood2(t *testing.T) {
 	out := Lints["w_subject_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

@@ -11,9 +11,9 @@ func TestNcNoRegId(t *testing.T) {
 	out := Lints["w_name_constraint_on_registered_id"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestNcRegId(t *testing.T) {
 	out := Lints["w_name_constraint_on_registered_id"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

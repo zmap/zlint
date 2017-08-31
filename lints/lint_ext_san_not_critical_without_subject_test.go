@@ -11,9 +11,9 @@ func TestSubjectEmptySANNotCrit(t *testing.T) {
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestSubjectEmptySANCrit(t *testing.T) {
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -37,9 +37,9 @@ func TestSubjectNotEmptySANCrit(t *testing.T) {
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

@@ -6,57 +6,57 @@ import (
 )
 
 func TestCertPolicyIvHasPerson(t *testing.T) {
-	// Only need to change these two values and the lint name
+	
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
 	expected := Pass
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
 
 func TestCertPolicyIvHasSurname(t *testing.T) {
-	// Only need to change these two values and the lint name
+	
 	inputPath := "../testlint/testCerts/indivValSurnameOnly.pem"
 	expected := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
 
 func TestCertPolicyIvHasLastName(t *testing.T) {
-	// Only need to change these two values and the lint name
+	
 	inputPath := "../testlint/testCerts/indivValGivenNameOnly.pem"
 	expected := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
 
 func TestCertPolicyIvNoPerson(t *testing.T) {
-	// Only need to change these two values and the lint name
+	
 	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
 	expected := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

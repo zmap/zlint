@@ -11,9 +11,9 @@ func TestSubCertNoIssuerOcsp(t *testing.T) {
 	out := Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestSubCertHasIssuerOcsp(t *testing.T) {
 	out := Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

@@ -10,29 +10,29 @@ import (
 // select raw, parsed.validity.start from certificates.pemtificates where parsed.signature_algorithm.oid = "1.2.840.113549.1.1.5" limit 200
 
 func TestSubCertProvinceProhibited(t *testing.T) {
-	// Only need to change these two values and the lint name
+	
 	inputPath := "../testlint/testCerts/subCertProvinceProhibited.pem"
 	expected := Error
 	out := Lints["e_sub_cert_province_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
 
 func TestSubCertProvinceNotProhibited(t *testing.T) {
-	// Only need to change these two values and the lint name
+	
 	inputPath := "../testlint/testCerts/subCertProvinceNotProhibited.pem"
 	expected := Pass
 	out := Lints["e_sub_cert_province_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

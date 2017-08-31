@@ -11,9 +11,9 @@ func TestSubCertNoIssuerUrl(t *testing.T) {
 	out := Lints["w_sub_cert_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestSubCertHasIssuerUrl(t *testing.T) {
 	out := Lints["w_sub_cert_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

@@ -13,9 +13,9 @@ func TestDSACorrectOrderSubgroup(t *testing.T) {
 	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -31,9 +31,9 @@ func TestDSANotCorrectOrderSubgroup(t *testing.T) {
 	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(c)
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }

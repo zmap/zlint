@@ -11,9 +11,9 @@ func TestOldSubCertRsaModSizeSmall(t *testing.T) {
 	out := Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
@@ -24,9 +24,9 @@ func TestOldSubCertRsaModSizeNotSmall(t *testing.T) {
 	out := Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Status, /* Actual Result */
+			"For", inputPath, 
+			"expected", expected, 
+			"got", out.Status, 
 		)
 	}
 }
