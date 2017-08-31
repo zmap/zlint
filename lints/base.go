@@ -80,9 +80,6 @@ func (l *Lint) Execute(cert *x509.Certificate) ResultStruct {
 // RegisterLint must be called once for each lint to be excuted. Duplicate lint
 // names are squashed. Normally, RegisterLint is called during init().
 func RegisterLint(l *Lint) {
-	if Lints == nil {
-		Lints = make(map[string]*Lint)
-	}
 	if err := l.Lint.Initialize(); err != nil {
 		panic("could not initialize lint: " + l.Name + ": " + err.Error())
 	}
