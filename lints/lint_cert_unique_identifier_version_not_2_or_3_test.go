@@ -22,5 +22,3 @@ func TestUniqueIdVersion1(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
-
-

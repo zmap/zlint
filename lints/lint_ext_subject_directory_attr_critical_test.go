@@ -22,5 +22,3 @@ func TestSdaNotCrit(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
-
-
