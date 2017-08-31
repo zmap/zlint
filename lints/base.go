@@ -9,7 +9,7 @@ import (
 var (
 	// Lints is a map of all known lints by name. Add a Lint to the map by calling
 	// RegisterLint.
-	Lints map[string]*Lint = make(map[string]*Lint)
+	Lints = make(map[string]*Lint)
 )
 
 // LintInterface is implemented by each Lint.
