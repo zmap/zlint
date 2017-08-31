@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_policy_constraints_not_critical",
 		Description:   "Conforming CAs MUST mark the policy constraints extension as critical",
-		Provenance:    "RFC 5280: 4.2.1.11",
+		Source:        "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &policyConstraintsCritical{},
 	})

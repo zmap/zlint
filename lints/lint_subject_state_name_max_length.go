@@ -40,7 +40,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_state_name_max_length",
 		Description:   "The 'State Name' field of the subject MUST be less than 128 characters",
-		Provenance:    "RFC 5280: A.1",
+		Source:        "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectStateNameMaxLength{},
 	})

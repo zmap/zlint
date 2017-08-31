@@ -51,7 +51,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_cert_policy_explicit_text_too_long",
 		Description:   "Explicit text has a maximum size of 200 characters",
-		Provenance:    "RFC 6818: 3",
+		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextTooLong{},
 	})

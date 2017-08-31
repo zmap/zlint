@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_distribution_point_missing_ldap_or_uri",
 		Description:   "When present in the CRLDistributionPoints extension, DistributionPointName SHOULD include at least one LDAP or HTTP URI",
-		Provenance:    "RFC 5280: 4.2.1.13",
+		Source:        "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &distribNoLDAPorURI{},
 	})

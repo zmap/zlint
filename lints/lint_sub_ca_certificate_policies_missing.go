@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_certificate_policies_missing",
 		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
-		Provenance:    "BRs: 7.1.2.2",
+		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCACertPolicyMissing{},
 	})

@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_public_exponent_not_odd",
 		Description:   "RSA: Value of public exponent is an odd number equal to 3 or more.",
-		Provenance:    "BRs: 6.1.6",
+		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
 		Test:          &rsaParsedTestsKeyExpOdd{},
 	})

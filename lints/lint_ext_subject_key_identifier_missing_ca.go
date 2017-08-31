@@ -50,7 +50,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_subject_key_identifier_missing_ca",
 		Description:   "CAs MUST include a Subject Key Identifier in all CA certificates",
-		Provenance:    "RFC 5280: 4.2 & 4.2.1.2",
+		Source:        "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectKeyIdMissingCA{},
 	})

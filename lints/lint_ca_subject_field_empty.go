@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_subject_field_empty",
 		Description:   "CA Certificates subject field MUST not be empty and MUST have a non-empty distingushed name",
-		Provenance:    "RFC 5280: 4.1.2.6",
+		Source:        "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &caSubjectEmpty{},
 	})

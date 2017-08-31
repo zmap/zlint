@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_must_not_contain_any_policy",
 		Description:   "Subordinate CA: MUST NOT contain the anyPolicy identifier (2.5.29.32.0)",
-		Provenance:    "BRs: 7.1.6.2",
+		Source:        "BRs: 7.1.6.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCaMustNotContainAnyPolicy{},
 	})

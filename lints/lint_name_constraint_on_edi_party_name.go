@@ -42,7 +42,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_name_constraint_on_edi_party_name",
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the ediPartyName name form",
-		Provenance:    "RFC 5280: 4.2.1.10",
+		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &nameConstraintOnEDI{},
 	})

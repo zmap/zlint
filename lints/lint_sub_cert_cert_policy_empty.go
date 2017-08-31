@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_cert_policy_empty",
 		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
-		Provenance:    "BRs: 7.1.6.4",
+		Source:        "BRs: 7.1.6.4",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertPolicyEmpty{},
 	})

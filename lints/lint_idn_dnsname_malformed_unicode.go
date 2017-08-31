@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_international_dns_name_not_unicode",
 		Description:   "Internationalized DNSNames punycode not valid unicode",
-		Provenance:    "RFC 3490",
+		Source:        "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
 		Test:          &IDNMalformedUnicode{},
 	})

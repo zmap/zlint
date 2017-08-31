@@ -31,7 +31,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_root_ca_key_usage_present",
 		Description:   "Root CA certificates MUST have Key Usage Extension Present",
-		Provenance:    "BRs: 7.1.2.1",
+		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &rootCAKeyUsagePresent{},
 	})

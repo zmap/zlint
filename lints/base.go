@@ -56,7 +56,7 @@ type LintTest interface {
 type Lint struct {
 	Name          string
 	Description   string
-	Provenance    string
+	Source        string
 	EffectiveDate time.Time
 	Test          LintTest
 }

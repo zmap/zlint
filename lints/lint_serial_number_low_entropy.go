@@ -30,7 +30,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_serial_number_low_entropy",
 		Description:   "Effective September 30, 2016, CAs SHALL generate non‐sequential Certificate serial numbers greater than zero (0) containing at least 64 bits of output from a CSPRNG.",
-		Provenance:    "BRs: 7.1",
+		Source:        "BRs: 7.1",
 		EffectiveDate: util.CABSerialNumberEntropyDate,
 		Test:          &serialNumberLowEntropy{},
 	})

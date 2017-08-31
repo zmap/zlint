@@ -31,7 +31,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_business_category_missing",
 		Description:   "EV certificates must include businessCategory in subject",
-		Provenance:    "CAB 7.1.6.1",
+		Source:        "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
 		Test:          &evNoBiz{},
 	})

@@ -10,11 +10,6 @@ type subCertNotCA struct {
 	// Internal data here
 }
 
-type basicConstraints struct {
-	IsCA       bool `asn1:"optional"`
-	MaxPathLen int  `asn1:"optional,default:-1"`
-}
-
 func (l *subCertNotCA) Initialize() error {
 	return nil
 }
@@ -41,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_not_is_ca",
 		Description:   "Subscriber Certificate: basicContrainsts cA field MUST NOT be true.",
-		Provenance:    "BRs: 7.1.2.3",
+		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertNotCA{},
 	})

@@ -35,7 +35,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_not_valid_tld",
 		Description:   "DNSNames must have a valid TLD.",
-		Provenance:    "RFC 5280",
+		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &DNSNameValidTLD{},
 	})

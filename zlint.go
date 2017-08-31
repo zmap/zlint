@@ -17,7 +17,7 @@ import (
 type LintDescription struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	Provenance  string `json:"provenance"`
+	Source      string `json:"source"`
 }
 
 // EncodeLintDescriptionsToJSON outputs a description of the lint as JSON.
@@ -26,7 +26,7 @@ func EncodeLintDescriptionsToJSON(w io.Writer) {
 		p := LintDescription{}
 		p.Name = l.Name
 		p.Description = l.Description
-		p.Provenance = l.Provenance
+		p.Source = l.Source
 
 		buffer := new(bytes.Buffer)
 		enc := json.NewEncoder(buffer)

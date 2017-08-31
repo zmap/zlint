@@ -53,7 +53,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_dns_not_ia5_string",
 		Description:   "dNSNames MUST be IA5 strings",
-		Provenance:    "RFC 5280: 4.2.1.6",
+		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &SANDNSNotIA5String{},
 	})

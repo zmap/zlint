@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_invalid_certificate_version",
 		Description:   "Certificates MUST be of type X.590 v3",
-		Provenance:    "BRs: 7.1.1",
+		Source:        "BRs: 7.1.1",
 		EffectiveDate: util.CABV130Date,
 		Test:          &InvalidCertificateVersion{},
 	})
