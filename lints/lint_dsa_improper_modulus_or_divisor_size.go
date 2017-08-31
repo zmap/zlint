@@ -1,15 +1,8 @@
-// lint_dsa_improper_modulus_or_divisor_size.go
-/************************************************
-BRs: 6.1.5
-Certificates MUST meet the following requirements for algorithm type and key size.
-Minimum DSA modulus and divisor size (bits)***: L=2048,	N=224 or L=2048, N=256.
-**As a note, this points to FIPS 186-4 for further clarification**
-************************************************/
-
 package lints
 
 import (
 	"crypto/dsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -28,16 +21,16 @@ func (l *dsaImproperSize) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *dsaImproperSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	theKey := c.PublicKey.(*dsa.PublicKey)
-	lbit := theKey.Parameters.P.BitLen()
-	nbit := theKey.Parameters.Q.BitLen()
-	if lbit == 2048 && nbit == 224 ||
-		lbit == 2048 && nbit == 256 ||
-		lbit == 3072 && nbit == 256 {
-		return ResultStruct{Result: Pass}, nil
-	} else {
-		return ResultStruct{Result: Error}, nil
+	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: NA}, nil
 	}
+	L := dsaKey.Parameters.P.BitLen()
+	N := dsaKey.Parameters.Q.BitLen()
+	if (L == 2048 && N == 224) || (L == 2048 && N == 256) || (L == 3072 && N == 256) {
+		return ResultStruct{Result: Pass}, nil
+	}
+	return ResultStruct{Result: Error}, nil
 }
 
 func init() {
