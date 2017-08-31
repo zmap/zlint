@@ -22,7 +22,7 @@ func (l *dsaTooShort) CheckApplies(c *x509.Certificate) bool {
 func (l *dsaTooShort) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: NA}, nil
 	}
 	dsaParams := dsaKey.Parameters
 	L := dsaParams.P.BitLen()
