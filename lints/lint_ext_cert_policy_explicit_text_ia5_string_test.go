@@ -7,12 +7,12 @@ import (
 
 func TestExplicitTextIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticePres.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestExplicitTextIA5String(t *testing.T) {
 
 func TestExplicitTextNotIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeExpTextNotIA5String.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestExplicitTextNotIA5String(t *testing.T) {
 
 func TestExplicitTextNotPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
-	desEnum := NA
+	expected := NA
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -47,12 +47,12 @@ func TestExplicitTextNotPresent(t *testing.T) {
 func TestExplicitTextNotPresent2(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticeUnrecommended.pem"
-	desEnum := NA
+	expected := NA
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

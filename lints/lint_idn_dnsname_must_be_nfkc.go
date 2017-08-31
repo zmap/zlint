@@ -18,7 +18,7 @@ func (l *IDNNotNFKC) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *IDNNotNFKC) Execute(c *x509.Certificate) * LintResult{
+func (l *IDNNotNFKC) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {

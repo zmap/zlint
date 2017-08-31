@@ -6,12 +6,12 @@ import (
 
 func TestEvValidTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/evValidTooLong.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ev_valid_time_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -19,12 +19,12 @@ func TestEvValidTooLong(t *testing.T) {
 
 func TestEvValidNotTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/evValidNotTooLong.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ev_valid_time_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -7,12 +7,12 @@ import (
 
 func TestRsaSha1TooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/sha1ExpireAfter2017.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_sub_cert_sha1_expiration_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestRsaSha1TooLong(t *testing.T) {
 
 func TestRsaSha1NotTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/sha1ExpirePrior2017.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_sub_cert_sha1_expiration_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

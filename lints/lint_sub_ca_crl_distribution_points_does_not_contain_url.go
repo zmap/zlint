@@ -23,7 +23,7 @@ func (l *subCACRLDistNoUrl) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCACRLDistNoUrl) Execute(c *x509.Certificate) * LintResult{
+func (l *subCACRLDistNoUrl) Execute(c *x509.Certificate) *LintResult {
 	for _, s := range c.CRLDistributionPoints {
 		if strings.HasPrefix(s, "http://") {
 			return &LintResult{Status: Pass}

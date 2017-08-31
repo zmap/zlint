@@ -29,7 +29,7 @@ func (l *nameConstraintOnX400) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintOnX400) Execute(c *x509.Certificate) * LintResult{
+func (l *nameConstraintOnX400) Execute(c *x509.Certificate) *LintResult {
 	if c.PermittedX400Addresses != nil || c.ExcludedX400Addresses != nil {
 		return &LintResult{Status: Warn}
 	}

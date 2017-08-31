@@ -17,7 +17,7 @@ func (l *dsaTooShort) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaTooShort) Execute(c *x509.Certificate) * LintResult{
+func (l *dsaTooShort) Execute(c *x509.Certificate) *LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
 		return &LintResult{Status: NA}

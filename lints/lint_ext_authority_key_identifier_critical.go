@@ -21,7 +21,7 @@ func (l *authorityKeyIdCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.AuthkeyOID)
 }
 
-func (l *authorityKeyIdCritical) Execute(c *x509.Certificate) * LintResult{
+func (l *authorityKeyIdCritical) Execute(c *x509.Certificate) *LintResult {
 	aki := util.GetExtFromCert(c, util.AuthkeyOID) //pointer to the extension
 	if aki.Critical {
 		return &LintResult{Status: Error}

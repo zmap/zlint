@@ -7,12 +7,12 @@ import (
 
 func TestPostalNoOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/postalNoOrg.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_subject_postal_without_org"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestPostalNoOrg(t *testing.T) {
 
 func TestPostalYesOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/postalYesOrg.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_subject_postal_without_org"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -6,12 +6,12 @@ import (
 
 func TestEvHasLocality(t *testing.T) {
 	inputPath := "../testlint/testCerts/evAllGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ev_locality_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -19,12 +19,12 @@ func TestEvHasLocality(t *testing.T) {
 
 func TestEvNoLocality(t *testing.T) {
 	inputPath := "../testlint/testCerts/evNoLocal.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ev_locality_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

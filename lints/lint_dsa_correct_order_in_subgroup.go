@@ -24,7 +24,7 @@ func (l *dsaSubgroup) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *dsaSubgroup) Execute(c *x509.Certificate) * LintResult{
+func (l *dsaSubgroup) Execute(c *x509.Certificate) *LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
 		return &LintResult{Status: NA}

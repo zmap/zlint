@@ -8,12 +8,12 @@ import (
 func TestCAOrgNameBlank(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caOrgNameEmpty.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestCAOrgNameBlank(t *testing.T) {
 func TestCAOrgNameMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caOrgNameMissing.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -36,12 +36,12 @@ func TestCAOrgNameMissing(t *testing.T) {
 func TestCAOrgNameValid(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caValOrgName.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -7,12 +7,12 @@ import (
 
 func TestSANURIHostNotFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURINotFQDN.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANURIHostNotFQDN(t *testing.T) {
 
 func TestSANURIHostWildcardFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIHostWildcardFQDN.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestSANURIHostWildcardFQDN(t *testing.T) {
 
 func TestSANURIHostWrongWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIHostWrongWildcard.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -46,12 +46,12 @@ func TestSANURIHostWrongWildcard(t *testing.T) {
 
 func TestSANURIHostAsterisk(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIHostAsterisk.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -59,12 +59,12 @@ func TestSANURIHostAsterisk(t *testing.T) {
 
 func TestSANURIHostFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIHostFQDN.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

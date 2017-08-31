@@ -8,12 +8,12 @@ import (
 func TestSubCertIsNotCA(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subCertIsNotCA.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_cert_not_is_ca"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestSubCertIsNotCA(t *testing.T) {
 func TestSubCertIsCA(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subCertIsCA.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_cert_not_is_ca"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

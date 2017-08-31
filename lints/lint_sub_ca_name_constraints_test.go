@@ -4,12 +4,12 @@ import "testing"
 
 func TestNonEmptyPermittedDNS(t *testing.T) {
 	inputPath := "../testlint/testCerts/nonEmptyPermittedDNS.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_ca_eku_name_constraints"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -17,12 +17,12 @@ func TestNonEmptyPermittedDNS(t *testing.T) {
 
 func TestBadExclude(t *testing.T) {
 	inputPath := "../testlint/testCerts/nameConstraintsMissing.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_ca_eku_name_constraints"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

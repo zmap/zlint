@@ -29,7 +29,7 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) * LintResult{
+func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) *LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1

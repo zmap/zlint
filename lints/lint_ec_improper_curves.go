@@ -23,7 +23,7 @@ func (l *ecImproperCurves) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.ECDSA
 }
 
-func (l *ecImproperCurves) Execute(c *x509.Certificate) * LintResult{
+func (l *ecImproperCurves) Execute(c *x509.Certificate) *LintResult {
 	/* Declare theKey to be a ECDSA Public Key */
 	var theKey *ecdsa.PublicKey
 	/* Need to do different things based on what c.PublicKey is */

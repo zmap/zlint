@@ -8,12 +8,12 @@ import (
 func TestEKUAnyCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ekuAnyCrit.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_eku_critical_improperly"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestEKUAnyCrit(t *testing.T) {
 func TestEKUNoCritWAny(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ekuAnyNoCrit.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_eku_critical_improperly"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -36,12 +36,12 @@ func TestEKUNoCritWAny(t *testing.T) {
 func TestEKUNoAnyCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ekuNoAnyCrit.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_eku_critical_improperly"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

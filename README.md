@@ -42,7 +42,7 @@ if err != nil {
 	// The certificate could not be parsed. Either error or halt.
 	log.Errorf("could not parse certificate: %s", err)
 }
-zlintResult := zlint.LintCertificate(parsed)
+zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
 
@@ -104,12 +104,11 @@ typically would return a Go `error` object, instead return
 Example:
 
 ```go
-func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) ResultStruct {
+func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) *ResultStruct {
 	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		return ResultStruct{Result: Pass}
-	} else {
-		return ResultStruct{Result: Error}
+		return &ResultStruct{Result: Pass}
 	}
+	return &ResultStruct{Result: Error}
 }
 ```
 
@@ -124,12 +123,12 @@ Example:
 func TestBasicConstNotCrit(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
-	desEnum := Error
+	expected := Error
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Result, /* Actual Result */
 		)
 	}

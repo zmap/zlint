@@ -7,12 +7,12 @@ import (
 
 func TestNcMaxPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncAllPres.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestNcMaxPresent(t *testing.T) {
 
 func TestNcMinPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncMinPres.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestNcMinPresent(t *testing.T) {
 
 func TestNcEmptyValue(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncEmptyValue.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

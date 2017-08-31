@@ -32,7 +32,7 @@ func (l *SANIsSpaceDNS) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANIsSpaceDNS) Execute(c *x509.Certificate) * LintResult{
+func (l *SANIsSpaceDNS) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		if dns == " " {
 			return &LintResult{Status: Error}

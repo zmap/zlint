@@ -7,12 +7,12 @@ import (
 
 func TestCaMaxLenPresentNoCertSign(t *testing.T) {
 	inputPath := "../testlint/testCerts/caMaxPathLenPresentNoCertSign.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestCaMaxLenPresentNoCertSign(t *testing.T) {
 
 func TestCaMaxLenPresentGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/caMaxPathLenPositive.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestCaMaxLenPresentGood(t *testing.T) {
 
 func TestCaMaxLenMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caMaxPathLenMissing.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -46,12 +46,12 @@ func TestCaMaxLenMissing(t *testing.T) {
 
 func TestSubCertMaxLenPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertPathLenPositive.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -59,12 +59,12 @@ func TestSubCertMaxLenPresent(t *testing.T) {
 
 func TestSubCertMaxLenNone(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

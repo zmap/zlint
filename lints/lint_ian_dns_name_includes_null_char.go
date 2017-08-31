@@ -17,7 +17,7 @@ func (l *IANDNSNull) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSNull) Execute(c *x509.Certificate) * LintResult{
+func (l *IANDNSNull) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.IANDNSNames {
 		for i := 0; i < len(dns); i++ {
 			if dns[i] == 0 {

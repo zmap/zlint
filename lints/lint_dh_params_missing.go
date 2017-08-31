@@ -19,7 +19,7 @@ func (l *dsaParamsMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaParamsMissing) Execute(c *x509.Certificate) * LintResult{
+func (l *dsaParamsMissing) Execute(c *x509.Certificate) *LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
 		return &LintResult{Status: Fatal}

@@ -7,12 +7,12 @@ import (
 
 func TestCrlNoUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCrlDistNoURL.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_cert_crl_distribution_points_does_not_contain_url"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestCrlNoUrl(t *testing.T) {
 
 func TestCrlContainsUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCrlDistURL.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_cert_crl_distribution_points_does_not_contain_url"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

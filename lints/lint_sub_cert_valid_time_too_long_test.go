@@ -7,12 +7,12 @@ import (
 
 func TestSubCertValidTimeTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertValidTimeTooLong.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_cert_valid_time_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubCertValidTimeTooLong(t *testing.T) {
 
 func TestSubCertValidTimeGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertValidTimeGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_cert_valid_time_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

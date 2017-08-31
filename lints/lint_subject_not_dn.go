@@ -27,7 +27,7 @@ func (l *subjectDN) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectDN) Execute(c *x509.Certificate) * LintResult{
+func (l *subjectDN) Execute(c *x509.Certificate) *LintResult {
 	if reflect.TypeOf(c.Subject) != reflect.TypeOf(*(new(pkix.Name))) {
 		return &LintResult{Status: Error}
 	}

@@ -22,7 +22,7 @@ func (l *IANURIIA5String) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANURIIA5String) Execute(c *x509.Certificate) * LintResult{
+func (l *IANURIIA5String) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.IANURIs {
 		for _, c := range uri {
 			if c > unicode.MaxASCII {

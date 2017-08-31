@@ -7,12 +7,12 @@ import (
 
 func TestSubjectEmptySANNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubjectEmptySANNotCrit(t *testing.T) {
 
 func TestSubjectEmptySANCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCaEmptySubject.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestSubjectEmptySANCrit(t *testing.T) {
 
 func TestSubjectNotEmptySANCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_not_critical_without_subject"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

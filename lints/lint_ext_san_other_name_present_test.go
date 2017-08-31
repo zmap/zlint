@@ -7,12 +7,12 @@ import (
 
 func TestSANOtherNamePresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANOtherName.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_other_name_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANOtherNamePresent(t *testing.T) {
 
 func TestSANOtherNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANEDIParty.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_other_name_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

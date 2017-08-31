@@ -29,7 +29,7 @@ func (l *nameConstraintOnEDI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintOnEDI) Execute(c *x509.Certificate) * LintResult{
+func (l *nameConstraintOnEDI) Execute(c *x509.Certificate) *LintResult {
 	if c.PermittedEdiPartyNames != nil || c.ExcludedEdiPartyNames != nil {
 		return &LintResult{Status: Warn}
 	}

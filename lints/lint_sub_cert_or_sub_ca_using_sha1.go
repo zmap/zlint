@@ -20,7 +20,7 @@ func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) * LintResult{
+func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) *LintResult {
 	switch c.SignatureAlgorithm {
 	case x509.SHA1WithRSA, x509.DSAWithSHA1, x509.ECDSAWithSHA1:
 		if c.NotBefore.Before(util.NO_SHA1) {

@@ -7,12 +7,12 @@ import (
 
 func TestBrSANDNSStartsWithPeriod(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDNSPeriod.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_san_dns_name_starts_with_period"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestBrSANDNSStartsWithPeriod(t *testing.T) {
 
 func TestBrSANDNSNotPeriod(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIValid.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_san_dns_name_starts_with_period"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -7,12 +7,12 @@ import (
 
 func TestSubCaSkiMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCANoSKI.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_subject_key_identifier_missing_ca"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubCaSkiMissing(t *testing.T) {
 
 func TestSubCaSkiPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/skiNotCriticalCA.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_subject_key_identifier_missing_ca"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

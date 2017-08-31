@@ -7,12 +7,12 @@ import (
 
 func TestIANHostURINotFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostNotFQDNOrIP.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANHostURINotFQDN(t *testing.T) {
 
 func TestIANHostURIFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostFQDN.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestIANHostURIFQDN(t *testing.T) {
 
 func TestIANHostURIIP(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostIP.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -46,12 +46,12 @@ func TestIANHostURIIP(t *testing.T) {
 
 func TestIANHostWildcardFQDN(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostWildcardFQDN.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -59,12 +59,12 @@ func TestIANHostWildcardFQDN(t *testing.T) {
 
 func TestIANHostWrongWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostWrongWildcard.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -72,12 +72,12 @@ func TestIANHostWrongWildcard(t *testing.T) {
 
 func TestIANHostAsterisk(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIHostAsterisk.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

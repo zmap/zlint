@@ -18,7 +18,7 @@ func (l *IssuerRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) * LintResult{
+func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResult {
 	var issuer pkix.RDNSequence
 	_, err := asn1.Unmarshal(c.RawIssuer, &issuer)
 	if err != nil {

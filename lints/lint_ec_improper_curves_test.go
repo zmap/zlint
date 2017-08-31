@@ -8,12 +8,12 @@ import (
 func TestECP224(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP224.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestECP224(t *testing.T) {
 func TestECP256(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP256.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -36,12 +36,12 @@ func TestECP256(t *testing.T) {
 func TestECP384(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP384.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -50,12 +50,12 @@ func TestECP384(t *testing.T) {
 func TestECP521(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/ecdsaP521.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

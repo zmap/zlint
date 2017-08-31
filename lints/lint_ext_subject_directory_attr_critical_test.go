@@ -7,12 +7,12 @@ import (
 
 func TestSdaCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subDirAttCritical.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_subject_directory_attr_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSdaCrit(t *testing.T) {
 
 func TestSdaNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/RFC5280example2.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_subject_directory_attr_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -20,7 +20,7 @@ func (l *validityNegative) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *validityNegative) Execute(c *x509.Certificate) * LintResult{
+func (l *validityNegative) Execute(c *x509.Certificate) *LintResult {
 	if c.NotBefore.After(c.NotAfter) {
 		return &LintResult{Status: Error}
 	}

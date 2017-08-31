@@ -7,12 +7,12 @@ import (
 
 func TestSubCaAiaNoOcsp(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWIssuerURL.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_ca_aia_does_not_contain_ocsp_url"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubCaAiaNoOcsp(t *testing.T) {
 
 func TestSubCaAiaHasOcsp(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWOcspURL.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_ca_aia_does_not_contain_ocsp_url"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

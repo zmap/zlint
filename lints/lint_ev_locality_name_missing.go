@@ -17,7 +17,7 @@ func (l *evLocalityMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evLocalityMissing) Execute(c *x509.Certificate) * LintResult{
+func (l *evLocalityMissing) Execute(c *x509.Certificate) *LintResult {
 	if util.TypeInName(&c.Subject, util.LocalityNameOID) {
 		return &LintResult{Status: Pass}
 	} else {

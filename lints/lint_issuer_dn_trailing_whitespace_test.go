@@ -8,12 +8,12 @@ import (
 
 func TestIssuerDNTrailingSpace(t *testing.T) {
 	inputPath := "../testlint/testCerts/issuerDNTrailingSpace.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_issuer_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -21,12 +21,12 @@ func TestIssuerDNTrailingSpace(t *testing.T) {
 
 func TestIssuerDNGood2(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_issuer_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

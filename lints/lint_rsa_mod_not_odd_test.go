@@ -7,12 +7,12 @@ import (
 
 func TestRsaModEven(t *testing.T) {
 	inputPath := "../testlint/testCerts/evenRsaMod.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_rsa_mod_not_odd"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestRsaModEven(t *testing.T) {
 
 func TestRsaModOdd(t *testing.T) {
 	inputPath := "../testlint/testCerts/oddRsaMod.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_rsa_mod_not_odd"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -15,7 +15,7 @@ func (l *subCertLocalityNameMustNotAppear) CheckApplies(c *x509.Certificate) boo
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertLocalityNameMustNotAppear) Execute(c *x509.Certificate) * LintResult{
+func (l *subCertLocalityNameMustNotAppear) Execute(c *x509.Certificate) *LintResult {
 	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.Locality) > 0 {
 			return &LintResult{Status: Error}

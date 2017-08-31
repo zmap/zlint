@@ -7,12 +7,12 @@ import (
 
 func TestIANCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANCritical.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_ext_ian_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANCrit(t *testing.T) {
 
 func TestIANNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANNotCritical.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_ext_ian_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

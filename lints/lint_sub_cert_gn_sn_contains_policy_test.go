@@ -7,12 +7,12 @@ import (
 
 func TestGivenNameCorrectPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/givenNameCorrectPolicy.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_cert_given_name_surname_contains_correct_policy"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestGivenNameCorrectPolicy(t *testing.T) {
 
 func TestSurnameCorrectPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/surnameCorrectPolicy.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_cert_given_name_surname_contains_correct_policy"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestSurnameCorrectPolicy(t *testing.T) {
 
 func TestGivenNameIncorrectPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/givenNameIncorrectPolicy.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_cert_given_name_surname_contains_correct_policy"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -46,12 +46,12 @@ func TestGivenNameIncorrectPolicy(t *testing.T) {
 
 func TestSurnameIncorrectPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/surnameIncorrectPolicy.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_cert_given_name_surname_contains_correct_policy"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

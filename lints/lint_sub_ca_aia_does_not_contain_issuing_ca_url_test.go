@@ -7,12 +7,12 @@ import (
 
 func TestSubCaAiaNoIssuerUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWOcspURL.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubCaAiaNoIssuerUrl(t *testing.T) {
 
 func TestSubCaAiaHasIssuerUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWBothURL.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -29,7 +29,7 @@ func (l *ekuBadCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *ekuBadCritical) Execute(c *x509.Certificate) * LintResult{
+func (l *ekuBadCritical) Execute(c *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(c, util.EkuSynOid); e.Critical {
 		for _, single_use := range c.ExtKeyUsage {
 			if single_use == x509.ExtKeyUsageAny {

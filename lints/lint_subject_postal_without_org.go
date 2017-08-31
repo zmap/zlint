@@ -24,7 +24,7 @@ func (l *postalNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *postalNoOrg) Execute(cert *x509.Certificate) * LintResult{
+func (l *postalNoOrg) Execute(cert *x509.Certificate) *LintResult {
 	if util.TypeInName(&cert.Subject, util.PostalCodeOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		return &LintResult{Status: Error}
 	} else { //if no Postal code, Organization can be omitted

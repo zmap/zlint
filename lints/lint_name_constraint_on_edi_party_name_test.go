@@ -7,12 +7,12 @@ import (
 
 func TestNcNoEDI(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncMinZero.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_name_constraint_on_edi_party_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestNcNoEDI(t *testing.T) {
 
 func TestNcEDI(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncOnEDI.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_name_constraint_on_edi_party_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

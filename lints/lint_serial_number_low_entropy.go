@@ -15,7 +15,7 @@ func (l *serialNumberLowEntropy) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) * LintResult{
+func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) *LintResult {
 	if len(c.SerialNumber.Bytes()) < 8 {
 		return &LintResult{Status: Warn}
 	} else {

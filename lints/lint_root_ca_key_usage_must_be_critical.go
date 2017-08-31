@@ -15,7 +15,7 @@ func (l *rootCAKeyUsageMustBeCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c) && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *rootCAKeyUsageMustBeCritical) Execute(c *x509.Certificate) * LintResult{
+func (l *rootCAKeyUsageMustBeCritical) Execute(c *x509.Certificate) *LintResult {
 	keyUsageExtension := util.GetExtFromCert(c, util.KeyUsageOID)
 	if keyUsageExtension.Critical {
 		return &LintResult{Status: Pass}

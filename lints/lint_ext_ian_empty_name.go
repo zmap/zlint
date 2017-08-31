@@ -30,7 +30,7 @@ func (l *IANEmptyName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANEmptyName) Execute(c *x509.Certificate) * LintResult{
+func (l *IANEmptyName) Execute(c *x509.Certificate) *LintResult {
 	value := util.GetExtFromCert(c, util.IssuerAlternateNameOID).Value
 	var seq asn1.RawValue
 	if _, err := asn1.Unmarshal(value, &seq); err != nil {

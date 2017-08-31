@@ -27,7 +27,7 @@ func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
 	return false, nil
 }
 
-func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) * LintResult{
+func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
 		if err != nil {

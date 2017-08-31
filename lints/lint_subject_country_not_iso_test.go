@@ -7,12 +7,12 @@ import (
 
 func TestCountryNotIso(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectInvalidCountry.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_subject_country_not_iso"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestCountryNotIso(t *testing.T) {
 
 func TestCountryIsIso(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectValidCountry.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_subject_country_not_iso"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

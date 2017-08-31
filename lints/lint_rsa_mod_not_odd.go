@@ -24,7 +24,7 @@ func (l *rsaParsedTestsKeyModOdd) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsKeyModOdd) Execute(c *x509.Certificate) * LintResult{
+func (l *rsaParsedTestsKeyModOdd) Execute(c *x509.Certificate) *LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	z := big.NewInt(0)
 	if (z.Mod(key.N, big.NewInt(2)).Cmp(big.NewInt(1))) == 0 {

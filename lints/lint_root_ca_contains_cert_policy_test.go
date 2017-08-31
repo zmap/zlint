@@ -8,12 +8,12 @@ import (
 func TestRootCACertPolicy(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/rootCAWithCertPolicy.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_root_ca_contains_cert_policy"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestRootCACertPolicy(t *testing.T) {
 func TestRootCANoCertPolicy(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/rootCAValid.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_root_ca_contains_cert_policy"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

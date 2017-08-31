@@ -23,7 +23,7 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 	return c.Subject.CommonName != "" && !util.IsCACert(c)
 }
 
-func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) * LintResult{
+func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
 	cn := c.Subject.CommonName
 
 	for _, dn := range c.DNSNames {

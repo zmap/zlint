@@ -8,12 +8,12 @@ import (
 func TestCertPolicyIvHasPerson(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestCertPolicyIvHasPerson(t *testing.T) {
 func TestCertPolicyIvHasSurname(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/indivValSurnameOnly.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -36,12 +36,12 @@ func TestCertPolicyIvHasSurname(t *testing.T) {
 func TestCertPolicyIvHasLastName(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/indivValGivenNameOnly.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -50,12 +50,12 @@ func TestCertPolicyIvHasLastName(t *testing.T) {
 func TestCertPolicyIvNoPerson(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

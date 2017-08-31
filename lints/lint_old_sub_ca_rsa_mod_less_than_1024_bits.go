@@ -23,7 +23,7 @@ func (l *subCaModSize) CheckApplies(c *x509.Certificate) bool {
 	return ok && util.IsSubCA(c) && issueDate.Before(util.NoRSA1024RootDate) && endDate.Before(util.NoRSA1024Date)
 }
 
-func (l *subCaModSize) Execute(c *x509.Certificate) * LintResult{
+func (l *subCaModSize) Execute(c *x509.Certificate) *LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 1024 {
 		return &LintResult{Status: Error}

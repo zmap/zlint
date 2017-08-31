@@ -36,7 +36,7 @@ func (l *generalizedNotZulu) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedNotZulu) Execute(c *x509.Certificate) * LintResult{
+func (l *generalizedNotZulu) Execute(c *x509.Certificate) *LintResult {
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {
 		if date1.Bytes[len(date1.Bytes)-1] != 'Z' {

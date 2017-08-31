@@ -21,7 +21,7 @@ func (l *policyConstraintsCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyConstOID)
 }
 
-func (l *policyConstraintsCritical) Execute(c *x509.Certificate) * LintResult{
+func (l *policyConstraintsCritical) Execute(c *x509.Certificate) *LintResult {
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	if !pc.Critical {
 		return &LintResult{Status: Error}

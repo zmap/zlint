@@ -20,7 +20,7 @@ func (l *SubjectRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool 
 	return true
 }
 
-func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) * LintResult{
+func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResult {
 	var subject pkix.RDNSequence
 	if _, err := asn1.Unmarshal(c.RawSubject, &subject); err != nil {
 		return &LintResult{Status: Fatal}

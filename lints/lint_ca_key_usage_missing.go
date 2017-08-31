@@ -24,7 +24,7 @@ func (l *caKeyUsageMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caKeyUsageMissing) Execute(c *x509.Certificate) * LintResult{
+func (l *caKeyUsageMissing) Execute(c *x509.Certificate) *LintResult {
 	if c.KeyUsage != x509.KeyUsage(0) {
 		return &LintResult{Status: Pass}
 	} else {

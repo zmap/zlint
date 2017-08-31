@@ -7,12 +7,12 @@ import (
 
 func TestIANEmptyDNS(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANEmptyDNS.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_space_dns_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANEmptyDNS(t *testing.T) {
 
 func TestIANNotEmptyDNS(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANNonEmptyDNS.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_space_dns_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

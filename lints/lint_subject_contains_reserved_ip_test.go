@@ -7,12 +7,12 @@ import (
 
 func TestSubjectIPReserved(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectReservedIP.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_subject_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubjectIPReserved(t *testing.T) {
 
 func TestSubjectIPReserved6(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectReservedIP6.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_subject_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestSubjectIPReserved6(t *testing.T) {
 
 func TestSubjectIPNotReserved(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectGoodIP.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_subject_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

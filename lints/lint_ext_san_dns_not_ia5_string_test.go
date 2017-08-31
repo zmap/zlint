@@ -7,12 +7,12 @@ import (
 
 func TestSANDNSNotIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDNSNotIA5String.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_dns_not_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANDNSNotIA5String(t *testing.T) {
 
 func TestSANDNSIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_dns_not_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

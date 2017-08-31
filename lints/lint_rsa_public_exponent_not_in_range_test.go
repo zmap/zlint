@@ -7,12 +7,12 @@ import (
 
 func TestRsaExpNotInRange(t *testing.T) {
 	inputPath := "../testlint/testCerts/badRsaExp.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_rsa_public_exponent_not_in_range"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestRsaExpNotInRange(t *testing.T) {
 
 func TestRsaExpInRange(t *testing.T) {
 	inputPath := "../testlint/testCerts/validRsaExpRange.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_rsa_public_exponent_not_in_range"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

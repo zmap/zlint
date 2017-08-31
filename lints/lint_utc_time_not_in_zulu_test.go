@@ -7,12 +7,12 @@ import (
 
 func TestUtcZulu(t *testing.T) {
 	inputPath := "../testlint/testCerts/utcHasSeconds.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_utc_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestUtcZulu(t *testing.T) {
 
 func TestUtcNotZulu(t *testing.T) {
 	inputPath := "../testlint/testCerts/utcNotZulu.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_utc_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

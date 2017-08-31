@@ -7,12 +7,12 @@ import (
 
 func TestSANRegIdMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_registered_id_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANRegIdMissing(t *testing.T) {
 
 func TestSANRegIdPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANRegisteredIdBeginning.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_registered_id_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestSANRegIdPresent(t *testing.T) {
 
 func TestSANRegIdPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANRegisteredIdEnd.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_registered_id_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -7,12 +7,12 @@ import (
 
 func TestIANInvalidEmail(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANInvalidEmail.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANInvalidEmail(t *testing.T) {
 
 func TestIANValidEmail(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANValidEmail.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

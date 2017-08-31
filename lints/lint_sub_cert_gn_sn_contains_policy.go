@@ -16,7 +16,7 @@ func (l *subCertSubjectGnOrSnContainsPolicy) CheckApplies(c *x509.Certificate) b
 	return util.IsSubscriberCert(c) && (len(c.Subject.GivenName) != 0 || len(c.Subject.Surname) != 0)
 }
 
-func (l *subCertSubjectGnOrSnContainsPolicy) Execute(c *x509.Certificate) * LintResult{
+func (l *subCertSubjectGnOrSnContainsPolicy) Execute(c *x509.Certificate) *LintResult {
 	for _, policyIds := range c.PolicyIdentifiers {
 		if policyIds.Equal(util.BRIndividualValidatedOID) {
 			return &LintResult{Status: Pass}

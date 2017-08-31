@@ -7,12 +7,12 @@ import (
 
 func TestCN(t *testing.T) {
 	inputPath := "../testlint/testCerts/commonNamesURL.pem"
-	desEnum := Notice
+	expected := Notice
 	out := Lints["n_subject_common_name_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestCN(t *testing.T) {
 
 func TestNoCN(t *testing.T) {
 	inputPath := "../testlint/testCerts/commonNamesGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["n_subject_common_name_included"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

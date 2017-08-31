@@ -8,12 +8,12 @@ import (
 func TestCertPolicyNotConflictWithLocal(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_cab_dv_conflicts_with_locality"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestCertPolicyNotConflictWithLocal(t *testing.T) {
 func TestCertPolicyConflictsWithLocal(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/domainValWithLocal.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_cab_dv_conflicts_with_locality"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

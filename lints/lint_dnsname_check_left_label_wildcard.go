@@ -27,7 +27,7 @@ func wildcardInLeftLabelIncorrect(domain string) bool {
 	return false
 }
 
-func (l *DNSNameLeftLabelWildcardCheck) Execute(c *x509.Certificate) * LintResult{
+func (l *DNSNameLeftLabelWildcardCheck) Execute(c *x509.Certificate) *LintResult {
 	if wildcardInLeftLabelIncorrect(c.Subject.CommonName) {
 		return &LintResult{Status: Error}
 	}

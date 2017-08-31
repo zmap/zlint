@@ -41,7 +41,7 @@ func (l *pathLenNonPositive) CheckApplies(cert *x509.Certificate) bool {
 	return cert.BasicConstraintsValid
 }
 
-func (l *pathLenNonPositive) Execute(cert *x509.Certificate) * LintResult{
+func (l *pathLenNonPositive) Execute(cert *x509.Certificate) *LintResult {
 	ext := util.GetExtFromCert(cert, util.BasicConstOID)
 	if _, err := asn1.Unmarshal(ext.Value, &l.bc); err != nil {
 		return &LintResult{Status: Fatal}

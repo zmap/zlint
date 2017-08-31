@@ -7,12 +7,12 @@ import (
 
 func TestRootCaMaxLenPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCaMaxPathLenPresent.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestRootCaMaxLenPresent(t *testing.T) {
 
 func TestRootCaMaxLenMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCaMaxPathLenMissing.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

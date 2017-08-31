@@ -7,12 +7,12 @@ import (
 
 func TestOrgNoLoc(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgNoLocal.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_subject_org_without_locality_or_province"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestOrgNoLoc(t *testing.T) {
 
 func TestOrgNoProv(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgNoProv.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_subject_org_without_locality_or_province"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestOrgNoProv(t *testing.T) {
 
 func TestOrgNoBoth(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgNoBoth.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_subject_org_without_locality_or_province"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -8,12 +8,12 @@ import (
 func TestExtsV2(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestExtsV2(t *testing.T) {
 func TestExtsV3(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -36,12 +36,12 @@ func TestExtsV3(t *testing.T) {
 func TestNoExtsV2(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/certVersion2NoExtensions.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -27,7 +27,7 @@ func (l *SANOtherName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANOtherName) Execute(c *x509.Certificate) * LintResult{
+func (l *SANOtherName) Execute(c *x509.Certificate) *LintResult {
 	if c.OtherNames != nil {
 		return &LintResult{Status: Error}
 	}

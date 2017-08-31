@@ -37,7 +37,7 @@ func (l *generalizedTimeFraction) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedTimeFraction) Execute(c *x509.Certificate) * LintResult{
+func (l *generalizedTimeFraction) Execute(c *x509.Certificate) *LintResult {
 	r := Pass
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {

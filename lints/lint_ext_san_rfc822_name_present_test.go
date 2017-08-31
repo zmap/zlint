@@ -7,12 +7,12 @@ import (
 
 func TestSANEmailPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANRFC822Beginning.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANEmailPresent(t *testing.T) {
 
 func TestSANEmailPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANRFC822End.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -33,12 +33,12 @@ func TestSANEmailPresent2(t *testing.T) {
 
 func TestSANEmailMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -22,7 +22,7 @@ func (l *ExtIANCritical) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.IssuerAlternateNameOID)
 }
 
-func (l *ExtIANCritical) Execute(cert *x509.Certificate) * LintResult{
+func (l *ExtIANCritical) Execute(cert *x509.Certificate) *LintResult {
 	if util.GetExtFromCert(cert, util.IssuerAlternateNameOID).Critical {
 		return &LintResult{Status: Warn}
 	} else {

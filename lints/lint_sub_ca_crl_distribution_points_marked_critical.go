@@ -22,7 +22,7 @@ func (l *subCACRLDistCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCACRLDistCrit) Execute(c *x509.Certificate) * LintResult{
+func (l *subCACRLDistCrit) Execute(c *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(c, util.CrlDistOID); e.Critical {
 		return &LintResult{Status: Error}
 	} else {

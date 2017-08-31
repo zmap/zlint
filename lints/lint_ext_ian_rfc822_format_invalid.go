@@ -29,7 +29,7 @@ func (l *IANEmail) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANEmail) Execute(c *x509.Certificate) * LintResult{
+func (l *IANEmail) Execute(c *x509.Certificate) *LintResult {
 	for _, str := range c.IANEmailAddresses {
 		if str == "" {
 			continue

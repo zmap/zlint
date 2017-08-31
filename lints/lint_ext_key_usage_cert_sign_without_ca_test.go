@@ -7,12 +7,12 @@ import (
 
 func TestCertSignNoCa(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyUsageCertSignNoBC.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_key_usage_cert_sign_without_ca"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestCertSignNoCa(t *testing.T) {
 
 func TestCertSignIsCa(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_key_usage_cert_sign_without_ca"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

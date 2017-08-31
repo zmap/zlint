@@ -23,7 +23,7 @@ func (l *caCountryNameMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caCountryNameMissing) Execute(c *x509.Certificate) * LintResult{
+func (l *caCountryNameMissing) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.Country != nil && c.Subject.Country[0] != "" {
 		return &LintResult{Status: Pass}
 	} else {

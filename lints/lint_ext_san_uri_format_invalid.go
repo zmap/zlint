@@ -22,7 +22,7 @@ func (l *extSANURIFormatInvalid) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *extSANURIFormatInvalid) Execute(c *x509.Certificate) * LintResult{
+func (l *extSANURIFormatInvalid) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.URIs {
 		parsed_uri, err := url.Parse(uri)
 

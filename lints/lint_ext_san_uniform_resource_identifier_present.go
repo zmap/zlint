@@ -27,7 +27,7 @@ func (l *SANURI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANURI) Execute(c *x509.Certificate) * LintResult{
+func (l *SANURI) Execute(c *x509.Certificate) *LintResult {
 	if c.URIs != nil {
 		return &LintResult{Status: Error}
 	}

@@ -17,7 +17,7 @@ func (l *SANWildCardFirst) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANWildCardFirst) Execute(c *x509.Certificate) * LintResult{
+func (l *SANWildCardFirst) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		for i := 1; i < len(dns); i++ {
 			if dns[i] == '*' {

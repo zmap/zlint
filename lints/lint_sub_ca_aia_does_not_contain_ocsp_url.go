@@ -25,7 +25,7 @@ func (l *subCaOcspUrl) CheckApplies(c *x509.Certificate) bool {
 	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 
-func (l *subCaOcspUrl) Execute(c *x509.Certificate) * LintResult{
+func (l *subCaOcspUrl) Execute(c *x509.Certificate) *LintResult {
 	for _, url := range c.OCSPServer {
 		if strings.HasPrefix(url, "http://") {
 			return &LintResult{Status: Pass}

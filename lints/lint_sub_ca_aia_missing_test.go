@@ -7,12 +7,12 @@ import (
 
 func TestSubCaAiaMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAAIAMissing.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_ca_aia_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubCaAiaMissing(t *testing.T) {
 
 func TestSubCaAiaPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAAIAValid.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_ca_aia_missing"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

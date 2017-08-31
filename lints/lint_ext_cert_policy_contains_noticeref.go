@@ -22,7 +22,7 @@ func (l *noticeRefPres) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CertPolicyOID)
 }
 
-func (l *noticeRefPres) Execute(c *x509.Certificate) * LintResult{
+func (l *noticeRefPres) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.NoticeRefNumbers {
 		for _, number := range firstLvl {
 			if number != nil {

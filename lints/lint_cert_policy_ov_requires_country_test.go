@@ -8,12 +8,12 @@ import (
 func TestCertPolicyOvHasCountry(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_cert_policy_ov_requires_country"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestCertPolicyOvHasCountry(t *testing.T) {
 func TestCertPolicyOvNoCountry(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/orgValNoCountry.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_cert_policy_ov_requires_country"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -8,12 +8,12 @@ import (
 func TestNoticeRefUsed(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticePres.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_ext_cert_policy_contains_noticeref"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestNoticeRefUsed(t *testing.T) {
 func TestNoticeRefNotUsed(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_ext_cert_policy_contains_noticeref"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

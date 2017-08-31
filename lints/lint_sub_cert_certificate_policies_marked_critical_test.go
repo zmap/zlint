@@ -7,12 +7,12 @@ import (
 
 func TestSubCertPolicyCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertPolicyCrit.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_sub_cert_certificate_policies_marked_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSubCertPolicyCrit(t *testing.T) {
 
 func TestSubCertPolicyNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertPolicyNoCrit.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_sub_cert_certificate_policies_marked_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

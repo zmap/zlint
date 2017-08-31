@@ -8,12 +8,12 @@ import (
 func TestCaKeyUsageNoCRLSign(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageNoCRL.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ca_crl_sign_not_set"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -22,12 +22,12 @@ func TestCaKeyUsageNoCRLSign(t *testing.T) {
 func TestKeyUsageCRLSign(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ca_crl_sign_not_set"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

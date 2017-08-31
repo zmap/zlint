@@ -17,7 +17,7 @@ func (l *SANDNSTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID) && len(c.DNSNames) > 0
 }
 
-func (l *SANDNSTooLong) Execute(c *x509.Certificate) * LintResult{
+func (l *SANDNSTooLong) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		if len(dns) > 253 {
 			return &LintResult{Status: Error}

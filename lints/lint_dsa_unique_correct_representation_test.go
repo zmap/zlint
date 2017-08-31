@@ -8,12 +8,12 @@ import (
 
 func TestDSAUniqueCorrectRepresentation(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_dsa_unique_correct_representation"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath,
-			"expected", desEnum,
+			"expected", expected,
 			"got", out.Status,
 		)
 	}

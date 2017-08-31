@@ -7,12 +7,12 @@ import (
 
 func TestIANURIRelative(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURINoScheme.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_uri_relative"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANURIRelative(t *testing.T) {
 
 func TestIANURIAbsolute(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_uri_relative"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -34,7 +34,7 @@ func (l *explicitTextUtf8) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextUtf8) Execute(c *x509.Certificate) * LintResult{
+func (l *explicitTextUtf8) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag != 12 {

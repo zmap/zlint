@@ -20,7 +20,7 @@ func (l *commonNames) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *commonNames) Execute(c *x509.Certificate) * LintResult{
+func (l *commonNames) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName == "" {
 		return &LintResult{Status: Pass}
 	} else {

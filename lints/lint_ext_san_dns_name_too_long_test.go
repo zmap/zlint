@@ -7,12 +7,12 @@ import (
 
 func TestSANDNSShort(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_dns_name_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANDNSShort(t *testing.T) {
 
 func TestSANDNSTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDNSTooLong.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_dns_name_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

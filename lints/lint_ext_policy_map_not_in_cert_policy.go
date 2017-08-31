@@ -24,7 +24,7 @@ func (l *policyMapMatchesCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyMapOID)
 }
 
-func (l *policyMapMatchesCertPolicy) Execute(c *x509.Certificate) * LintResult{
+func (l *policyMapMatchesCertPolicy) Execute(c *x509.Certificate) *LintResult {
 	extPolMap := util.GetExtFromCert(c, util.PolicyMapOID)
 	polMap, err := util.GetMappedPolicies(extPolMap)
 	if err != nil {

@@ -6,12 +6,12 @@ import (
 
 func TestDNSNameValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameValidTLD.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -19,12 +19,12 @@ func TestDNSNameValidTLD(t *testing.T) {
 
 func TestDNSNameNotValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNotValidTLD.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

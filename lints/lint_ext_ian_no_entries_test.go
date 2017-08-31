@@ -7,12 +7,12 @@ import (
 
 func TestIANNoEntry(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANEmpty.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_ian_no_entries"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANNoEntry(t *testing.T) {
 
 func TestIANHasEntry(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSIA5String.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_ian_no_entries"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

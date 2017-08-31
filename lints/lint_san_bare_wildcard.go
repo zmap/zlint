@@ -18,7 +18,7 @@ func (l *brSANBareWildcard) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *brSANBareWildcard) Execute(c *x509.Certificate) * LintResult{
+func (l *brSANBareWildcard) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		if strings.HasSuffix(dns, "*") {
 			return &LintResult{Status: Error}

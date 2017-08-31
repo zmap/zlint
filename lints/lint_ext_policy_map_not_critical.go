@@ -22,7 +22,7 @@ func (l *policyMapCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyMapOID)
 }
 
-func (l *policyMapCritical) Execute(c *x509.Certificate) * LintResult{
+func (l *policyMapCritical) Execute(c *x509.Certificate) *LintResult {
 	polMap := util.GetExtFromCert(c, util.PolicyMapOID)
 	if polMap.Critical {
 		return &LintResult{Status: Pass}

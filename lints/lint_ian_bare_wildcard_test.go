@@ -7,12 +7,12 @@ import (
 
 func TestBrIANBareWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANBareWildcard.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ian_bare_wildcard"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestBrIANBareWildcard(t *testing.T) {
 
 func TestBrIANNotBareWildcard(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ian_bare_wildcard"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

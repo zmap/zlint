@@ -7,12 +7,12 @@ import (
 
 func TestSANEmptyName(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANEmptyName.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_san_empty_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestSANEmptyName(t *testing.T) {
 
 func TestSANNotEmptyName(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_san_empty_name"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

@@ -4,12 +4,12 @@ import "testing"
 
 func TestDNSNameUnderscoreInSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameUnderscoreInSLD.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -17,12 +17,12 @@ func TestDNSNameUnderscoreInSLD(t *testing.T) {
 
 func TestDNSNameNoUnderscoreInSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInSLD.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

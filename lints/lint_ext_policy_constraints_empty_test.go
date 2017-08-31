@@ -7,12 +7,12 @@ import (
 
 func TestPolicyConstraintsEmpty(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyConstEmpty.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_ext_policy_constraints_empty"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestPolicyConstraintsEmpty(t *testing.T) {
 
 func TestPolicyConstraintsNotEmpty(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyConstGoodBoth.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_ext_policy_constraints_empty"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

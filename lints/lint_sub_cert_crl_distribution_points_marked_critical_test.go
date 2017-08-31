@@ -7,12 +7,12 @@ import (
 
 func TestCrlCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCrlDistCrit.pem"
-	desEnum := Error
+	expected := Error
 	out := Lints["e_sub_cert_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestCrlCrit(t *testing.T) {
 
 func TestCrlNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCrlDistNoCrit.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["e_sub_cert_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

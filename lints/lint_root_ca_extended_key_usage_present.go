@@ -21,7 +21,7 @@ func (l *rootCAContainsEKU) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAContainsEKU) Execute(c *x509.Certificate) * LintResult{
+func (l *rootCAContainsEKU) Execute(c *x509.Certificate) *LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.EkuSynOid) {
 		return &LintResult{Status: Error}

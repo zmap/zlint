@@ -7,12 +7,12 @@ import (
 
 func TestIANBarePubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANBareSuffix.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_ian_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestIANBarePubSuffix(t *testing.T) {
 
 func TestIANGoodPubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANGoodSuffix.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_ian_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

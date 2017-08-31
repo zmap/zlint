@@ -27,7 +27,7 @@ func (l *nameConstraintNotCa) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintNotCa) Execute(c *x509.Certificate) * LintResult{
+func (l *nameConstraintNotCa) Execute(c *x509.Certificate) *LintResult {
 	if !util.IsCACert(c) {
 		return &LintResult{Status: Error}
 	} else {

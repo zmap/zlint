@@ -31,7 +31,7 @@ func (l *InhibitAnyPolicyNotCritical) CheckApplies(cert *x509.Certificate) bool 
 	return util.IsExtInCert(cert, util.InhibitAnyPolicyOID)
 }
 
-func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) * LintResult{
+func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) *LintResult {
 	if anyPol := util.GetExtFromCert(cert, util.InhibitAnyPolicyOID); !anyPol.Critical {
 		return &LintResult{Status: Error}
 	} //else

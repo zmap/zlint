@@ -22,7 +22,7 @@ func (l *distribNoLDAPorURI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *distribNoLDAPorURI) Execute(c *x509.Certificate) * LintResult{
+func (l *distribNoLDAPorURI) Execute(c *x509.Certificate) *LintResult {
 	for _, point := range c.CRLDistributionPoints {
 		if point = strings.ToLower(point); strings.HasPrefix(point, "http://") || strings.HasPrefix(point, "ldap://") {
 			return &LintResult{Status: Pass}

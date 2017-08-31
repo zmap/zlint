@@ -7,12 +7,12 @@ import (
 
 func TestRsaModFactorTooSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/evenRsaMod.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_rsa_mod_factors_smaller_than_752"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -20,12 +20,12 @@ func TestRsaModFactorTooSmall(t *testing.T) {
 
 func TestRsaModFactorNotTooSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/goodRsaExp.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_rsa_mod_factors_smaller_than_752"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

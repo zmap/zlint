@@ -32,7 +32,7 @@ func (l *IANSpace) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANSpace) Execute(c *x509.Certificate) * LintResult{
+func (l *IANSpace) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.IANDNSNames {
 		if dns == " " {
 			return &LintResult{Status: Error}

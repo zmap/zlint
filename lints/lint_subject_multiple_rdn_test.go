@@ -8,12 +8,12 @@ import (
 
 func TestSubjectRDNTwoAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectRDNTwoAttribute.pem"
-	desEnum := Warn
+	expected := Warn
 	out := Lints["w_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}
@@ -21,12 +21,12 @@ func TestSubjectRDNTwoAttribute(t *testing.T) {
 
 func TestSubjectRDNOneAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
-	desEnum := Pass
+	expected := Pass
 	out := Lints["w_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
-	if out.Status != desEnum {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
+			"expected", expected, /* The enum you expected */
 			"got", out.Status, /* Actual Result */
 		)
 	}

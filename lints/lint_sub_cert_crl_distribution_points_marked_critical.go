@@ -23,7 +23,7 @@ func (l *subCrlDistCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCrlDistCrit) Execute(c *x509.Certificate) * LintResult{
+func (l *subCrlDistCrit) Execute(c *x509.Certificate) *LintResult {
 	// Add actual lint here
 	e := util.GetExtFromCert(c, util.CrlDistOID)
 	if e.Critical == false {

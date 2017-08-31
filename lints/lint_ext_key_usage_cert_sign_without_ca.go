@@ -27,7 +27,7 @@ func (l *keyUsageCertSignNoCa) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *keyUsageCertSignNoCa) Execute(c *x509.Certificate) * LintResult{
+func (l *keyUsageCertSignNoCa) Execute(c *x509.Certificate) *LintResult {
 	if (c.KeyUsage & x509.KeyUsageCertSign) != 0 {
 		if c.BasicConstraintsValid && util.IsCACert(c) { //CA certs may assert certtificate signing usage
 			return &LintResult{Status: Pass}

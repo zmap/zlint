@@ -42,7 +42,7 @@ func (l *dpIncomplete) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *dpIncomplete) Execute(c *x509.Certificate) * LintResult{
+func (l *dpIncomplete) Execute(c *x509.Certificate) *LintResult {
 	dp := util.GetExtFromCert(c, util.CrlDistOID)
 	var cdp []distributionPoint
 	_, err := asn1.Unmarshal(dp.Value, &cdp)
