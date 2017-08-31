@@ -11,7 +11,7 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 			t.Errorf("lint %s has empty description", name)
 		}
 		if lint.Source == "" {
-			t.Errorf("lint %s has empty provenance", name)
+			t.Errorf("lint %s has empty source", name)
 		}
 	}
 }

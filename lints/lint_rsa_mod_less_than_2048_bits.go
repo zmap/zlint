@@ -1,6 +1,6 @@
 // lint_rsa_mod_less_than_2048_bits.go
 /************************************************
-Change this to match provenance TEXT
+Change this to match source TEXT
 ************************************************/
 
 package lints
