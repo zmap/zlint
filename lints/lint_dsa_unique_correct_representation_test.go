@@ -1,20 +1,42 @@
-// lint_distribution_point_missing_ldap_or_uri_test.go
 package lints
 
 import (
+	"crypto/dsa"
+	"math/big"
 	"testing"
 )
 
 func TestDSAUniqueCorrectRepresentation(t *testing.T) {
-	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
 	desEnum := Pass
 	out, _ := Lints["e_dsa_unique_correct_representation"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"For", inputPath,
+			"expected", desEnum,
+			"got", out.Result,
+		)
+	}
+}
+
+func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
+	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
+	c := ReadCertificate(inputPath)
+
+	// Replace Y with P - 1
+	dsaKey := c.PublicKey.(*dsa.PublicKey)
+	pMinusOne := big.NewInt(0)
+	pMinusOne.Sub(dsaKey.P, big.NewInt(1))
+	dsaKey.Y = pMinusOne
+
+	// Expect failure
+	expected := Error
+	out, _ := Lints["e_dsa_unique_correct_representation"].ExecuteTest(c)
+	if out.Result != expected {
+		t.Error(
+			"For", inputPath,
+			"expected", expected,
+			"got", out.Result,
 		)
 	}
 }
