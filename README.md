@@ -126,11 +126,7 @@ func TestBasicConstNotCrit(t *testing.T) {
 	expected := Error
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != expected {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", expected, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
