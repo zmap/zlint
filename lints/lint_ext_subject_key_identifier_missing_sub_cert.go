@@ -36,7 +36,7 @@ func (l *subjectKeyIdMissingSubscriber) CheckApplies(cert *x509.Certificate) boo
 	return !util.IsCACert(cert)
 }
 
-func (l *subjectKeyIdMissingSubscriber) Execute(cert *x509.Certificate) LintResult {
+func (l *subjectKeyIdMissingSubscriber) Execute(cert *x509.Certificate) * LintResult{
 	if util.IsExtInCert(cert, util.SubjectKeyIdentityOID) {
 		return &LintResult{Status: Pass}
 	} else {

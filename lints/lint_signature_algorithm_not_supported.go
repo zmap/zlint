@@ -15,7 +15,7 @@ func (l *signatureAlgorithmNotSupported) CheckApplies(c *x509.Certificate) bool 
 	return true
 }
 
-func (l *signatureAlgorithmNotSupported) Execute(c *x509.Certificate) LintResult {
+func (l *signatureAlgorithmNotSupported) Execute(c *x509.Certificate) * LintResult{
 
 	if c.SignatureAlgorithm == x509.SHA1WithRSA || c.SignatureAlgorithm == x509.SHA256WithRSA || c.SignatureAlgorithm == x509.SHA384WithRSA || c.SignatureAlgorithm == x509.SHA512WithRSA || c.SignatureAlgorithm == x509.DSAWithSHA1 || c.SignatureAlgorithm == x509.DSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA384 || c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
 		return &LintResult{Status: Pass}

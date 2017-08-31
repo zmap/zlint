@@ -34,7 +34,7 @@ func (l *explicitTextTooLong) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextTooLong) Execute(c *x509.Certificate) LintResult {
+func (l *explicitTextTooLong) Execute(c *x509.Certificate) * LintResult{
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if len(text.Bytes) > 200 {

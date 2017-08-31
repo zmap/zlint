@@ -15,7 +15,7 @@ func (l *subCaMustNotContainAnyPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCaMustNotContainAnyPolicy) Execute(c *x509.Certificate) LintResult {
+func (l *subCaMustNotContainAnyPolicy) Execute(c *x509.Certificate) * LintResult{
 	for _, policy := range c.PolicyIdentifiers {
 		if policy.Equal(util.AnyPolicyOID) {
 			return &LintResult{Status: Error}

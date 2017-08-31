@@ -27,7 +27,7 @@ func (l *SANEDI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANEDI) Execute(c *x509.Certificate) LintResult {
+func (l *SANEDI) Execute(c *x509.Certificate) * LintResult{
 	if c.EDIPartyNames != nil {
 		return &LintResult{Status: Error}
 	}

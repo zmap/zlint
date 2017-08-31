@@ -24,7 +24,7 @@ func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCRLDistNoURL) Execute(c *x509.Certificate) LintResult {
+func (l *subCRLDistNoURL) Execute(c *x509.Certificate) * LintResult{
 	// Add actual lint here
 	for _, s := range c.CRLDistributionPoints {
 		if strings.HasPrefix(s, "http://") {

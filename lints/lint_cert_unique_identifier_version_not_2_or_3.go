@@ -30,7 +30,7 @@ func (l *certUniqueIdVersion) CheckApplies(c *x509.Certificate) bool {
 	return c.IssuerUniqueId.Bytes != nil || c.SubjectUniqueId.Bytes != nil
 }
 
-func (l *certUniqueIdVersion) Execute(c *x509.Certificate) LintResult {
+func (l *certUniqueIdVersion) Execute(c *x509.Certificate) * LintResult{
 	if (c.Version) != 2 && (c.Version) != 3 {
 		return &LintResult{Status: Error}
 	} else {

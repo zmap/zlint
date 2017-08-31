@@ -32,7 +32,7 @@ func (l *IANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSNotIA5String) Execute(c *x509.Certificate) LintResult {
+func (l *IANDNSNotIA5String) Execute(c *x509.Certificate) * LintResult{
 	ext := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if ext == nil {
 		return &LintResult{Status: Fatal}

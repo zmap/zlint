@@ -15,7 +15,7 @@ func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameValidTLD) Execute(c *x509.Certificate) LintResult {
+func (l *DNSNameValidTLD) Execute(c *x509.Certificate) * LintResult{
 	if c.Subject.CommonName != "" {
 		if !util.HasValidTLD(c.Subject.CommonName) {
 			return &LintResult{Status: Error}

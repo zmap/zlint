@@ -17,7 +17,7 @@ func (l *evCountryMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evCountryMissing) Execute(c *x509.Certificate) LintResult {
+func (l *evCountryMissing) Execute(c *x509.Certificate) * LintResult{
 	if util.TypeInName(&c.Subject, util.CountryNameOID) {
 		return &LintResult{Status: Pass}
 	} else {

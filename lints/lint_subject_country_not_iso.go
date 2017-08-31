@@ -26,7 +26,7 @@ func (l *countryNotIso) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *countryNotIso) Execute(c *x509.Certificate) LintResult {
+func (l *countryNotIso) Execute(c *x509.Certificate) * LintResult{
 	for _, j := range c.Subject.Country {
 		if !util.IsISOCountryCode(strings.ToUpper(j)) {
 			return &LintResult{Status: Error}

@@ -38,7 +38,7 @@ func (l *nameConstraintEmpty) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *nameConstraintEmpty) Execute(c *x509.Certificate) LintResult {
+func (l *nameConstraintEmpty) Execute(c *x509.Certificate) * LintResult{
 	nc := util.GetExtFromCert(c, util.NameConstOID)
 	var seq asn1.RawValue
 	_, err := asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty

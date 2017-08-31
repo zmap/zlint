@@ -24,7 +24,7 @@ func (l *provinceNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *provinceNoOrg) Execute(cert *x509.Certificate) LintResult {
+func (l *provinceNoOrg) Execute(cert *x509.Certificate) * LintResult{
 	if util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		return &LintResult{Status: Error}
 	} else { //if no Province, Organization omitted

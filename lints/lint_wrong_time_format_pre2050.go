@@ -26,7 +26,7 @@ func (l *generalizedPre2050) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *generalizedPre2050) Execute(c *x509.Certificate) LintResult {
+func (l *generalizedPre2050) Execute(c *x509.Certificate) * LintResult{
 	date1, date2 := util.GetTimes(c)
 	var t time.Time
 	type1, type2 := util.FindTimeType(date1, date2)

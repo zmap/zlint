@@ -18,7 +18,7 @@ func (l *dsaUniqueCorrectRepresentation) CheckApplies(c *x509.Certificate) bool 
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) LintResult {
+func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) * LintResult{
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
 		return &LintResult{Status: NA}

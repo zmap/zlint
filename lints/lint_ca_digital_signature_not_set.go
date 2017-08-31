@@ -22,7 +22,7 @@ func (l *caDigSignNotSet) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caDigSignNotSet) Execute(c *x509.Certificate) LintResult {
+func (l *caDigSignNotSet) Execute(c *x509.Certificate) * LintResult{
 	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
 		return &LintResult{Status: Pass}
 	} else {

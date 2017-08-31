@@ -23,7 +23,7 @@ func (l *rsaModSmallFactor) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaModSmallFactor) Execute(c *x509.Certificate) LintResult {
+func (l *rsaModSmallFactor) Execute(c *x509.Certificate) * LintResult{
 	key := c.PublicKey.(*rsa.PublicKey)
 	if util.PrimeNoSmallerThan752(key.N) {
 		return &LintResult{Status: Pass}

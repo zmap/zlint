@@ -28,7 +28,7 @@ func (l *SANURIHost) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANURIHost) Execute(c *x509.Certificate) LintResult {
+func (l *SANURIHost) Execute(c *x509.Certificate) * LintResult{
 	for _, uri := range c.URIs {
 		if uri != "" {
 			host := util.GetHost(uri)

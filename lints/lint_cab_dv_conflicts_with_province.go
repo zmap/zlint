@@ -19,14 +19,14 @@ func (l *certPolicyConflictsWithProvince) CheckApplies(cert *x509.Certificate) b
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRDomainValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *certPolicyConflictsWithProvince) Execute(cert *x509.Certificate) LintResult {
+func (l *certPolicyConflictsWithProvince) Execute(cert *x509.Certificate) *LintResult {
 	var out LintResult
 	if util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) {
 		out.Status = Error
 	} else {
 		out.Status = Pass
 	}
-	return out
+	return &out
 }
 
 func init() {

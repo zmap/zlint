@@ -22,7 +22,7 @@ func (l *extSANURINotIA5) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *extSANURINotIA5) Execute(c *x509.Certificate) LintResult {
+func (l *extSANURINotIA5) Execute(c *x509.Certificate) * LintResult{
 	for _, uri := range c.URIs {
 		for _, c := range uri {
 			if c > unicode.MaxASCII {

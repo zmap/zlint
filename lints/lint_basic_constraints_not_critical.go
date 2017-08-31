@@ -29,7 +29,7 @@ func (l *basicConstCrit) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *basicConstCrit) Execute(c *x509.Certificate) LintResult {
+func (l *basicConstCrit) Execute(c *x509.Certificate) *LintResult {
 	// Add actual lint here
 	if e := util.GetExtFromCert(c, util.BasicConstOID); e != nil {
 		if e.Critical {

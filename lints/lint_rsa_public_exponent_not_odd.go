@@ -23,7 +23,7 @@ func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsKeyExpOdd) Execute(c *x509.Certificate) LintResult {
+func (l *rsaParsedTestsKeyExpOdd) Execute(c *x509.Certificate) * LintResult{
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E%2 == 1 {
 		return &LintResult{Status: Pass}

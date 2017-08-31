@@ -24,7 +24,7 @@ func (l *issuerFieldEmpty) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *issuerFieldEmpty) Execute(c *x509.Certificate) LintResult {
+func (l *issuerFieldEmpty) Execute(c *x509.Certificate) * LintResult{
 	if &c.Issuer != nil && util.NotAllNameFieldsAreEmpty(&c.Issuer) {
 		return &LintResult{Status: Pass}
 	} else {

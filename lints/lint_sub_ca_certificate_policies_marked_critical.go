@@ -21,7 +21,7 @@ func (l *subCACertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CertPolicyOID)
 }
 
-func (l *subCACertPolicyCrit) Execute(c *x509.Certificate) LintResult {
+func (l *subCACertPolicyCrit) Execute(c *x509.Certificate) * LintResult{
 	if e := util.GetExtFromCert(c, util.CertPolicyOID); e.Critical {
 		return &LintResult{Status: Warn}
 	} else {

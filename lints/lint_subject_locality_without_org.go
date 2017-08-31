@@ -25,7 +25,7 @@ func (l *localNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *localNoOrg) Execute(cert *x509.Certificate) LintResult {
+func (l *localNoOrg) Execute(cert *x509.Certificate) * LintResult{
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		return &LintResult{Status: Error}
 	} else { //if no Locality, Organization can be omitted

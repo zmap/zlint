@@ -22,7 +22,7 @@ func (l *ExtAiaMarkedCritical) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.AiaOID)
 }
 
-func (l *ExtAiaMarkedCritical) Execute(cert *x509.Certificate) LintResult {
+func (l *ExtAiaMarkedCritical) Execute(cert *x509.Certificate) * LintResult{
 	if util.GetExtFromCert(cert, util.AiaOID).Critical {
 		return &LintResult{Status: Error}
 	} else {

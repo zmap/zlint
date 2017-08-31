@@ -21,7 +21,7 @@ func (l *caOrganizationNameMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caOrganizationNameMissing) Execute(c *x509.Certificate) LintResult {
+func (l *caOrganizationNameMissing) Execute(c *x509.Certificate) * LintResult{
 	if c.Subject.Organization != nil && c.Subject.Organization[0] != "" {
 		return &LintResult{Status: Pass}
 	} else {

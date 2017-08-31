@@ -30,7 +30,7 @@ func underscoreInSLD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) LintResult {
+func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) * LintResult{
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
 		if err != nil {

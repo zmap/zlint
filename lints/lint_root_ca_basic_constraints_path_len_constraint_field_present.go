@@ -23,7 +23,7 @@ func (l *rootCaPathLenPresent) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c) && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *rootCaPathLenPresent) Execute(c *x509.Certificate) LintResult {
+func (l *rootCaPathLenPresent) Execute(c *x509.Certificate) * LintResult{
 	bc := util.GetExtFromCert(c, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool

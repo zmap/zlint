@@ -17,7 +17,7 @@ func (l *IssuerDNTrailingSpace) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *IssuerDNTrailingSpace) Execute(c *x509.Certificate) LintResult {
+func (l *IssuerDNTrailingSpace) Execute(c *x509.Certificate) * LintResult{
 	_, trailing, err := util.CheckRDNSequenceWhiteSpace(c.RawIssuer)
 	if err != nil {
 		return &LintResult{Status: Fatal}

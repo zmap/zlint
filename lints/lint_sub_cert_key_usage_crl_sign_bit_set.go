@@ -22,7 +22,7 @@ func (l *subCrlSignAllowed) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 
-func (l *subCrlSignAllowed) Execute(c *x509.Certificate) LintResult {
+func (l *subCrlSignAllowed) Execute(c *x509.Certificate) * LintResult{
 	// Add actual lint here
 	if (c.KeyUsage & x509.KeyUsageCRLSign) == x509.KeyUsageCRLSign {
 		return &LintResult{Status: Error}

@@ -30,7 +30,7 @@ func hyphenAtStartOrEndOfSLD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) LintResult {
+func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) * LintResult{
 	if c.Subject.CommonName != "" {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(c.Subject.CommonName)
 		if err != nil {

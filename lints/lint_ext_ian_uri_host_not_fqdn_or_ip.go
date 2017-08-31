@@ -29,7 +29,7 @@ func (l *IANURIFQDNOrIP) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANURIFQDNOrIP) Execute(c *x509.Certificate) LintResult {
+func (l *IANURIFQDNOrIP) Execute(c *x509.Certificate) * LintResult{
 	for _, uri := range c.IANURIs {
 		if uri != "" {
 			parsedUrl, err := url.Parse(uri)

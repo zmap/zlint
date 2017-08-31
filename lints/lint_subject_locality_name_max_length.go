@@ -23,7 +23,7 @@ func (l *subjectLocalityNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) LintResult {
+func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) * LintResult{
 	for _, j := range c.Subject.Locality {
 		if len(j) > 128 {
 			return &LintResult{Status: Error}

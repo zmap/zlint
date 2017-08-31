@@ -42,7 +42,7 @@ func (l *utcTimeGMT) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Utc || l.date2Utc
 }
 
-func (l *utcTimeGMT) Execute(c *x509.Certificate) LintResult {
+func (l *utcTimeGMT) Execute(c *x509.Certificate) * LintResult{
 	var r LintStatus
 	if l.date1Utc {
 		// UTC Tests on notBefore

@@ -18,7 +18,7 @@ func (l *IANDNSPeriod) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSPeriod) Execute(c *x509.Certificate) LintResult {
+func (l *IANDNSPeriod) Execute(c *x509.Certificate) * LintResult{
 	for _, dns := range c.IANDNSNames {
 		if strings.HasPrefix(dns, ".") {
 			return &LintResult{Status: Error}

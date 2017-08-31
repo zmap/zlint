@@ -24,7 +24,7 @@ func (l *caAiaMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 
-func (l *caAiaMissing) Execute(c *x509.Certificate) LintResult {
+func (l *caAiaMissing) Execute(c *x509.Certificate) * LintResult{
 	if util.IsExtInCert(c, util.AiaOID) {
 		return &LintResult{Status: Pass}
 	} else {

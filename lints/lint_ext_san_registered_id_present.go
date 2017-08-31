@@ -27,7 +27,7 @@ func (l *SANRegId) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANRegId) Execute(c *x509.Certificate) LintResult {
+func (l *SANRegId) Execute(c *x509.Certificate) * LintResult{
 	if c.RegisteredIDs != nil {
 		return &LintResult{Status: Error}
 	}

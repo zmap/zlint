@@ -25,7 +25,7 @@ func (l *illegalChar) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *illegalChar) Execute(c *x509.Certificate) LintResult {
+func (l *illegalChar) Execute(c *x509.Certificate) * LintResult{
 	domain := c.Subject.DomainComponent
 	serial := c.Subject.SerialNumber
 	names := c.Subject.Names

@@ -21,7 +21,7 @@ func (l *ExtFreshestCrlMarkedCritical) CheckApplies(cert *x509.Certificate) bool
 	return util.IsExtInCert(cert, util.FreshCRLOID)
 }
 
-func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) LintResult {
+func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) * LintResult{
 	var fCRL *pkix.Extension = util.GetExtFromCert(cert, util.FreshCRLOID)
 	if fCRL != nil && fCRL.Critical {
 		return &LintResult{Status: Error}

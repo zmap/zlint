@@ -17,7 +17,7 @@ func (l *publicKeyAllowed) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *publicKeyAllowed) Execute(c *x509.Certificate) LintResult {
+func (l *publicKeyAllowed) Execute(c *x509.Certificate) * LintResult{
 	alg := c.PublicKeyAlgorithm
 	if alg != x509.UnknownPublicKeyAlgorithm {
 		return &LintResult{Status: Pass}

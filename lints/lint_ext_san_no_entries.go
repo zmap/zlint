@@ -28,7 +28,7 @@ func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANNoEntry) Execute(c *x509.Certificate) LintResult {
+func (l *SANNoEntry) Execute(c *x509.Certificate) * LintResult{
 	san := util.GetExtFromCert(c, util.SubjectAlternateNameOID)
 	if (san.Value)[1] == 0 {
 		return &LintResult{Status: Error}

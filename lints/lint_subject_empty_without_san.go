@@ -28,7 +28,7 @@ func (l *emptyWithoutSAN) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *emptyWithoutSAN) Execute(cert *x509.Certificate) LintResult {
+func (l *emptyWithoutSAN) Execute(cert *x509.Certificate) * LintResult{
 	if subjectIsEmpty(cert) && !util.IsExtInCert(cert, util.SubjectAlternateNameOID) {
 		return &LintResult{Status: Error}
 	} else {

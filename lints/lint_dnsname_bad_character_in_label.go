@@ -31,7 +31,7 @@ func (l *DNSNameProperCharacters) labelContainsBadCharacters(domain string) bool
 	return false
 }
 
-func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) LintResult {
+func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) * LintResult{
 	if c.Subject.CommonName != "" {
 		badCharacterFound := l.labelContainsBadCharacters(c.Subject.CommonName)
 		if badCharacterFound {

@@ -33,7 +33,7 @@ func (l *SerialNumberNotPositive) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *SerialNumberNotPositive) Execute(cert *x509.Certificate) LintResult {
+func (l *SerialNumberNotPositive) Execute(cert *x509.Certificate) * LintResult{
 	if cert.SerialNumber.Sign() == -1 { // -1 Means negative when using big.Sign()
 		return &LintResult{Status: Error}
 	} else {

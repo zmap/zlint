@@ -18,7 +18,7 @@ func (l *brIANBareWildcard) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *brIANBareWildcard) Execute(c *x509.Certificate) LintResult {
+func (l *brIANBareWildcard) Execute(c *x509.Certificate) * LintResult{
 	for _, dns := range c.IANDNSNames {
 		if strings.HasSuffix(dns, "*") {
 			return &LintResult{Status: Error}

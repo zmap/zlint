@@ -26,7 +26,7 @@ func (l *subjectReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *subjectReservedIP) Execute(c *x509.Certificate) LintResult {
+func (l *subjectReservedIP) Execute(c *x509.Certificate) * LintResult{
 	if ip := net.ParseIP(c.Subject.CommonName); ip != nil {
 		if !util.IsReservedIP(ip) {
 			return &LintResult{Status: Pass}

@@ -19,7 +19,7 @@ func (l *rsaExpNegative) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaExpNegative) Execute(c *x509.Certificate) LintResult {
+func (l *rsaExpNegative) Execute(c *x509.Certificate) * LintResult{
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E < 0 {
 		return &LintResult{Status: Error}

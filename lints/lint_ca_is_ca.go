@@ -21,7 +21,7 @@ func (l *caIsCA) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && c.KeyUsage&x509.KeyUsageCertSign != 0 && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *caIsCA) Execute(c *x509.Certificate) LintResult {
+func (l *caIsCA) Execute(c *x509.Certificate) * LintResult{
 	e := util.GetExtFromCert(c, util.BasicConstOID)
 	var constraints basicConstraints
 	_, err := asn1.Unmarshal(e.Value, &constraints)

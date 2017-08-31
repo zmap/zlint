@@ -27,7 +27,7 @@ func (l *ExtSANCriticalWithSubjectDN) CheckApplies(cert *x509.Certificate) bool 
 	return util.IsExtInCert(cert, util.SubjectAlternateNameOID)
 }
 
-func (l *ExtSANCriticalWithSubjectDN) Execute(cert *x509.Certificate) LintResult {
+func (l *ExtSANCriticalWithSubjectDN) Execute(cert *x509.Certificate) * LintResult{
 	san := util.GetExtFromCert(cert, util.SubjectAlternateNameOID)
 	if san.Critical && util.NotAllNameFieldsAreEmpty(&cert.Subject) {
 		return &LintResult{Status: Warn}

@@ -25,7 +25,7 @@ func (l *keyUsageBitsSet) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *keyUsageBitsSet) Execute(c *x509.Certificate) LintResult {
+func (l *keyUsageBitsSet) Execute(c *x509.Certificate) * LintResult{
 	if c.KeyUsage == 0 {
 		return &LintResult{Status: Error}
 	} else {

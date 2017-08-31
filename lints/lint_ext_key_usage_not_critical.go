@@ -18,7 +18,7 @@ func (l *checkKeyUsageCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *checkKeyUsageCritical) Execute(c *x509.Certificate) LintResult {
+func (l *checkKeyUsageCritical) Execute(c *x509.Certificate) * LintResult{
 	// Add actual lint here
 	keyUsage := util.GetExtFromCert(c, util.KeyUsageOID)
 	if keyUsage == nil {

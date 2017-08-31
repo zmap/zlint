@@ -15,7 +15,7 @@ func (l *subCaAIAMarkedCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.AiaOID)
 }
 
-func (l *subCaAIAMarkedCritical) Execute(c *x509.Certificate) LintResult {
+func (l *subCaAIAMarkedCritical) Execute(c *x509.Certificate) * LintResult{
 	e := util.GetExtFromCert(c, util.AiaOID)
 	if e.Critical {
 		return &LintResult{Status: Error}

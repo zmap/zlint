@@ -25,7 +25,7 @@ func (l *BadCommonName) CheckApplies(c *x509.Certificate) bool {
 	return len(c.Subject.CommonName) != 0 && !util.IsCACert(c)
 }
 
-func (l *BadCommonName) Execute(c *x509.Certificate) LintResult {
+func (l *BadCommonName) Execute(c *x509.Certificate) * LintResult{
 	for _, dns := range c.DNSNames {
 		if dns == c.Subject.CommonName {
 			return &LintResult{Status: Pass}

@@ -25,7 +25,7 @@ func (l *pathLenIncluded) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.BasicConstOID)
 }
 
-func (l *pathLenIncluded) Execute(cert *x509.Certificate) LintResult {
+func (l *pathLenIncluded) Execute(cert *x509.Certificate) * LintResult{
 	bc := util.GetExtFromCert(cert, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool

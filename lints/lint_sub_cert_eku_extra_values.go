@@ -22,7 +22,7 @@ func (l *subExtKeyUsageLegalUsage) CheckApplies(c *x509.Certificate) bool {
 	return c.ExtKeyUsage != nil
 }
 
-func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) LintResult {
+func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) * LintResult{
 	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth ||

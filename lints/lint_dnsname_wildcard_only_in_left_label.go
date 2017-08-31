@@ -29,7 +29,7 @@ func wildcardNotInLeftLabel(domain string) bool {
 	return false
 }
 
-func (l *DNSNameWildcardOnlyInLeftlabel) Execute(c *x509.Certificate) LintResult {
+func (l *DNSNameWildcardOnlyInLeftlabel) Execute(c *x509.Certificate) * LintResult{
 	if wildcardNotInLeftLabel(c.Subject.CommonName) {
 		return &LintResult{Status: Error}
 	}

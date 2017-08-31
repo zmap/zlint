@@ -26,7 +26,7 @@ func domainHasEmptyLabel(domain string) bool {
 	return false
 }
 
-func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) LintResult {
+func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) * LintResult{
 	if c.Subject.CommonName != "" {
 		if domainHasEmptyLabel(c.Subject.CommonName) {
 			return &LintResult{Status: Error}
