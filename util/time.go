@@ -30,6 +30,7 @@ var (
 	NoRSA1024Date              = time.Date(2014, time.January, 1, 0, 0, 0, 0, time.UTC)
 	GeneralizedDate            = time.Date(2050, time.January, 1, 0, 0, 0, 0, time.UTC)
 	NoReservedIP               = time.Date(2015, time.November, 1, 0, 0, 0, 0, time.UTC)
+	SubCert39Month             = time.Date(2016, time.June, 30, 0, 0, 0, 0, time.UTC)
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
