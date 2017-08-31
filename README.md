@@ -120,7 +120,7 @@ details), but OpenSSL could also be used. Test certificates should be placed in
 Example:
 
 ```go
-func TestBasicConstNotCrit(t *testing.T) {
+func TestBasicConstNotCritical(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
 	expected := Error
