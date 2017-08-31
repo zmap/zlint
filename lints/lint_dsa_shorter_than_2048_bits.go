@@ -17,18 +17,18 @@ func (l *dsaTooShort) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaTooShort) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *dsaTooShort) Execute(c *x509.Certificate) ResultStruct {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: NA}, nil
+		return ResultStruct{Result: NA}
 	}
 	dsaParams := dsaKey.Parameters
 	L := dsaParams.P.BitLen()
 	N := dsaParams.Q.BitLen()
 	if L >= 2048 && N >= 244 {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
-	return ResultStruct{Result: Error}, nil
+	return ResultStruct{Result: Error}
 }
 
 func init() {
@@ -38,6 +38,6 @@ func init() {
 		Source:      "BRs: 6.1.5",
 		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
-		Test:          &dsaTooShort{},
+		Lint:          &dsaTooShort{},
 	})
 }

@@ -27,11 +27,11 @@ func (l *nameConstraintNotCa) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintNotCa) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintNotCa) Execute(c *x509.Certificate) ResultStruct {
 	if !util.IsCACert(c) {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -41,6 +41,6 @@ func init() {
 		Description:   "The name constraints extension MUST only be used in CA certificates",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstraintNotCa{},
+		Lint:          &nameConstraintNotCa{},
 	})
 }

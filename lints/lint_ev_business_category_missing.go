@@ -17,11 +17,11 @@ func (l *evNoBiz) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evNoBiz) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *evNoBiz) Execute(c *x509.Certificate) ResultStruct {
 	if util.TypeInName(&c.Subject, util.BusinessOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -31,6 +31,6 @@ func init() {
 		Description:   "EV certificates must include businessCategory in subject",
 		Source:        "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evNoBiz{},
+		Lint:          &evNoBiz{},
 	})
 }

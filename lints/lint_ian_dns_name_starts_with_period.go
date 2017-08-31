@@ -18,13 +18,13 @@ func (l *IANDNSPeriod) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSPeriod) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANDNSPeriod) Execute(c *x509.Certificate) ResultStruct {
 	for _, dns := range c.IANDNSNames {
 		if strings.HasPrefix(dns, ".") {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -33,6 +33,6 @@ func init() {
 		Description:   "DNSName MUST NOT start with a period",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &IANDNSPeriod{},
+		Lint:          &IANDNSPeriod{},
 	})
 }

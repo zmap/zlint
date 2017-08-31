@@ -36,11 +36,11 @@ func (l *subjectKeyIdMissingCA) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsCACert(cert)
 }
 
-func (l *subjectKeyIdMissingCA) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *subjectKeyIdMissingCA) Execute(cert *x509.Certificate) ResultStruct {
 	if util.IsExtInCert(cert, util.SubjectKeyIdentityOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -50,6 +50,6 @@ func init() {
 		Description:   "CAs MUST include a Subject Key Identifier in all CA certificates",
 		Source:        "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectKeyIdMissingCA{},
+		Lint:          &subjectKeyIdMissingCA{},
 	})
 }

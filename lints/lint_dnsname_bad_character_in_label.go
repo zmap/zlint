@@ -31,20 +31,20 @@ func (l *DNSNameProperCharacters) labelContainsBadCharacters(domain string) bool
 	return false
 }
 
-func (l *DNSNameProperCharacters) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) ResultStruct {
 	if c.Subject.CommonName != "" {
 		badCharacterFound := l.labelContainsBadCharacters(c.Subject.CommonName)
 		if badCharacterFound {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		badCharacterFound := l.labelContainsBadCharacters(dns)
 		if badCharacterFound {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -53,6 +53,6 @@ func init() {
 		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameProperCharacters{},
+		Lint:          &DNSNameProperCharacters{},
 	})
 }

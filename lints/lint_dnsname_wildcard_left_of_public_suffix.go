@@ -27,26 +27,26 @@ func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
 	return false, nil
 }
 
-func (l *DNSNameWildcardLeftofPublicSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) ResultStruct {
 	if c.Subject.CommonName != "" {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}
 		}
 		if wildcardFound {
-			return ResultStruct{Result: Warn}, nil
+			return ResultStruct{Result: Warn}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}
 		}
 		if wildcardFound {
-			return ResultStruct{Result: Warn}, nil
+			return ResultStruct{Result: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -55,6 +55,6 @@ func init() {
 		Description:   "the CA MUST establish and follow a documented procedure[^pubsuffix] that determines if the wildcard character occurs in the first label position to the left of a “registry‐controlled” label or “public suffix”",
 		Source:        "BRs: 3.2.2.6",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &DNSNameWildcardLeftofPublicSuffix{},
+		Lint:          &DNSNameWildcardLeftofPublicSuffix{},
 	})
 }

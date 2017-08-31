@@ -24,13 +24,13 @@ func (l *rsaParsedTestsKeyModOdd) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsKeyModOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rsaParsedTestsKeyModOdd) Execute(c *x509.Certificate) ResultStruct {
 	key := c.PublicKey.(*rsa.PublicKey)
 	z := big.NewInt(0)
 	if (z.Mod(key.N, big.NewInt(2)).Cmp(big.NewInt(1))) == 0 {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Warn}
 	}
 }
 
@@ -40,6 +40,6 @@ func init() {
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: an odd number",
 		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsKeyModOdd{},
+		Lint:          &rsaParsedTestsKeyModOdd{},
 	})
 }

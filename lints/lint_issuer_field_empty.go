@@ -24,11 +24,11 @@ func (l *issuerFieldEmpty) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *issuerFieldEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *issuerFieldEmpty) Execute(c *x509.Certificate) ResultStruct {
 	if &c.Issuer != nil && util.NotAllNameFieldsAreEmpty(&c.Issuer) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "Certificate issuer field MUST NOT be empty and must have a non-empty distingushed name",
 		Source:        "RFC 5280: 4.1.2.4",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &issuerFieldEmpty{},
+		Lint:          &issuerFieldEmpty{},
 	})
 }

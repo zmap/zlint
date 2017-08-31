@@ -23,13 +23,13 @@ func (l *subCrlDistCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCrlDistCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCrlDistCrit) Execute(c *x509.Certificate) ResultStruct {
 	// Add actual lint here
 	e := util.GetExtFromCert(c, util.CrlDistOID)
 	if e.Critical == false {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -39,6 +39,6 @@ func init() {
 		Description:   "Subscriber Certiifcate: cRLDistributionPoints MUST NOT be marked critical, and MUST contain the HTTP URL of the CA's CRL service.",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCrlDistCrit{},
+		Lint:          &subCrlDistCrit{},
 	})
 }

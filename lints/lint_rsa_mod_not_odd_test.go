@@ -8,7 +8,7 @@ import (
 func TestRsaModEven(t *testing.T) {
 	inputPath := "../testlint/testCerts/evenRsaMod.pem"
 	desEnum := Warn
-	out, _ := Lints["w_rsa_mod_not_odd"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_rsa_mod_not_odd"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestRsaModEven(t *testing.T) {
 func TestRsaModOdd(t *testing.T) {
 	inputPath := "../testlint/testCerts/oddRsaMod.pem"
 	desEnum := Pass
-	out, _ := Lints["w_rsa_mod_not_odd"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_rsa_mod_not_odd"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

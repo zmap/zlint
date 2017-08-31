@@ -31,11 +31,11 @@ func (l *InhibitAnyPolicyNotCritical) CheckApplies(cert *x509.Certificate) bool 
 	return util.IsExtInCert(cert, util.InhibitAnyPolicyOID)
 }
 
-func (l *InhibitAnyPolicyNotCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) ResultStruct {
 	if anyPol := util.GetExtFromCert(cert, util.InhibitAnyPolicyOID); !anyPol.Critical {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} //else
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -44,6 +44,6 @@ func init() {
 		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
 		Source:        "RFC 5280: 4.2.1.14",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &InhibitAnyPolicyNotCritical{},
+		Lint:          &InhibitAnyPolicyNotCritical{},
 	})
 }

@@ -24,19 +24,19 @@ func (l *policyMapAnyPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyMapOID)
 }
 
-func (l *policyMapAnyPolicy) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *policyMapAnyPolicy) Execute(c *x509.Certificate) ResultStruct {
 	extPolMap := util.GetExtFromCert(c, util.PolicyMapOID)
 	polMap, err := util.GetMappedPolicies(extPolMap)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+		return ResultStruct{Result: Fatal}
 	}
 
 	for _, pair := range polMap {
 		if util.AnyPolicyOID.Equal(pair[0]) || util.AnyPolicyOID.Equal(pair[1]) {
-			return ResultStruct{Result: Error}, err
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, err
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -45,6 +45,6 @@ func init() {
 		Description:   "Policies must not be mapped to or from the anyPolicy value",
 		Source:        "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &policyMapAnyPolicy{},
+		Lint:          &policyMapAnyPolicy{},
 	})
 }

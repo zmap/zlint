@@ -36,11 +36,11 @@ func (l *subjectKeyIdMissingSubscriber) CheckApplies(cert *x509.Certificate) boo
 	return !util.IsCACert(cert)
 }
 
-func (l *subjectKeyIdMissingSubscriber) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *subjectKeyIdMissingSubscriber) Execute(cert *x509.Certificate) ResultStruct {
 	if util.IsExtInCert(cert, util.SubjectKeyIdentityOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Warn}
 	}
 }
 
@@ -50,6 +50,6 @@ func init() {
 		Description:   "Sub certificates SHOULD include Subject Key Identifier in end entity certs",
 		Source:        "RFC 5280: 4.2 & 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectKeyIdMissingSubscriber{},
+		Lint:          &subjectKeyIdMissingSubscriber{},
 	})
 }

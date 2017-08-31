@@ -29,16 +29,16 @@ func wildcardNotInLeftLabel(domain string) bool {
 	return false
 }
 
-func (l *DNSNameWildcardOnlyInLeftlabel) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameWildcardOnlyInLeftlabel) Execute(c *x509.Certificate) ResultStruct {
 	if wildcardNotInLeftLabel(c.Subject.CommonName) {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 	for _, dns := range c.DNSNames {
 		if wildcardNotInLeftLabel(dns) {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -47,6 +47,6 @@ func init() {
 		Description:   "DNSName should not have wildcards except in the left-most label",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameWildcardOnlyInLeftlabel{},
+		Lint:          &DNSNameWildcardOnlyInLeftlabel{},
 	})
 }

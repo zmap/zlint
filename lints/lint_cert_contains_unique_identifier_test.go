@@ -9,7 +9,7 @@ func TestUIDPresentIssuer(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/issuerUID.pem"
 	desEnum := Error
-	out, _ := Lints["e_cert_contains_unique_identifier"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_cert_contains_unique_identifier"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestUIDPresentSubject(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subjectUID.pem"
 	desEnum := Error
-	out, _ := Lints["e_cert_contains_unique_identifier"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_cert_contains_unique_identifier"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -37,7 +37,7 @@ func TestUIDMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
-	out, _ := Lints["e_cert_contains_unique_identifier"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_cert_contains_unique_identifier"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

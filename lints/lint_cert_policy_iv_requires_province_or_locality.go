@@ -18,14 +18,14 @@ func (l *CertPolicyIVRequiresProvinceOrLocal) CheckApplies(cert *x509.Certificat
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID)
 }
 
-func (l *CertPolicyIVRequiresProvinceOrLocal) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *CertPolicyIVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) ResultStruct {
 	var out ResultStruct
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) || util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) {
 		out.Result = Pass
 	} else {
 		out.Result = Error
 	}
-	return out, nil
+	return out
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.3 is included, localityName or stateOrProvinceName MUST be included in subject",
 		Source:        "BRs: 7.1.6.1",
 		EffectiveDate: util.CABV131Date,
-		Test:          &CertPolicyIVRequiresProvinceOrLocal{},
+		Lint:          &CertPolicyIVRequiresProvinceOrLocal{},
 	})
 }

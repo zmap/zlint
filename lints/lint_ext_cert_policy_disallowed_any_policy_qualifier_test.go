@@ -9,7 +9,7 @@ func TestNoticeRef(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticePres.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestCps(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -37,7 +37,7 @@ func TestNoticeRefUnknown(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/userNoticeUnrecommended.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -5,7 +5,7 @@ import "testing"
 func TestDNSNameHyphenBeginningSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameHyphenBeginningSLD.pem"
 	desEnum := Error
-	out, _ := Lints["e_dnsname_hyphen_in_sld"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -18,7 +18,7 @@ func TestDNSNameHyphenBeginningSLD(t *testing.T) {
 func TestDNSNameHyphenEndingSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameHyphenEndingSLD.pem"
 	desEnum := Error
-	out, _ := Lints["e_dnsname_hyphen_in_sld"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -31,7 +31,7 @@ func TestDNSNameHyphenEndingSLD(t *testing.T) {
 func TestDNSNameNoHyphenInSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWildcardCorrect.pem"
 	desEnum := Pass
-	out, _ := Lints["e_dnsname_hyphen_in_sld"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -31,11 +31,11 @@ func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *authorityKeyIdNoKeyIdField) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) ResultStruct {
 	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by default if not found in x509.parseCert
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -45,6 +45,6 @@ func init() {
 		Description:   "CAs must include keyIdentifer field of AKI in all non-self-issued certificates",
 		Source:        "RFC 5280: 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &authorityKeyIdNoKeyIdField{},
+		Lint:          &authorityKeyIdNoKeyIdField{},
 	})
 }

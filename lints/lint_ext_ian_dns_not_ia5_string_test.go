@@ -8,7 +8,7 @@ import (
 func TestIANDNSIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSIA5String.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_ian_dns_not_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_ian_dns_not_ia5_string"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestIANDNSIA5String(t *testing.T) {
 func TestIANDNSNotIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSNotIA5String.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_ian_dns_not_ia5_string"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_ian_dns_not_ia5_string"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

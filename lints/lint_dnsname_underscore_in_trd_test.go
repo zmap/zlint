@@ -9,7 +9,7 @@ func TestDNSNameUnderscoreInTRD(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/dnsNameUnderscoreInTRD.pem"
 	desEnum := Warn
-	out, _ := Lints["w_dnsname_underscore_in_trd"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_dnsname_underscore_in_trd"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestDNSNameNoUnderscoreInTRD(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInTRD.pem"
 	desEnum := Pass
-	out, _ := Lints["w_dnsname_underscore_in_trd"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_dnsname_underscore_in_trd"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -8,7 +8,7 @@ import (
 func TestSubjectStateNameLengthGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectStateNameLengthGood.pem"
 	desEnum := Pass
-	out, _ := Lints["e_subject_state_name_max_length"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_state_name_max_length"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubjectStateNameLengthGood(t *testing.T) {
 func TestSubjectStateNameLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectStateNameLong.pem"
 	desEnum := Error
-	out, _ := Lints["e_subject_state_name_max_length"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_state_name_max_length"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

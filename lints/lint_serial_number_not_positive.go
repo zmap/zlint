@@ -33,11 +33,11 @@ func (l *SerialNumberNotPositive) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *SerialNumberNotPositive) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *SerialNumberNotPositive) Execute(cert *x509.Certificate) ResultStruct {
 	if cert.SerialNumber.Sign() == -1 { // -1 Means negative when using big.Sign()
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -47,6 +47,6 @@ func init() {
 		Description:   "Certificates must have a positive serial number",
 		Source:        "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &SerialNumberNotPositive{},
+		Lint:          &SerialNumberNotPositive{},
 	})
 }

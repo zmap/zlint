@@ -17,15 +17,15 @@ func (l *IssuerDNTrailingSpace) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *IssuerDNTrailingSpace) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IssuerDNTrailingSpace) Execute(c *x509.Certificate) ResultStruct {
 	_, trailing, err := util.CheckRDNSequenceWhiteSpace(c.RawIssuer)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+		return ResultStruct{Result: Fatal}
 	}
 	if trailing {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Warn}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "AttributeValue in issuer RelativeDistinguishedName sequence SHOULD NOT have trailing whitespace",
 		Source:        "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &IssuerDNTrailingSpace{},
+		Lint:          &IssuerDNTrailingSpace{},
 	})
 }

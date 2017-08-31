@@ -25,13 +25,13 @@ func (l *subCaIssuerUrl) CheckApplies(c *x509.Certificate) bool {
 	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 
-func (l *subCaIssuerUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCaIssuerUrl) Execute(c *x509.Certificate) ResultStruct {
 	for _, url := range c.IssuingCertificateURL {
 		if strings.HasPrefix(url, "http://") {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
-	return ResultStruct{Result: Warn}, nil
+	return ResultStruct{Result: Warn}
 }
 
 func init() {
@@ -40,6 +40,6 @@ func init() {
 		Description:   "Subordinate CA Certificate: authorityInformationAccess SHOULD also contain the HTTP URL of the Issuing CA's certificate.",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCaIssuerUrl{},
+		Lint:          &subCaIssuerUrl{},
 	})
 }

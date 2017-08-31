@@ -8,7 +8,7 @@ import (
 func TestCertSignNoCa(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyUsageCertSignNoBC.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_key_usage_cert_sign_without_ca"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_key_usage_cert_sign_without_ca"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestCertSignNoCa(t *testing.T) {
 func TestCertSignIsCa(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_key_usage_cert_sign_without_ca"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_key_usage_cert_sign_without_ca"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -24,12 +24,12 @@ func (l *subCertPolicyEmpty) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertPolicyEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertPolicyEmpty) Execute(c *x509.Certificate) ResultStruct {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.CertPolicyOID) && c.PolicyIdentifiers != nil {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -39,6 +39,6 @@ func init() {
 		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
 		Source:        "BRs: 7.1.6.4",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertPolicyEmpty{},
+		Lint:          &subCertPolicyEmpty{},
 	})
 }

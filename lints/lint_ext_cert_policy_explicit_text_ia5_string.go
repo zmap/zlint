@@ -35,15 +35,15 @@ func (l *explicitTextIA5String) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *explicitTextIA5String) Execute(c *x509.Certificate) ResultStruct {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag == 22 {
-				return ResultStruct{Result: Error}, nil
+				return ResultStruct{Result: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -52,6 +52,6 @@ func init() {
 		Description:   "Compliant certificates must not encode explicitTest as an IA5String",
 		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &explicitTextIA5String{},
+		Lint:          &explicitTextIA5String{},
 	})
 }

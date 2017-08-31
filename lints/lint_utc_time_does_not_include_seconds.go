@@ -41,19 +41,19 @@ func (l *utcNoSecond) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Utc || l.date2Utc
 }
 
-func (l *utcNoSecond) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *utcNoSecond) Execute(c *x509.Certificate) ResultStruct {
 	date1, date2 := util.GetTimes(c)
 	if l.date1Utc {
 		if len(date1.Bytes) != 13 && len(date1.Bytes) != 17 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	if l.date2Utc {
 		if len(date2.Bytes) != 13 && len(date2.Bytes) != 17 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -62,6 +62,6 @@ func init() {
 		Description:   "UTCTime values MUST include seconds",
 		Source:        "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &utcNoSecond{},
+		Lint:          &utcNoSecond{},
 	})
 }

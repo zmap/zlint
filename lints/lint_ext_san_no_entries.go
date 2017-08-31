@@ -28,12 +28,12 @@ func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANNoEntry) Execute(c *x509.Certificate) ResultStruct {
 	san := util.GetExtFromCert(c, util.SubjectAlternateNameOID)
 	if (san.Value)[1] == 0 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -43,6 +43,6 @@ func init() {
 		Description:   "If present, the SAN extension MUST contain at least one entry",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &SANNoEntry{},
+		Lint:          &SANNoEntry{},
 	})
 }

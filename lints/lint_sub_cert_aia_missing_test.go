@@ -8,7 +8,7 @@ import (
 func TestSubCertAiaMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWNoURL.pem"
 	desEnum := Error
-	out, _ := Lints["e_sub_cert_aia_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_aia_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCertAiaMissing(t *testing.T) {
 func TestSubCertAiaPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWBothURL.pem"
 	desEnum := Pass
-	out, _ := Lints["e_sub_cert_aia_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_aia_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

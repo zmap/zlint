@@ -22,25 +22,25 @@ func (l *IANURIFormat) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANURIFormat) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANURIFormat) Execute(c *x509.Certificate) ResultStruct {
 	for _, uri := range c.IANURIs {
 		parsed_uri, err := url.Parse(uri)
 
 		if err != nil {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 
 		//scheme
 		if parsed_uri.Scheme == "" {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 
 		//scheme-specific part
 		if parsed_uri.Host == "" && parsed_uri.User == nil && parsed_uri.Opaque == "" && parsed_uri.Path == "" {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -49,6 +49,6 @@ func init() {
 		Description:   "URIs in the subjectAltName extension MUST have a scheme and scheme specific part",
 		Source:        "RFC5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &IANURIFormat{},
+		Lint:          &IANURIFormat{},
 	})
 }

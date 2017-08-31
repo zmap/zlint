@@ -23,11 +23,11 @@ func (l *caCountryNameMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caCountryNameMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caCountryNameMissing) Execute(c *x509.Certificate) ResultStruct {
 	if c.Subject.Country != nil && c.Subject.Country[0] != "" {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -37,6 +37,6 @@ func init() {
 		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCountryNameMissing{},
+		Lint:          &caCountryNameMissing{},
 	})
 }

@@ -24,19 +24,18 @@ func (l *policyMapMatchesCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyMapOID)
 }
 
-func (l *policyMapMatchesCertPolicy) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *policyMapMatchesCertPolicy) Execute(c *x509.Certificate) ResultStruct {
 	extPolMap := util.GetExtFromCert(c, util.PolicyMapOID)
 	polMap, err := util.GetMappedPolicies(extPolMap)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+		return ResultStruct{Result: Fatal}
 	}
 	for _, pair := range polMap {
 		if !util.SliceContainsOID(c.PolicyIdentifiers, pair[0]) {
-			return ResultStruct{Result: Warn}, err
+			return ResultStruct{Result: Warn}
 		}
 	}
-	//else
-	return ResultStruct{Result: Pass}, err
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -45,6 +44,6 @@ func init() {
 		Description:   "Each issuerDomainPolicy named in the policy mappings extension should also be asserted in a certificate policies extension",
 		Source:        "RFC 5280: 4.2.1.5",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &policyMapMatchesCertPolicy{},
+		Lint:          &policyMapMatchesCertPolicy{},
 	})
 }

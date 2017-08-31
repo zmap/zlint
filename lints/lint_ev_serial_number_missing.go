@@ -17,11 +17,11 @@ func (l *evSNMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evSNMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *evSNMissing) Execute(c *x509.Certificate) ResultStruct {
 	if c.SerialNumber.BitLen() == 0 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -30,6 +30,6 @@ func init() {
 		Description:   "EV certificates must include serialNumber in subject",
 		Source:        "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evSNMissing{},
+		Lint:          &evSNMissing{},
 	})
 }

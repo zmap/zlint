@@ -21,11 +21,11 @@ func (l *subCACertPolicyMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCACertPolicyMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCACertPolicyMissing) Execute(c *x509.Certificate) ResultStruct {
 	if util.IsExtInCert(c, util.CertPolicyOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -35,6 +35,6 @@ func init() {
 		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACertPolicyMissing{},
+		Lint:          &subCACertPolicyMissing{},
 	})
 }

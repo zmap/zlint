@@ -18,14 +18,14 @@ func (l *pubSuffix) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *pubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *pubSuffix) Execute(c *x509.Certificate) ResultStruct {
 	for _, dns := range c.DNSNames {
 		suffix, _ := publicsuffix.PublicSuffix(dns)
 		if suffix == dns {
-			return ResultStruct{Result: Warn}, nil
+			return ResultStruct{Result: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "The domain SHOULD NOT have a bare public suffix",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &pubSuffix{},
+		Lint:          &pubSuffix{},
 	})
 }

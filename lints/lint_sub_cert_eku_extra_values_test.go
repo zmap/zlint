@@ -8,7 +8,7 @@ import (
 func TestEkuExtra(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageServClientEmailCodeSign.pem"
 	desEnum := Warn
-	out, _ := Lints["w_sub_cert_eku_extra_values"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_sub_cert_eku_extra_values"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestEkuExtra(t *testing.T) {
 func TestEkuNoExtra(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageServClientEmail.pem"
 	desEnum := Pass
-	out, _ := Lints["w_sub_cert_eku_extra_values"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_sub_cert_eku_extra_values"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

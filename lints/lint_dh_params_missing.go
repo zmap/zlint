@@ -4,6 +4,7 @@ package lints
 
 import (
 	"crypto/dsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -18,13 +19,16 @@ func (l *dsaParamsMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaParamsMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
-	params := c.PublicKey.(*dsa.PublicKey).Parameters
-	if params.P.BitLen() == 0 || params.Q.BitLen() == 0 || params.G.BitLen() == 0 {
-		return ResultStruct{Result: Error}, nil
-	} else {
-		return ResultStruct{Result: Pass}, nil
+func (l *dsaParamsMissing) Execute(c *x509.Certificate) ResultStruct {
+	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
+	if !ok {
+		return ResultStruct{Result: Fatal}
 	}
+	params := dsaKey.Parameters
+	if params.P.BitLen() == 0 || params.Q.BitLen() == 0 || params.G.BitLen() == 0 {
+		return ResultStruct{Result: Error}
+	}
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -33,6 +37,6 @@ func init() {
 		Description:   "DSA: Certificates MUST include all domain parameters",
 		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &dsaParamsMissing{},
+		Lint:          &dsaParamsMissing{},
 	})
 }

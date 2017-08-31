@@ -29,20 +29,20 @@ func (l *IANURIFQDNOrIP) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANURIFQDNOrIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANURIFQDNOrIP) Execute(c *x509.Certificate) ResultStruct {
 	for _, uri := range c.IANURIs {
 		if uri != "" {
 			parsedUrl, err := url.Parse(uri)
 			if err != nil {
-				return ResultStruct{Result: Error}, nil
+				return ResultStruct{Result: Error}
 			}
 			host := parsedUrl.Host
 			if !util.AuthIsFQDNOrIP(host) {
-				return ResultStruct{Result: Error}, nil
+				return ResultStruct{Result: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -51,6 +51,6 @@ func init() {
 		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &IANURIFQDNOrIP{},
+		Lint:          &IANURIFQDNOrIP{},
 	})
 }

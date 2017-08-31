@@ -18,16 +18,16 @@ func (l *checkKeyUsageCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *checkKeyUsageCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *checkKeyUsageCritical) Execute(c *x509.Certificate) ResultStruct {
 	// Add actual lint here
 	keyUsage := util.GetExtFromCert(c, util.KeyUsageOID)
 	if keyUsage == nil {
-		return ResultStruct{Result: NA}, nil
+		return ResultStruct{Result: NA}
 	}
 	if keyUsage.Critical {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Warn}
 	}
 }
 
@@ -37,6 +37,6 @@ func init() {
 		Description:   "The keyUsage extension SHOULD be critical",
 		Source:        "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &checkKeyUsageCritical{},
+		Lint:          &checkKeyUsageCritical{},
 	})
 }

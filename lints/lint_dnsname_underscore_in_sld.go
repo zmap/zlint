@@ -1,10 +1,11 @@
 package lints
 
 import (
+	"strings"
+
 	"github.com/weppos/publicsuffix-go/publicsuffix"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type DNSNameUnderscoreInSLD struct{}
@@ -29,26 +30,26 @@ func underscoreInSLD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameUnderscoreInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) ResultStruct {
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}
 		}
 		if underscoreFound {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		underscoreFound, err := underscoreInSLD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}
 		}
 		if underscoreFound {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -57,6 +58,6 @@ func init() {
 		Description:   "DNSName should not have underscore in SLD",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameUnderscoreInSLD{},
+		Lint:          &DNSNameUnderscoreInSLD{},
 	})
 }

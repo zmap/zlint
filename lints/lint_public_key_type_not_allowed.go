@@ -17,12 +17,12 @@ func (l *publicKeyAllowed) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *publicKeyAllowed) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *publicKeyAllowed) Execute(c *x509.Certificate) ResultStruct {
 	alg := c.PublicKeyAlgorithm
 	if alg != x509.UnknownPublicKeyAlgorithm {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -32,6 +32,6 @@ func init() {
 		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
 		Source:        "BRs: 6.1.5",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &publicKeyAllowed{},
+		Lint:          &publicKeyAllowed{},
 	})
 }

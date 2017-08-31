@@ -27,17 +27,17 @@ func (l *ExtCertPolicyExplicitTextNotNFC) CheckApplies(c *x509.Certificate) bool
 	return false
 }
 
-func (l *ExtCertPolicyExplicitTextNotNFC) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *ExtCertPolicyExplicitTextNotNFC) Execute(c *x509.Certificate) ResultStruct {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag == 12 || text.Tag == 30 {
 				if !norm.NFC.IsNormal(text.Bytes) {
-					return ResultStruct{Result: Warn}, nil
+					return ResultStruct{Result: Warn}
 				}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -46,6 +46,6 @@ func init() {
 		Description:   "When utf8string or bmpstring encoding is used for explicitText field in certificate policy, it SHOULD be normalized by NFC format",
 		Source:        "Fill this in...",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &ExtCertPolicyExplicitTextNotNFC{},
+		Lint:          &ExtCertPolicyExplicitTextNotNFC{},
 	})
 }

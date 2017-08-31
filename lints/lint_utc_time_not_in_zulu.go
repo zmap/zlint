@@ -42,7 +42,7 @@ func (l *utcTimeGMT) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Utc || l.date2Utc
 }
 
-func (l *utcTimeGMT) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *utcTimeGMT) Execute(c *x509.Certificate) ResultStruct {
 	var r ResultEnum
 	if l.date1Utc {
 		// UTC Tests on notBefore
@@ -52,7 +52,7 @@ func (l *utcTimeGMT) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		// UTC Tests on NotAfter
 		utcNotGmt(c.NotAfter, &r)
 	}
-	return ResultStruct{Result: r}, nil
+	return ResultStruct{Result: r}
 }
 
 func utcNotGmt(t time.Time, r *ResultEnum) {
@@ -74,6 +74,6 @@ func init() {
 		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Source:        "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &utcTimeGMT{},
+		Lint:          &utcTimeGMT{},
 	})
 }

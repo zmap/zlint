@@ -8,7 +8,7 @@ import (
 func TestSANDNSShort(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_san_dns_name_too_long"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_dns_name_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSANDNSShort(t *testing.T) {
 func TestSANDNSTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDNSTooLong.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_dns_name_too_long"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_dns_name_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

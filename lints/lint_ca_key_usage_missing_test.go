@@ -9,7 +9,7 @@ func TestCaKeyUsageMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageMissing.pem"
 	desEnum := Error
-	out, _ := Lints["e_ca_key_usage_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ca_key_usage_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestKeyUsagePresent(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ca_key_usage_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ca_key_usage_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

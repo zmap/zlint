@@ -21,12 +21,12 @@ func (l *subjectKeyIdCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectKeyIdentityOID)
 }
 
-func (l *subjectKeyIdCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectKeyIdCritical) Execute(c *x509.Certificate) ResultStruct {
 	ski := util.GetExtFromCert(c, util.SubjectKeyIdentityOID) //pointer to the extension
 	if ski.Critical {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else { //implies !ski.Critical
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "The subject key identifier extension MUST be non-critical",
 		Source:        "RFC 5280: 4.2.1.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectKeyIdCritical{},
+		Lint:          &subjectKeyIdCritical{},
 	})
 }

@@ -22,11 +22,11 @@ func (l *caDigSignNotSet) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caDigSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caDigSignNotSet) Execute(c *x509.Certificate) ResultStruct {
 	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Notice}, nil
+		return ResultStruct{Result: Notice}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Root and Subordinate CA Certificates that wish to use their private key for signing OCSP responses will not be able to without their digital signature set",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caDigSignNotSet{},
+		Lint:          &caDigSignNotSet{},
 	})
 }

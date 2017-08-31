@@ -15,12 +15,12 @@ func (l *rootCAKeyUsageMustBeCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c) && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *rootCAKeyUsageMustBeCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rootCAKeyUsageMustBeCritical) Execute(c *x509.Certificate) ResultStruct {
 	keyUsageExtension := util.GetExtFromCert(c, util.KeyUsageOID)
 	if keyUsageExtension.Critical {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -30,6 +30,6 @@ func init() {
 		Description:   "Root CA certificates MUST have Key Usage Extension marked critical",
 		Source:        "CAB: 7.1.2.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &rootCAKeyUsageMustBeCritical{},
+		Lint:          &rootCAKeyUsageMustBeCritical{},
 	})
 }

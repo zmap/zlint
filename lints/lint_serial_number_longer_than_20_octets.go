@@ -33,11 +33,11 @@ func (l *serialNumberTooLong) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *serialNumberTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *serialNumberTooLong) Execute(c *x509.Certificate) ResultStruct {
 	if c.SerialNumber.BitLen() > 160 { // 20 octets
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -47,6 +47,6 @@ func init() {
 		Description:   "Certificates must not have a serial number longer than 20 octets",
 		Source:        "RFC 5280: 4.1.2.2",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &serialNumberTooLong{},
+		Lint:          &serialNumberTooLong{},
 	})
 }

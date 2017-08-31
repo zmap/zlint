@@ -21,12 +21,12 @@ func (l *policyConstraintsCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyConstOID)
 }
 
-func (l *policyConstraintsCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *policyConstraintsCritical) Execute(c *x509.Certificate) ResultStruct {
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	if !pc.Critical {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Conforming CAs MUST mark the policy constraints extension as critical",
 		Source:        "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &policyConstraintsCritical{},
+		Lint:          &policyConstraintsCritical{},
 	})
 }

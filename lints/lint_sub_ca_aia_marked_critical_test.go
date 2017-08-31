@@ -7,7 +7,7 @@ import (
 func TestSubCAAIAMarkedCritical(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAAIAMarkedCritical.pem"
 	desEnum := Error
-	out, _ := Lints["e_sub_ca_aia_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_ca_aia_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -20,7 +20,7 @@ func TestSubCAAIAMarkedCritical(t *testing.T) {
 func TestSubCAAIANotMarkedCritical(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAAIANotMarkedCritical.pem"
 	desEnum := Pass
-	out, _ := Lints["e_sub_ca_aia_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_ca_aia_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

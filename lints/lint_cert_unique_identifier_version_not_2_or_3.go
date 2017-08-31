@@ -30,11 +30,11 @@ func (l *certUniqueIdVersion) CheckApplies(c *x509.Certificate) bool {
 	return c.IssuerUniqueId.Bytes != nil || c.SubjectUniqueId.Bytes != nil
 }
 
-func (l *certUniqueIdVersion) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *certUniqueIdVersion) Execute(c *x509.Certificate) ResultStruct {
 	if (c.Version) != 2 && (c.Version) != 3 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -44,6 +44,6 @@ func init() {
 		Description:   "Unique identifiers MUST only appear if the X.509 version is 2 or 3",
 		Source:        "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &certUniqueIdVersion{},
+		Lint:          &certUniqueIdVersion{},
 	})
 }

@@ -13,7 +13,7 @@ func TestSubCertProvinceProhibited(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subCertProvinceProhibited.pem"
 	desEnum := Error
-	out, _ := Lints["e_sub_cert_province_must_appear"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_province_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -27,7 +27,7 @@ func TestSubCertProvinceNotProhibited(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/subCertProvinceNotProhibited.pem"
 	desEnum := Pass
-	out, _ := Lints["e_sub_cert_province_must_appear"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_province_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

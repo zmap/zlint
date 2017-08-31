@@ -30,31 +30,29 @@ func (l *SANEmptyName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANEmptyName) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANEmptyName) Execute(c *x509.Certificate) ResultStruct {
 	value := util.GetExtFromCert(c, util.SubjectAlternateNameOID).Value
 	var seq asn1.RawValue
-	var err error
-	if _, err = asn1.Unmarshal(value, &seq); err != nil {
-		return ResultStruct{Result: NA}, err
+	if _, err := asn1.Unmarshal(value, &seq); err != nil {
+		return ResultStruct{Result: NA}
 	}
 	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
-		err = asn1.StructuralError{Msg: "bad SAN sequence"}
-		return ResultStruct{Result: Fatal}, err
+		return ResultStruct{Result: Fatal}
 	}
 
 	rest := seq.Bytes
 	for len(rest) > 0 {
-
 		var v asn1.RawValue
+		var err error
 		rest, err = asn1.Unmarshal(rest, &v)
 		if err != nil {
-			return ResultStruct{Result: NA}, err
+			return ResultStruct{Result: NA}
 		}
 		if len(v.Bytes) == 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -63,6 +61,6 @@ func init() {
 		Description:   "General name fields MUST NOT be empty in subjectAlternateNames",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &SANEmptyName{},
+		Lint:          &SANEmptyName{},
 	})
 }

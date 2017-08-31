@@ -6,76 +6,84 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
-// global
 var (
+	// Lints is a map of all known lints by name. Add a Lint to the map by calling
+	// RegisterLint.
 	Lints map[string]*Lint = make(map[string]*Lint)
 )
 
-const ZLintVersion = 3
-
-type ZLintResult struct {
-	ZLintVersion    int64                   `json:"version"`
-	Timestamp       int64                   `json:"timestamp"`
-	ZLint           map[string]ResultStruct `json:"lints"`
-	NoticesPresent  bool                    `json:"notices_present"`
-	WarningsPresent bool                    `json:"warnings_present"`
-	ErrorsPresent   bool                    `json:"errors_present"`
-	FatalsPresent   bool                    `json:"fatals_present"`
-}
-
-func (result *ZLintResult) Execute(cert *x509.Certificate) error {
-	result.ZLint = make(map[string]ResultStruct, len(Lints))
-	for name, l := range Lints {
-		res, _ := l.ExecuteTest(cert)
-		result.ZLint[name] = res
-		result.updateErrorStatePresent(res)
-	}
-	return nil
-}
-
-func (zlintResult *ZLintResult) updateErrorStatePresent(result ResultStruct) {
-	switch result.Result {
-	case Notice:
-		zlintResult.NoticesPresent = true
-	case Warn:
-		zlintResult.WarningsPresent = true
-	case Error:
-		zlintResult.ErrorsPresent = true
-	case Fatal:
-		zlintResult.FatalsPresent = true
-	}
-}
-
-type LintTest interface {
-	// runs once globally
+// LintInterface is implemented by each Lint.
+type LintInterface interface {
+	// Initialize runs once per-lint. It is called during RegisterLint().
 	Initialize() error
+
+	// CheckApplies runs once per certificate. It returns true if the Lint should
+	// run on the given certificate. If CheckApplies returns false, the Lint
+	// result is automatically set to NA without calling CheckEffective() or
+	// Run().
 	CheckApplies(c *x509.Certificate) bool
-	RunTest(c *x509.Certificate) (ResultStruct, error)
+
+	// Execute() is the body of the lint. It is called for every certificate in
+	// which CheckApplies() returns true.
+	Execute(c *x509.Certificate) ResultStruct
 }
 
+// A Lint struct represents a single lint, e.g.
+// "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
 type Lint struct {
-	Name          string
-	Description   string
-	Source        string
-	EffectiveDate time.Time
-	Test          LintTest
+
+	// Name is a lowercase underscore-separated string describing what a given
+	// Lint checks. If Name beings with "w", the lint MUST NOT return Error, only
+	// Warn. If Name beings with "e", the Lint MUST NOT return Warn, only Error.
+	Name string `json:"name,omitempty"`
+
+	// A human-readable description of what the Lint checks. Usually copied
+	// directly from the CA/B Baseline Requirements or RFC 5280.
+	Description string `json:"description,omitempty"`
+
+	// The source of the check, e.g. "BRs: 6.1.6" or "RFC 5280: 4.1.2.6".
+	Source string `json:"source,omitempty"`
+
+	// Lints automatically returns NE for all certificates where CheckApplies() is
+	// true but with NotBefore < EffectiveDate. This check is bypassed if
+	// EffectiveDate is zero.
+	EffectiveDate time.Time `json:"-"`
+
+	// The implementation of the lint logic.
+	Lint LintInterface `json:"-"`
 }
 
-func (l *Lint) ExecuteTest(cert *x509.Certificate) (ResultStruct, error) {
-	if !l.Test.CheckApplies(cert) {
-		return ResultStruct{Result: NA}, nil
-	} else if !l.EffectiveDate.IsZero() && l.EffectiveDate.After(cert.NotBefore) {
-		return ResultStruct{Result: NE}, nil
+// CheckEffective returns true if c was issued on or after the EffectiveDate. If
+// EffectiveDate is zero, CheckEffective always returns true.
+func (l *Lint) CheckEffective(c *x509.Certificate) bool {
+	if l.EffectiveDate.IsZero() || !l.EffectiveDate.After(c.NotBefore) {
+		return true
 	}
-
-	return l.Test.RunTest(cert)
+	return false
 }
 
+// Execute runs the lint against a certificate. See LintInterface for details
+// about the methods called. The ordering is as follows:
+//
+// CheckApplies()
+// CheckEffective()
+// Execute()
+func (l *Lint) Execute(cert *x509.Certificate) ResultStruct {
+	if !l.Lint.CheckApplies(cert) {
+		return ResultStruct{Result: NA}
+	} else if !l.CheckEffective(cert) {
+		return ResultStruct{Result: NE}
+	}
+	return l.Lint.Execute(cert)
+}
+
+// RegisterLint must be called once for each lint to be excuted. Duplicate lint
+// names are squashed. Normally, RegisterLint is called during init().
 func RegisterLint(l *Lint) {
 	if Lints == nil {
 		Lints = make(map[string]*Lint)
 	}
-	if err := l.Test.Initialize(); err != nil {
+	if err := l.Lint.Initialize(); err != nil {
 		panic("could not initialize lint: " + l.Name + ": " + err.Error())
 	}
 	Lints[l.Name] = l

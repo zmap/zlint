@@ -17,11 +17,11 @@ func (l *subCertValidTimeTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) ResultStruct {
 	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -30,6 +30,6 @@ func init() {
 		Description:   "CAs MUST NOT issue subscriber certificates with validity periods longer than 39 months regardless of circumstance.",
 		Source:        "BRs: 6.3.2",
 		EffectiveDate: util.SubCert39Month,
-		Test:          &subCertValidTimeTooLong{},
+		Lint:          &subCertValidTimeTooLong{},
 	})
 }

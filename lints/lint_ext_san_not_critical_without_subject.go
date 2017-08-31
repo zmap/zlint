@@ -29,11 +29,11 @@ func (l *extSANNotCritNoSubject) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *extSANNotCritNoSubject) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *extSANNotCritNoSubject) Execute(c *x509.Certificate) ResultStruct {
 	if e := util.GetExtFromCert(c, util.SubjectAlternateNameOID); !util.NotAllNameFieldsAreEmpty(&c.Subject) && !e.Critical {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -43,6 +43,6 @@ func init() {
 		Description:   "If there is an empty subject field, then the SAN extension MUST be critical",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &extSANNotCritNoSubject{},
+		Lint:          &extSANNotCritNoSubject{},
 	})
 }

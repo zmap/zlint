@@ -23,17 +23,17 @@ func includesNameConstraints(c *x509.Certificate) bool {
 	}
 }
 
-func (l *subCAEKUNameConstraints) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCAEKUNameConstraints) Execute(c *x509.Certificate) ResultStruct {
 	for _, eku := range c.ExtKeyUsage {
 		if eku == x509.ExtKeyUsageServerAuth {
 			if includesNameConstraints(c) {
-				return ResultStruct{Result: Pass}, nil
+				return ResultStruct{Result: Pass}
 			} else {
-				return ResultStruct{Result: Error}, nil
+				return ResultStruct{Result: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: NA}, nil
+	return ResultStruct{Result: NA}
 }
 
 func init() {
@@ -42,6 +42,6 @@ func init() {
 		Description:   "Subordinate CA: If includes id-kp-serverAuth EKU, then it MUST include Name constraints w/ constraints on DNSName, IPAddress, and DirectoryName",
 		Source:        "BRs: 7.1.5",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCAEKUNameConstraints{},
+		Lint:          &subCAEKUNameConstraints{},
 	})
 }

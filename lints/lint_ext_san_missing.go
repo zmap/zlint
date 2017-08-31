@@ -23,11 +23,11 @@ func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *SANMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANMissing) Execute(c *x509.Certificate) ResultStruct {
 	if util.IsExtInCert(c, util.SubjectAlternateNameOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -37,6 +37,6 @@ func init() {
 		Description:   "Subscriber certificates MUST contain the Subject Alternate Name extension",
 		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &SANMissing{},
+		Lint:          &SANMissing{},
 	})
 }

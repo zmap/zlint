@@ -8,7 +8,7 @@ import (
 func TestEkuBothPres(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageCodeSign.pem"
 	desEnum := Error
-	out, _ := Lints["e_sub_cert_eku_server_auth_client_auth_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_eku_server_auth_client_auth_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestEkuBothPres(t *testing.T) {
 func TestEkuNeitherPres(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageServClient.pem"
 	desEnum := Pass
-	out, _ := Lints["e_sub_cert_eku_server_auth_client_auth_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_eku_server_auth_client_auth_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

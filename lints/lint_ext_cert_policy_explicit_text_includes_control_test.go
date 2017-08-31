@@ -9,7 +9,7 @@ func TestExplicitTextUtfControlX10(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/utf8ControlX10.pem"
 	desEnum := Warn
-	out, _ := Lints["w_ext_cert_policy_explicit_text_includes_control"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestExplicitTextUtfControlX88(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/utf8ControlX88.pem"
 	desEnum := Warn
-	out, _ := Lints["w_ext_cert_policy_explicit_text_includes_control"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -37,7 +37,7 @@ func TestExplicitTextUtfNoControl(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/utf8NoControl.pem"
 	desEnum := Pass
-	out, _ := Lints["w_ext_cert_policy_explicit_text_includes_control"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

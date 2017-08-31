@@ -15,11 +15,11 @@ func (l *serialNumberLowEntropy) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *serialNumberLowEntropy) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) ResultStruct {
 	if len(c.SerialNumber.Bytes()) < 8 {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Warn}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -29,6 +29,6 @@ func init() {
 		Description:   "Effective September 30, 2016, CAs SHALL generate non‐sequential Certificate serial numbers greater than zero (0) containing at least 64 bits of output from a CSPRNG.",
 		Source:        "BRs: 7.1",
 		EffectiveDate: util.CABSerialNumberEntropyDate,
-		Test:          &serialNumberLowEntropy{},
+		Lint:          &serialNumberLowEntropy{},
 	})
 }

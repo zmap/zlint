@@ -23,11 +23,11 @@ func (l *subjectCommonNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectCommonNameMaxLength) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectCommonNameMaxLength) Execute(c *x509.Certificate) ResultStruct {
 	if len(c.Subject.CommonName) > 64 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -36,6 +36,6 @@ func init() {
 		Description:   "The commonName field of the subject MUST be less than 64 characters",
 		Source:        "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectCommonNameMaxLength{},
+		Lint:          &subjectCommonNameMaxLength{},
 	})
 }

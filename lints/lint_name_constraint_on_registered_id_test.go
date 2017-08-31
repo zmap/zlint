@@ -8,7 +8,7 @@ import (
 func TestNcNoRegId(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncMinZero.pem"
 	desEnum := Pass
-	out, _ := Lints["w_name_constraint_on_registered_id"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_name_constraint_on_registered_id"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestNcNoRegId(t *testing.T) {
 func TestNcRegId(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncOnRegId.pem"
 	desEnum := Warn
-	out, _ := Lints["w_name_constraint_on_registered_id"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_name_constraint_on_registered_id"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

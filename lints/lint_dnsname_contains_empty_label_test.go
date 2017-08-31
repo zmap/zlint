@@ -7,7 +7,7 @@ import (
 func TestDNSNameEmptyLabel(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameEmptyLabel.pem"
 	desEnum := Error
-	out, _ := Lints["e_dnsname_empty_label"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_empty_label"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -20,7 +20,7 @@ func TestDNSNameEmptyLabel(t *testing.T) {
 func TestDNSNameNotEmptyLabel(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNotEmptyLabel.pem"
 	desEnum := Pass
-	out, _ := Lints["e_dnsname_empty_label"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_empty_label"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -24,11 +24,11 @@ func (l *streetNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *streetNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *streetNoOrg) Execute(cert *x509.Certificate) ResultStruct {
 	if util.TypeInName(&cert.Subject, util.StreetAddressOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else { //if no Street address, Organization can be omitted
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "The 'Street Address' field MUST NOT be included without an organization name",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &streetNoOrg{},
+		Lint:          &streetNoOrg{},
 	})
 }

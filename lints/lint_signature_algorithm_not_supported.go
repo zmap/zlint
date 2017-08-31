@@ -15,12 +15,12 @@ func (l *signatureAlgorithmNotSupported) CheckApplies(c *x509.Certificate) bool 
 	return true
 }
 
-func (l *signatureAlgorithmNotSupported) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *signatureAlgorithmNotSupported) Execute(c *x509.Certificate) ResultStruct {
 
 	if c.SignatureAlgorithm == x509.SHA1WithRSA || c.SignatureAlgorithm == x509.SHA256WithRSA || c.SignatureAlgorithm == x509.SHA384WithRSA || c.SignatureAlgorithm == x509.SHA512WithRSA || c.SignatureAlgorithm == x509.DSAWithSHA1 || c.SignatureAlgorithm == x509.DSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA384 || c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -30,6 +30,6 @@ func init() {
 		Description:   "Certificates MUST meet the following requirements for algorithm type: SHA-1*, SHA-256, SHA-384, SHA-512",
 		Source:        "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
-		Test:          &signatureAlgorithmNotSupported{},
+		Lint:          &signatureAlgorithmNotSupported{},
 	})
 }

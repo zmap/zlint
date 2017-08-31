@@ -8,7 +8,7 @@ import (
 func TestIANEmptyName(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANEmptyName.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_ian_empty_name"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_ian_empty_name"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestIANEmptyName(t *testing.T) {
 func TestIANNotEmptyName(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSIA5String.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_ian_empty_name"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_ian_empty_name"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

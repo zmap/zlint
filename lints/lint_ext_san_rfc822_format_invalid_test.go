@@ -8,7 +8,7 @@ import (
 func TestSANInvalidEmail(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWithInvalidEmail.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSANInvalidEmail(t *testing.T) {
 func TestSANInvalidEmail2(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWithInvalidEmail2.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSANInvalidEmail2(t *testing.T) {
 func TestSANValidEmail(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWithValidEmail.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_san_rfc822_format_invalid"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

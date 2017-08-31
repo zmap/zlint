@@ -27,78 +27,78 @@ func (l *nameConstMin) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstMin) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstMin) Execute(c *x509.Certificate) ResultStruct {
 	for _, i := range c.PermittedDNSNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedDNSNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.PermittedEmailAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedEmailAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.PermittedIPAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedIPAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.PermittedDirectoryNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedDirectoryNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.PermittedEdiPartyNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedEdiPartyNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.PermittedRegisteredIDs {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedRegisteredIDs {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.PermittedX400Addresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, i := range c.ExcludedX400Addresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -107,6 +107,6 @@ func init() {
 		Description:   "Within the name constraints name forms, the minimum field is not used and therefore MUST be zero",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstMin{},
+		Lint:          &nameConstMin{},
 	})
 }

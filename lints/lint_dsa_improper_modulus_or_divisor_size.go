@@ -17,17 +17,17 @@ func (l *dsaImproperSize) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaImproperSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *dsaImproperSize) Execute(c *x509.Certificate) ResultStruct {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: NA}, nil
+		return ResultStruct{Result: NA}
 	}
 	L := dsaKey.Parameters.P.BitLen()
 	N := dsaKey.Parameters.Q.BitLen()
 	if (L == 2048 && N == 224) || (L == 2048 && N == 256) || (L == 3072 && N == 256) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
-	return ResultStruct{Result: Error}, nil
+	return ResultStruct{Result: Error}
 }
 
 func init() {
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Certificates MUST meet the following requirements for algorithm type and key size: L=2048, N=224,256 minimum DSA",
 		Source:        "BRs: 6.1.5",
 		EffectiveDate: util.ZeroDate,
-		Test:          &dsaImproperSize{},
+		Lint:          &dsaImproperSize{},
 	})
 }

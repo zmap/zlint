@@ -8,7 +8,7 @@ import (
 func TestSubjectLocalityNameLengthGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectLocalityNameLengthGood.pem"
 	desEnum := Pass
-	out, _ := Lints["e_subject_locality_name_max_length"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_locality_name_max_length"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubjectLocalityNameLengthGood(t *testing.T) {
 func TestSubjectLocalityNameLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectLocalityNameLong.pem"
 	desEnum := Error
-	out, _ := Lints["e_subject_locality_name_max_length"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_locality_name_max_length"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

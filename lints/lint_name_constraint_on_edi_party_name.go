@@ -29,11 +29,11 @@ func (l *nameConstraintOnEDI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintOnEDI) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintOnEDI) Execute(c *x509.Certificate) ResultStruct {
 	if c.PermittedEdiPartyNames != nil || c.ExcludedEdiPartyNames != nil {
-		return ResultStruct{Result: Warn}, nil
+		return ResultStruct{Result: Warn}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -42,6 +42,6 @@ func init() {
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the ediPartyName name form",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &nameConstraintOnEDI{},
+		Lint:          &nameConstraintOnEDI{},
 	})
 }

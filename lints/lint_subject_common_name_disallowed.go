@@ -25,18 +25,18 @@ func (l *BadCommonName) CheckApplies(c *x509.Certificate) bool {
 	return len(c.Subject.CommonName) != 0 && !util.IsCACert(c)
 }
 
-func (l *BadCommonName) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *BadCommonName) Execute(c *x509.Certificate) ResultStruct {
 	for _, dns := range c.DNSNames {
 		if dns == c.Subject.CommonName {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
 	for _, ip := range c.IPAddresses {
 		if ip.String() == c.Subject.CommonName {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
-	return ResultStruct{Result: Error}, nil
+	return ResultStruct{Result: Error}
 }
 
 func init() {
@@ -45,6 +45,6 @@ func init() {
 		Description:   "If present in a subscriber certificate, commonName MUST contain a single IP address or Fully‐Qualified Domain Name that is one of the values contained in the certificate’s subjectAltName extension",
 		Source:        "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &BadCommonName{},
+		Lint:          &BadCommonName{},
 	})
 }

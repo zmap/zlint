@@ -34,15 +34,15 @@ func (l *explicitTextUtf8) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextUtf8) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *explicitTextUtf8) Execute(c *x509.Certificate) ResultStruct {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag != 12 {
-				return ResultStruct{Result: Warn}, nil
+				return ResultStruct{Result: Warn}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -51,6 +51,6 @@ func init() {
 		Description:   "Compliant certificates should use the utf8string encoding for explicitText",
 		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &explicitTextUtf8{},
+		Lint:          &explicitTextUtf8{},
 	})
 }

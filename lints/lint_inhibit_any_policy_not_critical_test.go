@@ -8,7 +8,7 @@ import (
 func TestInhibitAnyPolicyNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/inhibitAnyNotCrit.pem"
 	desEnum := Error
-	out, _ := Lints["e_inhibit_any_policy_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_inhibit_any_policy_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestInhibitAnyPolicyNotCrit(t *testing.T) {
 func TestInhibitAnyPolicyCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/inhibitAnyCrit.pem"
 	desEnum := Pass
-	out, _ := Lints["e_inhibit_any_policy_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_inhibit_any_policy_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

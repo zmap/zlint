@@ -20,11 +20,11 @@ func (l *orgNoLocalOrProvince) CheckApplies(cert *x509.Certificate) bool {
 	return !util.IsCACert(cert)
 }
 
-func (l *orgNoLocalOrProvince) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *orgNoLocalOrProvince) Execute(cert *x509.Certificate) ResultStruct {
 	if !util.TypeInName(&cert.Subject, util.LocalityNameOID) && !util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) && util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else { //if no organization, local/province can be nil, only one of the two is required if org is preasent
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -34,6 +34,6 @@ func init() {
 		Description:   "If organization is included in a subscriber certificate, either stateOrProvince or locality MUST be included",
 		Source:        "BRs: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &orgNoLocalOrProvince{},
+		Lint:          &orgNoLocalOrProvince{},
 	})
 }

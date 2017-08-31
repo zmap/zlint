@@ -8,7 +8,7 @@ import (
 func TestSANURIRelative(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIRelative.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_uri_relative"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSANURIRelative(t *testing.T) {
 func TestSANURIAbsolute(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIAbsolute.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_san_uri_relative"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_uri_relative"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

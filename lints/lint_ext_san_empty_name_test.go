@@ -8,7 +8,7 @@ import (
 func TestSANEmptyName(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANEmptyName.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_empty_name"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_empty_name"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSANEmptyName(t *testing.T) {
 func TestSANNotEmptyName(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_san_empty_name"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_empty_name"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

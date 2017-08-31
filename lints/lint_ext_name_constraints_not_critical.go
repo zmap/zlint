@@ -28,12 +28,12 @@ func (l *nameConstraintCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintCrit) Execute(c *x509.Certificate) ResultStruct {
 	e := util.GetExtFromCert(c, util.NameConstOID)
 	if e.Critical {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -43,6 +43,6 @@ func init() {
 		Description:   "If it is included, conforming CAs MUST mark the name constrains extension as critical",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstraintCrit{},
+		Lint:          &nameConstraintCrit{},
 	})
 }

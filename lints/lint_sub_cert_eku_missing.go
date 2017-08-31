@@ -22,12 +22,12 @@ func (l *subExtKeyUsage) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subExtKeyUsage) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subExtKeyUsage) Execute(c *x509.Certificate) ResultStruct {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.EkuSynOid) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -37,6 +37,6 @@ func init() {
 		Description:   "Subscriber certificates MUST have the extended key usage extension present",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subExtKeyUsage{},
+		Lint:          &subExtKeyUsage{},
 	})
 }

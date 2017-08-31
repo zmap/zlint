@@ -17,11 +17,11 @@ func (l *evOrgMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evOrgMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *evOrgMissing) Execute(c *x509.Certificate) ResultStruct {
 	if util.TypeInName(&c.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -31,6 +31,6 @@ func init() {
 		Description:   "EV certificates must include organizationName in subject",
 		Source:        "CAB 7.1.6.1",
 		EffectiveDate: util.ZeroDate,
-		Test:          &evOrgMissing{},
+		Lint:          &evOrgMissing{},
 	})
 }

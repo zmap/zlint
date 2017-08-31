@@ -18,13 +18,13 @@ func (l *brIANBareWildcard) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *brIANBareWildcard) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *brIANBareWildcard) Execute(c *x509.Certificate) ResultStruct {
 	for _, dns := range c.IANDNSNames {
 		if strings.HasSuffix(dns, "*") {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -33,6 +33,6 @@ func init() {
 		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &brIANBareWildcard{},
+		Lint:          &brIANBareWildcard{},
 	})
 }

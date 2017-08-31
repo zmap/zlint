@@ -8,7 +8,7 @@ import (
 func TestSANDirNamePresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDirectoryNameBeginning.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_directory_name_present"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_directory_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSANDirNamePresent2(t *testing.T) {
 func TestSANDirNamePresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDirectoryNameEnd.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_san_directory_name_present"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_directory_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -34,7 +34,7 @@ func TestSANDirNamePresent(t *testing.T) {
 func TestSANDirNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_san_directory_name_present"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_san_directory_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

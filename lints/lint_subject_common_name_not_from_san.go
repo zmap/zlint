@@ -23,22 +23,22 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 	return c.Subject.CommonName != "" && !util.IsCACert(c)
 }
 
-func (l *subjectCommonNameNotFromSAN) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) ResultStruct {
 	cn := c.Subject.CommonName
 
 	for _, dn := range c.DNSNames {
 		if cn == dn {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
 
 	for _, ip := range c.IPAddresses {
 		if cn == ip.String() {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
 
-	return ResultStruct{Result: Error}, nil
+	return ResultStruct{Result: Error}
 }
 
 func init() {
@@ -47,6 +47,6 @@ func init() {
 		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subjectCommonNameNotFromSAN{},
+		Lint:          &subjectCommonNameNotFromSAN{},
 	})
 }

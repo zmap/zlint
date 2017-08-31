@@ -21,12 +21,12 @@ func (l *rootCAContainsEKU) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAContainsEKU) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rootCAContainsEKU) Execute(c *x509.Certificate) ResultStruct {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.EkuSynOid) {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Root CA Certificate: extendedKeyUsage MUST NOT be present.t",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &rootCAContainsEKU{},
+		Lint:          &rootCAContainsEKU{},
 	})
 }

@@ -18,14 +18,14 @@ func (l *CertPolicyRequiresPersonalName) CheckApplies(cert *x509.Certificate) bo
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *CertPolicyRequiresPersonalName) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) ResultStruct {
 	var out ResultStruct
 	if util.TypeInName(&cert.Subject, util.OrganizationNameOID) || (util.TypeInName(&cert.Subject, util.GivenNameOID) && util.TypeInName(&cert.Subject, util.SurnameOID)) {
 		out.Result = Pass
 	} else {
 		out.Result = Error
 	}
-	return out, nil
+	return out
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.3 is included, either organizationName or givenName and surname MUST be included in subject",
 		Source:        "BRs: 7.1.6.1",
 		EffectiveDate: util.CABV131Date,
-		Test:          &CertPolicyRequiresPersonalName{},
+		Lint:          &CertPolicyRequiresPersonalName{},
 	})
 }

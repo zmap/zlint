@@ -35,18 +35,18 @@ func (l *policyConstraintsContents) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *policyConstraintsContents) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *policyConstraintsContents) Execute(c *x509.Certificate) ResultStruct {
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	var seq asn1.RawValue
 	_, err := asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -55,6 +55,6 @@ func init() {
 		Description:   "Conforming CAs MUST NOT issue certificates where policy constraints is an empty sequence. That is, either the inhibitPolicyMapping field or the requireExplicityPolicy field MUST be present",
 		Source:        "RFC 5280: 4.2.1.11",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &policyConstraintsContents{},
+		Lint:          &policyConstraintsContents{},
 	})
 }

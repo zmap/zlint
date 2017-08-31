@@ -26,20 +26,20 @@ func labelLengthTooLong(domain string) bool {
 	return false
 }
 
-func (l *DNSNameLabelLengthTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) ResultStruct {
 	if c.Subject.CommonName != "" {
 		labelTooLong := labelLengthTooLong(c.Subject.CommonName)
 		if labelTooLong {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		labelTooLong := labelLengthTooLong(dns)
 		if labelTooLong {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -48,6 +48,6 @@ func init() {
 		Description:   "DNSName labels MUST be less than or equal to 63 characters",
 		Source:        "RFC 1035",
 		EffectiveDate: util.RFC1035Date,
-		Test:          &DNSNameLabelLengthTooLong{},
+		Lint:          &DNSNameLabelLengthTooLong{},
 	})
 }

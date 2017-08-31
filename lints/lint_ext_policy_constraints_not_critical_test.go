@@ -8,7 +8,7 @@ import (
 func TestPolicyConstraintsNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyConstNotCritical.pem"
 	desEnum := Error
-	out, _ := Lints["e_ext_policy_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_policy_constraints_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestPolicyConstraintsNotCrit(t *testing.T) {
 func TestPolicyConstraintsCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyConstGoodBoth.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ext_policy_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ext_policy_constraints_not_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

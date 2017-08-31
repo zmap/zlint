@@ -8,7 +8,7 @@ import (
 func TestNcNoX400(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncMinZero.pem"
 	desEnum := Pass
-	out, _ := Lints["w_name_constraint_on_x400"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_name_constraint_on_x400"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestNcNoX400(t *testing.T) {
 func TestNcX400(t *testing.T) {
 	inputPath := "../testlint/testCerts/ncOnX400.pem"
 	desEnum := Warn
-	out, _ := Lints["w_name_constraint_on_x400"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_name_constraint_on_x400"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

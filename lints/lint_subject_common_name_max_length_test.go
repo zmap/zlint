@@ -8,7 +8,7 @@ import (
 func TestSubjectCommonNameLengthGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectCommonNameLengthGood.pem"
 	desEnum := Pass
-	out, _ := Lints["e_subject_common_name_max_length"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_common_name_max_length"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubjectCommonNameLengthGood(t *testing.T) {
 func TestSubjectCommonNameLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectCommonNameLong.pem"
 	desEnum := Error
-	out, _ := Lints["e_subject_common_name_max_length"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_common_name_max_length"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

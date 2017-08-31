@@ -20,15 +20,15 @@ func (l *ExtCrlDistributionMarkedCritical) CheckApplies(cert *x509.Certificate) 
 	return util.IsExtInCert(cert, util.CrlDistOID)
 }
 
-func (l *ExtCrlDistributionMarkedCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *ExtCrlDistributionMarkedCritical) Execute(cert *x509.Certificate) ResultStruct {
 	if e := util.GetExtFromCert(cert, util.CrlDistOID); e != nil {
 		if e.Critical == false {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		} else {
-			return ResultStruct{Result: Warn}, nil
+			return ResultStruct{Result: Warn}
 		}
 	}
-	return ResultStruct{Result: NA}, nil
+	return ResultStruct{Result: NA}
 }
 
 func init() {
@@ -37,6 +37,6 @@ func init() {
 		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical",
 		Source:        "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtCrlDistributionMarkedCritical{},
+		Lint:          &ExtCrlDistributionMarkedCritical{},
 	})
 }

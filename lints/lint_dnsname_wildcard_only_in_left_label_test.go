@@ -9,7 +9,7 @@ func TestDNSNameWildcardOnlyInLeftLabel(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/dnsNameWildcardOnlyInLeftLabel.pem"
 	desEnum := Pass
-	out, _ := Lints["e_dnsname_wildcard_only_in_left_label"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_wildcard_only_in_left_label"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestDNSNameWildcardNotOnlyInLeftLabel(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/dnsNameWildcardNotOnlyInLeftLabel.pem"
 	desEnum := Error
-	out, _ := Lints["e_dnsname_wildcard_only_in_left_label"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_wildcard_only_in_left_label"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

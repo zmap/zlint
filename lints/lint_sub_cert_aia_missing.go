@@ -25,11 +25,11 @@ func (l *subCertAiaMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertAiaMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertAiaMissing) Execute(c *x509.Certificate) ResultStruct {
 	if util.IsExtInCert(c, util.AiaOID) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -39,6 +39,6 @@ func init() {
 		Description:   "Subscriber Certiifcate: authorityInformationAccess MUST be present, with the exception of stapling.",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertAiaMissing{},
+		Lint:          &subCertAiaMissing{},
 	})
 }

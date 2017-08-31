@@ -7,7 +7,7 @@ import (
 func TestDNSNameValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameValidTLD.pem"
 	desEnum := Pass
-	out, _ := Lints["e_dnsname_not_valid_tld"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -20,7 +20,7 @@ func TestDNSNameValidTLD(t *testing.T) {
 func TestDNSNameNotValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNotValidTLD.pem"
 	desEnum := Error
-	out, _ := Lints["e_dnsname_not_valid_tld"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

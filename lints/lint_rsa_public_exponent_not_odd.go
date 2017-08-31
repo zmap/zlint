@@ -23,12 +23,12 @@ func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsKeyExpOdd) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rsaParsedTestsKeyExpOdd) Execute(c *x509.Certificate) ResultStruct {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E%2 == 1 {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "RSA: Value of public exponent is an odd number equal to 3 or more.",
 		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsKeyExpOdd{},
+		Lint:          &rsaParsedTestsKeyExpOdd{},
 	})
 }

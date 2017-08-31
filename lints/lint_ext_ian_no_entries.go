@@ -28,12 +28,12 @@ func (l *IANNoEntry) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANNoEntry) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANNoEntry) Execute(c *x509.Certificate) ResultStruct {
 	ian := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if (ian.Value)[1] == 0 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -43,6 +43,6 @@ func init() {
 		Description:   "If present, the IAN extension must contain at least one entry",
 		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &IANNoEntry{},
+		Lint:          &IANNoEntry{},
 	})
 }

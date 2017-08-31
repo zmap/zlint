@@ -8,7 +8,7 @@ import (
 func TestSubjectNotInformational(t *testing.T) {
 	inputPath := "../testlint/testCerts/illegalChar.pem"
 	desEnum := Error
-	out, _ := Lints["e_subject_contains_noninformational_value"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_contains_noninformational_value"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubjectNotInformational(t *testing.T) {
 func TestSubjectInformational(t *testing.T) {
 	inputPath := "../testlint/testCerts/legalChar.pem"
 	desEnum := Pass
-	out, _ := Lints["e_subject_contains_noninformational_value"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_subject_contains_noninformational_value"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

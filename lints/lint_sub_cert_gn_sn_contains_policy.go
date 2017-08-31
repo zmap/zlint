@@ -16,13 +16,13 @@ func (l *subCertSubjectGnOrSnContainsPolicy) CheckApplies(c *x509.Certificate) b
 	return util.IsSubscriberCert(c) && (len(c.Subject.GivenName) != 0 || len(c.Subject.Surname) != 0)
 }
 
-func (l *subCertSubjectGnOrSnContainsPolicy) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertSubjectGnOrSnContainsPolicy) Execute(c *x509.Certificate) ResultStruct {
 	for _, policyIds := range c.PolicyIdentifiers {
 		if policyIds.Equal(util.BRIndividualValidatedOID) {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
-	return ResultStruct{Result: Error}, nil
+	return ResultStruct{Result: Error}
 }
 
 func init() {
@@ -31,6 +31,6 @@ func init() {
 		Description:   "Subscriber Certificate: A certificate containing a subject:givenName field or subject:surname field MUST contain the (2.23.140.1.2.3) certPolicy OID.",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertSubjectGnOrSnContainsPolicy{},
+		Lint:          &subCertSubjectGnOrSnContainsPolicy{},
 	})
 }

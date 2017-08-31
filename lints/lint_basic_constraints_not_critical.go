@@ -29,16 +29,16 @@ func (l *basicConstCrit) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *basicConstCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *basicConstCrit) Execute(c *x509.Certificate) ResultStruct {
 	// Add actual lint here
 	if e := util.GetExtFromCert(c, util.BasicConstOID); e != nil {
 		if e.Critical {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		} else {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	} else {
-		return ResultStruct{Result: NA}, nil
+		return ResultStruct{Result: NA}
 	}
 }
 
@@ -48,6 +48,6 @@ func init() {
 		Description:   "basicConstraints MUST appear as a critical extension",
 		Source:        "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &basicConstCrit{},
+		Lint:          &basicConstCrit{},
 	})
 }

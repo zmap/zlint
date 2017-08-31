@@ -18,14 +18,14 @@ func (l *CertPolicyRequiresOrg) CheckApplies(cert *x509.Certificate) bool {
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BROrganizationValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *CertPolicyRequiresOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *CertPolicyRequiresOrg) Execute(cert *x509.Certificate) ResultStruct {
 	var out ResultStruct
 	if util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
 		out.Result = Pass
 	} else {
 		out.Result = Error
 	}
-	return out, nil
+	return out
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, organizationName MUST be included in subject",
 		Source:        "BRs: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &CertPolicyRequiresOrg{},
+		Lint:          &CertPolicyRequiresOrg{},
 	})
 }

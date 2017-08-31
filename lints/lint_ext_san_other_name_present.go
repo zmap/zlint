@@ -27,11 +27,11 @@ func (l *SANOtherName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANOtherName) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANOtherName) Execute(c *x509.Certificate) ResultStruct {
 	if c.OtherNames != nil {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -40,6 +40,6 @@ func init() {
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
 		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &SANOtherName{},
+		Lint:          &SANOtherName{},
 	})
 }

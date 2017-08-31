@@ -17,15 +17,15 @@ func (l *SANDNSNull) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANDNSNull) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANDNSNull) Execute(c *x509.Certificate) ResultStruct {
 	for _, dns := range c.DNSNames {
 		for i := 0; i < len(dns); i++ {
 			if dns[i] == 0 {
-				return ResultStruct{Result: Error}, nil
+				return ResultStruct{Result: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "DNSName MUST NOT include a null character",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SANDNSNull{},
+		Lint:          &SANDNSNull{},
 	})
 }

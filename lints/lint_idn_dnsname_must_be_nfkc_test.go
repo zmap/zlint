@@ -7,7 +7,7 @@ import (
 func TestIDNDnsNameNotNFKC(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNamesNotNFKC.pem"
 	desEnum := Error
-	out, _ := Lints["e_international_dns_name_not_nfkc"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_international_dns_name_not_nfkc"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -20,7 +20,7 @@ func TestIDNDnsNameNotNFKC(t *testing.T) {
 func TestIDNDnsNameIsNFKC(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNamesNFKC.pem"
 	desEnum := Pass
-	out, _ := Lints["e_international_dns_name_not_nfkc"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_international_dns_name_not_nfkc"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

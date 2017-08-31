@@ -15,14 +15,14 @@ func (l *subCertStreetAddressShouldNotExist) CheckApplies(c *x509.Certificate) b
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertStreetAddressShouldNotExist) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertStreetAddressShouldNotExist) Execute(c *x509.Certificate) ResultStruct {
 	//If all fields are absent
 	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.StreetAddress) > 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -31,6 +31,6 @@ func init() {
 		Description:   "Subscriber Certificate: subject:streetAddress MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertStreetAddressShouldNotExist{},
+		Lint:          &subCertStreetAddressShouldNotExist{},
 	})
 }

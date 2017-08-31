@@ -20,12 +20,12 @@ func (l *InvalidCertificateVersion) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *InvalidCertificateVersion) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *InvalidCertificateVersion) Execute(cert *x509.Certificate) ResultStruct {
 	if cert.Version != 3 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 	//else
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "Certificates MUST be of type X.590 v3",
 		Source:        "BRs: 7.1.1",
 		EffectiveDate: util.CABV130Date,
-		Test:          &InvalidCertificateVersion{},
+		Lint:          &InvalidCertificateVersion{},
 	})
 }

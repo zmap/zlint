@@ -15,12 +15,12 @@ func (l *subCertAiaMarkedCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.AiaOID)
 }
 
-func (l *subCertAiaMarkedCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertAiaMarkedCritical) Execute(c *x509.Certificate) ResultStruct {
 	e := util.GetExtFromCert(c, util.AiaOID)
 	if e.Critical {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
 }
 
@@ -30,6 +30,6 @@ func init() {
 		Description:   "Subscriber Certificate: authorityInformationAccess MUST NOT be marked critical",
 		Source:        "CAB: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertAiaMarkedCritical{},
+		Lint:          &subCertAiaMarkedCritical{},
 	})
 }

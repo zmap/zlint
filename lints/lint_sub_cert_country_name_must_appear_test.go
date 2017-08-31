@@ -8,7 +8,7 @@ import (
 func TestSubCertCountryNameMustAppear(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertCountryNameMustAppear.pem"
 	desEnum := Error
-	out, _ := Lints["e_sub_cert_country_name_must_appear"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_sub_cert_country_name_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

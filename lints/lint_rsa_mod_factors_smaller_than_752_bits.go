@@ -23,12 +23,12 @@ func (l *rsaModSmallFactor) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaModSmallFactor) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rsaModSmallFactor) Execute(c *x509.Certificate) ResultStruct {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if util.PrimeNoSmallerThan752(key.N) {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	}
-	return ResultStruct{Result: Warn}, nil
+	return ResultStruct{Result: Warn}
 }
 
 func init() {
@@ -37,6 +37,6 @@ func init() {
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: no factors smaller than 752",
 		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaModSmallFactor{},
+		Lint:          &rsaModSmallFactor{},
 	})
 }

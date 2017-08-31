@@ -26,18 +26,18 @@ func domainHasEmptyLabel(domain string) bool {
 	return false
 }
 
-func (l *DNSNameEmptyLabel) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) ResultStruct {
 	if c.Subject.CommonName != "" {
 		if domainHasEmptyLabel(c.Subject.CommonName) {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		if domainHasEmptyLabel(dns) {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -46,6 +46,6 @@ func init() {
 		Description:   "DNSNames should not have an empty label.",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameEmptyLabel{},
+		Lint:          &DNSNameEmptyLabel{},
 	})
 }

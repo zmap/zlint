@@ -23,13 +23,13 @@ func (l *subCACRLDistNoUrl) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCACRLDistNoUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCACRLDistNoUrl) Execute(c *x509.Certificate) ResultStruct {
 	for _, s := range c.CRLDistributionPoints {
 		if strings.HasPrefix(s, "http://") {
-			return ResultStruct{Result: Pass}, nil
+			return ResultStruct{Result: Pass}
 		}
 	}
-	return ResultStruct{Result: Error}, nil
+	return ResultStruct{Result: Error}
 }
 
 func init() {
@@ -38,6 +38,6 @@ func init() {
 		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST contain the HTTP URL of the CA's CRL service.",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACRLDistNoUrl{},
+		Lint:          &subCACRLDistNoUrl{},
 	})
 }

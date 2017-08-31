@@ -32,13 +32,13 @@ func (l *SANIsSpaceDNS) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANIsSpaceDNS) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANIsSpaceDNS) Execute(c *x509.Certificate) ResultStruct {
 	for _, dns := range c.DNSNames {
 		if dns == " " {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -47,6 +47,6 @@ func init() {
 		Description:   "The dNSName ` ` MUST NOT be used",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &SANIsSpaceDNS{},
+		Lint:          &SANIsSpaceDNS{},
 	})
 }

@@ -15,13 +15,13 @@ func (l *subCertCountryNameMustAppear) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertCountryNameMustAppear) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertCountryNameMustAppear) Execute(c *x509.Certificate) ResultStruct {
 	if len(c.Subject.Organization) > 0 || len(c.Subject.GivenName) > 0 || len(c.Subject.Surname) > 0 {
 		if len(c.Subject.Country) == 0 {
-			return ResultStruct{Result: Error}, nil
+			return ResultStruct{Result: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -30,6 +30,6 @@ func init() {
 		Description:   "Subscriber Certificate: subject:countryName MUST appear if the subject:organizationName field, subject:givenName field, or subject:surname fields are present.",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertCountryNameMustAppear{},
+		Lint:          &subCertCountryNameMustAppear{},
 	})
 }

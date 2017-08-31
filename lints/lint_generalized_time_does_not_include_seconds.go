@@ -37,20 +37,20 @@ func (l *generalizedNoSeconds) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedNoSeconds) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *generalizedNoSeconds) Execute(c *x509.Certificate) ResultStruct {
 	r := Pass
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {
 		// UTC Tests on notBefore
 		checkSeconds(&r, date1)
 		if r == Error {
-			return ResultStruct{Result: r}, nil
+			return ResultStruct{Result: r}
 		}
 	}
 	if l.date2Gen {
 		checkSeconds(&r, date2)
 	}
-	return ResultStruct{Result: r}, nil
+	return ResultStruct{Result: r}
 }
 
 func checkSeconds(r *ResultEnum, t asn1.RawValue) {
@@ -75,6 +75,6 @@ func init() {
 		Description:   "Generalized time values MUST include seconds",
 		Source:        "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &generalizedNoSeconds{},
+		Lint:          &generalizedNoSeconds{},
 	})
 }

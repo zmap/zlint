@@ -9,7 +9,7 @@ func TestCaCommonNameMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caCommonNameMissing.pem"
 	desEnum := Error
-	out, _ := Lints["e_ca_common_name_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ca_common_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -23,7 +23,7 @@ func TestCaCommonNameNotMissing(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caCommonNameNotMissing.pem"
 	desEnum := Pass
-	out, _ := Lints["e_ca_common_name_missing"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_ca_common_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

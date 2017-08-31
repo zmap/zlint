@@ -8,7 +8,7 @@ import (
 func TestSubCaPolicyCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWCertPolicyCrit.pem"
 	desEnum := Warn
-	out, _ := Lints["w_sub_ca_certificate_policies_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_sub_ca_certificate_policies_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCaPolicyCrit(t *testing.T) {
 func TestSubCaPolicyNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWCertPolicyNoCrit.pem"
 	desEnum := Pass
-	out, _ := Lints["w_sub_ca_certificate_policies_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["w_sub_ca_certificate_policies_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

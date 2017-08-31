@@ -22,11 +22,11 @@ func (l *caKeyCertSignNotSet) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caKeyCertSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caKeyCertSignNotSet) Execute(c *x509.Certificate) ResultStruct {
 	if c.KeyUsage&x509.KeyUsageCertSign != 0 {
-		return ResultStruct{Result: Pass}, nil
+		return ResultStruct{Result: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Root CA Certificate: Bit positions for keyCertSign and cRLSign MUST be set.",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caKeyCertSignNotSet{},
+		Lint:          &caKeyCertSignNotSet{},
 	})
 }

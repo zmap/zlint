@@ -19,12 +19,12 @@ func (l *rsaExpNegative) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaExpNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rsaExpNegative) Execute(c *x509.Certificate) ResultStruct {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E < 0 {
-		return ResultStruct{Result: Error}, nil
+		return ResultStruct{Result: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return ResultStruct{Result: Pass}
 }
 
 func init() {
@@ -33,6 +33,6 @@ func init() {
 		Description:   "RSA public key exponent MUST be positive",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &rsaExpNegative{},
+		Lint:          &rsaExpNegative{},
 	})
 }

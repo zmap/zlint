@@ -8,7 +8,7 @@ import (
 func TestSubCAEKUValidFields(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAEKUValidFields.pem"
 	desEnum := Pass
-	out, _ := Lints["n_sub_ca_eku_not_technically_constrained"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["n_sub_ca_eku_not_technically_constrained"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestSubCAEKUValidFields(t *testing.T) {
 func TestSubCAEKUNotValidFields(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAEKUNotValidFields.pem"
 	desEnum := Notice
-	out, _ := Lints["n_sub_ca_eku_not_technically_constrained"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["n_sub_ca_eku_not_technically_constrained"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/

@@ -8,7 +8,7 @@ import (
 func TestGenralizedNotZulu(t *testing.T) {
 	inputPath := "../testlint/testCerts/generalizedNotZulu.pem"
 	desEnum := Error
-	out, _ := Lints["e_generalized_time_not_in_zulu"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_generalized_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
@@ -21,7 +21,7 @@ func TestGenralizedNotZulu(t *testing.T) {
 func TestGenralizedZulu(t *testing.T) {
 	inputPath := "../testlint/testCerts/generalizedHasSeconds.pem"
 	desEnum := Pass
-	out, _ := Lints["e_generalized_time_not_in_zulu"].ExecuteTest(ReadCertificate(inputPath))
+	out := Lints["e_generalized_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
 	if out.Result != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
