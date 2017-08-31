@@ -23,7 +23,7 @@ type LintInterface interface {
 	// Run().
 	CheckApplies(c *x509.Certificate) bool
 
-	// Execute() is the body of the lint. It is called for every certificate in
+	// Execute() is the body of the lint. It is called for every certificate for
 	// which CheckApplies() returns true.
 	Execute(c *x509.Certificate) ResultStruct
 }
