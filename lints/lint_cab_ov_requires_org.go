@@ -34,7 +34,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cab_ov_requires_org",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, organizationName MUST be included in subject",
-		Provenance:    "BRs: 7.1.6.1",
+		Source:        "BRs: 7.1.6.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &CertPolicyRequiresOrg{},
 	})

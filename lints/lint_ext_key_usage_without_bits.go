@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_key_usage_without_bits",
 		Description:   "When the keyUsage extension is included, at least one bit MUST be set to 1",
-		Provenance:    "RFC 5280: 4.2.1.3",
+		Source:        "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &keyUsageBitsSet{},
 	})

@@ -39,7 +39,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_aia_missing",
 		Description:   "Subordinate CA Certificate: authorityInformationAccess MUST be present, with the exception of stapling.",
-		Provenance:    "BRs: 7.1.2.2",
+		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caAiaMissing{},
 	})

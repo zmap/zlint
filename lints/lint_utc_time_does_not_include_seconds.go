@@ -60,7 +60,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_utc_time_does_not_include_seconds",
 		Description:   "UTCTime values MUST include seconds",
-		Provenance:    "RFC 5280: 4.1.2.5.1",
+		Source:        "RFC 5280: 4.1.2.5.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &utcNoSecond{},
 	})

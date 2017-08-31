@@ -48,7 +48,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_label_too_long",
 		Description:   "DNSName labels MUST be less than or equal to 63 characters",
-		Provenance:    "RFC 1035",
+		Source:        "RFC 1035",
 		EffectiveDate: util.RFC1035Date,
 		Test:          &DNSNameLabelLengthTooLong{},
 	})

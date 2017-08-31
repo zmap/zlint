@@ -46,7 +46,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_empty_label",
 		Description:   "DNSNames should not have an empty label.",
-		Provenance:    "RFC 5280",
+		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &DNSNameEmptyLabel{},
 	})

@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_key_cert_sign_not_set",
 		Description:   "Root CA Certificate: Bit positions for keyCertSign and cRLSign MUST be set.",
-		Provenance:    "BRs: 7.1.2.1",
+		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caKeyCertSignNotSet{},
 	})

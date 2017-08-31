@@ -32,7 +32,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_dns_name_too_long",
 		Description:   "DNSName must be less than or equal to 253 bytes",
-		Provenance:    "aswlabs certlint",
+		Source:        "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
 		Test:          &SANDNSTooLong{},
 	})

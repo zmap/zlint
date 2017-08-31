@@ -2,7 +2,7 @@ package lints
 
 import "testing"
 
-func TestAllLintsHaveNameDescriptionProvenance(t *testing.T) {
+func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 	for name, lint := range Lints {
 		if lint.Name == "" {
 			t.Errorf("lint %s has empty name", name)
@@ -10,7 +10,7 @@ func TestAllLintsHaveNameDescriptionProvenance(t *testing.T) {
 		if lint.Description == "" {
 			t.Errorf("lint %s has empty description", name)
 		}
-		if lint.Provenance == "" {
+		if lint.Source == "" {
 			t.Errorf("lint %s has empty provenance", name)
 		}
 	}
