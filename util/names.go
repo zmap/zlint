@@ -26,7 +26,7 @@ var nameAttributeLeaves = map[int]empty{
 	44: {}, // id-at-generationQualifier	AttributeType ::= { id-at 44 }
 	46: {}, // id-at-dnQualifier	AttributeType ::= { id-at 46 }
 
-	// Name attributes not present in RFC 5280, but appeared in golang crypto/x509/pkix.go
+	// Name attributes not present in RFC 5280, but appeared in Go's crypto/x509/pkix.go
 	9:  {}, // id-at-streetName	AttributeType ::= { id-at 9 }
 	17: {}, // id-at-postalCodeName	AttributeType ::= { id-at 17 }
 }
