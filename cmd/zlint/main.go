@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -25,8 +26,11 @@ func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Use this flag to print supported lints in JSON format, one per line")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage: %s [flags] file...\n", os.Args[0])
+		flag.PrintDefaults()
+	}
 	flag.Parse()
-
 	log.SetLevel(log.InfoLevel)
 }
 
