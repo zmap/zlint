@@ -50,11 +50,10 @@ func GetTimes(cert *x509.Certificate) (asn1.RawValue, asn1.RawValue) {
 	rest, err = asn1.Unmarshal(rest, &outSeq)
 	rest, err = asn1.Unmarshal(rest, &outSeq)
 	rest, err = asn1.Unmarshal(rest, &outSeq)
-	//Finally at the validity date, load them into a different RawValue
+	// Finally at the validity date, load them into a different RawValue
 	rest, err = asn1.Unmarshal(outSeq.Bytes, &firstDate)
-	rest, err = asn1.Unmarshal(rest, &secondDate)
+	_, err = asn1.Unmarshal(rest, &secondDate)
 	if err != nil {
-		//fmt.Println(err)
 		return asn1.RawValue{}, asn1.RawValue{}
 	}
 	return firstDate, secondDate

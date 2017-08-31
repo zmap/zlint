@@ -58,7 +58,7 @@ func IsInPrefSyn(name string) bool {
 }
 
 // AllAlternateNameWithTagAreIA5 returns true if all sequence members with the
-// given tag are encoded as IA5 strings, and false otherwise. If it encounteres
+// given tag are encoded as IA5 strings, and false otherwise. If it encounters
 // errors parsing asn1, err will be non-nil.
 func AllAlternateNameWithTagAreIA5(ext *pkix.Extension, tag int) (bool, error) {
 	var seq asn1.RawValue

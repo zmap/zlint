@@ -57,7 +57,7 @@ func isInRange(ip net.IP, ipRange IPRange) bool {
 
 func IsReservedIP(ip net.IP) bool {
 	if ip.To4() != nil {
-		//This is to deal with the case where ip is shrinked because it is IPv4
+		// This is to deal with the case where ip is shrunk because it is IPv4
 		if len(ip) == 4 {
 			ip = []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, ip[0], ip[1], ip[2], ip[3]}
 		}
