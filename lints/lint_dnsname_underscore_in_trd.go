@@ -30,26 +30,26 @@ func underscoreInTRD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInTRD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if underscoreFound {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		underscoreFound, err := underscoreInTRD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if underscoreFound {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

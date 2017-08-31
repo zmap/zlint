@@ -35,15 +35,15 @@ func (l *explicitTextIA5String) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextIA5String) Execute(c *x509.Certificate) ResultStruct {
+func (l *explicitTextIA5String) Execute(c *x509.Certificate) LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag == 22 {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

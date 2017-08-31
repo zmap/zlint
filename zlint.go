@@ -13,30 +13,30 @@ import (
 	"github.com/zmap/zlint/lints"
 )
 
-const Version = 3
+const Version int64 = 3
 
-// ZLint contains the output of running all lints against a single certificate.
-type ZLint struct {
-	ZLintVersion    int64                         `json:"version"`
-	Timestamp       int64                         `json:"timestamp"`
-	ZLint           map[string]lints.ResultStruct `json:"lints"`
-	NoticesPresent  bool                          `json:"notices_present"`
-	WarningsPresent bool                          `json:"warnings_present"`
-	ErrorsPresent   bool                          `json:"errors_present"`
-	FatalsPresent   bool                          `json:"fatals_present"`
+// ResultSet contains the output of running all lints against a single certificate.
+type ResultSet struct {
+	Version         int64                        `json:"version"`
+	Timestamp       int64                        `json:"timestamp"`
+	Results         map[string]*lints.LintResult `json:"lints"`
+	NoticesPresent  bool                         `json:"notices_present"`
+	WarningsPresent bool                         `json:"warnings_present"`
+	ErrorsPresent   bool                         `json:"errors_present"`
+	FatalsPresent   bool                         `json:"fatals_present"`
 }
 
-func (z *ZLint) execute(cert *x509.Certificate) {
-	z.ZLint = make(map[string]lints.ResultStruct, len(lints.Lints))
+func (z *ResultSet) execute(cert *x509.Certificate) {
+	z.Results = make(map[string]*lints.LintResult, len(lints.Lints))
 	for name, l := range lints.Lints {
 		res := l.Execute(cert)
-		z.ZLint[name] = res
-		z.updateErrorStatePresent(&res)
+		z.Results[name] = res
+		z.updateErrorStatePresent(res)
 	}
 }
 
-func (z *ZLint) updateErrorStatePresent(result *lints.ResultStruct) {
-	switch result.Result {
+func (z *ResultSet) updateErrorStatePresent(result *lints.LintResult) {
+	switch result.Status {
 	case lints.Notice:
 		z.NoticesPresent = true
 	case lints.Warn:
@@ -59,7 +59,7 @@ func EncodeLintDescriptionsToJSON(w io.Writer) {
 }
 
 // LintCertificate runs all registered lints on c, producing a ZLint.
-func LintCertificate(c *x509.Certificate) *ZLint {
+func LintCertificate(c *x509.Certificate) *ResultSet {
 	// Instead of panicing on nil certificate, just returns nil and let the client
 	// panic when accessing ZLint, if they're into panicing.
 	if c == nil {
@@ -67,9 +67,9 @@ func LintCertificate(c *x509.Certificate) *ZLint {
 	}
 
 	// Run all tests
-	res := new(ZLint)
+	res := new(ResultSet)
 	res.execute(c)
-	res.ZLintVersion = Version
+	res.Version = Version
 	res.Timestamp = time.Now().Unix()
 	return res
 }

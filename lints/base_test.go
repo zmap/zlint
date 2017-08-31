@@ -43,14 +43,14 @@ func TestLintExecute(t *testing.T) {
 
 	lint.Lint = &dsaParamsMissing{}
 	res := lint.Execute(c)
-	if res.Result != NA {
-		t.Errorf("Expected NA, got %s", res.Result)
+	if res.Status != NA {
+		t.Errorf("Expected NA, got %s", res.Status)
 	}
 
 	lint.Lint = &rsaParsedTestsExpBounds{}
 	lint.EffectiveDate = time.Unix(32503680000, 0)
 	res = lint.Execute(c)
-	if res.Result != NE {
-		t.Errorf("Expected NE, got %s", res.Result)
+	if res.Status != NE {
+		t.Errorf("Expected NE, got %s", res.Status)
 	}
 }

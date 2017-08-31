@@ -27,11 +27,11 @@ func (l *subjectDN) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectDN) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectDN) Execute(c *x509.Certificate) LintResult {
 	if reflect.TypeOf(c.Subject) != reflect.TypeOf(*(new(pkix.Name))) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

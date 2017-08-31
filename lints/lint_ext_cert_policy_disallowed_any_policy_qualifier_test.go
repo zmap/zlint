@@ -10,11 +10,11 @@ func TestNoticeRef(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticePres.pem"
 	desEnum := Pass
 	out := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestCps(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
 	desEnum := Pass
 	out := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -38,11 +38,11 @@ func TestNoticeRefUnknown(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeUnrecommended.pem"
 	desEnum := Error
 	out := Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

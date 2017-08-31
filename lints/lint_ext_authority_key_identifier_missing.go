@@ -31,11 +31,11 @@ func (l *authorityKeyIdMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsRootCA(c)
 }
 
-func (l *authorityKeyIdMissing) Execute(c *x509.Certificate) ResultStruct {
+func (l *authorityKeyIdMissing) Execute(c *x509.Certificate) LintResult {
 	if !util.IsExtInCert(c, util.AuthkeyOID) && !util.IsSelfSigned(c) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

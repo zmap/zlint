@@ -23,12 +23,12 @@ func (l *rsaParsedTestsKeySize) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA && c.NotAfter.After(util.NoRSA1024Date.Add(-1))
 }
 
-func (l *rsaParsedTestsKeySize) Execute(c *x509.Certificate) ResultStruct {
+func (l *rsaParsedTestsKeySize) Execute(c *x509.Certificate) LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 2048 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

@@ -10,11 +10,11 @@ func TestExplicitText200Char(t *testing.T) {
 	inputPath := "../testlint/testCerts/explicitText200Char.pem"
 	desEnum := Error
 	out := Lints["e_ext_cert_policy_explicit_text_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestExplicitText7Char(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeExpTextUtf8.pem"
 	desEnum := Pass
 	out := Lints["e_ext_cert_policy_explicit_text_too_long"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

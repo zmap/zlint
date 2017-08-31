@@ -20,12 +20,12 @@ func (l *siaCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectInfoAccessOID)
 }
 
-func (l *siaCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *siaCrit) Execute(c *x509.Certificate) LintResult {
 	sia := util.GetExtFromCert(c, util.SubjectInfoAccessOID)
 	if sia.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

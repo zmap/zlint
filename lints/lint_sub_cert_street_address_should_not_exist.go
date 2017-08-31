@@ -15,14 +15,14 @@ func (l *subCertStreetAddressShouldNotExist) CheckApplies(c *x509.Certificate) b
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertStreetAddressShouldNotExist) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertStreetAddressShouldNotExist) Execute(c *x509.Certificate) LintResult {
 	//If all fields are absent
 	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.StreetAddress) > 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

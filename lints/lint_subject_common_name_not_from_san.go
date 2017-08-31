@@ -23,22 +23,22 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 	return c.Subject.CommonName != "" && !util.IsCACert(c)
 }
 
-func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) LintResult {
 	cn := c.Subject.CommonName
 
 	for _, dn := range c.DNSNames {
 		if cn == dn {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
 
 	for _, ip := range c.IPAddresses {
 		if cn == ip.String() {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
 
-	return ResultStruct{Result: Error}
+	return &LintResult{Status: Error}
 }
 
 func init() {

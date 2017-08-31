@@ -21,12 +21,12 @@ func (l *subCertKeyUsageBitSet) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 
-func (l *subCertKeyUsageBitSet) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertKeyUsageBitSet) Execute(c *x509.Certificate) LintResult {
 	// Add actual lint here
 	if (c.KeyUsage & x509.KeyUsageCertSign) == x509.KeyUsageCertSign {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else { //key usage doesn't allow cert signing or isn't present
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

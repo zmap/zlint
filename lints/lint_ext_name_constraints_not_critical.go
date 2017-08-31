@@ -28,12 +28,12 @@ func (l *nameConstraintCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *nameConstraintCrit) Execute(c *x509.Certificate) LintResult {
 	e := util.GetExtFromCert(c, util.NameConstOID)
 	if e.Critical {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

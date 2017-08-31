@@ -24,19 +24,19 @@ func (l *ExtCertPolicyDuplicate) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.CertPolicyOID)
 }
 
-func (l *ExtCertPolicyDuplicate) Execute(cert *x509.Certificate) ResultStruct {
+func (l *ExtCertPolicyDuplicate) Execute(cert *x509.Certificate) LintResult {
 	// O(n^2) is not terrible here because n is small
 	for i := 0; i < len(cert.PolicyIdentifiers); i++ {
 		for j := i + 1; j < len(cert.PolicyIdentifiers); j++ {
 			if i != j && cert.PolicyIdentifiers[i].Equal(cert.PolicyIdentifiers[j]) {
-				temp := ResultStruct{Result: Error}
+				temp := LintResult{Status: Error}
 				//temp.Details = fmt.Sprintf("%v", cert.PolicyIdentifiers[i])
 				return temp // Any one duplicate fails the test, so return here
 			}
 		}
 	}
 	// Nested loop will return if it finds a duplicate, so it's safe to assume pass
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

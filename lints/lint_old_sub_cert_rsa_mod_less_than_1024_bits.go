@@ -21,12 +21,12 @@ func (l *subModSize) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA && !util.IsCACert(c) && endDate.Before(util.NoRSA1024Date)
 }
 
-func (l *subModSize) Execute(c *x509.Certificate) ResultStruct {
+func (l *subModSize) Execute(c *x509.Certificate) LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 1024 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

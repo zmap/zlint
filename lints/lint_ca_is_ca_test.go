@@ -10,11 +10,11 @@ func TestKeyCertSignNotCA(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyCertSignNotCA.pem"
 	desEnum := Error
 	out := Lints["e_ca_is_ca"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestKeyCertSignCA(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyCertSignCA.pem"
 	desEnum := Pass
 	out := Lints["e_ca_is_ca"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

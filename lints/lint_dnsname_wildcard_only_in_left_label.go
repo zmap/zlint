@@ -29,16 +29,16 @@ func wildcardNotInLeftLabel(domain string) bool {
 	return false
 }
 
-func (l *DNSNameWildcardOnlyInLeftlabel) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameWildcardOnlyInLeftlabel) Execute(c *x509.Certificate) LintResult {
 	if wildcardNotInLeftLabel(c.Subject.CommonName) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 	for _, dns := range c.DNSNames {
 		if wildcardNotInLeftLabel(dns) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

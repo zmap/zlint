@@ -10,11 +10,11 @@ func TestCAOrgNameBlank(t *testing.T) {
 	inputPath := "../testlint/testCerts/caOrgNameEmpty.pem"
 	desEnum := Error
 	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestCAOrgNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caOrgNameMissing.pem"
 	desEnum := Error
 	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -38,11 +38,11 @@ func TestCAOrgNameValid(t *testing.T) {
 	inputPath := "../testlint/testCerts/caValOrgName.pem"
 	desEnum := Pass
 	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

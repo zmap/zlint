@@ -15,13 +15,13 @@ func (l *subCertCountryNameMustAppear) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertCountryNameMustAppear) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertCountryNameMustAppear) Execute(c *x509.Certificate) LintResult {
 	if len(c.Subject.Organization) > 0 || len(c.Subject.GivenName) > 0 || len(c.Subject.Surname) > 0 {
 		if len(c.Subject.Country) == 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

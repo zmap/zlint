@@ -18,12 +18,12 @@ func (l *CertPolicyIVRequiresProvinceOrLocal) CheckApplies(cert *x509.Certificat
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID)
 }
 
-func (l *CertPolicyIVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) ResultStruct {
-	var out ResultStruct
+func (l *CertPolicyIVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) LintResult {
+	var out LintResult
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) || util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) {
-		out.Result = Pass
+		out.Status = Pass
 	} else {
-		out.Result = Error
+		out.Status = Error
 	}
 	return out
 }

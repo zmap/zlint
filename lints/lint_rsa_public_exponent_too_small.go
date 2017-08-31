@@ -23,12 +23,12 @@ func (l *rsaParsedTestsExpBounds) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsExpBounds) Execute(c *x509.Certificate) ResultStruct {
+func (l *rsaParsedTestsExpBounds) Execute(c *x509.Certificate) LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E >= 3 { //If Cmp returns 1, means N > E
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

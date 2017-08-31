@@ -15,13 +15,13 @@ func (l *subCaMustNotContainAnyPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCaMustNotContainAnyPolicy) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCaMustNotContainAnyPolicy) Execute(c *x509.Certificate) LintResult {
 	for _, policy := range c.PolicyIdentifiers {
 		if policy.Equal(util.AnyPolicyOID) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

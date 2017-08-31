@@ -42,20 +42,20 @@ func (l *dpIncomplete) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *dpIncomplete) Execute(c *x509.Certificate) ResultStruct {
+func (l *dpIncomplete) Execute(c *x509.Certificate) LintResult {
 	dp := util.GetExtFromCert(c, util.CrlDistOID)
 	var cdp []distributionPoint
 	_, err := asn1.Unmarshal(dp.Value, &cdp)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	for _, dp := range cdp {
 		if dp.Reason.BitLength != 0 && len(dp.DistributionPoint.FullName.Bytes) == 0 &&
 			dp.DistributionPoint.RelativeName == nil && len(dp.CRLIssuer.Bytes) == 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

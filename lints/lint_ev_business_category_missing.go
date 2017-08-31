@@ -17,11 +17,11 @@ func (l *evNoBiz) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evNoBiz) Execute(c *x509.Certificate) ResultStruct {
+func (l *evNoBiz) Execute(c *x509.Certificate) LintResult {
 	if util.TypeInName(&c.Subject, util.BusinessOID) {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

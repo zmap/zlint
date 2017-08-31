@@ -18,14 +18,14 @@ func (l *pubSuffix) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *pubSuffix) Execute(c *x509.Certificate) ResultStruct {
+func (l *pubSuffix) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.DNSNames {
 		suffix, _ := publicsuffix.PublicSuffix(dns)
 		if suffix == dns {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

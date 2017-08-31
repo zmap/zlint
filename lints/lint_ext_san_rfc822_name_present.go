@@ -27,11 +27,11 @@ func (l *SANRfc822) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANRfc822) Execute(c *x509.Certificate) ResultStruct {
+func (l *SANRfc822) Execute(c *x509.Certificate) LintResult {
 	if c.EmailAddresses != nil {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

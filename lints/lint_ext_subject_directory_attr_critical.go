@@ -24,11 +24,11 @@ func (l *subDirAttrCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectDirAttrOID)
 }
 
-func (l *subDirAttrCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *subDirAttrCrit) Execute(c *x509.Certificate) LintResult {
 	if e := util.GetExtFromCert(c, util.SubjectDirAttrOID); e.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

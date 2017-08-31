@@ -29,16 +29,16 @@ func (l *basicConstCrit) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *basicConstCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *basicConstCrit) Execute(c *x509.Certificate) LintResult {
 	// Add actual lint here
 	if e := util.GetExtFromCert(c, util.BasicConstOID); e != nil {
 		if e.Critical {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		} else {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	} else {
-		return ResultStruct{Result: NA}
+		return &LintResult{Status: NA}
 	}
 }
 

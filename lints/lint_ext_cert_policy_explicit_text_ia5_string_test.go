@@ -9,11 +9,11 @@ func TestExplicitTextIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticePres.pem"
 	desEnum := Error
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -22,11 +22,11 @@ func TestExplicitTextNotIA5String(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeExpTextNotIA5String.pem"
 	desEnum := Pass
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -35,11 +35,11 @@ func TestExplicitTextNotPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
 	desEnum := NA
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -49,11 +49,11 @@ func TestExplicitTextNotPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/userNoticeUnrecommended.pem"
 	desEnum := NA
 	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

@@ -17,11 +17,11 @@ func (l *subCertValidTimeTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) LintResult {
 	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

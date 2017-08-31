@@ -16,16 +16,16 @@ func (l *subCertNotCA) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && c.KeyUsage&x509.KeyUsageCertSign == 0 && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *subCertNotCA) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertNotCA) Execute(c *x509.Certificate) LintResult {
 	e := util.GetExtFromCert(c, util.BasicConstOID)
 	var constraints basicConstraints
 	if _, err := asn1.Unmarshal(e.Value, &constraints); err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if constraints.IsCA == true {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

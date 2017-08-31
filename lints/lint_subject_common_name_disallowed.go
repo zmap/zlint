@@ -25,18 +25,18 @@ func (l *BadCommonName) CheckApplies(c *x509.Certificate) bool {
 	return len(c.Subject.CommonName) != 0 && !util.IsCACert(c)
 }
 
-func (l *BadCommonName) Execute(c *x509.Certificate) ResultStruct {
+func (l *BadCommonName) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.DNSNames {
 		if dns == c.Subject.CommonName {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
 	for _, ip := range c.IPAddresses {
 		if ip.String() == c.Subject.CommonName {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Error}
+	return &LintResult{Status: Error}
 }
 
 func init() {

@@ -15,12 +15,12 @@ func (l *subCertAiaMarkedCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.AiaOID)
 }
 
-func (l *subCertAiaMarkedCritical) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertAiaMarkedCritical) Execute(c *x509.Certificate) LintResult {
 	e := util.GetExtFromCert(c, util.AiaOID)
 	if e.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

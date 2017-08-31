@@ -24,19 +24,19 @@ func (l *dsaSubgroup) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *dsaSubgroup) Execute(c *x509.Certificate) ResultStruct {
+func (l *dsaSubgroup) Execute(c *x509.Certificate) LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: NA}
+		return &LintResult{Status: NA}
 	}
 	output := big.Int{}
 
 	// Enforce that Y^Q == 1 mod P, e.g. that Order(Y) == Q mod P.
 	output.Exp(dsaKey.Y, dsaKey.Q, dsaKey.P)
 	if output.Cmp(big.NewInt(1)) == 0 {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
-	return ResultStruct{Result: Error}
+	return &LintResult{Status: Error}
 }
 
 func init() {

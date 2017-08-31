@@ -24,18 +24,18 @@ func (l *policyMapMatchesCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.PolicyMapOID)
 }
 
-func (l *policyMapMatchesCertPolicy) Execute(c *x509.Certificate) ResultStruct {
+func (l *policyMapMatchesCertPolicy) Execute(c *x509.Certificate) LintResult {
 	extPolMap := util.GetExtFromCert(c, util.PolicyMapOID)
 	polMap, err := util.GetMappedPolicies(extPolMap)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	for _, pair := range polMap {
 		if !util.SliceContainsOID(c.PolicyIdentifiers, pair[0]) {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

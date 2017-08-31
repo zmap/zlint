@@ -19,16 +19,16 @@ func (l *dsaParamsMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaParamsMissing) Execute(c *x509.Certificate) ResultStruct {
+func (l *dsaParamsMissing) Execute(c *x509.Certificate) LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	params := dsaKey.Parameters
 	if params.P.BitLen() == 0 || params.Q.BitLen() == 0 || params.G.BitLen() == 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

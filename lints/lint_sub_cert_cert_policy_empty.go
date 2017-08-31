@@ -24,12 +24,12 @@ func (l *subCertPolicyEmpty) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertPolicyEmpty) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertPolicyEmpty) Execute(c *x509.Certificate) LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.CertPolicyOID) && c.PolicyIdentifiers != nil {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

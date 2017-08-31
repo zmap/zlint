@@ -42,8 +42,8 @@ func (l *utcTimeGMT) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Utc || l.date2Utc
 }
 
-func (l *utcTimeGMT) Execute(c *x509.Certificate) ResultStruct {
-	var r ResultEnum
+func (l *utcTimeGMT) Execute(c *x509.Certificate) LintResult {
+	var r LintStatus
 	if l.date1Utc {
 		// UTC Tests on notBefore
 		utcNotGmt(c.NotBefore, &r)
@@ -52,10 +52,10 @@ func (l *utcTimeGMT) Execute(c *x509.Certificate) ResultStruct {
 		// UTC Tests on NotAfter
 		utcNotGmt(c.NotAfter, &r)
 	}
-	return ResultStruct{Result: r}
+	return &LintResult{Status: r}
 }
 
-func utcNotGmt(t time.Time, r *ResultEnum) {
+func utcNotGmt(t time.Time, r *LintStatus) {
 	// If we already ran this test and it resulted in error, don't want to discard that
 	// And now we use the afterBool to make sure we test the right time
 	if *r == Error {

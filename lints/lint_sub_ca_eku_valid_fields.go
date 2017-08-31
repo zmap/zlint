@@ -15,7 +15,7 @@ func (l *subCAEKUValidFields) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *subCAEKUValidFields) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCAEKUValidFields) Execute(c *x509.Certificate) LintResult {
 	validFieldsPresent := false
 	for _, ekuValue := range c.ExtKeyUsage {
 		if ekuValue == x509.ExtKeyUsageServerAuth ||
@@ -24,9 +24,9 @@ func (l *subCAEKUValidFields) Execute(c *x509.Certificate) ResultStruct {
 		}
 	}
 	if validFieldsPresent {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Notice}
+		return &LintResult{Status: Notice}
 	}
 }
 

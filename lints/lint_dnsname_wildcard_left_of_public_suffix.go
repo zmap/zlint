@@ -27,26 +27,26 @@ func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
 	return false, nil
 }
 
-func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if wildcardFound {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if wildcardFound {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

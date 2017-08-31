@@ -24,11 +24,11 @@ func (l *streetNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *streetNoOrg) Execute(cert *x509.Certificate) ResultStruct {
+func (l *streetNoOrg) Execute(cert *x509.Certificate) LintResult {
 	if util.TypeInName(&cert.Subject, util.StreetAddressOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else { //if no Street address, Organization can be omitted
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

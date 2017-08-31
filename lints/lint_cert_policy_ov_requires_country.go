@@ -18,12 +18,12 @@ func (l *CertPolicyOVRequiresCountry) CheckApplies(cert *x509.Certificate) bool 
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BROrganizationValidatedOID)
 }
 
-func (l *CertPolicyOVRequiresCountry) Execute(cert *x509.Certificate) ResultStruct {
-	var out ResultStruct
+func (l *CertPolicyOVRequiresCountry) Execute(cert *x509.Certificate) LintResult {
+	var out LintResult
 	if util.TypeInName(&cert.Subject, util.CountryNameOID) {
-		out.Result = Pass
+		out.Status = Pass
 	} else {
-		out.Result = Error
+		out.Status = Error
 	}
 	return out
 }

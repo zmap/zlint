@@ -27,11 +27,11 @@ func (l *SANDirName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANDirName) Execute(c *x509.Certificate) ResultStruct {
+func (l *SANDirName) Execute(c *x509.Certificate) LintResult {
 	if c.DirectoryNames != nil {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

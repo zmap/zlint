@@ -20,11 +20,11 @@ func (l *SubCANameConstraintsNotCritical) CheckApplies(cert *x509.Certificate) b
 	return util.IsSubCA(cert) && util.IsExtInCert(cert, util.NameConstOID)
 }
 
-func (l *SubCANameConstraintsNotCritical) Execute(cert *x509.Certificate) ResultStruct {
+func (l *SubCANameConstraintsNotCritical) Execute(cert *x509.Certificate) LintResult {
 	if ski := util.GetExtFromCert(cert, util.NameConstOID); ski.Critical {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	}
 }
 

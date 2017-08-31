@@ -17,12 +17,12 @@ func (l *rsaParsedPubKeyExist) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedPubKeyExist) Execute(c *x509.Certificate) ResultStruct {
+func (l *rsaParsedPubKeyExist) Execute(c *x509.Certificate) LintResult {
 	_, ok := c.PublicKey.(*rsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

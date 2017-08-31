@@ -22,11 +22,11 @@ func (l *caKeyUsageNotCrit) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caKeyUsageNotCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *caKeyUsageNotCrit) Execute(c *x509.Certificate) LintResult {
 	if e := util.GetExtFromCert(c, util.KeyUsageOID); e.Critical {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

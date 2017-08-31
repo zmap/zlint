@@ -20,15 +20,15 @@ func (l *ExtCrlDistributionMarkedCritical) CheckApplies(cert *x509.Certificate) 
 	return util.IsExtInCert(cert, util.CrlDistOID)
 }
 
-func (l *ExtCrlDistributionMarkedCritical) Execute(cert *x509.Certificate) ResultStruct {
+func (l *ExtCrlDistributionMarkedCritical) Execute(cert *x509.Certificate) LintResult {
 	if e := util.GetExtFromCert(cert, util.CrlDistOID); e != nil {
 		if e.Critical == false {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		} else {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: NA}
+	return &LintResult{Status: NA}
 }
 
 func init() {

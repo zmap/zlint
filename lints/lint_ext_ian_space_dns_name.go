@@ -32,13 +32,13 @@ func (l *IANSpace) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANSpace) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANSpace) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.IANDNSNames {
 		if dns == " " {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

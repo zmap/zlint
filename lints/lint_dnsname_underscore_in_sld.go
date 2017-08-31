@@ -30,26 +30,26 @@ func underscoreInSLD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if underscoreFound {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		underscoreFound, err := underscoreInSLD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if underscoreFound {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

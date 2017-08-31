@@ -27,78 +27,78 @@ func (l *nameConstMin) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstMin) Execute(c *x509.Certificate) ResultStruct {
+func (l *nameConstMin) Execute(c *x509.Certificate) LintResult {
 	for _, i := range c.PermittedDNSNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedDNSNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedEmailAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedEmailAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedIPAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedIPAddresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedDirectoryNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedDirectoryNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedEdiPartyNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedEdiPartyNames {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedRegisteredIDs {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedRegisteredIDs {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedX400Addresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedX400Addresses {
 		if i.Min != 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

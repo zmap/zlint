@@ -17,19 +17,19 @@ func (l *IDNMalformedUnicode) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) ResultStruct {
+func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.DNSNames {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {
 			if strings.HasPrefix(label, "xn--") {
 				_, err := idna.ToUnicode(label)
 				if err != nil {
-					return ResultStruct{Result: Error}
+					return &LintResult{Status: Error}
 				}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

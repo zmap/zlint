@@ -33,11 +33,11 @@ func (l *serialNumberTooLong) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *serialNumberTooLong) Execute(c *x509.Certificate) ResultStruct {
+func (l *serialNumberTooLong) Execute(c *x509.Certificate) LintResult {
 	if c.SerialNumber.BitLen() > 160 { // 20 octets
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

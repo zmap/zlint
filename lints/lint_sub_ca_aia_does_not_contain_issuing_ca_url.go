@@ -25,13 +25,13 @@ func (l *subCaIssuerUrl) CheckApplies(c *x509.Certificate) bool {
 	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 
-func (l *subCaIssuerUrl) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCaIssuerUrl) Execute(c *x509.Certificate) LintResult {
 	for _, url := range c.IssuingCertificateURL {
 		if strings.HasPrefix(url, "http://") {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Warn}
+	return &LintResult{Status: Warn}
 }
 
 func init() {

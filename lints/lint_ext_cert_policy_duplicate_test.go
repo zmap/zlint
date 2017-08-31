@@ -10,11 +10,11 @@ func TestCertPolicyDuplicated(t *testing.T) {
 	inputPath := "../testlint/testCerts/certPolicyDuplicateShort.pem"
 	desEnum := Error
 	out := Lints["e_ext_cert_policy_duplicate"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -23,11 +23,11 @@ func TestCertPolicyDuplicatedAssertion(t *testing.T) {
 	inputPath := "../testlint/testCerts/certPolicyAssertionDuplicated.pem"
 	desEnum := Error
 	out := Lints["e_ext_cert_policy_duplicate"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -37,11 +37,11 @@ func TestCertPolicyNotDuplicated(t *testing.T) {
 	inputPath := "../testlint/testCerts/certPolicyNoDuplicate.pem"
 	desEnum := Pass
 	out := Lints["e_ext_cert_policy_duplicate"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

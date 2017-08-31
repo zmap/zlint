@@ -20,17 +20,17 @@ func (l *ExtDuplicateExtension) CheckApplies(cert *x509.Certificate) bool {
 	return cert.Version == 3
 }
 
-func (l *ExtDuplicateExtension) Execute(cert *x509.Certificate) ResultStruct {
+func (l *ExtDuplicateExtension) Execute(cert *x509.Certificate) LintResult {
 	// O(n^2) is not terrible here because n is capped around 10
 	for i := 0; i < len(cert.Extensions); i++ {
 		for j := i + 1; j < len(cert.Extensions); j++ {
 			if i != j && cert.Extensions[i].Id.Equal(cert.Extensions[j].Id) {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
 	// Nested loop will return if it finds a duplicate, so safe to assume pass
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

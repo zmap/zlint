@@ -26,20 +26,20 @@ func labelLengthTooLong(domain string) bool {
 	return false
 }
 
-func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		labelTooLong := labelLengthTooLong(c.Subject.CommonName)
 		if labelTooLong {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		labelTooLong := labelLengthTooLong(dns)
 		if labelTooLong {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

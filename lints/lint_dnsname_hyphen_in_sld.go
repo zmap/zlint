@@ -30,26 +30,26 @@ func hyphenAtStartOrEndOfSLD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if hyphenFound {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if hyphenFound {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

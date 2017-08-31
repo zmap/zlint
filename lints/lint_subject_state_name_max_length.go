@@ -23,14 +23,14 @@ func (l *subjectStateNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectStateNameMaxLength) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectStateNameMaxLength) Execute(c *x509.Certificate) LintResult {
 	for _, j := range c.Subject.Province {
 		if len(j) > 128 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

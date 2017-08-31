@@ -36,19 +36,19 @@ func (l *generalizedNotZulu) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedNotZulu) Execute(c *x509.Certificate) ResultStruct {
+func (l *generalizedNotZulu) Execute(c *x509.Certificate) LintResult {
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {
 		if date1.Bytes[len(date1.Bytes)-1] != 'Z' {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	if l.date2Gen {
 		if date2.Bytes[len(date2.Bytes)-1] != 'Z' {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

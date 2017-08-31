@@ -23,14 +23,14 @@ func (l *subjectLocalityNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) LintResult {
 	for _, j := range c.Subject.Locality {
 		if len(j) > 128 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

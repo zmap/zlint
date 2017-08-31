@@ -17,11 +17,11 @@ func (l *evValidTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evValidTooLong) Execute(c *x509.Certificate) ResultStruct {
+func (l *evValidTooLong) Execute(c *x509.Certificate) LintResult {
 	if c.NotBefore.AddDate(2, 3, 0).Before(c.NotAfter) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

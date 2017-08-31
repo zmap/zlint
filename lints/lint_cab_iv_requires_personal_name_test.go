@@ -10,11 +10,11 @@ func TestCertPolicyIvHasPerson(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
 	desEnum := Pass
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestCertPolicyIvHasSurname(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValSurnameOnly.pem"
 	desEnum := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -38,11 +38,11 @@ func TestCertPolicyIvHasLastName(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGivenNameOnly.pem"
 	desEnum := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -52,11 +52,11 @@ func TestCertPolicyIvNoPerson(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
 	desEnum := Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

@@ -25,11 +25,11 @@ func (l *subCertAiaMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertAiaMissing) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertAiaMissing) Execute(c *x509.Certificate) LintResult {
 	if util.IsExtInCert(c, util.AiaOID) {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

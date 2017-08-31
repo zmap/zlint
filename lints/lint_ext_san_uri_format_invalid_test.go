@@ -9,11 +9,11 @@ func TestSANURIValid(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIValid.pem"
 	desEnum := Pass
 	out := Lints["e_ext_san_uri_format_invalid"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -22,11 +22,11 @@ func TestSANURINoScheme(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURINoScheme.pem"
 	desEnum := Error
 	out := Lints["e_ext_san_uri_format_invalid"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -35,11 +35,11 @@ func TestSANURINoSchemeSpecificPart(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURINoSchemeSpecificPart.pem"
 	desEnum := Error
 	out := Lints["e_ext_san_uri_format_invalid"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

@@ -20,11 +20,11 @@ func (l *orgNoLocalOrProvince) CheckApplies(cert *x509.Certificate) bool {
 	return !util.IsCACert(cert)
 }
 
-func (l *orgNoLocalOrProvince) Execute(cert *x509.Certificate) ResultStruct {
+func (l *orgNoLocalOrProvince) Execute(cert *x509.Certificate) LintResult {
 	if !util.TypeInName(&cert.Subject, util.LocalityNameOID) && !util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) && util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else { //if no organization, local/province can be nil, only one of the two is required if org is preasent
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

@@ -18,18 +18,18 @@ func (l *IssuerRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) ResultStruct {
+func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) LintResult {
 	var issuer pkix.RDNSequence
 	_, err := asn1.Unmarshal(c.RawIssuer, &issuer)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	for _, rdn := range issuer {
 		if len(rdn) > 1 {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

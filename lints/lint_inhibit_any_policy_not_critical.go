@@ -31,11 +31,11 @@ func (l *InhibitAnyPolicyNotCritical) CheckApplies(cert *x509.Certificate) bool 
 	return util.IsExtInCert(cert, util.InhibitAnyPolicyOID)
 }
 
-func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) ResultStruct {
+func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) LintResult {
 	if anyPol := util.GetExtFromCert(cert, util.InhibitAnyPolicyOID); !anyPol.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} //else
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

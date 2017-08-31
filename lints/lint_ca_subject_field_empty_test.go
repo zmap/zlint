@@ -10,11 +10,11 @@ func TestCaSubjectMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caSubjectMissing.pem"
 	desEnum := Error
 	out := Lints["e_ca_subject_field_empty"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestCaSubjectValid(t *testing.T) {
 	inputPath := "../testlint/testCerts/caValCountry.pem"
 	desEnum := Pass
 	out := Lints["e_ca_subject_field_empty"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

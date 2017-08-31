@@ -30,14 +30,14 @@ func (l *IANEmptyName) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANEmptyName) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANEmptyName) Execute(c *x509.Certificate) LintResult {
 	value := util.GetExtFromCert(c, util.IssuerAlternateNameOID).Value
 	var seq asn1.RawValue
 	if _, err := asn1.Unmarshal(value, &seq); err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 
 	rest := seq.Bytes
@@ -46,13 +46,13 @@ func (l *IANEmptyName) Execute(c *x509.Certificate) ResultStruct {
 		var err error
 		rest, err = asn1.Unmarshal(rest, &v)
 		if err != nil {
-			return ResultStruct{Result: NA}
+			return &LintResult{Status: NA}
 		}
 		if len(v.Bytes) == 0 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

@@ -18,12 +18,12 @@ func (l *CertPolicyRequiresPersonalName) CheckApplies(cert *x509.Certificate) bo
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) ResultStruct {
-	var out ResultStruct
+func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) LintResult {
+	var out LintResult
 	if util.TypeInName(&cert.Subject, util.OrganizationNameOID) || (util.TypeInName(&cert.Subject, util.GivenNameOID) && util.TypeInName(&cert.Subject, util.SurnameOID)) {
-		out.Result = Pass
+		out.Status = Pass
 	} else {
-		out.Result = Error
+		out.Status = Error
 	}
 	return out
 }

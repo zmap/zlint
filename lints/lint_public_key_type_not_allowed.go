@@ -17,12 +17,12 @@ func (l *publicKeyAllowed) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *publicKeyAllowed) Execute(c *x509.Certificate) ResultStruct {
+func (l *publicKeyAllowed) Execute(c *x509.Certificate) LintResult {
 	alg := c.PublicKeyAlgorithm
 	if alg != x509.UnknownPublicKeyAlgorithm {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

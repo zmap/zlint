@@ -7,11 +7,11 @@ func TestDSAShorterThan2048Bits(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaShorterThan2048Bits.pem"
 	desEnum := Error
 	out := Lints["e_dsa_shorter_than_2048_bits"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -20,11 +20,11 @@ func TestDSANotShorterThan2048Bits(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
 	desEnum := Pass
 	out := Lints["e_dsa_shorter_than_2048_bits"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

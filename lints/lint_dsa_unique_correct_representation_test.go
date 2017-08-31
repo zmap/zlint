@@ -10,11 +10,11 @@ func TestDSAUniqueCorrectRepresentation(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
 	desEnum := Pass
 	out := Lints["e_dsa_unique_correct_representation"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath,
 			"expected", desEnum,
-			"got", out.Result,
+			"got", out.Status,
 		)
 	}
 }
@@ -32,11 +32,11 @@ func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
 	// Expect failure
 	expected := Error
 	out := Lints["e_dsa_unique_correct_representation"].Execute(c)
-	if out.Result != expected {
+	if out.Status != expected {
 		t.Error(
 			"For", inputPath,
 			"expected", expected,
-			"got", out.Result,
+			"got", out.Status,
 		)
 	}
 }

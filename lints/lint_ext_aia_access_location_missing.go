@@ -28,13 +28,13 @@ func (l *aiaNoHTTPorLDAP) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.AiaOID) && c.IssuingCertificateURL != nil
 }
 
-func (l *aiaNoHTTPorLDAP) Execute(c *x509.Certificate) ResultStruct {
+func (l *aiaNoHTTPorLDAP) Execute(c *x509.Certificate) LintResult {
 	for _, caIssuer := range c.IssuingCertificateURL {
 		if caIssuer = strings.ToLower(caIssuer); strings.HasPrefix(caIssuer, "http://") || strings.HasPrefix(caIssuer, "ldap://") {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Warn}
+	return &LintResult{Status: Warn}
 }
 
 func init() {

@@ -21,11 +21,11 @@ func (l *rootCAContainsCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAContainsCertPolicy) Execute(c *x509.Certificate) ResultStruct {
+func (l *rootCAContainsCertPolicy) Execute(c *x509.Certificate) LintResult {
 	if util.IsExtInCert(c, util.CertPolicyOID) {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

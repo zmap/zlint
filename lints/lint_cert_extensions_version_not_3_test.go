@@ -10,11 +10,11 @@ func TestExtsV2(t *testing.T) {
 	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
 	desEnum := Error
 	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestExtsV3(t *testing.T) {
 	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
 	desEnum := Pass
 	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -38,11 +38,11 @@ func TestNoExtsV2(t *testing.T) {
 	inputPath := "../testlint/testCerts/certVersion2NoExtensions.pem"
 	desEnum := Pass
 	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

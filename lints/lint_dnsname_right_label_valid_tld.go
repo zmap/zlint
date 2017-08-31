@@ -15,18 +15,18 @@ func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameValidTLD) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameValidTLD) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		if !util.HasValidTLD(c.Subject.CommonName) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		if !util.HasValidTLD(dns) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

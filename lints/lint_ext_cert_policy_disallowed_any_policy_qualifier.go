@@ -27,15 +27,15 @@ func (l *unrecommendedQualifier) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CertPolicyOID)
 }
 
-func (l *unrecommendedQualifier) Execute(c *x509.Certificate) ResultStruct {
+func (l *unrecommendedQualifier) Execute(c *x509.Certificate) LintResult {
 	for _, firstLvl := range c.QualifierId {
 		for _, qualifierId := range firstLvl {
 			if !qualifierId.Equal(util.CpsOID) && !qualifierId.Equal(util.UserNoticeOID) {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

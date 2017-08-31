@@ -10,11 +10,11 @@ func TestCaKeyUsageNoDigSign(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.pem"
 	desEnum := Notice
 	out := Lints["n_ca_digital_signature_not_set"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestKeyUsageDigSign(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageWDigSign.pem"
 	desEnum := Pass
 	out := Lints["n_ca_digital_signature_not_set"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

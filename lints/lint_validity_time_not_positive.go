@@ -20,11 +20,11 @@ func (l *validityNegative) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *validityNegative) Execute(c *x509.Certificate) ResultStruct {
+func (l *validityNegative) Execute(c *x509.Certificate) LintResult {
 	if c.NotBefore.After(c.NotAfter) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

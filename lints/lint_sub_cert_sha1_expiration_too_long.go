@@ -26,11 +26,11 @@ func (l *sha1ExpireLong) CheckApplies(c *x509.Certificate) bool {
 		c.SignatureAlgorithm == x509.ECDSAWithSHA1)
 }
 
-func (l *sha1ExpireLong) Execute(c *x509.Certificate) ResultStruct {
+func (l *sha1ExpireLong) Execute(c *x509.Certificate) LintResult {
 	if c.NotAfter.After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.UTC)) {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

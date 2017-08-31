@@ -35,18 +35,18 @@ func (l *policyConstraintsContents) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *policyConstraintsContents) Execute(c *x509.Certificate) ResultStruct {
+func (l *policyConstraintsContents) Execute(c *x509.Certificate) LintResult {
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	var seq asn1.RawValue
 	_, err := asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

@@ -20,12 +20,12 @@ func (l *InvalidCertificateVersion) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *InvalidCertificateVersion) Execute(cert *x509.Certificate) ResultStruct {
+func (l *InvalidCertificateVersion) Execute(cert *x509.Certificate) LintResult {
 	if cert.Version != 3 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 	//else
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

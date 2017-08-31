@@ -10,11 +10,11 @@ func TestRootCAEKU(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCAWithEKU.pem"
 	desEnum := Error
 	out := Lints["e_root_ca_extended_key_usage_present"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestRootCANoEKU(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCAValid.pem"
 	desEnum := Pass
 	out := Lints["e_root_ca_extended_key_usage_present"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

@@ -10,11 +10,11 @@ func TestCertPolicyHasCountryOrLocal(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
 	desEnum := Pass
 	out := Lints["e_cert_policy_iv_requires_province_or_locality"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestCertPolicyIvNoCountryOrLocal(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValNoLocalOrProvince.pem"
 	desEnum := Error
 	out := Lints["e_cert_policy_iv_requires_province_or_locality"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

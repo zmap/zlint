@@ -23,7 +23,7 @@ func (l *ecImproperCurves) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.ECDSA
 }
 
-func (l *ecImproperCurves) Execute(c *x509.Certificate) ResultStruct {
+func (l *ecImproperCurves) Execute(c *x509.Certificate) LintResult {
 	/* Declare theKey to be a ECDSA Public Key */
 	var theKey *ecdsa.PublicKey
 	/* Need to do different things based on what c.PublicKey is */
@@ -38,9 +38,9 @@ func (l *ecImproperCurves) Execute(c *x509.Certificate) ResultStruct {
 	theParams := theKey.Curve.Params()
 	switch theParams.Name {
 	case "P-256", "P-384", "P-521":
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	default:
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

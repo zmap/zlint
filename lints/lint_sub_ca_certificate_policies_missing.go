@@ -21,11 +21,11 @@ func (l *subCACertPolicyMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCACertPolicyMissing) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCACertPolicyMissing) Execute(c *x509.Certificate) LintResult {
 	if util.IsExtInCert(c, util.CertPolicyOID) {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

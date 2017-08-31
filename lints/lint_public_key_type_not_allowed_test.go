@@ -10,11 +10,11 @@ func TestPKTypeUnknown(t *testing.T) {
 	inputPath := "../testlint/testCerts/unknownpublickey.pem"
 	desEnum := Error
 	out := Lints["e_public_key_type_not_allowed"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestPKTypeRSA(t *testing.T) {
 	inputPath := "../testlint/testCerts/rsawithsha1before2016.pem"
 	desEnum := Pass
 	out := Lints["e_public_key_type_not_allowed"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -38,11 +38,11 @@ func TestPKTypeECDSA(t *testing.T) {
 	inputPath := "../testlint/testCerts/ecdsaP256.pem"
 	desEnum := Pass
 	out := Lints["e_public_key_type_not_allowed"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

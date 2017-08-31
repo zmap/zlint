@@ -41,15 +41,15 @@ func (l *pathLenNonPositive) CheckApplies(cert *x509.Certificate) bool {
 	return cert.BasicConstraintsValid
 }
 
-func (l *pathLenNonPositive) Execute(cert *x509.Certificate) ResultStruct {
+func (l *pathLenNonPositive) Execute(cert *x509.Certificate) LintResult {
 	ext := util.GetExtFromCert(cert, util.BasicConstOID)
 	if _, err := asn1.Unmarshal(ext.Value, &l.bc); err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if l.bc.PathLenConstraint < 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

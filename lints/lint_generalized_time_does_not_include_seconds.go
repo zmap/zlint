@@ -16,6 +16,7 @@ package lints
 
 import (
 	"encoding/asn1"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -37,23 +38,23 @@ func (l *generalizedNoSeconds) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedNoSeconds) Execute(c *x509.Certificate) ResultStruct {
+func (l *generalizedNoSeconds) Execute(c *x509.Certificate) LintResult {
 	r := Pass
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {
 		// UTC Tests on notBefore
 		checkSeconds(&r, date1)
 		if r == Error {
-			return ResultStruct{Result: r}
+			return &LintResult{Status: r}
 		}
 	}
 	if l.date2Gen {
 		checkSeconds(&r, date2)
 	}
-	return ResultStruct{Result: r}
+	return &LintResult{Status: r}
 }
 
-func checkSeconds(r *ResultEnum, t asn1.RawValue) {
+func checkSeconds(r *LintStatus, t asn1.RawValue) {
 	if t.Bytes[len(t.Bytes)-1] == 'Z' {
 		if len(t.Bytes) < 15 {
 			*r = Error

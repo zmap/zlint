@@ -29,20 +29,20 @@ func (l *IANURIFQDNOrIP) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANURIFQDNOrIP) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANURIFQDNOrIP) Execute(c *x509.Certificate) LintResult {
 	for _, uri := range c.IANURIs {
 		if uri != "" {
 			parsedUrl, err := url.Parse(uri)
 			if err != nil {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 			host := parsedUrl.Host
 			if !util.AuthIsFQDNOrIP(host) {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

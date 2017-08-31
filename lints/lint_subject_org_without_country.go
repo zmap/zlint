@@ -24,11 +24,11 @@ func (l *orgNoCountry) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *orgNoCountry) Execute(cert *x509.Certificate) ResultStruct {
+func (l *orgNoCountry) Execute(cert *x509.Certificate) LintResult {
 	if !util.TypeInName(&cert.Subject, util.CountryNameOID) && util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else { //if no organization, country can be nil
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

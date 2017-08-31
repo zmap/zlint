@@ -14,11 +14,11 @@ func TestSubCertProvinceMustNotAppear(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertProvinceMustNotAppear.pem"
 	desEnum := Error
 	out := Lints["e_sub_cert_province_must_not_appear"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -28,11 +28,11 @@ func TestSubCertProvinceCanAppear(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertProvinceCanAppear.pem"
 	desEnum := Pass
 	out := Lints["e_sub_cert_province_must_not_appear"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

@@ -31,11 +31,11 @@ func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) ResultStruct {
+func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) LintResult {
 	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by default if not found in x509.parseCert
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

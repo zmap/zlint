@@ -18,13 +18,13 @@ func (l *IANPubSuffix) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANPubSuffix) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANPubSuffix) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.IANDNSNames {
 		if len(strings.Split(dns, ".")) < 3 {
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

@@ -19,12 +19,12 @@ func (l *certPolicyConflictsWithPostal) CheckApplies(cert *x509.Certificate) boo
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRDomainValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *certPolicyConflictsWithPostal) Execute(cert *x509.Certificate) ResultStruct {
-	var out ResultStruct
+func (l *certPolicyConflictsWithPostal) Execute(cert *x509.Certificate) LintResult {
+	var out LintResult
 	if util.TypeInName(&cert.Subject, util.PostalCodeOID) {
-		out.Result = Error
+		out.Status = Error
 	} else {
-		out.Result = Pass
+		out.Status = Pass
 	}
 	return out
 }

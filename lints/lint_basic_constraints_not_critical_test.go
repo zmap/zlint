@@ -10,11 +10,11 @@ func TestBasicConstNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
 	desEnum := Error
 	out := Lints["e_basic_constraints_not_critical"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestBasicConstCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
 	desEnum := Pass
 	out := Lints["e_basic_constraints_not_critical"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

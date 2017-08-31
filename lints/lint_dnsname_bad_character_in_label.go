@@ -31,20 +31,20 @@ func (l *DNSNameProperCharacters) labelContainsBadCharacters(domain string) bool
 	return false
 }
 
-func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		badCharacterFound := l.labelContainsBadCharacters(c.Subject.CommonName)
 		if badCharacterFound {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		badCharacterFound := l.labelContainsBadCharacters(dns)
 		if badCharacterFound {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

@@ -17,15 +17,15 @@ func (l *IssuerDNTrailingSpace) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *IssuerDNTrailingSpace) Execute(c *x509.Certificate) ResultStruct {
+func (l *IssuerDNTrailingSpace) Execute(c *x509.Certificate) LintResult {
 	_, trailing, err := util.CheckRDNSequenceWhiteSpace(c.RawIssuer)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if trailing {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

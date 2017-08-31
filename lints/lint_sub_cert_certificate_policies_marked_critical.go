@@ -21,12 +21,12 @@ func (l *subCertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CertPolicyOID)
 }
 
-func (l *subCertPolicyCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCertPolicyCrit) Execute(c *x509.Certificate) LintResult {
 	e := util.GetExtFromCert(c, util.CertPolicyOID)
 	if e.Critical == false {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	}
 }
 

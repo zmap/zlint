@@ -28,12 +28,12 @@ func (l *IANNoEntry) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANNoEntry) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANNoEntry) Execute(c *x509.Certificate) LintResult {
 	ian := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if (ian.Value)[1] == 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

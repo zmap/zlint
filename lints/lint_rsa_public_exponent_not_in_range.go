@@ -29,14 +29,14 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) ResultStruct {
+func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1
 	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
-	return ResultStruct{Result: Warn}
+	return &LintResult{Status: Warn}
 }
 
 func init() {

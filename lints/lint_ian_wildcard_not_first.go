@@ -17,15 +17,15 @@ func (l *brIANWildcardFirst) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *brIANWildcardFirst) Execute(c *x509.Certificate) ResultStruct {
+func (l *brIANWildcardFirst) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.IANDNSNames {
 		for i := 1; i < len(dns); i++ {
 			if dns[i] == '*' {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

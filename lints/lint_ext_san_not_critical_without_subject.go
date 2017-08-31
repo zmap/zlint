@@ -29,11 +29,11 @@ func (l *extSANNotCritNoSubject) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *extSANNotCritNoSubject) Execute(c *x509.Certificate) ResultStruct {
+func (l *extSANNotCritNoSubject) Execute(c *x509.Certificate) LintResult {
 	if e := util.GetExtFromCert(c, util.SubjectAlternateNameOID); !util.NotAllNameFieldsAreEmpty(&c.Subject) && !e.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

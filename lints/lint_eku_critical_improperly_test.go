@@ -10,11 +10,11 @@ func TestEKUAnyCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/ekuAnyCrit.pem"
 	desEnum := Warn
 	out := Lints["w_eku_critical_improperly"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func TestEKUNoCritWAny(t *testing.T) {
 	inputPath := "../testlint/testCerts/ekuAnyNoCrit.pem"
 	desEnum := Pass
 	out := Lints["w_eku_critical_improperly"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -38,11 +38,11 @@ func TestEKUNoAnyCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/ekuNoAnyCrit.pem"
 	desEnum := Pass
 	out := Lints["w_eku_critical_improperly"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

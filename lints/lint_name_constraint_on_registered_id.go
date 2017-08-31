@@ -29,11 +29,11 @@ func (l *nameConstraintOnRegisteredId) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintOnRegisteredId) Execute(c *x509.Certificate) ResultStruct {
+func (l *nameConstraintOnRegisteredId) Execute(c *x509.Certificate) LintResult {
 	if c.PermittedRegisteredIDs != nil || c.ExcludedRegisteredIDs != nil {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

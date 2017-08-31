@@ -24,11 +24,11 @@ func (l *subCAEKUCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *subCAEKUCrit) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCAEKUCrit) Execute(c *x509.Certificate) LintResult {
 	if e := util.GetExtFromCert(c, util.EkuSynOid); e.Critical {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

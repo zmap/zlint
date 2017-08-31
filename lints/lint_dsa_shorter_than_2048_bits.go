@@ -17,18 +17,18 @@ func (l *dsaTooShort) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaTooShort) Execute(c *x509.Certificate) ResultStruct {
+func (l *dsaTooShort) Execute(c *x509.Certificate) LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: NA}
+		return &LintResult{Status: NA}
 	}
 	dsaParams := dsaKey.Parameters
 	L := dsaParams.P.BitLen()
 	N := dsaParams.Q.BitLen()
 	if L >= 2048 && N >= 244 {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
-	return ResultStruct{Result: Error}
+	return &LintResult{Status: Error}
 }
 
 func init() {

@@ -28,11 +28,11 @@ func (l *caSubjectEmpty) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caSubjectEmpty) Execute(c *x509.Certificate) ResultStruct {
+func (l *caSubjectEmpty) Execute(c *x509.Certificate) LintResult {
 	if &c.Subject != nil && util.NotAllNameFieldsAreEmpty(&c.Subject) {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

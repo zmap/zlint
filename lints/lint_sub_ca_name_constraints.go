@@ -23,17 +23,17 @@ func includesNameConstraints(c *x509.Certificate) bool {
 	}
 }
 
-func (l *subCAEKUNameConstraints) Execute(c *x509.Certificate) ResultStruct {
+func (l *subCAEKUNameConstraints) Execute(c *x509.Certificate) LintResult {
 	for _, eku := range c.ExtKeyUsage {
 		if eku == x509.ExtKeyUsageServerAuth {
 			if includesNameConstraints(c) {
-				return ResultStruct{Result: Pass}
+				return &LintResult{Status: Pass}
 			} else {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: NA}
+	return &LintResult{Status: NA}
 }
 
 func init() {

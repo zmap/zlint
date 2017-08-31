@@ -9,11 +9,11 @@ func TestSubCertAiaMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWNoURL.pem"
 	desEnum := Error
 	out := Lints["e_sub_cert_aia_missing"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -22,11 +22,11 @@ func TestSubCertAiaPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertWBothURL.pem"
 	desEnum := Pass
 	out := Lints["e_sub_cert_aia_missing"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

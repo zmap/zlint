@@ -10,11 +10,11 @@ func crlCompleteDp(t *testing.T) {
 	inputPath := "../testlint/testCerts/crlComlepteDp.pem"
 	desEnum := Pass
 	out := Lints["e_distribution_point_incomplete"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -24,11 +24,11 @@ func crlIncompleteDp(t *testing.T) {
 	inputPath := "../testlint/testCerts/crlIncomlepteDp.pem"
 	desEnum := Error
 	out := Lints["e_distribution_point_incomplete"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

@@ -18,19 +18,19 @@ func (l *dsaUniqueCorrectRepresentation) CheckApplies(c *x509.Certificate) bool 
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) ResultStruct {
+func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: NA}
+		return &LintResult{Status: NA}
 	}
 	// Verify that 2 ≤ y ≤ p-2.
 	two := big.NewInt(2)
 	pMinusTwo := big.NewInt(0)
 	pMinusTwo.Sub(dsaKey.P, two)
 	if two.Cmp(dsaKey.Y) > 0 || dsaKey.Y.Cmp(pMinusTwo) > 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

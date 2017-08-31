@@ -23,25 +23,25 @@ func (l *rootCaPathLenPresent) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c) && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *rootCaPathLenPresent) Execute(c *x509.Certificate) ResultStruct {
+func (l *rootCaPathLenPresent) Execute(c *x509.Certificate) LintResult {
 	bc := util.GetExtFromCert(c, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool
 	_, err := asn1.Unmarshal(bc.Value, &seq)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 	rest, err := asn1.Unmarshal(seq.Bytes, &isCa)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if len(rest) > 0 {
-		return ResultStruct{Result: Warn}
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

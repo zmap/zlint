@@ -21,14 +21,14 @@ func (l *ExtFreshestCrlMarkedCritical) CheckApplies(cert *x509.Certificate) bool
 	return util.IsExtInCert(cert, util.FreshCRLOID)
 }
 
-func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) ResultStruct {
+func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) LintResult {
 	var fCRL *pkix.Extension = util.GetExtFromCert(cert, util.FreshCRLOID)
 	if fCRL != nil && fCRL.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else if fCRL != nil && !fCRL.Critical {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
-	return ResultStruct{Result: NA} //shouldn't happen
+	return &LintResult{Status: NA} //shouldn't happen
 }
 
 func init() {

@@ -15,12 +15,12 @@ func (l *rootCAKeyUsagePresent) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAKeyUsagePresent) Execute(c *x509.Certificate) ResultStruct {
+func (l *rootCAKeyUsagePresent) Execute(c *x509.Certificate) LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.KeyUsageOID) {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

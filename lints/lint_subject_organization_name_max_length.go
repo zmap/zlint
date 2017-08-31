@@ -23,14 +23,14 @@ func (l *subjectOrganizationNameMaxLength) CheckApplies(c *x509.Certificate) boo
 	return true
 }
 
-func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) LintResult {
 	for _, j := range c.Subject.Organization {
 		if len(j) > 64 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

@@ -22,13 +22,13 @@ func (l *distribNoLDAPorURI) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *distribNoLDAPorURI) Execute(c *x509.Certificate) ResultStruct {
+func (l *distribNoLDAPorURI) Execute(c *x509.Certificate) LintResult {
 	for _, point := range c.CRLDistributionPoints {
 		if point = strings.ToLower(point); strings.HasPrefix(point, "http://") || strings.HasPrefix(point, "ldap://") {
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Warn}
+	return &LintResult{Status: Warn}
 }
 
 func init() {

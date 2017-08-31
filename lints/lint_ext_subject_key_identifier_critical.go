@@ -21,12 +21,12 @@ func (l *subjectKeyIdCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectKeyIdentityOID)
 }
 
-func (l *subjectKeyIdCritical) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectKeyIdCritical) Execute(c *x509.Certificate) LintResult {
 	ski := util.GetExtFromCert(c, util.SubjectKeyIdentityOID) //pointer to the extension
 	if ski.Critical {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	} else { //implies !ski.Critical
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 }
 

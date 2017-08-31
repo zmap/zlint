@@ -29,18 +29,18 @@ func (l *IANEmail) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANEmail) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANEmail) Execute(c *x509.Certificate) LintResult {
 	for _, str := range c.IANEmailAddresses {
 		if str == "" {
 			continue
 		}
 		if strings.Contains(str, " ") {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		} else if str[0] == '<' || str[len(str)-1] == ')' {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

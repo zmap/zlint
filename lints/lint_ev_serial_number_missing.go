@@ -17,11 +17,11 @@ func (l *evSNMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers)
 }
 
-func (l *evSNMissing) Execute(c *x509.Certificate) ResultStruct {
+func (l *evSNMissing) Execute(c *x509.Certificate) LintResult {
 	if c.SerialNumber.BitLen() == 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

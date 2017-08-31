@@ -9,11 +9,11 @@ func TestValidityNegative(t *testing.T) {
 	inputPath := "../testlint/testCerts/validityNegative.pem"
 	desEnum := Error
 	out := Lints["e_validity_time_not_positive"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -22,11 +22,11 @@ func TestValidityPositive(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
 	desEnum := Pass
 	out := Lints["e_validity_time_not_positive"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

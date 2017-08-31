@@ -26,18 +26,18 @@ func domainHasEmptyLabel(domain string) bool {
 	return false
 }
 
-func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) ResultStruct {
+func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.CommonName != "" {
 		if domainHasEmptyLabel(c.Subject.CommonName) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		if domainHasEmptyLabel(dns) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

@@ -9,11 +9,11 @@ func TestBrSANWildcardFirst(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWildcardFirst.pem"
 	desEnum := Error
 	out := Lints["e_san_wildcard_not_first"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }
@@ -22,11 +22,11 @@ func TestBrSANWildcardNotFirst(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIValid.pem"
 	desEnum := Pass
 	out := Lints["e_san_wildcard_not_first"].Execute(ReadCertificate(inputPath))
-	if out.Result != desEnum {
+	if out.Status != desEnum {
 		t.Error(
 			"For", inputPath, /* input path*/
 			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
+			"got", out.Status, /* Actual Result */
 		)
 	}
 }

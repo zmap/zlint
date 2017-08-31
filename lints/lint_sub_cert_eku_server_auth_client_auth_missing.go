@@ -22,16 +22,16 @@ func (l *subExtKeyUsageClientOrServer) CheckApplies(c *x509.Certificate) bool {
 	return c.ExtKeyUsage != nil
 }
 
-func (l *subExtKeyUsageClientOrServer) Execute(c *x509.Certificate) ResultStruct {
+func (l *subExtKeyUsageClientOrServer) Execute(c *x509.Certificate) LintResult {
 	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth || kp == x509.ExtKeyUsageClientAuth {
 			// If we find either of ServerAuth or ClientAuth, Pass
-			return ResultStruct{Result: Pass}
+			return &LintResult{Status: Pass}
 		}
 	}
 	// If neither were found, Error
-	return ResultStruct{Result: Error}
+	return &LintResult{Status: Error}
 }
 
 func init() {

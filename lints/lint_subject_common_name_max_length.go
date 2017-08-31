@@ -23,11 +23,11 @@ func (l *subjectCommonNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectCommonNameMaxLength) Execute(c *x509.Certificate) ResultStruct {
+func (l *subjectCommonNameMaxLength) Execute(c *x509.Certificate) LintResult {
 	if len(c.Subject.CommonName) > 64 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

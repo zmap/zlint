@@ -17,13 +17,13 @@ func (l *SANDNSTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID) && len(c.DNSNames) > 0
 }
 
-func (l *SANDNSTooLong) Execute(c *x509.Certificate) ResultStruct {
+func (l *SANDNSTooLong) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.DNSNames {
 		if len(dns) > 253 {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

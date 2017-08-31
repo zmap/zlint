@@ -26,37 +26,37 @@ func (l *generalizedPre2050) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *generalizedPre2050) Execute(c *x509.Certificate) ResultStruct {
+func (l *generalizedPre2050) Execute(c *x509.Certificate) LintResult {
 	date1, date2 := util.GetTimes(c)
 	var t time.Time
 	type1, type2 := util.FindTimeType(date1, date2)
 	if type1 == 24 {
 		temp, err := asn1.Marshal(date1)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		_, err = asn1.Unmarshal(temp, &t)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if t.Before(util.GeneralizedDate) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 	if type2 == 24 {
 		temp, err := asn1.Marshal(date2)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		_, err = asn1.Unmarshal(temp, &t)
 		if err != nil {
-			return ResultStruct{Result: Fatal}
+			return &LintResult{Status: Fatal}
 		}
 		if t.Before(util.GeneralizedDate) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

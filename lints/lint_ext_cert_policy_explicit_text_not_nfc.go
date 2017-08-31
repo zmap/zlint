@@ -27,17 +27,17 @@ func (l *ExtCertPolicyExplicitTextNotNFC) CheckApplies(c *x509.Certificate) bool
 	return false
 }
 
-func (l *ExtCertPolicyExplicitTextNotNFC) Execute(c *x509.Certificate) ResultStruct {
+func (l *ExtCertPolicyExplicitTextNotNFC) Execute(c *x509.Certificate) LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag == 12 || text.Tag == 30 {
 				if !norm.NFC.IsNormal(text.Bytes) {
-					return ResultStruct{Result: Warn}
+					return &LintResult{Status: Warn}
 				}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

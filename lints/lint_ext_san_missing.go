@@ -23,11 +23,11 @@ func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *SANMissing) Execute(c *x509.Certificate) ResultStruct {
+func (l *SANMissing) Execute(c *x509.Certificate) LintResult {
 	if util.IsExtInCert(c, util.SubjectAlternateNameOID) {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

@@ -32,19 +32,19 @@ func (l *IANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSNotIA5String) Execute(c *x509.Certificate) ResultStruct {
+func (l *IANDNSNotIA5String) Execute(c *x509.Certificate) LintResult {
 	ext := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if ext == nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	ok, err := util.AllAlternateNameWithTagAreIA5(ext, util.DNSNameTag)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if ok {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
 }
 

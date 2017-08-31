@@ -17,15 +17,15 @@ func (l *SANDNSNull) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANDNSNull) Execute(c *x509.Certificate) ResultStruct {
+func (l *SANDNSNull) Execute(c *x509.Certificate) LintResult {
 	for _, dns := range c.DNSNames {
 		for i := 0; i < len(dns); i++ {
 			if dns[i] == 0 {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

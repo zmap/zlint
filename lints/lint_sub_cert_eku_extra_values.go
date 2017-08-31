@@ -22,7 +22,7 @@ func (l *subExtKeyUsageLegalUsage) CheckApplies(c *x509.Certificate) bool {
 	return c.ExtKeyUsage != nil
 }
 
-func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) ResultStruct {
+func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) LintResult {
 	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth ||
@@ -32,11 +32,11 @@ func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) ResultStruct {
 			continue
 		} else {
 			// A bad usage was found, report and leave
-			return ResultStruct{Result: Warn}
+			return &LintResult{Status: Warn}
 		}
 	}
 	// If no bad usage was found, pass
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

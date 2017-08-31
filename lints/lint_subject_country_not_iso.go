@@ -26,13 +26,13 @@ func (l *countryNotIso) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *countryNotIso) Execute(c *x509.Certificate) ResultStruct {
+func (l *countryNotIso) Execute(c *x509.Certificate) LintResult {
 	for _, j := range c.Subject.Country {
 		if !util.IsISOCountryCode(strings.ToUpper(j)) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

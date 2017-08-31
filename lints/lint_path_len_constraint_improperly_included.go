@@ -25,26 +25,26 @@ func (l *pathLenIncluded) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.BasicConstOID)
 }
 
-func (l *pathLenIncluded) Execute(cert *x509.Certificate) ResultStruct {
+func (l *pathLenIncluded) Execute(cert *x509.Certificate) LintResult {
 	bc := util.GetExtFromCert(cert, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool
 	_, err := asn1.Unmarshal(bc.Value, &seq)
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	}
 	rest, err := asn1.UnmarshalWithParams(seq.Bytes, &isCa, "optional")
 	if err != nil {
-		return ResultStruct{Result: Fatal}
+		return &LintResult{Status: Fatal}
 	}
 	keyUsageValue := util.IsExtInCert(cert, util.KeyUsageOID)
 	if len(rest) > 0 && (!cert.IsCA || !keyUsageValue || (keyUsageValue && cert.KeyUsage&x509.KeyUsageCertSign == 0)) {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

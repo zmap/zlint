@@ -29,19 +29,19 @@ func (l *uriRelative) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *uriRelative) Execute(c *x509.Certificate) ResultStruct {
+func (l *uriRelative) Execute(c *x509.Certificate) LintResult {
 	for _, uri := range c.IANURIs {
 		parsed_uri, err := url.Parse(uri)
 
 		if err != nil {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 
 		if !parsed_uri.IsAbs() {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

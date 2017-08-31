@@ -35,11 +35,11 @@ func (l *CertExtensionsVersonNot3) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *CertExtensionsVersonNot3) Execute(cert *x509.Certificate) ResultStruct {
+func (l *CertExtensionsVersonNot3) Execute(cert *x509.Certificate) LintResult {
 	if cert.Version != 3 && len(cert.Extensions) != 0 {
-		return ResultStruct{Result: Error}
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

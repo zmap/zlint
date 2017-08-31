@@ -25,14 +25,14 @@ func (l *SANReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *SANReservedIP) Execute(c *x509.Certificate) ResultStruct {
+func (l *SANReservedIP) Execute(c *x509.Certificate) LintResult {
 	for _, ip := range c.IPAddresses {
 		if util.ValidIP(ip) && util.IsReservedIP(ip) {
-			return ResultStruct{Result: Error}
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}
+	return &LintResult{Status: Pass}
 }
 
 func init() {

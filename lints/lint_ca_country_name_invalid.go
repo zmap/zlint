@@ -23,16 +23,16 @@ func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caCountryNameInvalid) Execute(c *x509.Certificate) ResultStruct {
+func (l *caCountryNameInvalid) Execute(c *x509.Certificate) LintResult {
 	if c.Subject.Country != nil {
 		for _, j := range c.Subject.Country {
 			if !util.IsISOCountryCode(j) {
-				return ResultStruct{Result: Error}
+				return &LintResult{Status: Error}
 			}
 		}
-		return ResultStruct{Result: Pass}
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: NA}
+		return &LintResult{Status: NA}
 	}
 }
 

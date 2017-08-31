@@ -25,7 +25,7 @@ type LintInterface interface {
 
 	// Execute() is the body of the lint. It is called for every certificate for
 	// which CheckApplies() returns true.
-	Execute(c *x509.Certificate) ResultStruct
+	Execute(c *x509.Certificate) *LintResult
 }
 
 // A Lint struct represents a single lint, e.g.
@@ -68,13 +68,14 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // CheckApplies()
 // CheckEffective()
 // Execute()
-func (l *Lint) Execute(cert *x509.Certificate) ResultStruct {
+func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
 	if !l.Lint.CheckApplies(cert) {
-		return ResultStruct{Result: NA}
+		return &LintResult{Status: NA}
 	} else if !l.CheckEffective(cert) {
-		return ResultStruct{Result: NE}
+		return &LintResult{Status: NE}
 	}
-	return l.Lint.Execute(cert)
+	res := l.Lint.Execute(cert)
+	return res
 }
 
 // RegisterLint must be called once for each lint to be excuted. Duplicate lint
