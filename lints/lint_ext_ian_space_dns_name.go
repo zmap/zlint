@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_ian_space_dns_name",
 		Description:   "dNSName ' ' MUST NOT be used",
-		Provenance:    "RFC 5280: 4.2.1.6",
+		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &IANSpace{},
 	})

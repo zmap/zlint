@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_authority_key_identifier_no_key_identifier",
 		Description:   "CAs must include keyIdentifer field of AKI in all non-self-issued certificates",
-		Provenance:    "RFC 5280: 4.2.1.1",
+		Source:        "RFC 5280: 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &authorityKeyIdNoKeyIdField{},
 	})

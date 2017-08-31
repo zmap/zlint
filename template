@@ -1,0 +1,34 @@
+// lint_SUBTEST.go
+
+package lints
+
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/util"
+)
+
+type SUBST struct {
+	// Internal data here
+}
+
+func (l *SUBST) Initialize() error {
+	return nil
+}
+
+func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
+	// Add conditions for application here
+}
+
+func (l *SUBST) RunTest(c *x509.Certificate) (ResultStruct, error) {
+	// Add actual lint here
+}
+
+func init() {
+	registerLint(&Lint{
+		Name:          "SUBTEST",
+		Description:   "Fill this in...",
+		Source:    "Fill this in...",
+		EffectiveDate: "Change this...",
+		Test:          &SUBST{},
+	})
+}

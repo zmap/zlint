@@ -38,7 +38,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_org_without_country",
 		Description:   "The organization name field MUST not be included without a country name",
-		Provenance:    "BRs: 7.1.4.2.2 (d&e)",
+		Source:        "BRs: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &orgNoCountry{},
 	})

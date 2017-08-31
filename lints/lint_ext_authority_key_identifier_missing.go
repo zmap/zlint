@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_authority_key_identifier_missing",
 		Description:   "CAs must support key identifiers and include them in all certificates",
-		Provenance:    "RFC 5280: 4.2 & 4.2.1.1",
+		Source:        "RFC 5280: 4.2 & 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &authorityKeyIdMissing{},
 	})

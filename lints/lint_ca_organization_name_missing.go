@@ -36,7 +36,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_organization_name_missing",
 		Description:   "Root and Subordinate CA certificates MUST have a organizationName present in subject information",
-		Provenance:    "BRs: 7.1.2.1",
+		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &caOrganizationNameMissing{},
 	})

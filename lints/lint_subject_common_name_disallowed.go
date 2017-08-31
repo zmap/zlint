@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_disallowed",
 		Description:   "If present in a subscriber certificate, commonName MUST contain a single IP address or Fully‐Qualified Domain Name that is one of the values contained in the certificate’s subjectAltName extension",
-		Provenance:    "CAB: 7.1.4.2.2",
+		Source:        "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &BadCommonName{},
 	})

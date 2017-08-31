@@ -107,7 +107,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_name_constraint_maximum_not_absent",
 		Description:   "Within the name constraints name form, the maximum field is not used and therefore MUST be absent",
-		Provenance:    "RFC 5280: 4.2.1.10",
+		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &nameConstraintMax{},
 	})

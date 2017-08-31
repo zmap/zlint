@@ -45,7 +45,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_left_label_wildcard_correct",
 		Description:   "Wildcards in the left label of DNSName should only be *",
-		Provenance:    "RFC 5280",
+		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
 		Test:          &DNSNameLeftLabelWildcardCheck{},
 	})

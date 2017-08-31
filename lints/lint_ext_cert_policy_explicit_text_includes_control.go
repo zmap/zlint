@@ -70,7 +70,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_cert_policy_explicit_text_includes_control",
 		Description:   "Explicit text should not include any control charaters",
-		Provenance:    "RFC 6818: 3",
+		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &controlChar{},
 	})

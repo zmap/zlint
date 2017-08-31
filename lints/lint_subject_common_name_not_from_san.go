@@ -47,7 +47,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_not_from_san",
 		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
-		Provenance:    "BRs: 7.1.4.2.2",
+		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subjectCommonNameNotFromSAN{},
 	})

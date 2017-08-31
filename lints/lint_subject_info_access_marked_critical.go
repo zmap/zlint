@@ -33,7 +33,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_info_access_marked_critical",
 		Description:   "Conforming CAs MUST mark the Subject Info Access extension as non-critical",
-		Provenance:    "RFC 5280: 4.2.2.2",
+		Source:        "RFC 5280: 4.2.2.2",
 		EffectiveDate: util.RFC3280Date,
 		Test:          &siaCrit{},
 	})

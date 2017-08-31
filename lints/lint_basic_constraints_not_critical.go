@@ -49,7 +49,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_basic_constraints_not_critical",
 		Description:   "basicConstraints MUST appear as a critical extension",
-		Provenance:    "RFC 5280: 4.2.1.9",
+		Source:        "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &basicConstCrit{},
 	})

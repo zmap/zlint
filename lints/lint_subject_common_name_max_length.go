@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_max_length",
 		Description:   "The commonName field of the subject MUST be less than 64 characters",
-		Provenance:    "RFC 5280: A.1",
+		Source:        "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &subjectCommonNameMaxLength{},
 	})

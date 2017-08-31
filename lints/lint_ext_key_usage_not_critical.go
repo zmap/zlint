@@ -37,7 +37,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_key_usage_not_critical",
 		Description:   "The keyUsage extension SHOULD be critical",
-		Provenance:    "RFC 5280: 4.2.1.3",
+		Source:        "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC2459Date,
 		Test:          &checkKeyUsageCritical{},
 	})

@@ -32,7 +32,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_province_must_appear",
 		Description:   "Subscriber Certificate: subject:stateOrProvinceName MUST appear if the subject:organizationName, subject:givenName, or subject:surname fields are present and subject:localityName is absent.",
-		Provenance:    "BRs: 7.1.4.2.2",
+		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &subCertProvinceMustAppear{},
 	})

@@ -52,7 +52,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_cert_policy_explicit_text_ia5_string",
 		Description:   "Compliant certificates must not encode explicitTest as an IA5String",
-		Provenance:    "RFC 6818: 3",
+		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
 		Test:          &explicitTextIA5String{},
 	})
