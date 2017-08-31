@@ -6,9 +6,7 @@ import (
 	"strings"
 )
 
-type DNSNameLabelLengthTooLong struct {
-	// Internal data here
-}
+type DNSNameLabelLengthTooLong struct{}
 
 func (l *DNSNameLabelLengthTooLong) Initialize() error {
 	return nil

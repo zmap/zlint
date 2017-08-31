@@ -14,16 +14,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCAEKUCrit struct {
-	// Internal data here
-}
+type subCAEKUCrit struct{}
 
 func (l *subCAEKUCrit) Initialize() error {
 	return nil
 }
 
 func (l *subCAEKUCrit) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 

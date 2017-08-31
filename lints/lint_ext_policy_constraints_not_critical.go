@@ -11,9 +11,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type policyConstraintsCritical struct {
-	// Internal data here
-}
+type policyConstraintsCritical struct{}
 
 func (l *policyConstraintsCritical) Initialize() error {
 	return nil

@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type evOrgMissing struct {
-	// Internal data here
-}
+type evOrgMissing struct{}
 
 func (l *evOrgMissing) Initialize() error {
 	return nil

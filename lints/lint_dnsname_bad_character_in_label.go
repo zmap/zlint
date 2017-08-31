@@ -8,7 +8,6 @@ import (
 )
 
 type DNSNameProperCharacters struct {
-	// Internal data here
 	CompiledExpression *regexp.Regexp
 }
 

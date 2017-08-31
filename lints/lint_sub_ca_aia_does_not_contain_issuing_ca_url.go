@@ -15,16 +15,13 @@ import (
 	"strings"
 )
 
-type subCaIssuerUrl struct {
-	// Internal data here
-}
+type subCaIssuerUrl struct{}
 
 func (l *subCaIssuerUrl) Initialize() error {
 	return nil
 }
 
 func (l *subCaIssuerUrl) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsCACert(c) && !util.IsRootCA(c)
 }
 

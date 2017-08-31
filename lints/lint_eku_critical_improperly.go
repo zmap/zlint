@@ -19,16 +19,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ekuBadCritical struct {
-	// Internal data here
-}
+type ekuBadCritical struct{}
 
 func (l *ekuBadCritical) Initialize() error {
 	return nil
 }
 
 func (l *ekuBadCritical) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.EkuSynOid)
 }
 

@@ -8,9 +8,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type dsaParamsMissing struct {
-	// Internal data here
-}
+type dsaParamsMissing struct{}
 
 func (l *dsaParamsMissing) Initialize() error {
 	return nil

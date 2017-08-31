@@ -8,9 +8,7 @@ import (
 	"strings"
 )
 
-type SANDNSPeriod struct {
-	// Internal data here
-}
+type SANDNSPeriod struct{}
 
 func (l *SANDNSPeriod) Initialize() error {
 	return nil

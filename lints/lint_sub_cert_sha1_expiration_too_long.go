@@ -14,9 +14,7 @@ import (
 	"time"
 )
 
-type sha1ExpireLong struct {
-	// Internal data here
-}
+type sha1ExpireLong struct{}
 
 func (l *sha1ExpireLong) Initialize() error {
 	return nil

@@ -12,9 +12,7 @@ import (
 	"net/url"
 )
 
-type IANURIFormat struct {
-	// Internal data here
-}
+type IANURIFormat struct{}
 
 func (l *IANURIFormat) Initialize() error {
 	return nil

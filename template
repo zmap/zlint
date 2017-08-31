@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SUBST struct {
-	// Internal data here
-}
+type SUBST struct{}
 
 func (l *SUBST) Initialize() error {
 	return nil
@@ -27,7 +25,7 @@ func init() {
 	registerLint(&Lint{
 		Name:          "SUBTEST",
 		Description:   "Fill this in...",
-		Source:    "Fill this in...",
+		Source:        "Fill this in...",
 		EffectiveDate: "Change this...",
 		Test:          &SUBST{},
 	})

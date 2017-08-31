@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type postalNoOrg struct {
-	// Internal data here
-}
+type postalNoOrg struct{}
 
 func (l *postalNoOrg) Initialize() error {
 	return nil

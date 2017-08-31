@@ -7,16 +7,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type dsaImproperSize struct {
-	// Internal data here
-}
+type dsaImproperSize struct{}
 
 func (l *dsaImproperSize) Initialize() error {
 	return nil
 }
 
 func (l *dsaImproperSize) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 

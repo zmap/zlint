@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCAEKUValidFields struct {
-	// Internal data here
-}
+type subCAEKUValidFields struct{}
 
 func (l *subCAEKUValidFields) Initialize() error {
 	return nil

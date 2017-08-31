@@ -6,16 +6,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertNotCA struct {
-	// Internal data here
-}
+type subCertNotCA struct{}
 
 func (l *subCertNotCA) Initialize() error {
 	return nil
 }
 
 func (l *subCertNotCA) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.KeyUsageOID) && c.KeyUsage&x509.KeyUsageCertSign == 0 && util.IsExtInCert(c, util.BasicConstOID)
 }
 

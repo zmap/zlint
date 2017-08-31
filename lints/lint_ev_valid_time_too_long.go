@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type evValidTooLong struct {
-	// Internal data here
-}
+type evValidTooLong struct{}
 
 func (l *evValidTooLong) Initialize() error {
 	return nil

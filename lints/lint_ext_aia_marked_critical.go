@@ -12,9 +12,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ExtAiaMarkedCritical struct {
-	// Internal data here
-}
+type ExtAiaMarkedCritical struct{}
 
 func (l *ExtAiaMarkedCritical) Initialize() error {
 	return nil

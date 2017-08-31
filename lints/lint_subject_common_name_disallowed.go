@@ -15,9 +15,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type BadCommonName struct {
-	// Internal data here
-}
+type BadCommonName struct{}
 
 func (l *BadCommonName) Initialize() error {
 	return nil

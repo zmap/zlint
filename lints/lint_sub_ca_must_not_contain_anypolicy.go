@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCaMustNotContainAnyPolicy struct {
-	// Internal data here
-}
+type subCaMustNotContainAnyPolicy struct{}
 
 func (l *subCaMustNotContainAnyPolicy) Initialize() error {
 	return nil

@@ -12,9 +12,7 @@ import (
 	"net/url"
 )
 
-type extSANURIFormatInvalid struct {
-	// Internal data here
-}
+type extSANURIFormatInvalid struct{}
 
 func (l *extSANURIFormatInvalid) Initialize() error {
 	return nil

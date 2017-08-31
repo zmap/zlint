@@ -16,9 +16,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type countryNotIso struct {
-	// Internal data here
-}
+type countryNotIso struct{}
 
 func (l *countryNotIso) Initialize() error {
 	return nil

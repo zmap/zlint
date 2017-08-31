@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintMax struct {
-	// Internal data here
-}
+type nameConstraintMax struct{}
 
 func (l *nameConstraintMax) Initialize() error {
 	return nil

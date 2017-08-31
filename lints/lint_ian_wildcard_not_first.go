@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type brIANWildcardFirst struct {
-	// Internal data here
-}
+type brIANWildcardFirst struct{}
 
 func (l *brIANWildcardFirst) Initialize() error {
 	return nil

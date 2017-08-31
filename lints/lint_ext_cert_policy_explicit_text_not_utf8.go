@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type explicitTextUtf8 struct {
-	// Internal data here
-}
+type explicitTextUtf8 struct{}
 
 func (l *explicitTextUtf8) Initialize() error {
 	return nil

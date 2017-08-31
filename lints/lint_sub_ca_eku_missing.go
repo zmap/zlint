@@ -5,16 +5,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCAEKUMissing struct {
-	// Internal data here
-}
+type subCAEKUMissing struct{}
 
 func (l *subCAEKUMissing) Initialize() error {
 	return nil
 }
 
 func (l *subCAEKUMissing) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubCA(c)
 }
 

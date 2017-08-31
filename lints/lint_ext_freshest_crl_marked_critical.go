@@ -11,9 +11,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ExtFreshestCrlMarkedCritical struct {
-	// Internal data here
-}
+type ExtFreshestCrlMarkedCritical struct{}
 
 func (l *ExtFreshestCrlMarkedCritical) Initialize() error {
 	return nil

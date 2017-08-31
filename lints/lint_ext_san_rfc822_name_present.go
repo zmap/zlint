@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANRfc822 struct {
-	// Internal data here
-}
+type SANRfc822 struct{}
 
 func (l *SANRfc822) Initialize() error {
 	return nil

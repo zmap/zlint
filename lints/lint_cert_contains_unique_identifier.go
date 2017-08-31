@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type CertContainsUniqueIdentifier struct {
-	// Internal data here
-}
+type CertContainsUniqueIdentifier struct{}
 
 func (l *CertContainsUniqueIdentifier) Initialize() error {
 	return nil

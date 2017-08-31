@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ExtCertPolicyDuplicate struct {
-	// Internal data here
-}
+type ExtCertPolicyDuplicate struct{}
 
 func (l *ExtCertPolicyDuplicate) Initialize() error {
 	return nil

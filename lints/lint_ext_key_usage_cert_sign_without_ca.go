@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type keyUsageCertSignNoCa struct {
-	// Internal data here
-}
+type keyUsageCertSignNoCa struct{}
 
 func (l *keyUsageCertSignNoCa) Initialize() error {
 	return nil

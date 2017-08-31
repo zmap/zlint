@@ -13,16 +13,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subjectLocalityNameMaxLength struct {
-	// Internal data here
-}
+type subjectLocalityNameMaxLength struct{}
 
 func (l *subjectLocalityNameMaxLength) Initialize() error {
 	return nil
 }
 
 func (l *subjectLocalityNameMaxLength) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return true
 }
 

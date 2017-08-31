@@ -12,16 +12,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCrlSignAllowed struct {
-	// Internal data here
-}
+type subCrlSignAllowed struct{}
 
 func (l *subCrlSignAllowed) Initialize() error {
 	return nil
 }
 
 func (l *subCrlSignAllowed) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 

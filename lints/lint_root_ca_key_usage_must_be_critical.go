@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rootCAKeyUsageMustBeCritical struct {
-	// Internal data here
-}
+type rootCAKeyUsageMustBeCritical struct{}
 
 func (l *rootCAKeyUsageMustBeCritical) Initialize() error {
 	return nil

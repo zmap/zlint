@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertCountryNameMustAppear struct {
-	// Internal data here
-}
+type subCertCountryNameMustAppear struct{}
 
 func (l *subCertCountryNameMustAppear) Initialize() error {
 	return nil

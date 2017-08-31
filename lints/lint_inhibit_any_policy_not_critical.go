@@ -21,9 +21,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type InhibitAnyPolicyNotCritical struct {
-	// Internal data here
-}
+type InhibitAnyPolicyNotCritical struct{}
 
 func (l *InhibitAnyPolicyNotCritical) Initialize() error {
 	return nil

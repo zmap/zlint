@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type evNoBiz struct {
-	// Internal data here
-}
+type evNoBiz struct{}
 
 func (l *evNoBiz) Initialize() error {
 	return nil

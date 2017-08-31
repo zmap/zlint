@@ -18,9 +18,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintCrit struct {
-	// Internal data here
-}
+type nameConstraintCrit struct{}
 
 func (l *nameConstraintCrit) Initialize() error {
 	return nil

@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type unrecommendedQualifier struct {
-	// Internal data here
-}
+type unrecommendedQualifier struct{}
 
 func (l *unrecommendedQualifier) Initialize() error {
 	return nil

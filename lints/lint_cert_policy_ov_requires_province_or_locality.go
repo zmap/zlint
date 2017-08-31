@@ -8,9 +8,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type CertPolicyOVRequiresProvinceOrLocal struct {
-	// Internal data here
-}
+type CertPolicyOVRequiresProvinceOrLocal struct{}
 
 func (l *CertPolicyOVRequiresProvinceOrLocal) Initialize() error {
 	return nil

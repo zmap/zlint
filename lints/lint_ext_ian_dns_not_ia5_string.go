@@ -22,9 +22,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type IANDNSNotIA5String struct {
-	// Internal data here
-}
+type IANDNSNotIA5String struct{}
 
 func (l *IANDNSNotIA5String) Initialize() error {
 	return nil

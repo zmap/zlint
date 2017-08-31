@@ -14,16 +14,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type caKeyUsageMissing struct {
-	// Internal data here
-}
+type caKeyUsageMissing struct{}
 
 func (l *caKeyUsageMissing) Initialize() error {
 	return nil
 }
 
 func (l *caKeyUsageMissing) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.IsCA
 }
 

@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type validityNegative struct {
-	// Internal data here
-}
+type validityNegative struct{}
 
 func (l *validityNegative) Initialize() error {
 	return nil

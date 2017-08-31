@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANOtherName struct {
-	// Internal data here
-}
+type SANOtherName struct{}
 
 func (l *SANOtherName) Initialize() error {
 	return nil

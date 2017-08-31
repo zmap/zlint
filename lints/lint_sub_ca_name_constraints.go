@@ -5,16 +5,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCAEKUNameConstraints struct {
-	// Internal data here
-}
+type subCAEKUNameConstraints struct{}
 
 func (l *subCAEKUNameConstraints) Initialize() error {
 	return nil
 }
 
 func (l *subCAEKUNameConstraints) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 

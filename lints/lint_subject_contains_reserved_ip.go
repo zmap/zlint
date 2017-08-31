@@ -16,9 +16,7 @@ import (
 	"net"
 )
 
-type subjectReservedIP struct {
-	// Internal data here
-}
+type subjectReservedIP struct{}
 
 func (l *subjectReservedIP) Initialize() error {
 	return nil

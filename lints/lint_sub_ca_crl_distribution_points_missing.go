@@ -12,16 +12,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCACRLDistMissing struct {
-	// Internal data here
-}
+type subCACRLDistMissing struct{}
 
 func (l *subCACRLDistMissing) Initialize() error {
 	return nil
 }
 
 func (l *subCACRLDistMissing) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsSubCA(c)
 }
 

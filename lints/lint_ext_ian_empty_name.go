@@ -20,9 +20,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type IANEmptyName struct {
-	// Internal data here
-}
+type IANEmptyName struct{}
 
 func (l *IANEmptyName) Initialize() error {
 	return nil

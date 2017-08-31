@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type explicitTextTooLong struct {
-	// Internal data here
-}
+type explicitTextTooLong struct{}
 
 func (l *explicitTextTooLong) Initialize() error {
 	return nil

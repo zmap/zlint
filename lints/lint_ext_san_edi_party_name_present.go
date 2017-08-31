@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANEDI struct {
-	// Internal data here
-}
+type SANEDI struct{}
 
 func (l *SANEDI) Initialize() error {
 	return nil

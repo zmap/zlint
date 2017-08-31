@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ExtCrlDistributionMarkedCritical struct {
-	// Internal data here
-}
+type ExtCrlDistributionMarkedCritical struct{}
 
 func (l *ExtCrlDistributionMarkedCritical) Initialize() error {
 	return nil

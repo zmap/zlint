@@ -19,9 +19,7 @@ import (
 	"net/url"
 )
 
-type extSANURIRelative struct {
-	// Internal data here
-}
+type extSANURIRelative struct{}
 
 func (l *extSANURIRelative) Initialize() error {
 	return nil

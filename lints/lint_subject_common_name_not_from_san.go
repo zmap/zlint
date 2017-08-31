@@ -13,9 +13,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subjectCommonNameNotFromSAN struct {
-	// Internal data here
-}
+type subjectCommonNameNotFromSAN struct{}
 
 func (l *subjectCommonNameNotFromSAN) Initialize() error {
 	return nil

@@ -16,9 +16,7 @@ import (
 	"time"
 )
 
-type generalizedPre2050 struct {
-	// Internal data here
-}
+type generalizedPre2050 struct{}
 
 func (l *generalizedPre2050) Initialize() error {
 	return nil

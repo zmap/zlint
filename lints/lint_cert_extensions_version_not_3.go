@@ -25,9 +25,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type CertExtensionsVersonNot3 struct {
-	// Internal data here
-}
+type CertExtensionsVersonNot3 struct{}
 
 func (l *CertExtensionsVersonNot3) Initialize() error {
 	return nil

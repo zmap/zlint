@@ -18,9 +18,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANNoEntry struct {
-	// Internal data here
-}
+type SANNoEntry struct{}
 
 func (l *SANNoEntry) Initialize() error {
 	return nil

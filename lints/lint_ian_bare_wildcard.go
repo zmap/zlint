@@ -8,9 +8,7 @@ import (
 	"strings"
 )
 
-type brIANBareWildcard struct {
-	// Internal data here
-}
+type brIANBareWildcard struct{}
 
 func (l *brIANBareWildcard) Initialize() error {
 	return nil

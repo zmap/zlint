@@ -13,16 +13,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type ecImproperCurves struct {
-	// Internal data here
-}
+type ecImproperCurves struct{}
 
 func (l *ecImproperCurves) Initialize() error {
 	return nil
 }
 
 func (l *ecImproperCurves) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.PublicKeyAlgorithm == x509.ECDSA
 }
 

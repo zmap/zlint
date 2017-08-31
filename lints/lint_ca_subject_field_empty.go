@@ -18,16 +18,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type caSubjectEmpty struct {
-	// Internal data here
-}
+type caSubjectEmpty struct{}
 
 func (l *caSubjectEmpty) Initialize() error {
 	return nil
 }
 
 func (l *caSubjectEmpty) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.IsCA
 }
 

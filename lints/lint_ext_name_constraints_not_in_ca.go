@@ -17,9 +17,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type nameConstraintNotCa struct {
-	// Internal data here
-}
+type nameConstraintNotCa struct{}
 
 func (l *nameConstraintNotCa) Initialize() error {
 	return nil

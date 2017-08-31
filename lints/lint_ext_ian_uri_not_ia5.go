@@ -12,9 +12,7 @@ import (
 	"unicode"
 )
 
-type IANURIIA5String struct {
-	// Internal data here
-}
+type IANURIIA5String struct{}
 
 func (l *IANURIIA5String) Initialize() error {
 	return nil

@@ -19,9 +19,7 @@ import (
 	"net/url"
 )
 
-type uriRelative struct {
-	// Internal data here
-}
+type uriRelative struct{}
 
 func (l *uriRelative) Initialize() error {
 	return nil

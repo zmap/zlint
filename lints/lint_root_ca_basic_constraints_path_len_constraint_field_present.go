@@ -13,9 +13,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type rootCaPathLenPresent struct {
-	// Internal data here
-}
+type rootCaPathLenPresent struct{}
 
 func (l *rootCaPathLenPresent) Initialize() error {
 	return nil

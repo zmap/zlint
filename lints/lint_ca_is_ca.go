@@ -6,9 +6,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type caIsCA struct {
-	// Internal data here
-}
+type caIsCA struct{}
 
 type basicConstraints struct {
 	IsCA       bool `asn1:"optional"`
@@ -20,7 +18,6 @@ func (l *caIsCA) Initialize() error {
 }
 
 func (l *caIsCA) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.KeyUsageOID) && c.KeyUsage&x509.KeyUsageCertSign != 0 && util.IsExtInCert(c, util.BasicConstOID)
 }
 

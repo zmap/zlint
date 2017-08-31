@@ -14,9 +14,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subDirAttrCrit struct {
-	// Internal data here
-}
+type subDirAttrCrit struct{}
 
 func (l *subDirAttrCrit) Initialize() error {
 	return nil

@@ -10,16 +10,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type sigAlgTestsSHA1 struct {
-	// Internal data here
-}
+type sigAlgTestsSHA1 struct{}
 
 func (l *sigAlgTestsSHA1) Initialize() error {
 	return nil
 }
 
 func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return true
 }
 

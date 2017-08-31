@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type dsaTooShort struct {
-	// Internal data here
-}
+type dsaTooShort struct{}
 
 func (l *dsaTooShort) Initialize() error {
 	return nil

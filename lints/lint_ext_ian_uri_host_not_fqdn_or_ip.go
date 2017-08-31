@@ -19,9 +19,7 @@ import (
 	"net/url"
 )
 
-type IANURIFQDNOrIP struct {
-	// Internal data here
-}
+type IANURIFQDNOrIP struct{}
 
 func (l *IANURIFQDNOrIP) Initialize() error {
 	return nil

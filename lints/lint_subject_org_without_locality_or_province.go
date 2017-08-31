@@ -10,9 +10,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type orgNoLocalOrProvince struct {
-	// Internal data here
-}
+type orgNoLocalOrProvince struct{}
 
 func (l *orgNoLocalOrProvince) Initialize() error {
 	return nil

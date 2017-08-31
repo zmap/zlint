@@ -7,9 +7,7 @@ import (
 	"strings"
 )
 
-type DNSNameUnderscoreInSLD struct {
-	// Internal data here
-}
+type DNSNameUnderscoreInSLD struct{}
 
 func (l *DNSNameUnderscoreInSLD) Initialize() error {
 	return nil

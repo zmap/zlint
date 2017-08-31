@@ -5,9 +5,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertStreetAddressShouldNotExist struct {
-	// Internal data here
-}
+type subCertStreetAddressShouldNotExist struct{}
 
 func (l *subCertStreetAddressShouldNotExist) Initialize() error {
 	return nil

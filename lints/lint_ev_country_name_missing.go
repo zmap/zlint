@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type evCountryMissing struct {
-	// Internal data here
-}
+type evCountryMissing struct{}
 
 func (l *evCountryMissing) Initialize() error {
 	return nil

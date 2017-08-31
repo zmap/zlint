@@ -18,9 +18,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type controlChar struct {
-	// Internal data here
-}
+type controlChar struct{}
 
 func (l *controlChar) Initialize() error {
 	return nil

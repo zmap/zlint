@@ -19,9 +19,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type extSANNotCritNoSubject struct {
-	// Internal data here
-}
+type extSANNotCritNoSubject struct{}
 
 func (l *extSANNotCritNoSubject) Initialize() error {
 	return nil

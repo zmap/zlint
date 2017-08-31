@@ -20,9 +20,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type certUniqueIdVersion struct {
-	// Internal data here
-}
+type certUniqueIdVersion struct{}
 
 func (l *certUniqueIdVersion) Initialize() error {
 	return nil

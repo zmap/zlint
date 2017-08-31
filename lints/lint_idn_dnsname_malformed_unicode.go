@@ -7,9 +7,7 @@ import (
 	"strings"
 )
 
-type IDNMalformedUnicode struct {
-	// Internal data here
-}
+type IDNMalformedUnicode struct{}
 
 func (l *IDNMalformedUnicode) Initialize() error {
 	return nil

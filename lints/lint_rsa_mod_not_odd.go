@@ -13,9 +13,7 @@ import (
 	"math/big"
 )
 
-type rsaParsedTestsKeyModOdd struct {
-	// Internal data here
-}
+type rsaParsedTestsKeyModOdd struct{}
 
 func (l *rsaParsedTestsKeyModOdd) Initialize() error {
 	return nil

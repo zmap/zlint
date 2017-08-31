@@ -22,9 +22,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type SANIsSpaceDNS struct {
-	// Internal data here
-}
+type SANIsSpaceDNS struct{}
 
 func (l *SANIsSpaceDNS) Initialize() error {
 	return nil

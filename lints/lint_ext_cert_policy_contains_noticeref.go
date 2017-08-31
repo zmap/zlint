@@ -12,9 +12,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type noticeRefPres struct {
-	// Internal data here
-}
+type noticeRefPres struct{}
 
 func (l *noticeRefPres) Initialize() error {
 	return nil

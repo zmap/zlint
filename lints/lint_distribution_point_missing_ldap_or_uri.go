@@ -12,16 +12,13 @@ import (
 	"strings"
 )
 
-type distribNoLDAPorURI struct {
-	// Internal data here
-}
+type distribNoLDAPorURI struct{}
 
 func (l *distribNoLDAPorURI) Initialize() error {
 	return nil
 }
 
 func (l *distribNoLDAPorURI) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 

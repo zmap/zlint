@@ -12,9 +12,7 @@ import (
 	"golang.org/x/text/unicode/norm"
 )
 
-type ExtCertPolicyExplicitTextNotNFC struct {
-	// Internal data here
-}
+type ExtCertPolicyExplicitTextNotNFC struct{}
 
 func (l *ExtCertPolicyExplicitTextNotNFC) Initialize() error {
 	return nil

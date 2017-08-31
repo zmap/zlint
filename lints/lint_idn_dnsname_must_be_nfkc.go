@@ -8,9 +8,7 @@ import (
 	"strings"
 )
 
-type IDNNotNFKC struct {
-	// Internal data here
-}
+type IDNNotNFKC struct{}
 
 func (l *IDNNotNFKC) Initialize() error {
 	return nil

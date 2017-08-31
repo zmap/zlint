@@ -22,9 +22,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type IANSpace struct {
-	// Internal data here
-}
+type IANSpace struct{}
 
 func (l *IANSpace) Initialize() error {
 	return nil

@@ -7,9 +7,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type publicKeyAllowed struct {
-	// Internal data here
-}
+type publicKeyAllowed struct{}
 
 func (l *publicKeyAllowed) Initialize() error {
 	return nil

@@ -11,16 +11,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertKeyUsageBitSet struct {
-	// Internal data here
-}
+type subCertKeyUsageBitSet struct{}
 
 func (l *subCertKeyUsageBitSet) Initialize() error {
 	return nil
 }
 
 func (l *subCertKeyUsageBitSet) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 

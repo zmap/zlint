@@ -12,16 +12,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subExtKeyUsageLegalUsage struct {
-	// Internal data here
-}
+type subExtKeyUsageLegalUsage struct{}
 
 func (l *subExtKeyUsageLegalUsage) Initialize() error {
 	return nil
 }
 
 func (l *subExtKeyUsageLegalUsage) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return c.ExtKeyUsage != nil
 }
 
