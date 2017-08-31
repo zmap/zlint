@@ -31,18 +31,19 @@ Library Usage
 
 ZLint can also be used as a library:
 
+```golang
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint"
+)
 
-	import (
-		"github.com/zmap/zcrypto/x509"
-		"github.com/zmap/zlint"
-	)
-
-	parsed, err := x509.ParseCertificate(raw)
-	if err != nil {
-		// The certificate could not be parsed. Either error or halt.
-		log.Errorf("could not parse certificate: %s", err)
-	}
-	zlintResult := zlint.LintCertificate(parsed)
+parsed, err := x509.ParseCertificate(raw)
+if err != nil {
+	// The certificate could not be parsed. Either error or halt.
+	log.Errorf("could not parse certificate: %s", err)
+}
+zlintResult := zlint.LintCertificate(parsed)
+```
 
 
 See https://github.com/zmap/zlint/blob/master/cmd/zlint/main.go for an example.
