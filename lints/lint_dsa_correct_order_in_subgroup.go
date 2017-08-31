@@ -43,7 +43,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dsa_correct_order_in_subgroup",
 		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
-		Provenance:    "BRs: 6.1.6",
+		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABEffectiveDate,
 		Test:          &dsaSubgroup{},
 	})
