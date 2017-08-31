@@ -21,7 +21,7 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 
 func TestLintCheckEffective(t *testing.T) {
 	l := Lint{}
-	c := ReadCertificate("../testLint/testCerts/caBasicConstCrit.pem")
+	c := ReadCertificate("../testlint/testCerts/caBasicConstCrit.pem")
 
 	l.EffectiveDate = time.Time{}
 	if l.CheckEffective(c) != true {
@@ -38,7 +38,7 @@ func TestLintCheckEffective(t *testing.T) {
 }
 
 func TestLintExecute(t *testing.T) {
-	c := ReadCertificate("../testLint/testCerts/goodRsaExp.pem")
+	c := ReadCertificate("../testlint/testCerts/goodRsaExp.pem")
 	lint := Lint{}
 
 	lint.Lint = &dsaParamsMissing{}
