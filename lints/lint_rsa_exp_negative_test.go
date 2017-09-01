@@ -7,26 +7,22 @@ import (
 
 // func TestRsaExpNegative(t *testing.T) {
 // 	inputPath := "../testlint/testCerts/rsaExpNegative.pem"
-// 	desEnum := Error
-// 	out, _ := Lints["rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
-// 	if out.Result != desEnum {
+// 	expected := Error
+// 	out := Lints["rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
+// 	if out.Result != expected {
 // 		t.Error(
-// 			"For", inputPath, /* input path*/
-// 			"expected", desEnum, /* The enum you expected */
-// 			"got", out.Result, /* Actual Result */
+// 			"For", inputPath,
+// 			"expected", expected,
+// 			"got", out.Result,
 // 		)
 // 	}
 // }
 
 func TestRsaExpPositive(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
-	desEnum := Pass
-	out, _ := Lints["e_rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_rsa_exp_negative"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

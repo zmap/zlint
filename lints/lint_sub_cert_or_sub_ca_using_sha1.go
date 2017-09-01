@@ -20,17 +20,17 @@ func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *sigAlgTestsSHA1) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) *LintResult {
 	switch c.SignatureAlgorithm {
 	case x509.SHA1WithRSA, x509.DSAWithSHA1, x509.ECDSAWithSHA1:
 		if c.NotBefore.Before(util.NO_SHA1) {
-			return ResultStruct{Result: Pass}, nil
+			return &LintResult{Status: Pass}
 		} else {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	default:
 		//Could see an argument for this being Pass
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -40,6 +40,6 @@ func init() {
 		Description:   "CAs MUST NOT issue any new Subscriber certificates or Subordinate CA certificates using SHA-1 after 1 January 2016",
 		Source:        "BRs: 7.1.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &sigAlgTestsSHA1{},
+		Lint:          &sigAlgTestsSHA1{},
 	})
 }

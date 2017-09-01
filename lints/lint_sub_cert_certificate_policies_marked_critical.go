@@ -21,12 +21,12 @@ func (l *subCertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CertPolicyOID)
 }
 
-func (l *subCertPolicyCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertPolicyCrit) Execute(c *x509.Certificate) *LintResult {
 	e := util.GetExtFromCert(c, util.CertPolicyOID)
 	if e.Critical == false {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertPolicyCrit{},
+		Lint:          &subCertPolicyCrit{},
 	})
 }

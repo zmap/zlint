@@ -22,11 +22,11 @@ func (l *subCACRLDistMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCACRLDistMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCACRLDistMissing) Execute(c *x509.Certificate) *LintResult {
 	if util.IsExtInCert(c, util.CrlDistOID) {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST be present and MUST NOT be marked critical.",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACRLDistMissing{},
+		Lint:          &subCACRLDistMissing{},
 	})
 }

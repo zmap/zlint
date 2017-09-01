@@ -15,11 +15,11 @@ func (l *subCAEKUMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCAEKUMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCAEKUMissing) Execute(c *x509.Certificate) *LintResult {
 	if util.IsExtInCert(c, util.EkuSynOid) {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -29,6 +29,6 @@ func init() {
 		Description:   "Subordinate CA certificate MUST have extkeyUsage extension",
 		Source:        "BRs: 7.1.5",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCAEKUMissing{},
+		Lint:          &subCAEKUMissing{},
 	})
 }

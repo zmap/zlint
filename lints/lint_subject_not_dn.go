@@ -27,11 +27,11 @@ func (l *subjectDN) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectDN) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectDN) Execute(c *x509.Certificate) *LintResult {
 	if reflect.TypeOf(c.Subject) != reflect.TypeOf(*(new(pkix.Name))) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -40,6 +40,6 @@ func init() {
 		Description:   "When not empty, the subject field MUST be a distinguished name",
 		Source:        "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectDN{},
+		Lint:          &subjectDN{},
 	})
 }

@@ -7,26 +7,18 @@ import (
 
 func TestSubCaNcNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWNameConstNoCrit.pem"
-	desEnum := Warn
-	out, _ := Lints["w_sub_ca_name_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_sub_ca_name_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaNcCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWNameConstCrit.pem"
-	desEnum := Pass
-	out, _ := Lints["w_sub_ca_name_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_sub_ca_name_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

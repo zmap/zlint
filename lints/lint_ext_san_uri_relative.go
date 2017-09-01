@@ -29,19 +29,19 @@ func (l *extSANURIRelative) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *extSANURIRelative) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *extSANURIRelative) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.URIs {
 		parsed_uri, err := url.Parse(uri)
 
 		if err != nil {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 
 		if !parsed_uri.IsAbs() {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -50,6 +50,6 @@ func init() {
 		Description:   "When the subjectAlternateName extension is present and a URI is used, the name MUST NOT be a relative URI",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &extSANURIRelative{},
+		Lint:          &extSANURIRelative{},
 	})
 }

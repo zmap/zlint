@@ -6,26 +6,18 @@ import (
 
 func TestIssuerRDNTwoAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/issuerRDNTwoAttribute.pem"
-	desEnum := Warn
-	out, _ := Lints["w_multiple_issuer_rdn"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_multiple_issuer_rdn"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIssuerRDNOneAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
-	desEnum := Pass
-	out, _ := Lints["w_multiple_issuer_rdn"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_multiple_issuer_rdn"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

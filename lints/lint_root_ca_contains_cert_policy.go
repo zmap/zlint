@@ -21,11 +21,11 @@ func (l *rootCAContainsCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAContainsCertPolicy) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rootCAContainsCertPolicy) Execute(c *x509.Certificate) *LintResult {
 	if util.IsExtInCert(c, util.CertPolicyOID) {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -35,6 +35,6 @@ func init() {
 		Description:   "Root CA Certificate: certificatePolicies SHOULD NOT be present.",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &rootCAContainsCertPolicy{},
+		Lint:          &rootCAContainsCertPolicy{},
 	})
 }

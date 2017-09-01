@@ -7,26 +7,18 @@ import (
 
 func TestEkuMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageMissing.pem"
-	desEnum := Error
-	out, _ := Lints["e_sub_cert_eku_missing"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_sub_cert_eku_missing"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEkuPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageServClient.pem"
-	desEnum := Pass
-	out, _ := Lints["e_sub_cert_eku_missing"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_sub_cert_eku_missing"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

@@ -7,39 +7,27 @@ import (
 
 func TestSANURIMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
-	desEnum := Pass
-	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIBeginning.pem"
-	desEnum := Error
-	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIEnd.pem"
-	desEnum := Error
-	out, _ := Lints["e_ext_san_uniform_resource_identifier_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

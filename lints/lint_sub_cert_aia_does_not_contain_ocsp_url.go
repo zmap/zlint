@@ -26,13 +26,13 @@ func (l *subCertOcspUrl) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertOcspUrl) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertOcspUrl) Execute(c *x509.Certificate) *LintResult {
 	for _, url := range c.OCSPServer {
 		if strings.HasPrefix(url, "http://") {
-			return ResultStruct{Result: Pass}, nil
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Error}, nil
+	return &LintResult{Status: Error}
 }
 
 func init() {
@@ -41,6 +41,6 @@ func init() {
 		Description:   "Subscriber Certificate: authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's OSCP responder.",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertOcspUrl{},
+		Lint:          &subCertOcspUrl{},
 	})
 }

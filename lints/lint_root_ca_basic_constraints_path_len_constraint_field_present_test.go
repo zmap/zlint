@@ -7,26 +7,18 @@ import (
 
 func TestRootCaMaxLenPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCaMaxPathLenPresent.pem"
-	desEnum := Warn
-	out, _ := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRootCaMaxLenMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCaMaxPathLenMissing.pem"
-	desEnum := Pass
-	out, _ := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

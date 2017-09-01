@@ -37,23 +37,23 @@ func (l *generalizedTimeFraction) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedTimeFraction) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *generalizedTimeFraction) Execute(c *x509.Certificate) *LintResult {
 	r := Pass
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {
 		// UTC Tests on notBefore
 		checkFraction(&r, date1)
 		if r == Error {
-			return ResultStruct{Result: r}, nil
+			return &LintResult{Status: r}
 		}
 	}
 	if l.date2Gen {
 		checkFraction(&r, date2)
 	}
-	return ResultStruct{Result: r}, nil
+	return &LintResult{Status: r}
 }
 
-func checkFraction(r *ResultEnum, t asn1.RawValue) {
+func checkFraction(r *LintStatus, t asn1.RawValue) {
 	if t.Bytes[len(t.Bytes)-1] == 'Z' {
 		if len(t.Bytes) > 15 {
 			*r = Error
@@ -75,6 +75,6 @@ func init() {
 		Description:   "Generalized time values MUST NOT include fractional seconds",
 		Source:        "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &generalizedTimeFraction{},
+		Lint:          &generalizedTimeFraction{},
 	})
 }

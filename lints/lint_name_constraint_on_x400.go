@@ -29,11 +29,11 @@ func (l *nameConstraintOnX400) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintOnX400) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintOnX400) Execute(c *x509.Certificate) *LintResult {
 	if c.PermittedX400Addresses != nil || c.ExcludedX400Addresses != nil {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -42,6 +42,6 @@ func init() {
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the x400Address name form",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &nameConstraintOnX400{},
+		Lint:          &nameConstraintOnX400{},
 	})
 }

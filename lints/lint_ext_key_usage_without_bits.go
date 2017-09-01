@@ -25,11 +25,11 @@ func (l *keyUsageBitsSet) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *keyUsageBitsSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *keyUsageBitsSet) Execute(c *x509.Certificate) *LintResult {
 	if c.KeyUsage == 0 {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -39,6 +39,6 @@ func init() {
 		Description:   "When the keyUsage extension is included, at least one bit MUST be set to 1",
 		Source:        "RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &keyUsageBitsSet{},
+		Lint:          &keyUsageBitsSet{},
 	})
 }

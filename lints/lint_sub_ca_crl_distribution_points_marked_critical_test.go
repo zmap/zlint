@@ -7,26 +7,18 @@ import (
 
 func TestSubCaCrlCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWcrlDistCrit.pem"
-	desEnum := Error
-	out, _ := Lints["e_sub_ca_crl_distribution_points_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_sub_ca_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaCrlNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWcrlDistNoCrit.pem"
-	desEnum := Pass
-	out, _ := Lints["e_sub_ca_crl_distribution_points_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_sub_ca_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

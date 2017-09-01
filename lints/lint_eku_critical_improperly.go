@@ -29,16 +29,16 @@ func (l *ekuBadCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *ekuBadCritical) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *ekuBadCritical) Execute(c *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(c, util.EkuSynOid); e.Critical {
 		for _, single_use := range c.ExtKeyUsage {
 			if single_use == x509.ExtKeyUsageAny {
-				return ResultStruct{Result: Warn}, nil
+				return &LintResult{Status: Warn}
 			}
 		}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -47,6 +47,6 @@ func init() {
 		Description:   "Conforming CAs SHOULD NOT mark extended key usage extension as critical if the anyExtendedKeyUsage KeyPurposedID is present",
 		Source:        "RFC 5280: 4.2.1.12",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &ekuBadCritical{},
+		Lint:          &ekuBadCritical{},
 	})
 }

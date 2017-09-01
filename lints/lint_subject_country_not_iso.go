@@ -26,13 +26,13 @@ func (l *countryNotIso) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *countryNotIso) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *countryNotIso) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.Country {
 		if !util.IsISOCountryCode(strings.ToUpper(j)) {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -41,6 +41,6 @@ func init() {
 		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &countryNotIso{},
+		Lint:          &countryNotIso{},
 	})
 }

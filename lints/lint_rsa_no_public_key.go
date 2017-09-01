@@ -17,12 +17,12 @@ func (l *rsaParsedPubKeyExist) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedPubKeyExist) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rsaParsedPubKeyExist) Execute(c *x509.Certificate) *LintResult {
 	_, ok := c.PublicKey.(*rsa.PublicKey)
 	if !ok {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -32,6 +32,6 @@ func init() {
 		Description:   "The RSA public key should be present",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &rsaParsedPubKeyExist{},
+		Lint:          &rsaParsedPubKeyExist{},
 	})
 }

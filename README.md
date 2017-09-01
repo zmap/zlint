@@ -42,7 +42,7 @@ if err != nil {
 	// The certificate could not be parsed. Either error or halt.
 	log.Errorf("could not parse certificate: %s", err)
 }
-zlintResult := zlint.LintCertificate(parsed)
+zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
 
@@ -52,9 +52,21 @@ See https://github.com/zmap/zlint/blob/master/cmd/zlint/main.go for an example.
 Adding New Lints
 ----------------
 
-**Generating Lint Scaffolding.** The scaffolding for a new lints can be created by running `./newLint.sh <lint_name> <structName>`. Lint names are generally of the form `e_subject_common_name_not_from_san` where the first letter is one of: `e`, `w`, or `n` (error, warning, or notice respectively). Struct names following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Example: `./newLint.sh e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`. This will generate a new lint in the `lints` directory with the necessary fields filled out.
+**Generating Lint Scaffolding.** The scaffolding for a new lints can be created
+by running `./newLint.sh <lint_name> <structName>`. Lint names are generally of
+the form `e_subject_common_name_not_from_san` where the first letter is one of:
+`e`, `w`, or `n` (error, warning, or notice respectively). Struct names
+following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Example:
+`./newLint.sh e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`.
+This will generate a new lint in the `lints` directory with the necessary
+fields filled out.
 
-**Scoping a Lint.** Lints are executed in three steps. First, the ZLint framework determines whether a certificate falls within the scope of a given lint by calling `CheckApplies`. This is often used to scope lints to only check subscriber, intermediate CA, or root CAs. This function commonly calls one of a select number of helper functions: `IsCA`, `IsSubscriber`, `IsExtInCert`, or `DNSNamesExist`. Example:
+**Scoping a Lint.** Lints are executed in three steps. First, the ZLint
+framework determines whether a certificate falls within the scope of a given
+lint by calling `CheckApplies`. This is often used to scope lints to only check
+subscriber, intermediate CA, or root CAs. This function commonly calls one of a
+select number of helper functions: `IsCA`, `IsSubscriber`, `IsExtInCert`, or
+`DNSNamesExist`. Example:
 
 ```go
 func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
@@ -62,7 +74,11 @@ func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
 }
 ```
 
-Next, the framework determines whether the certificate was issued after the effective date of a Lint by checking whether the certificate was issued prior to the lint's `EffectiveDate`. You'll also need to fill out the source and description of what the lint is checking. We encourage you to copy text directly from the BR or RFC here. Example:
+Next, the framework determines whether the certificate was issued after the
+effective date of a Lint by checking whether the certificate was issued prior
+to the lint's `EffectiveDate`. You'll also need to fill out the source and
+description of what the lint is checking. We encourage you to copy text
+directly from the BR or RFC here. Example:
 
 ```go
 func init() {
@@ -76,34 +92,41 @@ func init() {
 }
 ```
 
-The meat of the lint is contained within the `RunTest` function, which is passed `x509.Certificate`. **Note:** This is an X.509 object from [ZCrypto](https://github.com/zmap/zcrypto) not the Go standard library. Lints should perform their described test and then return a `ResultStruct` that contains a Result and optionally a `Details` string, e.g., `ResultStruct{Result: Pass}`.
+The meat of the lint is contained within the `RunTest` function, which is
+passed `x509.Certificate`. **Note:** This is an X.509 object from
+[ZCrypto](https://github.com/zmap/zcrypto) not the Go standard library. Lints
+should perform their described test and then return a `ResultStruct` that
+contains a Result and optionally a `Details` string, e.g.,
+`ResultStruct{Result: Pass}`. If you encounter a situation in which you
+typically would return a Go `error` object, instead return
+`ResultStruct{Result: Fatal}`.
 
 Example:
 
 ```go
-func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) *ResultStruct {
 	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		return ResultStruct{Result: Pass}, nil
-	} else {
-		return ResultStruct{Result: Error}, nil
+		return &ResultStruct{Result: Pass}
 	}
+	return &ResultStruct{Result: Error}
 }
 ```
 
-**Creating Tests.** Every lint should also have two corresponding tests for a success and failure condition. We have typically generated test certificates using Go (see https://golang.org/pkg/crypto/x509/#CreateCertificate for details), but OpenSSL could also be used. Test certificates should be placed in `testlint/testCerts` and called from the test file created by `newLint.sh`. Example:
+**Creating Tests.** Every lint should also have two corresponding tests for a
+success and failure condition. We have typically generated test certificates
+using Go (see https://golang.org/pkg/crypto/x509/#CreateCertificate for
+details), but OpenSSL could also be used. Test certificates should be placed in
+`testlint/testCerts` and called from the test file created by `newLint.sh`.
+Example:
 
 ```go
-func TestBasicConstNotCrit(t *testing.T) {
+func TestBasicConstNotCritical(t *testing.T) {
 	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
-	desEnum := Error
+	expected := Error
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	if out.Result != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -123,4 +146,3 @@ Unless required by applicable law or agreed to in writing, software distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See LICENSE for the specific
 language governing permissions and limitations under the License.
-

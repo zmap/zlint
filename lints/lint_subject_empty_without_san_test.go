@@ -7,26 +7,18 @@ import (
 
 func TestSubEmptyNoSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectEmptyNoSAN.pem"
-	desEnum := Error
-	out, _ := Lints["e_subject_empty_without_san"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_subject_empty_without_san"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubEmptyYesSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANSubjectEmptyNotCritical.pem"
-	desEnum := Pass
-	out, _ := Lints["e_subject_empty_without_san"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_subject_empty_without_san"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

@@ -96,7 +96,7 @@ func lint(inputFile *os.File, inform string) {
 	}
 
 	zlintResult := zlint.LintCertificate(c)
-	jsonBytes, err := json.Marshal(zlintResult.ZLint)
+	jsonBytes, err := json.Marshal(zlintResult.Results)
 	if err != nil {
 		log.Fatalf("unable to encode lints JSON: %s", err)
 	}

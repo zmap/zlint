@@ -17,19 +17,19 @@ func (l *IDNMalformedUnicode) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *IDNMalformedUnicode) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {
 			if strings.HasPrefix(label, "xn--") {
 				_, err := idna.ToUnicode(label)
 				if err != nil {
-					return ResultStruct{Result: Error}, nil
+					return &LintResult{Status: Error}
 				}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -38,6 +38,6 @@ func init() {
 		Description:   "Internationalized DNSNames punycode not valid unicode",
 		Source:        "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
-		Test:          &IDNMalformedUnicode{},
+		Lint:          &IDNMalformedUnicode{},
 	})
 }

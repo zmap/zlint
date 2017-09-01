@@ -24,11 +24,11 @@ func (l *subCAEKUCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *subCAEKUCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCAEKUCrit) Execute(c *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(c, util.EkuSynOid); e.Critical {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "Subordinate CA certificate extkeyUsage extension should be marked non-critical if present",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCAEKUCrit{},
+		Lint:          &subCAEKUCrit{},
 	})
 }

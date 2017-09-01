@@ -8,26 +8,18 @@ import (
 
 func TestIssuerDNLeadingSpace(t *testing.T) {
 	inputPath := "../testlint/testCerts/issuerDNLeadingSpace.pem"
-	desEnum := Warn
-	out, _ := Lints["w_issuer_dn_leading_whitespace"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_issuer_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIssuerDNGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	desEnum := Pass
-	out, _ := Lints["w_issuer_dn_leading_whitespace"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_issuer_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

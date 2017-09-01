@@ -28,13 +28,13 @@ func (l *aiaNoHTTPorLDAP) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.AiaOID) && c.IssuingCertificateURL != nil
 }
 
-func (l *aiaNoHTTPorLDAP) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *aiaNoHTTPorLDAP) Execute(c *x509.Certificate) *LintResult {
 	for _, caIssuer := range c.IssuingCertificateURL {
 		if caIssuer = strings.ToLower(caIssuer); strings.HasPrefix(caIssuer, "http://") || strings.HasPrefix(caIssuer, "ldap://") {
-			return ResultStruct{Result: Pass}, nil
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Warn}, nil
+	return &LintResult{Status: Warn}
 }
 
 func init() {
@@ -43,6 +43,6 @@ func init() {
 		Description:   "When the id-ad-caIssuers accessMethod is used, at least one instance SHOULD specify an accessLocation that is an HTTP or LDAP URI",
 		Source:        "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &aiaNoHTTPorLDAP{},
+		Lint:          &aiaNoHTTPorLDAP{},
 	})
 }

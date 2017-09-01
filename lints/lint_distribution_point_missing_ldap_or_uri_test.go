@@ -6,43 +6,28 @@ import (
 )
 
 func TestCRLDistNoHttp(t *testing.T) {
-	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/crlDistribNoHTTP.pem"
-	desEnum := Warn
-	out, _ := Lints["w_distribution_point_missing_ldap_or_uri"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_distribution_point_missing_ldap_or_uri"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLDistHttp(t *testing.T) {
-	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/crlDistribWithHTTP.pem"
-	desEnum := Pass
-	out, _ := Lints["w_distribution_point_missing_ldap_or_uri"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_distribution_point_missing_ldap_or_uri"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLDistLdap(t *testing.T) {
-	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/crlDistribWithLDAP.pem"
-	desEnum := Pass
-	out, _ := Lints["w_distribution_point_missing_ldap_or_uri"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_distribution_point_missing_ldap_or_uri"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

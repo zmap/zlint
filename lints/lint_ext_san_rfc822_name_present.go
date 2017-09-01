@@ -27,11 +27,11 @@ func (l *SANRfc822) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANRfc822) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANRfc822) Execute(c *x509.Certificate) *LintResult {
 	if c.EmailAddresses != nil {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -40,6 +40,6 @@ func init() {
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
 		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &SANRfc822{},
+		Lint:          &SANRfc822{},
 	})
 }

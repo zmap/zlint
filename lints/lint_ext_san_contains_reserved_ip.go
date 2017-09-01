@@ -25,14 +25,14 @@ func (l *SANReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *SANReservedIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANReservedIP) Execute(c *x509.Certificate) *LintResult {
 	for _, ip := range c.IPAddresses {
 		if util.ValidIP(ip) && util.IsReservedIP(ip) {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -41,6 +41,6 @@ func init() {
 		Description:   "Certificates expiring after 1 Nov 2015 MUST NOT contain a reserved IP address in the subjectAlternativeName extension",
 		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &SANReservedIP{},
+		Lint:          &SANReservedIP{},
 	})
 }

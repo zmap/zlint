@@ -7,13 +7,9 @@ import (
 
 func TestSubCaAnyPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWithAnyPolicy.pem"
-	desEnum := Error
-	out, _ := Lints["e_sub_ca_must_not_contain_any_policy"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_sub_ca_must_not_contain_any_policy"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

@@ -23,7 +23,7 @@ func (l *ecImproperCurves) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.ECDSA
 }
 
-func (l *ecImproperCurves) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *ecImproperCurves) Execute(c *x509.Certificate) *LintResult {
 	/* Declare theKey to be a ECDSA Public Key */
 	var theKey *ecdsa.PublicKey
 	/* Need to do different things based on what c.PublicKey is */
@@ -38,9 +38,9 @@ func (l *ecImproperCurves) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	theParams := theKey.Curve.Params()
 	switch theParams.Name {
 	case "P-256", "P-384", "P-521":
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	default:
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -51,6 +51,6 @@ func init() {
 		Source:      "BRs: 6.1.5",
 		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
-		Test:          &ecImproperCurves{},
+		Lint:          &ecImproperCurves{},
 	})
 }

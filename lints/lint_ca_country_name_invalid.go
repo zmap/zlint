@@ -23,16 +23,16 @@ func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caCountryNameInvalid) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caCountryNameInvalid) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.Country != nil {
 		for _, j := range c.Subject.Country {
 			if !util.IsISOCountryCode(j) {
-				return ResultStruct{Result: Error}, nil
+				return &LintResult{Status: Error}
 			}
 		}
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: NA}, nil
+		return &LintResult{Status: NA}
 	}
 }
 
@@ -42,6 +42,6 @@ func init() {
 		Description:   "Root and Subordinate CA certificates MUST have a two-letter country code specified in ISO 3166-1",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCountryNameInvalid{},
+		Lint:          &caCountryNameInvalid{},
 	})
 }

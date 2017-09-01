@@ -24,11 +24,11 @@ func (l *postalNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *postalNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *postalNoOrg) Execute(cert *x509.Certificate) *LintResult {
 	if util.TypeInName(&cert.Subject, util.PostalCodeOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else { //if no Postal code, Organization can be omitted
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "The postal code MUST NOT be included without an organization name",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &postalNoOrg{},
+		Lint:          &postalNoOrg{},
 	})
 }

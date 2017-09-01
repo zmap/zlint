@@ -23,12 +23,12 @@ func (l *subCaModSize) CheckApplies(c *x509.Certificate) bool {
 	return ok && util.IsSubCA(c) && issueDate.Before(util.NoRSA1024RootDate) && endDate.Before(util.NoRSA1024Date)
 }
 
-func (l *subCaModSize) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCaModSize) Execute(c *x509.Certificate) *LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 1024 {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -39,6 +39,6 @@ func init() {
 		Source:      "BRs: 6.1.5",
 		// since effective date should be checked against end date in this specific case, putting time check into checkApplies instead, ZeroDate here to automatically pass NE test
 		EffectiveDate: util.ZeroDate,
-		Test:          &subCaModSize{},
+		Lint:          &subCaModSize{},
 	})
 }

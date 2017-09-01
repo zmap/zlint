@@ -20,18 +20,17 @@ func (l *SubjectRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool 
 	return true
 }
 
-func (l *SubjectRDNHasMultipleAttribute) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResult {
 	var subject pkix.RDNSequence
-	_, err := asn1.Unmarshal(c.RawSubject, &subject)
-	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+	if _, err := asn1.Unmarshal(c.RawSubject, &subject); err != nil {
+		return &LintResult{Status: Fatal}
 	}
 	for _, rdn := range subject {
 		if len(rdn) > 1 {
-			return ResultStruct{Result: Warn}, nil
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -40,6 +39,6 @@ func init() {
 		Description:   "Certificates should not have multiple attributes in a single RDN (subject)",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SubjectRDNHasMultipleAttribute{},
+		Lint:          &SubjectRDNHasMultipleAttribute{},
 	})
 }

@@ -7,26 +7,18 @@ import (
 
 func TestRsaExpEven(t *testing.T) {
 	inputPath := "../testlint/testCerts/badRsaExp.pem"
-	desEnum := Error
-	out, _ := Lints["e_rsa_public_exponent_not_odd"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_rsa_public_exponent_not_odd"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaExpOdd(t *testing.T) {
 	inputPath := "../testlint/testCerts/goodRsaExp.pem"
-	desEnum := Pass
-	out, _ := Lints["e_rsa_public_exponent_not_odd"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_rsa_public_exponent_not_odd"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

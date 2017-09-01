@@ -18,13 +18,13 @@ func (l *IANPubSuffix) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANPubSuffix) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANPubSuffix) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.IANDNSNames {
 		if len(strings.Split(dns, ".")) < 3 {
-			return ResultStruct{Result: Warn}, nil
+			return &LintResult{Status: Warn}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -33,6 +33,6 @@ func init() {
 		Description:   "Domain SHOULD NOT have a bare public suffix",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &IANPubSuffix{},
+		Lint:          &IANPubSuffix{},
 	})
 }

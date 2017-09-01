@@ -32,19 +32,19 @@ func (l *IANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSNotIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANDNSNotIA5String) Execute(c *x509.Certificate) *LintResult {
 	ext := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if ext == nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	ok, err := util.AllAlternateNameWithTagAreIA5(ext, util.DNSNameTag)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	if ok {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -54,6 +54,6 @@ func init() {
 		Description:   "DNSNames MUST be IA5 strings",
 		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &IANDNSNotIA5String{},
+		Lint:          &IANDNSNotIA5String{},
 	})
 }

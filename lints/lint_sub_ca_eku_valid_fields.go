@@ -15,7 +15,7 @@ func (l *subCAEKUValidFields) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *subCAEKUValidFields) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCAEKUValidFields) Execute(c *x509.Certificate) *LintResult {
 	validFieldsPresent := false
 	for _, ekuValue := range c.ExtKeyUsage {
 		if ekuValue == x509.ExtKeyUsageServerAuth ||
@@ -24,9 +24,9 @@ func (l *subCAEKUValidFields) RunTest(c *x509.Certificate) (ResultStruct, error)
 		}
 	}
 	if validFieldsPresent {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Notice}, nil
+		return &LintResult{Status: Notice}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present to be technically constrained.",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV116Date,
-		Test:          &subCAEKUValidFields{},
+		Lint:          &subCAEKUValidFields{},
 	})
 }

@@ -22,11 +22,11 @@ func (l *ExtAiaMarkedCritical) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.AiaOID)
 }
 
-func (l *ExtAiaMarkedCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *ExtAiaMarkedCritical) Execute(cert *x509.Certificate) *LintResult {
 	if util.GetExtFromCert(cert, util.AiaOID).Critical {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
 		Source:        "RFC 5280: 4.2.2.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtAiaMarkedCritical{},
+		Lint:          &ExtAiaMarkedCritical{},
 	})
 }

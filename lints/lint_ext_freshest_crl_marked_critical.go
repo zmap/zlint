@@ -21,14 +21,14 @@ func (l *ExtFreshestCrlMarkedCritical) CheckApplies(cert *x509.Certificate) bool
 	return util.IsExtInCert(cert, util.FreshCRLOID)
 }
 
-func (l *ExtFreshestCrlMarkedCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) *LintResult {
 	var fCRL *pkix.Extension = util.GetExtFromCert(cert, util.FreshCRLOID)
 	if fCRL != nil && fCRL.Critical {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else if fCRL != nil && !fCRL.Critical {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
-	return ResultStruct{Result: NA}, nil //shouldn't happen
+	return &LintResult{Status: NA} //shouldn't happen
 }
 
 func init() {
@@ -37,6 +37,6 @@ func init() {
 		Description:   "Freshest CRL MUST be marked as non-critical by conforming CAs",
 		Source:        "RFC 5280: 4.2.1.15",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &ExtFreshestCrlMarkedCritical{},
+		Lint:          &ExtFreshestCrlMarkedCritical{},
 	})
 }

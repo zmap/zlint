@@ -21,12 +21,12 @@ func (l *subCertKeyUsageBitSet) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 
-func (l *subCertKeyUsageBitSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertKeyUsageBitSet) Execute(c *x509.Certificate) *LintResult {
 	// Add actual lint here
 	if (c.KeyUsage & x509.KeyUsageCertSign) == x509.KeyUsageCertSign {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else { //key usage doesn't allow cert signing or isn't present
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Subscriber Certificate: keyUsage if present, bit positions for keyCertSign and cRLSign MUST NOT be set.",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertKeyUsageBitSet{},
+		Lint:          &subCertKeyUsageBitSet{},
 	})
 }

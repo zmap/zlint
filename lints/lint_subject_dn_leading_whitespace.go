@@ -17,15 +17,15 @@ func (l *SubjectDNLeadingSpace) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *SubjectDNLeadingSpace) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SubjectDNLeadingSpace) Execute(c *x509.Certificate) *LintResult {
 	leading, _, err := util.CheckRDNSequenceWhiteSpace(c.RawSubject)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+		return &LintResult{Status: Fatal}
 	}
 	if leading {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
 		Source:        "aswlabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &SubjectDNLeadingSpace{},
+		Lint:          &SubjectDNLeadingSpace{},
 	})
 }

@@ -27,12 +27,12 @@ func (l *ExtSANCriticalWithSubjectDN) CheckApplies(cert *x509.Certificate) bool 
 	return util.IsExtInCert(cert, util.SubjectAlternateNameOID)
 }
 
-func (l *ExtSANCriticalWithSubjectDN) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *ExtSANCriticalWithSubjectDN) Execute(cert *x509.Certificate) *LintResult {
 	san := util.GetExtFromCert(cert, util.SubjectAlternateNameOID)
 	if san.Critical && util.NotAllNameFieldsAreEmpty(&cert.Subject) {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -41,6 +41,6 @@ func init() {
 		Description:   "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
 		Source:        "RFC 5280: 4.2.1.6",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ExtSANCriticalWithSubjectDN{},
+		Lint:          &ExtSANCriticalWithSubjectDN{},
 	})
 }

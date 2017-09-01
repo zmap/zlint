@@ -7,26 +7,18 @@ import (
 
 func TestSANEDIPartyPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANEDIParty.pem"
-	desEnum := Error
-	out, _ := Lints["e_ext_san_edi_party_name_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_ext_san_edi_party_name_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANEDIPartyMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANOtherName.pem"
-	desEnum := Pass
-	out, _ := Lints["e_ext_san_edi_party_name_present"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_ext_san_edi_party_name_present"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

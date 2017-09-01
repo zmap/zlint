@@ -23,14 +23,14 @@ func (l *subjectStateNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *subjectStateNameMaxLength) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectStateNameMaxLength) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.Province {
 		if len(j) > 128 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -39,6 +39,6 @@ func init() {
 		Description:   "The 'State Name' field of the subject MUST be less than 128 characters",
 		Source:        "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectStateNameMaxLength{},
+		Lint:          &subjectStateNameMaxLength{},
 	})
 }

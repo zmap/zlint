@@ -22,7 +22,7 @@ func (l *subExtKeyUsageLegalUsage) CheckApplies(c *x509.Certificate) bool {
 	return c.ExtKeyUsage != nil
 }
 
-func (l *subExtKeyUsageLegalUsage) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) *LintResult {
 	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth ||
@@ -32,11 +32,11 @@ func (l *subExtKeyUsageLegalUsage) RunTest(c *x509.Certificate) (ResultStruct, e
 			continue
 		} else {
 			// A bad usage was found, report and leave
-			return ResultStruct{Result: Warn}, nil
+			return &LintResult{Status: Warn}
 		}
 	}
 	// If no bad usage was found, pass
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -45,6 +45,6 @@ func init() {
 		Description:   "Subscriber Certificate: extKeyUsage either the value id-kp-serverAuth or id-kp-clientAuth or both values MUST be present.",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subExtKeyUsageLegalUsage{},
+		Lint:          &subExtKeyUsageLegalUsage{},
 	})
 }

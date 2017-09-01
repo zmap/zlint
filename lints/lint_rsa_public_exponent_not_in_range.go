@@ -8,9 +8,10 @@ package lints
 
 import (
 	"crypto/rsa"
+	"math/big"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"math/big"
 )
 
 type rsaParsedTestsExpInRange struct {
@@ -28,18 +29,14 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsExpInRange) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) *LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1
-	//	if l.upperBound.Cmp(big.NewInt(0)) == 0 {
-	//		l.upperBound.Exp(big.NewInt(2), big.NewInt(256), nil)
-	//	}
 	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
-		return ResultStruct{Result: Pass}, nil
-	} else {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Pass}
 	}
+	return &LintResult{Status: Warn}
 }
 
 func init() {
@@ -48,6 +45,6 @@ func init() {
 		Description:   "RSA: Public exponent SHOULD be in the range between 2^16 + 1 and 2^256 - 1",
 		Source:        "BRs: 6.1.6",
 		EffectiveDate: util.CABV113Date,
-		Test:          &rsaParsedTestsExpInRange{},
+		Lint:          &rsaParsedTestsExpInRange{},
 	})
 }

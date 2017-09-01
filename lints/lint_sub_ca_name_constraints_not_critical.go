@@ -20,11 +20,11 @@ func (l *SubCANameConstraintsNotCritical) CheckApplies(cert *x509.Certificate) b
 	return util.IsSubCA(cert) && util.IsExtInCert(cert, util.NameConstOID)
 }
 
-func (l *SubCANameConstraintsNotCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *SubCANameConstraintsNotCritical) Execute(cert *x509.Certificate) *LintResult {
 	if ski := util.GetExtFromCert(cert, util.NameConstOID); ski.Critical {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	}
 }
 
@@ -34,6 +34,6 @@ func init() {
 		Description:   "Subordinate CA Certificate: NameConstraints if present, SHOULD be marked critical.",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABV102Date,
-		Test:          &SubCANameConstraintsNotCritical{},
+		Lint:          &SubCANameConstraintsNotCritical{},
 	})
 }

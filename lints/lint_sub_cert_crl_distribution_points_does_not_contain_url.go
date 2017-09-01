@@ -24,14 +24,14 @@ func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCRLDistNoURL) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCRLDistNoURL) Execute(c *x509.Certificate) *LintResult {
 	// Add actual lint here
 	for _, s := range c.CRLDistributionPoints {
 		if strings.HasPrefix(s, "http://") {
-			return ResultStruct{Result: Pass}, nil
+			return &LintResult{Status: Pass}
 		}
 	}
-	return ResultStruct{Result: Error}, nil
+	return &LintResult{Status: Error}
 }
 
 func init() {
@@ -40,6 +40,6 @@ func init() {
 		Description:   "Subscriber certificate cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service",
 		Source:        "BRs: 7.1.2.3",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCRLDistNoURL{},
+		Lint:          &subCRLDistNoURL{},
 	})
 }

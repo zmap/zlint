@@ -29,18 +29,18 @@ func (l *IANEmail) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANEmail) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANEmail) Execute(c *x509.Certificate) *LintResult {
 	for _, str := range c.IANEmailAddresses {
 		if str == "" {
 			continue
 		}
 		if strings.Contains(str, " ") {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		} else if str[0] == '<' || str[len(str)-1] == ')' {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -49,6 +49,6 @@ func init() {
 		Description:   "Email must not be surrounded with `<>`, and there MUST NOT be trailing comments in `()`",
 		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &IANEmail{},
+		Lint:          &IANEmail{},
 	})
 }

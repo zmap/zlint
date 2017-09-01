@@ -7,26 +7,18 @@ import (
 
 func TestSANCritWithSubjectDn(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
-	desEnum := Warn
-	out, _ := Lints["w_ext_san_critical_with_subject_dn"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_ext_san_critical_with_subject_dn"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANNotCritWithSubjectDn(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
-	desEnum := Pass
-	out, _ := Lints["w_ext_san_critical_with_subject_dn"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_ext_san_critical_with_subject_dn"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

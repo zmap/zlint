@@ -7,16 +7,11 @@ import (
 )
 
 func TestDSACorrectOrderSubgroup(t *testing.T) {
-
 	inputPath := "../testlint/testCerts/dsaCorrectOrderInSubgroup.pem"
-	desEnum := Pass
-	out, _ := Lints["e_dsa_correct_order_in_subgroup"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
@@ -27,13 +22,9 @@ func TestDSANotCorrectOrderSubgroup(t *testing.T) {
 	pMinusOne := big.NewInt(0)
 	pMinusOne.Sub(dsaKey.P, big.NewInt(1))
 	dsaKey.Y = pMinusOne
-	desEnum := Error
-	out, _ := Lints["e_dsa_correct_order_in_subgroup"].ExecuteTest(c)
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(c)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

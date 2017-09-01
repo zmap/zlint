@@ -20,11 +20,11 @@ func (l *validityNegative) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *validityNegative) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *validityNegative) Execute(c *x509.Certificate) *LintResult {
 	if c.NotBefore.After(c.NotAfter) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -33,6 +33,6 @@ func init() {
 		Description:   "Certificates MUST have a positive time for which they are valid",
 		Source:        "awslabs certlint",
 		EffectiveDate: util.ZeroDate,
-		Test:          &validityNegative{},
+		Lint:          &validityNegative{},
 	})
 }

@@ -38,18 +38,18 @@ func (l *nameConstraintEmpty) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *nameConstraintEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintEmpty) Execute(c *x509.Certificate) *LintResult {
 	nc := util.GetExtFromCert(c, util.NameConstOID)
 	var seq asn1.RawValue
 	_, err := asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -58,6 +58,6 @@ func init() {
 		Description:   "Conforming CAs MUST NOT issue certificates where name constraints is an empty sequence. That is, either the permittedSubtree or excludedSubtree fields must be present",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &nameConstraintEmpty{},
+		Lint:          &nameConstraintEmpty{},
 	})
 }

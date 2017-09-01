@@ -42,20 +42,20 @@ func (l *dpIncomplete) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *dpIncomplete) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *dpIncomplete) Execute(c *x509.Certificate) *LintResult {
 	dp := util.GetExtFromCert(c, util.CrlDistOID)
 	var cdp []distributionPoint
 	_, err := asn1.Unmarshal(dp.Value, &cdp)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	for _, dp := range cdp {
 		if dp.Reason.BitLength != 0 && len(dp.DistributionPoint.FullName.Bytes) == 0 &&
 			dp.DistributionPoint.RelativeName == nil && len(dp.CRLIssuer.Bytes) == 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -64,6 +64,6 @@ func init() {
 		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
 		Source:        "RFC 5280: 4.2.1.13",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &dpIncomplete{},
+		Lint:          &dpIncomplete{},
 	})
 }

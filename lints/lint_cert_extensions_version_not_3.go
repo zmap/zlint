@@ -35,11 +35,11 @@ func (l *CertExtensionsVersonNot3) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *CertExtensionsVersonNot3) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *CertExtensionsVersonNot3) Execute(cert *x509.Certificate) *LintResult {
 	if cert.Version != 3 && len(cert.Extensions) != 0 {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -48,6 +48,6 @@ func init() {
 		Description:   "The extensions field MUST only appear in version 3 certificates",
 		Source:        "RFC 5280: 4.1.2.9",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &CertExtensionsVersonNot3{},
+		Lint:          &CertExtensionsVersonNot3{},
 	})
 }

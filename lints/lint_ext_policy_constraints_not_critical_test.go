@@ -7,26 +7,18 @@ import (
 
 func TestPolicyConstraintsNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyConstNotCritical.pem"
-	desEnum := Error
-	out, _ := Lints["e_ext_policy_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_ext_policy_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPolicyConstraintsCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/policyConstGoodBoth.pem"
-	desEnum := Pass
-	out, _ := Lints["e_ext_policy_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_ext_policy_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

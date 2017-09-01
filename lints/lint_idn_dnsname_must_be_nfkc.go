@@ -18,22 +18,22 @@ func (l *IDNNotNFKC) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *IDNNotNFKC) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IDNNotNFKC) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {
 			if strings.HasPrefix(label, "xn--") {
 				unicodeLabel, err := idna.ToUnicode(label)
 				if err != nil {
-					return ResultStruct{Result: NA}, nil
+					return &LintResult{Status: NA}
 				}
 				if !norm.NFKC.IsNormalString(unicodeLabel) {
-					return ResultStruct{Result: Error}, nil
+					return &LintResult{Status: Error}
 				}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -42,6 +42,6 @@ func init() {
 		Description:   "Internationalized DNSNames must be normalized by unicode normalization form KC",
 		Source:        "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
-		Test:          &IDNNotNFKC{},
+		Lint:          &IDNNotNFKC{},
 	})
 }

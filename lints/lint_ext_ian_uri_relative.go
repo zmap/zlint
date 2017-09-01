@@ -29,19 +29,19 @@ func (l *uriRelative) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *uriRelative) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *uriRelative) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.IANURIs {
 		parsed_uri, err := url.Parse(uri)
 
 		if err != nil {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 
 		if !parsed_uri.IsAbs() {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -50,6 +50,6 @@ func init() {
 		Description:   "When issuerAltName extension is present and the URI is used, the name MUST NOT be a relative URI",
 		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &uriRelative{},
+		Lint:          &uriRelative{},
 	})
 }

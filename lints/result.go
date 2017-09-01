@@ -2,34 +2,42 @@ package lints
 
 import "encoding/json"
 
-type ResultEnum int
+// LintStatus is an enum returned by lints inside of a LintResult.
+type LintStatus int
 
+// Known LintStatus values
 const (
-	Reserved ResultEnum = iota //0
-	NA                         // 1
-	NE                         // 2
-	Pass                       // 3
-	Notice                     // 4
-	Warn                       // 5
-	Error                      // 6
-	Fatal                      // 7
+	// Unused / unset LintStatus
+	Reserved LintStatus = 0
+
+	// Not Applicable
+	NA LintStatus = 1
+
+	// Not Effective
+	NE LintStatus = 2
+
+	Pass   LintStatus = 3
+	Notice LintStatus = 4
+	Warn   LintStatus = 5
+	Error  LintStatus = 6
+	Fatal  LintStatus = 7
 )
 
-type ResultStruct struct {
-	Result ResultEnum `json:"result"` //this is the ResultEnum enumeration and uses the values found there
-}
-
-type FinalResult struct {
-	Result  ResultEnum `json:"result"`
+// LintResult contains a LintStatus, and an optional human-readable description.
+// The output of a lint is a LintResult.
+type LintResult struct {
+	Status  LintStatus `json:"result"`
 	Details string     `json:"details,omitempty"`
 }
 
-func (e ResultEnum) MarshalJSON() ([]byte, error) {
+// MarshalJSON implements the json.Marshaler interface.
+func (e LintStatus) MarshalJSON() ([]byte, error) {
 	s := e.String()
 	return json.Marshal(s)
 }
 
-func (e ResultEnum) String() string {
+// String returns the canonical representation of a LintStatus as a string.
+func (e LintStatus) String() string {
 	switch e {
 	case NA:
 		return "NA"

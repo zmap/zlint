@@ -24,11 +24,11 @@ func (l *caKeyUsageMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caKeyUsageMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caKeyUsageMissing) Execute(c *x509.Certificate) *LintResult {
 	if c.KeyUsage != x509.KeyUsage(0) {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be present",
 		Source:        "BRs: 7.1.2.1, RFC 5280: 4.2.1.3",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &caKeyUsageMissing{},
+		Lint:          &caKeyUsageMissing{},
 	})
 }

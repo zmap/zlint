@@ -24,19 +24,17 @@ func (l *ExtCertPolicyDuplicate) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.CertPolicyOID)
 }
 
-func (l *ExtCertPolicyDuplicate) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *ExtCertPolicyDuplicate) Execute(cert *x509.Certificate) *LintResult {
 	// O(n^2) is not terrible here because n is small
 	for i := 0; i < len(cert.PolicyIdentifiers); i++ {
 		for j := i + 1; j < len(cert.PolicyIdentifiers); j++ {
 			if i != j && cert.PolicyIdentifiers[i].Equal(cert.PolicyIdentifiers[j]) {
-				temp := ResultStruct{Result: Error}
-				//temp.Details = fmt.Sprintf("%v", cert.PolicyIdentifiers[i])
-				return temp, nil // Any one duplicate fails the test, so return here
+				// Any one duplicate fails the test, so return here
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	// Nested loop will return if it finds a duplicate, so it's safe to assume pass
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -45,6 +43,6 @@ func init() {
 		Description:   "A certificate policy OID must not appear more than once in the extension",
 		Source:        "RFC 5280: 4.2.1.4",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &ExtCertPolicyDuplicate{},
+		Lint:          &ExtCertPolicyDuplicate{},
 	})
 }

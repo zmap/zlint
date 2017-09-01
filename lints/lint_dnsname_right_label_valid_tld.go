@@ -15,18 +15,18 @@ func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameValidTLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
 		if !util.HasValidTLD(c.Subject.CommonName) {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		if !util.HasValidTLD(dns) {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -35,6 +35,6 @@ func init() {
 		Description:   "DNSNames must have a valid TLD.",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameValidTLD{},
+		Lint:          &DNSNameValidTLD{},
 	})
 }

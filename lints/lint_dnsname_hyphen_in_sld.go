@@ -1,10 +1,11 @@
 package lints
 
 import (
+	"strings"
+
 	"github.com/weppos/publicsuffix-go/publicsuffix"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type DNSNameHyphenInSLD struct{}
@@ -29,26 +30,26 @@ func hyphenAtStartOrEndOfSLD(domain string) (bool, error) {
 	}
 }
 
-func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return &LintResult{Status: Fatal}
 		}
 		if hyphenFound {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return &LintResult{Status: Fatal}
 		}
 		if hyphenFound {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -57,6 +58,6 @@ func init() {
 		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameHyphenInSLD{},
+		Lint:          &DNSNameHyphenInSLD{},
 	})
 }

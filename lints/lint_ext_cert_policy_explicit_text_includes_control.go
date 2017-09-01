@@ -33,18 +33,18 @@ func (l *controlChar) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *controlChar) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *controlChar) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if text.Tag == 12 {
 				for i := 0; i < len(text.Bytes); i++ {
 					if text.Bytes[i]&0x80 == 0 {
 						if text.Bytes[i] < 0x20 || text.Bytes[i] == 0x7f {
-							return ResultStruct{Result: Warn}, nil
+							return &LintResult{Status: Warn}
 						}
 					} else if text.Bytes[i]&0x20 == 0 {
 						if text.Bytes[i] == 0xc2 && text.Bytes[i+1] >= 0x80 && text.Bytes[i+1] <= 0x9f {
-							return ResultStruct{Result: Warn}, nil
+							return &LintResult{Status: Warn}
 						}
 						i += 1
 					} else if text.Bytes[i]&0x10 == 0 {
@@ -61,7 +61,7 @@ func (l *controlChar) RunTest(c *x509.Certificate) (ResultStruct, error) {
 		}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -70,6 +70,6 @@ func init() {
 		Description:   "Explicit text should not include any control charaters",
 		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &controlChar{},
+		Lint:          &controlChar{},
 	})
 }

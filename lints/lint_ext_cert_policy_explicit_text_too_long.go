@@ -34,15 +34,15 @@ func (l *explicitTextTooLong) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *explicitTextTooLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *explicitTextTooLong) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			if len(text.Bytes) > 200 {
-				return ResultStruct{Result: Error}, nil
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -51,6 +51,6 @@ func init() {
 		Description:   "Explicit text has a maximum size of 200 characters",
 		Source:        "RFC 6818: 3",
 		EffectiveDate: util.RFC6818Date,
-		Test:          &explicitTextTooLong{},
+		Lint:          &explicitTextTooLong{},
 	})
 }

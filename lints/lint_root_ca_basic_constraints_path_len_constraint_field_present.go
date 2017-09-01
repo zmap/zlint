@@ -23,25 +23,25 @@ func (l *rootCaPathLenPresent) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c) && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *rootCaPathLenPresent) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *rootCaPathLenPresent) Execute(c *x509.Certificate) *LintResult {
 	bc := util.GetExtFromCert(c, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool
 	_, err := asn1.Unmarshal(bc.Value, &seq)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 	rest, err := asn1.Unmarshal(seq.Bytes, &isCa)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	if len(rest) > 0 {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -50,6 +50,6 @@ func init() {
 		Description:   "Root CA certificate basicConstraint extension pathLenConstraint field SHOULD NOT be present",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &rootCaPathLenPresent{},
+		Lint:          &rootCaPathLenPresent{},
 	})
 }

@@ -19,6 +19,7 @@ package lints
 
 import (
 	"encoding/asn1"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -40,16 +41,15 @@ func (l *pathLenNonPositive) CheckApplies(cert *x509.Certificate) bool {
 	return cert.BasicConstraintsValid
 }
 
-func (l *pathLenNonPositive) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *pathLenNonPositive) Execute(cert *x509.Certificate) *LintResult {
 	ext := util.GetExtFromCert(cert, util.BasicConstOID)
-	_, err := asn1.Unmarshal(ext.Value, &l.bc)
-	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+	if _, err := asn1.Unmarshal(ext.Value, &l.bc); err != nil {
+		return &LintResult{Status: Fatal}
 	}
 	if l.bc.PathLenConstraint < 0 {
-		return ResultStruct{Result: Error}, err
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, err
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -58,6 +58,6 @@ func init() {
 		Description:   "Where it appears, the pathLenConstraint field MUST be greater than or equal to zero",
 		Source:        "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &pathLenNonPositive{},
+		Lint:          &pathLenNonPositive{},
 	})
 }

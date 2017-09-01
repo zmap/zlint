@@ -22,15 +22,15 @@ func (l *IANURIIA5String) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANURIIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *IANURIIA5String) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.IANURIs {
 		for _, c := range uri {
 			if c > unicode.MaxASCII {
-				return ResultStruct{Result: Error}, nil
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -39,6 +39,6 @@ func init() {
 		Description:   "When subjectAltName contains a URI, the name MUST be an IA5 string",
 		Source:        "RFC5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &IANURIIA5String{},
+		Lint:          &IANURIIA5String{},
 	})
 }

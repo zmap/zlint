@@ -15,13 +15,13 @@ func (l *subCertLocalityNameMustNotAppear) CheckApplies(c *x509.Certificate) boo
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertLocalityNameMustNotAppear) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCertLocalityNameMustNotAppear) Execute(c *x509.Certificate) *LintResult {
 	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.Locality) > 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -30,6 +30,6 @@ func init() {
 		Description:   "Subscriber Certificate: subject:localityName MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCertLocalityNameMustNotAppear{},
+		Lint:          &subCertLocalityNameMustNotAppear{},
 	})
 }

@@ -10,6 +10,7 @@ package lints
 
 import (
 	"encoding/asn1"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -24,26 +25,26 @@ func (l *pathLenIncluded) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.BasicConstOID)
 }
 
-func (l *pathLenIncluded) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *pathLenIncluded) Execute(cert *x509.Certificate) *LintResult {
 	bc := util.GetExtFromCert(cert, util.BasicConstOID)
 	var seq asn1.RawValue
 	var isCa bool
 	_, err := asn1.Unmarshal(bc.Value, &seq)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return &LintResult{Status: Fatal}
 	}
 	if len(seq.Bytes) == 0 {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 	rest, err := asn1.UnmarshalWithParams(seq.Bytes, &isCa, "optional")
 	if err != nil {
-		return ResultStruct{Result: Fatal}, err
+		return &LintResult{Status: Fatal}
 	}
-	kUVal := util.IsExtInCert(cert, util.KeyUsageOID)
-	if len(rest) > 0 && (!cert.IsCA || !kUVal || (kUVal && cert.KeyUsage&x509.KeyUsageCertSign == 0)) {
-		return ResultStruct{Result: Error}, nil
+	keyUsageValue := util.IsExtInCert(cert, util.KeyUsageOID)
+	if len(rest) > 0 && (!cert.IsCA || !keyUsageValue || (keyUsageValue && cert.KeyUsage&x509.KeyUsageCertSign == 0)) {
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -52,6 +53,6 @@ func init() {
 		Description:   "CAs MUST NOT include the pathLenConstraint field unless the CA boolean is asserted and the keyCertSign bit is set",
 		Source:        "RFC 5280: 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &pathLenIncluded{},
+		Lint:          &pathLenIncluded{},
 	})
 }

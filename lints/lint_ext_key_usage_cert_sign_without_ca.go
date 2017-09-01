@@ -27,15 +27,15 @@ func (l *keyUsageCertSignNoCa) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *keyUsageCertSignNoCa) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *keyUsageCertSignNoCa) Execute(c *x509.Certificate) *LintResult {
 	if (c.KeyUsage & x509.KeyUsageCertSign) != 0 {
 		if c.BasicConstraintsValid && util.IsCACert(c) { //CA certs may assert certtificate signing usage
-			return ResultStruct{Result: Pass}, nil
+			return &LintResult{Status: Pass}
 		} else {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -45,6 +45,6 @@ func init() {
 		Description:   "if the keyCertSign bit is asserted, then the cA bit in the basic constraints extension MUST also be asserted",
 		Source:        "RFC 5280: 4.2.1.3 & 4.2.1.9",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &keyUsageCertSignNoCa{},
+		Lint:          &keyUsageCertSignNoCa{},
 	})
 }

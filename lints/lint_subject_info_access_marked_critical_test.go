@@ -7,26 +7,18 @@ import (
 
 func TestSiaCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/siaCrit.pem"
-	desEnum := Error
-	out, _ := Lints["e_subject_info_access_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_subject_info_access_marked_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSiaNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/siaNotCrit.pem"
-	desEnum := Pass
-	out, _ := Lints["e_subject_info_access_marked_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_subject_info_access_marked_critical"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

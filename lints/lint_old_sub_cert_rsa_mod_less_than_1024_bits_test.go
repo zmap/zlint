@@ -7,26 +7,18 @@ import (
 
 func TestOldSubCertRsaModSizeSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/oldSubTooSmall.pem"
-	desEnum := Error
-	out, _ := Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestOldSubCertRsaModSizeNotSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/oldSubSmall.pem"
-	desEnum := Pass
-	out, _ := Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

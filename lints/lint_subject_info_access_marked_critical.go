@@ -20,12 +20,12 @@ func (l *siaCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectInfoAccessOID)
 }
 
-func (l *siaCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *siaCrit) Execute(c *x509.Certificate) *LintResult {
 	sia := util.GetExtFromCert(c, util.SubjectInfoAccessOID)
 	if sia.Critical {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -34,6 +34,6 @@ func init() {
 		Description:   "Conforming CAs MUST mark the Subject Info Access extension as non-critical",
 		Source:        "RFC 5280: 4.2.2.2",
 		EffectiveDate: util.RFC3280Date,
-		Test:          &siaCrit{},
+		Lint:          &siaCrit{},
 	})
 }

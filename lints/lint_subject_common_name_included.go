@@ -20,11 +20,11 @@ func (l *commonNames) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *commonNames) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *commonNames) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName == "" {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Notice}, nil
+		return &LintResult{Status: Notice}
 	}
 }
 
@@ -34,6 +34,6 @@ func init() {
 		Description:   "Subscriber Certificate: commonName is deprecated.",
 		Source:        "BRs: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &commonNames{},
+		Lint:          &commonNames{},
 	})
 }

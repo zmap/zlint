@@ -29,11 +29,11 @@ func (l *CertContainsUniqueIdentifier) CheckApplies(cert *x509.Certificate) bool
 	return true
 }
 
-func (l *CertContainsUniqueIdentifier) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *CertContainsUniqueIdentifier) Execute(cert *x509.Certificate) *LintResult {
 	if cert.IssuerUniqueId.Bytes == nil && cert.SubjectUniqueId.Bytes == nil {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} //else
-	return ResultStruct{Result: Error}, nil
+	return &LintResult{Status: Error}
 }
 
 func init() {
@@ -42,6 +42,6 @@ func init() {
 		Description:   "CAs MUST NOT generate certificate with unique identifiers",
 		Source:        "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &CertContainsUniqueIdentifier{},
+		Lint:          &CertContainsUniqueIdentifier{},
 	})
 }

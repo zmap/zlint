@@ -26,11 +26,11 @@ func (l *sha1ExpireLong) CheckApplies(c *x509.Certificate) bool {
 		c.SignatureAlgorithm == x509.ECDSAWithSHA1)
 }
 
-func (l *sha1ExpireLong) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *sha1ExpireLong) Execute(c *x509.Certificate) *LintResult {
 	if c.NotAfter.After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.UTC)) {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -40,6 +40,6 @@ func init() {
 		Description:   "Subscriber certificates using the SHA-1 algorithm SHOULD NOT have an expiration date later than 1 Jan 2017",
 		Source:        "BRs: 7.1.3",
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),
-		Test:          &sha1ExpireLong{},
+		Lint:          &sha1ExpireLong{},
 	})
 }

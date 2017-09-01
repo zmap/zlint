@@ -27,78 +27,78 @@ func (l *nameConstraintMax) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
-func (l *nameConstraintMax) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *nameConstraintMax) Execute(c *x509.Certificate) *LintResult {
 	for _, i := range c.PermittedDNSNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedDNSNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedDNSNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedEmailAddresses {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedIPAddresses {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedIPAddresses {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedDirectoryNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedDirectoryNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedEdiPartyNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedEdiPartyNames {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedRegisteredIDs {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedRegisteredIDs {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.PermittedX400Addresses {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	for _, i := range c.ExcludedX400Addresses {
 		if i.Max != 0 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -107,6 +107,6 @@ func init() {
 		Description:   "Within the name constraints name form, the maximum field is not used and therefore MUST be absent",
 		Source:        "RFC 5280: 4.2.1.10",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &nameConstraintMax{},
+		Lint:          &nameConstraintMax{},
 	})
 }

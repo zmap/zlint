@@ -31,11 +31,11 @@ func (l *authorityKeyIdMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsRootCA(c)
 }
 
-func (l *authorityKeyIdMissing) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *authorityKeyIdMissing) Execute(c *x509.Certificate) *LintResult {
 	if !util.IsExtInCert(c, util.AuthkeyOID) && !util.IsSelfSigned(c) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -45,6 +45,6 @@ func init() {
 		Description:   "CAs must support key identifiers and include them in all certificates",
 		Source:        "RFC 5280: 4.2 & 4.2.1.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &authorityKeyIdMissing{},
+		Lint:          &authorityKeyIdMissing{},
 	})
 }

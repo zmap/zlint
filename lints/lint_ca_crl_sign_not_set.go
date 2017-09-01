@@ -22,11 +22,11 @@ func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caCRLSignNotSet) Execute(c *x509.Certificate) *LintResult {
 	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Root and Subordinate CA certificate keyUsage extension's crlSign bit MUST be set",
 		Source:        "BRs: 7.1.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCRLSignNotSet{},
+		Lint:          &caCRLSignNotSet{},
 	})
 }

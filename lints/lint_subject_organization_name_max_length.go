@@ -23,14 +23,14 @@ func (l *subjectOrganizationNameMaxLength) CheckApplies(c *x509.Certificate) boo
 	return true
 }
 
-func (l *subjectOrganizationNameMaxLength) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.Organization {
 		if len(j) > 64 {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -39,6 +39,6 @@ func init() {
 		Description:   "The 'Organization Name' field of the subject MUST be less than 64 characters",
 		Source:        "RFC 5280: A.1",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subjectOrganizationNameMaxLength{},
+		Lint:          &subjectOrganizationNameMaxLength{},
 	})
 }

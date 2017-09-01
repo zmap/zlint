@@ -7,26 +7,18 @@ import (
 
 func TestSANBarePubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANBareSuffix.pem"
-	desEnum := Warn
-	out, _ := Lints["w_san_iana_pub_suffix_empty"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Warn
+	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANGoodPubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANGoodSuffix.pem"
-	desEnum := Pass
-	out, _ := Lints["w_san_iana_pub_suffix_empty"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

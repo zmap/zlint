@@ -28,11 +28,11 @@ func (l *caSubjectEmpty) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caSubjectEmpty) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *caSubjectEmpty) Execute(c *x509.Certificate) *LintResult {
 	if &c.Subject != nil && util.NotAllNameFieldsAreEmpty(&c.Subject) {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	} else {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 }
 
@@ -42,6 +42,6 @@ func init() {
 		Description:   "CA Certificates subject field MUST not be empty and MUST have a non-empty distingushed name",
 		Source:        "RFC 5280: 4.1.2.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &caSubjectEmpty{},
+		Lint:          &caSubjectEmpty{},
 	})
 }

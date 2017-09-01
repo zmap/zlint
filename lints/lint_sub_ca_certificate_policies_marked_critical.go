@@ -21,11 +21,11 @@ func (l *subCACertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CertPolicyOID)
 }
 
-func (l *subCACertPolicyCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCACertPolicyCrit) Execute(c *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(c, util.CertPolicyOID); e.Critical {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 
 }
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
 		Source:        "BRs: 7.1.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCACertPolicyCrit{},
+		Lint:          &subCACertPolicyCrit{},
 	})
 }

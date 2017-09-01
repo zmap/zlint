@@ -24,11 +24,11 @@ func (l *subDirAttrCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectDirAttrOID)
 }
 
-func (l *subDirAttrCrit) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subDirAttrCrit) Execute(c *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(c, util.SubjectDirAttrOID); e.Critical {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "Conforming CAs MUST mark the Subject Directory Attributes extension as not critical",
 		Source:        "RFC 5280: 4.2.1.8",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &subDirAttrCrit{},
+		Lint:          &subDirAttrCrit{},
 	})
 }

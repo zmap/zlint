@@ -26,15 +26,15 @@ func (l *subjectReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *subjectReservedIP) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subjectReservedIP) Execute(c *x509.Certificate) *LintResult {
 	if ip := net.ParseIP(c.Subject.CommonName); ip != nil {
 		if !util.IsReservedIP(ip) {
-			return ResultStruct{Result: Pass}, nil
+			return &LintResult{Status: Pass}
 		} else {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -44,6 +44,6 @@ func init() {
 		Description:   "Certificates expiring later than 11 Jan 2015 MUST NOT contain a reserved IP address in the common name field",
 		Source:        "BRs: 7.1.4.2.1",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subjectReservedIP{},
+		Lint:          &subjectReservedIP{},
 	})
 }

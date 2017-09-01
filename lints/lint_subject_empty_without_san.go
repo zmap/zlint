@@ -28,11 +28,11 @@ func (l *emptyWithoutSAN) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *emptyWithoutSAN) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *emptyWithoutSAN) Execute(cert *x509.Certificate) *LintResult {
 	if subjectIsEmpty(cert) && !util.IsExtInCert(cert, util.SubjectAlternateNameOID) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -49,6 +49,6 @@ func init() {
 		Description:   "CAs MUST support subject alternative name if the subject field is an empty sequence",
 		Source:        "RFC 5280: 4.2 & 4.2.1.6",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &emptyWithoutSAN{},
+		Lint:          &emptyWithoutSAN{},
 	})
 }

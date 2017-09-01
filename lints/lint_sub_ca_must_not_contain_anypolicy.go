@@ -15,13 +15,13 @@ func (l *subCaMustNotContainAnyPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCaMustNotContainAnyPolicy) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *subCaMustNotContainAnyPolicy) Execute(c *x509.Certificate) *LintResult {
 	for _, policy := range c.PolicyIdentifiers {
 		if policy.Equal(util.AnyPolicyOID) {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -30,6 +30,6 @@ func init() {
 		Description:   "Subordinate CA: MUST NOT contain the anyPolicy identifier (2.5.29.32.0)",
 		Source:        "BRs: 7.1.6.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &subCaMustNotContainAnyPolicy{},
+		Lint:          &subCaMustNotContainAnyPolicy{},
 	})
 }

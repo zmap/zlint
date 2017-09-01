@@ -6,29 +6,19 @@ import (
 )
 
 func TestCaKeyUsageNoDigSign(t *testing.T) {
-	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.pem"
-	desEnum := Notice
-	out, _ := Lints["n_ca_digital_signature_not_set"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Notice
+	out := Lints["n_ca_digital_signature_not_set"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestKeyUsageDigSign(t *testing.T) {
-	// Only need to change these two values and the lint name
 	inputPath := "../testlint/testCerts/caKeyUsageWDigSign.pem"
-	desEnum := Pass
-	out, _ := Lints["n_ca_digital_signature_not_set"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["n_ca_digital_signature_not_set"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

@@ -27,16 +27,16 @@ func wildcardInLeftLabelIncorrect(domain string) bool {
 	return false
 }
 
-func (l *DNSNameLeftLabelWildcardCheck) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *DNSNameLeftLabelWildcardCheck) Execute(c *x509.Certificate) *LintResult {
 	if wildcardInLeftLabelIncorrect(c.Subject.CommonName) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	}
 	for _, dns := range c.DNSNames {
 		if wildcardInLeftLabelIncorrect(dns) {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -45,6 +45,6 @@ func init() {
 		Description:   "Wildcards in the left label of DNSName should only be *",
 		Source:        "RFC 5280",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &DNSNameLeftLabelWildcardCheck{},
+		Lint:          &DNSNameLeftLabelWildcardCheck{},
 	})
 }

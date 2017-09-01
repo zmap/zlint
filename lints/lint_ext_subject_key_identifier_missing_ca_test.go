@@ -7,26 +7,18 @@ import (
 
 func TestSubCaSkiMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCANoSKI.pem"
-	desEnum := Error
-	out, _ := Lints["e_ext_subject_key_identifier_missing_ca"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Error
+	out := Lints["e_ext_subject_key_identifier_missing_ca"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaSkiPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/skiNotCriticalCA.pem"
-	desEnum := Pass
-	out, _ := Lints["e_ext_subject_key_identifier_missing_ca"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != desEnum {
-		t.Error(
-			"For", inputPath, /* input path*/
-			"expected", desEnum, /* The enum you expected */
-			"got", out.Result, /* Actual Result */
-		)
+	expected := Pass
+	out := Lints["e_ext_subject_key_identifier_missing_ca"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }

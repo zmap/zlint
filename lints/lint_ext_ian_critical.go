@@ -22,11 +22,11 @@ func (l *ExtIANCritical) CheckApplies(cert *x509.Certificate) bool {
 	return util.IsExtInCert(cert, util.IssuerAlternateNameOID)
 }
 
-func (l *ExtIANCritical) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *ExtIANCritical) Execute(cert *x509.Certificate) *LintResult {
 	if util.GetExtFromCert(cert, util.IssuerAlternateNameOID).Critical {
-		return ResultStruct{Result: Warn}, nil
+		return &LintResult{Status: Warn}
 	} else {
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -36,6 +36,6 @@ func init() {
 		Description:   "Issuer alternate name should be marked as non-critical",
 		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &ExtIANCritical{},
+		Lint:          &ExtIANCritical{},
 	})
 }

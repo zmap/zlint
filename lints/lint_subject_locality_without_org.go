@@ -25,11 +25,11 @@ func (l *localNoOrg) CheckApplies(cert *x509.Certificate) bool {
 	return true
 }
 
-func (l *localNoOrg) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *localNoOrg) Execute(cert *x509.Certificate) *LintResult {
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) && !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else { //if no Locality, Organization can be omitted
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -39,6 +39,6 @@ func init() {
 		Description:   "The Locality field MUST NOT be included without an organization name",
 		Source:        "CAB: 7.1.4.2.2",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &localNoOrg{},
+		Lint:          &localNoOrg{},
 	})
 }

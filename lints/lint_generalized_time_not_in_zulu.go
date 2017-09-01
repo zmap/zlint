@@ -36,19 +36,19 @@ func (l *generalizedNotZulu) CheckApplies(c *x509.Certificate) bool {
 	return l.date1Gen || l.date2Gen
 }
 
-func (l *generalizedNotZulu) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *generalizedNotZulu) Execute(c *x509.Certificate) *LintResult {
 	date1, date2 := util.GetTimes(c)
 	if l.date1Gen {
 		if date1.Bytes[len(date1.Bytes)-1] != 'Z' {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
 	if l.date2Gen {
 		if date2.Bytes[len(date2.Bytes)-1] != 'Z' {
-			return ResultStruct{Result: Error}, nil
+			return &LintResult{Status: Error}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -57,6 +57,6 @@ func init() {
 		Description:   "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Source:        "RFC 5280: 4.1.2.5.2",
 		EffectiveDate: util.RFC2459Date,
-		Test:          &generalizedNotZulu{},
+		Lint:          &generalizedNotZulu{},
 	})
 }

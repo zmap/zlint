@@ -28,16 +28,16 @@ func (l *SANURIHost) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANURIHost) RunTest(c *x509.Certificate) (ResultStruct, error) {
+func (l *SANURIHost) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.URIs {
 		if uri != "" {
 			host := util.GetHost(uri)
 			if !util.AuthIsFQDNOrIP(host) {
-				return ResultStruct{Result: Error}, nil
+				return &LintResult{Status: Error}
 			}
 		}
 	}
-	return ResultStruct{Result: Pass}, nil
+	return &LintResult{Status: Pass}
 }
 
 func init() {
@@ -46,6 +46,6 @@ func init() {
 		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host",
 		Source:        "RFC 5280: 4.2.1.7",
 		EffectiveDate: util.RFC5280Date,
-		Test:          &SANURIHost{},
+		Lint:          &SANURIHost{},
 	})
 }

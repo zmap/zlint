@@ -24,11 +24,11 @@ func (l *orgNoCountry) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *orgNoCountry) RunTest(cert *x509.Certificate) (ResultStruct, error) {
+func (l *orgNoCountry) Execute(cert *x509.Certificate) *LintResult {
 	if !util.TypeInName(&cert.Subject, util.CountryNameOID) && util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		return ResultStruct{Result: Error}, nil
+		return &LintResult{Status: Error}
 	} else { //if no organization, country can be nil
-		return ResultStruct{Result: Pass}, nil
+		return &LintResult{Status: Pass}
 	}
 }
 
@@ -38,6 +38,6 @@ func init() {
 		Description:   "The organization name field MUST not be included without a country name",
 		Source:        "BRs: 7.1.4.2.2 (d&e)",
 		EffectiveDate: util.CABEffectiveDate,
-		Test:          &orgNoCountry{},
+		Lint:          &orgNoCountry{},
 	})
 }
