@@ -23,21 +23,25 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint"
+	"github.com/zmap/zlint/lints"
 )
 
-var ( //flags
-	listLintsJSON bool
-	prettyprint   bool
-	format        string
+var ( // flags
+	listLintsJSON   bool
+	listLintsSchema bool
+	prettyprint     bool
+	format          string
 )
 
 func init() {
-	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Use this flag to print supported lints in JSON format, one per line")
+	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print supported lints in JSON format, one per line")
+	flag.BoolVar(&listLintsSchema, "list-lints-schema", false, "Print supported lints as a ZSchema")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
 	flag.Usage = func() {
@@ -52,6 +56,20 @@ func main() {
 
 	if listLintsJSON {
 		zlint.EncodeLintDescriptionsToJSON(os.Stdout)
+		return
+	}
+
+	if listLintsSchema {
+		names := make([]string, 0, len(lints.Lints))
+		for lintName := range lints.Lints {
+			names = append(names, lintName)
+		}
+		sort.Strings(names)
+		fmt.Printf("Lints = SubRecord({\n")
+		for _, lintName := range names {
+			fmt.Printf("    \"%s\":LintBool(),\n", lintName)
+		}
+		fmt.Printf("})\n")
 		return
 	}
 
