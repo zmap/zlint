@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
@@ -59,11 +60,16 @@ func main() {
 	}
 
 	if listLintsSchema {
-		fmt.Printf("Lints = SubRecord({\n")
-		for _, lint := range lints.Lints {
-			fmt.Printf("    \"%s\":LintBool(),\n", lint.Name)
+		names := make([]string, 0, len(lints.Lints))
+		for lintName := range lints.Lints {
+			names = append(names, lintName)
 		}
-		fmt.Printf("}\n")
+		sort.Strings(names)
+		fmt.Printf("Lints = SubRecord({\n")
+		for _, lintName := range names {
+			fmt.Printf("    \"%s\":LintBool(),\n", lintName)
+		}
+		fmt.Printf("})\n")
 		return
 	}
 
