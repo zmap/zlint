@@ -1,7 +1,9 @@
 package lints
 
 import (
+	"fmt"
 	"time"
+	"errors"
 
 	"github.com/zmap/zcrypto/x509"
 )
@@ -25,12 +27,19 @@ type ZLintResult struct {
 
 func (result *ZLintResult) Execute(cert *x509.Certificate) error {
 	result.ZLint = make(map[string]ResultStruct, len(Lints))
+	fatals := ""
 	for name, l := range Lints {
-		res, _ := l.ExecuteTest(cert)
+		res, err := l.ExecuteTest(cert)
 		result.ZLint[name] = res
 		result.updateErrorStatePresent(res)
+		if err != nil {
+		    fatals += fmt.Sprintf("%v\n", err)
+		}
 	}
-	return nil
+	if len(fatals) == 0 {
+	    return nil
+	}
+	return errors.New(fatals)
 }
 
 func (zlintResult *ZLintResult) updateErrorStatePresent(result ResultStruct) {

@@ -35,7 +35,7 @@ func (l *DNSNameUnderscoreInTRD) RunTest(c *x509.Certificate) (ResultStruct, err
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInTRD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if underscoreFound {
 			return ResultStruct{Result: Warn}, nil

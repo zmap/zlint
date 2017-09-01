@@ -42,7 +42,7 @@ func (l *policyConstraintsContents) RunTest(c *x509.Certificate) (ResultStruct, 
 	var seq asn1.RawValue
 	_, err := asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if len(seq.Bytes) == 0 {
 		return ResultStruct{Result: Error}, nil

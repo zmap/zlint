@@ -49,7 +49,7 @@ func (l *dpIncomplete) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	var cdp []distributionPoint
 	_, err := asn1.Unmarshal(dp.Value, &cdp)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	for _, dp := range cdp {
 		if dp.Reason.BitLength != 0 && len(dp.DistributionPoint.FullName.Bytes) == 0 &&

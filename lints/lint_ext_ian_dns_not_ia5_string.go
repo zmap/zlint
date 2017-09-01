@@ -18,6 +18,8 @@ encoding internationalized domain names are specified in Section 7.2.
 package lints
 
 import (
+	"errors"
+	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -37,11 +39,12 @@ func (l *IANDNSNotIA5String) CheckApplies(c *x509.Certificate) bool {
 func (l *IANDNSNotIA5String) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	ext := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
 	if ext == nil {
-		return ResultStruct{Result: Fatal}, nil
+		err := errors.New(fmt.Sprintf("unable to get %v from cert", util.IssuerAlternateNameOID))
+		return ResultStruct{Result: Fatal}, err
 	}
 	ok, err := util.AllAlternateNameWithTagAreIA5(ext, util.DNSNameTag)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if ok {
 		return ResultStruct{Result: Pass}, nil

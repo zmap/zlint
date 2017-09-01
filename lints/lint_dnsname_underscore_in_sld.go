@@ -35,7 +35,7 @@ func (l *DNSNameUnderscoreInSLD) RunTest(c *x509.Certificate) (ResultStruct, err
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if underscoreFound {
 			return ResultStruct{Result: Error}, nil
@@ -44,7 +44,7 @@ func (l *DNSNameUnderscoreInSLD) RunTest(c *x509.Certificate) (ResultStruct, err
 	for _, dns := range c.DNSNames {
 		underscoreFound, err := underscoreInSLD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if underscoreFound {
 			return ResultStruct{Result: Error}, nil

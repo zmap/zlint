@@ -23,7 +23,7 @@ func (l *subCertNotCA) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	e := util.GetExtFromCert(c, util.BasicConstOID)
 	var constraints basicConstraints
 	if _, err := asn1.Unmarshal(e.Value, &constraints); err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if constraints.IsCA == true {
 		return ResultStruct{Result: Error}, nil

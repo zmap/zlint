@@ -32,7 +32,7 @@ func (l *pathLenIncluded) RunTest(cert *x509.Certificate) (ResultStruct, error) 
 	var isCa bool
 	_, err := asn1.Unmarshal(bc.Value, &seq)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if len(seq.Bytes) == 0 {
 		return ResultStruct{Result: Pass}, nil

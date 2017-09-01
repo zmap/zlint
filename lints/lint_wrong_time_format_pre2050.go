@@ -35,11 +35,11 @@ func (l *generalizedPre2050) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	if type1 == 24 {
 		temp, err := asn1.Marshal(date1)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		_, err = asn1.Unmarshal(temp, &t)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if t.Before(util.GeneralizedDate) {
 			return ResultStruct{Result: Error}, nil
@@ -48,11 +48,11 @@ func (l *generalizedPre2050) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	if type2 == 24 {
 		temp, err := asn1.Marshal(date2)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		_, err = asn1.Unmarshal(temp, &t)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if t.Before(util.GeneralizedDate) {
 			return ResultStruct{Result: Error}, nil

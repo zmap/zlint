@@ -29,7 +29,7 @@ func (l *caIsCA) RunTest(c *x509.Certificate) (ResultStruct, error) {
 	var constraints basicConstraints
 	_, err := asn1.Unmarshal(e.Value, &constraints)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if constraints.IsCA == true {
 		return ResultStruct{Result: Pass}, nil

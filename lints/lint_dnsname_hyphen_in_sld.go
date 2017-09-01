@@ -35,7 +35,7 @@ func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	if c.Subject.CommonName != "" {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if hyphenFound {
 			return ResultStruct{Result: Error}, nil
@@ -44,7 +44,7 @@ func (l *DNSNameHyphenInSLD) RunTest(c *x509.Certificate) (ResultStruct, error) 
 	for _, dns := range c.DNSNames {
 		hyphenFound, err := hyphenAtStartOrEndOfSLD(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if hyphenFound {
 			return ResultStruct{Result: Error}, nil

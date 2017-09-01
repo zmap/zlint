@@ -31,14 +31,14 @@ func (l *rootCaPathLenPresent) RunTest(c *x509.Certificate) (ResultStruct, error
 	var isCa bool
 	_, err := asn1.Unmarshal(bc.Value, &seq)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if len(seq.Bytes) == 0 {
 		return ResultStruct{Result: Pass}, nil
 	}
 	rest, err := asn1.Unmarshal(seq.Bytes, &isCa)
 	if err != nil {
-		return ResultStruct{Result: Fatal}, nil
+		return ResultStruct{Result: Fatal}, err
 	}
 	if len(rest) > 0 {
 		return ResultStruct{Result: Warn}, nil

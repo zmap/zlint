@@ -33,7 +33,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) RunTest(c *x509.Certificate) (Result
 	if c.Subject.CommonName != "" {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if wildcardFound {
 			return ResultStruct{Result: Warn}, nil
@@ -42,7 +42,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) RunTest(c *x509.Certificate) (Result
 	for _, dns := range c.DNSNames {
 		wildcardFound, err := wildcardLeftOfPublicSuffix(dns)
 		if err != nil {
-			return ResultStruct{Result: Fatal}, nil
+			return ResultStruct{Result: Fatal}, err
 		}
 		if wildcardFound {
 			return ResultStruct{Result: Warn}, nil
