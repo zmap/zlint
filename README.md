@@ -40,7 +40,7 @@ import (
 parsed, err := x509.ParseCertificate(raw)
 if err != nil {
 	// The certificate could not be parsed. Either error or halt.
-	log.Errorf("could not parse certificate: %s", err)
+	log.Fatalf("could not parse certificate: %s", err)
 }
 zlintResultSet := zlint.LintCertificate(parsed)
 ```
