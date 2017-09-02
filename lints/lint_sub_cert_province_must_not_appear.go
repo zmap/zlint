@@ -29,7 +29,7 @@ func init() {
 		Name:          "e_sub_cert_province_must_not_appear",
 		Description:   "Subscriber Certificate: subject:stateOrProvinceName MUST NOT appeear if the subject:organizationName, subject:givenName, and subject:surname fields are absent.",
 		Source:        "BRs: 7.1.4.2.2",
-		EffectiveDate: util.CABEffectiveDate,
+		EffectiveDate: util.CABGivenNameDate,
 		Lint:          &subCertProvinceMustNotAppear{},
 	})
 }

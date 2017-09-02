@@ -30,7 +30,7 @@ func init() {
 		Name:          "e_sub_cert_given_name_surname_contains_correct_policy",
 		Description:   "Subscriber Certificate: A certificate containing a subject:givenName field or subject:surname field MUST contain the (2.23.140.1.2.3) certPolicy OID.",
 		Source:        "BRs: 7.1.4.2.2",
-		EffectiveDate: util.CABEffectiveDate,
+		EffectiveDate: util.CABGivenNameDate,
 		Lint:          &subCertSubjectGnOrSnContainsPolicy{},
 	})
 }
