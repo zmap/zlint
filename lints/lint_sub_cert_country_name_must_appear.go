@@ -29,7 +29,7 @@ func init() {
 		Name:          "e_sub_cert_country_name_must_appear",
 		Description:   "Subscriber Certificate: subject:countryName MUST appear if the subject:organizationName field, subject:givenName field, or subject:surname fields are present.",
 		Source:        "BRs: 7.1.4.2.2",
-		EffectiveDate: util.CABEffectiveDate,
+		EffectiveDate: util.CABGivenNameDate,
 		Lint:          &subCertCountryNameMustAppear{},
 	})
 }
