@@ -11,6 +11,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"unicode/utf8"
 )
 
 type subjectOrganizationNameMaxLength struct{}
@@ -25,7 +26,7 @@ func (l *subjectOrganizationNameMaxLength) CheckApplies(c *x509.Certificate) boo
 
 func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.Organization {
-		if len(j) > 64 {
+		if utf8.RuneCountInString(j) > 64 {
 			return &LintResult{Status: Error}
 		}
 	}
