@@ -46,6 +46,7 @@ func init() {
 		Name:          "e_serial_number_longer_than_20_octets",
 		Description:   "Certificates must not have a serial number longer than 20 octets",
 		Source:        "RFC 5280: 4.1.2.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &serialNumberTooLong{},
 	})

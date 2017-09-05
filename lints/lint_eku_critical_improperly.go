@@ -46,6 +46,7 @@ func init() {
 		Name:          "w_eku_critical_improperly",
 		Description:   "Conforming CAs SHOULD NOT mark extended key usage extension as critical if the anyExtendedKeyUsage KeyPurposedID is present",
 		Source:        "RFC 5280: 4.2.1.12",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &ekuBadCritical{},
 	})

@@ -35,6 +35,7 @@ func init() {
 		Name:          "n_ca_digital_signature_not_set",
 		Description:   "Root and Subordinate CA Certificates that wish to use their private key for signing OCSP responses will not be able to without their digital signature set",
 		Source:        "BRs: 7.1.2.1",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caDigSignNotSet{},
 	})

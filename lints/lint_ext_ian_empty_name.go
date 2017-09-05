@@ -60,6 +60,7 @@ func init() {
 		Name:          "e_ext_ian_empty_name",
 		Description:   "General name fields must not be empty in IAN",
 		Source:        "RFC 5280: 4.2.1.7",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &IANEmptyName{},
 	})

@@ -39,6 +39,7 @@ func init() {
 		Name:          "e_subject_not_dn",
 		Description:   "When not empty, the subject field MUST be a distinguished name",
 		Source:        "RFC 5280: 4.1.2.6",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectDN{},
 	})

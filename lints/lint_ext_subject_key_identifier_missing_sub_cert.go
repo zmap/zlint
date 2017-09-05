@@ -49,6 +49,7 @@ func init() {
 		Name:          "w_ext_subject_key_identifier_missing_sub_cert",
 		Description:   "Sub certificates SHOULD include Subject Key Identifier in end entity certs",
 		Source:        "RFC 5280: 4.2 & 4.2.1.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectKeyIdMissingSubscriber{},
 	})

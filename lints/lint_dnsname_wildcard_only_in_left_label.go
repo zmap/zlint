@@ -46,6 +46,7 @@ func init() {
 		Name:          "e_dnsname_wildcard_only_in_left_label",
 		Description:   "DNSName should not have wildcards except in the left-most label",
 		Source:        "RFC 5280",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameWildcardOnlyInLeftlabel{},
 	})

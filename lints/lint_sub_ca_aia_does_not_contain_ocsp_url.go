@@ -39,6 +39,7 @@ func init() {
 		Name:          "e_sub_ca_aia_does_not_contain_ocsp_url",
 		Description:   "Subordinate CA certificates authorityInformationAccess extension must contain the HTTP URL of the issuing CA’s OCSP responder",
 		Source:        "BRs: 7.1.2.2",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCaOcspUrl{},
 	})

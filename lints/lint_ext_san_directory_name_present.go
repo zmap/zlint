@@ -39,6 +39,7 @@ func init() {
 		Name:          "e_ext_san_directory_name_present",
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types",
 		Source:        "BRs: 7.1.4.2.1",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &SANDirName{},
 	})

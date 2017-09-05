@@ -33,6 +33,7 @@ func init() {
 		Name:          "e_ian_dns_name_includes_null_char",
 		Description:   "DNSName MUST NOT include a null character",
 		Source:        "awslabs certlint",
+		Type:          AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &IANDNSNull{},
 	})

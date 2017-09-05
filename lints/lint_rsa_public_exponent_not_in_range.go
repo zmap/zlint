@@ -44,6 +44,7 @@ func init() {
 		Name:          "w_rsa_public_exponent_not_in_range",
 		Description:   "RSA: Public exponent SHOULD be in the range between 2^16 + 1 and 2^256 - 1",
 		Source:        "BRs: 6.1.6",
+		Type:          BRs,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaParsedTestsExpInRange{},
 	})

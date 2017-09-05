@@ -42,6 +42,7 @@ func init() {
 		Name:          "e_ca_common_name_missing",
 		Description:   "CA Certificates common name MUST be included.",
 		Source:        "BRs: 7.1.4.3.1",
+		Type:          BRs,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &caCommonNameMissing{},
 	})

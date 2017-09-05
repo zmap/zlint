@@ -33,6 +33,7 @@ func init() {
 		Name:          "w_san_iana_pub_suffix_empty",
 		Description:   "The domain SHOULD NOT have a bare public suffix",
 		Source:        "awslabs certlint",
+		Type:          AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &pubSuffix{},
 	})

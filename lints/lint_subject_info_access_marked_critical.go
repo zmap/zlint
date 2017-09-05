@@ -33,6 +33,7 @@ func init() {
 		Name:          "e_subject_info_access_marked_critical",
 		Description:   "Conforming CAs MUST mark the Subject Info Access extension as non-critical",
 		Source:        "RFC 5280: 4.2.2.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &siaCrit{},
 	})

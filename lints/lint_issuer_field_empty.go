@@ -37,6 +37,7 @@ func init() {
 		Name:          "e_issuer_field_empty",
 		Description:   "Certificate issuer field MUST NOT be empty and must have a non-empty distingushed name",
 		Source:        "RFC 5280: 4.1.2.4",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &issuerFieldEmpty{},
 	})

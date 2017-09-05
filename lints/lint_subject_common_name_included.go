@@ -33,6 +33,7 @@ func init() {
 		Name:          "n_subject_common_name_included",
 		Description:   "Subscriber Certificate: commonName is deprecated.",
 		Source:        "BRs: 7.1.4.2.2",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &commonNames{},
 	})

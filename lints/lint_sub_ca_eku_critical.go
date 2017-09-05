@@ -37,6 +37,7 @@ func init() {
 		Name:          "w_sub_ca_eku_critical",
 		Description:   "Subordinate CA certificate extkeyUsage extension should be marked non-critical if present",
 		Source:        "BRs: 7.1.2.2",
+		Type:          BRs,
 		EffectiveDate: util.CABV116Date,
 		Lint:          &subCAEKUCrit{},
 	})

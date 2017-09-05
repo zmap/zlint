@@ -33,6 +33,14 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 	}
 }
 
+func TestAllLintsHaveType(t *testing.T) {
+	for name, lint := range Lints {
+		if lint.Type == ZeroValue {
+			t.Errorf("lint %s has zero value type", name)
+		}
+	}
+}
+
 func TestLintCheckEffective(t *testing.T) {
 	l := Lint{}
 	c := ReadCertificate("../testlint/testCerts/caBasicConstCrit.pem")

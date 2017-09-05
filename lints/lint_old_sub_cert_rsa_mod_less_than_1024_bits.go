@@ -35,6 +35,7 @@ func init() {
 		Name:        "e_old_sub_cert_rsa_mod_less_than_1024_bits",
 		Description: "In a validity period ending on or before 31 Dec 2013, subscriber certificates using RSA public key algorithm MUST use a 1024 bit modulus",
 		Source:      "BRs: 6.1.5",
+		Type:        BRs,
 		// since effective date should be checked against end date in this specific case, putting time check into checkApplies instead, ZeroDate here to automatically pass NE test
 		EffectiveDate: util.ZeroDate,
 		Lint:          &subModSize{},

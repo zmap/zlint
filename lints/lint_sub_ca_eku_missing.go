@@ -28,6 +28,7 @@ func init() {
 		Name:          "e_sub_ca_eku_missing",
 		Description:   "Subordinate CA certificate MUST have extkeyUsage extension",
 		Source:        "BRs: 7.1.5",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCAEKUMissing{},
 	})

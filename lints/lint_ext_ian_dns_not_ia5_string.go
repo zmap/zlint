@@ -53,6 +53,7 @@ func init() {
 		Name:          "e_ext_ian_dns_not_ia5_string",
 		Description:   "DNSNames MUST be IA5 strings",
 		Source:        "RFC 5280: 4.2.1.7",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &IANDNSNotIA5String{},
 	})

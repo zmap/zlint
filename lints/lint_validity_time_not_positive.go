@@ -31,7 +31,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_validity_time_not_positive",
 		Description:   "Certificates MUST have a positive time for which they are valid",
-		Source:        "awslabs certlint",
+		Source:        "AWSLabs certlint",
+		Type:          AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &validityNegative{},
 	})

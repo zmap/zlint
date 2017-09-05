@@ -42,6 +42,7 @@ func init() {
 		Name:          "e_ext_ian_no_entries",
 		Description:   "If present, the IAN extension must contain at least one entry",
 		Source:        "RFC 5280: 4.2.1.7",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &IANNoEntry{},
 	})

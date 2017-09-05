@@ -57,6 +57,7 @@ func init() {
 		Name:          "w_dnsname_underscore_in_trd",
 		Description:   "DNSName should not have an underscore in labels left of the ETLD+1",
 		Source:        "RFC 5280",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInTRD{},
 	})

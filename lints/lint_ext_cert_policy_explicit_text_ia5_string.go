@@ -51,6 +51,7 @@ func init() {
 		Name:          "e_ext_cert_policy_explicit_text_ia5_string",
 		Description:   "Compliant certificates must not encode explicitTest as an IA5String",
 		Source:        "RFC 6818: 3",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC6818Date,
 		Lint:          &explicitTextIA5String{},
 	})

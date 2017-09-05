@@ -32,6 +32,7 @@ func init() {
 		Name:          "e_san_bare_wildcard",
 		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
 		Source:        "awslabs certlint",
+		Type:          AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &brSANBareWildcard{},
 	})

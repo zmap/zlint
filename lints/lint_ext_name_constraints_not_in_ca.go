@@ -40,6 +40,7 @@ func init() {
 		Name:          "e_ext_name_constraints_not_in_ca",
 		Description:   "The name constraints extension MUST only be used in CA certificates",
 		Source:        "RFC 5280: 4.2.1.10",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &nameConstraintNotCa{},
 	})

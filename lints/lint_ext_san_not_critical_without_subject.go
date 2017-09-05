@@ -42,6 +42,7 @@ func init() {
 		Name:          "e_ext_san_not_critical_without_subject",
 		Description:   "If there is an empty subject field, then the SAN extension MUST be critical",
 		Source:        "RFC 5280: 4.2.1.6",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &extSANNotCritNoSubject{},
 	})

@@ -43,6 +43,7 @@ func init() {
 		Name:          "e_inhibit_any_policy_not_critical",
 		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
 		Source:        "RFC 5280: 4.2.1.14",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &InhibitAnyPolicyNotCritical{},
 	})

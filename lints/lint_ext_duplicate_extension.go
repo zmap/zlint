@@ -38,6 +38,7 @@ func init() {
 		Name:          "e_ext_duplicate_extension",
 		Description:   "A certificate MUST NOT include more than one instance of a particular extension",
 		Source:        "RFC 5280: 4.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &ExtDuplicateExtension{},
 	})

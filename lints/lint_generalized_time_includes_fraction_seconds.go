@@ -74,6 +74,7 @@ func init() {
 		Name:          "e_generalized_time_includes_fraction_seconds",
 		Description:   "Generalized time values MUST NOT include fractional seconds",
 		Source:        "RFC 5280: 4.1.2.5.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &generalizedTimeFraction{},
 	})

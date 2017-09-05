@@ -60,6 +60,7 @@ func init() {
 		Name:          "e_ext_san_empty_name",
 		Description:   "General name fields MUST NOT be empty in subjectAlternateNames",
 		Source:        "RFC 5280: 4.2.1.6",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &SANEmptyName{},
 	})

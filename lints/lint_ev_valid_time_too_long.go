@@ -28,7 +28,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_valid_time_too_long",
 		Description:   "EV certificates must be 27 months in validity or less",
-		Source:        "CAB 6.3.2",
+		Source:        "BRs: 6.3.2",
+		Type:          BRs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evValidTooLong{},
 	})

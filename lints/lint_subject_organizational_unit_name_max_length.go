@@ -39,6 +39,7 @@ func init() {
 		Name:          "e_subject_organizational_unit_name_max_length",
 		Description:   "The 'Organizational Unit Name' field of the subject MUST be less than 64 characters",
 		Source:        "RFC 5280: A.1",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectOrganizationalUnitNameMaxLength{},
 	})

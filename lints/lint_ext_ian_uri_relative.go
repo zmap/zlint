@@ -49,6 +49,7 @@ func init() {
 		Name:          "e_ext_ian_uri_relative",
 		Description:   "When issuerAltName extension is present and the URI is used, the name MUST NOT be a relative URI",
 		Source:        "RFC 5280: 4.2.1.7",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &uriRelative{},
 	})

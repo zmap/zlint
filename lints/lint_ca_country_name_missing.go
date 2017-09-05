@@ -50,6 +50,7 @@ func init() {
 		Name:          "e_ca_country_name_missing",
 		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
 		Source:        "BRs: 7.1.2.1",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caCountryNameMissing{},
 	})

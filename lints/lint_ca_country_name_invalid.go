@@ -55,6 +55,7 @@ func init() {
 		Name:          "e_ca_country_name_invalid",
 		Description:   "Root and Subordinate CA certificates MUST have a two-letter country code specified in ISO 3166-1",
 		Source:        "BRs: 7.1.2.1",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caCountryNameInvalid{},
 	})

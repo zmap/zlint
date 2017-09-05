@@ -29,6 +29,7 @@ func init() {
 		Name:          "e_root_ca_key_usage_present",
 		Description:   "Root CA certificates MUST have Key Usage Extension Present",
 		Source:        "BRs: 7.1.2.1",
+		Type:          BRs,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &rootCAKeyUsagePresent{},
 	})

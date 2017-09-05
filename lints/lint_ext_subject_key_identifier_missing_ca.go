@@ -49,6 +49,7 @@ func init() {
 		Name:          "e_ext_subject_key_identifier_missing_ca",
 		Description:   "CAs MUST include a Subject Key Identifier in all CA certificates",
 		Source:        "RFC 5280: 4.2 & 4.2.1.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectKeyIdMissingCA{},
 	})

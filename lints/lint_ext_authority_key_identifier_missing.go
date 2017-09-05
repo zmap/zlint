@@ -44,6 +44,7 @@ func init() {
 		Name:          "e_ext_authority_key_identifier_missing",
 		Description:   "CAs must support key identifiers and include them in all certificates",
 		Source:        "RFC 5280: 4.2 & 4.2.1.1",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &authorityKeyIdMissing{},
 	})

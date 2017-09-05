@@ -35,6 +35,7 @@ func init() {
 		Name:          "w_sub_cert_certificate_policies_marked_critical",
 		Description:   "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
 		Source:        "BRs: 7.1.2.3",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertPolicyCrit{},
 	})

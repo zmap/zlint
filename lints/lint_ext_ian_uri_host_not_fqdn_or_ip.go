@@ -50,6 +50,7 @@ func init() {
 		Name:          "e_ext_ian_uri_host_not_fqdn_or_ip",
 		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host",
 		Source:        "RFC 5280: 4.2.1.6",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &IANURIFQDNOrIP{},
 	})

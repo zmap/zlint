@@ -56,6 +56,7 @@ func init() {
 		Name:          "e_generalized_time_not_in_zulu",
 		Description:   "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Source:        "RFC 5280: 4.1.2.5.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &generalizedNotZulu{},
 	})

@@ -42,6 +42,17 @@ type LintInterface interface {
 	Execute(c *x509.Certificate) *LintResult
 }
 
+// An Enum to programmatically represent the source of a lint
+type LintType int
+
+const (
+	ZeroValue LintType = iota
+	BRs
+	RFC5280
+	ZLint
+	AWSLabs
+)
+
 // A Lint struct represents a single lint, e.g.
 // "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
 type Lint struct {
@@ -57,6 +68,9 @@ type Lint struct {
 
 	// The source of the check, e.g. "BRs: 6.1.6" or "RFC 5280: 4.1.2.6".
 	Source string `json:"source,omitempty"`
+
+	// Programmatic source of the check, BRs, RFC5280, or ZLint
+	Type LintType `json:"type,omitempty"`
 
 	// Lints automatically returns NE for all certificates where CheckApplies() is
 	// true but with NotBefore < EffectiveDate. This check is bypassed if

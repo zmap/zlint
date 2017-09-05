@@ -36,6 +36,7 @@ func init() {
 		Name:          "e_dsa_params_missing",
 		Description:   "DSA: Certificates MUST include all domain parameters",
 		Source:        "BRs: 6.1.6",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &dsaParamsMissing{},
 	})

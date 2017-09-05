@@ -35,6 +35,7 @@ func init() {
 		Name:          "e_ext_aia_marked_critical",
 		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
 		Source:        "RFC 5280: 4.2.2.1",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &ExtAiaMarkedCritical{},
 	})

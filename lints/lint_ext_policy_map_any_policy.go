@@ -44,6 +44,7 @@ func init() {
 		Name:          "e_ext_policy_map_any_policy",
 		Description:   "Policies must not be mapped to or from the anyPolicy value",
 		Source:        "RFC 5280: 4.2.1.5",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &policyMapAnyPolicy{},
 	})

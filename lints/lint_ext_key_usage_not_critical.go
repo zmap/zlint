@@ -36,6 +36,7 @@ func init() {
 		Name:          "w_ext_key_usage_not_critical",
 		Description:   "The keyUsage extension SHOULD be critical",
 		Source:        "RFC 5280: 4.2.1.3",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &checkKeyUsageCritical{},
 	})

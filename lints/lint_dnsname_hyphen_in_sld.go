@@ -57,6 +57,7 @@ func init() {
 		Name:          "e_dnsname_hyphen_in_sld",
 		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
 		Source:        "RFC 5280",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameHyphenInSLD{},
 	})

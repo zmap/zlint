@@ -37,6 +37,7 @@ func init() {
 		Description: "DSA modulus size must be at least 2048 bits",
 		Source:      "BRs: 6.1.5",
 		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
+		Type:          BRs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &dsaTooShort{},
 	})

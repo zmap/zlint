@@ -41,6 +41,7 @@ func init() {
 		Name:          "e_international_dns_name_not_nfkc",
 		Description:   "Internationalized DNSNames must be normalized by unicode normalization form KC",
 		Source:        "RFC 3490",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3490Date,
 		Lint:          &IDNNotNFKC{},
 	})

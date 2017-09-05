@@ -49,6 +49,7 @@ func init() {
 		Name:          "w_root_ca_basic_constraints_path_len_constraint_field_present",
 		Description:   "Root CA certificate basicConstraint extension pathLenConstraint field SHOULD NOT be present",
 		Source:        "BRs: 7.1.2.1",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &rootCaPathLenPresent{},
 	})

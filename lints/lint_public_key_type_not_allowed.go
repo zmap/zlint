@@ -31,6 +31,7 @@ func init() {
 		Name:          "e_public_key_type_not_allowed",
 		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
 		Source:        "BRs: 6.1.5",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &publicKeyAllowed{},
 	})

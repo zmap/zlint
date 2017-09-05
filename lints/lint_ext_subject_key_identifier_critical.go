@@ -35,6 +35,7 @@ func init() {
 		Name:          "e_ext_subject_key_identifier_critical",
 		Description:   "The subject key identifier extension MUST be non-critical",
 		Source:        "RFC 5280: 4.2.1.2",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectKeyIdCritical{},
 	})

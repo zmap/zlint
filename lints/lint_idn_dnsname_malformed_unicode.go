@@ -38,6 +38,7 @@ func init() {
 		Description:   "Internationalized DNSNames punycode not valid unicode",
 		Source:        "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
+		Type:          RFC5280,
 		Lint:          &IDNMalformedUnicode{},
 	})
 }

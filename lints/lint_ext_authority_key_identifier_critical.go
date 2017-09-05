@@ -35,6 +35,7 @@ func init() {
 		Name:          "e_ext_authority_key_identifier_critical",
 		Description:   "The authority key identifier extension must be non-critical",
 		Source:        "RFC 5280: 4.2.1.1",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &authorityKeyIdCritical{},
 	})

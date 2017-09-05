@@ -29,7 +29,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_locality_name_missing",
 		Description:   "EV certificates must include localityName in subject",
-		Source:        "CAB 7.1.6.1",
+		Source:        "BRs: 7.1.6.1",
+		Type:          BRs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evLocalityMissing{},
 	})

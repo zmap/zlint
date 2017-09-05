@@ -61,6 +61,7 @@ func init() {
 		Name:          "e_utc_time_does_not_include_seconds",
 		Description:   "UTCTime values MUST include seconds",
 		Source:        "RFC 5280: 4.1.2.5.1",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &utcNoSecond{},
 	})

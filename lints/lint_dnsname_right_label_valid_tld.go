@@ -34,6 +34,7 @@ func init() {
 		Name:          "e_dnsname_not_valid_tld",
 		Description:   "DNSNames must have a valid TLD.",
 		Source:        "RFC 5280",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameValidTLD{},
 	})

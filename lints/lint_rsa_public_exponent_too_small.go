@@ -37,6 +37,7 @@ func init() {
 		Name:          "e_rsa_public_exponent_too_small",
 		Description:   "RSA: Value of public exponent is an odd number equal to 3 or more.",
 		Source:        "BRs: 6.1.6",
+		Type:          BRs,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaParsedTestsExpBounds{},
 	})

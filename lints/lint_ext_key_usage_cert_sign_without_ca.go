@@ -44,6 +44,7 @@ func init() {
 		Name:          "e_ext_key_usage_cert_sign_without_ca",
 		Description:   "if the keyCertSign bit is asserted, then the cA bit in the basic constraints extension MUST also be asserted",
 		Source:        "RFC 5280: 4.2.1.3 & 4.2.1.9",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &keyUsageCertSignNoCa{},
 	})

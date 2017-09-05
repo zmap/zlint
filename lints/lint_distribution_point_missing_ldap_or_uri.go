@@ -36,6 +36,7 @@ func init() {
 		Name:          "w_distribution_point_missing_ldap_or_uri",
 		Description:   "When present in the CRLDistributionPoints extension, DistributionPointName SHOULD include at least one LDAP or HTTP URI",
 		Source:        "RFC 5280: 4.2.1.13",
+		Type:          RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &distribNoLDAPorURI{},
 	})

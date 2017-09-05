@@ -28,7 +28,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_aia_marked_critical",
 		Description:   "Subscriber Certificate: authorityInformationAccess MUST NOT be marked critical",
-		Source:        "CAB: 7.1.2.3",
+		Source:        "BRs: 7.1.2.3",
+		Type:          BRs,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertAiaMarkedCritical{},
 	})
