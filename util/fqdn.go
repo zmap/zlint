@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func removeQuestionMarks(domain string) string {
+func RemoveQuestionMarks(domain string) string {
 	for strings.HasPrefix(domain, "?.") {
 		domain = domain[2:]
 	}
@@ -15,7 +15,7 @@ func removeQuestionMarks(domain string) string {
 }
 
 func IsFQDN(domain string) bool {
-	domain = removeQuestionMarks(domain)
+	domain = RemoveQuestionMarks(domain)
 	if strings.HasPrefix(domain, "*.") {
 		domain = domain[2:]
 	}
