@@ -11,6 +11,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"unicode/utf8"
 )
 
 type subjectLocalityNameMaxLength struct{}
@@ -25,7 +26,7 @@ func (l *subjectLocalityNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.Locality {
-		if len(j) > 128 {
+		if utf8.RuneCountInString(j) > 128 {
 			return &LintResult{Status: Error}
 		}
 	}
