@@ -29,7 +29,7 @@ func init() {
 		Name:          "e_sub_cert_aia_marked_critical",
 		Description:   "Subscriber Certificate: authorityInformationAccess MUST NOT be marked critical",
 		Source:        "BRs: 7.1.2.3",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertAiaMarkedCritical{},
 	})

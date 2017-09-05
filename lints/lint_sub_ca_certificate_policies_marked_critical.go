@@ -35,7 +35,7 @@ func init() {
 		Name:          "w_sub_ca_certificate_policies_marked_critical",
 		Description:   "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
 		Source:        "BRs: 7.1.2.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCACertPolicyCrit{},
 	})

@@ -30,7 +30,7 @@ func init() {
 		Name:          "e_ev_locality_name_missing",
 		Description:   "EV certificates must include localityName in subject",
 		Source:        "BRs: 7.1.6.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evLocalityMissing{},
 	})

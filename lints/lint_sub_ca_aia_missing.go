@@ -37,7 +37,7 @@ func init() {
 		Name:          "e_sub_ca_aia_missing",
 		Description:   "Subordinate CA Certificate: authorityInformationAccess MUST be present, with the exception of stapling.",
 		Source:        "BRs: 7.1.2.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caAiaMissing{},
 	})

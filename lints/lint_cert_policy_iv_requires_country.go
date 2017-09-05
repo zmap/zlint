@@ -33,7 +33,7 @@ func init() {
 		Name:          "e_cert_policy_iv_requires_country",
 		Description:   "If certificate policy 2.23.140.1.2.3 is included, countryName MUST be included in subject",
 		Source:        "BRs: 7.1.6.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABV131Date,
 		Lint:          &CertPolicyIVRequiresCountry{},
 	})

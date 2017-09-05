@@ -34,7 +34,7 @@ func init() {
 		Name:          "e_sub_ca_certificate_policies_missing",
 		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
 		Source:        "BRs: 7.1.2.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCACertPolicyMissing{},
 	})

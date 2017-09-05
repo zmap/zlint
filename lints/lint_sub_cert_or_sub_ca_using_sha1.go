@@ -32,7 +32,7 @@ func init() {
 		Name:          "e_sub_cert_or_sub_ca_using_sha1",
 		Description:   "CAs MUST NOT issue any new Subscriber certificates or Subordinate CA certificates using SHA-1 after 1 January 2016",
 		Source:        "BRs: 7.1.3",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.NO_SHA1,
 		Lint:          &sigAlgTestsSHA1{},
 	})

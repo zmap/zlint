@@ -34,7 +34,7 @@ func init() {
 		Name:          "e_cab_dv_conflicts_with_province",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, stateOrProvinceName MUST NOT be included in subject",
 		Source:        "BRs: 7.1.6.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &certPolicyConflictsWithProvince{},
 	})

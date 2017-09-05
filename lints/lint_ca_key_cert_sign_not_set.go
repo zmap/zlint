@@ -35,7 +35,7 @@ func init() {
 		Name:          "e_ca_key_cert_sign_not_set",
 		Description:   "Root CA Certificate: Bit positions for keyCertSign and cRLSign MUST be set.",
 		Source:        "BRs: 7.1.2.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caKeyCertSignNotSet{},
 	})

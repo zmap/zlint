@@ -29,7 +29,7 @@ func init() {
 		Name:          "e_ev_valid_time_too_long",
 		Description:   "EV certificates must be 27 months in validity or less",
 		Source:        "BRs: 6.3.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evValidTooLong{},
 	})

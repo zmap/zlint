@@ -33,7 +33,7 @@ func init() {
 		Name:          "e_cert_policy_ov_requires_province_or_locality",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
 		Source:        "BRs: 7.1.6.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &CertPolicyOVRequiresProvinceOrLocal{},
 	})

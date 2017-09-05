@@ -39,7 +39,7 @@ func init() {
 		Name:          "w_rsa_mod_not_odd",
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: an odd number",
 		Source:        "BRs: 6.1.6",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaParsedTestsKeyModOdd{},
 	})

@@ -40,7 +40,7 @@ func init() {
 		Name:          "e_ca_is_ca",
 		Description:   "Root and Sub CA Certificate: The CA field MUST be set to true.",
 		Source:        "BRs: 7.1.2.1, BRs: 7.1.2.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caIsCA{},
 	})

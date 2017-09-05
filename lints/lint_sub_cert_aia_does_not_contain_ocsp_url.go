@@ -40,7 +40,7 @@ func init() {
 		Name:          "e_sub_cert_aia_does_not_contain_ocsp_url",
 		Description:   "Subscriber Certificate: authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's OSCP responder.",
 		Source:        "BRs: 7.1.2.3",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertOcspUrl{},
 	})

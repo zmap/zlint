@@ -39,7 +39,7 @@ func init() {
 		Name:          "w_sub_cert_sha1_expiration_too_long",
 		Description:   "Subscriber certificates using the SHA-1 algorithm SHOULD NOT have an expiration date later than 1 Jan 2017",
 		Source:        "BRs: 7.1.3",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),
 		Lint:          &sha1ExpireLong{},
 	})

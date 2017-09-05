@@ -33,7 +33,7 @@ func init() {
 		Name:          "e_invalid_certificate_version",
 		Description:   "Certificates MUST be of type X.590 v3",
 		Source:        "BRs: 7.1.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABV130Date,
 		Lint:          &InvalidCertificateVersion{},
 	})

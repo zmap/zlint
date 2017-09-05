@@ -40,7 +40,7 @@ func init() {
 		Name:          "e_subject_country_not_iso",
 		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
 		Source:        "BRs: 7.1.4.2.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &countryNotIso{},
 	})

@@ -36,7 +36,7 @@ func init() {
 		Name:          "e_sub_cert_eku_missing",
 		Description:   "Subscriber certificates MUST have the extended key usage extension present",
 		Source:        "BRs: 7.1.2.3",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subExtKeyUsage{},
 	})

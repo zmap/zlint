@@ -47,7 +47,7 @@ type LintType int
 
 const (
 	ZeroValue LintType = iota
-	BRs
+	CABFBaselineRequirements
 	RFC5280
 	ZLint
 	AWSLabs

@@ -54,7 +54,7 @@ func init() {
 		Name:          "w_dnsname_wildcard_left_of_public_suffix",
 		Description:   "the CA MUST establish and follow a documented procedure[^pubsuffix] that determines if the wildcard character occurs in the first label position to the left of a “registry‐controlled” label or “public suffix”",
 		Source:        "BRs: 3.2.2.6",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameWildcardLeftofPublicSuffix{},
 	})

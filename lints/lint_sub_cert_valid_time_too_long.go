@@ -29,7 +29,7 @@ func init() {
 		Name:          "e_sub_cert_valid_time_too_long",
 		Description:   "CAs MUST NOT issue subscriber certificates with validity periods longer than 39 months regardless of circumstance.",
 		Source:        "BRs: 6.3.2",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.SubCert39Month,
 		Lint:          &subCertValidTimeTooLong{},
 	})

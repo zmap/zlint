@@ -41,7 +41,7 @@ func init() {
 		Name:          "e_sub_ca_eku_name_constraints",
 		Description:   "Subordinate CA: If includes id-kp-serverAuth EKU, then it MUST include Name constraints w/ constraints on DNSName, IPAddress, and DirectoryName",
 		Source:        "BRs: 7.1.5",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCAEKUNameConstraints{},
 	})

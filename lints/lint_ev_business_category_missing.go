@@ -30,7 +30,7 @@ func init() {
 		Name:          "e_ev_business_category_missing",
 		Description:   "EV certificates must include businessCategory in subject",
 		Source:        "BRs: 7.1.6.1",
-		Type:          BRs,
+		Type:          CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evNoBiz{},
 	})
