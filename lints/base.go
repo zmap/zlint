@@ -46,7 +46,7 @@ type LintInterface interface {
 type LintSource int
 
 const (
-	ZeroValue LintSource = iota
+	UnknownLintSource LintSource = iota
 	CABFBaselineRequirements
 	RFC5280
 	ZLint

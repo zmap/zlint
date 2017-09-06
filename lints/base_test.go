@@ -35,7 +35,7 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 
 func TestAllLintsHaveType(t *testing.T) {
 	for name, lint := range Lints {
-		if lint.Source == ZeroValue {
+		if lint.Source == UnknownLintSource {
 			t.Errorf("lint %s has zero value type", name)
 		}
 	}
