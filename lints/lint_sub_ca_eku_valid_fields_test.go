@@ -16,7 +16,7 @@ func TestSubCAEKUValidFields(t *testing.T) {
 
 func TestSubCAEKUNotValidFields(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAEKUNotValidFields.pem"
-	expected := Notice
+	expected := NA
 	out := Lints["n_sub_ca_eku_not_technically_constrained"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
