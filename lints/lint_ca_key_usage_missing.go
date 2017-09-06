@@ -34,11 +34,11 @@ func (l *caKeyUsageMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ca_key_usage_missing",
-		Description:    "Root and Subordinate CA certificate keyUsage extension MUST be present",
-		ReadableSource: "BRs: 7.1.2.1, RFC 5280: 4.2.1.3",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.RFC3280Date,
-		Lint:           &caKeyUsageMissing{},
+		Name:          "e_ca_key_usage_missing",
+		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be present",
+		Citation:      "BRs: 7.1.2.1, RFC 5280: 4.2.1.3",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &caKeyUsageMissing{},
 	})
 }

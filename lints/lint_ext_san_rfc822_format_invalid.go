@@ -45,11 +45,11 @@ func (l *invalidEmail) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_san_rfc822_format_invalid",
-		Description:    "Email MUST NOT be surrounded with `<>`, and there must be no trailing comments in `()`",
-		ReadableSource: "RFC 5280: 4.2.1.6",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &invalidEmail{},
+		Name:          "e_ext_san_rfc822_format_invalid",
+		Description:   "Email MUST NOT be surrounded with `<>`, and there must be no trailing comments in `()`",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &invalidEmail{},
 	})
 }

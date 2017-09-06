@@ -25,11 +25,11 @@ func (l *subCAEKUMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_ca_eku_missing",
-		Description:    "Subordinate CA certificate MUST have extkeyUsage extension",
-		ReadableSource: "BRs: 7.1.5",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCAEKUMissing{},
+		Name:          "e_sub_ca_eku_missing",
+		Description:   "Subordinate CA certificate MUST have extkeyUsage extension",
+		Citation:      "BRs: 7.1.5",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCAEKUMissing{},
 	})
 }

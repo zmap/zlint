@@ -29,11 +29,11 @@ func (l *brIANBareWildcard) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ian_bare_wildcard",
-		Description:    "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
-		ReadableSource: "RFC5280",
-		Source:         RFC5280,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &brIANBareWildcard{},
+		Name:          "e_ian_bare_wildcard",
+		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
+		Citation:      "RFC5280",
+		Source:        RFC5280,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &brIANBareWildcard{},
 	})
 }

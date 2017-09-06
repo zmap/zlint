@@ -39,11 +39,11 @@ func (l *IANNoEntry) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_ian_no_entries",
-		Description:    "If present, the IAN extension must contain at least one entry",
-		ReadableSource: "RFC 5280: 4.2.1.7",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &IANNoEntry{},
+		Name:          "e_ext_ian_no_entries",
+		Description:   "If present, the IAN extension must contain at least one entry",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &IANNoEntry{},
 	})
 }

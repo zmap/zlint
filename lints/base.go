@@ -67,7 +67,7 @@ type Lint struct {
 	Description string `json:"description,omitempty"`
 
 	// The source of the check, e.g. "BRs: 6.1.6" or "RFC 5280: 4.1.2.6".
-	ReadableSource string `json:"readable_source,omitempty"`
+	Citation string `json:"citation,omitempty"`
 
 	// Programmatic source of the check, BRs, RFC5280, or ZLint
 	Source LintSource `json:"source,omitempty"`

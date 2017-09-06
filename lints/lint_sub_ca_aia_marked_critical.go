@@ -26,11 +26,11 @@ func (l *subCaAIAMarkedCritical) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_ca_aia_marked_critical",
-		Description:    "Subordinate CA Certificate: authorityInformationAccess MUST NOT be marked critical",
-		ReadableSource: "BRs: 7.1.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &subCaAIAMarkedCritical{},
+		Name:          "e_sub_ca_aia_marked_critical",
+		Description:   "Subordinate CA Certificate: authorityInformationAccess MUST NOT be marked critical",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &subCaAIAMarkedCritical{},
 	})
 }

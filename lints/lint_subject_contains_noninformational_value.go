@@ -53,11 +53,11 @@ func (l *illegalChar) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_subject_contains_noninformational_value",
-		Description:    "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
-		ReadableSource: "BRs: 7.1.4.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &illegalChar{},
+		Name:          "e_subject_contains_noninformational_value",
+		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &illegalChar{},
 	})
 }

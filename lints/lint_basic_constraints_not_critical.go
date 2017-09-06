@@ -56,11 +56,11 @@ func (l *basicConstCrit) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_basic_constraints_not_critical",
-		Description:    "basicConstraints MUST appear as a critical extension",
-		ReadableSource: "RFC 5280: 4.2.1.9",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &basicConstCrit{},
+		Name:          "e_basic_constraints_not_critical",
+		Description:   "basicConstraints MUST appear as a critical extension",
+		Citation:      "RFC 5280: 4.2.1.9",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &basicConstCrit{},
 	})
 }

@@ -54,11 +54,11 @@ func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_dnsname_underscore_in_sld",
-		Description:    "DNSName should not have underscore in SLD",
-		ReadableSource: "RFC 5280",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &DNSNameUnderscoreInSLD{},
+		Name:          "e_dnsname_underscore_in_sld",
+		Description:   "DNSName should not have underscore in SLD",
+		Citation:      "RFC 5280",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &DNSNameUnderscoreInSLD{},
 	})
 }

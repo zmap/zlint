@@ -30,11 +30,11 @@ func (l *InvalidCertificateVersion) Execute(cert *x509.Certificate) *LintResult 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_invalid_certificate_version",
-		Description:    "Certificates MUST be of type X.590 v3",
-		ReadableSource: "BRs: 7.1.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABV130Date,
-		Lint:           &InvalidCertificateVersion{},
+		Name:          "e_invalid_certificate_version",
+		Description:   "Certificates MUST be of type X.590 v3",
+		Citation:      "BRs: 7.1.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABV130Date,
+		Lint:          &InvalidCertificateVersion{},
 	})
 }

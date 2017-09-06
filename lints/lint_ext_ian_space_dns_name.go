@@ -43,11 +43,11 @@ func (l *IANSpace) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_ian_space_dns_name",
-		Description:    "dNSName ' ' MUST NOT be used",
-		ReadableSource: "RFC 5280: 4.2.1.6",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &IANSpace{},
+		Name:          "e_ext_ian_space_dns_name",
+		Description:   "dNSName ' ' MUST NOT be used",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &IANSpace{},
 	})
 }

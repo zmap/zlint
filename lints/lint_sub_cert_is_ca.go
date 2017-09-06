@@ -31,11 +31,11 @@ func (l *subCertNotCA) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_not_is_ca",
-		Description:    "Subscriber Certificate: basicContrainsts cA field MUST NOT be true.",
-		ReadableSource: "BRs: 7.1.2.3",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCertNotCA{},
+		Name:          "e_sub_cert_not_is_ca",
+		Description:   "Subscriber Certificate: basicContrainsts cA field MUST NOT be true.",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCertNotCA{},
 	})
 }

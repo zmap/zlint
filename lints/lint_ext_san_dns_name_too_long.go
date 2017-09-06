@@ -28,11 +28,11 @@ func (l *SANDNSTooLong) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_san_dns_name_too_long",
-		Description:    "DNSName must be less than or equal to 253 bytes",
-		ReadableSource: "RFC 5280",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &SANDNSTooLong{},
+		Name:          "e_ext_san_dns_name_too_long",
+		Description:   "DNSName must be less than or equal to 253 bytes",
+		Citation:      "RFC 5280",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &SANDNSTooLong{},
 	})
 }

@@ -54,11 +54,11 @@ func (l *nameConstraintEmpty) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_name_constraint_empty",
-		Description:    "Conforming CAs MUST NOT issue certificates where name constraints is an empty sequence. That is, either the permittedSubtree or excludedSubtree fields must be present",
-		ReadableSource: "RFC 5280: 4.2.1.10",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &nameConstraintEmpty{},
+		Name:          "e_name_constraint_empty",
+		Description:   "Conforming CAs MUST NOT issue certificates where name constraints is an empty sequence. That is, either the permittedSubtree or excludedSubtree fields must be present",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &nameConstraintEmpty{},
 	})
 }

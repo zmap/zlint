@@ -29,11 +29,11 @@ func (l *brSANBareWildcard) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_san_bare_wildcard",
-		Description:    "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
-		ReadableSource: "awslabs certlint",
-		Source:         AWSLabs,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &brSANBareWildcard{},
+		Name:          "e_san_bare_wildcard",
+		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
+		Citation:      "awslabs certlint",
+		Source:        AWSLabs,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &brSANBareWildcard{},
 	})
 }

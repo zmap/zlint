@@ -53,11 +53,11 @@ func (l *generalizedNotZulu) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_generalized_time_not_in_zulu",
-		Description:    "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
-		ReadableSource: "RFC 5280: 4.1.2.5.2",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &generalizedNotZulu{},
+		Name:          "e_generalized_time_not_in_zulu",
+		Description:   "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
+		Citation:      "RFC 5280: 4.1.2.5.2",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &generalizedNotZulu{},
 	})
 }

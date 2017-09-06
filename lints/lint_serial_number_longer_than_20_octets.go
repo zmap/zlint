@@ -43,11 +43,11 @@ func (l *serialNumberTooLong) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_serial_number_longer_than_20_octets",
-		Description:    "Certificates must not have a serial number longer than 20 octets",
-		ReadableSource: "RFC 5280: 4.1.2.2",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC3280Date,
-		Lint:           &serialNumberTooLong{},
+		Name:          "e_serial_number_longer_than_20_octets",
+		Description:   "Certificates must not have a serial number longer than 20 octets",
+		Citation:      "RFC 5280: 4.1.2.2",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &serialNumberTooLong{},
 	})
 }

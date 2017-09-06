@@ -72,11 +72,11 @@ func checkSeconds(r *LintStatus, t asn1.RawValue) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_generalized_time_does_not_include_seconds",
-		Description:    "Generalized time values MUST include seconds",
-		ReadableSource: "RFC 5280: 4.1.2.5.2",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &generalizedNoSeconds{},
+		Name:          "e_generalized_time_does_not_include_seconds",
+		Description:   "Generalized time values MUST include seconds",
+		Citation:      "RFC 5280: 4.1.2.5.2",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &generalizedNoSeconds{},
 	})
 }

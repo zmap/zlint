@@ -29,11 +29,11 @@ func (l *validityNegative) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_validity_time_not_positive",
-		Description:    "Certificates MUST have a positive time for which they are valid",
-		ReadableSource: "AWSLabs certlint",
-		Source:         AWSLabs,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &validityNegative{},
+		Name:          "e_validity_time_not_positive",
+		Description:   "Certificates MUST have a positive time for which they are valid",
+		Citation:      "AWSLabs certlint",
+		Source:        AWSLabs,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &validityNegative{},
 	})
 }

@@ -35,11 +35,11 @@ func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) *LintResul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_dsa_unique_correct_representation",
-		Description:    "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
-		ReadableSource: "BRs: 6.1.6",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &dsaUniqueCorrectRepresentation{},
+		Name:          "e_dsa_unique_correct_representation",
+		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
+		Citation:      "BRs: 6.1.6",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &dsaUniqueCorrectRepresentation{},
 	})
 }

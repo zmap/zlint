@@ -32,11 +32,11 @@ func (l *rootCAContainsEKU) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_root_ca_extended_key_usage_present",
-		Description:    "Root CA Certificate: extendedKeyUsage MUST NOT be present.t",
-		ReadableSource: "BRs: 7.1.2.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &rootCAContainsEKU{},
+		Name:          "e_root_ca_extended_key_usage_present",
+		Description:   "Root CA Certificate: extendedKeyUsage MUST NOT be present.t",
+		Citation:      "BRs: 7.1.2.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &rootCAContainsEKU{},
 	})
 }

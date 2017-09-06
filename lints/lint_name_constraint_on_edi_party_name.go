@@ -38,11 +38,11 @@ func (l *nameConstraintOnEDI) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "w_name_constraint_on_edi_party_name",
-		Description:    "The name constraints extension SHOULD NOT impose constraints on the ediPartyName name form",
-		ReadableSource: "RFC 5280: 4.2.1.10",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &nameConstraintOnEDI{},
+		Name:          "w_name_constraint_on_edi_party_name",
+		Description:   "The name constraints extension SHOULD NOT impose constraints on the ediPartyName name form",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &nameConstraintOnEDI{},
 	})
 }

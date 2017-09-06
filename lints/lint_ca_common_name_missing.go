@@ -39,11 +39,11 @@ func (l *caCommonNameMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ca_common_name_missing",
-		Description:    "CA Certificates common name MUST be included.",
-		ReadableSource: "BRs: 7.1.4.3.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &caCommonNameMissing{},
+		Name:          "e_ca_common_name_missing",
+		Description:   "CA Certificates common name MUST be included.",
+		Citation:      "BRs: 7.1.4.3.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &caCommonNameMissing{},
 	})
 }

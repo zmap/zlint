@@ -40,11 +40,11 @@ func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_cert_policy_disallowed_any_policy_qualifier",
-		Description:    "When qualifiers are used with the special policy anyPolicy, they must be limited to qualifiers identified in this section: (4.2.1.4)",
-		ReadableSource: "RFC 5280: 4.2.1.4",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC3280Date,
-		Lint:           &unrecommendedQualifier{},
+		Name:          "e_ext_cert_policy_disallowed_any_policy_qualifier",
+		Description:   "When qualifiers are used with the special policy anyPolicy, they must be limited to qualifiers identified in this section: (4.2.1.4)",
+		Citation:      "RFC 5280: 4.2.1.4",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &unrecommendedQualifier{},
 	})
 }

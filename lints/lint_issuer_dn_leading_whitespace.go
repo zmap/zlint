@@ -30,11 +30,11 @@ func (l *IssuerDNLeadingSpace) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "w_issuer_dn_leading_whitespace",
-		Description:    "AttributeValue in issuer RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
-		ReadableSource: "AWSLabs certlint",
-		Source:         AWSLabs,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &IssuerDNLeadingSpace{},
+		Name:          "w_issuer_dn_leading_whitespace",
+		Description:   "AttributeValue in issuer RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
+		Citation:      "AWSLabs certlint",
+		Source:        AWSLabs,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &IssuerDNLeadingSpace{},
 	})
 }

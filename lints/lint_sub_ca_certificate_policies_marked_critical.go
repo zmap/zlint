@@ -32,11 +32,11 @@ func (l *subCACertPolicyCrit) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "w_sub_ca_certificate_policies_marked_critical",
-		Description:    "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
-		ReadableSource: "BRs: 7.1.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCACertPolicyCrit{},
+		Name:          "w_sub_ca_certificate_policies_marked_critical",
+		Description:   "Subordinate CA certificates certificatePolicies extension should not be marked as critical",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCACertPolicyCrit{},
 	})
 }

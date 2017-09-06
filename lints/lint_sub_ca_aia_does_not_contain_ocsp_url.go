@@ -36,11 +36,11 @@ func (l *subCaOcspUrl) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_ca_aia_does_not_contain_ocsp_url",
-		Description:    "Subordinate CA certificates authorityInformationAccess extension must contain the HTTP URL of the issuing CA’s OCSP responder",
-		ReadableSource: "BRs: 7.1.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCaOcspUrl{},
+		Name:          "e_sub_ca_aia_does_not_contain_ocsp_url",
+		Description:   "Subordinate CA certificates authorityInformationAccess extension must contain the HTTP URL of the issuing CA’s OCSP responder",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCaOcspUrl{},
 	})
 }

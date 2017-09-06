@@ -36,11 +36,11 @@ func (l *SANRegId) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_san_registered_id_present",
-		Description:    "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
-		ReadableSource: "BRs: 7.1.4.2.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &SANRegId{},
+		Name:          "e_ext_san_registered_id_present",
+		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &SANRegId{},
 	})
 }

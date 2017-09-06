@@ -37,11 +37,11 @@ func (l *countryNotIso) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_subject_country_not_iso",
-		Description:    "The country name field MUST contain the two-letter ISO code for the country or XX",
-		ReadableSource: "BRs: 7.1.4.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &countryNotIso{},
+		Name:          "e_subject_country_not_iso",
+		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &countryNotIso{},
 	})
 }

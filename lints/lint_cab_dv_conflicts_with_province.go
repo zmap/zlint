@@ -31,11 +31,11 @@ func (l *certPolicyConflictsWithProvince) Execute(cert *x509.Certificate) *LintR
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_cab_dv_conflicts_with_province",
-		Description:    "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, stateOrProvinceName MUST NOT be included in subject",
-		ReadableSource: "BRs: 7.1.6.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &certPolicyConflictsWithProvince{},
+		Name:          "e_cab_dv_conflicts_with_province",
+		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, stateOrProvinceName MUST NOT be included in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &certPolicyConflictsWithProvince{},
 	})
 }

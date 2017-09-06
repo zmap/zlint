@@ -32,11 +32,11 @@ func (l *ExtIANCritical) Execute(cert *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "w_ext_ian_critical",
-		Description:    "Issuer alternate name should be marked as non-critical",
-		ReadableSource: "RFC 5280: 4.2.1.7",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &ExtIANCritical{},
+		Name:          "w_ext_ian_critical",
+		Description:   "Issuer alternate name should be marked as non-critical",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &ExtIANCritical{},
 	})
 }

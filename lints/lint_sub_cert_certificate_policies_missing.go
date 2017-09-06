@@ -33,11 +33,11 @@ func (l *subCertPolicy) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_certificate_policies_missing",
-		Description:    "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
-		ReadableSource: "BRs: 7.1.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCertPolicy{},
+		Name:          "e_sub_cert_certificate_policies_missing",
+		Description:   "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCertPolicy{},
 	})
 }

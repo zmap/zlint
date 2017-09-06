@@ -60,11 +60,11 @@ func (l *dpIncomplete) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_distribution_point_incomplete",
-		Description:    "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
-		ReadableSource: "RFC 5280: 4.2.1.13",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC3280Date,
-		Lint:           &dpIncomplete{},
+		Name:          "e_distribution_point_incomplete",
+		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
+		Citation:      "RFC 5280: 4.2.1.13",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &dpIncomplete{},
 	})
 }

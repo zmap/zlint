@@ -35,11 +35,11 @@ func (l *subCrlDistCrit) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_crl_distribution_points_marked_critical",
-		Description:    "Subscriber Certiifcate: cRLDistributionPoints MUST NOT be marked critical, and MUST contain the HTTP URL of the CA's CRL service.",
-		ReadableSource: "BRs: 7.1.2.3",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCrlDistCrit{},
+		Name:          "e_sub_cert_crl_distribution_points_marked_critical",
+		Description:   "Subscriber Certiifcate: cRLDistributionPoints MUST NOT be marked critical, and MUST contain the HTTP URL of the CA's CRL service.",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCrlDistCrit{},
 	})
 }

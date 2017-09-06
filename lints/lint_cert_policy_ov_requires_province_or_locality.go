@@ -30,11 +30,11 @@ func (l *CertPolicyOVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) *L
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_cert_policy_ov_requires_province_or_locality",
-		Description:    "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
-		ReadableSource: "BRs: 7.1.6.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &CertPolicyOVRequiresProvinceOrLocal{},
+		Name:          "e_cert_policy_ov_requires_province_or_locality",
+		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &CertPolicyOVRequiresProvinceOrLocal{},
 	})
 }

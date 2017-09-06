@@ -33,11 +33,11 @@ func (l *subExtKeyUsage) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_eku_missing",
-		Description:    "Subscriber certificates MUST have the extended key usage extension present",
-		ReadableSource: "BRs: 7.1.2.3",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subExtKeyUsage{},
+		Name:          "e_sub_cert_eku_missing",
+		Description:   "Subscriber certificates MUST have the extended key usage extension present",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subExtKeyUsage{},
 	})
 }

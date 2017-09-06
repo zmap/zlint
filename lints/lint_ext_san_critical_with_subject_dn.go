@@ -37,11 +37,11 @@ func (l *ExtSANCriticalWithSubjectDN) Execute(cert *x509.Certificate) *LintResul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "w_ext_san_critical_with_subject_dn",
-		Description:    "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
-		ReadableSource: "RFC 5280: 4.2.1.6",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &ExtSANCriticalWithSubjectDN{},
+		Name:          "w_ext_san_critical_with_subject_dn",
+		Description:   "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &ExtSANCriticalWithSubjectDN{},
 	})
 }

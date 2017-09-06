@@ -27,11 +27,11 @@ func (l *evNoBiz) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ev_business_category_missing",
-		Description:    "EV certificates must include businessCategory in subject",
-		ReadableSource: "BRs: 7.1.6.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &evNoBiz{},
+		Name:          "e_ev_business_category_missing",
+		Description:   "EV certificates must include businessCategory in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &evNoBiz{},
 	})
 }

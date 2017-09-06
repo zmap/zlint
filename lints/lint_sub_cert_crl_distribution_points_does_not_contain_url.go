@@ -36,11 +36,11 @@ func (l *subCRLDistNoURL) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_crl_distribution_points_does_not_contain_url",
-		Description:    "Subscriber certificate cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service",
-		ReadableSource: "BRs: 7.1.2.3",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &subCRLDistNoURL{},
+		Name:          "e_sub_cert_crl_distribution_points_does_not_contain_url",
+		Description:   "Subscriber certificate cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCRLDistNoURL{},
 	})
 }

@@ -50,11 +50,11 @@ func (l *IANDNSNotIA5String) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_ian_dns_not_ia5_string",
-		Description:    "DNSNames MUST be IA5 strings",
-		ReadableSource: "RFC 5280: 4.2.1.7",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &IANDNSNotIA5String{},
+		Name:          "e_ext_ian_dns_not_ia5_string",
+		Description:   "DNSNames MUST be IA5 strings",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &IANDNSNotIA5String{},
 	})
 }

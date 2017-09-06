@@ -57,11 +57,11 @@ func (l *IANEmptyName) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_ian_empty_name",
-		Description:    "General name fields must not be empty in IAN",
-		ReadableSource: "RFC 5280: 4.2.1.7",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &IANEmptyName{},
+		Name:          "e_ext_ian_empty_name",
+		Description:   "General name fields must not be empty in IAN",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &IANEmptyName{},
 	})
 }

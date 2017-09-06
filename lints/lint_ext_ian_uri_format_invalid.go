@@ -45,11 +45,11 @@ func (l *IANURIFormat) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_ian_uri_format_invalid",
-		Description:    "URIs in the subjectAltName extension MUST have a scheme and scheme specific part",
-		ReadableSource: "RFC5280: 4.2.1.6",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &IANURIFormat{},
+		Name:          "e_ext_ian_uri_format_invalid",
+		Description:   "URIs in the subjectAltName extension MUST have a scheme and scheme specific part",
+		Citation:      "RFC5280: 4.2.1.6",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &IANURIFormat{},
 	})
 }

@@ -32,11 +32,11 @@ func (l *ExtAiaMarkedCritical) Execute(cert *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_aia_marked_critical",
-		Description:    "Conforming CAs must mark the Authority Information Access extension as non-critical",
-		ReadableSource: "RFC 5280: 4.2.2.1",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &ExtAiaMarkedCritical{},
+		Name:          "e_ext_aia_marked_critical",
+		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
+		Citation:      "RFC 5280: 4.2.2.1",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &ExtAiaMarkedCritical{},
 	})
 }

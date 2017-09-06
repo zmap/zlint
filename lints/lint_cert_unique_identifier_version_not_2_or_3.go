@@ -40,11 +40,11 @@ func (l *certUniqueIdVersion) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_cert_unique_identifier_version_not_2_or_3",
-		Description:    "Unique identifiers MUST only appear if the X.509 version is 2 or 3",
-		ReadableSource: "RFC 5280: 4.1.2.8",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &certUniqueIdVersion{},
+		Name:          "e_cert_unique_identifier_version_not_2_or_3",
+		Description:   "Unique identifiers MUST only appear if the X.509 version is 2 or 3",
+		Citation:      "RFC 5280: 4.1.2.8",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &certUniqueIdVersion{},
 	})
 }

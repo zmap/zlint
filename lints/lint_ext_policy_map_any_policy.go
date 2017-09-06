@@ -41,11 +41,11 @@ func (l *policyMapAnyPolicy) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_policy_map_any_policy",
-		Description:    "Policies must not be mapped to or from the anyPolicy value",
-		ReadableSource: "RFC 5280: 4.2.1.5",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC3280Date,
-		Lint:           &policyMapAnyPolicy{},
+		Name:          "e_ext_policy_map_any_policy",
+		Description:   "Policies must not be mapped to or from the anyPolicy value",
+		Citation:      "RFC 5280: 4.2.1.5",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &policyMapAnyPolicy{},
 	})
 }

@@ -48,11 +48,11 @@ func (l *explicitTextIA5String) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_cert_policy_explicit_text_ia5_string",
-		Description:    "Compliant certificates must not encode explicitTest as an IA5String",
-		ReadableSource: "RFC 6818: 3",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC6818Date,
-		Lint:           &explicitTextIA5String{},
+		Name:          "e_ext_cert_policy_explicit_text_ia5_string",
+		Description:   "Compliant certificates must not encode explicitTest as an IA5String",
+		Citation:      "RFC 6818: 3",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC6818Date,
+		Lint:          &explicitTextIA5String{},
 	})
 }

@@ -30,11 +30,11 @@ func (l *IANDNSNull) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ian_dns_name_includes_null_char",
-		Description:    "DNSName MUST NOT include a null character",
-		ReadableSource: "awslabs certlint",
-		Source:         AWSLabs,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &IANDNSNull{},
+		Name:          "e_ian_dns_name_includes_null_char",
+		Description:   "DNSName MUST NOT include a null character",
+		Citation:      "awslabs certlint",
+		Source:        AWSLabs,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &IANDNSNull{},
 	})
 }

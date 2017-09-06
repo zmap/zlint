@@ -34,11 +34,11 @@ func (l *caAiaMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_ca_aia_missing",
-		Description:    "Subordinate CA Certificate: authorityInformationAccess MUST be present, with the exception of stapling.",
-		ReadableSource: "BRs: 7.1.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABEffectiveDate,
-		Lint:           &caAiaMissing{},
+		Name:          "e_sub_ca_aia_missing",
+		Description:   "Subordinate CA Certificate: authorityInformationAccess MUST be present, with the exception of stapling.",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &caAiaMissing{},
 	})
 }

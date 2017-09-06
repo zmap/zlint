@@ -32,11 +32,11 @@ func (l *policyConstraintsCritical) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_policy_constraints_not_critical",
-		Description:    "Conforming CAs MUST mark the policy constraints extension as critical",
-		ReadableSource: "RFC 5280: 4.2.1.11",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &policyConstraintsCritical{},
+		Name:          "e_ext_policy_constraints_not_critical",
+		Description:   "Conforming CAs MUST mark the policy constraints extension as critical",
+		Citation:      "RFC 5280: 4.2.1.11",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &policyConstraintsCritical{},
 	})
 }

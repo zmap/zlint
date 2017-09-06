@@ -33,11 +33,11 @@ func (l *distribNoLDAPorURI) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "w_distribution_point_missing_ldap_or_uri",
-		Description:    "When present in the CRLDistributionPoints extension, DistributionPointName SHOULD include at least one LDAP or HTTP URI",
-		ReadableSource: "RFC 5280: 4.2.1.13",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &distribNoLDAPorURI{},
+		Name:          "w_distribution_point_missing_ldap_or_uri",
+		Description:   "When present in the CRLDistributionPoints extension, DistributionPointName SHOULD include at least one LDAP or HTTP URI",
+		Citation:      "RFC 5280: 4.2.1.13",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &distribNoLDAPorURI{},
 	})
 }

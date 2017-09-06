@@ -41,11 +41,11 @@ func (l *DNSNameLeftLabelWildcardCheck) Execute(c *x509.Certificate) *LintResult
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_dnsname_left_label_wildcard_correct",
-		Description:    "Wildcards in the left label of DNSName should only be *",
-		ReadableSource: "RFC 5280",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC5280Date,
-		Lint:           &DNSNameLeftLabelWildcardCheck{},
+		Name:          "e_dnsname_left_label_wildcard_correct",
+		Description:   "Wildcards in the left label of DNSName should only be *",
+		Citation:      "RFC 5280",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &DNSNameLeftLabelWildcardCheck{},
 	})
 }

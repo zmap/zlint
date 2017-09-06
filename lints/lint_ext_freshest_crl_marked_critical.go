@@ -33,11 +33,11 @@ func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) *LintResu
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ext_freshest_crl_marked_critical",
-		Description:    "Freshest CRL MUST be marked as non-critical by conforming CAs",
-		ReadableSource: "RFC 5280: 4.2.1.15",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC3280Date,
-		Lint:           &ExtFreshestCrlMarkedCritical{},
+		Name:          "e_ext_freshest_crl_marked_critical",
+		Description:   "Freshest CRL MUST be marked as non-critical by conforming CAs",
+		Citation:      "RFC 5280: 4.2.1.15",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &ExtFreshestCrlMarkedCritical{},
 	})
 }

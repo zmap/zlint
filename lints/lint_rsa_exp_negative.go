@@ -29,11 +29,11 @@ func (l *rsaExpNegative) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_rsa_exp_negative",
-		Description:    "RSA public key exponent MUST be positive",
-		ReadableSource: "awslabs certlint",
-		Source:         AWSLabs,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &rsaExpNegative{},
+		Name:          "e_rsa_exp_negative",
+		Description:   "RSA public key exponent MUST be positive",
+		Citation:      "awslabs certlint",
+		Source:        AWSLabs,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &rsaExpNegative{},
 	})
 }

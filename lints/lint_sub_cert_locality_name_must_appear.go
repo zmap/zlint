@@ -28,11 +28,11 @@ func (l *subCertLocalityNameMustAppear) Execute(c *x509.Certificate) *LintResult
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_locality_name_must_appear",
-		Description:    "Subscriber Certificate: subject:localityName MUST appear if subject:organizationName, subject:givenName, or subject:surname fields are present but the subject:stateOrProvinceName field is absent.",
-		ReadableSource: "BRs: 7.1.4.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABGivenNameDate,
-		Lint:           &subCertLocalityNameMustAppear{},
+		Name:          "e_sub_cert_locality_name_must_appear",
+		Description:   "Subscriber Certificate: subject:localityName MUST appear if subject:organizationName, subject:givenName, or subject:surname fields are present but the subject:stateOrProvinceName field is absent.",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABGivenNameDate,
+		Lint:          &subCertLocalityNameMustAppear{},
 	})
 }

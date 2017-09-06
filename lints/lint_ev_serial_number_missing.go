@@ -26,11 +26,11 @@ func (l *evSNMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_ev_serial_number_missing",
-		Description:    "EV certificates must include serialNumber in subject",
-		ReadableSource: "BRs: 7.1.6.1",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &evSNMissing{},
+		Name:          "e_ev_serial_number_missing",
+		Description:   "EV certificates must include serialNumber in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &evSNMissing{},
 	})
 }

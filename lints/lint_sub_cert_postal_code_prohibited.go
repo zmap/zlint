@@ -27,11 +27,11 @@ func (l *subCertPostalCodeMustNotAppear) Execute(c *x509.Certificate) *LintResul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_postal_code_must_not_appear",
-		Description:    "Subscriber Certificate: subject:postalCode MUST NOT appear if the subject:organizationName field, subject:givenName field, or subject:surname fields are absent.",
-		ReadableSource: "BRs: 7.1.4.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABGivenNameDate,
-		Lint:           &subCertPostalCodeMustNotAppear{},
+		Name:          "e_sub_cert_postal_code_must_not_appear",
+		Description:   "Subscriber Certificate: subject:postalCode MUST NOT appear if the subject:organizationName field, subject:givenName field, or subject:surname fields are absent.",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABGivenNameDate,
+		Lint:          &subCertPostalCodeMustNotAppear{},
 	})
 }

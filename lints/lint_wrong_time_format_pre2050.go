@@ -61,11 +61,11 @@ func (l *generalizedPre2050) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_wrong_time_format_pre2050",
-		Description:    "Certificates valid through the year 2049 MUST be encoded in UTC time",
-		ReadableSource: "RFC 5280: 4.1.2.5",
-		Source:         RFC5280,
-		EffectiveDate:  util.RFC2459Date,
-		Lint:           &generalizedPre2050{},
+		Name:          "e_wrong_time_format_pre2050",
+		Description:   "Certificates valid through the year 2049 MUST be encoded in UTC time",
+		Citation:      "RFC 5280: 4.1.2.5",
+		Source:        RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &generalizedPre2050{},
 	})
 }

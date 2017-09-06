@@ -32,11 +32,11 @@ func (l *dsaImproperSize) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_dsa_improper_modulus_or_divisor_size",
-		Description:    "Certificates MUST meet the following requirements for algorithm type and key size: L=2048, N=224,256 minimum DSA",
-		ReadableSource: "BRs: 6.1.5",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.ZeroDate,
-		Lint:           &dsaImproperSize{},
+		Name:          "e_dsa_improper_modulus_or_divisor_size",
+		Description:   "Certificates MUST meet the following requirements for algorithm type and key size: L=2048, N=224,256 minimum DSA",
+		Citation:      "BRs: 6.1.5",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &dsaImproperSize{},
 	})
 }

@@ -27,11 +27,11 @@ func (l *subCertStreetAddressShouldNotExist) Execute(c *x509.Certificate) *LintR
 
 func init() {
 	RegisterLint(&Lint{
-		Name:           "e_sub_cert_street_address_should_not_exist",
-		Description:    "Subscriber Certificate: subject:streetAddress MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
-		ReadableSource: "BRs: 7.1.4.2.2",
-		Source:         CABFBaselineRequirements,
-		EffectiveDate:  util.CABGivenNameDate,
-		Lint:           &subCertStreetAddressShouldNotExist{},
+		Name:          "e_sub_cert_street_address_should_not_exist",
+		Description:   "Subscriber Certificate: subject:streetAddress MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABGivenNameDate,
+		Lint:          &subCertStreetAddressShouldNotExist{},
 	})
 }
