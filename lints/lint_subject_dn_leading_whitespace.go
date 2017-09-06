@@ -32,7 +32,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_subject_dn_leading_whitespace",
 		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
-		Source:        "aswlabs certlint",
+		Citation:      "AWSLabs certlint",
+		Source:        AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SubjectDNLeadingSpace{},
 	})

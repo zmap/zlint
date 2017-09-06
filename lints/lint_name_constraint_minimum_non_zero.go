@@ -105,7 +105,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_name_constraint_minimum_non_zero",
 		Description:   "Within the name constraints name forms, the minimum field is not used and therefore MUST be zero",
-		Source:        "RFC 5280: 4.2.1.10",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &nameConstMin{},
 	})

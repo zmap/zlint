@@ -39,7 +39,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_san_critical_with_subject_dn",
 		Description:   "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
-		Source:        "RFC 5280: 4.2.1.6",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &ExtSANCriticalWithSubjectDN{},
 	})

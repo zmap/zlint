@@ -47,7 +47,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_rfc822_format_invalid",
 		Description:   "Email MUST NOT be surrounded with `<>`, and there must be no trailing comments in `()`",
-		Source:        "RFC 5280: 4.2.1.6",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &invalidEmail{},
 	})

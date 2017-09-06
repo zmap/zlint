@@ -48,7 +48,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_crl_sign_not_set",
 		Description:   "Root and Subordinate CA certificate keyUsage extension's crlSign bit MUST be set",
-		Source:        "BRs: 7.1.2.1",
+		Citation:      "BRs: 7.1.2.1",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caCRLSignNotSet{},
 	})

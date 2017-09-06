@@ -36,7 +36,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_crl_distribution_points_does_not_contain_url",
 		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST contain the HTTP URL of the CA's CRL service.",
-		Source:        "BRs: 7.1.2.2",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCACRLDistNoUrl{},
 	})

@@ -27,8 +27,16 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 		if lint.Description == "" {
 			t.Errorf("lint %s has empty description", name)
 		}
-		if lint.Source == "" {
-			t.Errorf("lint %s has empty source", name)
+		if lint.Citation == "" {
+			t.Errorf("lint %s has empty citation", name)
+		}
+	}
+}
+
+func TestAllLintsHaveSource(t *testing.T) {
+	for name, lint := range Lints {
+		if lint.Source == UnknownLintSource {
+			t.Errorf("lint %s has unknown source", name)
 		}
 	}
 }

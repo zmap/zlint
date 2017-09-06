@@ -56,7 +56,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_underscore_in_sld",
 		Description:   "DNSName should not have underscore in SLD",
-		Source:        "RFC 5280",
+		Citation:      "RFC 5280",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInSLD{},
 	})

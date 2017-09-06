@@ -36,7 +36,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_ca_eku_critical",
 		Description:   "Subordinate CA certificate extkeyUsage extension should be marked non-critical if present",
-		Source:        "BRs: 7.1.2.2",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABV116Date,
 		Lint:          &subCAEKUCrit{},
 	})

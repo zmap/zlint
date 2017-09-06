@@ -29,7 +29,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_business_category_missing",
 		Description:   "EV certificates must include businessCategory in subject",
-		Source:        "CAB 7.1.6.1",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evNoBiz{},
 	})

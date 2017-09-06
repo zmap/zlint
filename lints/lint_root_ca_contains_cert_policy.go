@@ -33,7 +33,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_root_ca_contains_cert_policy",
 		Description:   "Root CA Certificate: certificatePolicies SHOULD NOT be present.",
-		Source:        "BRs: 7.1.2.1",
+		Citation:      "BRs: 7.1.2.1",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &rootCAContainsCertPolicy{},
 	})

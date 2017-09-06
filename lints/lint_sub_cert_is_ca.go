@@ -33,7 +33,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_not_is_ca",
 		Description:   "Subscriber Certificate: basicContrainsts cA field MUST NOT be true.",
-		Source:        "BRs: 7.1.2.3",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertNotCA{},
 	})

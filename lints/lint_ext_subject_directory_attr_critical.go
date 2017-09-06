@@ -36,7 +36,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_subject_directory_attr_critical",
 		Description:   "Conforming CAs MUST mark the Subject Directory Attributes extension as not critical",
-		Source:        "RFC 5280: 4.2.1.8",
+		Citation:      "RFC 5280: 4.2.1.8",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subDirAttrCrit{},
 	})

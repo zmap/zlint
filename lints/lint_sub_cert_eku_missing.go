@@ -35,7 +35,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_eku_missing",
 		Description:   "Subscriber certificates MUST have the extended key usage extension present",
-		Source:        "BRs: 7.1.2.3",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subExtKeyUsage{},
 	})
