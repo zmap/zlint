@@ -70,7 +70,7 @@ type Lint struct {
 	Citation string `json:"citation,omitempty"`
 
 	// Programmatic source of the check, BRs, RFC5280, or ZLint
-	Source LintSource
+	Source LintSource `json:"-"`
 
 	// Lints automatically returns NE for all certificates where CheckApplies() is
 	// true but with NotBefore < EffectiveDate. This check is bypassed if
