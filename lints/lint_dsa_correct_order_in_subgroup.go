@@ -41,11 +41,11 @@ func (l *dsaSubgroup) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_dsa_correct_order_in_subgroup",
-		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
-		Source:        "BRs: 6.1.6",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &dsaSubgroup{},
+		Name:           "e_dsa_correct_order_in_subgroup",
+		Description:    "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
+		ReadableSource: "BRs: 6.1.6",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &dsaSubgroup{},
 	})
 }

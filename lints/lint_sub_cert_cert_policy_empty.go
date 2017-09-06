@@ -35,11 +35,11 @@ func (l *subCertPolicyEmpty) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_cert_cert_policy_empty",
-		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
-		Source:        "BRs: 7.1.6.4",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCertPolicyEmpty{},
+		Name:           "e_sub_cert_cert_policy_empty",
+		Description:    "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
+		ReadableSource: "BRs: 7.1.6.4",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subCertPolicyEmpty{},
 	})
 }

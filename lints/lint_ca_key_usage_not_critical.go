@@ -32,11 +32,11 @@ func (l *caKeyUsageNotCrit) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ca_key_usage_not_critical",
-		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be marked as critical",
-		Source:        "BRs: 7.1.2.1",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &caKeyUsageNotCrit{},
+		Name:           "e_ca_key_usage_not_critical",
+		Description:    "Root and Subordinate CA certificate keyUsage extension MUST be marked as critical",
+		ReadableSource: "BRs: 7.1.2.1",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &caKeyUsageNotCrit{},
 	})
 }

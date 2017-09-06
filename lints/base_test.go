@@ -27,7 +27,7 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 		if lint.Description == "" {
 			t.Errorf("lint %s has empty description", name)
 		}
-		if lint.Source == "" {
+		if lint.ReadableSource == "" {
 			t.Errorf("lint %s has empty source", name)
 		}
 	}
@@ -35,7 +35,7 @@ func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
 
 func TestAllLintsHaveType(t *testing.T) {
 	for name, lint := range Lints {
-		if lint.Type == ZeroValue {
+		if lint.Source == ZeroValue {
 			t.Errorf("lint %s has zero value type", name)
 		}
 	}

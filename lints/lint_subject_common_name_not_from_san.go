@@ -43,11 +43,11 @@ func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_subject_common_name_not_from_san",
-		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
-		Source:        "BRs: 7.1.4.2.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subjectCommonNameNotFromSAN{},
+		Name:           "e_subject_common_name_not_from_san",
+		Description:    "The common name field in subscriber certificates must include only names from the SAN extension",
+		ReadableSource: "BRs: 7.1.4.2.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subjectCommonNameNotFromSAN{},
 	})
 }

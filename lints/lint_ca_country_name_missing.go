@@ -47,11 +47,11 @@ func (l *caCountryNameMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ca_country_name_missing",
-		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
-		Source:        "BRs: 7.1.2.1",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &caCountryNameMissing{},
+		Name:           "e_ca_country_name_missing",
+		Description:    "Root and Subordinate CA certificates MUST have a countryName present in subject information",
+		ReadableSource: "BRs: 7.1.2.1",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &caCountryNameMissing{},
 	})
 }

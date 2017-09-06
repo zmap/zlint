@@ -40,11 +40,11 @@ func (l *policyMapMatchesCertPolicy) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_ext_policy_map_not_in_cert_policy",
-		Description:   "Each issuerDomainPolicy named in the policy mappings extension should also be asserted in a certificate policies extension",
-		Source:        "RFC 5280: 4.2.1.5",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          &policyMapMatchesCertPolicy{},
+		Name:           "w_ext_policy_map_not_in_cert_policy",
+		Description:    "Each issuerDomainPolicy named in the policy mappings extension should also be asserted in a certificate policies extension",
+		ReadableSource: "RFC 5280: 4.2.1.5",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC3280Date,
+		Lint:           &policyMapMatchesCertPolicy{},
 	})
 }

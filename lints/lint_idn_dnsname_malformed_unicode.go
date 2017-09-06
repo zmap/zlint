@@ -34,11 +34,11 @@ func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_international_dns_name_not_unicode",
-		Description:   "Internationalized DNSNames punycode not valid unicode",
-		Source:        "RFC 3490",
-		EffectiveDate: util.RFC3490Date,
-		Type:          RFC5280,
-		Lint:          &IDNMalformedUnicode{},
+		Name:           "e_international_dns_name_not_unicode",
+		Description:    "Internationalized DNSNames punycode not valid unicode",
+		ReadableSource: "RFC 3490",
+		EffectiveDate:  util.RFC3490Date,
+		Source:         RFC5280,
+		Lint:           &IDNMalformedUnicode{},
 	})
 }

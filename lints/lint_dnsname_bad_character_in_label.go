@@ -49,11 +49,11 @@ func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_dnsname_bad_character_in_label",
-		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
-		Source:        "RFC 5280",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameProperCharacters{},
+		Name:           "e_dnsname_bad_character_in_label",
+		Description:    "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
+		ReadableSource: "RFC 5280",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC5280Date,
+		Lint:           &DNSNameProperCharacters{},
 	})
 }

@@ -33,11 +33,11 @@ func (l *dsaParamsMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_dsa_params_missing",
-		Description:   "DSA: Certificates MUST include all domain parameters",
-		Source:        "BRs: 6.1.6",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &dsaParamsMissing{},
+		Name:           "e_dsa_params_missing",
+		Description:    "DSA: Certificates MUST include all domain parameters",
+		ReadableSource: "BRs: 6.1.6",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &dsaParamsMissing{},
 	})
 }

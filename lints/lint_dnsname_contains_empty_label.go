@@ -42,11 +42,11 @@ func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_dnsname_empty_label",
-		Description:   "DNSNames should not have an empty label.",
-		Source:        "RFC 5280",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameEmptyLabel{},
+		Name:           "e_dnsname_empty_label",
+		Description:    "DNSNames should not have an empty label.",
+		ReadableSource: "RFC 5280",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC5280Date,
+		Lint:           &DNSNameEmptyLabel{},
 	})
 }

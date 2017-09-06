@@ -103,11 +103,11 @@ func (l *nameConstMin) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_name_constraint_minimum_non_zero",
-		Description:   "Within the name constraints name forms, the minimum field is not used and therefore MUST be zero",
-		Source:        "RFC 5280: 4.2.1.10",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &nameConstMin{},
+		Name:           "e_name_constraint_minimum_non_zero",
+		Description:    "Within the name constraints name forms, the minimum field is not used and therefore MUST be zero",
+		ReadableSource: "RFC 5280: 4.2.1.10",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &nameConstMin{},
 	})
 }

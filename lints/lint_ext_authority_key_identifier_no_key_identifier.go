@@ -41,11 +41,11 @@ func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_authority_key_identifier_no_key_identifier",
-		Description:   "CAs must include keyIdentifer field of AKI in all non-self-issued certificates",
-		Source:        "RFC 5280: 4.2.1.1",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &authorityKeyIdNoKeyIdField{},
+		Name:           "e_ext_authority_key_identifier_no_key_identifier",
+		Description:    "CAs must include keyIdentifer field of AKI in all non-self-issued certificates",
+		ReadableSource: "RFC 5280: 4.2.1.1",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &authorityKeyIdNoKeyIdField{},
 	})
 }

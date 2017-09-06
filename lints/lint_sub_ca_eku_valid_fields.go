@@ -32,11 +32,11 @@ func (l *subCAEKUValidFields) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "n_sub_ca_eku_not_technically_constrained",
-		Description:   "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present to be technically constrained.",
-		Source:        "BRs: 7.1.2.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABV116Date,
-		Lint:          &subCAEKUValidFields{},
+		Name:           "n_sub_ca_eku_not_technically_constrained",
+		Description:    "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present to be technically constrained.",
+		ReadableSource: "BRs: 7.1.2.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABV116Date,
+		Lint:           &subCAEKUValidFields{},
 	})
 }

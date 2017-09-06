@@ -26,11 +26,11 @@ func (l *evValidTooLong) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ev_valid_time_too_long",
-		Description:   "EV certificates must be 27 months in validity or less",
-		Source:        "BRs: 6.3.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &evValidTooLong{},
+		Name:           "e_ev_valid_time_too_long",
+		Description:    "EV certificates must be 27 months in validity or less",
+		ReadableSource: "BRs: 6.3.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &evValidTooLong{},
 	})
 }

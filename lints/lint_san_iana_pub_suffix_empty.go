@@ -30,11 +30,11 @@ func (l *pubSuffix) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_san_iana_pub_suffix_empty",
-		Description:   "The domain SHOULD NOT have a bare public suffix",
-		Source:        "awslabs certlint",
-		Type:          AWSLabs,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &pubSuffix{},
+		Name:           "w_san_iana_pub_suffix_empty",
+		Description:    "The domain SHOULD NOT have a bare public suffix",
+		ReadableSource: "awslabs certlint",
+		Source:         AWSLabs,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &pubSuffix{},
 	})
 }

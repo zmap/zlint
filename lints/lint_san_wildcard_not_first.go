@@ -30,11 +30,11 @@ func (l *SANWildCardFirst) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_san_wildcard_not_first",
-		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks DNSName)",
-		Source:        "awslabs certlint",
-		Type:          AWSLabs,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SANWildCardFirst{},
+		Name:           "e_san_wildcard_not_first",
+		Description:    "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks DNSName)",
+		ReadableSource: "awslabs certlint",
+		Source:         AWSLabs,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &SANWildCardFirst{},
 	})
 }

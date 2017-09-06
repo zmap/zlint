@@ -43,10 +43,10 @@ type LintInterface interface {
 }
 
 // An Enum to programmatically represent the source of a lint
-type LintType int
+type LintSource int
 
 const (
-	ZeroValue LintType = iota
+	ZeroValue LintSource = iota
 	CABFBaselineRequirements
 	RFC5280
 	ZLint
@@ -67,10 +67,10 @@ type Lint struct {
 	Description string `json:"description,omitempty"`
 
 	// The source of the check, e.g. "BRs: 6.1.6" or "RFC 5280: 4.1.2.6".
-	Source string `json:"source,omitempty"`
+	ReadableSource string `json:"readable_source,omitempty"`
 
 	// Programmatic source of the check, BRs, RFC5280, or ZLint
-	Type LintType `json:"type,omitempty"`
+	Source LintSource `json:"source,omitempty"`
 
 	// Lints automatically returns NE for all certificates where CheckApplies() is
 	// true but with NotBefore < EffectiveDate. This check is bypassed if

@@ -27,11 +27,11 @@ func (l *evLocalityMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ev_locality_name_missing",
-		Description:   "EV certificates must include localityName in subject",
-		Source:        "BRs: 7.1.6.1",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &evLocalityMissing{},
+		Name:           "e_ev_locality_name_missing",
+		Description:    "EV certificates must include localityName in subject",
+		ReadableSource: "BRs: 7.1.6.1",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &evLocalityMissing{},
 	})
 }

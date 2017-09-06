@@ -36,11 +36,11 @@ func (l *subCaIssuerUrl) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_sub_ca_aia_does_not_contain_issuing_ca_url",
-		Description:   "Subordinate CA Certificate: authorityInformationAccess SHOULD also contain the HTTP URL of the Issuing CA's certificate.",
-		Source:        "BRs: 7.1.2.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCaIssuerUrl{},
+		Name:           "w_sub_ca_aia_does_not_contain_issuing_ca_url",
+		Description:    "Subordinate CA Certificate: authorityInformationAccess SHOULD also contain the HTTP URL of the Issuing CA's certificate.",
+		ReadableSource: "BRs: 7.1.2.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subCaIssuerUrl{},
 	})
 }

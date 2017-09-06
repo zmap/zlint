@@ -35,11 +35,11 @@ func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_multiple_subject_rdn",
-		Description:   "Certificates should not have multiple attributes in a single RDN (subject)",
-		Source:        "AWSLabs certlint",
-		Type:          AWSLabs,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SubjectRDNHasMultipleAttribute{},
+		Name:           "w_multiple_subject_rdn",
+		Description:    "Certificates should not have multiple attributes in a single RDN (subject)",
+		ReadableSource: "AWSLabs certlint",
+		Source:         AWSLabs,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &SubjectRDNHasMultipleAttribute{},
 	})
 }

@@ -36,11 +36,11 @@ func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) *LintRes
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_subject_organization_name_max_length",
-		Description:   "The 'Organization Name' field of the subject MUST be less than 64 characters",
-		Source:        "RFC 5280: A.1",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &subjectOrganizationNameMaxLength{},
+		Name:           "e_subject_organization_name_max_length",
+		Description:    "The 'Organization Name' field of the subject MUST be less than 64 characters",
+		ReadableSource: "RFC 5280: A.1",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &subjectOrganizationNameMaxLength{},
 	})
 }

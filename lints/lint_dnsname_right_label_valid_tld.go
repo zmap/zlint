@@ -31,11 +31,11 @@ func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_dnsname_not_valid_tld",
-		Description:   "DNSNames must have a valid TLD.",
-		Source:        "RFC 5280",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameValidTLD{},
+		Name:           "e_dnsname_not_valid_tld",
+		Description:    "DNSNames must have a valid TLD.",
+		ReadableSource: "RFC 5280",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC5280Date,
+		Lint:           &DNSNameValidTLD{},
 	})
 }

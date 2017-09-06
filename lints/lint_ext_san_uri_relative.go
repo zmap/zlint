@@ -46,11 +46,11 @@ func (l *extSANURIRelative) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_san_uri_relative",
-		Description:   "When the subjectAlternateName extension is present and a URI is used, the name MUST NOT be a relative URI",
-		Source:        "RFC 5280: 4.2.1.6",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &extSANURIRelative{},
+		Name:           "e_ext_san_uri_relative",
+		Description:    "When the subjectAlternateName extension is present and a URI is used, the name MUST NOT be a relative URI",
+		ReadableSource: "RFC 5280: 4.2.1.6",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC5280Date,
+		Lint:           &extSANURIRelative{},
 	})
 }

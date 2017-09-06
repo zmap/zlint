@@ -33,11 +33,11 @@ func (l *SANMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_san_missing",
-		Description:   "Subscriber certificates MUST contain the Subject Alternate Name extension",
-		Source:        "BRs: 7.1.4.2.1",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &SANMissing{},
+		Name:           "e_ext_san_missing",
+		Description:    "Subscriber certificates MUST contain the Subject Alternate Name extension",
+		ReadableSource: "BRs: 7.1.4.2.1",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &SANMissing{},
 	})
 }

@@ -42,11 +42,11 @@ func (l *ExtCertPolicyExplicitTextNotNFC) Execute(c *x509.Certificate) *LintResu
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_ext_cert_policy_explicit_text_not_nfc",
-		Description:   "When utf8string or bmpstring encoding is used for explicitText field in certificate policy, it SHOULD be normalized by NFC format",
-		Source:        "RFC6181 3",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC6818Date,
-		Lint:          &ExtCertPolicyExplicitTextNotNFC{},
+		Name:           "w_ext_cert_policy_explicit_text_not_nfc",
+		Description:    "When utf8string or bmpstring encoding is used for explicitText field in certificate policy, it SHOULD be normalized by NFC format",
+		ReadableSource: "RFC6181 3",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC6818Date,
+		Lint:           &ExtCertPolicyExplicitTextNotNFC{},
 	})
 }

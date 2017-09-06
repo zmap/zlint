@@ -70,11 +70,11 @@ func utcNotGmt(t time.Time, r *LintStatus) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_utc_time_not_in_zulu",
-		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
-		Source:        "RFC 5280: 4.1.2.5.1",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &utcTimeGMT{},
+		Name:           "e_utc_time_not_in_zulu",
+		Description:    "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
+		ReadableSource: "RFC 5280: 4.1.2.5.1",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &utcTimeGMT{},
 	})
 }

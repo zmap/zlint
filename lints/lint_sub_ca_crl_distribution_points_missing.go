@@ -32,11 +32,11 @@ func (l *subCACRLDistMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_ca_crl_distribution_points_missing",
-		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST be present and MUST NOT be marked critical.",
-		Source:        "BRs: 7.1.2.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCACRLDistMissing{},
+		Name:           "e_sub_ca_crl_distribution_points_missing",
+		Description:    "Subordinate CA Certificate: cRLDistributionPoints MUST be present and MUST NOT be marked critical.",
+		ReadableSource: "BRs: 7.1.2.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subCACRLDistMissing{},
 	})
 }

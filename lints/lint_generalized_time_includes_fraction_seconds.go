@@ -71,11 +71,11 @@ func checkFraction(r *LintStatus, t asn1.RawValue) {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_generalized_time_includes_fraction_seconds",
-		Description:   "Generalized time values MUST NOT include fractional seconds",
-		Source:        "RFC 5280: 4.1.2.5.2",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &generalizedTimeFraction{},
+		Name:           "e_generalized_time_includes_fraction_seconds",
+		Description:    "Generalized time values MUST NOT include fractional seconds",
+		ReadableSource: "RFC 5280: 4.1.2.5.2",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &generalizedTimeFraction{},
 	})
 }

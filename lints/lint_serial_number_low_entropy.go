@@ -25,11 +25,11 @@ func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_serial_number_low_entropy",
-		Description:   "Effective September 30, 2016, CAs SHALL generate non‐sequential Certificate serial numbers greater than zero (0) containing at least 64 bits of output from a CSPRNG.",
-		Source:        "BRs: 7.1",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABSerialNumberEntropyDate,
-		Lint:          &serialNumberLowEntropy{},
+		Name:           "w_serial_number_low_entropy",
+		Description:    "Effective September 30, 2016, CAs SHALL generate non‐sequential Certificate serial numbers greater than zero (0) containing at least 64 bits of output from a CSPRNG.",
+		ReadableSource: "BRs: 7.1",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABSerialNumberEntropyDate,
+		Lint:           &serialNumberLowEntropy{},
 	})
 }

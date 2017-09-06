@@ -43,11 +43,11 @@ func (l *SerialNumberNotPositive) Execute(cert *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_serial_number_not_positive",
-		Description:   "Certificates must have a positive serial number",
-		Source:        "RFC 5280: 4.1.2.2",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          &SerialNumberNotPositive{},
+		Name:           "e_serial_number_not_positive",
+		Description:    "Certificates must have a positive serial number",
+		ReadableSource: "RFC 5280: 4.1.2.2",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC3280Date,
+		Lint:           &SerialNumberNotPositive{},
 	})
 }

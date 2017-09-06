@@ -34,11 +34,11 @@ func (l *subDirAttrCrit) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_subject_directory_attr_critical",
-		Description:   "Conforming CAs MUST mark the Subject Directory Attributes extension as not critical",
-		Source:        "RFC 5280: 4.2.1.8",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &subDirAttrCrit{},
+		Name:           "e_ext_subject_directory_attr_critical",
+		Description:    "Conforming CAs MUST mark the Subject Directory Attributes extension as not critical",
+		ReadableSource: "RFC 5280: 4.2.1.8",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &subDirAttrCrit{},
 	})
 }

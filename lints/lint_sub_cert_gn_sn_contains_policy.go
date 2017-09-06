@@ -27,11 +27,11 @@ func (l *subCertSubjectGnOrSnContainsPolicy) Execute(c *x509.Certificate) *LintR
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_cert_given_name_surname_contains_correct_policy",
-		Description:   "Subscriber Certificate: A certificate containing a subject:givenName field or subject:surname field MUST contain the (2.23.140.1.2.3) certPolicy OID.",
-		Source:        "BRs: 7.1.4.2.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABGivenNameDate,
-		Lint:          &subCertSubjectGnOrSnContainsPolicy{},
+		Name:           "e_sub_cert_given_name_surname_contains_correct_policy",
+		Description:    "Subscriber Certificate: A certificate containing a subject:givenName field or subject:surname field MUST contain the (2.23.140.1.2.3) certPolicy OID.",
+		ReadableSource: "BRs: 7.1.4.2.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABGivenNameDate,
+		Lint:           &subCertSubjectGnOrSnContainsPolicy{},
 	})
 }

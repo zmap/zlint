@@ -29,11 +29,11 @@ func (l *IANDNSPeriod) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ian_dns_name_starts_with_period",
-		Description:   "DNSName MUST NOT start with a period",
-		Source:        "awslabs certlint",
-		Type:          AWSLabs,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &IANDNSPeriod{},
+		Name:           "e_ian_dns_name_starts_with_period",
+		Description:    "DNSName MUST NOT start with a period",
+		ReadableSource: "awslabs certlint",
+		Source:         AWSLabs,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &IANDNSPeriod{},
 	})
 }

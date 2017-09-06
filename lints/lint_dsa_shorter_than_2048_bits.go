@@ -33,11 +33,11 @@ func (l *dsaTooShort) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:        "e_dsa_shorter_than_2048_bits",
-		Description: "DSA modulus size must be at least 2048 bits",
-		Source:      "BRs: 6.1.5",
+		Name:           "e_dsa_shorter_than_2048_bits",
+		Description:    "DSA modulus size must be at least 2048 bits",
+		ReadableSource: "BRs: 6.1.5",
 		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
-		Type:          CABFBaselineRequirements,
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &dsaTooShort{},
 	})

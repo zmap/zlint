@@ -31,11 +31,11 @@ func (l *subCACertPolicyMissing) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_ca_certificate_policies_missing",
-		Description:   "Subordinate CA certificates must have a certificatePolicies extension",
-		Source:        "BRs: 7.1.2.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCACertPolicyMissing{},
+		Name:           "e_sub_ca_certificate_policies_missing",
+		Description:    "Subordinate CA certificates must have a certificatePolicies extension",
+		ReadableSource: "BRs: 7.1.2.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subCACertPolicyMissing{},
 	})
 }

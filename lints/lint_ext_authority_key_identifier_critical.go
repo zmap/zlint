@@ -32,11 +32,11 @@ func (l *authorityKeyIdCritical) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_authority_key_identifier_critical",
-		Description:   "The authority key identifier extension must be non-critical",
-		Source:        "RFC 5280: 4.2.1.1",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &authorityKeyIdCritical{},
+		Name:           "e_ext_authority_key_identifier_critical",
+		Description:    "The authority key identifier extension must be non-critical",
+		ReadableSource: "RFC 5280: 4.2.1.1",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &authorityKeyIdCritical{},
 	})
 }

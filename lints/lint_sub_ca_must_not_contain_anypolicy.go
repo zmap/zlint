@@ -26,11 +26,11 @@ func (l *subCaMustNotContainAnyPolicy) Execute(c *x509.Certificate) *LintResult 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_ca_must_not_contain_any_policy",
-		Description:   "Subordinate CA: MUST NOT contain the anyPolicy identifier (2.5.29.32.0)",
-		Source:        "BRs: 7.1.6.2",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCaMustNotContainAnyPolicy{},
+		Name:           "e_sub_ca_must_not_contain_any_policy",
+		Description:    "Subordinate CA: MUST NOT contain the anyPolicy identifier (2.5.29.32.0)",
+		ReadableSource: "BRs: 7.1.6.2",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subCaMustNotContainAnyPolicy{},
 	})
 }

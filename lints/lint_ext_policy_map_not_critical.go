@@ -33,11 +33,11 @@ func (l *policyMapCritical) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_ext_policy_map_not_critical",
-		Description:   "Policy mappings should be marked as critical",
-		Source:        "RFC 5280: 4.2.1.5",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &policyMapCritical{},
+		Name:           "w_ext_policy_map_not_critical",
+		Description:    "Policy mappings should be marked as critical",
+		ReadableSource: "RFC 5280: 4.2.1.5",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &policyMapCritical{},
 	})
 }

@@ -35,11 +35,11 @@ func (l *ExtDuplicateExtension) Execute(cert *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ext_duplicate_extension",
-		Description:   "A certificate MUST NOT include more than one instance of a particular extension",
-		Source:        "RFC 5280: 4.2",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &ExtDuplicateExtension{},
+		Name:           "e_ext_duplicate_extension",
+		Description:    "A certificate MUST NOT include more than one instance of a particular extension",
+		ReadableSource: "RFC 5280: 4.2",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC2459Date,
+		Lint:           &ExtDuplicateExtension{},
 	})
 }

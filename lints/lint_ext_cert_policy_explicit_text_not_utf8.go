@@ -47,11 +47,11 @@ func (l *explicitTextUtf8) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_ext_cert_policy_explicit_text_not_utf8",
-		Description:   "Compliant certificates should use the utf8string encoding for explicitText",
-		Source:        "RFC 6818: 3",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC6818Date,
-		Lint:          &explicitTextUtf8{},
+		Name:           "w_ext_cert_policy_explicit_text_not_utf8",
+		Description:    "Compliant certificates should use the utf8string encoding for explicitText",
+		ReadableSource: "RFC 6818: 3",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC6818Date,
+		Lint:           &explicitTextUtf8{},
 	})
 }

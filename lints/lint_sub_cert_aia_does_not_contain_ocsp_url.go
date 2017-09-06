@@ -37,11 +37,11 @@ func (l *subCertOcspUrl) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_cert_aia_does_not_contain_ocsp_url",
-		Description:   "Subscriber Certificate: authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's OSCP responder.",
-		Source:        "BRs: 7.1.2.3",
-		Type:          CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCertOcspUrl{},
+		Name:           "e_sub_cert_aia_does_not_contain_ocsp_url",
+		Description:    "Subscriber Certificate: authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's OSCP responder.",
+		ReadableSource: "BRs: 7.1.2.3",
+		Source:         CABFBaselineRequirements,
+		EffectiveDate:  util.CABEffectiveDate,
+		Lint:           &subCertOcspUrl{},
 	})
 }

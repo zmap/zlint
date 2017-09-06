@@ -40,11 +40,11 @@ func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) *LintResul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_inhibit_any_policy_not_critical",
-		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
-		Source:        "RFC 5280: 4.2.1.14",
-		Type:          RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          &InhibitAnyPolicyNotCritical{},
+		Name:           "e_inhibit_any_policy_not_critical",
+		Description:    "CAs MUST mark the inhibitAnyPolicy extension as critical",
+		ReadableSource: "RFC 5280: 4.2.1.14",
+		Source:         RFC5280,
+		EffectiveDate:  util.RFC3280Date,
+		Lint:           &InhibitAnyPolicyNotCritical{},
 	})
 }

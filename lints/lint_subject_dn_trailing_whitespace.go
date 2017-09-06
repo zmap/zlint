@@ -30,11 +30,11 @@ func (l *SubjectDNTrailingSpace) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_subject_dn_trailing_whitespace",
-		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have trailing whitespace",
-		Source:        "AWSLabs certlint",
-		Type:          AWSLabs,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SubjectDNTrailingSpace{},
+		Name:           "w_subject_dn_trailing_whitespace",
+		Description:    "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have trailing whitespace",
+		ReadableSource: "AWSLabs certlint",
+		Source:         AWSLabs,
+		EffectiveDate:  util.ZeroDate,
+		Lint:           &SubjectDNTrailingSpace{},
 	})
 }
