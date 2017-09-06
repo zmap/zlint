@@ -63,7 +63,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_wrong_time_format_pre2050",
 		Description:   "Certificates valid through the year 2049 MUST be encoded in UTC time",
-		Source:        "RFC 5280: 4.1.2.5",
+		Citation:      "RFC 5280: 4.1.2.5",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &generalizedPre2050{},
 	})

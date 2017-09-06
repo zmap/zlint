@@ -41,7 +41,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_cert_policy_duplicate",
 		Description:   "A certificate policy OID must not appear more than once in the extension",
-		Source:        "RFC 5280: 4.2.1.4",
+		Citation:      "RFC 5280: 4.2.1.4",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &ExtCertPolicyDuplicate{},
 	})

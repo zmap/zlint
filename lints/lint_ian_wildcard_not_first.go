@@ -32,7 +32,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ian_wildcard_not_first",
 		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks DNSName)",
-		Source:        "awslabs certlint",
+		Citation:      "awslabs certlint",
+		Source:        AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &brIANWildcardFirst{},
 	})

@@ -30,7 +30,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_public_key_type_not_allowed",
 		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
-		Source:        "BRs: 6.1.5",
+		Citation:      "BRs: 6.1.5",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &publicKeyAllowed{},
 	})

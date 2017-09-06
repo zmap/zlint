@@ -41,7 +41,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_no_entries",
 		Description:   "If present, the SAN extension MUST contain at least one entry",
-		Source:        "RFC 5280: 4.2.1.6",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &SANNoEntry{},
 	})

@@ -41,7 +41,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_aia_access_location_missing",
 		Description:   "When the id-ad-caIssuers accessMethod is used, at least one instance SHOULD specify an accessLocation that is an HTTP or LDAP URI",
-		Source:        "RFC 5280: 4.2.2.1",
+		Citation:      "RFC 5280: 4.2.2.1",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &aiaNoHTTPorLDAP{},
 	})

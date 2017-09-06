@@ -11,6 +11,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"unicode/utf8"
 )
 
 type subjectCommonNameMaxLength struct{}
@@ -24,17 +25,19 @@ func (l *subjectCommonNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectCommonNameMaxLength) Execute(c *x509.Certificate) *LintResult {
-	if len(c.Subject.CommonName) > 64 {
+	if utf8.RuneCountInString(c.Subject.CommonName) > 64 {
 		return &LintResult{Status: Error}
+	} else {
+		return &LintResult{Status: Pass}
 	}
-	return &LintResult{Status: Pass}
 }
 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_common_name_max_length",
 		Description:   "The commonName field of the subject MUST be less than 64 characters",
-		Source:        "RFC 5280: A.1",
+		Citation:      "RFC 5280: A.1",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectCommonNameMaxLength{},
 	})

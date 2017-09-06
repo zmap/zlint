@@ -31,7 +31,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_rsa_exp_negative",
 		Description:   "RSA public key exponent MUST be positive",
-		Source:        "awslabs certlint",
+		Citation:      "awslabs certlint",
+		Source:        AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &rsaExpNegative{},
 	})

@@ -1,9 +1,24 @@
+/*
+ * ZLint Copyright 2017 Regents of the University of Michigan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package lints
 
 import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/util"
 )
 
 var (
@@ -28,6 +43,17 @@ type LintInterface interface {
 	Execute(c *x509.Certificate) *LintResult
 }
 
+// An Enum to programmatically represent the source of a lint
+type LintSource int
+
+const (
+	UnknownLintSource LintSource = iota
+	CABFBaselineRequirements
+	RFC5280
+	ZLint
+	AWSLabs
+)
+
 // A Lint struct represents a single lint, e.g.
 // "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
 type Lint struct {
@@ -42,7 +68,10 @@ type Lint struct {
 	Description string `json:"description,omitempty"`
 
 	// The source of the check, e.g. "BRs: 6.1.6" or "RFC 5280: 4.1.2.6".
-	Source string `json:"source,omitempty"`
+	Citation string `json:"citation,omitempty"`
+
+	// Programmatic source of the check, BRs, RFC5280, or ZLint
+	Source LintSource `json:"-"`
 
 	// Lints automatically returns NE for all certificates where CheckApplies() is
 	// true but with NotBefore < EffectiveDate. This check is bypassed if
@@ -62,13 +91,18 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 	return false
 }
 
-// Execute runs the lint against a certificate. See LintInterface for details
-// about the methods called. The ordering is as follows:
+// Execute runs the lint against a certificate. For lints that are
+// sourced from the CA/B Forum Baseline Requirements, we first determine
+// if they are within the purview of the BRs. See LintInterface for details
+// about the other methods called. The ordering is as follows:
 //
 // CheckApplies()
 // CheckEffective()
 // Execute()
 func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
+	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
+		return &LintResult{Status: NA}
+	}
 	if !l.Lint.CheckApplies(cert) {
 		return &LintResult{Status: NA}
 	} else if !l.CheckEffective(cert) {

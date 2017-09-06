@@ -34,7 +34,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_cert_certificate_policies_marked_critical",
 		Description:   "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
-		Source:        "BRs: 7.1.2.3",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertPolicyCrit{},
 	})

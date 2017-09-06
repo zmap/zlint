@@ -20,7 +20,7 @@ func TestSHA1After2016(t *testing.T) {
 
 func TestSHA1Before2016(t *testing.T) {
 	inputPath := "../testlint/testCerts/rsawithsha1before2016.pem"
-	expected := Pass
+	expected := NE
 	out := Lints["e_sub_cert_or_sub_ca_using_sha1"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

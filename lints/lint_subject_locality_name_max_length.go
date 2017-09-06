@@ -11,6 +11,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"unicode/utf8"
 )
 
 type subjectLocalityNameMaxLength struct{}
@@ -25,7 +26,7 @@ func (l *subjectLocalityNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.Locality {
-		if len(j) > 128 {
+		if utf8.RuneCountInString(j) > 128 {
 			return &LintResult{Status: Error}
 		}
 	}
@@ -37,7 +38,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_locality_name_max_length",
 		Description:   "The 'Locality Name' field of the subject MUST be less than 128 characters",
-		Source:        "RFC 5280: A.1",
+		Citation:      "RFC 5280: A.1",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &subjectLocalityNameMaxLength{},
 	})

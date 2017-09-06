@@ -37,7 +37,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_aia_missing",
 		Description:   "Subscriber Certiifcate: authorityInformationAccess MUST be present, with the exception of stapling.",
-		Source:        "BRs: 7.1.2.3",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertAiaMissing{},
 	})
