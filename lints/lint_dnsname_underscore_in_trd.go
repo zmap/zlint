@@ -3,7 +3,6 @@ package lints
 import (
 	"strings"
 
-	"github.com/weppos/publicsuffix-go/publicsuffix"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
