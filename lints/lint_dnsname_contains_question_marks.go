@@ -39,7 +39,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "n_contains_redacted_dnsname",
 		Description:   "Some Precerts are prepended with question marks.",
-		Source:        "MDSP",
+		Source:        CABFBaselineRequirements,
+		Citation:      "MDSP",
 		EffectiveDate: util.ZeroDate,
 		Lint:          &DNSNameRedacted{},
 	})
