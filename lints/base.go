@@ -18,7 +18,6 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
-	"encoding/json"
 )
 
 var (
@@ -53,7 +52,6 @@ const (
 	ZLint
 	AWSLabs
 )
-
 
 // A Lint struct represents a single lint, e.g.
 // "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
