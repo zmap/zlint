@@ -7,18 +7,23 @@ import (
 	"strings"
 )
 
-func RemoveQuestionMarks(domain string) string {
+func RemovePrependedQuestionMarks(domain string) string {
 	for strings.HasPrefix(domain, "?.") {
 		domain = domain[2:]
 	}
 	return domain
 }
 
-func IsFQDN(domain string) bool {
-	domain = RemoveQuestionMarks(domain)
+func RemoveWildcardFromDomain(domain string) string {
 	if strings.HasPrefix(domain, "*.") {
 		domain = domain[2:]
 	}
+	return domain
+}
+
+func IsFQDN(domain string) bool {
+	domain = RemoveWildcardFromDomain(domain)
+	domain = RemovePrependedQuestionMarks(domain)
 	return govalidator.IsURL(domain)
 }
 

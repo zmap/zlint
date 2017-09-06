@@ -6,29 +6,29 @@ import (
 	"strings"
 )
 
-type DNSNameContainsQuestionMarks struct{}
+type DNSNameRedacted struct{}
 
-func (l *DNSNameContainsQuestionMarks) Initialize() error {
+func (l *DNSNameRedacted) Initialize() error {
 	return nil
 }
 
-func (l *DNSNameContainsQuestionMarks) CheckApplies(c *x509.Certificate) bool {
-	return true
+func (l *DNSNameRedacted) CheckApplies(c *x509.Certificate) bool {
+	return util.IsSubscriberCert(c)
 }
 
-func isPrependedByQuestionMarks(domain string) bool {
-	if strings.HasPrefix(domain, "?.") {
-		return true
-	}
-	return false
+func isRedactedCertificate(domain string) bool {
+	domain = util.RemoveWildcardFromDomain(domain)
+	return strings.HasPrefix(domain, "?.")
 }
 
-func (l *DNSNameContainsQuestionMarks) Execute(c *x509.Certificate) *LintResult {
-	if isPrependedByQuestionMarks(c.Subject.CommonName) {
-		return &LintResult{Status: Notice}
+func (l *DNSNameRedacted) Execute(c *x509.Certificate) *LintResult {
+	if c.Subject.CommonName != "" {
+		if isRedactedCertificate(c.Subject.CommonName) {
+			return &LintResult{Status: Notice}
+		}
 	}
 	for _, domain := range c.DNSNames {
-		if isPrependedByQuestionMarks(domain) {
+		if isRedactedCertificate(domain) {
 			return &LintResult{Status: Notice}
 		}
 	}
@@ -37,10 +37,10 @@ func (l *DNSNameContainsQuestionMarks) Execute(c *x509.Certificate) *LintResult 
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "n_dnsname_contains_question_marks",
+		Name:          "n_contains_redacted_dnsname",
 		Description:   "Some Precerts are prepended with question marks.",
 		Source:        "MDSP",
 		EffectiveDate: util.ZeroDate,
-		Lint:          &DNSNameContainsQuestionMarks{},
+		Lint:          &DNSNameRedacted{},
 	})
 }

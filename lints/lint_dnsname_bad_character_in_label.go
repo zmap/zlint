@@ -33,14 +33,14 @@ func (l *DNSNameProperCharacters) labelContainsBadCharacters(domain string) bool
 
 func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		commonNameWithoutQuestionMarks := util.RemoveQuestionMarks(c.Subject.CommonName)
+		commonNameWithoutQuestionMarks := util.RemovePrependedQuestionMarks(c.Subject.CommonName)
 		badCharacterFound := l.labelContainsBadCharacters(commonNameWithoutQuestionMarks)
 		if badCharacterFound {
 			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
-		domainWithoutQuestionMarks := util.RemoveQuestionMarks(dns)
+		domainWithoutQuestionMarks := util.RemovePrependedQuestionMarks(dns)
 		badCharacterFound := l.labelContainsBadCharacters(domainWithoutQuestionMarks)
 		if badCharacterFound {
 			return &LintResult{Status: Error}
