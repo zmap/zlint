@@ -1,5 +1,3 @@
-// lint_dnsname_contains_question_marks.go
-
 package lints
 
 import (
