@@ -18,6 +18,7 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
+	"encoding/json"
 )
 
 var (
@@ -53,6 +54,7 @@ const (
 	AWSLabs
 )
 
+
 // A Lint struct represents a single lint, e.g.
 // "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
 type Lint struct {
@@ -70,7 +72,7 @@ type Lint struct {
 	Citation string `json:"citation,omitempty"`
 
 	// Programmatic source of the check, BRs, RFC5280, or ZLint
-	Source LintSource `json:"source,omitempty"`
+	Source LintSource
 
 	// Lints automatically returns NE for all certificates where CheckApplies() is
 	// true but with NotBefore < EffectiveDate. This check is bypassed if
