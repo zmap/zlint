@@ -33,7 +33,7 @@ func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
 		if err != nil {
-			return &LintResult{Status: NA}
+			return &LintResult{Status: Fatal}
 		}
 		if underscoreFound {
 			return &LintResult{Status: Error}
@@ -42,7 +42,7 @@ func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		underscoreFound, err := underscoreInSLD(dns)
 		if err != nil {
-			return &LintResult{Status: NA}
+			return &LintResult{Status: Fatal}
 		}
 		if underscoreFound {
 			return &LintResult{Status: Error}
