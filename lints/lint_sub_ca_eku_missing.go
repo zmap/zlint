@@ -27,7 +27,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_ca_eku_missing",
 		Description:   "Subordinate CA certificate MUST have extkeyUsage extension",
-		Source:        "BRs: 7.1.5",
+		Citation:      "BRs: 7.1.5",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCAEKUMissing{},
 	})

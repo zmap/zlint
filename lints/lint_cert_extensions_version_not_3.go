@@ -46,7 +46,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cert_extensions_version_not_3",
 		Description:   "The extensions field MUST only appear in version 3 certificates",
-		Source:        "RFC 5280: 4.1.2.9",
+		Citation:      "RFC 5280: 4.1.2.9",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &CertExtensionsVersonNot3{},
 	})

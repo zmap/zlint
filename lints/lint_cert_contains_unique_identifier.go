@@ -40,7 +40,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_cert_contains_unique_identifier",
 		Description:   "CAs MUST NOT generate certificate with unique identifiers",
-		Source:        "RFC 5280: 4.1.2.8",
+		Source:        RFC5280,
+		Citation:      "RFC 5280: 4.1.2.8",
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &CertContainsUniqueIdentifier{},
 	})

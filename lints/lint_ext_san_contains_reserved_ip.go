@@ -38,8 +38,9 @@ func (l *SANReservedIP) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ext_san_contains_reserved_ip",
-		Description:   "Certificates expiring after 1 Nov 2015 MUST NOT contain a reserved IP address in the subjectAlternativeName extension",
-		Source:        "BRs: 7.1.4.2.1",
+		Description:   "Effective October 1, 2016, CAs must revoke all unexpired certificates that contains a reserved IP or internal name.",
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &SANReservedIP{},
 	})

@@ -35,7 +35,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_crl_distribution_marked_critical",
 		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical",
-		Source:        "RFC 5280: 4.2.1.13",
+		Citation:      "RFC 5280: 4.2.1.13",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &ExtCrlDistributionMarkedCritical{},
 	})

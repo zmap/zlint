@@ -54,7 +54,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ca_country_name_invalid",
 		Description:   "Root and Subordinate CA certificates MUST have a two-letter country code specified in ISO 3166-1",
-		Source:        "BRs: 7.1.2.1",
+		Citation:      "BRs: 7.1.2.1",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caCountryNameInvalid{},
 	})

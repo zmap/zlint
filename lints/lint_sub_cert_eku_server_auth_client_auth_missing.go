@@ -38,7 +38,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_eku_server_auth_client_auth_missing",
 		Description:   "Subscriber certificates MUST have have either id-kp-serverAuth or id-kp-clientAuth or both present in extKeyUsage",
-		Source:        "BRs: 7.1.2.3",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subExtKeyUsageClientOrServer{},
 	})

@@ -32,7 +32,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_sub_ca_name_constraints_not_critical",
 		Description:   "Subordinate CA Certificate: NameConstraints if present, SHOULD be marked critical.",
-		Source:        "BRs: 7.1.2.2",
+		Citation:      "BRs: 7.1.2.2",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABV102Date,
 		Lint:          &SubCANameConstraintsNotCritical{},
 	})

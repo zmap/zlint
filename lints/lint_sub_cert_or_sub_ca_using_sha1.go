@@ -21,25 +21,19 @@ func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) *LintResult {
-	switch c.SignatureAlgorithm {
-	case x509.SHA1WithRSA, x509.DSAWithSHA1, x509.ECDSAWithSHA1:
-		if c.NotBefore.Before(util.NO_SHA1) {
-			return &LintResult{Status: Pass}
-		} else {
-			return &LintResult{Status: Error}
-		}
-	default:
-		//Could see an argument for this being Pass
-		return &LintResult{Status: Pass}
+	if c.SignatureAlgorithm == x509.SHA1WithRSA || c.SignatureAlgorithm == x509.DSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA1 {
+		return &LintResult{Status: Error}
 	}
+	return &LintResult{Status: Pass}
 }
 
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_sub_cert_or_sub_ca_using_sha1",
 		Description:   "CAs MUST NOT issue any new Subscriber certificates or Subordinate CA certificates using SHA-1 after 1 January 2016",
-		Source:        "BRs: 7.1.3",
-		EffectiveDate: util.CABEffectiveDate,
+		Citation:      "BRs: 7.1.3",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.NO_SHA1,
 		Lint:          &sigAlgTestsSHA1{},
 	})
 }

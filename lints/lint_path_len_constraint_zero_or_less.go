@@ -56,7 +56,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_path_len_constraint_zero_or_less",
 		Description:   "Where it appears, the pathLenConstraint field MUST be greater than or equal to zero",
-		Source:        "RFC 5280: 4.2.1.9",
+		Citation:      "RFC 5280: 4.2.1.9",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &pathLenNonPositive{},
 	})

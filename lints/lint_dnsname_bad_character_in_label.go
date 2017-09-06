@@ -53,7 +53,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_bad_character_in_label",
 		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
-		Source:        "RFC 5280",
+		Citation:      "RFC 5280",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameProperCharacters{},
 	})

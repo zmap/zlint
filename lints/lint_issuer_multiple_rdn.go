@@ -36,7 +36,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_multiple_issuer_rdn",
 		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
-		Source:        "awslabs certlint",
+		Citation:      "awslabs certlint",
+		Source:        AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &IssuerRDNHasMultipleAttribute{},
 	})

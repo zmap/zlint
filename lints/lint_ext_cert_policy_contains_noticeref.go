@@ -45,7 +45,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_ext_cert_policy_contains_noticeref",
 		Description:   "Compliant certificates SHOULD NOT use the noticeRef option",
-		Source:        "RFC 5280: 4.2.1.4",
+		Citation:      "RFC 5280: 4.2.1.4",
+		Source:        RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &noticeRefPres{},
 	})
