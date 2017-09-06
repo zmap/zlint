@@ -17,7 +17,7 @@ func (l *DNSNameRedacted) CheckApplies(c *x509.Certificate) bool {
 }
 
 func isRedactedCertificate(domain string) bool {
-	domain = util.RemoveWildcardFromDomain(domain)
+	domain = util.RemovePrependedWildcard(domain)
 	return strings.HasPrefix(domain, "?.")
 }
 
