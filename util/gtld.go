@@ -11,8 +11,12 @@ import (
 func HasValidTLD(domain string) bool {
 	labels := strings.Split(domain, ".")
 	rightLabel := labels[len(labels)-1]
-	rightLabel = strings.ToUpper(rightLabel)
-	if _, ok := tldMap[rightLabel]; ok {
+	return IsInTLDMap(rightLabel)
+}
+
+func IsInTLDMap(fqdn string) bool {
+	fqdn = strings.ToUpper(fqdn)
+	if _, ok := tldMap[fqdn]; ok {
 		return true
 	} else {
 		return false
