@@ -55,8 +55,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "w_dnsname_underscore_in_trd",
 		Description:   "DNSName should not have an underscore in labels left of the ETLD+1",
-		Citation:      "RFC 5280",
-		Source:        RFC5280,
+		Citation:      "BRs: 7.1.4.2",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInTRD{},
 	})
