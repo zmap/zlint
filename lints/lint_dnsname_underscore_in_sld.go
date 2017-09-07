@@ -3,7 +3,6 @@ package lints
 import (
 	"strings"
 
-	"github.com/weppos/publicsuffix-go/publicsuffix"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -19,7 +18,7 @@ func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
 }
 
 func underscoreInSLD(domain string) (bool, error) {
-	domainName, err := publicsuffix.Parse(domain)
+	domainName, err := util.ICANNPublicSuffixParse(domain)
 	if err != nil {
 		return true, err
 	}
@@ -34,7 +33,7 @@ func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
 		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
 		if err != nil {
-			return &LintResult{Status: Fatal}
+			return &LintResult{Status: NA}
 		}
 		if underscoreFound {
 			return &LintResult{Status: Error}
@@ -43,7 +42,7 @@ func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *LintResult {
 	for _, dns := range c.DNSNames {
 		underscoreFound, err := underscoreInSLD(dns)
 		if err != nil {
-			return &LintResult{Status: Fatal}
+			return &LintResult{Status: NA}
 		}
 		if underscoreFound {
 			return &LintResult{Status: Error}
@@ -56,8 +55,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_underscore_in_sld",
 		Description:   "DNSName should not have underscore in SLD",
-		Citation:      "RFC 5280",
-		Source:        RFC5280,
+		Citation:      "BRs: 7.1.4.2",
+		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInSLD{},
 	})
