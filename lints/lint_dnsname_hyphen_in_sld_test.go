@@ -28,3 +28,12 @@ func TestDNSNameNoHyphenInSLD(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestDNSNamePrivatePublicSuffixNoHyphenInSLD(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsNamePrivatePublicSuffix.pem"
+	expected := Pass
+	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
