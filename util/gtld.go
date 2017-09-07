@@ -14,9 +14,9 @@ func HasValidTLD(domain string) bool {
 	return IsInTLDMap(rightLabel)
 }
 
-func IsInTLDMap(fqdn string) bool {
-	fqdn = strings.ToUpper(fqdn)
-	if _, ok := tldMap[fqdn]; ok {
+func IsInTLDMap(label string) bool {
+	label = strings.ToUpper(label)
+	if _, ok := tldMap[label]; ok {
 		return true
 	} else {
 		return false
