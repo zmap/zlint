@@ -43,7 +43,7 @@ func init() {
 		Description:   "CA Certificates common name MUST be included.",
 		Citation:      "BRs: 7.1.4.3.1",
 		Source:        CABFBaselineRequirements,
-		EffectiveDate: util.RFC2459Date,
+		EffectiveDate: util.CABV148Date,
 		Lint:          &caCommonNameMissing{},
 	})
 }

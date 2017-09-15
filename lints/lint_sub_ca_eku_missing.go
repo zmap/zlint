@@ -19,14 +19,14 @@ func (l *subCAEKUMissing) Execute(c *x509.Certificate) *LintResult {
 	if util.IsExtInCert(c, util.EkuSynOid) {
 		return &LintResult{Status: Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &LintResult{Status: Notice}
 	}
 }
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_ca_eku_missing",
-		Description:   "Subordinate CA certificate MUST have extkeyUsage extension",
+		Name:          "n_sub_ca_eku_missing",
+		Description:   "To be considered Technically Constrained, the Subordinate CA certificate MUST have extkeyUsage extension",
 		Citation:      "BRs: 7.1.5",
 		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
