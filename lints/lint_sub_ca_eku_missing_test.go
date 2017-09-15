@@ -7,8 +7,8 @@ import (
 
 func TestSubCaEkuMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAEKUMissing.pem"
-	expected := Error
-	out := Lints["e_sub_ca_eku_missing"].Execute(ReadCertificate(inputPath))
+	expected := Notice
+	out := Lints["n_sub_ca_eku_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -17,7 +17,7 @@ func TestSubCaEkuMissing(t *testing.T) {
 func TestSubCaEkuNotMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWEkuCrit.pem"
 	expected := Pass
-	out := Lints["e_sub_ca_eku_missing"].Execute(ReadCertificate(inputPath))
+	out := Lints["n_sub_ca_eku_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
