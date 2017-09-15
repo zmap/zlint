@@ -45,9 +45,9 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_wildcard_only_in_left_label",
 		Description:   "DNSName should not have wildcards except in the left-most label",
-		Citation:      "RFC 5280",
-		Source:        RFC5280,
-		EffectiveDate: util.RFC5280Date,
+		Citation:      "BRs: 7.1.4.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameWildcardOnlyInLeftlabel{},
 	})
 }

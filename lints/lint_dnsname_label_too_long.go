@@ -47,8 +47,8 @@ func init() {
 		Name:          "e_dnsname_label_too_long",
 		Description:   "DNSName labels MUST be less than or equal to 63 characters",
 		Citation:      "RFC 1035",
-		Source:        RFC5280,
-		EffectiveDate: util.RFC1035Date,
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameLabelLengthTooLong{},
 	})
 }
