@@ -43,9 +43,9 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_dnsname_left_label_wildcard_correct",
 		Description:   "Wildcards in the left label of DNSName should only be *",
-		Citation:      "RFC 5280",
-		Source:        RFC5280,
-		EffectiveDate: util.RFC5280Date,
+		Citation:      "BRs: 7.1.4.2",
+		Source:        CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameLeftLabelWildcardCheck{},
 	})
 }
