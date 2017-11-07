@@ -6,9 +6,10 @@ package lints
 import (
 	"encoding/pem"
 	"fmt"
-	"github.com/zmap/zcrypto/x509"
 	"io/ioutil"
 	"strings"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 func ReadCertificate(inPath string) *x509.Certificate {

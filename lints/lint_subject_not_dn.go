@@ -11,10 +11,11 @@
 package lints
 
 import (
+	"reflect"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/util"
-	"reflect"
 )
 
 type subjectDN struct{}
