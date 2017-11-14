@@ -20,7 +20,7 @@ func (l *pubSuffix) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *pubSuffix) Execute(c *x509.Certificate) *LintResult {
-	var parsedSANDNSNames = c.GetParsedDNSNames(false)
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			if strings.HasSuffix(parsedSANDNSNames[i].ParseError.Error(), "is a suffix") {

@@ -17,7 +17,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 
 func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		var domainInfo = c.GetParsedSubjectCommonName(false)
+		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}
 		}
@@ -27,7 +27,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *LintRe
 		}
 	}
 
-	var parsedSANDNSNames = c.GetParsedDNSNames(false)
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			return &LintResult{Status: NA}

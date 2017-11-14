@@ -8,9 +8,10 @@ import (
 	"github.com/zmap/zlint/lints"
 )
 
-var globalLintResult *ResultSet
-var globalSingleLintResult *lints.LintResult
-var globalLintResultList = []*lints.LintResult{}
+var (
+	globalLintResult       *ResultSet
+	globalSingleLintResult *lints.LintResult
+)
 
 const bigCertificatePem = `-----BEGIN CERTIFICATE-----
 MIILajCCClKgAwIBAgIMOp/m5bdkZ2+oPevRMA0GCSqGSIb3DQEBCwUAMGIxCzAJ
@@ -78,8 +79,8 @@ psw2SW2R/SwSnkgvaLM/o0tw77aapxlaAs29Y4SE/RvRR2CJ0V/gvq9GUorY4OF2
 `
 
 func BenchmarkZlint(b *testing.B) {
-	var certDerBlock, _ = pem.Decode([]byte(bigCertificatePem))
-	var x509Cert, err = x509.ParseCertificate(certDerBlock.Bytes)
+	certDerBlock, _ := pem.Decode([]byte(bigCertificatePem))
+	x509Cert, err := x509.ParseCertificate(certDerBlock.Bytes)
 	if err != nil {
 		b.Fatalf("Error parsing certificate: %s", err.Error())
 	}

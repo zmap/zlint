@@ -19,7 +19,7 @@ func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
 
 func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		var domainInfo = c.GetParsedSubjectCommonName(false)
+		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}
 		}
@@ -27,7 +27,7 @@ func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *LintResult {
 			return &LintResult{Status: Error}
 		}
 	}
-	var parsedSANDNSNames = c.GetParsedDNSNames(false)
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			return &LintResult{Status: NA}
