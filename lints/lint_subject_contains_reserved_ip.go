@@ -11,9 +11,10 @@ Address or Internal Name.
 package lints
 
 import (
+	"net"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"net"
 )
 
 type subjectReservedIP struct{}

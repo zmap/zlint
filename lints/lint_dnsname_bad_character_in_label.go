@@ -1,10 +1,10 @@
 package lints
 
 import (
+	"regexp"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"regexp"
-	"strings"
 )
 
 type DNSNameProperCharacters struct {
@@ -12,39 +12,25 @@ type DNSNameProperCharacters struct {
 }
 
 func (l *DNSNameProperCharacters) Initialize() error {
-	const dnsLabelRegex = "^[A-Za-z0-9*_-]+$"
-	l.CompiledExpression = regexp.MustCompile(dnsLabelRegex)
-	return nil
+	const dnsNameRegexp = `^(\*\.)?(\?\.)*(A-Za-z0-9*_-]+\.)*[A-Za-z0-9*_-]*$`
+	var err error
+	l.CompiledExpression, err = regexp.Compile(dnsNameRegexp)
+
+	return err
 }
 
 func (l *DNSNameProperCharacters) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameProperCharacters) labelContainsBadCharacters(domain string) bool {
-	labels := strings.Split(domain, ".")
-	for _, label := range labels {
-		if !l.CompiledExpression.MatchString(label) {
-			return true
-		}
-	}
-	return false
-}
-
 func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		commonNameWithoutWildcard := util.RemovePrependedWildcard(c.Subject.CommonName)
-		commonNameWithoutQuestionMarks := util.RemovePrependedQuestionMarks(commonNameWithoutWildcard)
-		badCharacterFound := l.labelContainsBadCharacters(commonNameWithoutQuestionMarks)
-		if badCharacterFound {
+		if !l.CompiledExpression.MatchString(c.Subject.CommonName) {
 			return &LintResult{Status: Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
-		domainWithoutWildcard := util.RemovePrependedWildcard(dns)
-		domainWithoutQuestionMarks := util.RemovePrependedQuestionMarks(domainWithoutWildcard)
-		badCharacterFound := l.labelContainsBadCharacters(domainWithoutQuestionMarks)
-		if badCharacterFound {
+		if !l.CompiledExpression.MatchString(dns) {
 			return &LintResult{Status: Error}
 		}
 	}

@@ -5,6 +5,7 @@ package lints
 
 import (
 	"crypto/rsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )

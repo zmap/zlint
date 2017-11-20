@@ -15,33 +15,25 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func wildcardLeftOfPublicSuffix(domain string) (bool, error) {
-	parsedDomain, err := util.ICANNPublicSuffixParse(domain)
-	if err != nil {
-		return true, err
-	}
-	if parsedDomain.SLD == "*" {
-		return true, nil
-	}
-	return false, nil
-}
-
 func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		wildcardFound, err := wildcardLeftOfPublicSuffix(c.Subject.CommonName)
-		if err != nil {
+		domainInfo := c.GetParsedSubjectCommonName(false)
+		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}
 		}
-		if wildcardFound {
+
+		if domainInfo.ParsedDomain.SLD == "*" {
 			return &LintResult{Status: Warn}
 		}
 	}
-	for _, dns := range c.DNSNames {
-		wildcardFound, err := wildcardLeftOfPublicSuffix(dns)
-		if err != nil {
+
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
+	for i := range c.GetParsedDNSNames(false) {
+		if parsedSANDNSNames[i].ParseError != nil {
 			return &LintResult{Status: NA}
 		}
-		if wildcardFound {
+
+		if parsedSANDNSNames[i].ParsedDomain.SLD == "*" {
 			return &LintResult{Status: Warn}
 		}
 	}

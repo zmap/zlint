@@ -9,6 +9,7 @@ package lints
 
 import (
 	"crypto/ecdsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )

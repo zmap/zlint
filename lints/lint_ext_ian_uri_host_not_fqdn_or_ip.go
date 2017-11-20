@@ -14,9 +14,10 @@ Section 7.4.
 package lints
 
 import (
+	"net/url"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"net/url"
 )
 
 type IANURIFQDNOrIP struct{}

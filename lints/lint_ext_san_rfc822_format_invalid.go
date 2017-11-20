@@ -14,9 +14,10 @@ RFC 5280: 4.2.1.6
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type invalidEmail struct{}

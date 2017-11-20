@@ -7,9 +7,10 @@ scheme (e.g., "http" or "ftp") and a scheme-specific-part.
 package lints
 
 import (
+	"net/url"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"net/url"
 )
 
 type extSANURIFormatInvalid struct{}
