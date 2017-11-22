@@ -12,7 +12,7 @@ type DNSNameProperCharacters struct {
 }
 
 func (l *DNSNameProperCharacters) Initialize() error {
-	const dnsNameRegexp = `^(\*\.)?(\?\.)*(A-Za-z0-9*_-]+\.)*[A-Za-z0-9*_-]*$`
+	const dnsNameRegexp = `^(\*\.)?(\?\.)*([A-Za-z0-9*_-]+\.)*[A-Za-z0-9*_-]*$`
 	var err error
 	l.CompiledExpression, err = regexp.Compile(dnsNameRegexp)
 
