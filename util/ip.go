@@ -4,78 +4,99 @@
 package util
 
 import (
-	"bytes"
+	"fmt"
 	"net"
 )
 
-type IPRange struct {
-	lower net.IP
-	upper net.IP
-}
+type subnetCategory int
 
-var ReservedRanges4 = []IPRange{
-	{net.ParseIP("0.0.0.0"), net.ParseIP("0.255.255.255")},
-	{net.ParseIP("10.0.0.0"), net.ParseIP("10.255.255.255")},
-	{net.ParseIP("100.64.0.0"), net.ParseIP("10.127.255.255")},
-	{net.ParseIP("127.0.0.0"), net.ParseIP("127.255.255.255")},
-	{net.ParseIP("169.254.0.0"), net.ParseIP("169.254.255.255")},
-	{net.ParseIP("172.16.0.0"), net.ParseIP("172.31.255.255")},
-	{net.ParseIP("192.0.0.0"), net.ParseIP("192.0.0.255")},
-	{net.ParseIP("192.0.2.0"), net.ParseIP("192.0.2.255")},
-	{net.ParseIP("192.88.99.0"), net.ParseIP("192.88.99.255")},
-	{net.ParseIP("192.168.0.0"), net.ParseIP("192.168.255.255")},
-	{net.ParseIP("198.18.0.0"), net.ParseIP("198.19.255.255")},
-	{net.ParseIP("198.51.100.0"), net.ParseIP("198.51.100.255")},
-	{net.ParseIP("203.0.113.0"), net.ParseIP("203.0.113.255")},
-	{net.ParseIP("224.0.0.0"), net.ParseIP("239.255.255.255")},
-	{net.ParseIP("240.0.0.0"), net.ParseIP("255.255.255.255")},
-}
+const (
+	privateUse subnetCategory = iota
+	sharedAddressSpace
+	benchmarking
+	documentation
+	reserved
+	protocolAssignment
+	as112
+	amt
+	orchidV2
+	lisp
+	thisHostOnThisNetwork
+	translatableAddress6to4
+	translatableAddress4to6
+	dummyAddress
+	portControlProtocolAnycast
+	traversalUsingRelaysAroundNATAnycast
+	nat64DNS64Discovery
+	limitedBroadcast
+	discardOnly
+	teredo
+	uniqueLocal
+	linkLocalUnicast
+	ianaReservedForFutureUse
+	ianaReservedMulticast
+)
 
-var ReservedRanges6 = []IPRange{
-	{net.ParseIP("::"), net.ParseIP("::")},
-	{net.ParseIP("::1"), net.ParseIP("::1")},
-	{net.ParseIP("::ffff:0.0.0.0"), net.ParseIP("::ffff:255.255.255.255")},
-	{net.ParseIP("100::"), net.ParseIP("100::ffff:ffff:ffff:ffff")},
-	{net.ParseIP("64:ff9b::0.0.0.0"), net.ParseIP("64:ff9b::255.255.255.255")},
-	{net.ParseIP("2001::"), net.ParseIP("2001::ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("2001:10::"), net.ParseIP("2001:1f:ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("2001:20::"), net.ParseIP("2001:2f:ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("2001:db8::"), net.ParseIP("2001:db8:ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("2002::"), net.ParseIP("2002:ffff:ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("fc00::"), net.ParseIP("fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("fe80::"), net.ParseIP("febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff")},
-	{net.ParseIP("ff00::"), net.ParseIP("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff")},
-}
+var reservedNetworks []*net.IPNet
 
-func isInRange(ip net.IP, ipRange IPRange) bool {
-	if bytes.Compare(ip, ipRange.lower) >= 0 && bytes.Compare(ip, ipRange.upper) <= 0 {
+// IsIANAReserved checks IP validity as per IANA reserved IPs
+//      IPv4
+//      https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
+//      https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xml
+//      IPv6
+//      https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml
+//      https://www.iana.org/assignments/ipv6-address-space/ipv6-address-space.xhtml
+func IsIANAReserved(ip net.IP) bool {
+	if !ip.IsGlobalUnicast() {
 		return true
-	} else {
-		return false
 	}
-}
 
-func IsReservedIP(ip net.IP) bool {
-	if ip.To4() != nil {
-		// This is to deal with the case where ip is shrunk because it is IPv4
-		if len(ip) == 4 {
-			ip = []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, ip[0], ip[1], ip[2], ip[3]}
-		}
-		for _, theRange := range ReservedRanges4 {
-			if isInRange(ip, theRange) {
-				return true
-			}
-		}
-	} else if ip.To16() != nil {
-		for _, theRange := range ReservedRanges6 {
-			if isInRange(ip, theRange) {
-				return true
-			}
+	for _, network := range reservedNetworks {
+		if network.Contains(ip) {
+			return true
 		}
 	}
+
 	return false
 }
 
-func ValidIP(ip net.IP) bool {
-	return !ip.Equal(net.IPv4zero)
+func init() {
+	var networks = map[subnetCategory][]string{
+		privateUse:         {"10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"},
+		sharedAddressSpace: {"100.64.0.0/10"},
+		benchmarking:       {"198.18.0.0/15", "2001:2::/48"},
+		documentation:      {"192.0.2.0/24", "198.51.100.0/24", "203.0.113.0/24", "2001:db8::/32"},
+		reserved:           {"240.0.0.0/4", "0400::/6", "0800::/5", "1000::/4", "4000::/3", "6000::/3", "8000::/3", "a000::/3", "c000::/3", "e000::/4", "f000::/5", "f800::/6", "fe00::/9"}, // https://www.iana.org/assignments/ipv6-address-space/ipv6-address-space.xhtml
+		protocolAssignment: {"192.0.0.0/24", "2001::/23"},                                                                                                                                   // 192.0.0.0/24 contains 192.0.0.0/29 - IPv4 Service Continuity Prefix
+		as112:              {"192.31.196.0/24", "192.175.48.0/24", "2001:4:112::/48", "2620:4f:8000::/48"},
+		amt:                {"192.52.193.0/24", "2001:3::/32"},
+		orchidV2:           {"2001:20::/28"},
+		lisp:               {"2001:5::/32"}, // TODO: this could expire at 2019-09. Please check  https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml for updates
+		thisHostOnThisNetwork:                {"0.0.0.0/8"},
+		translatableAddress4to6:              {"2002::/16"},
+		translatableAddress6to4:              {"64:ff9b::/96", "64:ff9b:1::/48"},
+		dummyAddress:                         {"192.0.0.8/32"},
+		portControlProtocolAnycast:           {"192.0.0.9/32", "2001:1::1/128"},
+		traversalUsingRelaysAroundNATAnycast: {"192.0.0.10/32", "2001:1::2/128"},
+		nat64DNS64Discovery:                  {"192.0.0.170/32", "192.0.0.171/32"},
+		limitedBroadcast:                     {"255.255.255.255/32"},
+		discardOnly:                          {"100::/64"},
+		teredo:                               {"2001::/32"},
+		uniqueLocal:                          {"fc00::/7"},
+		linkLocalUnicast:                     {"fe80::/10", "169.254.0.0/16"}, // this range is covered by 	ip.IsLinkLocalUnicast(), which is in turn called by  net.IP.IsGlobalUnicast(ip)
+		ianaReservedForFutureUse:             {"255.0.0.0/8", "254.0.0.0/8", "253.0.0.0/8", "252.0.0.0/8", "251.0.0.0/8", "250.0.0.0/8", "249.0.0.0/8", "248.0.0.0/8", "247.0.0.0/8", "246.0.0.0/8", "245.0.0.0/8", "244.0.0.0/8", "243.0.0.0/8", "242.0.0.0/8", "241.0.0.0/8", "240.0.0.0/8"},
+		ianaReservedMulticast:                {"239.0.0.0/8", "238.0.0.0/8", "237.0.0.0/8", "236.0.0.0/8", "235.0.0.0/8", "234.0.0.0/8", "233.0.0.0/8", "232.0.0.0/8", "231.0.0.0/8", "230.0.0.0/8", "229.0.0.0/8", "228.0.0.0/8", "227.0.0.0/8", "226.0.0.0/8", "225.0.0.0/8", "224.0.0.0/8", "ff00::/8"}, // this range is covered by ip.IsMulticast() call, which is in turn called by  net.IP.IsGlobalUnicast(ip)
+	}
+
+	for _, netList := range networks {
+		for _, network := range netList {
+			var ipNet *net.IPNet
+			var err error
+
+			if _, ipNet, err = net.ParseCIDR(network); err != nil {
+				panic(fmt.Sprintf("unexpected internal network value provided: %s", err.Error()))
+			}
+			reservedNetworks = append(reservedNetworks, ipNet)
+		}
+	}
 }
