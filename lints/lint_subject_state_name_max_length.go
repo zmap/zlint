@@ -9,9 +9,10 @@ RFC 5280: A.1
 package lints
 
 import (
+	"unicode/utf8"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"unicode/utf8"
 )
 
 type subjectStateNameMaxLength struct{}

@@ -8,9 +8,10 @@ package lints
 
 import (
 	"crypto/rsa"
+	"math/big"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"math/big"
 )
 
 type rsaParsedTestsKeyModOdd struct{}

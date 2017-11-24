@@ -8,6 +8,7 @@ package lints
 
 import (
 	"crypto/rsa"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -29,6 +30,7 @@ func (l *rsaModSmallFactor) Execute(c *x509.Certificate) *LintResult {
 		return &LintResult{Status: Pass}
 	}
 	return &LintResult{Status: Warn}
+
 }
 
 func init() {

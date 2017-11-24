@@ -3,9 +3,10 @@
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type pubSuffix struct{}
@@ -19,10 +20,10 @@ func (l *pubSuffix) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *pubSuffix) Execute(c *x509.Certificate) *LintResult {
-	for _, dns := range c.DNSNames {
-		_, err := util.ICANNPublicSuffixParse(dns)
-		if err != nil {
-			if strings.HasSuffix(err.Error(), "is a suffix") {
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
+	for i := range c.GetParsedDNSNames(false) {
+		if parsedSANDNSNames[i].ParseError != nil {
+			if strings.HasSuffix(parsedSANDNSNames[i].ParseError.Error(), "is a suffix") {
 				return &LintResult{Status: Warn}
 			} else {
 				return &LintResult{Status: NA}

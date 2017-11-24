@@ -9,9 +9,10 @@ CAs and Subscribers using such certificates do so at their own risk.
 package lints
 
 import (
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"time"
 )
 
 type sha1ExpireLong struct{}

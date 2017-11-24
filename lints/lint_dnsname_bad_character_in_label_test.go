@@ -21,3 +21,12 @@ func TestClientDNSCertificate(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestClientValidCertificate(t *testing.T) {
+	inputPath := "../testlint/testCerts/validComodo.pem"
+	expected := Pass
+	out := Lints["e_dnsname_bad_character_in_label"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}

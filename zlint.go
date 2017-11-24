@@ -1,4 +1,4 @@
-/* z.go
+/* zlint.go
  * Used to check parsed info from certificate for compliance
  */
 

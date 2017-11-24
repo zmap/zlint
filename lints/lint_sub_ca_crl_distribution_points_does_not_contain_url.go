@@ -8,9 +8,10 @@ It MUST contain the HTTP URL of the CA’s CRL service.
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type subCACRLDistNoUrl struct{}

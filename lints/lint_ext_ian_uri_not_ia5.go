@@ -7,9 +7,10 @@ stored in the uniformResourceIdentifier (an IA5String).
 package lints
 
 import (
+	"unicode"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"unicode"
 )
 
 type IANURIIA5String struct{}

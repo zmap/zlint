@@ -11,9 +11,10 @@ package lints
 
 import (
 	"encoding/asn1"
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"time"
 )
 
 type generalizedPre2050 struct{}
