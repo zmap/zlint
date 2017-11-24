@@ -11,9 +11,10 @@ Address or Internal Name.
 package lints
 
 import (
+	"net"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"net"
 )
 
 type subjectReservedIP struct{}
@@ -27,15 +28,10 @@ func (l *subjectReservedIP) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectReservedIP) Execute(c *x509.Certificate) *LintResult {
-	if ip := net.ParseIP(c.Subject.CommonName); ip != nil {
-		if !util.IsReservedIP(ip) {
-			return &LintResult{Status: Pass}
-		} else {
-			return &LintResult{Status: Error}
-		}
-	} else {
-		return &LintResult{Status: Pass}
+	if ip := net.ParseIP(c.Subject.CommonName); ip != nil && util.IsIANAReserved.(ip) {
+		return &LintResult{Status: Error}
 	}
+	return &LintResult{Status: Pass}
 }
 
 func init() {
