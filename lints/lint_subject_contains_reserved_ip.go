@@ -28,7 +28,7 @@ func (l *subjectReservedIP) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectReservedIP) Execute(c *x509.Certificate) *LintResult {
-	if ip := net.ParseIP(c.Subject.CommonName); ip != nil && util.IsIANAReserved.(ip) {
+	if ip := net.ParseIP(c.Subject.CommonName); ip != nil && util.IsIANAReserved(ip) {
 		return &LintResult{Status: Error}
 	}
 	return &LintResult{Status: Pass}
