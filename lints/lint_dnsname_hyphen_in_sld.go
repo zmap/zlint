@@ -17,34 +17,23 @@ func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func hyphenAtStartOrEndOfSLD(domain string) (bool, error) {
-	domainName, err := util.ICANNPublicSuffixParse(domain)
-	if err != nil {
-		return true, err
-	}
-	if strings.HasPrefix(domainName.SLD, "-") || strings.HasSuffix(domainName.SLD, "-") {
-		return true, nil
-	} else {
-		return false, nil
-	}
-}
-
 func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		hyphenFound, err := hyphenAtStartOrEndOfSLD(c.Subject.CommonName)
-		if err != nil {
+		domainInfo := c.GetParsedSubjectCommonName(false)
+		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}
 		}
-		if hyphenFound {
+		if strings.HasPrefix(domainInfo.ParsedDomain.SLD, "-") || strings.HasSuffix(domainInfo.ParsedDomain.SLD, "-") {
 			return &LintResult{Status: Error}
 		}
 	}
-	for _, dns := range c.DNSNames {
-		hyphenFound, err := hyphenAtStartOrEndOfSLD(dns)
-		if err != nil {
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
+	for i := range c.GetParsedDNSNames(false) {
+		if parsedSANDNSNames[i].ParseError != nil {
 			return &LintResult{Status: NA}
 		}
-		if hyphenFound {
+		if strings.HasPrefix(parsedSANDNSNames[i].ParsedDomain.SLD, "-") ||
+			strings.HasSuffix(parsedSANDNSNames[i].ParsedDomain.SLD, "-") {
 			return &LintResult{Status: Error}
 		}
 	}

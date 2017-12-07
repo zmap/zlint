@@ -17,34 +17,23 @@ func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func underscoreInSLD(domain string) (bool, error) {
-	domainName, err := util.ICANNPublicSuffixParse(domain)
-	if err != nil {
-		return true, err
-	}
-	if strings.Contains(domainName.SLD, "_") {
-		return true, nil
-	} else {
-		return false, nil
-	}
-}
-
 func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *LintResult {
 	if c.Subject.CommonName != "" {
-		underscoreFound, err := underscoreInSLD(c.Subject.CommonName)
-		if err != nil {
+		domainInfo := c.GetParsedSubjectCommonName(false)
+		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}
 		}
-		if underscoreFound {
+		if strings.Contains(domainInfo.ParsedDomain.SLD, "_") {
 			return &LintResult{Status: Error}
 		}
 	}
-	for _, dns := range c.DNSNames {
-		underscoreFound, err := underscoreInSLD(dns)
-		if err != nil {
+
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
+	for i := range c.GetParsedDNSNames(false) {
+		if parsedSANDNSNames[i].ParseError != nil {
 			return &LintResult{Status: NA}
 		}
-		if underscoreFound {
+		if strings.Contains(parsedSANDNSNames[i].ParsedDomain.SLD, "_") {
 			return &LintResult{Status: Error}
 		}
 	}

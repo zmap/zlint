@@ -27,7 +27,7 @@ func (l *SANReservedIP) CheckApplies(c *x509.Certificate) bool {
 
 func (l *SANReservedIP) Execute(c *x509.Certificate) *LintResult {
 	for _, ip := range c.IPAddresses {
-		if util.ValidIP(ip) && util.IsReservedIP(ip) {
+		if util.IsIANAReserved(ip) {
 			return &LintResult{Status: Error}
 		}
 	}

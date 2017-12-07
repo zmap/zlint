@@ -10,9 +10,10 @@ be used.
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type illegalChar struct{}
