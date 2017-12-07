@@ -14,6 +14,8 @@ If the subjectAltName extension is present, the sequence MUST contain
 package lints
 
 import (
+	"bytes"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -30,7 +32,7 @@ func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
 
 func (l *SANNoEntry) Execute(c *x509.Certificate) *LintResult {
 	san := util.GetExtFromCert(c, util.SubjectAlternateNameOID)
-	if (san.Value)[1] == 0 {
+	if len(san.Value) < 2 || bytes.Equal(san.Value, []byte{0x30, 0x0}) { // if san is an empty octet string (len == 0 ) or an empty sequence ( 0x30 0x00 ) return error
 		return &LintResult{Status: Error}
 	} else {
 		return &LintResult{Status: Pass}
