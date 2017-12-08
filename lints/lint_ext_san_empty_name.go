@@ -34,7 +34,7 @@ func (l *SANEmptyName) Execute(c *x509.Certificate) *LintResult {
 	value := util.GetExtFromCert(c, util.SubjectAlternateNameOID).Value
 	var seq asn1.RawValue
 	if _, err := asn1.Unmarshal(value, &seq); err != nil {
-		return &LintResult{Status: NA}
+		return &LintResult{Status: Fatal}
 	}
 	if !seq.IsCompound || seq.Tag != 16 || seq.Class != 0 {
 		return &LintResult{Status: Fatal}

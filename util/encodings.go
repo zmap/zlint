@@ -1,6 +1,7 @@
 package util
 
 import (
+	"bytes"
 	"encoding/asn1"
 	"regexp"
 	"strings"
@@ -89,4 +90,14 @@ func AllAlternateNameWithTagAreIA5(ext *pkix.Extension, tag int) (bool, error) {
 	}
 
 	return true, nil
+}
+
+// IsEmptyASN1Sequence returns true if
+// *input is an empty sequence (0x30, 0x00) or
+// *len(inout) < 2
+// This check covers more cases than just empty sequence checks but it makes sense from the usage perspective
+var emptyASN1Sequence = []byte{0x30, 0x00}
+
+func IsEmptyASN1Sequence(input []byte) bool {
+	return len(input) < 2 || bytes.Equal(input, emptyASN1Sequence)
 }

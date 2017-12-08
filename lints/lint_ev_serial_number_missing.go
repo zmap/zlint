@@ -18,7 +18,7 @@ func (l *evSNMissing) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *evSNMissing) Execute(c *x509.Certificate) *LintResult {
-	if c.SerialNumber.BitLen() == 0 {
+	if len(c.Subject.SerialNumber) == 0 {
 		return &LintResult{Status: Error}
 	}
 	return &LintResult{Status: Pass}
@@ -28,7 +28,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_serial_number_missing",
 		Description:   "EV certificates must include serialNumber in subject",
-		Citation:      "BRs: 7.1.6.1",
+		Citation:      "EV gudelines: 9.2.6",
 		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evSNMissing{},
