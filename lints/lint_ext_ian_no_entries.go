@@ -14,8 +14,6 @@ If the issuerAltName extension is present, the sequence MUST contain
 package lints
 
 import (
-	"bytes"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -32,7 +30,7 @@ func (l *IANNoEntry) CheckApplies(c *x509.Certificate) bool {
 
 func (l *IANNoEntry) Execute(c *x509.Certificate) *LintResult {
 	ian := util.GetExtFromCert(c, util.IssuerAlternateNameOID)
-	if len(ian.Value) < 2 || bytes.Equal(ian.Value, []byte{0x30, 0x00}) { // if ian is an empty octet string (len == 0 ) or an empty sequence ( 0x30 0x00 ) return error
+	if util.IsEmptyASN1Sequence() {
 		return &LintResult{Status: Error}
 	} else {
 		return &LintResult{Status: Pass}
