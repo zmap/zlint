@@ -30,7 +30,7 @@ func (l *SANNoEntry) CheckApplies(c *x509.Certificate) bool {
 
 func (l *SANNoEntry) Execute(c *x509.Certificate) *LintResult {
 	san := util.GetExtFromCert(c, util.SubjectAlternateNameOID)
-	if util.IsEmptyASN1Sequence() {
+	if util.IsEmptyASN1Sequence(san.Value) {
 		return &LintResult{Status: Error}
 	} else {
 		return &LintResult{Status: Pass}
