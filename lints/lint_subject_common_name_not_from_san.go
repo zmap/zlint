@@ -33,7 +33,7 @@ func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
 		if cnLowerCase == dn {
 			if cnLowerCase != cn {
 				return &LintResult{
-					Status:  Pass,
+					Status:  Notice,
 					Details: "CommonName is capitalised and hence not byte for byte equivalent to the DNS name SAN"}
 			}
 			return &LintResult{Status: Pass}
