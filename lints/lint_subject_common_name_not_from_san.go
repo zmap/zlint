@@ -26,22 +26,16 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
-	cn := c.Subject.CommonName
-	cnLowerCase := strings.ToLower(cn)
+	cnLowerCase := strings.ToLower(c.Subject.CommonName)
 
 	for _, dn := range c.DNSNames {
 		if cnLowerCase == dn {
-			if cnLowerCase != cn {
-				return &LintResult{
-					Status:  Notice,
-					Details: "CommonName is capitalised and hence not byte for byte equivalent to the DNS name SAN"}
-			}
 			return &LintResult{Status: Pass}
 		}
 	}
 
 	for _, ip := range c.IPAddresses {
-		if cn == ip.String() {
+		if cnLowerCase == ip.String() {
 			return &LintResult{Status: Pass}
 		}
 	}

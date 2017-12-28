@@ -25,7 +25,7 @@ func TestCnFromSAN(t *testing.T) {
 
 func TestCnFromSANCapitalised(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectDNCommonNameCapitalised.pem"
-	expected := Notice
+	expected := Pass
 	out := Lints["e_subject_common_name_not_from_san"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
