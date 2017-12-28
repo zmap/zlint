@@ -28,7 +28,7 @@ func domainHasEmptyLabel(domain string) bool {
 }
 
 func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *LintResult {
-	if c.Subject.CommonName != "" {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		if domainHasEmptyLabel(c.Subject.CommonName) {
 			return &LintResult{Status: Error}
 		}

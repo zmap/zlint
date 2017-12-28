@@ -16,7 +16,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 }
 
 func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *LintResult {
-	if c.Subject.CommonName != "" {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}

@@ -16,7 +16,7 @@ func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *LintResult {
-	if c.Subject.CommonName != "" {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		if !util.HasValidTLD(c.Subject.CommonName) {
 			return &LintResult{Status: Error}
 		}
