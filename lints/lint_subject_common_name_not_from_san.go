@@ -26,16 +26,14 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
-	cnLowerCase := strings.ToLower(c.Subject.CommonName)
-
 	for _, dn := range c.DNSNames {
-		if cnLowerCase == dn {
+		if strings.EqualFold(c.Subject.CommonName, dn) {
 			return &LintResult{Status: Pass}
 		}
 	}
 
 	for _, ip := range c.IPAddresses {
-		if cnLowerCase == ip.String() {
+		if c.Subject.CommonName == ip.String() {
 			return &LintResult{Status: Pass}
 		}
 	}
