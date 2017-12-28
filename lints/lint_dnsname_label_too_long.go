@@ -28,7 +28,7 @@ func labelLengthTooLong(domain string) bool {
 }
 
 func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) *LintResult {
-	if c.Subject.CommonName != "" {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		labelTooLong := labelLengthTooLong(c.Subject.CommonName)
 		if labelTooLong {
 			return &LintResult{Status: Error}

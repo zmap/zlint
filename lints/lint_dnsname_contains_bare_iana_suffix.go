@@ -30,7 +30,7 @@ func (l *dnsNameContainsBareIANASuffix) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *dnsNameContainsBareIANASuffix) Execute(c *x509.Certificate) *LintResult {
-	if c.Subject.CommonName != "" {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		if util.IsInTLDMap(c.Subject.CommonName) {
 			return &LintResult{Status: Error}
 		}
