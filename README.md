@@ -117,6 +117,8 @@ success and failure condition. We have typically generated test certificates
 using Go (see https://golang.org/pkg/crypto/x509/#CreateCertificate for
 details), but OpenSSL could also be used. Test certificates should be placed in
 `testlint/testCerts` and called from the test file created by `newLint.sh`.
+Prepend the PEM with the output of `openssl x509 -text`.
+
 Example:
 
 ```go
