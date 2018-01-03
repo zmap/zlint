@@ -21,3 +21,12 @@ func TestDNSNameNotValidTLD(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestDNSNameWithIPInCommonName(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsNameWithIPInCN.pem"
+	expected := Pass
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}

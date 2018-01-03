@@ -18,7 +18,7 @@ func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) *LintResult {
-	if c.Subject.CommonName != "" {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
 			return &LintResult{Status: NA}
