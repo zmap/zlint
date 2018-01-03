@@ -35,7 +35,7 @@ func (l *subjectCommonNameNotLowercase) Execute(c *x509.Certificate) *LintResult
 func init() {
 	RegisterLint(&Lint{
 		Name:          "n_lint_subject_common_name_not_lowercase",
-		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
+		Description:   "The common name field in not in lower case",
 		Citation:      "This case is not explicitly addressed in the CA/B BR",
 		Source:        ZLint,
 		EffectiveDate: util.ZeroDate,
