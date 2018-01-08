@@ -3,9 +3,9 @@
 package lints
 
 import (
-	"time"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"time"
 )
 
 type subCertValidTimeTooLong struct{}
