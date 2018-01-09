@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2018 Regents of the University of Michigan
+ * ZLint Copyright 2017 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -19,17 +19,17 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertValidTimeTooLong struct{}
+type subCertValidTimeLongerThan39Months struct{}
 
-func (l *subCertValidTimeTooLong) Initialize() error {
+func (l *subCertValidTimeLongerThan39Months) Initialize() error {
 	return nil
 }
 
-func (l *subCertValidTimeTooLong) CheckApplies(c *x509.Certificate) bool {
+func (l *subCertValidTimeLongerThan39Months) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertValidTimeLongerThan39Months) Execute(c *x509.Certificate) *LintResult {
 	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
 		return &LintResult{Status: Error}
 	}
@@ -38,11 +38,11 @@ func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_cert_valid_time_too_long",
-		Description:   "CAs MUST NOT issue subscriber certificates with validity periods longer than 39 months regardless of circumstance.",
+		Name:          "e_sub_cert_valid_time_longer_than_39_months",
+		Description:   "Subscriber Certificates issued after 1 July 2016 but prior to 1 March 2018 MUST have a Validity Period no greater than 39 months.",
 		Citation:      "BRs: 6.3.2",
 		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.SubCert39Month,
-		Lint:          &subCertValidTimeTooLong{},
+		Lint:          &subCertValidTimeLongerThan39Months{},
 	})
 }
