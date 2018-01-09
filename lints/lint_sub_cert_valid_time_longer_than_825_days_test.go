@@ -23,7 +23,6 @@ func TestSubCertValidTimeLongerThan825DaysBeforeCutoff(t *testing.T) {
 	}
 }
 
-
 func TestSubCertValidTime825Days(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCert825DaysOK.pem"
 	expected := Pass
