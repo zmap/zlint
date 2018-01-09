@@ -1,4 +1,3 @@
-// lint_ext_authority_key_identifier_critical_test.go
 package lints
 
 import (

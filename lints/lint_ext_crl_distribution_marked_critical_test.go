@@ -1,4 +1,3 @@
-// lint_ext_crl_distribution_marked_critical_test.go
 package lints
 
 import (

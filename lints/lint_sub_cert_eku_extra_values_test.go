@@ -1,4 +1,3 @@
-// lint_sub_cert_eku_extra_values_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_subject_key_identifier_missing_sub_cert.go
 /**********************************************************************
    To facilitate certification path construction, this extension MUST
    appear in all conforming CA certificates, that is, all certificates

@@ -1,4 +1,3 @@
-// lint_ext_policy_map_not_critical.go
 /**********************************************************
 RFC 5280: 4.2.1.5.  Policy Mappings
 This extension MAY be supported by CAs and/or applications.

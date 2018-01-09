@@ -1,4 +1,3 @@
-// lint_cert_policy_conflicts_with_street.go
 // If the Certificate asserts the policy identifier of 2.23.140.1.2.1, then it MUST NOT include
 // organizationName, streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject field.
 

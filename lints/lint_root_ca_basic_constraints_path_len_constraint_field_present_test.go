@@ -1,4 +1,3 @@
-// lint_root_ca_basic_constraints_path_len_constraint_field_present_test.go
 package lints
 
 import (

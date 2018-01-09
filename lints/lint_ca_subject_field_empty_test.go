@@ -1,4 +1,3 @@
-// lint_ca_subject_field_empty_test.go
 package lints
 
 import (

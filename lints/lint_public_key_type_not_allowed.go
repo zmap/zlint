@@ -1,5 +1,3 @@
-// lint_public_key_type_not_allowed.go
-
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_rsa_mod_not_odd_test.go
 package lints
 
 import (

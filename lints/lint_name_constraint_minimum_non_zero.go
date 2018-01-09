@@ -1,4 +1,3 @@
-// lint_name_constraint_minimum_non_zero.go
 /************************************************************************
 RFC 5280: 4.2.1.10
 Within this profile, the minimum and maximum fields are not used with

@@ -1,4 +1,3 @@
-// lint_subject_surname_max_length_test.go
 package lints
 
 import (

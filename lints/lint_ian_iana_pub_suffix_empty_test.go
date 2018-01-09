@@ -1,4 +1,3 @@
-// lint_ian_iana_pub_suffix_empty_test.go
 package lints
 
 import (

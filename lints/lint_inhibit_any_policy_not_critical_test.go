@@ -1,4 +1,3 @@
-// lint_inhibit_any_policy_not_critical_test.go
 package lints
 
 import (

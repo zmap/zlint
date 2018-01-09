@@ -1,4 +1,3 @@
-// lint_serial_number_not_positive_test.go
 package lints
 
 import (

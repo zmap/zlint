@@ -1,4 +1,3 @@
-// lint_ext_duplicate_extension.go
 /************************************************
 "A certificate MUST NOT include more than one instance of a particular extension."
 ************************************************/

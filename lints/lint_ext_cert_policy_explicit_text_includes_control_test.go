@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_explicit_text_includes_control_test.go
 package lints
 
 import (

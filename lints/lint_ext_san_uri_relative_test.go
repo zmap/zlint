@@ -1,4 +1,3 @@
-//lint_ext_san_uri_relative_test.go
 package lints
 
 import (

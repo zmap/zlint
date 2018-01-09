@@ -1,4 +1,3 @@
-//lint_ext_san_uri_not_ia5_test.go
 package lints
 
 import (

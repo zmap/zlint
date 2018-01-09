@@ -1,4 +1,3 @@
-// lint_ext_san_space_dns_name.go
 /************************************************************************
 RFC 5280: 4.2.1.6
 When the subjectAltName extension contains a domain name system

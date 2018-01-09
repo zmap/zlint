@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_contains_noticeref_test.go
 package lints
 
 import (

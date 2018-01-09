@@ -1,4 +1,3 @@
-// lint_ext_san_critical_with_subject_dn.go
 /************************************************
 Further, if the only subject identity included in the certificate is an
  alternative name form (e.g., an electronic mail address), then the subject

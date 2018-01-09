@@ -1,4 +1,3 @@
-// lint_sub_cert_sha1_expiration_too_long.go
 /***************************************************************************************************************
 Effective 16 January 2015, CAs SHOULD NOT issue Subscriber Certificates utilizing the SHA‐1 algorithm with
 an Expiry Date greater than 1 January 2017 because Application Software Providers are in the process of

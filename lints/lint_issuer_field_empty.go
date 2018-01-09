@@ -1,4 +1,3 @@
-// lint_issuer_field_empty.go
 /************************************************
 RFC 5280: 4.1.2.4
 The issuer field identifies the entity that has signed and issued the

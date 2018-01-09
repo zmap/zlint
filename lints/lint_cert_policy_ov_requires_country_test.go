@@ -1,4 +1,3 @@
-// lint_cert_policy_ov_requires_country_test.go
 package lints
 
 import (

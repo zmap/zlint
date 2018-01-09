@@ -1,4 +1,3 @@
-// lint_ca_organization_name_missing.go
 /************************************************
 BRs: 7.1.2.1e
 The Certificate Subject MUST contain the following: organizationName (OID 2.5.4.10): This field MUST be present and the contents MUST contain either the Subject CA’s name or DBA as verified under Section 3.2.2.2.

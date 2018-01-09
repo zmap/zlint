@@ -1,4 +1,3 @@
-// lint_sub_cert_cert_policy_empty_test.go
 package lints
 
 import (

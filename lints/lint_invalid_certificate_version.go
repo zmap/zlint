@@ -1,4 +1,3 @@
-// lint_invalid_certificate_version.go
 /************************************************
 Certificates MUST be of type X.509 v3.
 ************************************************/

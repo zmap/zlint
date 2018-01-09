@@ -1,4 +1,3 @@
-// lint_ext_san_contains_reserved_ip.go
 /************************************************
 BRs: 7.1.4.2.1
 Also as of the Effective Date, the CA SHALL NOT

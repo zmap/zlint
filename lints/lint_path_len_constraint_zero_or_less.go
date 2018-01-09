@@ -1,4 +1,3 @@
-// lint_path_len_constraint_zero_or_less.go
 /********************************************************************
 The pathLenConstraint field is meaningful only if the cA boolean is
 asserted and the key usage extension, if present, asserts the

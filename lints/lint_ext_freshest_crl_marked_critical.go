@@ -1,4 +1,3 @@
-// lint_ext_freshest_crl_marked_critical.go
 /************************************************
 The freshest CRL extension identifies how delta CRL information is obtained. The extension MUST be marked as non-critical by conforming CAs. Further discussion of CRL management is contained in Section 5.
 ************************************************/

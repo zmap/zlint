@@ -1,4 +1,3 @@
-// lint_cert_contains_unique_identifier.go
 /************************************************
  These fields MUST only appear if the version is 2 or 3 (Section 4.1.2.1).
  These fields MUST NOT appear if the version is 1. The subject and issuer

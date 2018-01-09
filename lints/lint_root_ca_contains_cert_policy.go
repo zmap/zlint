@@ -1,4 +1,3 @@
-// lint_root_ca_contains_cert_policy.go
 /************************************************
 BRs: 7.1.2.1c certificatePolicies
 This extension SHOULD NOT be present.

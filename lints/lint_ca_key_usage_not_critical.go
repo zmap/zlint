@@ -1,4 +1,3 @@
-// lint_ca_key_usage_not_critical.go
 /************************************************
 BRs: 7.1.2.1b
 This extension MUST be present and MUST be marked critical. Bit positions for keyCertSign and cRLSign MUST be set.

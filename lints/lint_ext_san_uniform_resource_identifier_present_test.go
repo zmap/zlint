@@ -1,4 +1,3 @@
-// lint_ext_san_uniform_resource_identifier_present_test.go
 package lints
 
 import (

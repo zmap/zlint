@@ -1,4 +1,3 @@
-// lint_subject_street_address_max_length.go
 /************************************************
 ITU-T X.520 (02/2001) UpperBounds
 ub-street-address INTEGER ::= 128

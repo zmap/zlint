@@ -1,4 +1,3 @@
-// lint_ext_duplicate_extension_test.go
 package lints
 
 import (

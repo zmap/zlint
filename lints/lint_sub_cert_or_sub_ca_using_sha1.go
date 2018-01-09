@@ -1,4 +1,3 @@
-// lint_sub_cert_or_sub_ca_using_sha1.go
 /**************************************************************************************************
 BRs: 7.1.3
 SHA‐1	MAY	be	used	with	RSA	keys	in	accordance	with	the	criteria	defined	in	Section	7.1.3.

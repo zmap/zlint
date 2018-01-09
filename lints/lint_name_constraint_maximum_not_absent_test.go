@@ -1,4 +1,3 @@
-// lint_name_constraint_maximum_not_absent_test.go
 package lints
 
 import (

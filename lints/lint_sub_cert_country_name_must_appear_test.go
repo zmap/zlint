@@ -1,4 +1,3 @@
-// lint_sub_cert_key_usage_crl_sign_bit_set_test.go
 package lints
 
 import (

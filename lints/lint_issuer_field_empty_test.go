@@ -1,4 +1,3 @@
-// lint_issuer_field_empty_test.go
 package lints
 
 import (

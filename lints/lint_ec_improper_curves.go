@@ -1,4 +1,3 @@
-// lint_ec_improper_curves.go
 /************************************************
 BRs: 6.1.5
 Certificates MUST meet the following requirements for algorithm type and key size.

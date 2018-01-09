@@ -1,4 +1,3 @@
-// lint_sub_ca_certificate_policies_missing.go
 /************************************************
 BRs: 7.1.2.2a certificatePolicies
 This extension MUST be present and SHOULD NOT be marked critical.

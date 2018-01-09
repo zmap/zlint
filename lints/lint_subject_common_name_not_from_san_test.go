@@ -1,4 +1,3 @@
-// lint_subject_common_name_not_from_san_test.go
 package lints
 
 import (

@@ -1,5 +1,3 @@
-// lint_ev_locality_name_missing.go
-
 package lints
 
 import (

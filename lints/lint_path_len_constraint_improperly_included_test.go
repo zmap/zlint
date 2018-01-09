@@ -1,4 +1,3 @@
-// lint_path_len_constraint_improperly_included_test.go
 package lints
 
 import (

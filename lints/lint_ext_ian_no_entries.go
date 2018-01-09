@@ -1,4 +1,3 @@
-// lint_ext_ian_no_entries.go
 /**********************************************************************
 RFC 5280: 4.2.1.7
 If the issuerAltName extension is present, the sequence MUST contain

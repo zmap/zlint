@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_duplicate_test.go
 package lints
 
 import (

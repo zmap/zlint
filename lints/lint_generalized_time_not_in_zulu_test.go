@@ -1,4 +1,3 @@
-// lint_subject_country_not_iso_test.go
 package lints
 
 import (

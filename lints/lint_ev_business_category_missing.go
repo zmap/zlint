@@ -1,5 +1,3 @@
-// lint_ev_business_category_missing.go
-
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_ian_empty_name_test.go
 package lints
 
 import (

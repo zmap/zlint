@@ -1,5 +1,3 @@
-// lint_rsa_exp_negative.go
-
 package lints
 
 import (

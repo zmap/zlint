@@ -1,4 +1,3 @@
-// lint_ext_san_missing.go
 /************************************************
 BRs: 7.1.4.2.1
 Subject Alternative Name Extension

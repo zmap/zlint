@@ -1,5 +1,3 @@
-// lint_issuer_dn_leading_whitespace.go
-
 package lints
 
 import (

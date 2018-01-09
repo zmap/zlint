@@ -1,4 +1,3 @@
-// lint_ca_key_cert_sign_not_set_test.go
 package lints
 
 import (

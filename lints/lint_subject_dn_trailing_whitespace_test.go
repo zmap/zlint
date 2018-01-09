@@ -1,5 +1,3 @@
-// lint_subject_dn_trailing_whitespace_test.go
-
 package lints
 
 import (

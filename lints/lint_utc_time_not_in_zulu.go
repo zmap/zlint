@@ -1,4 +1,3 @@
-// lint_utc_time_not_in_zulu.go
 /***********************************************************************
 4.1.2.5.1.  UTCTime
    The universal time type, UTCTime, is a standard ASN.1 type intended

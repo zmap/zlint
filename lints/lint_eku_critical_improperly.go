@@ -1,4 +1,3 @@
-// lint_eku_critical_improperly.go
 /************************************************
 RFC 5280: 4.2.1.12
 If a CA includes extended key usages to satisfy such applications,

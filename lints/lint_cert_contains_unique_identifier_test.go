@@ -1,4 +1,3 @@
-// lint_cert_contains_unique_identifier_test.go
 package lints
 
 import (

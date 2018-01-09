@@ -1,4 +1,3 @@
-// lint_ca_organization_name_missing_test.go
 package lints
 
 import (

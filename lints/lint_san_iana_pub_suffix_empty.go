@@ -1,5 +1,3 @@
-// lint_san_iana_pub_suffix_empty.go
-
 package lints
 
 import (

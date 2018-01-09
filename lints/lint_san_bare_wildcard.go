@@ -1,5 +1,3 @@
-// lint_br_san_bare_wildcard.go
-
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_explicit_text_ia5_string.go
 /********************************************************************
 
 An explicitText field includes the textual statement directly in

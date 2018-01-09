@@ -1,4 +1,3 @@
-// lint_ext_san_no_entries_test.go
 package lints
 
 import (

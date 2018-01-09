@@ -1,4 +1,3 @@
-// lint_sub_ca_crl_distribution_points_does_not_contain_url_test.go
 package lints
 
 import (

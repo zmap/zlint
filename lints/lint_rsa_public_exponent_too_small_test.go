@@ -1,4 +1,3 @@
-// lint_rsa_public_exponent_too_small_test.go
 package lints
 
 import (

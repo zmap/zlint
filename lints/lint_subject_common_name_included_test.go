@@ -1,4 +1,3 @@
-// lint_subject_common_name_included_test.go
 package lints
 
 import (

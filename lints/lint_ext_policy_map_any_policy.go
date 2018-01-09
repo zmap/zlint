@@ -1,4 +1,3 @@
-// lint_ext_policy_map_any_policy.go
 /********************************************************************
 RFC 5280: 4.2.1.5
 Each issuerDomainPolicy named in the policy mappings extension SHOULD

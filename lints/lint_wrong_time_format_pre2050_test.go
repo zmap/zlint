@@ -1,4 +1,3 @@
-// lint_wrong_time_format_pre2050_test.go
 package lints
 
 import (

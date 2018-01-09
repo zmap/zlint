@@ -1,4 +1,3 @@
-// lint_subject_state_name_max_length.go
 /************************************************
 RFC 5280: A.1
 	* In this Appendix, there is a list of upperbounds

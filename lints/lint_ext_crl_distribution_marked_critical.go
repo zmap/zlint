@@ -1,4 +1,3 @@
-// lint_ext_crl_distribution_marked_critical.go
 /************************************************
 The CRL distribution points extension identifies how CRL information is obtained. The extension SHOULD be non-critical, but this profile RECOMMENDS support for this extension by CAs and applications.
 ************************************************/

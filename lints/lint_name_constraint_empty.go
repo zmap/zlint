@@ -1,4 +1,3 @@
-// lint_name_constraint_empty.go
 /***********************************************************************
  Restrictions are defined in terms of permitted or excluded name
    subtrees.  Any name matching a restriction in the excludedSubtrees

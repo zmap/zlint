@@ -1,4 +1,3 @@
-// lint_sub_cert_eku_server_auth_client_auth_missing.go
 /*******************************************************************************************************
 BRs: 7.1.2.3
 extKeyUsage (required)

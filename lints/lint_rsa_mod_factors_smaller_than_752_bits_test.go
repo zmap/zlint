@@ -1,4 +1,3 @@
-// lint_rsa_mod_factors_smaller_than_752_test.go
 package lints
 
 import (

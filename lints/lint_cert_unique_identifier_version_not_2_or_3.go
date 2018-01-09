@@ -1,4 +1,3 @@
-// lint_cert_unique_identifier_version_not_2_or_3.go
 /**************************************************************************
 RFC 5280: 4.1.2.8
  These fields MUST only appear if the version is 2 or 3 (Section 4.1.2.1).

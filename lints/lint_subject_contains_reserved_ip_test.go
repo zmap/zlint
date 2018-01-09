@@ -1,4 +1,3 @@
-// lint_subject_contains_reserved_ip_test.go
 package lints
 
 import (

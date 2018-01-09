@@ -1,4 +1,3 @@
-// lint_ext_aia_access_location_missing.go
 /************************************************
 RFC 5280: 4.2.2.1
 An authorityInfoAccess extension may include multiple instances of

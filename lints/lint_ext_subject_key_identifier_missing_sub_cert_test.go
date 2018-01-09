@@ -1,4 +1,3 @@
-// lint_ext_subject_key_identifier_missing_sub_cert_test.go
 package lints
 
 import (

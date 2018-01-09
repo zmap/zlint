@@ -1,4 +1,3 @@
-// lint_rsa_public_exponent_not_in_range_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_subject_directory_attr_critical.go
 /************************************************
 RFC 5280: 4.2.1.8
 The subject directory attributes extension is used to convey

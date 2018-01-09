@@ -1,4 +1,3 @@
-// lint_ca_dig_sign_not_set.go
 /************************************************
 BRs: 7.1.2.1b
 This extension MUST be present and MUST be marked critical. Bit positions for keyCertSign and cRLSign MUST be set.

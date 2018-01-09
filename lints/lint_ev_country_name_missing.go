@@ -1,5 +1,3 @@
-// lint_ev_country_name_missing.go
-
 package lints
 
 import (

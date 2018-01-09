@@ -1,5 +1,3 @@
-// lint_dh_params_missing.go
-
 package lints
 
 import (

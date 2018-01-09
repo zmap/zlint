@@ -1,4 +1,3 @@
-// lint_ext_san_registered_id_present_test.go
 package lints
 
 import (

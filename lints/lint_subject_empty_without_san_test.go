@@ -1,4 +1,3 @@
-// lint_subject_empty_without_san_test.go
 package lints
 
 import (

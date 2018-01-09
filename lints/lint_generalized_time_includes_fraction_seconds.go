@@ -1,4 +1,3 @@
-// lint_generalized_time_includes_fraction_seconds.go
 /********************************************************************
 4.1.2.5.2.  GeneralizedTime
 The generalized time type, GeneralizedTime, is a standard ASN.1 type

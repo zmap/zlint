@@ -1,4 +1,3 @@
-// lint_ext_key_usage_cert_sign_without_ca_test.go
 package lints
 
 import (

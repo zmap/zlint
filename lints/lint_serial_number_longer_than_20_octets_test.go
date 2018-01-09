@@ -1,4 +1,3 @@
-// lint_serial_number_longer_than_20_octets_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_subject_not_dn.go
 /*************************************************************************
  RFC 5280: 4.1.2.6
  Where it is non-empty, the subject field MUST contain an X.500

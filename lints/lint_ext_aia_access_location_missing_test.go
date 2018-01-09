@@ -1,4 +1,3 @@
-// lint_ext_aia_access_location_missing_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_name_constraint_on_registered_id.go
 /*******************************************************************
 RFC 5280: 4.2.1.10
 Restrictions are defined in terms of permitted or excluded name

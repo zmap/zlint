@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_explicit_text_not_nfc.go
 /************************************************
   When the UTF8String encoding is used, all character sequences SHOULD be
   normalized according to Unicode normalization form C (NFC) [NFC].

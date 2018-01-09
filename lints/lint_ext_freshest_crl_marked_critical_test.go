@@ -1,4 +1,3 @@
-// lint_ext_freshest_crl_marked_critical_test.go
 package lints
 
 import (

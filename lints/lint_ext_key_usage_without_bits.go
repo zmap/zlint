@@ -1,4 +1,3 @@
-// lint_ext_key_usage_without_bits.go
 /***********************************************************************
  This profile does not restrict the combinations of bits that may be
    set in an instantiation of the keyUsage extension.  However,

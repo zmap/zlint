@@ -1,4 +1,3 @@
-// lint_ext_ian_space_dns_name.go
 /**********************************************************************
 RFC 5280: 4.2.1.7
 When the issuerAltName extension contains a domain name system

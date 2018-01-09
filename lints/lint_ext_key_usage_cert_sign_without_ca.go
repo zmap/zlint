@@ -1,4 +1,3 @@
-// lint_ext_key_usage_cert_sign_without_ca.go
 /************************************************************************
 RFC 5280: 4.2.1.9
 The cA boolean indicates whether the certified public key may be used

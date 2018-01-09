@@ -1,4 +1,3 @@
-// lint_sub_ca_name_constraints_not_critical.go
 /************************************************
 Change this to match source TEXT
 ************************************************/

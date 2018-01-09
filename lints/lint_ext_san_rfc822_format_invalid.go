@@ -1,4 +1,3 @@
-// lint_ext_san_rfc822_format_invalid.go
 /************************************************************************
 RFC 5280: 4.2.1.6
  When the subjectAltName extension contains an Internet mail address,

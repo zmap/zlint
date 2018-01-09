@@ -1,4 +1,3 @@
-// lint_ext_san_not_critical_without_subject_test.go
 package lints
 
 import (

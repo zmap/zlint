@@ -1,4 +1,3 @@
-// lint_sub_ca_crl_distribution_points_marked_critical.go
 /************************************************
 BRs: 7.1.2.2b cRLDistributionPoints
 This extension MUST be present and MUST NOT be marked critical.

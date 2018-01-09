@@ -1,4 +1,3 @@
-// lint_ext_ian_uri_relative.go
 /*************************************************************************
 When the issuerAltName extension contains a URI, the name MUST be
 stored in the uniformResourceIdentifier (an IA5String).  The name

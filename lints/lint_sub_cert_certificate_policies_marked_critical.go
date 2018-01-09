@@ -1,4 +1,3 @@
-// lint_sub_cert_certificate_policies_marked_critical.go
 /******************************************************************************
 BRs: 7.1.2.3
 certificatePolicies

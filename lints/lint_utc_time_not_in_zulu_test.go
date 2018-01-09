@@ -1,4 +1,3 @@
-// lint_utc_time_not_in_zulu_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_san_dns_not_ia5_string.go
 /********************************************************************
 RFC 5280: 4.2.1.6
 When the subjectAltName extension contains a domain name system

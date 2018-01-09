@@ -1,4 +1,3 @@
-// lint_ext_ian_critical_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_root_ca_basic_constraints_path_len_constraint_field_present.go
 /************************************************************************************************************
 7.1.2.1. Root CA Certificate
 a. basicConstraints

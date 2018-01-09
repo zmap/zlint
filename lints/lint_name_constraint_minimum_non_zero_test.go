@@ -1,4 +1,3 @@
-// lint_name_constraint_minimum_non_zero_test.go
 package lints
 
 import (

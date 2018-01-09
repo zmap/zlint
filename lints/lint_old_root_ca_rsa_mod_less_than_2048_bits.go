@@ -1,4 +1,3 @@
-// lint_old_root_ca_rsa_mod_less_than_2048_bits.go
 /************************************************
 Change this to match source TEXT
 ************************************************/

@@ -1,4 +1,3 @@
-// lint_rsa_no_public_key.go
 package lints
 
 import (

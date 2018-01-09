@@ -1,4 +1,3 @@
-// lint_ext_subject_directory_attr_critical_test.go
 package lints
 
 import (

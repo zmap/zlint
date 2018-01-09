@@ -1,4 +1,3 @@
-// lint_root_ca_contains_cert_policy_test.go
 package lints
 
 import (

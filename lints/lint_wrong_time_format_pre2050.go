@@ -1,4 +1,3 @@
-// lint_wrong_time_format_pre2050.go
 /*********************************************************************
 CAs conforming to this profile MUST always encode certificate
 validity dates through the year 2049 as UTCTime; certificate validity

@@ -1,4 +1,3 @@
-// lint_ext_san_uri_format_invalid.go
 /************************************************
 The name MUST include both a
 scheme (e.g., "http" or "ftp") and a scheme-specific-part.

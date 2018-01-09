@@ -1,4 +1,3 @@
-// lint_ext_ian_rfc822_format_invalid_test.go
 package lints
 
 import (

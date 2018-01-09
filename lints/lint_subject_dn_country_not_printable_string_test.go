@@ -1,4 +1,3 @@
-// lint_subject_dn_country_not_printable_string_test.go
 package lints
 
 import "testing"

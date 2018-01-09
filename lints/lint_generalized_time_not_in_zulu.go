@@ -1,4 +1,3 @@
-// lint_generalized_time_not_in_zulu.go
 /********************************************************************
 4.1.2.5.2.  GeneralizedTime
 The generalized time type, GeneralizedTime, is a standard ASN.1 type

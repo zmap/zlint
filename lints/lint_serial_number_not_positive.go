@@ -1,4 +1,3 @@
-// lint_serial_number_not_positive.go
 /************************************************
 4.1.2.2.  Serial Number
    The serial number MUST be a positive integer assigned by the CA to each

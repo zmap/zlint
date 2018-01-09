@@ -1,4 +1,3 @@
-// lint_utc_time_does_not_include_seconds_test.go
 package lints
 
 import (

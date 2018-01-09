@@ -1,4 +1,3 @@
-// lint_cert_policy_conflicts_with_postal_test.go
 package lints
 
 import (

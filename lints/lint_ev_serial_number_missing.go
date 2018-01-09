@@ -1,5 +1,3 @@
-// lint_ev_serial_number_missing.go
-
 package lints
 
 import (

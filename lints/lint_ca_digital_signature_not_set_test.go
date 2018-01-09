@@ -1,4 +1,3 @@
-// lint_ca_dig_sign_not_set_test.go
 package lints
 
 import (

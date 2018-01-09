@@ -1,4 +1,3 @@
-// lint_ext_key_usage_without_bits_test.go
 package lints
 
 import (

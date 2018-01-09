@@ -1,4 +1,3 @@
-// lint_validity_time_not_positive_test.go
 package lints
 
 import (

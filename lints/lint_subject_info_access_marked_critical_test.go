@@ -1,4 +1,3 @@
-// lint_subject_info_access_marked_critical_test.go
 package lints
 
 import (

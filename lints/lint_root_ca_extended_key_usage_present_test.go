@@ -1,4 +1,3 @@
-// lint_root_ca_extended_key_usage_present_test.go
 package lints
 
 import (

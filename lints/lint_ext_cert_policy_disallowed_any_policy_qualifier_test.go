@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_disallowed_any_policy_qualifier_test.go
 package lints
 
 import (

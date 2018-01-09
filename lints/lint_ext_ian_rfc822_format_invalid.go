@@ -1,4 +1,3 @@
-// lint_ext_ian_rfc822_format_invalid.go
 /************************************************************************
 RFC 5280: 4.2.1.6
  When the issuerAltName extension contains an Internet mail address,

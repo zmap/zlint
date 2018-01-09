@@ -1,4 +1,3 @@
-// lint_name_constraint_on_edi_party_name_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ca_subject_field_empty.go
 /************************************************
 RFC 5280: 4.1.2.6
 The subject field identifies the entity associated with the public

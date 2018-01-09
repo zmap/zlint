@@ -1,4 +1,3 @@
-// lint_sub_ca_certificate_policies_marked_critical_test.go
 package lints
 
 import (

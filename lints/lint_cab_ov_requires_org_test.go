@@ -1,4 +1,3 @@
-// lint_cert_policy_requires_org_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_name_constraints_not_critical.go
 /************************************************************************
 Restrictions are defined in terms of permitted or excluded name
    subtrees.  Any name matching a restriction in the excludedSubtrees

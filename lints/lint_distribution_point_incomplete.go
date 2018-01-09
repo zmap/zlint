@@ -1,4 +1,3 @@
-// lint_distribution_point_incomplete.go
 /********************************************************************
 The cRLDistributionPoints extension is a SEQUENCE of
 DistributionPoint.  A DistributionPoint consists of three fields,

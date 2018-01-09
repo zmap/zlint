@@ -1,4 +1,3 @@
-// lint_ext_key_usage_not_critical_test.go
 package lints
 
 import (

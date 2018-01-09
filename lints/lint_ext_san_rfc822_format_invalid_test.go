@@ -1,4 +1,3 @@
-// lint_ext_san_space_dns_name_test.go
 package lints
 
 import (

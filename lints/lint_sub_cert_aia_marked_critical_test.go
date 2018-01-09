@@ -1,4 +1,3 @@
-// lint_sub_cert_aia_missing_test.go
 package lints
 
 import (

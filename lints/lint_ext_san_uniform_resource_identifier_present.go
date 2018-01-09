@@ -1,4 +1,3 @@
-// lint_ext_san_uniform_resource_identifier_present.go
 /************************************************************************************************************
 7.1.4.2.1. Subject Alternative Name Extension
 Certificate Field: extensions:subjectAltName

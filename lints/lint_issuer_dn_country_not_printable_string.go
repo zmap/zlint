@@ -1,4 +1,3 @@
-//lint_issuer_dn_country_not_printable_string.go
 package lints
 
 import (

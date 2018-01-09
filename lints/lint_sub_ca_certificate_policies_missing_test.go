@@ -1,4 +1,3 @@
-// lint_sub_ca_certificate_policies_missing_test.go
 package lints
 
 import (

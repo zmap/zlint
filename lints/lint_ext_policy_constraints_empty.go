@@ -1,4 +1,3 @@
-// lint_ext_policy_constraints_empty.go
 /*************************************************************************
 RFC 5280: 4.2.1.11
 Conforming CAs MUST NOT issue certificates where policy constraints

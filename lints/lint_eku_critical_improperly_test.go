@@ -1,4 +1,3 @@
-// lint_eku_critical_improperly_test.go
 package lints
 
 import (

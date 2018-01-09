@@ -1,4 +1,3 @@
-// lint_ext_authority_key_identifer_no_key_identifier.go
 /***********************************************************************
 RFC 5280: 4.2.1.1
 The keyIdentifier field of the authorityKeyIdentifier extension MUST

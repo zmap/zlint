@@ -1,4 +1,3 @@
-// lint_invalid_certificate_version_test.go
 package lints
 
 import (

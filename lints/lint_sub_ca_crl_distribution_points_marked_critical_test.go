@@ -1,4 +1,3 @@
-// lint_sub_ca_crl_distribution_points_marked_critical_test.go
 package lints
 
 import (

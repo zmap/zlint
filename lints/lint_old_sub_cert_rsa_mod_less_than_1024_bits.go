@@ -1,4 +1,3 @@
-// lint_old_sub_cert_rsa_mod_less_than_1024_bits.go
 // CHANGE THIS COMMENT TO MATCH PROVIDENCE TEXT
 
 package lints

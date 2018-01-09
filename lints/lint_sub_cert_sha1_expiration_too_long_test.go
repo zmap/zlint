@@ -1,4 +1,3 @@
-// lint_sub_cert_sha1_expiration_too_long_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_ext_san_critical_with_subject_dn_test.go
 package lints
 
 import (

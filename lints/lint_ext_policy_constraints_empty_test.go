@@ -1,4 +1,3 @@
-// lint_ext_policy_constraints_empty_test.go
 package lints
 
 import (

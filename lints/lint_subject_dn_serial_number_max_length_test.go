@@ -1,4 +1,3 @@
-// lint_subject_dn_serial_number_max_length_test.go
 package lints
 
 import "testing"

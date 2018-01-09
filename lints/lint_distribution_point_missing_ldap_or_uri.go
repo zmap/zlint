@@ -1,4 +1,3 @@
-// lint_distribution_point_missing_ldap_or_uri.go
 /************************************************
 RFC 5280: 4.2.1.13
 When present, DistributionPointName SHOULD include at least one LDAP or HTTP URI.

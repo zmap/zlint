@@ -1,4 +1,3 @@
-// lint_subject_street_address_max_length_test.go
 package lints
 
 import (

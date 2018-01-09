@@ -1,4 +1,3 @@
-// lint_sub_cert_aia_does_not_contain_issuing_ca_url_test.go
 package lints
 
 import (

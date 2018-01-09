@@ -1,4 +1,3 @@
-// lint_subject_organizational_unit_name_max_length_test.go
 package lints
 
 import (

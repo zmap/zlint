@@ -1,5 +1,3 @@
-// lint_subject_multiple_attr_in_rdn_test.go
-
 package lints
 
 import (

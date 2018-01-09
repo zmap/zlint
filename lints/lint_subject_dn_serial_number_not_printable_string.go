@@ -1,4 +1,3 @@
-// lint_subject_dn_serial_number_not_printable_string.go
 package lints
 
 import (

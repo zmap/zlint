@@ -1,4 +1,3 @@
-// lint_distribution_point_missing_ldap_or_uri_test.go
 package lints
 
 import (

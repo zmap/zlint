@@ -1,4 +1,3 @@
-// lint_ec_improper_curves_test.go
 package lints
 
 import (

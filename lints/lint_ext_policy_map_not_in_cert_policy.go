@@ -1,4 +1,3 @@
-// lint_ext_policy_map_not_in_cert_policy.go
 /*********************************************************************
 RFC 5280: 4.2.1.5
 Each issuerDomainPolicy named in the policy mapping extension SHOULD

@@ -1,4 +1,3 @@
-// lint_cert_unique_identifier_version_not_2_or_3_test.go
 package lints
 
 import (

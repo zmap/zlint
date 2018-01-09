@@ -1,4 +1,3 @@
-// lint_ext_ian_uri_host_not_fqdn_or_ip_test.go
 package lints
 
 import (

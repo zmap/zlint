@@ -1,4 +1,3 @@
-// lint_ext_name_constraints_not_in_ca_test.go
 package lints
 
 import (

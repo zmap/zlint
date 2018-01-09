@@ -1,4 +1,3 @@
-// lint_distribution_point_incomplete_test.go
 package lints
 
 import (

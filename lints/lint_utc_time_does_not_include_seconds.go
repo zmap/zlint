@@ -1,4 +1,3 @@
-// lint_utc_time_does_not_include_seconds.go
 /************************************************************************
 4.1.2.5.1.  UTCTime
 The universal time type, UTCTime, is a standard ASN.1 type intended

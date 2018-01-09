@@ -1,4 +1,3 @@
-// lint_subject_contains_noninformational_value.go
 /**********************************************************************************************************************
 BRs: 7.1.4.2.2
 Other Subject Attributes

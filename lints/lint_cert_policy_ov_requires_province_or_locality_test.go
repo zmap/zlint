@@ -1,4 +1,3 @@
-// lint_cert_policy_ov_requires_province_or_locality_test.go
 package lints
 
 import (

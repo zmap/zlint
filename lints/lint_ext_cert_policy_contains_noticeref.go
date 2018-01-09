@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_contains_noticeref.go
 /********************************************************************
 The user notice has two optional fields: the noticeRef field and the
 explicitText field. Conforming CAs SHOULD NOT use the noticeRef

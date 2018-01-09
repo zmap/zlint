@@ -1,4 +1,3 @@
-// lint_ext_san_dns_not_ia5_string_test.go
 package lints
 
 import (

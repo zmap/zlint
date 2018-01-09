@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_duplicate.go
 /************************************************
   The certificate policies extension contains a sequence of one or more
   policy information terms, each of which consists of an object identifier

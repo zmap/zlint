@@ -1,4 +1,3 @@
-// lint_ext_authority_key_identifier_critical.go
 /*********************************************************
 RFC 5280: 4.2.1.1
 Conforming CAs MUST mark this extension as non-critical.

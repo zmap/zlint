@@ -1,4 +1,3 @@
-// lint_subject_common_name_not_from_san.go
 /************************************************
 BRs: 7.1.4.2.2
 If present, this field MUST contain a single IP address

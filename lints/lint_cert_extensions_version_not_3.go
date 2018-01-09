@@ -1,4 +1,3 @@
-// lint_cert_extensions_verson_not_3.go
 /************************************************
 4.1.2.1.  Version
    This field describes the version of the encoded certificate. When

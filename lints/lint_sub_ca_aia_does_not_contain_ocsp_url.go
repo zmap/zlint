@@ -1,4 +1,3 @@
-// lint_sub_ca_aia_does_not_contain_ocsp_url.go
 /***********************************************
 CAB 7.1.2.2c
 With the exception of stapling, which is noted below, this extension MUST be present. It MUST NOT be

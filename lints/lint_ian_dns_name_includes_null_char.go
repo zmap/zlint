@@ -1,5 +1,3 @@
-// lint_ian_dns_name_includes_null_char.go
-
 package lints
 
 import (

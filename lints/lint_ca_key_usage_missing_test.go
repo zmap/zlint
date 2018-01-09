@@ -1,4 +1,3 @@
-// lint_ca_key_usage_missing_test.go
 package lints
 
 import (

@@ -1,4 +1,3 @@
-// lint_sub_ca_eku_critical_test.go
 package lints
 
 import (

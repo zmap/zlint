@@ -1,4 +1,3 @@
-// lint_ext_san_uri_not_ia5.go
 /************************************************
 When the subjectAltName extension contains a URI, the name MUST be
 stored in the uniformResourceIdentifier (an IA5String).

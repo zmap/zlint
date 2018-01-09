@@ -1,4 +1,3 @@
-// lint_sub_ca_eku_critical.go
 /************************************************
 BRs: 7.1.2.2g extkeyUsage (optional)
 For Subordinate CA Certificates to be Technically constrained in line with section 7.1.5, then either the value

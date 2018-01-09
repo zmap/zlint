@@ -1,4 +1,3 @@
-// subject_contains_noninformational_value_test.go
 package lints
 
 import (

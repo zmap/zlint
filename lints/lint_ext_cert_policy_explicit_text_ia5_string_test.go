@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_explicit_text_ia5_string_test.go
 package lints
 
 import (

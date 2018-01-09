@@ -1,4 +1,3 @@
-// lint_ext_name_constraints_not_in_ca.go
 /***********************************************************************
 RFC 5280: 4.2.1.10
 The name constraints extension, which MUST be used only in a CA

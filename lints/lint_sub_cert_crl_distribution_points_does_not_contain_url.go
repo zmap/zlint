@@ -1,4 +1,3 @@
-// lint_sub_cert_crl_distribution_points_does_not_contain_url.go
 /*******************************************************************************************************
 BRs: 7.1.2.3
 cRLDistributionPoints

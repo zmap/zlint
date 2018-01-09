@@ -1,4 +1,3 @@
-// lint_ext_policy_map_any_policy_test.go
 package lints
 
 import (

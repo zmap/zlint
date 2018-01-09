@@ -1,4 +1,3 @@
-// lint_ext_policy_constraints_not_critical_test.go
 package lints
 
 import (

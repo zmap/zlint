@@ -1,4 +1,3 @@
-// lint_ext_san_not_critical_without_subject.go
 /************************************************
 RFC 5280: 4.2.1.6
 Further, if the only subject identity included in the certificate is

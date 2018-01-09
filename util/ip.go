@@ -1,4 +1,3 @@
-// iputil.go
 // contains helper functions for ip address lints
 
 package util

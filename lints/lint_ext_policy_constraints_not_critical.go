@@ -1,4 +1,3 @@
-// lint_ext_policy_constraints_not_critical.go
 /************************************************
 RFC 5280: 4.2.1.11
 Conforming CAs MUST mark this extension as critical.

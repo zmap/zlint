@@ -1,4 +1,3 @@
-// lint_ext_san_missing_test.go
 package lints
 
 import (

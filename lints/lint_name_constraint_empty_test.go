@@ -1,4 +1,3 @@
-// lint_name_constraint_empty_test.go
 package lints
 
 import (

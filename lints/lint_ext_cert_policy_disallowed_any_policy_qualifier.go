@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_disallowed_any_policy_qualifier.go
 /*******************************************************************
 RFC 5280: 4.2.1.4
 To promote interoperability, this profile RECOMMENDS that policy

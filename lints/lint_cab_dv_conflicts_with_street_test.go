@@ -1,4 +1,3 @@
-// lint_cert_policy_conflicts_with_street_test.go
 package lints
 
 import (

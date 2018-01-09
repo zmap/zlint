@@ -1,4 +1,3 @@
-// lint_cert_policy_requires_personal_name_test.go
 package lints
 
 import (

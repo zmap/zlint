@@ -1,4 +1,3 @@
-// lint_cert_extensions_verson_not_3_test.go
 package lints
 
 import (

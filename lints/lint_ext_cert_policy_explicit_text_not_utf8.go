@@ -1,4 +1,3 @@
-// lint_ext_cert_policy_explicit_text_not_utf8.go
 /*******************************************************************
 An explicitText field includes the textual statement directly in
 the certificate.  The explicitText field is a string with a

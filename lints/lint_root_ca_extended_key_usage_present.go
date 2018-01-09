@@ -1,4 +1,3 @@
-// lint_root_ca_extended_key_usage_present.go
 /************************************************
 BRs: 7.1.2.1d extendedKeyUsage
 This extension MUST NOT be present.

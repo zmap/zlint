@@ -1,4 +1,3 @@
-// lint_path_len_constraint_improperly_included.go
 /******************************************************************
 RFC 5280: 4.2.1.9
 CAs MUST NOT include the pathLenConstraint field unless the cA

@@ -1,4 +1,3 @@
-// lint_old_sub_ca_rsa_mod_less_than_1024_bits_test.go
 package lints
 
 import (

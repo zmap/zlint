@@ -1,5 +1,3 @@
-// lint_ext_san_dns_name_too_long.go
-
 package lints
 
 import (

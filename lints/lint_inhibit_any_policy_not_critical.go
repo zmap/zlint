@@ -1,4 +1,3 @@
-// lint_inhibit_any_policy_not_critical.go
 /************************************************
 4.2.1.14.  Inhibit anyPolicy
    The inhibit anyPolicy extension can be used in certificates issued to CAs.

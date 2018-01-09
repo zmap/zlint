@@ -1,4 +1,3 @@
-// lint_subject_common_name_included.go
 /***************************************************************
 BRs: 7.1.4.2.2
 Required/Optional: Deprecated (Discouraged, but not prohibited)

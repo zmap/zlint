@@ -1,5 +1,3 @@
-// lint_ev_valid_time_too_long.go
-
 package lints
 
 import (

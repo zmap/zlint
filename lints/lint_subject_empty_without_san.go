@@ -1,4 +1,3 @@
-// lint_subject_empty_without_san.go
 /*************************************************************************
 RFC 5280: 4.2 & 4.2.1.6
 Further, if the only subject identity included in the certificate is

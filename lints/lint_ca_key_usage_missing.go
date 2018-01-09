@@ -1,4 +1,3 @@
-// lint_ca_key_usage_missing.go
 /************************************************
 RFC 5280: 4.2.1.3
 Conforming CAs MUST include this extension in certificates that

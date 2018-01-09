@@ -1,4 +1,3 @@
-// lint_ext_san_no_entries.go
 /**********************************************************************
 RFC 5280: 4.2.1.6
 If the subjectAltName extension is present, the sequence MUST contain

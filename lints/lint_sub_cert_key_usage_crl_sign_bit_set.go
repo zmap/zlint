@@ -1,4 +1,3 @@
-// lint_sub_key_usage_crl_sign_bit_set.go
 /**************************************************************************
 BRs: 7.1.2.3
 keyUsage (optional)

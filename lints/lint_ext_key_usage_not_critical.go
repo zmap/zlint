@@ -1,4 +1,3 @@
-// lint_ext_key_usage_not_critical.go
 // "When present, conforming CAs SHOULD mark this extension as critical."
 
 package lints

@@ -1,4 +1,3 @@
-// lint_ext_policy_map_not_in_cert_policy_test.go
 package lints
 
 import (

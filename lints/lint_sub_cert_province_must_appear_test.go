@@ -1,4 +1,3 @@
-// lint_sub_cert_or_sub_ca_using_sha1_test.go
 package lints
 
 import (
