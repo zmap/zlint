@@ -1,4 +1,4 @@
-// lint_sub_cert_valid_time_too_long.go
+// lint_sub_cert_valid_time_longer_than_825_days.go
 
 package lints
 
@@ -7,18 +7,18 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type subCertValidTimeTooLong struct{}
+type subCertValidTimeLongerThan825Days struct{}
 
-func (l *subCertValidTimeTooLong) Initialize() error {
+func (l *subCertValidTimeLongerThan825Days) Initialize() error {
 	return nil
 }
 
-func (l *subCertValidTimeTooLong) CheckApplies(c *x509.Certificate) bool {
+func (l *subCertValidTimeLongerThan825Days) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) *LintResult {
-	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
+func (l *subCertValidTimeLongerThan825Days) Execute(c *x509.Certificate) *LintResult {
+	if c.NotBefore.AddDate(0, 0, 825).Before(c.NotAfter) {
 		return &LintResult{Status: Error}
 	}
 	return &LintResult{Status: Pass}
@@ -26,11 +26,11 @@ func (l *subCertValidTimeTooLong) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_sub_cert_valid_time_too_long",
+		Name:          "e_sub_cert_valid_time_longer_than_825_days",
 		Description:   "Subscriber Certificates issued after 1 March 2018 MUST have a Validity Period no greater than 825 days. Subscriber Certificates issued after 1 July 2016 but prior to 1 March 2018 MUST have a Validity Period no greater than 39 months.",
 		Citation:      "BRs: 6.3.2",
 		Source:        CABFBaselineRequirements,
-		EffectiveDate: util.SubCert39Month,
-		Lint:          &subCertValidTimeTooLong{},
+		EffectiveDate: util.SubCert825Days,
+		Lint:          &subCertValidTimeLongerThan825Days{},
 	})
 }
