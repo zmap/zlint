@@ -29,6 +29,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"net/url"
 )
 
 type SANURIHost struct{}
@@ -44,12 +45,20 @@ func (l *SANURIHost) CheckApplies(c *x509.Certificate) bool {
 func (l *SANURIHost) Execute(c *x509.Certificate) *LintResult {
 	for _, uri := range c.URIs {
 		if uri != "" {
-			host := util.GetHost(uri)
-			if !util.AuthIsFQDNOrIP(host) {
+			parsed, err := url.Parse(uri)
+			if err != nil {
+				return &LintResult{Status: Error}
+			}
+
+			if parsed.Host == "" {
+				return &LintResult{Status: Error}
+			}
+			if !util.IsFQDNOrIP(parsed.Host) {
 				return &LintResult{Status: Error}
 			}
 		}
 	}
+
 	return &LintResult{Status: Pass}
 }
 
