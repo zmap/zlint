@@ -62,7 +62,7 @@ func GetAuthority(uri string) string {
 func GetHost(auth string) string {
 	begin := strings.Index(auth, "@")
 	if begin == -1 || begin == len(auth)-1 {
-		return ""
+		begin = -1
 	}
 	end := strings.Index(auth, ":")
 	if end == -1 {
@@ -75,10 +75,14 @@ func GetHost(auth string) string {
 }
 
 func AuthIsFQDNOrIP(auth string) bool {
-	if IsFQDN(auth) {
+	return IsFQDNOrIP(GetHost(auth))
+}
+
+func IsFQDNOrIP(host string) bool {
+	if IsFQDN(host) {
 		return true
 	}
-	if net.ParseIP(auth) != nil {
+	if net.ParseIP(host) != nil {
 		return true
 	}
 	return false
