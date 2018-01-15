@@ -96,6 +96,59 @@ func TestIsFQDNNotFQDN(t *testing.T) {
 	}
 }
 
+func TestGetAuthorityBadURI(t *testing.T) {
+	uri := "not//a/valid/uri"
+	expected := ""
+	actual := GetAuthority(uri)
+	if expected != actual {
+		t.Error(
+			"For", uri,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
+func TestGetHostBadURI(t *testing.T) {
+	uri := "not//a/valid/uri"
+	expected := ""
+	authority := GetAuthority(uri)
+	actual := GetHost(authority)
+	if expected != actual {
+		t.Error(
+			"For", uri,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
+func TestGetAuthorityRootless(t *testing.T) {
+	uri := "sip:user@host.com"
+	expected := ""
+	actual := GetAuthority(uri)
+	if expected != actual {
+		t.Error(
+			"For", uri,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
+func TestGetHostRootless(t *testing.T) {
+	uri := "sip:user@host.com"
+	expected := ""
+	actual := GetAuthority(uri)
+	if expected != actual {
+		t.Error(
+			"For", uri,
+			"expected", expected,
+			"got", actual,
+		)
+	}
+}
+
 func TestGetAuthorityNoUserinfoNoPortNoAbsolutePathNoQueryNoFragment(t *testing.T) {
 	uri := "scheme://host.com"
 	expected := "host.com"
