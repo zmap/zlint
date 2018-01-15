@@ -16,6 +16,7 @@ package util
 
 import (
 	"net"
+	"net/url"
 	"strings"
 
 	"github.com/asaskevich/govalidator"
@@ -44,24 +45,40 @@ func IsFQDN(domain string) bool {
 }
 
 func GetAuthority(uri string) string {
+	parsed, err := url.Parse(uri)
+	if err != nil {
+		return ""
+	}
+	if parsed.Opaque != "" {
+		// non-empty Opaque means that there is no authority
+		return ""
+	}
 	if len(uri) < 4 {
 		return ""
 	}
-	idx := strings.Index(uri, "//")
-	for i := idx + 2; i < len(uri); i++ {
-		if uri[i] == '/' || uri[i] == '#' || uri[i] == '?' {
-			return uri[idx+2 : i]
+	// https://tools.ietf.org/html/rfc3986#section-3
+	// The only time an authority is present is if there is a // after the scheme.
+	firstColon := strings.Index(uri, ":")
+	postScheme := uri[firstColon+1:]
+	// After the scheme, there is the hier-part, optionally followed by a query or fragment.
+	if !strings.HasPrefix(postScheme, "//") {
+		// authority is always prefixed by //
+		return ""
+	}
+	for i := 2; i < len(postScheme); i++ {
+		// in the hier-part, the authority is followed by either an absolute path, or the empty string.
+		// So, the authority is terminated by the start of an absolute path (/), the start of a fragment (#) or the start of a query(?)
+		if postScheme[i] == '/' || postScheme[i] == '#' || postScheme[i] == '?' {
+			return postScheme[2:i]
 		}
 	}
-	if idx != -1 {
-		return uri[idx+2:]
-	}
-	return ""
+	// Found no absolute path, fragment or query -- so the authority is the only data after the scheme://
+	return postScheme[2:]
 }
 
 func GetHost(auth string) string {
 	begin := strings.Index(auth, "@")
-	if begin == -1 || begin == len(auth)-1 {
+	if begin == len(auth)-1 {
 		begin = -1
 	}
 	end := strings.Index(auth, ":")
