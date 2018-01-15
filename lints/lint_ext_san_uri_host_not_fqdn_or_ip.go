@@ -49,12 +49,14 @@ func (l *SANURIHost) Execute(c *x509.Certificate) *LintResult {
 			if err != nil {
 				return &LintResult{Status: Error}
 			}
-
-			if parsed.Host == "" {
-				return &LintResult{Status: Error}
-			}
-			if !util.IsFQDNOrIP(parsed.Host) {
-				return &LintResult{Status: Error}
+			if parsed.Opaque == "" {
+				// if Opaque is not empty, that means there is no authority, which means that the URI is vacuously OK
+				if parsed.Host == "" {
+					return &LintResult{Status: Error}
+				}
+				if !util.IsFQDNOrIP(parsed.Host) {
+					return &LintResult{Status: Error}
+				}
 			}
 		}
 	}
