@@ -62,3 +62,14 @@ func TestSANURIHostFQDN(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestSANURINoAuthority(t *testing.T) {
+	// This certificate has a SAN with URI=sip:alice@sip.uri.com
+	// Since this has no authority section, it should be accepted.
+	inputPath := "../testlint/testCerts/SANURINoAuthority.pem"
+	expected := Pass
+	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
