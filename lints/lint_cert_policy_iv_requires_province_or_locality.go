@@ -12,7 +12,8 @@
  * permissions and limitations under the License.
  */
 
-/*If the Certificate asserts the policy identifier of 2.23.140.1.2.3, then it MUST also include (i) either organizationName or givenName and surname, (ii) localityName (to the extent such field is required under Section 7.1.4.2.2), (iii) stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and (iv) countryName in the Subject field.*/
+// 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.3, then it MUST also include (i) either organizationName or givenName and surname, (ii) localityName (to the extent such field is required under Section 7.1.4.2.2), (iii) stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and (iv) countryName in the Subject field.
+// 7.1.4.2.2 applies only to subscriber certificates.
 
 package lints
 
@@ -28,7 +29,7 @@ func (l *CertPolicyIVRequiresProvinceOrLocal) Initialize() error {
 }
 
 func (l *CertPolicyIVRequiresProvinceOrLocal) CheckApplies(cert *x509.Certificate) bool {
-	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID)
+	return util.IsSubscriberCert(cert) && util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID)
 }
 
 func (l *CertPolicyIVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) *LintResult {
