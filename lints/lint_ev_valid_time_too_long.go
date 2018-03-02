@@ -30,7 +30,7 @@ func (l *evValidTooLong) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *evValidTooLong) Execute(c *x509.Certificate) *LintResult {
-	if c.NotBefore.AddDate(2, 3, 0).Before(c.NotAfter) {
+	if c.NotBefore.AddDate(0, 0, 825).Before(c.NotAfter) {
 		return &LintResult{Status: Error}
 	}
 	return &LintResult{Status: Pass}
@@ -39,7 +39,7 @@ func (l *evValidTooLong) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_valid_time_too_long",
-		Description:   "EV certificates must be 27 months in validity or less",
+		Description:   "EV certificates must be 825 days in validity or less",
 		Citation:      "BRs: 6.3.2",
 		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
