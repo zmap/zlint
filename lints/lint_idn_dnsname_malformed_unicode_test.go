@@ -14,9 +14,7 @@
 
 package lints
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestIDNMalformedUnicode(t *testing.T) {
 	inputPath := "../testlint/testCerts/idnMalformedUnicode.pem"

@@ -22,6 +22,8 @@ contained in the Certificate’s subjectAltName extension (see Section 7.1.4.2.1
 package lints
 
 import (
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -37,16 +39,14 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
-	cn := c.Subject.CommonName
-
 	for _, dn := range c.DNSNames {
-		if cn == dn {
+		if strings.EqualFold(c.Subject.CommonName, dn) {
 			return &LintResult{Status: Pass}
 		}
 	}
 
 	for _, ip := range c.IPAddresses {
-		if cn == ip.String() {
+		if c.Subject.CommonName == ip.String() {
 			return &LintResult{Status: Pass}
 		}
 	}
