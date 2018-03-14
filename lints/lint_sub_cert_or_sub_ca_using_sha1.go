@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,7 +18,6 @@
 BRs: 7.1.3
 SHA‐1	MAY	be	used	with	RSA	keys	in	accordance	with	the	criteria	defined	in	Section	7.1.3.
 **************************************************************************************************/
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

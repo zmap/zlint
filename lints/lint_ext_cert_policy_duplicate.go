@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@
   are not expected to change the definition of the policy. A certificate
   policy OID MUST NOT appear more than once in a certificate policies extension.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

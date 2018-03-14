@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -27,8 +29,6 @@ certification path.  Where it appears, the pathLenConstraint field
 MUST be greater than or equal to zero.  Where pathLenConstraint does
 not appear, no limit is imposed.
 ********************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

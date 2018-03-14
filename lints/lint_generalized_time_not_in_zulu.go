@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -24,8 +26,6 @@ expressed in Greenwich Mean Time (Zulu) and MUST include seconds
 (i.e., times are YYYYMMDDHHMMSSZ), even where the number of seconds
 is zero.  GeneralizedTime values MUST NOT include fractional seconds.
 ********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

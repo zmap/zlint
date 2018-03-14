@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ RFC 5280: A.1
 	ub-surname-length INTEGER ::= 40
 
 ************************************************/
-
-package lints
 
 import (
 	"unicode/utf8"

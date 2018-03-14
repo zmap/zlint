@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ The name constraints extension, which MUST be used only in a CA
    specified name form is present.  If no name of the type is in the
    certificate, the certificate is acceptable.
 ***********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

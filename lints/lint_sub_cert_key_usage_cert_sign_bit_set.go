@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,7 +19,6 @@ BRs: 7.1.2.3
 keyUsage (optional)
 If present, bit positions for keyCertSign and cRLSign MUST NOT be set.
 ***************************************************************************/
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,8 +18,6 @@
 RFC 5280: 4.2.1.1
 Conforming CAs MUST mark this extension as non-critical.
 **********************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

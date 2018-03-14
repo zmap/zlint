@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -26,8 +28,6 @@ The keyIdentifier field of the authorityKeyIdentifier extension MUST
    identical, but only the subject key identifier is needed for
    certification path building.
 ***********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

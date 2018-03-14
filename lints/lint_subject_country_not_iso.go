@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ Required/Optional: Required
 Contents: This field MUST contain the two-letter ISO 3166-1 country code for the country in which the issuer’s
 place of business is located.
 **************************************************************************************************************/
-
-package lints
 
 import (
 	"strings"

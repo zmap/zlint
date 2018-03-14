@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,8 +18,6 @@
 BRs: 7.1.2.2a certificatePolicies
 This extension MUST be present and SHOULD NOT be marked critical.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

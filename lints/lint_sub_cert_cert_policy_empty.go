@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ A Certificate issued to a Subscriber MUST contain one or more policy identifier(
 the Certificate’s certificatePolicies extension that indicates adherence to and complIANce with these Requirements.
 CAs complying with these Requirements MAY also assert one of the reserved policy OIDs in such Certificates.
 *********************************************************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

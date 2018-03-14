@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -11,8 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-package lints
 
 import (
 	"regexp"

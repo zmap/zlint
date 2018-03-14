@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@ RFC 5280: 4.2.1.6
    ">".  Rules for encoding Internet mail addresses that include
    internationalized domain names are specified in Section 7.5.
 ************************************************************************/
-
-package lints
 
 import (
 	"strings"

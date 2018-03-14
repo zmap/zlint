@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -18,8 +20,6 @@ cRLDistributionPoints
 This extension MAY be present. If present, it MUST NOT be marked critical, and it MUST contain the HTTP
 URL of the CA’s CRL service.
 *******************************************************************************************************/
-
-package lints
 
 import (
 	"strings"

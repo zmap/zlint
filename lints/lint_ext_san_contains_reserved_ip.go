@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -20,8 +22,6 @@ issue a certificate with an Expiry Date later than
 or Subject commonName field containing a Reserved IP
 Address or Internal Name.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@
 a. basicConstraints
 This extension MUST appear as a critical extension. The cA field MUST be set true. The pathLenConstraint field SHOULD NOT be present.
 ***********************************************************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

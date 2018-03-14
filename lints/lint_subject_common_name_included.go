@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,7 +18,6 @@
 BRs: 7.1.4.2.2
 Required/Optional: Deprecated (Discouraged, but not prohibited)
 ***************************************************************/
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

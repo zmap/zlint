@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@ The user notice has two optional fields: the noticeRef field and the
 explicitText field. Conforming CAs SHOULD NOT use the noticeRef
 option.
 ********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

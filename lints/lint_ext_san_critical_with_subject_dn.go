@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ Further, if the only subject identity included in the certificate is an
  has a non-empty subject distinguished name, conforming CAs SHOULD mark the
  subjectAltName extension as non-critical.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

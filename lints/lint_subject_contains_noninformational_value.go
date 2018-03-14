@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -20,7 +22,6 @@ the subject field, MUST contain information that has been verified by the CA. Me
 space) characters, and/or any other indication that the value is absent, incomplete, or not applicable, SHALL NOT
 be used.
 **********************************************************************************************************************/
-package lints
 
 import (
 	"strings"

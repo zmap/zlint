@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@ rfc822Name is not permitted by this profile.  The behavior of clients
 that encounter such a certificate when processing a certification
 path is not defined by this profile.
 ******************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

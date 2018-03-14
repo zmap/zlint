@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@ characters (e.g., U+0000 to U+001F and U+007F to U+009F).  When
 the UTF8String encoding is used, all character sequences SHOULD be
 normalized according to Unicode normalization form C (NFC) [NFC].
 *********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

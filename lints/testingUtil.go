@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -13,8 +15,6 @@
  */
 
 // Contains resources necessary to the Unit Test Cases
-
-package lints
 
 import (
 	"encoding/pem"

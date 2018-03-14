@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ Each issuerDomainPolicy named in the policy mappings extension SHOULD
    certificate.  Policies MUST NOT be mapped either to or from the
    special value anyPolicy (Section 4.2.1.4).
 ********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

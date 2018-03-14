@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -24,8 +26,6 @@ issue certificates where name constraints is an empty sequence.  That
 is, either the permittedSubtrees field or the excludedSubtrees MUST
 be present.
 *******************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

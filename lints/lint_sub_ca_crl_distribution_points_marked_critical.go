@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@ BRs: 7.1.2.2b cRLDistributionPoints
 This extension MUST be present and MUST NOT be marked critical.
 It MUST contain the HTTP URL of the CA’s CRL service.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

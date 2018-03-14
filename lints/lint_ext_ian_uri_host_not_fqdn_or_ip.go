@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@ qualified domain name or IP address as the host.  Rules for encoding
 Internationalized Resource Identifiers (IRIs) are specified in
 Section 7.4.
 *********************************************************************/
-
-package lints
 
 import (
 	"net/url"

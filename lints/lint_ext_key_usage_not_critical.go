@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -13,8 +15,6 @@
  */
 
 // "When present, conforming CAs SHOULD mark this extension as critical."
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@ The subject field identifies the entity associated with the public
    distinguished name matching the contents of the issuer field (Section
    4.1.2.4) in all certificates issued by the subject CA.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

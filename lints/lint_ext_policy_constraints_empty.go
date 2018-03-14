@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -20,8 +22,6 @@ Conforming CAs MUST NOT issue certificates where policy constraints
    clients that encounter an empty policy constraints field is not
    addressed in this profile.
 *************************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

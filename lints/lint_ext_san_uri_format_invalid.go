@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,8 +18,6 @@
 The name MUST include both a
 scheme (e.g., "http" or "ftp") and a scheme-specific-part.
 ************************************************/
-
-package lints
 
 import (
 	"net/url"

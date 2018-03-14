@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -18,8 +20,6 @@ RFC 5280: A.1
 	for fields in a x509 Certificate. *
 	ub-emailaddress-length INTEGER ::= 128
 ************************************************/
-
-package lints
 
 import (
 	"unicode/utf8"

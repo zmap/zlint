@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -29,8 +31,6 @@ systems MUST interpret the year field (YY) as follows:
 
       Where YY is less than 50, the year SHALL be interpreted as 20YY.
 ************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

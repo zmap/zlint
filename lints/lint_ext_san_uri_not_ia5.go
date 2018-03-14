@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,8 +18,6 @@
 When the subjectAltName extension contains a URI, the name MUST be
 stored in the uniformResourceIdentifier (an IA5String).
 ************************************************/
-
-package lints
 
 import (
 	"unicode"

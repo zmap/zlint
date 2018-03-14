@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ The cA boolean indicates whether the certified public key may be used
    is not asserted, then the certified public key MUST NOT be used to
    verify certificate signatures.
 ************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

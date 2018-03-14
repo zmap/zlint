@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -31,8 +33,6 @@
    To assist applications in identifying the appropriate end entity certificate,
    this extension SHOULD be included in all end entity certificates.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

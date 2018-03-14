@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -18,8 +20,6 @@ CAs MUST NOT include the pathLenConstraint field unless the cA
 boolean is asserted and the key usage extension asserts the
 keyCertSign bit.
 ******************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

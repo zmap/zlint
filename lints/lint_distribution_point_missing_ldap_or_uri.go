@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -16,8 +18,6 @@
 RFC 5280: 4.2.1.13
 When present, DistributionPointName SHOULD include at least one LDAP or HTTP URI.
 ************************************************/
-
-package lints
 
 import (
 	"strings"

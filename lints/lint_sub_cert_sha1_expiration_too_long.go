@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -18,8 +20,6 @@ an Expiry Date greater than 1 January 2017 because Application Software Provider
 deprecating and/or removing the SHA‐1 algorithm from their software, and they have communicated that
 CAs and Subscribers using such certificates do so at their own risk.
 ****************************************************************************************************************/
-
-package lints
 
 import (
 	"time"

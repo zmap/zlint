@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ An authorityInfoAccess extension may include multiple instances of
    accessLocation that is an HTTP [RFC2616] or LDAP [RFC4516] URI.
 
 ************************************************/
-
-package lints
 
 import (
 	"strings"

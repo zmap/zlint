@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@ BRs: 6.1.5
 Certificates MUST meet the following requirements for algorithm type and key size.
 ECC Curve: NIST P-256, P-384, or P-521
 ************************************************/
-
-package lints
 
 import (
 	"crypto/ecdsa"
