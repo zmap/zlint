@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ maximum for a name form that appears in a subsequent certificate, the
 application MUST either process these fields or reject the
 certificate.
 ************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

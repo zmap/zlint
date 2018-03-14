@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -24,8 +26,6 @@ If a CA includes extended key usages to satisfy such applications,
    anyExtendedKeyUsage OID but not the particular OID expected for the
    application.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

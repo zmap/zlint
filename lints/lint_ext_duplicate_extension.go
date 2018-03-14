@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -15,8 +17,6 @@
 /************************************************
 "A certificate MUST NOT include more than one instance of a particular extension."
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

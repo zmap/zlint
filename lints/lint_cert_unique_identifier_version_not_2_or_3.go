@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -25,8 +27,6 @@ RFC 5280: 4.1.2.8
  identifiers, but there are no processing requirements associated with the
  unique identifiers.
 ****************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

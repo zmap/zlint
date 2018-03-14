@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -13,8 +15,6 @@
  */
 
 // CHANGE THIS COMMENT TO MATCH SOURCE TEXT
-
-package lints
 
 import (
 	"crypto/rsa"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -15,8 +17,6 @@
 /************************************************
 The freshest CRL extension identifies how delta CRL information is obtained. The extension MUST be marked as non-critical by conforming CAs. Further discussion of CRL management is contained in Section 5.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

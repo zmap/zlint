@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -18,8 +20,6 @@ If present, this field MUST contain a single IP address
 or Fully‐Qualified Domain Name that is one of the values
 contained in the Certificate’s subjectAltName extension (see Section 7.1.4.2.1).
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

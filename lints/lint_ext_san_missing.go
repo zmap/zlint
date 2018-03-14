@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -18,8 +20,6 @@ Subject Alternative Name Extension
 Certificate Field: extensions:subjectAltName
 Required/Optional: Required
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@ If the subjectAltName extension is present, the sequence MUST contain
    that encounter such a certificate when processing a certification
    path is not defined by this profile.
 ***********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

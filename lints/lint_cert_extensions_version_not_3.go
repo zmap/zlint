@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -30,8 +32,6 @@
    extensions. The format and content of certificate extensions in the
    Internet PKI are defined in Section 4.2.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

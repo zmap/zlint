@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -14,8 +16,6 @@
 
 // 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.3, then it MUST also include (i) either organizationName or givenName and surname, (ii) localityName (to the extent such field is required under Section 7.1.4.2.2), (iii) stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and (iv) countryName in the Subject field.
 // 7.1.4.2.2 applies only to subscriber certificates.
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

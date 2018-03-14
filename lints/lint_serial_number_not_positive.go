@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -28,8 +30,6 @@
    negative or zero.  Certificate users SHOULD be prepared togracefully handle
    such certificates.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@ BRs: 7.1.2.3
 extKeyUsage (required)
 Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or both values MUST be present. id-kp-emailProtection [RFC5280] MAY be present. Other values SHOULD NOT be present.
 *******************************************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

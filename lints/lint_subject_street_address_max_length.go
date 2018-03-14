@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@ ITU-T X.520 (02/2001) UpperBounds
 ub-street-address INTEGER ::= 128
 
 ************************************************/
-
-package lints
 
 import (
 	"unicode/utf8"

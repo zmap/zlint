@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ confirm that the Applicant controls the Fully‐Qualified Domain Name or IP addr
 right to use it by the Domain Name Registrant or IP address assignee, as appropriate.
 Wildcard FQDNs are permitted.
 *************************************************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

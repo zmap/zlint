@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -15,8 +17,6 @@
 /************************************************
 Certificates MUST be of type X.509 v3.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

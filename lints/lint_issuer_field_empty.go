@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ The issuer field identifies the entity that has signed and issued the
    name (DN).  The issuer field is defined as the X.501 type Name
    [X.501].
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

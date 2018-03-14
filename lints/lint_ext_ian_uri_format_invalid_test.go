@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -13,7 +15,6 @@
  */
 
 //lint_ext_ian_uri_format_invalid_invalid
-package lints
 
 import (
 	"testing"

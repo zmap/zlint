@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -27,8 +29,6 @@ When the subjectAltName extension contains a domain name system
    be used; such identities are to be encoded as rfc822Name.  Rules for
    encoding internationalized domain names are specified in Section 7.2.
 ************************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

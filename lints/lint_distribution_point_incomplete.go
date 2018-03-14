@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -24,8 +26,6 @@ of the CRL issuer.  If the certificate issuer is also the CRL issuer,
 then conforming CAs MUST omit the cRLIssuer field and MUST include
 the distributionPoint field.
 ********************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

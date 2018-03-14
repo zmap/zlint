@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ Conforming CAs MUST include this extension in certificates that
    other public key certificates or CRLs.  When present, conforming CAs
    SHOULD mark this extension as critical.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

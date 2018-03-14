@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -23,8 +25,6 @@
    is, either the permittedSubtrees field or the excludedSubtrees MUST
    be present.
 ************************************************************************/
-
-package lints
 
 import (
 	"encoding/asn1"

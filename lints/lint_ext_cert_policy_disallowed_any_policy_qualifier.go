@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -22,8 +24,6 @@ qualifiers are used with the special policy anyPolicy, they MUST be
 limited to the qualifiers identified in this section.  Only those
 qualifiers returned as a result of path validation are considered.
 ********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

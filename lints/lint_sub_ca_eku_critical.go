@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ id‐kp‐serverAuth [RFC5280] or id‐kp‐clientAuth [RFC5280] or both values 
 Other values MAY be present.
 If present, this extension SHOULD be marked non‐critical.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -17,8 +19,6 @@ RFC 5280: 4.2.1.5.  Policy Mappings
 This extension MAY be supported by CAs and/or applications.
    Conforming CAs SHOULD mark this extension as critical.
 **********************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

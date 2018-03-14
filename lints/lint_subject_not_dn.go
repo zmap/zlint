@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -20,8 +22,6 @@
    CA may issue more than one certificate with the same DN to the same
    subject entity.
 *************************************************************************/
-
-package lints
 
 import (
 	"reflect"

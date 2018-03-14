@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -20,8 +22,6 @@
    keyUsage extension appears in a certificate, at least one of the bits
    MUST be set to 1.
 ***********************************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

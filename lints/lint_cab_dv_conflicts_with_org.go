@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -14,8 +16,6 @@
 
 // If the Certificate asserts the policy identifier of 2.23.140.1.2.1, then it MUST NOT include
 // organizationName, streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject field.
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

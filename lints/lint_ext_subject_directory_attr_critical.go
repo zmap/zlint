@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ The subject directory attributes extension is used to convey
    extension is defined as a sequence of one or more attributes.
    Conforming CAs MUST mark this extension as non-critical.
 ************************************************/
-
-package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"

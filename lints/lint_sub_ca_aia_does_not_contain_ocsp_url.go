@@ -1,3 +1,5 @@
+package lints
+
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
  *
@@ -19,8 +21,6 @@ marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP res
 = 1.3.6.1.5.5.7.48.1). It SHOULD also contain the HTTP URL of the Issuing CA’s certificate
 (accessMethod = 1.3.6.1.5.5.7.48.2).
 ************************************************/
-
-package lints
 
 import (
 	"strings"
