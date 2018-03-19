@@ -43,7 +43,6 @@ type basicConst struct {
 }
 
 type pathLenNonPositive struct {
-	bc basicConst
 }
 
 func (l *pathLenNonPositive) Initialize() error {
@@ -55,11 +54,13 @@ func (l *pathLenNonPositive) CheckApplies(cert *x509.Certificate) bool {
 }
 
 func (l *pathLenNonPositive) Execute(cert *x509.Certificate) *LintResult {
+	var bc basicConst
+
 	ext := util.GetExtFromCert(cert, util.BasicConstOID)
-	if _, err := asn1.Unmarshal(ext.Value, &l.bc); err != nil {
+	if _, err := asn1.Unmarshal(ext.Value, &bc); err != nil {
 		return &LintResult{Status: Fatal}
 	}
-	if l.bc.PathLenConstraint < 0 {
+	if bc.PathLenConstraint < 0 {
 		return &LintResult{Status: Error}
 	}
 	return &LintResult{Status: Pass}
