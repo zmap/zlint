@@ -35,8 +35,6 @@ import (
 )
 
 type generalizedTimeFraction struct {
-	date1Gen bool
-	date2Gen bool
 }
 
 func (l *generalizedTimeFraction) Initialize() error {
@@ -46,22 +44,25 @@ func (l *generalizedTimeFraction) Initialize() error {
 func (l *generalizedTimeFraction) CheckApplies(c *x509.Certificate) bool {
 	firstDate, secondDate := util.GetTimes(c)
 	beforeTag, afterTag := util.FindTimeType(firstDate, secondDate)
-	l.date1Gen = beforeTag == 24
-	l.date2Gen = afterTag == 24
-	return l.date1Gen || l.date2Gen
+	date1Gen := beforeTag == 24
+	date2Gen := afterTag == 24
+	return date1Gen || date2Gen
 }
 
 func (l *generalizedTimeFraction) Execute(c *x509.Certificate) *LintResult {
 	r := Pass
 	date1, date2 := util.GetTimes(c)
-	if l.date1Gen {
+	beforeTag, afterTag := util.FindTimeType(date1, date2)
+	date1Gen := beforeTag == 24
+	date2Gen := afterTag == 24
+	if date1Gen {
 		// UTC Tests on notBefore
 		checkFraction(&r, date1)
 		if r == Error {
 			return &LintResult{Status: r}
 		}
 	}
-	if l.date2Gen {
+	if date2Gen {
 		checkFraction(&r, date2)
 	}
 	return &LintResult{Status: r}
