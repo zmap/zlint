@@ -33,8 +33,6 @@ import (
 )
 
 type generalizedNotZulu struct {
-	date1Gen bool
-	date2Gen bool
 }
 
 func (l *generalizedNotZulu) Initialize() error {
@@ -44,19 +42,22 @@ func (l *generalizedNotZulu) Initialize() error {
 func (l *generalizedNotZulu) CheckApplies(c *x509.Certificate) bool {
 	firstDate, secondDate := util.GetTimes(c)
 	beforeTag, afterTag := util.FindTimeType(firstDate, secondDate)
-	l.date1Gen = beforeTag == 24
-	l.date2Gen = afterTag == 24
-	return l.date1Gen || l.date2Gen
+	date1Gen := beforeTag == 24
+	date2Gen := afterTag == 24
+	return date1Gen || date2Gen
 }
 
 func (l *generalizedNotZulu) Execute(c *x509.Certificate) *LintResult {
 	date1, date2 := util.GetTimes(c)
-	if l.date1Gen {
+	beforeTag, afterTag := util.FindTimeType(date1, date2)
+	date1Gen := beforeTag == 24
+	date2Gen := afterTag == 24
+	if date1Gen {
 		if date1.Bytes[len(date1.Bytes)-1] != 'Z' {
 			return &LintResult{Status: Error}
 		}
 	}
-	if l.date2Gen {
+	if date2Gen {
 		if date2.Bytes[len(date2.Bytes)-1] != 'Z' {
 			return &LintResult{Status: Error}
 		}
