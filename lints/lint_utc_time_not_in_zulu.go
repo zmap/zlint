@@ -41,8 +41,6 @@ import (
 )
 
 type utcTimeGMT struct {
-	date1Utc bool
-	date2Utc bool
 }
 
 func (l *utcTimeGMT) Initialize() error {
@@ -52,18 +50,22 @@ func (l *utcTimeGMT) Initialize() error {
 func (l *utcTimeGMT) CheckApplies(c *x509.Certificate) bool {
 	firstDate, secondDate := util.GetTimes(c)
 	beforeTag, afterTag := util.FindTimeType(firstDate, secondDate)
-	l.date1Utc = beforeTag == 23
-	l.date2Utc = afterTag == 23
-	return l.date1Utc || l.date2Utc
+	date1Utc := beforeTag == 23
+	date2Utc := afterTag == 23
+	return date1Utc || date2Utc
 }
 
 func (l *utcTimeGMT) Execute(c *x509.Certificate) *LintResult {
 	var r LintStatus
-	if l.date1Utc {
+	firstDate, secondDate := util.GetTimes(c)
+	beforeTag, afterTag := util.FindTimeType(firstDate, secondDate)
+	date1Utc := beforeTag == 23
+	date2Utc := afterTag == 23
+	if date1Utc {
 		// UTC Tests on notBefore
 		utcNotGmt(c.NotBefore, &r)
 	}
-	if l.date2Utc {
+	if date2Utc {
 		// UTC Tests on NotAfter
 		utcNotGmt(c.NotAfter, &r)
 	}
