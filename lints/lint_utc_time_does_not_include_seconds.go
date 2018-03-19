@@ -38,8 +38,6 @@ import (
 )
 
 type utcNoSecond struct {
-	date1Utc bool
-	date2Utc bool
 }
 
 func (l *utcNoSecond) Initialize() error {
@@ -49,19 +47,22 @@ func (l *utcNoSecond) Initialize() error {
 func (l *utcNoSecond) CheckApplies(c *x509.Certificate) bool {
 	firstDate, secondDate := util.GetTimes(c)
 	beforeTag, afterTag := util.FindTimeType(firstDate, secondDate)
-	l.date1Utc = beforeTag == 23
-	l.date2Utc = afterTag == 23
-	return l.date1Utc || l.date2Utc
+	date1Utc := beforeTag == 23
+	date2Utc := afterTag == 23
+	return date1Utc || date2Utc
 }
 
 func (l *utcNoSecond) Execute(c *x509.Certificate) *LintResult {
 	date1, date2 := util.GetTimes(c)
-	if l.date1Utc {
+	beforeTag, afterTag := util.FindTimeType(date1, date2)
+	date1Utc := beforeTag == 23
+	date2Utc := afterTag == 23
+	if date1Utc {
 		if len(date1.Bytes) != 13 && len(date1.Bytes) != 17 {
 			return &LintResult{Status: Error}
 		}
 	}
-	if l.date2Utc {
+	if date2Utc {
 		if len(date2.Bytes) != 13 && len(date2.Bytes) != 17 {
 			return &LintResult{Status: Error}
 		}
