@@ -30,7 +30,7 @@ func TestSubjectRDNTwoAttribute(t *testing.T) {
 func TestSubjectRDNOneAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
 	expected := Pass
-	out := Lints["w_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
+	out := Lints["n_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
