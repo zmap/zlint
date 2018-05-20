@@ -48,7 +48,7 @@ func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResul
 func init() {
 	RegisterLint(&Lint{
 		Name:          "n_multiple_subject_rdn",
-		Description:   "Certificates should not have multiple attributes in a single RDN (subject)",
+		Description:   "Certificates typically do not have have multiple attributes in a single RDN (subject). This may be an error.",
 		Citation:      "AWSLabs certlint",
 		Source:        AWSLabs,
 		EffectiveDate: util.ZeroDate,
