@@ -19,6 +19,13 @@ RFC 5280: A.1
 	* In this Appendix, there is a list of upperbounds
 	for fields in a x509 Certificate. *
 	ub-emailaddress-length INTEGER ::= 128
+
+The ASN.1 modules in Appendix A are unchanged from RFC 3280, except
+that ub-emailaddress-length was changed from 128 to 255 in order to
+align with PKCS #9 [RFC2985].
+
+ub-emailaddress-length INTEGER ::= 255
+
 ************************************************/
 
 import (
@@ -40,7 +47,7 @@ func (l *subjectEmailMaxLength) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subjectEmailMaxLength) Execute(c *x509.Certificate) *LintResult {
 	for _, j := range c.Subject.EmailAddress {
-		if utf8.RuneCountInString(j) > 128 {
+		if utf8.RuneCountInString(j) > 255 {
 			return &LintResult{Status: Error}
 		}
 	}
@@ -51,7 +58,7 @@ func (l *subjectEmailMaxLength) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_subject_email_max_length",
-		Description:   "The 'Email' field of the subject MUST be less than 129 characters",
+		Description:   "The 'Email' field of the subject MUST be less than 255 characters",
 		Citation:      "RFC 5280: A.1",
 		Source:        RFC5280,
 		EffectiveDate: util.RFC2459Date,
