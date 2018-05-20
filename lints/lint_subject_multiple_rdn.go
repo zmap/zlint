@@ -39,7 +39,7 @@ func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResul
 	}
 	for _, rdn := range subject {
 		if len(rdn) > 1 {
-			return &LintResult{Status: Warn}
+			return &LintResult{Status: Notice}
 		}
 	}
 	return &LintResult{Status: Pass}
