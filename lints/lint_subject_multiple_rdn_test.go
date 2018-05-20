@@ -21,7 +21,7 @@ import (
 func TestSubjectRDNTwoAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectRDNTwoAttribute.pem"
 	expected := Warn
-	out := Lints["w_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
+	out := Lints["n_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
