@@ -39,7 +39,7 @@ func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResul
 	}
 	for _, rdn := range subject {
 		if len(rdn) > 1 {
-			return &LintResult{Status: Warn}
+			return &LintResult{Status: Notice}
 		}
 	}
 	return &LintResult{Status: Pass}
@@ -47,8 +47,8 @@ func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResul
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "w_multiple_subject_rdn",
-		Description:   "Certificates should not have multiple attributes in a single RDN (subject)",
+		Name:          "n_multiple_subject_rdn",
+		Description:   "Certificates typically do not have have multiple attributes in a single RDN (subject). This may be an error.",
 		Citation:      "AWSLabs certlint",
 		Source:        AWSLabs,
 		EffectiveDate: util.ZeroDate,
