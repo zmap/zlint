@@ -10,6 +10,6 @@ clean:
 	rm -f cmd/cmd/zlint zlint
 
 test:
-	go test ./...
+	GORACE=halt_on_error=1 go test -race ./...
 
 .PHONY: clean cmd/zlint/zlint zlint test
