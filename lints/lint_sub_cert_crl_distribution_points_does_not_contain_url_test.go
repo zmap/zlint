@@ -35,3 +35,18 @@ func TestCrlContainsUrl(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCrlContainsUrlInCompoundFullName(t *testing.T) {
+	// Re: https://github.com/zmap/zlint/issues/223
+	// Previously, we only grabbed the first entry in the fullName of each
+	// DistributionPoint, whereas multiple names are allowed (these are
+	// interpreted as different names for the same underlying CRL, i.e.
+	// providing an LDAP URI and an HTTP URI -- see section 4.2.1.13 of
+	// RFC5280).
+	inputPath := "../testlint/testCerts/subCrlDistURLInCompoundFullName.pem"
+	expected := Pass
+	out := Lints["e_sub_cert_crl_distribution_points_does_not_contain_url"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
