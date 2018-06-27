@@ -56,8 +56,8 @@ func init() {
 		Name:          "e_international_dns_name_not_nfc",
 		Description:   "Internationalized DNSNames must be normalized by unicode normalization form C",
 		Citation:      "RFC 8399",
-		Source:        RFC8399,
-		EffectiveDate: util.RFC5890Date,
+		Source:        RFC5891,
+		EffectiveDate: util.RFC8399Date,
 		Lint:          &IDNNotNFC{},
 	})
 }
