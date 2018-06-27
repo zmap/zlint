@@ -55,8 +55,8 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_international_dns_name_not_nfc",
 		Description:   "Internationalized DNSNames must be normalized by unicode normalization form C",
-		Citation:      "RFC 5890",
-		Source:        RFC5891,
+		Citation:      "RFC 8399",
+		Source:        RFC8399,
 		EffectiveDate: util.RFC5890Date,
 		Lint:          &IDNNotNFC{},
 	})
