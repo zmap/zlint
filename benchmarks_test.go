@@ -141,7 +141,7 @@ func BenchmarkZlint(b *testing.B) {
 					"w_rsa_mod_factors_smaller_than_752", "e_dnsname_bad_character_in_label", "w_subject_dn_leading_whitespace",
 					"w_subject_dn_trailing_whitespace", "w_multiple_subject_rdn", "e_ext_san_dns_not_ia5_string",
 					"e_ext_san_empty_name", "e_dnsname_not_valid_tld", "e_dnsname_contains_bare_iana_suffix",
-					"e_dnsname_wildcard_only_in_left_label", "e_international_dns_name_not_nfkc", "e_dnsname_left_label_wildcard_correct",
+					"e_dnsname_wildcard_only_in_left_label", "e_international_dns_name_not_nfc", "e_dnsname_left_label_wildcard_correct",
 					"e_international_dns_name_not_unicode", "w_issuer_dn_trailing_whitespace", "w_issuer_dn_leading_whitespace",
 					"w_multiple_issuer_rdn", "e_dnsname_empty_label", "e_dnsname_label_too_long", "e_distribution_point_incomplete",
 					"e_wrong_time_format_pre2050", "e_utc_time_does_not_include_seconds", "e_sub_cert_not_is_ca", "w_rsa_mod_not_odd",
