@@ -36,6 +36,42 @@ func TestDNSNameNotValidTLD(t *testing.T) {
 	}
 }
 
+// TestDNSNameNotYetValidTLD lints a certificate that was issued for a DNS name
+// with a TLD that was not yet delegated at the time the certificate was issued,
+// expecting an error.
+func TestDNSNameNotYetValidTLD(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsNameNotYetValidTLD.pem"
+	expected := Error
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+// TestDNSNAmeNoLongerValidTLD lints a certificate that was issued for a DNS
+// name with a TLD whose delegation was removed from the root DNS at the time
+// the certificate was issued, expecting an error.
+func TestDNSNameNoLongerValidTLD(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsNameNoLongerValidTLD.pem"
+	expected := Error
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+// TestDNSNameWasValidTLD lints a certificate that was issued for a DNS name
+// with a TLD whose delegation was removed from the root DNS, but not until
+// after the certificate was issued, expecting no error.
+func TestDNSNameWasValidTLD(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsNameWasValidTLD.pem"
+	expected := Pass
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
 func TestDNSNameWithIPInCommonName(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWithIPInCN.pem"
 	expected := Pass
