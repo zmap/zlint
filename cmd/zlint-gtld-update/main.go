@@ -96,6 +96,8 @@ var tldMap = map[string]GTLDPeriod{
 `))
 )
 
+// getData fetches the response body bytes from an HTTP get to the provider url,
+// or returns an error.
 func getData(url string) ([]byte, error) {
 	resp, err := httpClient.Get(url)
 	if err != nil {
