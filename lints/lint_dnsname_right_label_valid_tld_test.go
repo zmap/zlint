@@ -72,6 +72,19 @@ func TestDNSNameWasValidTLD(t *testing.T) {
 	}
 }
 
+// TestDNSNameOnionTLD lints a certificate that was issued for a DNS name with
+// a .onion TLD. This ensures the special casing of the .onion gTLD is handled
+// correctly and isn't omitted simply because it is not an ICANN/IANA delegated
+// TLD.
+func TestDNSNameOnionTLD(t *testing.T) {
+	inputPath := "../testlint/testCerts/dnsNameOnionTLD.pem"
+	expected := Pass
+	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
 func TestDNSNameWithIPInCommonName(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWithIPInCN.pem"
 	expected := Pass

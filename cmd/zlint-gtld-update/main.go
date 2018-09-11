@@ -92,6 +92,15 @@ var tldMap = map[string]GTLDPeriod{
 		RemovalDate: "{{ .RemovalDate }}",
 	},
 {{- end }}
+	// .onion is a special case and not a general gTLD. However, it is allowed in
+	// some circumstances in the web PKI so the Zlint gtldMap includes it with
+	// a delegationDate based on the CABF ballot to allow EV issuance for .onion
+	// domains: https://cabforum.org/2015/02/18/ballot-144-validation-rules-dot-onion-names/
+	"onion": {
+		GTLD: "onion",
+		DelegationDate: "2015-02-18",
+		RemovalDate: "",
+	},
 }
 `))
 )
