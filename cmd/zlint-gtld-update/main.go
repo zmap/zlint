@@ -45,7 +45,7 @@ const (
 	// carry sufficient granularity to determine validity periods.
 	// See https://www.icann.org/resources/pages/tlds-2012-02-25-en for more
 	// information.
-	ICANN_TLDS = "http://data.iana.org/TLD/tlds-alpha-by-domain.txt"
+	ICANN_TLDS = "https://data.iana.org/TLD/tlds-alpha-by-domain.txt"
 )
 
 var (
