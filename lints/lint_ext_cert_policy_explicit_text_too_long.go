@@ -28,6 +28,9 @@ to Unicode normalization form C (NFC) [NFC].
 *******************************************************************/
 
 import (
+	"fmt"
+	"unicode/utf8"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -50,7 +53,9 @@ func (l *explicitTextTooLong) CheckApplies(c *x509.Certificate) bool {
 func (l *explicitTextTooLong) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
-			if len(text.Bytes) > 200 {
+			runes := []rune(string(text.Bytes))
+			fmt.Printf("%t", utf8.ValidString(string(text.Bytes)))
+			if len(runes) > 200 {
 				return &LintResult{Status: Error}
 			}
 		}
