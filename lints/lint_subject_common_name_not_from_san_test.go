@@ -36,7 +36,7 @@ func TestCnFromSAN(t *testing.T) {
 	}
 }
 
-func TestCnCaseNotMatchingSAN(t *testing.T) {
+func TestSANCaseNotMatchingCN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaseNotMatchingCN.pem"
 	expected := Pass
 	out := Lints["e_subject_common_name_not_from_san"].Execute(ReadCertificate(inputPath))
