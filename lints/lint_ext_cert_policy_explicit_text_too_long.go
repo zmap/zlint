@@ -28,8 +28,8 @@ to Unicode normalization form C (NFC) [NFC].
 *******************************************************************/
 
 import (
-	"fmt"
-	"unicode/utf8"
+	"errors"
+	"unicode/utf16"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -53,14 +53,32 @@ func (l *explicitTextTooLong) CheckApplies(c *x509.Certificate) bool {
 func (l *explicitTextTooLong) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
-			runes := []rune(string(text.Bytes))
-			fmt.Printf("%t", utf8.ValidString(string(text.Bytes)))
+			runes, err := parseBMPString(text.Bytes)
+			if err != nil {
+				runes = string(text.Bytes)
+			}
 			if len(runes) > 200 {
 				return &LintResult{Status: Error}
 			}
 		}
 	}
 	return &LintResult{Status: Pass}
+}
+
+func parseBMPString(bmpString []byte) (string, error) {
+	if len(bmpString)%2 != 0 {
+		return "", errors.New("pkcs12: odd-length BMP string")
+	}
+	// strip terminator if present
+	if l := len(bmpString); l >= 2 && bmpString[l-1] == 0 && bmpString[l-2] == 0 {
+		bmpString = bmpString[:l-2]
+	}
+	s := make([]uint16, 0, len(bmpString)/2)
+	for len(bmpString) > 0 {
+		s = append(s, uint16(bmpString[0])<<8+uint16(bmpString[1]))
+		bmpString = bmpString[2:]
+	}
+	return string(utf16.Decode(s)), nil
 }
 
 func init() {
