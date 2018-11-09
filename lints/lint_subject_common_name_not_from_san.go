@@ -42,7 +42,7 @@ func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
 	cn := c.Subject.CommonName
 
 	for _, dn := range c.DNSNames {
-		if strings.ToLower(cn) == strings.ToLower(dn) {
+		if strings.EqualFold(cn, dn) {
 			return &LintResult{Status: Pass}
 		}
 	}
