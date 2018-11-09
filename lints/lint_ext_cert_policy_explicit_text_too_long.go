@@ -53,8 +53,10 @@ func (l *explicitTextTooLong) CheckApplies(c *x509.Certificate) bool {
 func (l *explicitTextTooLong) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
-			runes, err := parseBMPString(text.Bytes)
-			if err != nil {
+			var runes string
+			if text.FullBytes[0] == 30 {
+				runes, _ = parseBMPString(text.Bytes)
+			} else {
 				runes = string(text.Bytes)
 			}
 			if len(runes) > 200 {

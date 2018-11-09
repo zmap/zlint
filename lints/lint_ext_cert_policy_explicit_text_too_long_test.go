@@ -27,8 +27,8 @@ func TestExplicitText200Char(t *testing.T) {
 	}
 }
 
-func TestExplicitTextUTF8200Char(t *testing.T) {
-	inputPath := "../testlint/testCerts/explicitTextUTF8.pem"
+func TestExplicitTextBMPString(t *testing.T) {
+	inputPath := "../testlint/testCerts/explicitTextBMPString.pem"
 	expected := Pass
 	out := Lints["e_ext_cert_policy_explicit_text_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
