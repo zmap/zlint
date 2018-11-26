@@ -170,14 +170,14 @@ func includeLints() {
 
 	// parse includes to map for easier matching
 	var includes = strings.Split(include, ",")
-	var includesMap = make(map[string]interface{}, len(includes))
+	var includesMap = make(map[string]struct{}, len(includes))
 	for _, includeName := range includes {
 		includeName = strings.TrimSpace(includeName)
 		if _, ok := lints.Lints[includeName]; !ok {
 			log.Fatalf("unknown lint %q in include list", includeName)
 		}
 
-		includesMap[includeName] = nil
+		includesMap[includeName] = struct{}{}
 	}
 
 	// clear all initialised lints except for includes
@@ -195,9 +195,9 @@ func excludeLints() {
 
 	// parse excludes to map to get rid of duplicates
 	var excludes = strings.Split(exclude, ",")
-	var excludesMap = make(map[string]interface{}, len(excludes))
+	var excludesMap = make(map[string]struct{}, len(excludes))
 	for _, excludeName := range excludes {
-		excludesMap[strings.TrimSpace(excludeName)] = nil
+		excludesMap[strings.TrimSpace(excludeName)] = struct{}{}
 	}
 
 	// exclude lints
