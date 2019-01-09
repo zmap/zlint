@@ -44,7 +44,7 @@ func (l *subjectDNNotPrintableCharacters) Execute(c *x509.Certificate) *LintResu
 	for _, attrTypeAndValueSet := range rdnSequence {
 		for _, attrTypeAndValue := range attrTypeAndValueSet {
 			for _, byte := range attrTypeAndValue.Value.Bytes {
-				if byte < 32 {
+				if byte < 0x20 {
 					return &LintResult{Status: Error}
 				}
 				if byte >= 0x7F && byte <= 0x9F {
