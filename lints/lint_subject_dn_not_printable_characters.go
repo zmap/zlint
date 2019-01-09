@@ -16,7 +16,6 @@ package lints
 
 import (
 	"encoding/asn1"
-	"log"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -46,11 +45,9 @@ func (l *subjectDNNotPrintableCharacters) Execute(c *x509.Certificate) *LintResu
 		for _, attrTypeAndValue := range attrTypeAndValueSet {
 			for _, byte := range attrTypeAndValue.Value.Bytes {
 				if byte < 32 {
-					log.Println(attrTypeAndValue.Value.Tag, "bad character:", byte)
 					return &LintResult{Status: Error}
 				}
 				if byte >= 0x7F && byte <= 0x9F {
-					log.Println(attrTypeAndValue.Value.Tag, "bad character:", byte)
 					return &LintResult{Status: Error}
 				}
 			}
