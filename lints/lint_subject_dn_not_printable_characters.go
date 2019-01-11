@@ -16,6 +16,7 @@ package lints
 
 import (
 	"encoding/asn1"
+	"unicode/utf8"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -43,13 +44,16 @@ func (l *subjectDNNotPrintableCharacters) Execute(c *x509.Certificate) *LintResu
 
 	for _, attrTypeAndValueSet := range rdnSequence {
 		for _, attrTypeAndValue := range attrTypeAndValueSet {
-			for _, byte := range attrTypeAndValue.Value.Bytes {
-				if byte < 0x20 {
+			bytes := attrTypeAndValue.Value.Bytes
+			for len(bytes) > 0 {
+				r, size := utf8.DecodeRune(bytes)
+				if r < 0x20 {
 					return &LintResult{Status: Error}
 				}
-				if byte >= 0x7F && byte <= 0x9F {
+				if r >= 0x7F && r <= 0x9F {
 					return &LintResult{Status: Error}
 				}
+				bytes = bytes[size:]
 			}
 		}
 	}
