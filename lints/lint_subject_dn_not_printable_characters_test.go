@@ -26,6 +26,16 @@ func TestSubjectCharactersGood(t *testing.T) {
 	}
 }
 
+func TestSubjectCharactersGoodUTF8(t *testing.T) {
+	inputPath := "../testlint/testCerts/subjectDNNotPrintableCharsUTF8.pem"
+	expected := Error
+
+	out := Lints["e_subject_dn_not_printable_characters"].Execute(ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
 func TestSubjectCharactersBad(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectDNNotPrintableCharacters.pem"
 	expected := Error
