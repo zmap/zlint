@@ -34,6 +34,8 @@ import (
 
 type explicitTextTooLong struct{}
 
+const bmpString0x1E int = 30
+
 func (l *explicitTextTooLong) Initialize() error {
 	return nil
 }
@@ -51,7 +53,10 @@ func (l *explicitTextTooLong) Execute(c *x509.Certificate) *LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {
 			var runes string
-			if text.FullBytes[0] == 30 {
+			// If the field is a BMPString, we need to parse the bytes out into
+			// UTF-16-BE runes in order to check their length accurately
+			// The `Bytes` attribute here is the raw representation of the userNotice
+			if text.Tag == bmpString0x1E {
 				runes, _ = util.ParseBMPString(text.Bytes)
 			} else {
 				runes = string(text.Bytes)

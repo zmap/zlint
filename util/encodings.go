@@ -121,7 +121,7 @@ func IsEmptyASN1Sequence(input []byte) bool {
 // ParseBMPString returns a uint16 encoded string following the specification for a BMPString type
 func ParseBMPString(bmpString []byte) (string, error) {
 	if len(bmpString)%2 != 0 {
-		return "", errors.New("pkcs12: odd-length BMP string")
+		return "", errors.New("odd-length BMP string")
 	}
 	// strip terminator if present
 	if l := len(bmpString); l >= 2 && bmpString[l-1] == 0 && bmpString[l-2] == 0 {
