@@ -53,6 +53,7 @@ const (
 	RFC5891
 	ZLint
 	AWSLabs
+	EtsiEsi // ETSI - Electronic Signatures and Infrastructures (ESI)
 )
 
 // A Lint struct represents a single lint, e.g.
