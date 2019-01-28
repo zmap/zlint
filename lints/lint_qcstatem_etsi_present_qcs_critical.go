@@ -61,7 +61,7 @@ func init() {
 		Description:   "Checks that a QC Statement which contains any of the id-etsi-qcs-... QC Statements is not marked critical",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.1",
 		Source:        EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_1_1_Date,
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQcEtsiPresentQcsCritical{},
 	})
 }

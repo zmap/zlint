@@ -84,7 +84,7 @@ func init() {
 		Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features features at least the type ",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 		Source:        EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_1_1_Date,
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQctypeWeb{},
 	})
 }

@@ -50,7 +50,7 @@ var (
 	SubCert39Month             = time.Date(2016, time.July, 2, 0, 0, 0, 0, time.UTC)
 	SubCert825Days             = time.Date(2018, time.March, 2, 0, 0, 0, 0, time.UTC)
 	CABV148Date                = time.Date(2017, time.June, 8, 0, 0, 0, 0, time.UTC)
-	EtsiEn319_412_5_V2_1_1_Date = time.Date(2016, time.February, 1, 0, 0, 0, 0, time.UTC)
+	EtsiEn319_412_5_V2_2_1_Date = time.Date(2017, time.November, 1, 0, 0, 0, 0, time.UTC)
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
