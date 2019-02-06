@@ -50,7 +50,7 @@ func etsiOidToDescString(oi asn1.ObjectIdentifier) string {
 		}
 	default:
 		{
-			panic("unsresolved ETSI QC Statement OID")
+			panic("unresolved ETSI QC Statement OID")
 		}
 	}
 }
