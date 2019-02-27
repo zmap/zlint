@@ -87,9 +87,9 @@ func (l *arpaReservedIP) Execute(c *x509.Certificate) *LintResult {
 			// If the name has the in-addr.arpa suffix then it should be an IPv4 reverse
 			// DNS name.
 			err = lintReversedIPAddress(name, false)
+		} else if strings.HasSuffix(name, rdnsIPv6Suffix) {
 			// If the name has the ipv6.arpa suffix then it should be an IPv6 reverse
 			// DNS name.
-		} else if strings.HasSuffix(name, rdnsIPv6Suffix) {
 			err = lintReversedIPAddress(name, true)
 		}
 		// Return the first error as a negative lint result
