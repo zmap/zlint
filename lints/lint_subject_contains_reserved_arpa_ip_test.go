@@ -17,16 +17,14 @@ func TestSubjectReverseDNSARPA(t *testing.T) {
 		ExpectedDetails string
 	}{
 		{
-			Name:            "IPv4 rDNS too few labels",
-			InputFilename:   "subjectRDNSIPv4TooFewLabels.pem",
-			ExpectedResult:  Error,
-			ExpectedDetails: `name "1.168.192.in-addr.arpa" has too few leading labels (3 vs 4) to be a reverse DNS entry in the ".in-addr.arpa" zone.`,
+			Name:           "IPv4 rDNS too few labels",
+			InputFilename:  "subjectRDNSIPv4TooFewLabels.pem",
+			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
-			Name:            "IPv4 rDNS bad IP",
-			InputFilename:   "subjectRDNSIPv4BadIP.pem",
-			ExpectedResult:  Error,
-			ExpectedDetails: `the first 4 labels of name "a.b.c.d.in-addr.arpa" did not parse as a reversed IP address`,
+			Name:           "IPv4 rDNS bad IP",
+			InputFilename:  "subjectRDNSIPv4BadIP.pem",
+			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
 			Name:            "IPv4 rDNS reserved IP",
@@ -40,16 +38,14 @@ func TestSubjectReverseDNSARPA(t *testing.T) {
 			ExpectedResult: Pass,
 		},
 		{
-			Name:            "IPv6 rDNS too few labels",
-			InputFilename:   "subjectRDNSIPv6TooFewLabels.pem",
-			ExpectedResult:  Error,
-			ExpectedDetails: `name "a.9.8.7.6.5.0.4.0.0.0.3.0.0.0.2.0.0.0.1.0.0.0.0.0.0.0.1.2.3.4.ip6.arpa" has too few leading labels (31 vs 32) to be a reverse DNS entry in the ".ip6.arpa" zone.`,
+			Name:           "IPv6 rDNS too few labels",
+			InputFilename:  "subjectRDNSIPv6TooFewLabels.pem",
+			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
-			Name:            "IPv6 rDNS bad IP",
-			InputFilename:   "subjectRDNSIPv6BadIP.pem",
-			ExpectedResult:  Error,
-			ExpectedDetails: `the first 32 labels of name "j.a.9.8.7.6.5.0.4.0.0.0.3.0.0.0.2.0.0.0.1.0.0.0.0.0.0.0.1.2.3.4.ip6.arpa" did not parse as a reversed IP address`,
+			Name:           "IPv6 rDNS bad IP",
+			InputFilename:  "subjectRDNSIPv6BadIP.pem",
+			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
 			Name:            "IPv6 rDNS reserved IP",

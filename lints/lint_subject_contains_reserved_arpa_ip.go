@@ -46,6 +46,11 @@ const (
 	rdnsIPv6Labels = 32
 )
 
+// arpaReservedIP is a linter that errors for any well formed rDNS names in the
+// .in-addr.arpa or .ip6.arpa zones that specify an address in an IANA reserved
+// network.
+// See also: lint_subject_contains_malformed_arpa_ip.go for a lint that warns
+// about malformed rDNS names in these zones.
 type arpaReservedIP struct{}
 
 // Initialize for an arpaReservedIP linter is a NOP to statisfy linting
@@ -68,13 +73,12 @@ func (l *arpaReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-// Execute linter will check the given certificate to ensure that all of the DNS
-// subject alternate names that specify a reverse DNS name under the respective
-// IPv4 or IPv6 arpa zones are well formed and do not specify an IP in an IANA
-// reserved IP space. An Error LintResult is returned if the name is in
-// a reverse DNS zone but has the wrong number of labels, doesn't specify an IP
-// address, specifies an IP address of the wrong class, or specifies an IP
-// address in an IANA reserver zone.
+// Execute will check the given certificate to ensure that all of the DNS
+// subject alternate names that specify a well formed reverse DNS name under the
+// respective IPv4 or IPv6 arpa zones do not specify an IP in an IANA
+// reserved IP space. An Error LintResult is returned if the name specifies an
+// IP address of the wrong class, or specifies an IP address in an IANA reserved
+// network.
 func (l *arpaReservedIP) Execute(c *x509.Certificate) *LintResult {
 	for _, name := range c.DNSNames {
 		name = strings.ToLower(name)
@@ -108,8 +112,7 @@ func (l *arpaReservedIP) Execute(c *x509.Certificate) *LintResult {
 func reversedLabelsToIPv4(labels []string) net.IP {
 	var buf strings.Builder
 
-	// This shouldn't happen because lintReversedIPAddress checks this before
-	// calling reversedLabelsToIP, but if it does return nil
+	// If there aren't the right number of labels, it isn't an IPv4 address.
 	if len(labels) != rdnsIPv4Labels {
 		return nil
 	}
@@ -130,8 +133,7 @@ func reversedLabelsToIPv4(labels []string) net.IP {
 func reversedLabelsToIPv6(labels []string) net.IP {
 	var buf strings.Builder
 
-	// This shouldn't happen because lintReversedIPAddress checks this before
-	// calling reversedLabelsToIP, but if it does return nil
+	// If there aren't the right number of labels, it isn't an IPv6 address.
 	if len(labels) != rdnsIPv6Labels {
 		return nil
 	}
@@ -155,12 +157,9 @@ func reversedLabelsToIPv6(labels []string) net.IP {
 // address under the respective ARPA zone based on the address class. An error
 // is returned if:
 //
-// 1. There aren't enough labels in the name after removing the relevant arpa
-//    suffix.
-// 2. The IP address labels don't parse as an IP address after reversing them.
-// 3. The IP address labels parse as an IP of the wrong address class for the
+// 1. The IP address labels parse as an IP of the wrong address class for the
 //    arpa suffix the name is using.
-// 4. The IP address is within an IANA reserved range.
+// 2. The IP address is within an IANA reserved range.
 func lintReversedIPAddress(name string, ipv6 bool) error {
 	numRequiredLabels := rdnsIPv4Labels
 	zoneSuffix := rdnsIPv4Suffix
@@ -174,13 +173,13 @@ func lintReversedIPAddress(name string, ipv6 bool) error {
 	ipName := strings.TrimSuffix(name, zoneSuffix)
 
 	// A well encoded IPv4 or IPv6 reverse DNS name will have the correct number
-	// of labels to express the address
+	// of labels to express the address. If there isn't the right number of labels
+	// a separate `lint_subject_contains_malformed_arpa_ip.go` linter will flag it
+	// as a warning. This linter is specifically concerned with well formed rDNS
+	// that specifies a reserved IP.
 	ipLabels := strings.Split(ipName, ".")
 	if len(ipLabels) != numRequiredLabels {
-		return fmt.Errorf(
-			"name %q has too few leading labels (%d vs %d) to be a reverse DNS entry "+
-				"in the %q zone.",
-			name, len(ipLabels), numRequiredLabels, zoneSuffix)
+		return nil
 	}
 
 	// Reverse the IP labels and try to parse an IP address
@@ -190,11 +189,10 @@ func lintReversedIPAddress(name string, ipv6 bool) error {
 	} else {
 		ip = reversedLabelsToIPv4(ipLabels)
 	}
-	// If the result isn't an IP at all, that's a problem.
+	// If the result isn't an IP at all assume there is no problem - leave
+	// `lint_subject_contains_malformed_arpa_ip` to flag it as a warning.
 	if ip == nil {
-		return fmt.Errorf(
-			"the first %d labels of name %q did not parse as a reversed IP address",
-			numRequiredLabels, name)
+		return nil
 	}
 
 	if !ipv6 && ip.To4() == nil {
