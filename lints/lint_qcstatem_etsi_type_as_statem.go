@@ -27,7 +27,7 @@ func (l *qcStatemEtsiTypeAsStatem) Initialize() error {
 	return nil
 }
 
-func (l *qcStatEmetsiTypeAsStatem) CheckApplies(c *x509.Certificate) bool {
+func (l *qcStatemEtsiTypeAsStatem) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.QcStateOid)
 }
 
