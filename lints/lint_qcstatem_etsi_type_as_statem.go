@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type qcStatmEtsiTypeAsStatem struct{}
+type qcStatemEtsiTypeAsStatem struct{}
 
 func (l *qcStatemEtsiTypeAsStatem) Initialize() error {
 	return nil
