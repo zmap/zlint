@@ -21,17 +21,17 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type qcStatemetsiTypeAsStatem struct{}
+type qcStatmEtsiTypeAsStatem struct{}
 
-func (l *qcStatemetsiTypeAsStatem) Initialize() error {
+func (l *qcStatemEtsiTypeAsStatem) Initialize() error {
 	return nil
 }
 
-func (l *qcStatemetsiTypeAsStatem) CheckApplies(c *x509.Certificate) bool {
+func (l *qcStatEmetsiTypeAsStatem) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.QcStateOid)
 }
 
-func (l *qcStatemetsiTypeAsStatem) Execute(c *x509.Certificate) *LintResult {
+func (l *qcStatemEtsiTypeAsStatem) Execute(c *x509.Certificate) *LintResult {
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 
@@ -62,6 +62,6 @@ func init() {
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemetsiTypeAsStatem{},
+		Lint:          &qcStatemEtsiTypeAsStatem{},
 	})
 }
