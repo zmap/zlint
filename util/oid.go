@@ -66,10 +66,19 @@ var (
 	PostalCodeOID             = asn1.ObjectIdentifier{2, 5, 4, 17}
 	GivenNameOID              = asn1.ObjectIdentifier{2, 5, 4, 42}
 	// other OIDs
-	OidRSASSAPSS  = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 10}
-	AnyPolicyOID  = asn1.ObjectIdentifier{2, 5, 29, 32, 0}
-	UserNoticeOID = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 2}
-	CpsOID        = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1}
+	OidRSASSAPSS               = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 10}
+	AnyPolicyOID               = asn1.ObjectIdentifier{2, 5, 29, 32, 0}
+	UserNoticeOID              = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 2}
+	CpsOID                     = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1}
+	IdEtsiQcsQcCompliance      = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 1}
+	IdEtsiQcsQcLimitValue      = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 2}
+	IdEtsiQcsQcRetentionPeriod = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 3}
+	IdEtsiQcsQcSSCD            = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 4}
+	IdEtsiQcsQcEuPDS           = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 5}
+	IdEtsiQcsQcType            = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6}
+	IdEtsiQcsQctEsign          = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6, 1}
+	IdEtsiQcsQctEseal          = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6, 2}
+	IdEtsiQcsQctWeb            = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6, 3}
 )
 
 const (
