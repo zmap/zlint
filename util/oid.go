@@ -52,6 +52,7 @@ var (
 	BRDomainValidatedOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1} // CA/B BR Domain-Validated
 	BROrganizationValidatedOID = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2} // CA/B BR Organization-Validated
 	BRIndividualValidatedOID   = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3} // CA/B BR Individual-Validated
+	BRTorServiceDescriptor     = asn1.ObjectIdentifier{2, 23, 140, 1, 31}   // CA/BR BR Tor Service Descriptor
 	//X.500 attribute types
 	CommonNameOID             = asn1.ObjectIdentifier{2, 5, 4, 3}
 	SurnameOID                = asn1.ObjectIdentifier{2, 5, 4, 4}
@@ -65,6 +66,10 @@ var (
 	BusinessOID               = asn1.ObjectIdentifier{2, 5, 4, 15}
 	PostalCodeOID             = asn1.ObjectIdentifier{2, 5, 4, 17}
 	GivenNameOID              = asn1.ObjectIdentifier{2, 5, 4, 42}
+	// Hash algorithms - see https://golang.org/src/crypto/x509/x509.go
+	SHA256OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 1}
+	SHA384OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 2}
+	SHA512OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 3}
 	// other OIDs
 	OidRSASSAPSS               = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 10}
 	AnyPolicyOID               = asn1.ObjectIdentifier{2, 5, 29, 32, 0}
