@@ -54,6 +54,7 @@ const (
 	ZLint
 	AWSLabs
 	EtsiEsi // ETSI - Electronic Signatures and Infrastructures (ESI)
+	CABFEVGuidelines
 )
 
 // A Lint struct represents a single lint, e.g.

@@ -60,9 +60,8 @@ func init() {
 		Description: fmt.Sprintf(
 			"certificates with .onion names can not be valid for more than %d months",
 			maxOnionValidityMonths),
-		// TODO(@cpu): Cite section of BRs instead of ballot?
-		Citation:      "BRS: Ballot 144",
-		Source:        CABFBaselineRequirements,
+		Citation:      "CABF EV Guidelines: Appendix F",
+		Source:        CABFEVGuidelines,
 		EffectiveDate: util.OnionOnlyEVDate,
 		Lint:          &torValidityTooLarge{},
 	})
