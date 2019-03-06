@@ -16,7 +16,6 @@ package lints
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -40,27 +39,22 @@ func (l *onionNotEV) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.CertificateSubjInTLD(c, onionTLD)
 }
 
-// Execute checks that if the certificate contains any subject names ending in
-// the  .onion TLD that it is also an EV certificate. If there are .onion names
-// and the certificate is not an EV certificate an Error LintResult is returned.
+// Execute returns an Error LintResult if the certificate is not an EV
+// certificate. CheckApplies has already verified the certificate contains one
+// or more `.onion` subjects and so it must be an EV certificate.
 func (l *onionNotEV) Execute(c *x509.Certificate) *LintResult {
-	isEV := util.IsEV(c.PolicyIdentifiers)
-	names := append(c.DNSNames, c.Subject.CommonName)
-	for _, name := range names {
-		name = strings.ToLower(name)
-		/*
-		 * Effective May 1, 2015, each CA SHALL revoke all unexpired Certificates with an
-		 * Internal Name using onion as the right-most label in an entry in the
-		 * subjectAltName Extension or commonName field unless such Certificate was
-		 * issued in accordance with Appendix F of the EV Guidelines.
-		 */
-		if strings.HasSuffix(name, onionTLD) && !isEV {
-			return &LintResult{
-				Status: Error,
-				Details: fmt.Sprintf(
-					"certificate contains %s subject domain (%q) but is not an EV certificate",
-					onionTLD, name),
-			}
+	/*
+	 * Effective May 1, 2015, each CA SHALL revoke all unexpired Certificates with an
+	 * Internal Name using onion as the right-most label in an entry in the
+	 * subjectAltName Extension or commonName field unless such Certificate was
+	 * issued in accordance with Appendix F of the EV Guidelines.
+	 */
+	if !util.IsEV(c.PolicyIdentifiers) {
+		return &LintResult{
+			Status: Error,
+			Details: fmt.Sprintf(
+				"certificate contains one or more %s subject domains but is not an EV certificate",
+				onionTLD),
 		}
 	}
 	return &LintResult{Status: Pass}

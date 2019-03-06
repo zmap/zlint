@@ -21,7 +21,7 @@ func TestOnionNotEV(t *testing.T) {
 			Name:            "Onion subject, not EV cert, after util.OnionOnlyEVDate",
 			InputFilename:   "onionSANNotEV.pem",
 			ExpectedResult:  Error,
-			ExpectedDetails: `certificate contains .onion subject domain ("zmap.onion") but is not an EV certificate`,
+			ExpectedDetails: `certificate contains one or more .onion subject domains but is not an EV certificate`,
 		},
 		{
 			Name:           "Onion subject, EV cert",
