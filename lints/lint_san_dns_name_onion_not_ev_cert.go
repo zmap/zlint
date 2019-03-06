@@ -34,9 +34,10 @@ func (l *onionNotEV) Initialize() error {
 	return nil
 }
 
-// CheckApplies returns true if the certificate is a subscriber certificate.
+// CheckApplies returns true if the certificate is a subscriber certificate that
+// contains a subject name ending in `.onion`.
 func (l *onionNotEV) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.CertificateSubjInTLD(c, onionTLD)
 }
 
 // Execute checks that if the certificate contains any subject names ending in

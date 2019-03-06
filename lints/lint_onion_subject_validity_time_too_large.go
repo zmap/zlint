@@ -16,7 +16,6 @@ package lints
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -40,16 +39,7 @@ func (l *torValidityTooLarge) Initialize() error {
 // CheckApplies returns true if the certificate is a subscriber certificate that
 // contains a subject name ending in `.onion`.
 func (l *torValidityTooLarge) CheckApplies(c *x509.Certificate) bool {
-	if !util.IsSubscriberCert(c) {
-		return false
-	}
-	names := append(c.DNSNames, c.Subject.CommonName)
-	for _, name := range names {
-		if strings.HasSuffix(name, onionTLD) {
-			return true
-		}
-	}
-	return false
+	return util.IsSubscriberCert(c) && util.CertificateSubjInTLD(c, onionTLD)
 }
 
 // Execute will return an Error LintResult if the provided certificate has
