@@ -111,7 +111,6 @@ _testmain.go
 *.out
 
 # external packages folder
-vendor/
 0
 
 ### Build Targets ###
