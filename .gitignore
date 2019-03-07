@@ -117,5 +117,6 @@ vendor/
 ### Build Targets ###
 /zlint
 cmd/zlint/zlint
-
+/zlint-gtld-update
+cmd/zlint-gtld-update/zlint-gtld-update
 
