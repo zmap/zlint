@@ -18,7 +18,7 @@ import (
 	"testing"
 )
 
-func TestCountryNotIso(t *testing.T) {
+func TestImproperModulusBadQ(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaBadQLen.pem"
 	expected := Error
 	out := Lints["e_dsa_improper_modulus_or_divisor_size"].Execute(ReadCertificate(inputPath))
@@ -27,7 +27,7 @@ func TestCountryNotIso(t *testing.T) {
 	}
 }
 
-func TestCountryIsIso(t *testing.T) {
+func TestImproperModulusGoodQ(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
 	expected := Pass
 	out := Lints["e_dsa_improper_modulus_or_divisor_size"].Execute(ReadCertificate(inputPath))
