@@ -15,291 +15,184 @@
 package lints
 
 import (
-	"encoding/asn1"
-	"errors"
 	"fmt"
+	"net/url"
 	"strings"
-	"unicode/utf8"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/util"
 )
 
 type torServiceDescHashInvalid struct{}
 
 func (l *torServiceDescHashInvalid) Initialize() error {
+	// There is nothing to initialize for a torServiceDescHashInvalid linter.
 	return nil
 }
 
 // CheckApplies returns true if the certificate is a subscriber certificate that
 // contains a subject name ending in `.onion`.
 func (l *torServiceDescHashInvalid) CheckApplies(c *x509.Certificate) bool {
-	if !util.IsSubscriberCert(c) {
-		return false
-	}
-	names := append(c.DNSNames, c.Subject.CommonName)
-	for _, name := range names {
-		if strings.HasSuffix(name, onionTLD) {
-			return true
-		}
-	}
-	return false
+	return util.IsSubscriberCert(c) && util.CertificateSubjInTLD(c, onionTLD)
 }
 
-/*
- * The CAB Forum has created an extension of the TBSCertificate for use in
- * conveying hashes of keys related to .onion addresses.  The Tor Service
- * Descriptor Hash extension has the following format:
- *
- * cabf-TorServiceDescriptor OBJECT IDENTIFIER ::= { 2.23.140.1.31 }
- *
- * TorServiceDescriptorSyntax ::=
- * SEQUENCE ( 1..MAX ) of TorServiceDescriptorHash
- *
- * TorServiceDescriptorHash:: = SEQUENCE {
- *   onionURI              UTF8String
- *   algorithm             AlgorithmIdentifier
- *   subjectPublicKeyHash  BIT STRING
- * }
- *
- * Where the AlgorithmIdentifier is a hashing algorithm (defined in RFC 6234)
- * performed over the DER-encoding of an ASN.1 SubjectPublicKey of the .onion
- * service and SubjectPublicKeyHash is the hash output.
- */
-
-// TorServiceDescriptorHash holds an onion URI (e.g. `http://<whatever>.onion`),
-// a pkix.AlgorithmIdentifier, a slice of bytes holding a hash of the onion
-// site's public key created with the specified hash algorithm, and the number
-// of hash digest bits in the slice.
-type TorServiceDescriptorHash struct {
-	Onion    string
-	Alg      pkix.AlgorithmIdentifier
-	Hash     []byte
-	HashBits int
+// failResult is a small utility function for creating a failed lint result.
+func failResult(format string, args ...interface{}) *LintResult {
+	return &LintResult{
+		Status:  Error,
+		Details: fmt.Sprintf(format, args...),
+	}
 }
 
-// Valid returns nil if the the TorServiceDescriptorHash specifies a valid hash
-// algorithm OID and the correct corresponding HashBits. Otherwise an error is
-// returned describing the problem.
-func (t TorServiceDescriptorHash) Valid() error {
-	// If the length is <= 0 its definitely not valid.
-	if t.HashBits <= 0 {
-		return errors.New("invalid TorServiceDescriptorHash subjectPublicKeyHash, " +
-			"bit length is <= 0")
-	}
+// torServiceDescExtName is a common string prefix used in many lint result
+// detail messages to identify the extension at fault.
+var torServiceDescExtName = fmt.Sprintf(
+	"TorServiceDescriptor extension (oid %s)",
+	util.BRTorServiceDescriptor.String())
 
-	// Check that the specified algorithm OID is an allowed hash algorithm OID.
-	allowedHashAlgs := []asn1.ObjectIdentifier{
-		util.SHA256OID,
-		util.SHA384OID,
-		util.SHA512OID,
-	}
-	goodHashAlg := util.SliceContainsOID(allowedHashAlgs, t.Alg.Algorithm)
-	if !goodHashAlg {
-		return fmt.Errorf("invalid TorServiceDescriptorHash algorithm %q",
-			t.Alg.Algorithm)
-	}
-
-	// Check that the number of bits in the hash field match the algorithm
-	// specified.
-	if t.Alg.Algorithm.Equal(util.SHA256OID) && t.HashBits != 256 {
-		return fmt.Errorf("invalid TorServiceDescriptorHash subjectPublicKeyHash, "+
-			"alg is SHA256 but bit length is %d not %d",
-			t.HashBits, 256)
-	} else if t.Alg.Algorithm.Equal(util.SHA384OID) && t.HashBits != 384 {
-		return fmt.Errorf("invalid TorServiceDescriptorHash subjectPublicKeyHash, "+
-			"alg is SHA384 but bit length is %d not %d",
-			t.HashBits, 384)
-	} else if t.Alg.Algorithm.Equal(util.SHA512OID) && t.HashBits != 512 {
-		return fmt.Errorf("invalid TorServiceDescriptorHash subjectPublicKeyHash, "+
-			"alg is SHA512 but bit length is %d not %d",
-			t.HashBits, 512)
+// lintOnionURL verifies that an Onion URI value from a TorServiceDescriptorHash
+// is:
+//
+// 1) a valid parseable url.
+// 2) a URL with a non-empty hostname
+// 3) a URL with an https:// protocol scheme
+//
+// If all of the above hold then nil is returned. If any of the above conditions
+// are not met an error lint result pointer is returned.
+func lintOnionURL(onion string) *LintResult {
+	if onionURL, err := url.Parse(onion); err != nil {
+		return failResult(
+			"%s contained "+
+				"TorServiceDescriptorHash object with invalid Onion URI",
+			torServiceDescExtName)
+	} else if onionURL.Host == "" {
+		return failResult(
+			"%s contained "+
+				"TorServiceDescriptorHash object with Onion URI missing a hostname",
+			torServiceDescExtName)
+	} else if onionURL.Scheme != "https" {
+		return failResult(
+			"%s contained "+
+				"TorServiceDescriptorHash object with Onion URI using a non-HTTPS "+
+				"protocol scheme",
+			torServiceDescExtName)
 	}
 	return nil
 }
 
-// parseTorServiceDescriptorHash unmarshals a SEQUENCE from the provided data
-// and parses a TorServiceDescriptorHash using the data contained in the
-// sequence. The TorServiceDescriptorHash object and the remaining data are
-// returned if no error occurs.
-func parseTorServiceDescriptorHash(data []byte) (*TorServiceDescriptorHash, []byte, error) {
-	// TorServiceDescriptorHash:: = SEQUENCE {
-	//   onionURI UTF8String
-	//   algorithm AlgorithmIdentifier
-	//   subjectPublicKeyHash BIT STRING
-	// }
-	var outerSeq asn1.RawValue
-	var err error
-	data, err = asn1.Unmarshal(data, &outerSeq)
-	if err != nil {
-		return nil,
-			data,
-			errors.New("error unmarshaling TorServiceDescriptorHash SEQUENCE")
-	}
-	if outerSeq.Tag != asn1.TagSequence ||
-		outerSeq.Class != asn1.ClassUniversal ||
-		!outerSeq.IsCompound {
-		return nil,
-			data,
-			errors.New("TorServiceDescriptorHash missing compound SEQUENCE tag")
-	}
-	fieldData := outerSeq.Bytes
-
-	// Unmarshal and verify the structure of the onionURI UTF8String field.
-	var rawOnionURI asn1.RawValue
-	fieldData, err = asn1.Unmarshal(fieldData, &rawOnionURI)
-	if err != nil {
-		return nil,
-			data,
-			errors.New("error unmarshaling TorServiceDescriptorHash onionURI")
-	}
-	if rawOnionURI.Tag != asn1.TagUTF8String ||
-		rawOnionURI.Class != asn1.ClassUniversal ||
-		rawOnionURI.IsCompound {
-		return nil,
-			data,
-			errors.New("TorServiceDescriptorHash missing non-compound UTF8String tag")
-	}
-	if !utf8.Valid(rawOnionURI.Bytes) {
-		return nil,
-			data,
-			errors.New("TorServiceDescriptorHash UTF8String value was not valid UTF-8")
-	}
-
-	// Unmarshal and verify the structure of the algorithm UTF8String field.
-	var algorithm pkix.AlgorithmIdentifier
-	fieldData, err = asn1.Unmarshal(fieldData, &algorithm)
-	if err != nil {
-		return nil, nil, errors.New("error unmarshaling TorServiceDescriptorHash algorithm")
-	}
-
-	// Unmarshal and verify the structure of the Subject Public Key Hash BitString
-	// field.
-	var spkh asn1.BitString
-	fieldData, err = asn1.Unmarshal(fieldData, &spkh)
-	if err != nil {
-		return nil, data, errors.New("error unmarshaling TorServiceDescriptorHash Hash")
-	}
-
-	// There should be no trailing data after the TorServiceDescriptorHash
-	// SEQUENCE.
-	if len(fieldData) > 0 {
-		return nil, data, errors.New("trailing data after TorServiceDescriptorHash")
-	}
-
-	return &TorServiceDescriptorHash{
-		Onion:    string(rawOnionURI.Bytes),
-		Alg:      algorithm,
-		HashBits: spkh.BitLength,
-	}, data, nil
-}
-
-// parseTorServiceDescriptorSyntax parses the given pkix.Extension (assumed to
-// have OID == util.BRTorServiceDescriptor) and returns a map of onion URIs to
-// TorServiceDescriptorHash objects, or an error. An error will be returned if
-// there are any structural errors related to the ASN.1 content (wrong tags,
-// trailing data, missing fields, etc).
-func parseTorServiceDescriptorSyntax(ext *pkix.Extension) (map[string]*TorServiceDescriptorHash, error) {
-	baseErr := fmt.Sprintf(
-		"certificate contained an invalid TorServiceDescriptor extension (oid %s)",
-		util.BRTorServiceDescriptor.String())
-
-	// TorServiceDescriptorSyntax ::=
-	//    SEQUENCE ( 1..MAX ) of TorServiceDescriptorHash
-	var seq asn1.RawValue
-	rest, err := asn1.Unmarshal(ext.Value, &seq)
-	if err != nil {
-		return nil, fmt.Errorf("%s - unable to unmarshal outer SEQUENCE", baseErr)
-	}
-	if len(rest) != 0 {
-		return nil, fmt.Errorf("%s - trailing data after outer SEQUENCE", baseErr)
-	}
-	if seq.Tag != asn1.TagSequence || seq.Class != asn1.ClassUniversal || !seq.IsCompound {
-		return nil, fmt.Errorf("%s - invalid outer SEQUENCE", baseErr)
-	}
-
-	descriptors := make(map[string]*TorServiceDescriptorHash)
-	rest = seq.Bytes
-	for len(rest) > 0 {
-		var descriptor *TorServiceDescriptorHash
-		descriptor, rest, err = parseTorServiceDescriptorHash(rest)
-		if err != nil {
-			return nil, fmt.Errorf("%s - %s", baseErr, err)
-		}
-		descriptors[descriptor.Onion] = descriptor
-	}
-	return descriptors, nil
-}
-
 // Execute will lint the provided certificate. An Error LintResult will be
 // returned if:
+//
 //   1) There is no TorServiceDescriptor extension present.
-//   2) There are any problems parsing the TorServiceDescriptorSyntax or
-//      TorServiceDescriptorHash values.
-//   3) There are TorServiceDescriptorHash values specifing an invalid hash
-//      algorithm or the wrong length of hash data.
-//   4) There are any .onion domains without a corresponding
-//      TorServiceDescriptorHash.
+//   2) There were no TorServiceDescriptors parsed by zcrypto
+//   3) There are TorServiceDescriptorHash entries with an invalid Onion URL.
+//   4) There are TorServiceDescriptorHash entries with an unknown hash
+//      algorithm or incorrect hash bit length.
+//   5) There is a TorServiceDescriptorHash entries that doesn't correspond to
+//      an onion subject in the cert.
+//   6) There is an onion subject in the cert that doesn't correspond to
+//      a TorServiceDescriptorHash.
 func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *LintResult {
-	ext := util.GetExtFromCert(c, util.BRTorServiceDescriptor)
 	// If the BRTorServiceDescriptor extension is missing return a lint error. We
 	// know the cert contains one or more `.onion` subjects because of
-	// `CheckApplies` and all such certs are expected to have this extension.
-	if ext == nil {
-		return &LintResult{
-			Status: Error,
-			Details: fmt.Sprintf(
-				"certificate contained a %s domain but is missing a TorServiceDescriptor "+
-					"extension (oid %s)",
-				onionTLD, util.BRTorServiceDescriptor.String()),
-		}
+	// `CheckApplies` and all such certs are expected to have this extension after
+	// util.CABV201Date.
+	if ext := util.GetExtFromCert(c, util.BRTorServiceDescriptor); ext == nil {
+		return failResult(
+			"certificate contained a %s domain but is missing a TorServiceDescriptor "+
+				"extension (oid %s)",
+			onionTLD, util.BRTorServiceDescriptor.String())
 	}
-	// Parse the individual TorServiceDescriptorHash objects from the
-	// TorServiceDescriptorSyntax SEQUENCE.
-	descriptors, err := parseTorServiceDescriptorSyntax(ext)
-	if err != nil {
-		return &LintResult{
-			Status:  Error,
-			Details: err.Error(),
-		}
+
+	// The certificate should have at least one TorServiceDescriptorHash in the
+	// TorServiceDescriptor extension.
+	descriptors := c.TorServiceDescriptors
+	if len(descriptors) == 0 {
+		return failResult(
+			"certificate contained a %s domain but TorServiceDescriptor "+
+				"extension (oid %s) had no TorServiceDescriptorHash objects",
+			onionTLD, util.BRTorServiceDescriptor.String())
 	}
-	// Validate the descriptors that were parsed
-	for _, d := range descriptors {
-		if err := d.Valid(); err != nil {
-			return &LintResult{
-				Status: Error,
-				Details: fmt.Sprintf(
-					"certificate contained an invalid TorServiceDescriptor extension (oid %s): %s",
-					util.BRTorServiceDescriptor.String(),
-					err.Error()),
-			}
-		}
-	}
-	var onionSubjectCount int
-	for _, name := range append(c.DNSNames, c.Subject.CommonName) {
-		if !strings.HasSuffix(name, onionTLD) {
+
+	// Build a map of all the eTLD+1 onion subjects in the cert to compare against
+	// the service descriptors.
+	onionETLDPlusOneMap := make(map[string]string)
+	for _, subj := range append(c.DNSNames, c.Subject.CommonName) {
+		if !strings.HasSuffix(subj, onionTLD) {
 			continue
 		}
-		onionSubjectCount++
-		if _, found := descriptors["https://"+name]; !found {
-			return &LintResult{
-				Status: Error,
-				Details: fmt.Sprintf(
-					"%s domain name %q does not have a corresponding TorServiceDescriptorHash",
-					onionTLD, name),
-			}
+		labels := strings.Split(subj, ".")
+		if len(labels) < 2 {
+			return failResult("certificate contained a %s domain with too few "+
+				"labels: %q",
+				onionTLD, subj)
+		}
+		eTLDPlusOne := strings.Join(labels[len(labels)-2:], ".")
+		onionETLDPlusOneMap[eTLDPlusOne] = subj
+	}
+
+	expectedHashBits := map[string]int{
+		"SHA256": 256,
+		"SHA384": 384,
+		"SHA512": 512,
+	}
+
+	// Build a map of onion hostname -> TorServiceDescriptorHash using the parsed
+	// TorServiceDescriptors from zcrypto.
+	descriptorMap := make(map[string]*x509.TorServiceDescriptorHash)
+	for _, descriptor := range descriptors {
+		// each descriptor's Onion URL must be valid
+		if errResult := lintOnionURL(descriptor.Onion); errResult != nil {
+			return errResult
+		}
+		// each descriptor should have a known hash algorithm and the correct
+		// corresponding size of hash.
+		if expectedBits, found := expectedHashBits[descriptor.AlgorithmName]; !found {
+			return failResult(
+				"%s contained a TorServiceDescriptorHash for Onion URI %q with an "+
+					"unknown hash algorithm",
+				torServiceDescExtName, descriptor.Onion)
+		} else if expectedBits != descriptor.HashBits {
+			return failResult(
+				"%s contained a TorServiceDescriptorHash with hash algorithm %q but "+
+					"only %d bits of hash not %d",
+				torServiceDescExtName, descriptor.AlgorithmName,
+				descriptor.HashBits, expectedBits)
+		}
+		// NOTE(@cpu): Throwing out the err result here because lintOnionURL already
+		//             ensured the URL is valid.
+		url, _ := url.Parse(descriptor.Onion)
+		hostname := url.Hostname()
+		// there should only be one TorServiceDescriptorHash for each Onion hostname.
+		if _, exists := descriptorMap[hostname]; exists {
+			return failResult(
+				"%s contained more than one TorServiceDescriptorHash for base "+
+					"Onion URI %q",
+				torServiceDescExtName, descriptor.Onion)
+		}
+		// there shouldn't be a TorServiceDescriptorHash for a Onion hostname that
+		// isn't an eTLD+1 in the certificate's subjects.
+		if _, found := onionETLDPlusOneMap[hostname]; !found {
+			return failResult(
+				"%s contained a TorServiceDescriptorHash with a hostname (%q) not "+
+					"present as a subject in the certificate",
+				torServiceDescExtName, hostname)
+		}
+		descriptorMap[hostname] = descriptor
+	}
+
+	// Check if any of the onion subjects in the certificate don't have
+	// a TorServiceDescriptorHash for the eTLD+1 in the descriptorMap.
+	for eTLDPlusOne, subjDomain := range onionETLDPlusOneMap {
+		if _, found := descriptorMap[eTLDPlusOne]; !found {
+			return failResult(
+				"%s subject domain name %q does not have a corresponding "+
+					"TorServiceDescriptorHash for its eTLD+1",
+				onionTLD, subjDomain)
 		}
 	}
-	if onionSubjectCount != len(descriptors) {
-		return &LintResult{
-			Status: Error,
-			Details: fmt.Sprintf(
-				"certificate contained more TorServiceDescriptorHash entries than "+
-					"%s domain names (%d vs %d)",
-				onionTLD, len(descriptors), onionSubjectCount),
-		}
-	}
+
+	// Everything checks out!
 	return &LintResult{
 		Status: Pass,
 	}
@@ -307,12 +200,11 @@ func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:        "ext_tor_service_descriptor_hash_invalid",
-		Description: "certificates with .onion names need valid TorServiceDescriptors in extension",
-		// TODO(@cpu): Cite section of BRs instead of ballot?
-		Citation:      "BRS: Ballot 144",
+		Name:          "ext_tor_service_descriptor_hash_invalid",
+		Description:   "certificates with .onion names need valid TorServiceDescriptors in extension",
+		Citation:      "BRS: Ballot 201",
 		Source:        CABFBaselineRequirements,
-		EffectiveDate: util.OnionOnlyEVDate,
+		EffectiveDate: util.CABV201Date,
 		Lint:          &torServiceDescHashInvalid{},
 	})
 }

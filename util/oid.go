@@ -52,7 +52,7 @@ var (
 	BRDomainValidatedOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1} // CA/B BR Domain-Validated
 	BROrganizationValidatedOID = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2} // CA/B BR Organization-Validated
 	BRIndividualValidatedOID   = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3} // CA/B BR Individual-Validated
-	BRTorServiceDescriptor     = asn1.ObjectIdentifier{2, 23, 140, 1, 31}   // CA/BR BR Tor Service Descriptor
+	BRTorServiceDescriptor     = asn1.ObjectIdentifier{2, 23, 140, 1, 31}   // CA/B BR Tor Service Descriptor
 	//X.500 attribute types
 	CommonNameOID             = asn1.ObjectIdentifier{2, 5, 4, 3}
 	SurnameOID                = asn1.ObjectIdentifier{2, 5, 4, 4}

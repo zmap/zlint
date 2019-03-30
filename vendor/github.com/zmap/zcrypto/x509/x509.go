@@ -817,9 +817,14 @@ type Certificate struct {
 	parsedDNSNames []ParsedDomainName
 	// Used to speed up the zlint checks. Populated by the GetParsedCommonName method
 	parsedCommonName *ParsedDomainName
+
+	// CAB Forum Tor Service Descriptor Hash Extensions (see EV Guidelines
+	// Appendix F)
+	TorServiceDescriptors []*TorServiceDescriptorHash
 }
 
-// ParsedDomainName is a structure holding a parsed domain name (CommonName or DNS SAN) and a parsing error.
+// ParsedDomainName is a structure holding a parsed domain name (CommonName or
+// DNS SAN) and a parsing error.
 type ParsedDomainName struct {
 	DomainString string
 	ParsedDomain *publicsuffix.DomainName
@@ -1904,6 +1909,12 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 			} else {
 				return nil, UnhandledCriticalExtension{e.Id, "Malformed precert poison"}
 			}
+		} else if e.Id.Equal(oidBRTorServiceDescriptor) {
+			descs, err := parseTorServiceDescriptorSyntax(e)
+			if err != nil {
+				return nil, err
+			}
+			out.TorServiceDescriptors = descs
 		}
 
 		//if e.Critical {
@@ -2858,7 +2869,7 @@ func ParseCertificateRequest(asn1Data []byte) (*CertificateRequest, error) {
 
 func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error) {
 	out := &CertificateRequest{
-		Raw: in.Raw,
+		Raw:                      in.Raw,
 		RawTBSCertificateRequest: in.TBSCSR.Raw,
 		RawSubjectPublicKeyInfo:  in.TBSCSR.PublicKey.Raw,
 		RawSubject:               in.TBSCSR.Subject.FullBytes,
