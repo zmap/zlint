@@ -37,7 +37,7 @@ func (l *arpaMalformedIP) Initialize() error {
 }
 
 // CheckApplies returns true if the certificate contains any names that end in
-// one of the two designated zones for reverse DNS: in-addr.arpa or ipv6.arpa.
+// one of the two designated zones for reverse DNS: in-addr.arpa or ip6.arpa.
 func (l *arpaMalformedIP) CheckApplies(c *x509.Certificate) bool {
 	names := append([]string{c.Subject.CommonName}, c.DNSNames...)
 	for _, name := range names {
@@ -63,7 +63,7 @@ func (l *arpaMalformedIP) Execute(c *x509.Certificate) *LintResult {
 			// DNS name.
 			err = lintReversedIPAddressLabels(name, false)
 		} else if strings.HasSuffix(name, rdnsIPv6Suffix) {
-			// If the name has the ipv6.arpa suffix then it should be an IPv6 reverse
+			// If the name has the ip6.arpa suffix then it should be an IPv6 reverse
 			// DNS name.
 			err = lintReversedIPAddressLabels(name, true)
 		}

@@ -16,9 +16,10 @@ package lints
 
 import (
 	"encoding/asn1"
+	"unicode"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"unicode"
 )
 
 type qcStatemQcLimitValueValid struct{}
@@ -83,13 +84,13 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
 	}
 }
 
-func init() {
-	RegisterLint(&Lint{
-		Name:          "e_qcstatem_qclimitvalue_valid",
-		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
-		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
-		Source:        EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemQcLimitValueValid{},
-	})
-}
+//func init() {
+//	RegisterLint(&Lint{
+//		Name:          "e_qcstatem_qclimitvalue_valid",
+//		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
+//		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
+//		Source:        EtsiEsi,
+//		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+//		Lint:          &qcStatemQcLimitValueValid{},
+//	})
+//}
