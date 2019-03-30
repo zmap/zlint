@@ -16,9 +16,10 @@ package lints
 
 import (
 	"encoding/asn1"
+	"unicode"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"unicode"
 )
 
 type qcStatemQcLimitValueValid struct{}
