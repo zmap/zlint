@@ -88,7 +88,7 @@ func lintOnionURL(onion string) *LintResult {
 //   3) There are TorServiceDescriptorHash entries with an invalid Onion URL.
 //   4) There are TorServiceDescriptorHash entries with an unknown hash
 //      algorithm or incorrect hash bit length.
-//   5) There is a TorServiceDescriptorHash entries that doesn't correspond to
+//   5) There is a TorServiceDescriptorHash entry that doesn't correspond to
 //      an onion subject in the cert.
 //   6) There is an onion subject in the cert that doesn't correspond to
 //      a TorServiceDescriptorHash.
