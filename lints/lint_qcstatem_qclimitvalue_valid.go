@@ -58,7 +58,10 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
 	errString += s.GetErrorInfo()
 	if len(errString) == 0 {
-		qcLv := s.(util.EtsiQcLimitValue)
+		qcLv, ok := s.(util.EtsiQcLimitValue)
+		if !ok {
+			return &LintResult{Status: Error, Details: "parsed QcStatem is not a EtsiQcLimitValue"}
+		}
 		if qcLv.Amount < 0 {
 			util.AppendToStringSemicolonDelim(&errString, "amount is negative")
 		}
@@ -84,13 +87,13 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
 	}
 }
 
-//func init() {
-//	RegisterLint(&Lint{
-//		Name:          "e_qcstatem_qclimitvalue_valid",
-//		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
-//		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
-//		Source:        EtsiEsi,
-//		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-//		Lint:          &qcStatemQcLimitValueValid{},
-//	})
-//}
+func init() {
+	RegisterLint(&Lint{
+		Name:          "e_qcstatem_qclimitvalue_valid",
+		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
+		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
+		Source:        EtsiEsi,
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+		Lint:          &qcStatemQcLimitValueValid{},
+	})
+}
