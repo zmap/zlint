@@ -53,6 +53,7 @@ var (
 	EtsiEn319_412_5_V2_2_1_Date = time.Date(2017, time.November, 1, 0, 0, 0, 0, time.UTC)
 	OnionOnlyEVDate             = time.Date(2015, time.May, 1, 0, 0, 0, 0, time.UTC)
 	CABV201Date                 = time.Date(2017, time.July, 28, 0, 0, 0, 0, time.UTC)
+	AppleCTPolicyDate           = time.Date(2018, time.October, 15, 0, 0, 0, 0, time.UTC)
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
