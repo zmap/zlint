@@ -60,7 +60,7 @@ type anyContent struct {
 
 type qcStatementWithInfoField struct {
 	Oid asn1.ObjectIdentifier
-	Any anyContent
+	Any asn1.RawValue
 }
 type qcStatementWithoutInfoField struct {
 	Oid asn1.ObjectIdentifier
@@ -190,7 +190,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 				return etsiBase{errorInfo: parseErrorString, isPresent: false}
 			}
 			copy(statem.Oid, statemWithoutInfo.Oid)
-			if len(statem.Any.Raw) != 0 {
+			if len(statem.Any.FullBytes) != 0 {
 				return etsiBase{errorInfo: "internal error, default optional content len is not zero"}
 			}
 		} else if 0 != len(rest) {
@@ -212,7 +212,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 			alphErr := false
 			var numeric EtsiMonetaryValueNum
 			var alphabetic EtsiMonetaryValueAlph
-			restNum, errNum := asn1.Unmarshal(statem.Any.Raw, &numeric)
+			restNum, errNum := asn1.Unmarshal(statem.Any.FullBytes, &numeric)
 			if len(restNum) != 0 || errNum != nil {
 				numErr = true
 			} else {
@@ -223,7 +223,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 
 			}
 			if numErr {
-				restAlph, errAlph := asn1.Unmarshal(statem.Any.Raw, &alphabetic)
+				restAlph, errAlph := asn1.Unmarshal(statem.Any.FullBytes, &alphabetic)
 				if len(restAlph) != 0 || errAlph != nil {
 					alphErr = true
 				} else {
@@ -233,7 +233,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 					etsiObj.CurrencyAlph = alphabetic.iso4217CurrencyCodeAlph
 					AppendToStringSemicolonDelim(&etsiObj.errorInfo,
 						checkAsn1Reencoding(reflect.ValueOf(alphabetic).Interface(),
-							statem.Any.Raw, "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+							statem.Any.FullBytes, "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
 				}
 			}
 			if numErr && alphErr {
@@ -243,7 +243,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 
 		} else if statem.Oid.Equal(IdEtsiQcsQcRetentionPeriod) {
 			etsiObj := EtsiQcRetentionPeriod{etsiBase: etsiBase{isPresent: true}}
-			rest, err := asn1.Unmarshal(statem.Any.Raw, &etsiObj.Period)
+			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.Period)
 
 			if len(rest) != 0 || err != nil {
 				etsiObj.errorInfo = "error parsing the statementInfo field"
@@ -257,19 +257,19 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 			return etsiObj
 		} else if statem.Oid.Equal(IdEtsiQcsQcEuPDS) {
 			etsiObj := EtsiQcPds{etsiBase: etsiBase{isPresent: true}}
-			rest, err := asn1.Unmarshal(statem.Any.Raw, &etsiObj.PdsLocations)
+			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.PdsLocations)
 			if len(rest) != 0 || err != nil {
 				etsiObj.errorInfo = "error parsing the statementInfo field"
 			} else {
 				AppendToStringSemicolonDelim(&etsiObj.errorInfo,
-					checkAsn1Reencoding(reflect.ValueOf(etsiObj.PdsLocations).Interface(), statem.Any.Raw,
+					checkAsn1Reencoding(reflect.ValueOf(etsiObj.PdsLocations).Interface(), statem.Any.FullBytes,
 						"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
 			}
 			return etsiObj
 		} else if statem.Oid.Equal(IdEtsiQcsQcType) {
 			var qcType Etsi423QcType
 			qcType.isPresent = true
-			rest, err := asn1.Unmarshal(statem.Any.Raw, &qcType.TypeOids)
+			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcType.TypeOids)
 			if len(rest) != 0 || err != nil {
 				return etsiBase{errorInfo: "error parsing IdEtsiQcsQcType extension statementInfo field", isPresent: true}
 			}

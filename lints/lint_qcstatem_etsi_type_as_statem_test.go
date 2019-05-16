@@ -26,6 +26,7 @@ func TestEtsiTypeAsQcStmt(t *testing.T) {
 		"QcStmtEtsiEsealValidCert02.pem":     Pass,
 		"QcStmtEtsiTwoQcTypesCert15.pem":     Pass,
 		"QcStmtEtsiNoQcStatmentsCert22.pem":  NA,
+		"QcStmtEtsiValidCert24.pem":          Pass,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath
