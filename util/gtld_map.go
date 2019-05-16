@@ -1841,7 +1841,7 @@ var tldMap = map[string]GTLDPeriod{
 	"doha": {
 		GTLD:           "doha",
 		DelegationDate: "2015-03-25",
-		RemovalDate:    "",
+		RemovalDate:    "2019-04-09",
 	},
 	"domains": {
 		GTLD:           "domains",

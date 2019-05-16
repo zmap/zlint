@@ -16,9 +16,10 @@ package lints
 
 import (
 	"encoding/asn1"
+	"unicode"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"unicode"
 )
 
 type qcStatemQcLimitValueValid struct{}
@@ -57,7 +58,10 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
 	errString += s.GetErrorInfo()
 	if len(errString) == 0 {
-		qcLv := s.(util.EtsiQcLimitValue)
+		qcLv, ok := s.(util.EtsiQcLimitValue)
+		if !ok {
+			return &LintResult{Status: Error, Details: "parsed QcStatem is not a EtsiQcLimitValue"}
+		}
 		if qcLv.Amount < 0 {
 			util.AppendToStringSemicolonDelim(&errString, "amount is negative")
 		}
