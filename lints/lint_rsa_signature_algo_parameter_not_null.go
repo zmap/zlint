@@ -42,7 +42,7 @@ func (l *rsaEncryptionParamNotNULL) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
-	var input = cryptobyte.String(c.RawSubjectPublicKeyInfo)
+	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
 
 	var publicKeyInfo cryptobyte.String
 	if !input.ReadASN1(&publicKeyInfo, asn1_cryptobyte.SEQUENCE) {
