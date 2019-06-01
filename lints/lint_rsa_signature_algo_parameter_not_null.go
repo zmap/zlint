@@ -20,15 +20,11 @@ RSA: Encoded algorithm identifier MUST have NULL parameters.
 *******************************************************************************************************/
 
 import (
-	"encoding/asn1"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 	"golang.org/x/crypto/cryptobyte"
 	asn1_cryptobyte "golang.org/x/crypto/cryptobyte/asn1"
 )
-
-var rsaEncryptionOID = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
 
 type rsaEncryptionParamNotNULL struct{}
 
@@ -37,8 +33,8 @@ func (l *rsaEncryptionParamNotNULL) Initialize() error {
 }
 
 func (l *rsaEncryptionParamNotNULL) CheckApplies(c *x509.Certificate) bool {
-	// explicitly check for rsaEncryptionOID, as RSA-PSS or RSA-OAEP certificates might be classified with c.PublicKeyAlgorithm = RSA
-	return c.PublicKeyAlgorithmOID.Equal(rsaEncryptionOID)
+	// explicitly check for util.OidRSAEncryption, as RSA-PSS or RSA-OAEP certificates might be classified with c.PublicKeyAlgorithm = RSA
+	return c.PublicKeyAlgorithmOID.Equal(util.OidRSAEncryption)
 }
 
 func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
