@@ -58,8 +58,18 @@ func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
 		return &LintResult{Status: Error, Details: "certificate contains RSA public key algorithm identifier missing required NULL parameter"}
 	}
 
-	if !algorithm.PeekASN1Tag(asn1_cryptobyte.NULL) {
+	var nullValue cryptobyte.String
+	if !algorithm.ReadASN1(&nullValue, asn1_cryptobyte.NULL) {
 		return &LintResult{Status: Error, Details: "certificate contains RSA public key algorithm identifier with non-NULL parameter"}
+	}
+
+	if len(nullValue) != 0 {
+		return &LintResult{Status: Error, Details: "certificate contains RSA public key algorithm identifier with NULL parameter containing trailing data"}
+	}
+
+	// ensure algorithm is empty and no trailing data is present
+	if !algorithm.Empty() {
+		return &LintResult{Status: Error, Details: "certificate contains RSA public key algorithm identifier with trailing data"}
 	}
 
 	return &LintResult{Status: Pass}
