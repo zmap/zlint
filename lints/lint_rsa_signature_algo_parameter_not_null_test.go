@@ -90,7 +90,7 @@ func TestRSAAlgIDNullParamsMalformed(t *testing.T) {
 			name:           "spki bare algo",
 			spki:           "MA0GCSqGSIb3DQEBAQUA",
 			expectedStatus: Fatal,
-			details:        "error reading pkixPublicKey",
+			details:        "error reading pkixPublicKey algorithm",
 		},
 	}
 
