@@ -20,6 +20,8 @@ RSA: Encoded algorithm identifier MUST have NULL parameters.
 *******************************************************************************************************/
 
 import (
+	"bytes"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 	"golang.org/x/crypto/cryptobyte"
@@ -27,6 +29,9 @@ import (
 )
 
 type rsaEncryptionParamNotNULL struct{}
+
+// byte representation of pkix.Algorithm with OID rsaEncryption and Parameters asn1.NULL, includes BITSTRING tag for public key
+var expectedSPKIAlgoBytes = []byte{0x30, 0xd, 0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1, 0x5, 0x0, 0x03}
 
 func (l *rsaEncryptionParamNotNULL) Initialize() error {
 	return nil
@@ -38,6 +43,13 @@ func (l *rsaEncryptionParamNotNULL) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
+	// Try byte comparison for Algorithm
+	// Determine offset (SEQUENCE + length) first. Notably 1024 encodes length in 2 bytes, 2048 and up in 3 bytes
+	offset := getOffset(c.RawSubjectPublicKeyInfo)
+	if bytes.Compare(c.RawSubjectPublicKeyInfo[offset:len(expectedSPKIAlgoBytes)+offset], expectedSPKIAlgoBytes) == 0 {
+		return &LintResult{Status: Pass}
+	}
+
 	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
 
 	var publicKeyInfo cryptobyte.String
@@ -72,7 +84,7 @@ func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
 		return &LintResult{Status: Error, Details: "certificate contains RSA public key algorithm identifier with trailing data"}
 	}
 
-	return &LintResult{Status: Pass}
+	return &LintResult{Status: Fatal, Details: "certificate rsa algorithm identifier appears correct, but didn't match byte-wise comparison"}
 }
 
 func init() {
@@ -84,4 +96,19 @@ func init() {
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &rsaEncryptionParamNotNULL{},
 	})
+}
+
+func getOffset(asn1Sequence []byte) int {
+	if len(asn1Sequence) < 2 {
+		return 0
+	}
+
+	if asn1Sequence[1]&0x80 == 0 {
+		// short form length encoding in 1 octet
+		return 2 // 1 tag octet +1 length encoding octet
+	}
+
+	// long form length encoding
+	length := int(asn1Sequence[1] & 0x7f)
+	return length + 2 // +1 for the tag and +1 for the first length encoding octet
 }

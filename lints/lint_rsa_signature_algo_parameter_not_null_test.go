@@ -57,6 +57,18 @@ func TestRSAAlgIDNullParamsMalformed(t *testing.T) {
 		details        string
 	}{
 		{
+			name:           "rsa 1024",
+			spki:           "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIpCF7/X3fdKx6IDmtq2hCCX0BO0zS+LKZdfIIM0rzJ79NIp9nYKKiWT00LLOXFYp/oZjEv0oVQW9Z9B6x4ce6SfV1858Ibz1UAK3IaQIHxhscl3++XKArI1CqCqHtrTcad4SbvM/PmVsSwSn77BSW2Lm+jcdYFvrSKBO8Ibr0LwIDAQAB",
+			expectedStatus: Pass,
+			details:        "",
+		},
+		{
+			name:           "rsa 2048",
+			spki:           "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/YoWp0tZ2sBGLGPqK3MvqJfKB4Bh2Yr43U2cvpB/Qr6TfYEs6IQOqN89+o5gJF+DRWTWyaaiufc47oU/jfD04wLzCsBM19gqNUA2xQ4GfRmMHNFiKQadBfPVH9ZroqJb799qyzRnXwsgLQVAGUKuam8WDEeMTKl1wQs3m13UVVN3fTyC0SWrQLuJxfvJ13dRrugc+rA7+/xQd9SgACA8EZiJB+IHY6CLgA2+hl5tq5+wiCK6UHAZuHSIqX6HUKCc+jM+sLlNgYSMD+XavypA3scFoWXbjONjUeJjND1c8Mc57dZkPRO2mVMz7jI0T+dHoD4PLrRc9gYfAqsb8sJfIwIDAQAB",
+			expectedStatus: Pass,
+			details:        "",
+		},
+		{
 			name:           "spki with extra field in algorithm sequence",
 			spki:           "MIGkMBIGCSqGSIb3DQEBAQUAAgMBAAEDgY0AMIGJAoGBANgryKYy5GL/TfPQrVmLRae98Ue/CVh7Ir01rpclhpSggMC0H3aRZ0Yx0BCEtyIecCORcsjpbXk6hXeAD8SVFnXFSnFMyGM/o/JjnCpPmvrLwXFuKIUooCceZRyuB9Vbby1D7SuQsYyvJG2u6Rc6BcG/uByuZTsbWMLZrtaqZ4jxAgMBAAE=",
 			expectedStatus: Error,
