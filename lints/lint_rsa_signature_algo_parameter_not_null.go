@@ -46,6 +46,10 @@ func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
 	// Try byte comparison for Algorithm
 	// Determine offset (SEQUENCE + length) first. Notably 1024 encodes length in 2 bytes, 2048 and up in 3 bytes
 	offset := getOffset(c.RawSubjectPublicKeyInfo)
+	if len(c.RawSubjectPublicKeyInfo) <= len(expectedSPKIAlgoBytes)+offset {
+		return &LintResult{Status: Fatal, Details: "error malformed pkixPublicKey"}
+	}
+
 	if bytes.Compare(c.RawSubjectPublicKeyInfo[offset:len(expectedSPKIAlgoBytes)+offset], expectedSPKIAlgoBytes) == 0 {
 		return &LintResult{Status: Pass}
 	}

@@ -86,13 +86,21 @@ func TestRSAAlgIDNullParamsMalformed(t *testing.T) {
 			expectedStatus: Error,
 			details:        "certificate contains RSA public key algorithm identifier with non-NULL parameter",
 		},
+		{
+			name:           "spki bare algo",
+			spki:           "MA0GCSqGSIb3DQEBAQUA",
+			expectedStatus: Fatal,
+			details:        "error reading pkixPublicKey",
+		},
 	}
 
 	inputPath := fmt.Sprintf("%s%s", testCaseDir, "rsawithsha1after2016.pem")
 	cert := ReadCertificate(inputPath)
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			base64.StdEncoding.Decode(cert.RawSubjectPublicKeyInfo, []byte(tc.spki))
+			spki := make([]byte, len([]byte(tc.spki)))
+			base64.StdEncoding.Decode(spki, []byte(tc.spki))
+			cert.RawSubjectPublicKeyInfo = spki
 
 			result := Lints["e_rsa_encryption_parameter_not_null"].Execute(cert)
 			if result.Status != tc.expectedStatus {
