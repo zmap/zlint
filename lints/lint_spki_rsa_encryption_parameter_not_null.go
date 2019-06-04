@@ -29,21 +29,21 @@ import (
 	asn1_cryptobyte "golang.org/x/crypto/cryptobyte/asn1"
 )
 
-type rsaEncryptionParamNotNULL struct{}
+type rsaSPKIEncryptionParamNotNULL struct{}
 
 // byte representation of pkix.Algorithm with OID rsaEncryption and Parameters asn1.NULL
 var expectedSPKIAlgoBytes = []byte{0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1, 0x5, 0x0}
 
-func (l *rsaEncryptionParamNotNULL) Initialize() error {
+func (l *rsaSPKIEncryptionParamNotNULL) Initialize() error {
 	return nil
 }
 
-func (l *rsaEncryptionParamNotNULL) CheckApplies(c *x509.Certificate) bool {
+func (l *rsaSPKIEncryptionParamNotNULL) CheckApplies(c *x509.Certificate) bool {
 	// explicitly check for util.OidRSAEncryption, as RSA-PSS or RSA-OAEP certificates might be classified with c.PublicKeyAlgorithm = RSA
 	return c.PublicKeyAlgorithmOID.Equal(util.OidRSAEncryption)
 }
 
-func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaSPKIEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
 	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
 
 	var publicKeyInfo cryptobyte.String
@@ -107,11 +107,11 @@ func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_rsa_encryption_parameter_not_null",
+		Name:          "e_spki_rsa_encryption_parameter_not_null",
 		Description:   "RSA: Encoded algorithm identifier MUST have NULL parameters",
 		Citation:      "RFC 4055, Section 1.2",
 		Source:        RFC5280, // RFC4055 is referenced in RFC5280, Section 1
 		EffectiveDate: util.RFC5280Date,
-		Lint:          &rsaEncryptionParamNotNULL{},
+		Lint:          &rsaSPKIEncryptionParamNotNULL{},
 	})
 }

@@ -36,7 +36,7 @@ func TestRSAAlgIDNullParams(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.filepath)
-			result := Lints["e_rsa_encryption_parameter_not_null"].Execute(ReadCertificate(inputPath))
+			result := Lints["e_spki_rsa_encryption_parameter_not_null"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.expectedStatus {
 				t.Errorf("expected result %v was %v", tc.expectedStatus, result.Status)
 			}
@@ -108,7 +108,7 @@ func TestRSAAlgIDNullParamsSPKI(t *testing.T) {
 			base64.StdEncoding.Decode(spki, []byte(tc.spki))
 			cert.RawSubjectPublicKeyInfo = spki
 
-			result := Lints["e_rsa_encryption_parameter_not_null"].Execute(cert)
+			result := Lints["e_spki_rsa_encryption_parameter_not_null"].Execute(cert)
 			if result.Status != tc.expectedStatus {
 				t.Errorf("expected result %v was %v", tc.expectedStatus, result.Status)
 			}
