@@ -48,7 +48,7 @@ func TestRSAAlgIDNullParams(t *testing.T) {
 	}
 }
 
-func TestRSAAlgIDNullParamsMalformed(t *testing.T) {
+func TestRSAAlgIDNullParamsSPKI(t *testing.T) {
 
 	testCases := []struct {
 		name           string
@@ -91,6 +91,12 @@ func TestRSAAlgIDNullParamsMalformed(t *testing.T) {
 			spki:           "MA0GCSqGSIb3DQEBAQUA",
 			expectedStatus: Fatal,
 			details:        "error reading pkixPublicKey algorithm",
+		},
+		{
+			name:           "wrong algorithm oid",
+			spki:           "MIGfMA0GCSqGSIb3DQEBAgUAA4GNADCBiQKBgQDYK8imMuRi/03z0K1Zi0WnvfFHvwlYeyK9Na6XJYaUoIDAtB92kWdGMdAQhLciHnAjkXLI6W15OoV3gA/ElRZ1xUpxTMhjP6PyY5wqT5r6y8FxbiiFKKAnHmUcrgfVW28tQ+0rkLGMryRtrukXOgXBv7gcrmU7G1jC2a7WqmeI8QIDAQAB",
+			expectedStatus: Error,
+			details:        "certificate pkixPublicKey algorithm OID is not rsaEncryption",
 		},
 	}
 

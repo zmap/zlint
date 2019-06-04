@@ -81,7 +81,7 @@ func (l *rsaEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult {
 	}
 
 	if !encryptionOID.Equal(util.OidRSAEncryption) {
-		return &LintResult{Status: Fatal, Details: "certificate pkixPublicKey algorithm OID is not rsaEncryption"}
+		return &LintResult{Status: Error, Details: "certificate pkixPublicKey algorithm OID is not rsaEncryption"}
 	}
 
 	if algorithm.Empty() {
