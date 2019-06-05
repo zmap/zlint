@@ -49,11 +49,12 @@ func (l *rsaSPKIEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult
 
 	var algorithm cryptobyte.String
 	var tag cryptobyte_asn1.Tag
+	// use ReadAnyElement to preserve tag and length octets
 	if !publicKeyInfo.ReadAnyASN1Element(&algorithm, &tag) {
 		return &LintResult{Status: Fatal, Details: "error reading pkixPublicKey"}
 	}
 
-	if err := util.CheckAlgorithmIDParamNotNULL(algorithm); err != nil {
+	if err := util.CheckAlgorithmIDParamNotNULL(algorithm, util.OidRSAEncryption); err != nil {
 		return &LintResult{Status: Error, Details: fmt.Sprintf("certificate pkixPublicKey %s", err.Error())}
 	}
 
@@ -63,7 +64,7 @@ func (l *rsaSPKIEncryptionParamNotNULL) Execute(c *x509.Certificate) *LintResult
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_spki_rsa_encryption_parameter_not_null",
-		Description:   "RSA: Encoded algorithm identifier MUST have NULL parameters",
+		Description:   "RSA: Encoded public key algorithm identifier MUST have NULL parameters",
 		Citation:      "RFC 4055, Section 1.2",
 		Source:        RFC5280, // RFC4055 is referenced in RFC5280, Section 1
 		EffectiveDate: util.RFC5280Date,
