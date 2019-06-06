@@ -71,7 +71,15 @@ var (
 	SHA384OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 2}
 	SHA512OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 3}
 	// other OIDs
+	OidRSAEncryption           = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
 	OidRSASSAPSS               = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 10}
+	OidMD2WithRSAEncryption    = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 2}
+	OidMD5WithRSAEncryption    = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 4}
+	OidSHA1WithRSAEncryption   = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 5}
+	OidSHA224WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 14}
+	OidSHA256WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 11}
+	OidSHA384WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 12}
+	OidSHA512WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 13}
 	AnyPolicyOID               = asn1.ObjectIdentifier{2, 5, 29, 32, 0}
 	UserNoticeOID              = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 2}
 	CpsOID                     = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1}
