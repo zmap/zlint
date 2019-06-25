@@ -51,7 +51,7 @@ func (l *subCACertPolicyQualifiersOnlyForNonAffiliates) Execute(c *x509.Certific
 func init() {
 	RegisterLint(&Lint{
 		Name:          "n_sub_ca_certificate_policies_qualifiers_only_for_non_affiliates",
-		Description:   "Policy qualifiers shouldn't be present if the subordinate CA is an Affiliate of the entity that controls the Root CA",
+		Description:   "Policy qualifiers shouldn't be present if the subordinate CA is an affiliate of the entity that controls the Root CA",
 		Citation:      "BRs: 7.1.2.2",
 		Source:        CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
