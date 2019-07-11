@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 CMDS = zlint zlint-gtld-update
 CMD_PREFIX = ./cmd/
 GO_ENV = GO111MODULE="on" GOFLAGS="-mod=vendor"
@@ -19,6 +21,6 @@ test:
 	$(TEST) ./...
 
 format-check:
-	find . -name '*.go' -not -path './vendor/*' -print | xargs -n1 gofmt -l
+	diff <(find . -name '*.go' -not -path './vendor/*' -print | xargs -n1 gofmt -l) <(printf "")
 
 .PHONY: clean zlint zlint-gtld-update test format-check
