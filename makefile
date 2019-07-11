@@ -1,8 +1,8 @@
 CMDS = zlint zlint-gtld-update
 CMD_PREFIX = ./cmd/
-GO_ENV = GO111MODULE=on
-BUILD = $(GO_ENV) go build -mod=vendor
-TEST = $(GO_ENV) GORACE=halt_on_error=1 go test -mod=vendor -race
+GO_ENV = GO111MODULE="on" GOFLAGS="-mod=vendor"
+BUILD = $(GO_ENV) go build
+TEST = $(GO_ENV) GORACE=halt_on_error=1 go test -race
 
 all: $(CMDS)
 
@@ -18,4 +18,7 @@ clean:
 test:
 	$(TEST) ./...
 
-.PHONY: clean zlint zlint-gtld-update test
+format-check:
+	find . -name '*.go' -not -path './vendor/*' -print | xargs -n1 gofmt -l
+
+.PHONY: clean zlint zlint-gtld-update test format-check
