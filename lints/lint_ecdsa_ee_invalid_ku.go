@@ -51,8 +51,8 @@ func (l *ecdsaInvalidKU) Execute(c *x509.Certificate) *LintResult {
 	//     keyAgreement.
 	//
 	// So we set up `allowedKUs` to match. Note that per RFC 5280: recent editions
-	// of X.509 renamed "nonRepudation" to contentCommitment, which is the name of
-	// the Go x509 constant we use here alongside the digitalSignature and
+	// of X.509 renamed "nonRepudiation" to "contentCommitment", which is the name
+	// of the Go x509 constant we use here alongside the digitalSignature and
 	// keyAgreement constants.
 	allowedKUs := map[x509.KeyUsage]bool{
 		x509.KeyUsageDigitalSignature:  true,
