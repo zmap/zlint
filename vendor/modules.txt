@@ -4,7 +4,7 @@ github.com/konsorten/go-windows-terminal-sequences
 github.com/sirupsen/logrus
 # github.com/weppos/publicsuffix-go v0.4.0
 github.com/weppos/publicsuffix-go/publicsuffix
-# github.com/zmap/zcrypto v0.0.0-20190726170612-6da6ff3e2049
+# github.com/zmap/zcrypto v0.0.0-20190729165852-9051775e6a2e
 github.com/zmap/zcrypto/x509
 github.com/zmap/zcrypto/x509/ct
 github.com/zmap/zcrypto/x509/pkix
