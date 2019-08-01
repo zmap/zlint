@@ -31,7 +31,7 @@ func TestTorValidityTooLarge(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["onion_subject_validity_time_too_large"].Execute(ReadCertificate(inputPath))
+			result := Lints["e_onion_subject_validity_time_too_large"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

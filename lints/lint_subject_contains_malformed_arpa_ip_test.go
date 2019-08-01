@@ -61,7 +61,7 @@ func TestSubjectMalformedDNSARPA(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["subject_contains_malformed_arpa_ip"].Execute(ReadCertificate(inputPath))
+			result := Lints["w_subject_contains_malformed_arpa_ip"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
