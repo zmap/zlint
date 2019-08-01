@@ -63,7 +63,7 @@ func TestTorDescHashInvalid(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["ext_tor_service_descriptor_hash_invalid"].Execute(ReadCertificate(inputPath))
+			result := Lints["e_ext_tor_service_descriptor_hash_invalid"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
