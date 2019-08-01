@@ -32,7 +32,13 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 		ExpectedResult LintStatus
 	}{
 		{
-			Name: "No SCTs",
+			Name: "No SCTs, poisoned",
+			// go run sctTestCerts.go -lifetime 3 -scts 0 -poison > testlint/testCerts/ctNoSCTsPoisoned.pem
+			Filename:       "ctNoSCTsPoisoned.pem",
+			ExpectedResult: NA,
+		},
+		{
+			Name: "No SCTs, no poison",
 			// go run sctTestCerts.go -lifetime 3 -scts 0 > testlint/testCerts/ctNoSCTs.pem
 			Filename:       "ctNoSCTs.pem",
 			ExpectedResult: Notice,
