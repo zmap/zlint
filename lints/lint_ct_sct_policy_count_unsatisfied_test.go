@@ -102,7 +102,7 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.Filename)
-			result := Lints["ct_sct_policy_count_unsatisfied"].Execute(ReadCertificate(inputPath))
+			result := Lints["w_ct_sct_policy_count_unsatisfied"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
