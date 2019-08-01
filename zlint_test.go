@@ -9,7 +9,7 @@ import (
 
 func TestLintNames(t *testing.T) {
 	allowedPrefixes := []string{
-		"i_", "n_", // Both "i_" and "n_" are used for lints.Notice.
+		"n_", // lints.Notice
 		"w_", // lints.Warn
 		"e_", // lints.Error
 	}
