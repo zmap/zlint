@@ -5936,7 +5936,7 @@ var tldMap = map[string]GTLDPeriod{
 	"starhub": {
 		GTLD:           "starhub",
 		DelegationDate: "2015-06-22",
-		RemovalDate:    "",
+		RemovalDate:    "2019-08-02",
 	},
 	"statebank": {
 		GTLD:           "statebank",
