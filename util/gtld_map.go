@@ -3226,7 +3226,7 @@ var tldMap = map[string]GTLDPeriod{
 	"iselect": {
 		GTLD:           "iselect",
 		DelegationDate: "2016-01-15",
-		RemovalDate:    "",
+		RemovalDate:    "2019-08-05",
 	},
 	"ismaili": {
 		GTLD:           "ismaili",
@@ -5606,7 +5606,7 @@ var tldMap = map[string]GTLDPeriod{
 	"select": {
 		GTLD:           "select",
 		DelegationDate: "2016-01-15",
-		RemovalDate:    "2019-08-05",
+		RemovalDate:    "",
 	},
 	"sener": {
 		GTLD:           "sener",
