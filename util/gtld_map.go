@@ -2478,6 +2478,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2014-12-13",
 		RemovalDate:    "",
 	},
+	"gay": {
+		GTLD:           "gay",
+		DelegationDate: "2019-08-09",
+		RemovalDate:    "",
+	},
 	"gb": {
 		GTLD:           "gb",
 		DelegationDate: "1985-01-01",
