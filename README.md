@@ -19,6 +19,14 @@ ZLint requires [Go 1.12.x or newer](https://golang.org/doc/install) be
 installed. The command line setup instructions assume the `go` command is in
 your `$PATH`.
 
+Versioning
+----------
+
+ZLint aims to follow [semantic versioning](https://semver.org/). The addition of
+new lints will generally result in a MINOR version revision. Since downstream
+projects depend on lint results and names for policy decisions changes of this
+nature will result in MAJOR version revision.
+
 Command Line Usage
 ------------------
 
@@ -169,7 +177,7 @@ generate`:
 License and Copyright
 ---------------------
 
-ZMap Copyright 2017 Regents of the University of Michigan
+ZMap Copyright 2019 Regents of the University of Michigan
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the
