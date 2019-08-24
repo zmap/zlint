@@ -21,6 +21,16 @@ func TestSubjectPrintableStringBadAlpha(t *testing.T) {
 			},
 		},
 		{
+			name: "valid subject with single quote",
+			// A RawSubject containing 8 PrintableString attributes all adhering to
+			// the expected character set.
+			filename: "subjectWithSingleQuote.pem",
+			expected: LintResult{
+				Status: Pass,
+			},
+		},
+
+		{
 			name: "invalid subj. CN PrintableString",
 			// A RawSubject containing a single PrintableString attribute (OID
 			// 2.5.4.3, subject common name) with an illegal character (`*`).
