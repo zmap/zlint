@@ -29,7 +29,6 @@ func TestSubjectPrintableStringBadAlpha(t *testing.T) {
 				Status: Pass,
 			},
 		},
-
 		{
 			name: "invalid subj. CN PrintableString",
 			// A RawSubject containing a single PrintableString attribute (OID
