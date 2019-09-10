@@ -4181,7 +4181,7 @@ var tldMap = map[string]GTLDPeriod{
 	"mobily": {
 		GTLD:           "mobily",
 		DelegationDate: "2015-12-23",
-		RemovalDate:    "",
+		RemovalDate:    "2019-09-09",
 	},
 	"moda": {
 		GTLD:           "moda",
@@ -7416,7 +7416,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--mgbb9fbpob": {
 		GTLD:           "xn--mgbb9fbpob",
 		DelegationDate: "2015-12-23",
-		RemovalDate:    "",
+		RemovalDate:    "2019-09-09",
 	},
 	"xn--mgbbh1a": {
 		GTLD:           "xn--mgbbh1a",
