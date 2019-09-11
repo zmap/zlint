@@ -20,7 +20,7 @@ import (
 
 func TestQcStatemQcLimitValueValid(t *testing.T) {
 	m := map[string]LintStatus{
-		"QcStmtInvalidLimitValue.pem": Error,
+		"QcStmtInvalidLimitValue.pem": NA,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath
