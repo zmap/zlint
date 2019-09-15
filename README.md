@@ -185,6 +185,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Digicert](https://bugzilla.mozilla.org/show_bug.cgi?id=1550645#c9)
 * [Government of Spain, FNMT](https://bugzilla.mozilla.org/show_bug.cgi?id=1495507#c8)
 * [Globalsign](https://cabforum.org/pipermail/public/2018-April/013233.html)
+* [GoDaddy](https://bugzilla.mozilla.org/show_bug.cgi?id=1462844#c6)
 * [Izenpe](https://bugzilla.mozilla.org/show_bug.cgi?id=1528290#c5)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
 * [Siemens](https://bugzilla.mozilla.org/show_bug.cgi?id=1391063#c32)
