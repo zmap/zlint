@@ -181,7 +181,7 @@ program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issua
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
 * [CFSSL](https://github.com/cloudflare/cfssl/pull/1015)
-* [crt.sh](https://crt.sh/lintcert)
+* [Sectigo and crt.sh](https://groups.google.com/forum/#!msg/mozilla.dev.security.policy/sjXswrcsvrE/Nl3OLd4PAAAJ)
 * [Digicert](https://bugzilla.mozilla.org/show_bug.cgi?id=1550645#c9)
 * [Government of Spain, FNMT](https://bugzilla.mozilla.org/show_bug.cgi?id=1495507#c8)
 * [Globalsign](https://cabforum.org/pipermail/public/2018-April/013233.html)
