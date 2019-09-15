@@ -9,7 +9,6 @@ import (
 	"log"
 	"os"
 	"path"
-	"sync"
 
 	"github.com/zmap/zcrypto/x509"
 )
@@ -44,33 +43,20 @@ type workItem struct {
 
 // loadCSV processes the configured data files with the provided cache
 // directory, writing work items to the workChannel as they are available.
-// A separate Go routine is launched per-file and loadCSV will block until all
-// of the file loaders have completed. Before returning the workChannel will be
-// closed.
 //
 // Expected CSV format:
 //   subject_dn, issuer_dn, raw, fingerprint_sha256
 func loadCSV(workChannel chan<- workItem, directory string) {
-	// Create a work group so that the work channel can be closed when all of the
-	// individual file workers are done.
-	var wg sync.WaitGroup
 	log.Printf("Reading data from %d CSV files", len(conf.Files))
-	// For each of the configured data files start a go routine to load
-	// work items from it into the workChannel.
-	for _, dataFile := range conf.Files {
-		wg.Add(1)
+	for i, dataFile := range conf.Files {
 		path := path.Join(conf.CacheDir, dataFile.Name)
-		go func(f string) {
-			if err := loadCSVFile(workChannel, f, !dataFile.NoSkipHeader); err != nil {
-				log.Fatalf("Failed reading CSV file %q: %v", f, err)
-			}
-			log.Printf("Done reading CSV file %q", f)
-			wg.Done()
-		}(path)
+		log.Printf("Reading data from %q\n", path)
+		if err := loadCSVFile(workChannel, path, i == 0); err != nil {
+			log.Fatalf("Failed reading CSV file %q: %v", path, err)
+		}
+		log.Printf("Done reading CSV file %q", path)
 	}
 
-	// wait for each of the loaders to finish and then close the work channel.
-	wg.Wait()
 	log.Printf("Finished reading data from %d CSV files. Closing work channel",
 		len(conf.Files))
 	close(workChannel)
@@ -114,7 +100,9 @@ func loadCSVFile(workChannel chan<- workItem, path string, skipHeader bool) erro
 		// work channel.
 		cert, err := parseCertificate(record[csvRaw])
 		if err != nil {
-			return err
+			log.Printf("Warning: failed to parse record in %q: subjectDN %q fingerprint %q raw %q: %v",
+				path, record[csvSubjectDN], record[csvFingerprint], record[csvRaw], err)
+			continue
 		}
 		workChannel <- workItem{
 			Fingerprint: record[csvFingerprint],

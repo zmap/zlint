@@ -9,7 +9,7 @@ CMD_PREFIX = ./cmd/
 GO_ENV = GO111MODULE="on" GOFLAGS="-mod=vendor"
 BUILD = $(GO_ENV) go build
 TEST = $(GO_ENV) GORACE=halt_on_error=1 go test -race
-INT_TEST = $(GO_ENV) go test -v -tags integration ./integration/... -parallelism $(PARALLELISM) $(INT_FLAGS)
+INT_TEST = $(GO_ENV) go test -v -tags integration -timeout 20m ./integration/... -parallelism $(PARALLELISM) $(INT_FLAGS)
 
 all: $(CMDS)
 

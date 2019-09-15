@@ -13,20 +13,18 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 )
 
 // dataFile is a struct describing a named CSV data file that can be downloaded
-// from a URL when it is not present already on disk. If the BZIP2 bool is true
+// from a URL when it is not present already on disk. If the URL ends in "bz2"
 // then the data at the given URL is assumed to be compressed with Bzip2 and
 // will be automatically decompressed when fetching the URL to write the data
-// file to disk. By default the CSV data is assumed to have a header line that
-// must be skipped for data processing. Set NoSkipHeader to true if the data
-// file does not have a header line.
+// file to disk. By default the first datafile in the set is assumed to have
+// a header line that must be skipped for data processing.
 type dataFile struct {
-	Name         string
-	URL          string
-	BZIP2        bool
-	NoSkipHeader bool
+	Name string
+	URL  string
 }
 
 // Valid returns an error if the data file has an empty name or URL.
@@ -71,7 +69,7 @@ func (f dataFile) DownloadTo(dir string) error {
 	}
 
 	var reader io.Reader = resp.Body
-	if f.BZIP2 {
+	if strings.HasSuffix(f.URL, ".bz2") {
 		reader = bzip2.NewReader(reader)
 	}
 
@@ -154,8 +152,8 @@ func (c config) PrepareCache(force bool) error {
 		if exists, err := f.ExistsIn(c.CacheDir); err != nil {
 			log.Fatalf("error checking cache: %v\n", err)
 		} else if !exists || force {
-			log.Printf("Downloading data file %q (bzip2: %v, url: %q)",
-				f.Name, f.BZIP2, f.URL)
+			log.Printf("Downloading data file %q (url: %q)",
+				f.Name, f.URL)
 			if err := f.DownloadTo(c.CacheDir); err != nil {
 				log.Fatalf("Failed to download: %v", err)
 			}
