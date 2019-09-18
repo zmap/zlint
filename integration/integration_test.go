@@ -13,7 +13,7 @@ var (
 	// parallelism is a flag for controlling the number of linting Go routines
 	// used by TestCorpus.
 	parallelism = flag.Int("parallelism", 5, "number of linting Go routines to spawn")
-	// configFile is a flag for specify the config file JSON.
+	// configFile is a flag for specifying the config file JSON.
 	configFile = flag.String("config", "./config.json", "integration test config file")
 	// force is a flag for forcing the download of data files even if they are in
 	// the cache dir already.
