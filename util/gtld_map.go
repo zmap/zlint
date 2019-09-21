@@ -1523,6 +1523,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2015-02-25",
 		RemovalDate:    "",
 	},
+	"cpa": {
+		GTLD:           "cpa",
+		DelegationDate: "2019-09-20",
+		RemovalDate:    "",
+	},
 	"cr": {
 		GTLD:           "cr",
 		DelegationDate: "1985-01-01",
