@@ -20,6 +20,20 @@ import (
 
 func TestQcStatemQcLimitValueValid(t *testing.T) {
 	m := map[string]LintStatus{
+		"QcStmtValidLimitValue.pem": Pass,
+	}
+	for inputPath, expected := range m {
+		inputPath = "../testlint/testCerts/" + inputPath
+		out := Lints["e_qcstatem_qclimitvalue_valid"].Execute(ReadCertificate(inputPath))
+
+		if out.Status != expected {
+			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+		}
+	}
+}
+
+func TestQcStatemQcLimitValueInvalid(t *testing.T) {
+	m := map[string]LintStatus{
 		"QcStmtInvalidLimitValue.pem": Error,
 	}
 	for inputPath, expected := range m {
