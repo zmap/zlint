@@ -57,6 +57,7 @@ const (
 	EtsiEsi // ETSI - Electronic Signatures and Infrastructures (ESI)
 	CABFEVGuidelines
 	AppleCTPolicy // https://support.apple.com/en-us/HT205280
+	MozillaRootStorePolicy
 )
 
 // A Lint struct represents a single lint, e.g.
