@@ -33,16 +33,6 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-func hasEKU(cert *x509.Certificate, eku x509.ExtKeyUsage) bool {
-	for _, currentEku := range cert.ExtKeyUsage {
-		if currentEku == eku {
-			return true
-		}
-	}
-
-	return false
-}
-
 type allowedEKU struct{}
 
 func (l *allowedEKU) Initialize() error {
@@ -54,8 +44,8 @@ func (l *allowedEKU) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *allowedEKU) Execute(c *x509.Certificate) *LintResult {
-	if len(c.ExtKeyUsage) == 0 || hasEKU(c, x509.ExtKeyUsageAny) ||
-		(hasEKU(c, x509.ExtKeyUsageEmailProtection) && hasEKU(c, x509.ExtKeyUsageServerAuth)) {
+	if len(c.ExtKeyUsage) == 0 || util.HasEKU(c, x509.ExtKeyUsageAny) ||
+		(util.HasEKU(c, x509.ExtKeyUsageEmailProtection) && util.HasEKU(c, x509.ExtKeyUsageServerAuth)) {
 		return &LintResult{Status: Error}
 	}
 
