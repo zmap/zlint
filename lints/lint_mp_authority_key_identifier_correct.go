@@ -16,13 +16,14 @@
 Section 5.2 - Forbidden and Required Practices
 CAs MUST NOT issue certificates that have:
 - incorrect extensions (e.g., SSL certificates that exclude SSL usage, or authority key IDs
-  that include both the key ID and the issuer’s issuer name and serial number); or
+  that include both the key ID and the issuer’s issuer name and serial number);
 ********************************************************************/
 
 package lints
 
 import (
 	"encoding/asn1"
+	"fmt"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
@@ -51,12 +52,17 @@ func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *LintResult
 	var keyID keyIdentifier
 
 	ext := util.GetExtFromCert(c, util.AuthkeyOID)
-
 	if ext == nil {
-		return &LintResult{Status: Fatal}
+		return &LintResult{
+			Status:  Fatal,
+			Details: "certificate is missing Authority Key Identifier extension",
+		}
 	}
 	if _, err := asn1.Unmarshal(ext.Value, &keyID); err != nil {
-		return &LintResult{Status: Fatal}
+		return &LintResult{
+			Status:  Fatal,
+			Details: fmt.Sprintf("error unmarshalling authority key identifier extension: %v", err),
+		}
 	}
 
 	hasKeyID := len(keyID.KeyIdentifier.Bytes) > 0
