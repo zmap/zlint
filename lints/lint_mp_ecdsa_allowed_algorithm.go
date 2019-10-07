@@ -76,8 +76,8 @@ func (l *ecdsaAllowedAlgorithm) Initialize() error {
 }
 
 func (l *ecdsaAllowedAlgorithm) CheckApplies(c *x509.Certificate) bool {
-	switch c.SignatureAlgorithm {
-	case x509.ECDSAWithSHA1, x509.ECDSAWithSHA256, x509.ECDSAWithSHA384, x509.ECDSAWithSHA512:
+	if c.SignatureAlgorithm == x509.ECDSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 ||
+		c.SignatureAlgorithm == x509.ECDSAWithSHA384 || c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
 		return true
 	}
 
