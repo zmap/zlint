@@ -87,14 +87,23 @@ func (l *ecdsaAllowedAlgorithm) CheckApplies(c *x509.Certificate) bool {
 func (l *ecdsaAllowedAlgorithm) Execute(c *x509.Certificate) *LintResult {
 	signKeySize, err := getSigningKeySize(c)
 	if err != nil {
-		return &LintResult{Status: Fatal}
+		return &LintResult{
+			Status:  Fatal,
+			Details: "cannot identify signing ECDSA key length",
+		}
 	}
 
 	switch {
 	case c.SignatureAlgorithm == x509.ECDSAWithSHA256 && signKeySize == 256:
-		return &LintResult{Status: Pass}
+		return &LintResult{
+			Status:  Pass,
+			Details: "Detected ECDSAWithSHA256 and 256 bit signing key.",
+		}
 	case c.SignatureAlgorithm == x509.ECDSAWithSHA384 && signKeySize == 384:
-		return &LintResult{Status: Pass}
+		return &LintResult{
+			Status:  Pass,
+			Details: "Detected ECDSAWithSHA384 and 384 bit signing key.",
+		}
 	}
 
 	return &LintResult{Status: Error}
