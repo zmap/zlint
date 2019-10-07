@@ -45,6 +45,11 @@ func TestAllowedEKUs(t *testing.T) {
 			InputFilename:  "mpSubCAEKUAllowed.pem",
 			ExpectedResult: Pass,
 		},
+		{
+			Name:           "Cross-Certificate with no EKU",
+			InputFilename:  "mpCrossCertNoEKU.pem",
+			ExpectedResult: NA,
+		},
 	}
 
 	for _, tc := range testCases {

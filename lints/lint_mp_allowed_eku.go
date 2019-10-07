@@ -40,7 +40,7 @@ func (l *allowedEKU) Initialize() error {
 }
 
 func (l *allowedEKU) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubCA(c)
+	return util.IsSubCA(c) && !util.IsSPKIMozillaTrusted(c)
 }
 
 func (l *allowedEKU) Execute(c *x509.Certificate) *LintResult {
