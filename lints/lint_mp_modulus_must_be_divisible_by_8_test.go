@@ -19,7 +19,7 @@ import (
 	"testing"
 )
 
-func TestAllowedRSAKeysModulus(t *testing.T) {
+func TestModulusDivisibleBy8(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
