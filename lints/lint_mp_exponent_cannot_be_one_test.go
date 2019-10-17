@@ -19,7 +19,7 @@ import (
 	"testing"
 )
 
-func TestAllowedRSAKeysExponent(t *testing.T) {
+func TestExponentCannotBeOne(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
@@ -40,7 +40,7 @@ func TestAllowedRSAKeysExponent(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_allowed_rsa_keys_exponent"].Execute(ReadCertificate(inputPath))
+			result := Lints["e_mp_exponent_cannot_be_one"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

@@ -27,13 +27,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type allowedRSAKeyExponent struct{}
+type exponentCannotBeOne struct{}
 
-func (l *allowedRSAKeyExponent) Initialize() error {
+func (l *exponentCannotBeOne) Initialize() error {
 	return nil
 }
 
-func (l *allowedRSAKeyExponent) CheckApplies(c *x509.Certificate) bool {
+func (l *exponentCannotBeOne) CheckApplies(c *x509.Certificate) bool {
 	if c.PublicKeyAlgorithm == x509.RSA {
 		return true
 	}
@@ -41,7 +41,7 @@ func (l *allowedRSAKeyExponent) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *allowedRSAKeyExponent) Execute(c *x509.Certificate) *LintResult {
+func (l *exponentCannotBeOne) Execute(c *x509.Certificate) *LintResult {
 	pubKey, ok := c.PublicKey.(*rsa.PublicKey)
 	if !ok {
 		return &LintResult{Status: Fatal, Details: "certificate public key was not an RSA public key"}
@@ -56,11 +56,11 @@ func (l *allowedRSAKeyExponent) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_mp_allowed_rsa_keys_exponent",
+		Name:          "e_mp_exponent_cannot_be_one",
 		Description:   "CAs MUST NOT issue certificates that have invalid public keys (e.g., RSA certificates with public exponent equal to 1)",
 		Citation:      "Mozilla Root Store Policy / Section 5.2",
 		Source:        MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy24Date,
-		Lint:          &allowedRSAKeyExponent{},
+		Lint:          &exponentCannotBeOne{},
 	})
 }
