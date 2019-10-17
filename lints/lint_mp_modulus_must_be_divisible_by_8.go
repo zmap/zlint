@@ -26,13 +26,13 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type allowedRSAKeyModulus struct{}
+type modulusDivisibleBy8 struct{}
 
-func (l *allowedRSAKeyModulus) Initialize() error {
+func (l *modulusDivisibleBy8) Initialize() error {
 	return nil
 }
 
-func (l *allowedRSAKeyModulus) CheckApplies(c *x509.Certificate) bool {
+func (l *modulusDivisibleBy8) CheckApplies(c *x509.Certificate) bool {
 	if c.PublicKeyAlgorithm == x509.RSA {
 		return true
 	}
@@ -40,14 +40,14 @@ func (l *allowedRSAKeyModulus) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *allowedRSAKeyModulus) Execute(c *x509.Certificate) *LintResult {
+func (l *modulusDivisibleBy8) Execute(c *x509.Certificate) *LintResult {
 	pubKey, ok := c.PublicKey.(*rsa.PublicKey)
 	if !ok {
 		return &LintResult{Status: Fatal, Details: "certificate public key was not an RSA public key"}
 	}
 
 	bitLen := pubKey.N.BitLen()
-	if (bitLen%8) != 0 || bitLen < 2048 {
+	if (bitLen % 8) != 0 {
 		return &LintResult{Status: Error}
 	}
 
@@ -56,11 +56,11 @@ func (l *allowedRSAKeyModulus) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_mp_allowed_rsa_keys_modulus",
+		Name:          "e_mp_modulus_must_be_divisible_by_8",
 		Description:   "RSA keys whose modulus size in bits is divisible by 8, is at least 2048 and public exponent is not equal to 1",
 		Citation:      "Mozilla Root Store Policy / Section 5.1",
 		Source:        MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy24Date,
-		Lint:          &allowedRSAKeyModulus{},
+		Lint:          &modulusDivisibleBy8{},
 	})
 }

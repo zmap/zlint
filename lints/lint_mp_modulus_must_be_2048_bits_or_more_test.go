@@ -19,7 +19,7 @@ import (
 	"testing"
 )
 
-func TestAllowedRSAKeysModulus(t *testing.T) {
+func TestModulus2048OrMore(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
@@ -28,11 +28,6 @@ func TestAllowedRSAKeysModulus(t *testing.T) {
 		{
 			Name:           "Certificate with less than 2048 bit rsa key modulus length",
 			InputFilename:  "mpModulus1024.pem",
-			ExpectedResult: Error,
-		},
-		{
-			Name:           "Certificate with rsa key modulus length not divisible by 8",
-			InputFilename:  "mpModulus4095.pem",
 			ExpectedResult: Error,
 		},
 		{
@@ -45,7 +40,7 @@ func TestAllowedRSAKeysModulus(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_allowed_rsa_keys_modulus"].Execute(ReadCertificate(inputPath))
+			result := Lints["e_mp_modulus_must_be_2048_bits_or_more"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
