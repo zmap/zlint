@@ -37,7 +37,7 @@ func (l *modulus2048OrMore) CheckApplies(c *x509.Certificate) bool {
 		return true
 	}
 
-	return false
+	return c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *modulus2048OrMore) Execute(c *x509.Certificate) *LintResult {
