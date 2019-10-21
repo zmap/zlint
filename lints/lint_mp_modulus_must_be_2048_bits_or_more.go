@@ -47,7 +47,7 @@ func (l *modulus2048OrMore) Execute(c *x509.Certificate) *LintResult {
 	}
 
 	bitLen := pubKey.N.BitLen()
-	if bitLen < 2048 {
+	if bitLen:= pubKey.N.BitLen(); bitLen < 2048 {
 		return &LintResult{Status: Error}
 	}
 
