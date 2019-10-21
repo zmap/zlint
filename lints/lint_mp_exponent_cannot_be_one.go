@@ -38,7 +38,7 @@ func (l *exponentCannotBeOne) CheckApplies(c *x509.Certificate) bool {
 		return true
 	}
 
-	return false
+	return c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *exponentCannotBeOne) Execute(c *x509.Certificate) *LintResult {
