@@ -47,7 +47,7 @@ func (l *modulusDivisibleBy8) Execute(c *x509.Certificate) *LintResult {
 	}
 
 	bitLen := pubKey.N.BitLen()
-	if (bitLen % 8) != 0 {
+	if bitLen := pubKey.N.BitLen(); (bitLen % 8) != 0 {
 		return &LintResult{Status: Error}
 	}
 
