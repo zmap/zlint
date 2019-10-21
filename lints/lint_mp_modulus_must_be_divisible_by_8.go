@@ -37,7 +37,7 @@ func (l *modulusDivisibleBy8) CheckApplies(c *x509.Certificate) bool {
 		return true
 	}
 
-	return false
+	return c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *modulusDivisibleBy8) Execute(c *x509.Certificate) *LintResult {
