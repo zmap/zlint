@@ -21,10 +21,6 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
-// This package uses the `zlint-mozilla-trusted-roots-update` command to
-// generate a `mozillaTrustedSPKIs` slice.
-//go:generate zlint-mozilla-trusted-roots-update ./mozilla_trusted_roots_data.go
-
 // IsSPKIMozillaTrusted checks whether the SPKI of a certificate is trusted
 // by Mozilla.
 func IsSPKIMozillaTrusted(cert *x509.Certificate) bool {

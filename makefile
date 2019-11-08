@@ -4,7 +4,7 @@ PARALLELISM := 5
 # Additional integration test flags (e.g. -force, -summary, -outputTick)
 INT_FLAGS :=
 
-CMDS = zlint zlint-gtld-update zlint-mozilla-trusted-roots-update
+CMDS = zlint zlint-gtld-update
 CMD_PREFIX = ./cmd/
 GO_ENV = GO111MODULE="on" GOFLAGS="-mod=vendor"
 BUILD = $(GO_ENV) go build
@@ -19,9 +19,6 @@ zlint:
 zlint-gtld-update:
 	$(BUILD) $(CMD_PREFIX)$(@)
 
-zlint-mozilla-trusted-roots-update:
-	$(BUILD) $(CMD_PREFIX)$(@)
-
 clean:
 	rm -f $(CMDS)
 
@@ -34,4 +31,4 @@ integration:
 format-check:
 	diff <(find . -name '*.go' -not -path './vendor/*' -print | xargs -n1 gofmt -l) <(printf "")
 
-.PHONY: clean zlint zlint-gtld-update zlint-mozilla-trusted-roots-update test integration format-check
+.PHONY: clean zlint zlint-gtld-update test integration format-check
