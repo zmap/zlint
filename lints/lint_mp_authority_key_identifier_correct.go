@@ -42,10 +42,7 @@ func (l *authorityKeyIdentifierCorrect) Initialize() error {
 }
 
 func (l *authorityKeyIdentifierCorrect) CheckApplies(c *x509.Certificate) bool {
-	if !util.IsExtInCert(c, util.AuthkeyOID) {
-		return false
-	}
-	return true
+	return util.IsExtInCert(c, util.AuthkeyOID)
 }
 
 func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *LintResult {
