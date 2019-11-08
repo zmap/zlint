@@ -34,10 +34,6 @@ func (l *exponentCannotBeOne) Initialize() error {
 }
 
 func (l *exponentCannotBeOne) CheckApplies(c *x509.Certificate) bool {
-	if c.PublicKeyAlgorithm == x509.RSA {
-		return true
-	}
-
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 

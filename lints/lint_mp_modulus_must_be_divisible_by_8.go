@@ -33,10 +33,6 @@ func (l *modulusDivisibleBy8) Initialize() error {
 }
 
 func (l *modulusDivisibleBy8) CheckApplies(c *x509.Certificate) bool {
-	if c.PublicKeyAlgorithm == x509.RSA {
-		return true
-	}
-
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 
@@ -46,7 +42,6 @@ func (l *modulusDivisibleBy8) Execute(c *x509.Certificate) *LintResult {
 		return &LintResult{Status: Fatal, Details: "certificate public key was not an RSA public key"}
 	}
 
-	bitLen := pubKey.N.BitLen()
 	if bitLen := pubKey.N.BitLen(); (bitLen % 8) != 0 {
 		return &LintResult{Status: Error}
 	}

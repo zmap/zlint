@@ -33,10 +33,6 @@ func (l *modulus2048OrMore) Initialize() error {
 }
 
 func (l *modulus2048OrMore) CheckApplies(c *x509.Certificate) bool {
-	if c.PublicKeyAlgorithm == x509.RSA {
-		return true
-	}
-
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 
@@ -46,8 +42,7 @@ func (l *modulus2048OrMore) Execute(c *x509.Certificate) *LintResult {
 		return &LintResult{Status: Fatal, Details: "certificate public key was not an RSA public key"}
 	}
 
-	bitLen := pubKey.N.BitLen()
-	if bitLen:= pubKey.N.BitLen(); bitLen < 2048 {
+	if bitLen := pubKey.N.BitLen(); bitLen < 2048 {
 		return &LintResult{Status: Error}
 	}
 
