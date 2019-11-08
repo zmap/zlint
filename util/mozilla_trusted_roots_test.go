@@ -121,7 +121,7 @@ func TestTrustedRoots(t *testing.T) {
 				t.Error("cannot parse test certificate")
 				return
 			}
-			result := IsSPKIMozillaTrusted(cert)
+			result := IsInMozillaRootStore(cert)
 			if result != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result)
 			}

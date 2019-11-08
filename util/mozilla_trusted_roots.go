@@ -21,9 +21,9 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
-// IsSPKIMozillaTrusted checks whether the SPKI of a certificate is trusted
+// IsInMozillaRootStore checks whether the SPKI of a certificate is trusted
 // by Mozilla.
-func IsSPKIMozillaTrusted(cert *x509.Certificate) bool {
+func IsInMozillaRootStore(cert *x509.Certificate) bool {
 	spki := sha256.Sum256(cert.RawSubjectPublicKeyInfo)
 	encSPKI := hex.EncodeToString(spki[:])
 	for _, s := range mozillaTrustedSPKIs {
