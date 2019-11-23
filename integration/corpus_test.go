@@ -16,14 +16,15 @@ import (
 
 // lintCertificate lints the provided work item's certificate to produce
 // a certResult that can be used to determine which lint results the certificate
-// had without maintaining the full ResultSet.
+// had without maintaining the full ResultSet. If lintFilter is not nil only
+// lints with names matching the filter will be run.
 func lintCertificate(work workItem) certResult {
 	// Lint the certiifcate to produce a full result set
 	cr := certResult{
 		Fingerprint: work.Fingerprint,
 		LintSummary: make(map[string]lints.LintStatus),
 	}
-	resultSet := zlint.LintCertificate(work.Certificate)
+	resultSet := zlint.LintCertificateFiltered(work.Certificate, lintFilter)
 	for lintName, r := range resultSet.Results {
 		cr.LintSummary[lintName] = r.Status
 		cr.Result.Inc(r.Status)
@@ -31,7 +32,7 @@ func lintCertificate(work workItem) certResult {
 	return cr
 }
 
-// keyedCounts are a map from a string key (hex encoded cert serial, lint name)
+// keyedCounts are a map from a string key (hex encoded cert fingerprint, lint name)
 // to a resultCount for that key.
 type keyedCounts map[string]resultCount
 
@@ -95,7 +96,7 @@ func TestCorpus(t *testing.T) {
 	// results into the results map
 	var total int
 	var fatalResults int
-	resultsBySerial := make(keyedCounts)
+	resultsByFP := make(keyedCounts)
 	resultsByLint := make(keyedCounts)
 	doneChan := make(chan bool, 1)
 	go func() {
@@ -104,10 +105,10 @@ func TestCorpus(t *testing.T) {
 			// Count fatal results separately since this should always be 0
 			fatalResults += int(r.Result.FatalCount)
 			// if the result had some error/warn/info findings, track the fingerprint
-			// in the resultsBySerial map and update the resultsByLint count for each
+			// in the resultsByFP map and update the resultsByLint count for each
 			// of the lints that didn't pass.
 			if !r.Result.fullPass() {
-				resultsBySerial[r.Fingerprint] = r.Result
+				resultsByFP[r.Fingerprint] = r.Result
 				for lintName, status := range r.LintSummary {
 					cur := resultsByLint[lintName]
 					cur.Inc(status)
@@ -141,9 +142,9 @@ func TestCorpus(t *testing.T) {
 		t.Errorf("expected 0 fatal results, found %d\n", fatalResults)
 	}
 
-	if *serialSummarize {
-		fmt.Println("\nsummary of result type by certificate serial:")
-		fmt.Println(resultsBySerial)
+	if *fpSummarize {
+		fmt.Println("\nsummary of result type by certificate fingerprint:")
+		fmt.Println(resultsByFP)
 	}
 
 	if *lintSummarize {
@@ -157,9 +158,9 @@ func TestCorpus(t *testing.T) {
 			*configFile)
 	} else {
 		// Otherwise enforce the maps match
-		for k, v := range resultsBySerial {
+		for k, v := range resultsByFP {
 			if conf.Expected[k] != v {
-				t.Errorf("expected serial %q to have result %s got %s\n",
+				t.Errorf("expected fingerprint %q to have result %s got %s\n",
 					k, conf.Expected[k], v)
 			}
 		}
@@ -174,7 +175,7 @@ func TestCorpus(t *testing.T) {
 	if *overwriteExpected {
 		t.Logf("overwriting expected map in config file %q",
 			*configFile)
-		conf.Expected = resultsBySerial
+		conf.Expected = resultsByFP
 		if err := conf.Save(*configFile); err != nil {
 			t.Errorf("failed to save expected map to config file %q: %v", *configFile, err)
 		}

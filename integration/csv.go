@@ -96,6 +96,12 @@ func loadCSVFile(workChannel chan<- workItem, path string, skipHeader bool) erro
 			continue
 		}
 
+		// If a fingerprint filter is configured only include records with
+		// a fingerprint that matches the filter regexp.
+		if fpFilter != nil && !fpFilter.MatchString(record[csvFingerprint]) {
+			continue
+		}
+
 		// Parse a certificate from the record's csvRaw index and write it to the
 		// work channel.
 		cert, err := parseCertificate(record[csvRaw])
