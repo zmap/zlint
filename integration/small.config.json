@@ -1,0 +1,21 @@
+{
+  "CacheDir": "../data/",
+  "Files": [
+    {
+      "Name": "xaa.csv",
+      "URL": "https://github.com/zmap/zlint-test-corpus/raw/master/certificates/xaa.bz2"
+    },
+    {
+      "Name": "xab.csv",
+      "URL": "https://github.com/zmap/zlint-test-corpus/raw/master/certificates/xab.bz2"
+    },
+    {
+      "Name": "xac.csv",
+      "URL": "https://github.com/zmap/zlint-test-corpus/raw/master/certificates/xac.bz2"
+    },
+    {
+      "Name": "xad.csv",
+      "URL": "https://github.com/zmap/zlint-test-corpus/raw/master/certificates/xad.bz2"
+    }
+  ]
+}

@@ -18,11 +18,11 @@ var (
 	// force is a flag for forcing the download of data files even if they are in
 	// the cache dir already.
 	force = flag.Bool("force", false, "ignore cached data and force new download")
-	// summarize is a flag for controlling whether a summary of the serial numbers
+	// serialSummarize is a flag for controlling whether a summary of the serial numbers
 	// with lint findings (e.g. one or more fatal, error, warning or info level
 	// findings) should be printed at the end of TestCorpus. Defaults to false
 	// because it is very spammy with a large corpus.
-	summarize = flag.Bool("summary", false, "print summary of all serials with lint findings")
+	serialSummarize = flag.Bool("serialSummary", false, "print summary of all serials with lint findings")
 	// outputTick is a flag for controlling the number of certificates that are
 	// linted before a '.' is printed in the console. This controls the mechanism
 	// used to keep Travis from thinking the job is dead because there hasn't been

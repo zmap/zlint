@@ -117,7 +117,7 @@ func TestCorpus(t *testing.T) {
 		t.Errorf("expected 0 fatal results, found %d\n", fatalResults)
 	}
 
-	if *summarize {
+	if *serialSummarize {
 		for serial, result := range resultsMap {
 			fmt.Printf("%s\t%s\n", serial, result)
 		}
