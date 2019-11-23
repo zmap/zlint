@@ -50,7 +50,8 @@ func loadCSV(workChannel chan<- workItem, directory string) {
 	log.Printf("Reading data from %d CSV files", len(conf.Files))
 	for i, dataFile := range conf.Files {
 		path := path.Join(conf.CacheDir, dataFile.Name)
-		log.Printf("Reading data from %q\n", path)
+		log.Printf("Reading data from %q (%d of %d)\n",
+			path, i+1, len(conf.Files))
 		if err := loadCSVFile(workChannel, path, i == 0); err != nil {
 			log.Fatalf("Failed reading CSV file %q: %v", path, err)
 		}
