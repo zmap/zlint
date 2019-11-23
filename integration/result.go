@@ -8,9 +8,7 @@ import (
 	"github.com/zmap/zlint/lints"
 )
 
-// TODO(@cpu): Rename this to reflect its an overall count of lint results by
-// type.
-type result struct {
+type resultCount struct {
 	FatalCount  uint8 `json:",omitempty"`
 	ErrCount    uint8 `json:",omitempty"`
 	WarnCount   uint8 `json:",omitempty"`
@@ -19,11 +17,11 @@ type result struct {
 
 // TODO(@cpu): Accept a threshold argument so that (for e.g. notices could be
 // counted as passing)
-func (r result) fullPass() bool {
+func (r resultCount) fullPass() bool {
 	return r.FatalCount == 0 && r.ErrCount == 0 && r.WarnCount == 0 && r.NoticeCount == 0
 }
 
-func (r result) String() string {
+func (r resultCount) String() string {
 	return fmt.Sprintf("fatals: %4d errs: %4d warns: %4d infos: %4d",
 		r.FatalCount, r.ErrCount, r.WarnCount, r.NoticeCount)
 }
@@ -33,7 +31,7 @@ func (r result) String() string {
 // a specific cert Fingerprint.
 type certResult struct {
 	Fingerprint string
-	Result      result
+	Result      resultCount
 	LintSummary map[string]lints.LintStatus
 }
 

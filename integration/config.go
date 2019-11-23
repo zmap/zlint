@@ -89,7 +89,7 @@ func (f dataFile) DownloadTo(dir string) error {
 type config struct {
 	CacheDir string
 	Files    []dataFile
-	Expected map[string]result
+	Expected map[string]resultCount
 }
 
 // loadConfig returns a config struct populated from the JSON serialization in

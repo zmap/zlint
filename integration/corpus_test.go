@@ -81,10 +81,10 @@ func TestCorpus(t *testing.T) {
 	// results into the results map
 	var total int
 	var fatalResults int
-	resultsBySerial := make(map[string]result)
+	resultsBySerial := make(map[string]resultCount)
 	doneChan := make(chan bool, 1)
 
-	resultsByLint := make(map[string]result)
+	resultsByLint := make(map[string]resultCount)
 
 	go func() {
 		// Read results as they arrive on the channel until it is closed.
