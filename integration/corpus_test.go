@@ -17,23 +17,25 @@ import (
 // had without maintaining the full ResultSet.
 func lintCertificate(work workItem) certResult {
 	// Lint the certiifcate to produce a full result set
-	result := certResult{
+	cr := certResult{
 		Fingerprint: work.Fingerprint,
+		LintSummary: make(map[string]lints.LintStatus),
 	}
 	resultSet := zlint.LintCertificate(work.Certificate)
-	for _, r := range resultSet.Results {
+	for lintName, r := range resultSet.Results {
+		cr.LintSummary[lintName] = r.Status
 		switch r.Status {
 		case lints.Notice:
-			result.Result.NoticeCount++
+			cr.Result.NoticeCount++
 		case lints.Warn:
-			result.Result.WarnCount++
+			cr.Result.WarnCount++
 		case lints.Error:
-			result.Result.ErrCount++
+			cr.Result.ErrCount++
 		case lints.Fatal:
-			result.Result.FatalCount++
+			cr.Result.FatalCount++
 		}
 	}
-	return result
+	return cr
 }
 
 // TestCorpus concurrently reads certificates from each of the global conf's CSV
@@ -79,18 +81,38 @@ func TestCorpus(t *testing.T) {
 	// results into the results map
 	var total int
 	var fatalResults int
-	resultsMap := make(map[string]result)
+	resultsBySerial := make(map[string]result)
 	doneChan := make(chan bool, 1)
+
+	resultsByLint := make(map[string]result)
+
 	go func() {
 		// Read results as they arrive on the channel until it is closed.
 		for r := range results {
 			// Count fatal results separately since this should always be 0
 			fatalResults += int(r.Result.FatalCount)
 			// if the result had some error/warn/info findings, track the fingerprint
-			// in the results map.
+			// in the resultsBySerial map and update the resultsByLint count for each
+			// of the lints that didn't pass.
 			if !r.Result.fullPass() {
-				resultsMap[r.Fingerprint] = r.Result
+				resultsBySerial[r.Fingerprint] = r.Result
+				for lintName, status := range r.LintSummary {
+					cur := resultsByLint[lintName]
+
+					switch status {
+					case lints.Notice:
+						cur.NoticeCount++
+					case lints.Warn:
+						cur.WarnCount++
+					case lints.Error:
+						cur.ErrCount++
+					case lints.Fatal:
+						cur.FatalCount++
+					}
+					resultsByLint[lintName] = cur
+				}
 			}
+
 			// Every *outputTick certificate results print a '.' to keep CI from thinking this
 			// long running job is dead in the water.
 			total++
@@ -118,8 +140,18 @@ func TestCorpus(t *testing.T) {
 	}
 
 	if *serialSummarize {
-		for serial, result := range resultsMap {
-			fmt.Printf("%s\t%s\n", serial, result)
+		fmt.Println("\nsummary of result type by certificate serial:")
+		for serial, result := range resultsBySerial {
+			fmt.Printf("%-65s\t%s\n", serial, result)
+		}
+	}
+
+	if *lintSummarize {
+		fmt.Println("\nsummary of result type by lint name:")
+		for lintName, result := range resultsByLint {
+			if !result.fullPass() {
+				fmt.Printf("%-65s\t%s\n", lintName, result)
+			}
 		}
 	}
 
@@ -129,7 +161,7 @@ func TestCorpus(t *testing.T) {
 			*configFile)
 	} else {
 		// Otherwise enforce the maps match
-		for k, v := range resultsMap {
+		for k, v := range resultsBySerial {
 			if conf.Expected[k] != v {
 				t.Errorf("expected serial %q to have result %s got %s\n",
 					k, conf.Expected[k], v)
@@ -146,7 +178,7 @@ func TestCorpus(t *testing.T) {
 	if *overwriteExpected {
 		t.Logf("overwriting expected map in config file %q",
 			*configFile)
-		conf.Expected = resultsMap
+		conf.Expected = resultsBySerial
 		if err := conf.Save(*configFile); err != nil {
 			t.Errorf("failed to save expected map to config file %q: %v", *configFile, err)
 		}

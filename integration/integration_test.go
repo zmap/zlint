@@ -26,6 +26,10 @@ var (
 	// findings) should be printed at the end of TestCorpus. Defaults to false
 	// because it is very spammy with a large corpus.
 	serialSummarize = flag.Bool("serialSummary", false, "print summary of all serials with lint findings")
+	// lintSummarize is a flag for controlling whether a summary of result types
+	// by lint name is printed at the end of TestCorpus. Defaults to false because
+	// it is very spammy with a large corpus.
+	lintSummarize = flag.Bool("lintSummary", false, "print summary of result type counts by lint name")
 	// outputTick is a flag for controlling the number of certificates that are
 	// linted before a '.' is printed in the console. This controls the mechanism
 	// used to keep Travis from thinking the job is dead because there hasn't been
