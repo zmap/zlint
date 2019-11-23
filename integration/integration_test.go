@@ -58,6 +58,5 @@ func TestMain(m *testing.M) {
 	conf = c
 
 	// Run all tests.
-	result := m.Run()
-	os.Exit(result)
+	os.Exit(m.Run())
 }
