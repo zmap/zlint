@@ -18,6 +18,9 @@ var (
 	// forceDownload is a flag for forcing the download of data files even if they are in
 	// the cache dir already.
 	forceDownload = flag.Bool("forceDownload", false, "ignore cached data and force new download")
+	// saveExpected is a flag for controlling whether the expectedMap is saved to
+	// the configuration or not.
+	overwriteExpected = flag.Bool("overwriteExpected", false, "save test results as the new expected map in config file")
 	// serialSummarize is a flag for controlling whether a summary of the serial numbers
 	// with lint findings (e.g. one or more fatal, error, warning or info level
 	// findings) should be printed at the end of TestCorpus. Defaults to false

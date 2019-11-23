@@ -1,7 +1,9 @@
 SHELL := /bin/bash
 # Number of linting Go routines to use in integration tests
 PARALLELISM := 5
-# Additional integration test flags (e.g. -forceDownload, -serialSummary, -outputTick)
+# Additional integration test flags. Example usage:
+#   make integration PARALLELISM=99 INT_FLAGS="-serialSummary -forceDownload"
+#   make integration INT_FLAGS="-overwriteExpected -config custom.config.json"
 INT_FLAGS :=
 
 CMDS = zlint zlint-gtld-update

@@ -125,12 +125,8 @@ func TestCorpus(t *testing.T) {
 
 	// No expected to confirm against, save a new expected
 	if len(conf.Expected) == 0 {
-		t.Logf("config file %q had no expected map. "+
-			"Saving results from this execution as the new expected map", *configFile)
-		conf.Expected = resultsMap
-		if err := conf.Save(*configFile); err != nil {
-			t.Errorf("failed to save expected map to config file %q: %v", *configFile, err)
-		}
+		t.Logf("config file %q had no expected map to enforce results against",
+			*configFile)
 	} else {
 		// Otherwise enforce the maps match
 		for k, v := range resultsMap {
@@ -138,6 +134,21 @@ func TestCorpus(t *testing.T) {
 				t.Errorf("expected serial %q to have result %s got %s\n",
 					k, conf.Expected[k], v)
 			}
+		}
+	}
+
+	// If *overwriteExpected is true overwrite the expected map with the results
+	// from this run and save the updated configuration to disk. If there were
+	// t.Errorf's in this run then they will pass next run because the
+	// expectations will match reality. This should primarily be used to bootstrap
+	// an initial expectedMap or to update the expectedMap with vetted changes to
+	// the corpus that result from new lints, bugfixes, etc.
+	if *overwriteExpected {
+		t.Logf("overwriting expected map in config file %q",
+			*configFile)
+		conf.Expected = resultsMap
+		if err := conf.Save(*configFile); err != nil {
+			t.Errorf("failed to save expected map to config file %q: %v", *configFile, err)
 		}
 	}
 }
