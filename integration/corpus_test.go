@@ -5,6 +5,8 @@ package integration
 import (
 	"fmt"
 	"log"
+	"sort"
+	"strings"
 	"sync"
 	"testing"
 
@@ -27,6 +29,27 @@ func lintCertificate(work workItem) certResult {
 		cr.Result.Inc(r.Status)
 	}
 	return cr
+}
+
+// keyedCounts are a map from a string key (hex encoded cert serial, lint name)
+// to a resultCount for that key.
+type keyedCounts map[string]resultCount
+
+// String returns a sorted table of keys and their resultCount that is formatted
+// for printing. Keys should be less than 65 characters long to preserve the
+// table format.
+func (counts keyedCounts) String() string {
+	var keys []string
+	for k := range counts {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	var buf strings.Builder
+	for _, k := range keys {
+		buf.WriteString(fmt.Sprintf("%-65s\t%s\n", k, counts[k]))
+	}
+	return buf.String()
 }
 
 // TestCorpus concurrently reads certificates from each of the global conf's CSV
@@ -72,8 +95,8 @@ func TestCorpus(t *testing.T) {
 	// results into the results map
 	var total int
 	var fatalResults int
-	resultsBySerial := make(map[string]resultCount)
-	resultsByLint := make(map[string]resultCount)
+	resultsBySerial := make(keyedCounts)
+	resultsByLint := make(keyedCounts)
 	doneChan := make(chan bool, 1)
 	go func() {
 		// Read results as they arrive on the channel until it is closed.
@@ -120,18 +143,12 @@ func TestCorpus(t *testing.T) {
 
 	if *serialSummarize {
 		fmt.Println("\nsummary of result type by certificate serial:")
-		for serial, result := range resultsBySerial {
-			fmt.Printf("%-65s\t%s\n", serial, result)
-		}
+		fmt.Println(resultsBySerial)
 	}
 
 	if *lintSummarize {
 		fmt.Println("\nsummary of result type by lint name:")
-		for lintName, result := range resultsByLint {
-			if !result.fullPass() {
-				fmt.Printf("%-65s\t%s\n", lintName, result)
-			}
-		}
+		fmt.Println(resultsByLint)
 	}
 
 	// No expected to confirm against, save a new expected
