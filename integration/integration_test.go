@@ -15,9 +15,9 @@ var (
 	parallelism = flag.Int("parallelism", 5, "number of linting Go routines to spawn")
 	// configFile is a flag for specifying the config file JSON.
 	configFile = flag.String("config", "./config.json", "integration test config file")
-	// force is a flag for forcing the download of data files even if they are in
+	// forceDownload is a flag for forcing the download of data files even if they are in
 	// the cache dir already.
-	force = flag.Bool("force", false, "ignore cached data and force new download")
+	forceDownload = flag.Bool("forceDownload", false, "ignore cached data and force new download")
 	// serialSummarize is a flag for controlling whether a summary of the serial numbers
 	// with lint findings (e.g. one or more fatal, error, warning or info level
 	// findings) should be printed at the end of TestCorpus. Defaults to false
@@ -50,8 +50,9 @@ func TestMain(m *testing.M) {
 		log.Fatalf("error processing config file %q: %v", *configFile, err)
 	}
 
-	// Prepare cache, downloading data files if required
-	if err := c.PrepareCache(*force); err != nil {
+	// Prepare cache, downloading data files if required (or if forced by user
+	// request with forceDownload)
+	if err := c.PrepareCache(*forceDownload); err != nil {
 		log.Fatalf("error preparing cache: %v\n", err)
 	}
 	// Save the config to a global accessible to tests.

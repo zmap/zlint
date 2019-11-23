@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 # Number of linting Go routines to use in integration tests
 PARALLELISM := 5
-# Additional integration test flags (e.g. -force, -serialSummary, -outputTick)
+# Additional integration test flags (e.g. -forceDownload, -serialSummary, -outputTick)
 INT_FLAGS :=
 
 CMDS = zlint zlint-gtld-update
