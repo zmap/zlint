@@ -24,16 +24,7 @@ func lintCertificate(work workItem) certResult {
 	resultSet := zlint.LintCertificate(work.Certificate)
 	for lintName, r := range resultSet.Results {
 		cr.LintSummary[lintName] = r.Status
-		switch r.Status {
-		case lints.Notice:
-			cr.Result.NoticeCount++
-		case lints.Warn:
-			cr.Result.WarnCount++
-		case lints.Error:
-			cr.Result.ErrCount++
-		case lints.Fatal:
-			cr.Result.FatalCount++
-		}
+		cr.Result.Inc(r.Status)
 	}
 	return cr
 }
@@ -82,10 +73,8 @@ func TestCorpus(t *testing.T) {
 	var total int
 	var fatalResults int
 	resultsBySerial := make(map[string]resultCount)
-	doneChan := make(chan bool, 1)
-
 	resultsByLint := make(map[string]resultCount)
-
+	doneChan := make(chan bool, 1)
 	go func() {
 		// Read results as they arrive on the channel until it is closed.
 		for r := range results {
@@ -98,17 +87,7 @@ func TestCorpus(t *testing.T) {
 				resultsBySerial[r.Fingerprint] = r.Result
 				for lintName, status := range r.LintSummary {
 					cur := resultsByLint[lintName]
-
-					switch status {
-					case lints.Notice:
-						cur.NoticeCount++
-					case lints.Warn:
-						cur.WarnCount++
-					case lints.Error:
-						cur.ErrCount++
-					case lints.Fatal:
-						cur.FatalCount++
-					}
+					cur.Inc(status)
 					resultsByLint[lintName] = cur
 				}
 			}
