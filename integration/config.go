@@ -153,7 +153,7 @@ func (c config) PrepareCache(force bool) error {
 			log.Fatalf("error checking cache: %v\n", err)
 		} else if !exists || force {
 			log.Printf("Downloading data file %q (%d of %d, url: %q)",
-				i+1, len(c.Files), f.Name, f.URL)
+				f.Name, i+1, len(c.Files), f.URL)
 			if err := f.DownloadTo(c.CacheDir); err != nil {
 				log.Fatalf("Failed to download: %v", err)
 			}
