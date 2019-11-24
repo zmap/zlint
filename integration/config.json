@@ -672,6 +672,9 @@
     "w_ext_subject_key_identifier_missing_sub_cert": {
       "WarnCount": 58
     },
+    "w_extra_subject_common_names": {
+      "NoticeCount": 16
+    },
     "w_ian_iana_pub_suffix_empty": {},
     "w_issuer_dn_leading_whitespace": {},
     "w_issuer_dn_trailing_whitespace": {},
