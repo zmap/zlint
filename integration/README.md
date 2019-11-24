@@ -85,22 +85,23 @@ flag is provided.
 Example failure investigation 
 -----------------------------
 
-Here's an example of using the integration test tooling to investing a linter
+Here's an example of using the integration test tooling to investigate a linter
 bug.
 
 First, let's revert [a
 bugfix](https://github.com/cpu/zlint/commit/5dcecad773158b82b5e52064ee2782d1b8a79314)
-for the `e_subject_printable_string_badalpha` lint.
+for the `e_subject_printable_string_badalpha` lint so we can see what happens
+when there's a difference between the test results and the expected results.
 
 * `git revert 5dcecad773158b82b5e52064ee2782d1b8a79314`
 
 Now let's run the integration tests. We'll use a higher than default
 parallelism value since our dev machine probably has a few cores laying around.
 
-This will take approximately ~15 minutes. Longer if you haven't downloaded the
-integration test data when running the tests previously. If you want to tighten
-the iteration time (e.g. while you're developing a new lint vs chasing a bug)
-try specifying a `-config` that has fewer data files.
+This will take approximately ~15 minutes (Longer if you haven't downloaded the
+integration test data in previous runs). If you want to tighten the iteration
+time (e.g. while you're developing a new lint vs chasing a bug) try specifying
+a `-config` file that has fewer data files than the default one.
 
 * `make integration PARALLELISM=6`
 
@@ -153,17 +154,25 @@ FAIL
 
 ```
 
-The next step is to look at some of the certificates corresponding to the fingerprints shown. Since the full certificate data is already present on disk we can do this easily with a small utility script included with ZLint. E.g. to check out the first fingerprint `0037ae7546555efca0935dfedf3cef79b1a0301b18bb6a86382becf6aa53f1c4` we can run:
+The next step is to look at some of the certificates corresponding to the
+fingerprints shown. Since the full certificate data is already present on disk
+we can do this easily with a small utility script (`integrate/certByFP.sh`)
+included with ZLint. 
+
+To check out the first fingerprint from the summary output
+(`0037ae7546555efca0935dfedf3cef79b1a0301b18bb6a86382becf6aa53f1c4`) we can run:
 
 ```
 ./integration/certByFP.sh 0037ae7546555efca0935dfedf3cef79b1a0301b18bb6a86382becf6aa53f1c4
 ```
 
-This will find the certificate, parse it with OpenSSL, print the text version
-and the PEM version, and finally a Censys.io URL:
+This will find the matching certificate in the cached integration test data
+directory, parse it with OpenSSL, print the text version and the PEM version,
+and finally show a Censys.io URL:
 
 ```
- integration/certByFP.sh 0037ae7546555efca0935dfedf3cef79b1a0301b18bb6a86382becf6aa53f1c4
+./integration/certByFP.sh 0037ae7546555efca0935dfedf3cef79b1a0301b18bb6a86382becf6aa53f1c4
+
 Certificate:
     Data:
         Version: 3 (0x2)
