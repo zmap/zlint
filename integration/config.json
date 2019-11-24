@@ -644,7 +644,6 @@
     "w_eku_critical_improperly": {},
     "w_ext_aia_access_location_missing": {
       "WarnCount": 28
-<<<<<<< HEAD
     },
     "w_ext_cert_policy_contains_noticeref": {
       "WarnCount": 23
@@ -675,33 +674,6 @@
     },
     "w_extra_subject_common_names": {
       "WarnCount": 16
-    },
-    "w_ext_cert_policy_contains_noticeref": {
-      "WarnCount": 23
-    },
-    "w_ext_cert_policy_explicit_text_includes_control": {
-      "WarnCount": 1
-    },
-    "w_ext_cert_policy_explicit_text_not_nfc": {},
-    "w_ext_cert_policy_explicit_text_not_utf8": {
-      "WarnCount": 144
-    },
-    "w_ext_crl_distribution_marked_critical": {},
-    "w_ext_ian_critical": {},
-    "w_ext_key_usage_not_critical": {
-      "WarnCount": 115
-    },
-    "w_ext_policy_map_not_critical": {
-      "WarnCount": 3
-    },
-    "w_ext_policy_map_not_in_cert_policy": {
-      "WarnCount": 3
-    },
-    "w_ext_san_critical_with_subject_dn": {
-      "WarnCount": 30
-    },
-    "w_ext_subject_key_identifier_missing_sub_cert": {
-      "WarnCount": 58
     },
     "w_ian_iana_pub_suffix_empty": {},
     "w_issuer_dn_leading_whitespace": {},
