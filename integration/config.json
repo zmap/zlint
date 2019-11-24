@@ -674,7 +674,7 @@
       "WarnCount": 58
     },
     "w_extra_subject_common_names": {
-      "NoticeCount": 16
+      "WarnCount": 16
     },
     "w_ext_cert_policy_contains_noticeref": {
       "WarnCount": 23

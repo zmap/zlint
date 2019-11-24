@@ -32,9 +32,9 @@ func (l *extraSubjectCommonNames) CheckApplies(c *x509.Certificate) bool {
 func (l *extraSubjectCommonNames) Execute(c *x509.Certificate) *LintResult {
 	// Multiple subject commonName fields are not expressly prohibited by section
 	// 7.1.4.2.2 but do seem to run afoul of the intent. For that reason we return
-	// only a Notice level finding here.
+	// only a Warn level finding here.
 	if len(c.Subject.CommonNames) > 1 {
-		return &LintResult{Status: Notice}
+		return &LintResult{Status: Warn}
 	}
 	return &LintResult{Status: Pass}
 }

@@ -19,7 +19,7 @@ func TestExtraSubjectCommonNames(t *testing.T) {
 		{
 			Name:           "Multiple subject common names",
 			InputFilename:  "extraCommonNames.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: Warn,
 		},
 	}
 
