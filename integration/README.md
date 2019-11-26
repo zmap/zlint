@@ -82,7 +82,7 @@ Care is taken by the integration test tooling to download the data only once.
 Cached copies on-disk are used for subsequent runs unless the `-forceDownload`
 flag is provided.
 
-Example failure investigation 
+Example failure investigation
 -----------------------------
 
 Here's an example of using the integration test tooling to investigate a linter
@@ -305,3 +305,26 @@ The `'` character being omitted from the regexp used by the
 `e_subject_printable_string_badalpha` lint was the root cause of the bugfix we
 reverted and so the integration tests have done the right thing and flagged an
 unintended regression.
+
+Adding a new lint
+-----------------
+
+Adding a new lint is very similar to the process undertaken above while
+debugging an integration test failure.
+
+After adding your lint the integration tests can be run to see which of the
+existing test corpus certificates are flagged by the new linter. Because there
+is no expected data for the new lint, the integration tests will fail unless
+there are no info level or higher findings from your new lint across the whole
+test corpus.
+
+If your lint has findings in the corpus you can see which certificates
+fingerprints tripped the new lint by using the `-serialSummary` flag with
+a `-lintFilter`. Spot check the flagged certificates with `certByFP.sh` and any
+other other required techniques until you're certain the new lint is operating
+correctly.
+
+Once you're confident the observed results match expectations you can add the
+new lint results to the expected data by running the integration tests with
+`-overwriteExpected` and committing the updated config file along with your new
+lint. Nice work!

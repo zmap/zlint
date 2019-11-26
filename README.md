@@ -15,7 +15,7 @@ https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00
 Requirements
 ------------
 
-ZLint requires [Go 1.12.x or newer](https://golang.org/doc/install) be
+ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
 installed. The command line setup instructions assume the `go` command is in
 your `$PATH`.
 
