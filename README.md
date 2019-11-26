@@ -190,6 +190,7 @@ Pre-issuance linting is **strongly recommended** by the [Mozilla root
 program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issuance_Linting).
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
+* [Camerfirma](https://bugzilla.mozilla.org/show_bug.cgi?id=1556806#c5)
 * [CFSSL](https://github.com/cloudflare/cfssl/pull/1015)
 * [Sectigo and crt.sh](https://groups.google.com/forum/#!msg/mozilla.dev.security.policy/sjXswrcsvrE/Nl3OLd4PAAAJ)
 * [Digicert](https://bugzilla.mozilla.org/show_bug.cgi?id=1550645#c9)
