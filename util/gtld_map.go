@@ -3793,6 +3793,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2018-02-22",
 		RemovalDate:    "",
 	},
+	"llp": {
+		GTLD:           "llp",
+		DelegationDate: "2019-12-05",
+		RemovalDate:    "",
+	},
 	"loan": {
 		GTLD:           "loan",
 		DelegationDate: "2015-03-25",
