@@ -50,7 +50,8 @@ func loadCSV(workChannel chan<- workItem, directory string) {
 	log.Printf("Reading data from %d CSV files", len(conf.Files))
 	for i, dataFile := range conf.Files {
 		path := path.Join(conf.CacheDir, dataFile.Name)
-		log.Printf("Reading data from %q\n", path)
+		log.Printf("Reading data from %q (%d of %d)\n",
+			path, i+1, len(conf.Files))
 		if err := loadCSVFile(workChannel, path, i == 0); err != nil {
 			log.Fatalf("Failed reading CSV file %q: %v", path, err)
 		}
@@ -93,6 +94,12 @@ func loadCSVFile(workChannel chan<- workItem, path string, skipHeader bool) erro
 		// this record.
 		if !skippedFirst && skipHeader {
 			skippedFirst = true
+			continue
+		}
+
+		// If a fingerprint filter is configured only include records with
+		// a fingerprint that matches the filter regexp.
+		if fpFilter != nil && !fpFilter.MatchString(record[csvFingerprint]) {
 			continue
 		}
 
