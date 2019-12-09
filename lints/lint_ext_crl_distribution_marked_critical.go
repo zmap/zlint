@@ -35,7 +35,7 @@ func (l *ExtCrlDistributionMarkedCritical) CheckApplies(cert *x509.Certificate) 
 
 func (l *ExtCrlDistributionMarkedCritical) Execute(cert *x509.Certificate) *LintResult {
 	if e := util.GetExtFromCert(cert, util.CrlDistOID); e != nil {
-		if e.Critical == false {
+		if !e.Critical {
 			return &LintResult{Status: Pass}
 		} else {
 			return &LintResult{Status: Warn}

@@ -43,7 +43,7 @@ func (l *caIsCA) Execute(c *x509.Certificate) *LintResult {
 	if err != nil {
 		return &LintResult{Status: Fatal}
 	}
-	if constraints.IsCA == true {
+	if constraints.IsCA {
 		return &LintResult{Status: Pass}
 	} else {
 		return &LintResult{Status: Error}

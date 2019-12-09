@@ -40,6 +40,7 @@ func (l *nameConstMin) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.NameConstOID)
 }
 
+//nolint:gocyclo
 func (l *nameConstMin) Execute(c *x509.Certificate) *LintResult {
 	for _, i := range c.PermittedDNSNames {
 		if i.Min != 0 {

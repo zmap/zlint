@@ -37,9 +37,8 @@ func (l *subCrlDistCrit) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCrlDistCrit) Execute(c *x509.Certificate) *LintResult {
-	// Add actual lint here
 	e := util.GetExtFromCert(c, util.CrlDistOID)
-	if e.Critical == false {
+	if !e.Critical {
 		return &LintResult{Status: Pass}
 	} else {
 		return &LintResult{Status: Error}

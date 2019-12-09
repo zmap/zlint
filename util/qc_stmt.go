@@ -21,39 +21,6 @@ import (
 	"reflect"
 )
 
-func etsiOidToDescString(oid asn1.ObjectIdentifier) string {
-	switch {
-	case oid.Equal(IdEtsiQcsQcCompliance):
-		{
-			return "IdEtsiQcsQcCompliance"
-		}
-	case oid.Equal(IdEtsiQcsQcLimitValue):
-		{
-			return "IdEtsiQcsQcLimitValue"
-		}
-	case oid.Equal(IdEtsiQcsQcRetentionPeriod):
-		{
-			return "IdEtsiQcsQcRetentionPeriod"
-		}
-	case oid.Equal(IdEtsiQcsQcSSCD):
-		{
-			return "IdEtsiQcsQcSSCSD"
-		}
-	case oid.Equal(IdEtsiQcsQcEuPDS):
-		{
-			return "IdEtsiQcsQcEuPDS"
-		}
-	case oid.Equal(IdEtsiQcsQcType):
-		{
-			return "IdEtsiQcsQcType"
-		}
-	default:
-		{
-			panic("unresolved ETSI QC Statement OID")
-		}
-	}
-}
-
 type anyContent struct {
 	Raw asn1.RawContent
 }
@@ -167,6 +134,7 @@ func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
 	return false
 }
 
+//nolint:gocyclo
 func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 	sl := make([]anyContent, 0)
 	rest, err := asn1.Unmarshal(extVal, &sl)
