@@ -70,7 +70,7 @@ func EncodeLintDescriptionsToJSON(w io.Writer) {
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
 	for _, lint := range lints.Lints {
-		enc.Encode(lint)
+		_ = enc.Encode(lint)
 	}
 }
 
