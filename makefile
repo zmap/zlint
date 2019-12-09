@@ -32,7 +32,7 @@ test:
 integration:
 	$(INT_TEST)
 
-format-check:
-	diff <(find . -name '*.go' -not -path './vendor/*' -print | xargs -n1 gofmt -l) <(printf "")
+code-lint:
+	golangci-lint run
 
-.PHONY: clean zlint zlint-gtld-update test integration format-check
+.PHONY: clean zlint zlint-gtld-update test integration code-lint
