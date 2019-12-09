@@ -180,7 +180,7 @@ func includeLints() {
 		includesMap[includeName] = struct{}{}
 	}
 
-	// clear all initialised lints except for includes
+	// clear all initialized lints except for includes
 	for lintName := range lints.Lints {
 		if _, ok := includesMap[lintName]; !ok {
 			delete(lints.Lints, lintName)
