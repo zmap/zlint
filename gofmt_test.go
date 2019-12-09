@@ -32,7 +32,7 @@ func TestGofmt(t *testing.T) {
 		cmd := exec.Command("/bin/sh", "-c", gofmtCmd)
 		var out bytes.Buffer
 		cmd.Stdout = &out
-		cmd.Run()
+		_ = cmd.Run()
 		if out.String() != "" {
 			t.Errorf("glob %s not gofmt'ed", glob)
 		}
