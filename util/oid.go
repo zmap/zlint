@@ -148,13 +148,13 @@ func GetMappedPolicies(polMap *pkix.Extension) (out [][2]asn1.ObjectIdentifier, 
 	var outSeq, inSeq asn1.RawValue
 
 	empty, err := asn1.Unmarshal(polMap.Value, &outSeq) //strip outer sequence tag/length should be nothing extra
-	if err != nil || len(empty) != 0 || outSeq.Class != 0 || outSeq.Tag != 16 || outSeq.IsCompound == false {
+	if err != nil || len(empty) != 0 || outSeq.Class != 0 || outSeq.Tag != 16 || !outSeq.IsCompound {
 		return nil, errors.New("policyMap: Could not unmarshal outer sequence.")
 	}
 
 	for done := false; !done; { //loop through SEQUENCE OF
 		outSeq.Bytes, err = asn1.Unmarshal(outSeq.Bytes, &inSeq) //extract next inner SEQUENCE (OID pair)
-		if err != nil || inSeq.Class != 0 || inSeq.Tag != 16 || inSeq.IsCompound == false {
+		if err != nil || inSeq.Class != 0 || inSeq.Tag != 16 || !inSeq.IsCompound {
 			err = errors.New("policyMap: Could not unmarshal inner sequence.")
 			return
 		}
