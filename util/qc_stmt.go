@@ -134,6 +134,7 @@ func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
 	return false
 }
 
+//nolint:gocyclo
 func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 	sl := make([]anyContent, 0)
 	rest, err := asn1.Unmarshal(extVal, &sl)
