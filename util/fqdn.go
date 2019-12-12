@@ -19,8 +19,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/weppos/publicsuffix-go/publicsuffix"
+	zcutil "github.com/zmap/zcrypto/util"
 	"github.com/zmap/zcrypto/x509"
 )
 
@@ -32,16 +32,13 @@ func RemovePrependedQuestionMarks(domain string) string {
 }
 
 func RemovePrependedWildcard(domain string) string {
-	if strings.HasPrefix(domain, "*.") {
-		domain = domain[2:]
-	}
-	return domain
+	return strings.TrimPrefix(domain, "*.")
 }
 
 func IsFQDN(domain string) bool {
 	domain = RemovePrependedWildcard(domain)
 	domain = RemovePrependedQuestionMarks(domain)
-	return govalidator.IsURL(domain)
+	return zcutil.IsURL(domain)
 }
 
 func GetAuthority(uri string) string {

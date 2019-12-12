@@ -15,16 +15,11 @@
 package lints
 
 import (
-	"encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
 
 type qcStatemQcEtsiPresentQcsCritical struct{}
-
-func (this *qcStatemQcEtsiPresentQcsCritical) getStatementOid() *asn1.ObjectIdentifier {
-	return &util.IdEtsiQcsQcCompliance
-}
 
 func (l *qcStatemQcEtsiPresentQcsCritical) Initialize() error {
 	return nil

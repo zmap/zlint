@@ -12,6 +12,21 @@ Baseline Requirements
 A detailed list of BR coverage can be found here:
 https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00e-Y.
 
+Requirements
+------------
+
+ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
+installed. The command line setup instructions assume the `go` command is in
+your `$PATH`.
+
+Versioning
+----------
+
+ZLint aims to follow [semantic versioning](https://semver.org/). The addition of
+new lints will generally result in a MINOR version revision. Since downstream
+projects depend on lint results and names for policy decisions changes of this
+nature will result in MAJOR version revision.
+
 Command Line Usage
 ------------------
 
@@ -60,6 +75,17 @@ following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Example:
 `./newLint.sh e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`.
 This will generate a new lint in the `lints` directory with the necessary
 fields filled out.
+
+**Choosing a Lint Result Level.** When choosing what `lints.LintStatus` your new
+lint should return (e.g. `Notice`,`Warn`, `Error`, or `Fatal`) the following
+general guidance may help. `Error` should be used for clear violations of RFC/BR
+`MUST` or `MUST NOT` requirements and include strong citations. `Warn` should be
+used for violations of RFC/BR `SHOULD` or `SHOULD NOT` requirements and again
+should include strong citations. `Notice` should be used for more general "FYI"
+statements that violate non-codified community standards or for cases where
+citations are unclear. Lastly `Fatal` should be used when there is an
+unresolvable error in `zlint`, `zcrypto` or some other part of the certificate
+processing.
 
 **Scoping a Lint.** Lints are executed in three steps. First, the ZLint
 framework determines whether a certificate falls within the scope of a given
@@ -112,11 +138,11 @@ func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) *ResultStruct {
 }
 ```
 
-**Creating Tests.** Every lint should also have two corresponding tests for a
-success and failure condition. We have typically generated test certificates
-using Go (see https://golang.org/pkg/crypto/x509/#CreateCertificate for
-details), but OpenSSL could also be used. Test certificates should be placed in
-`testlint/testCerts` and called from the test file created by `newLint.sh`.
+**Creating Unit Tests.** Every lint should also have two corresponding unit
+tests for a success and failure condition. We have typically generated test
+certificates using Go (see https://golang.org/pkg/crypto/x509/#CreateCertificate
+for details), but OpenSSL could also be used. Test certificates should be placed
+in `testlint/testCerts` and called from the test file created by `newLint.sh`.
 Prepend the PEM with the output of `openssl x509 -text`.
 
 Example:
@@ -134,6 +160,16 @@ func TestBasicConstNotCritical(t *testing.T) {
 
 ```
 
+**Integration Tests.** ZLint's [continuous
+integration](https://travis-ci.org/zmap/zlint) includes an integration test
+phase where all lints are run against a large corpus of certificates. The number
+of notice, warning, error and fatal results for each lint are captured and
+compared to a set of expected values in a configuration file. You may need to
+update these expected values when you add/change lints. Please see the
+[integration tests
+README](https://github.com/zmap/zlint/blob/master/integration/README.md) for
+more information.
+
 Updating the TLD Map
 --------------------
 
@@ -147,11 +183,33 @@ generate`:
 	go get github.com/zmap/zlint/cmd/zlint-gtld-update
 	go generate github.com/zmap/zlint/...
 
+Zlint Users/Integrations
+-------------------------
+
+Pre-issuance linting is **strongly recommended** by the [Mozilla root
+program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issuance_Linting).
+Here are some projects/CAs known to integrate with ZLint in some fashion:
+
+* [Camerfirma](https://bugzilla.mozilla.org/show_bug.cgi?id=1556806#c5)
+* [CFSSL](https://github.com/cloudflare/cfssl/pull/1015)
+* [Sectigo and crt.sh](https://groups.google.com/forum/#!msg/mozilla.dev.security.policy/sjXswrcsvrE/Nl3OLd4PAAAJ)
+* [Digicert](https://bugzilla.mozilla.org/show_bug.cgi?id=1550645#c9)
+* [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
+* [Government of Spain, FNMT](https://bugzilla.mozilla.org/show_bug.cgi?id=1495507#c8)
+* [Globalsign](https://cabforum.org/pipermail/public/2018-April/013233.html)
+* [GoDaddy](https://bugzilla.mozilla.org/show_bug.cgi?id=1462844#c6)
+* [Izenpe](https://bugzilla.mozilla.org/show_bug.cgi?id=1528290#c5)
+* [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
+* [Siemens](https://bugzilla.mozilla.org/show_bug.cgi?id=1391063#c32)
+* [QuoVadis](https://bugzilla.mozilla.org/show_bug.cgi?id=1521950#c3)
+
+Please submit a pull request to update the README if you are aware of
+another CA/project that uses zlint.
 
 License and Copyright
 ---------------------
 
-ZMap Copyright 2017 Regents of the University of Michigan
+ZMap Copyright 2019 Regents of the University of Michigan
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

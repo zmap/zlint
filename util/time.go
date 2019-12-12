@@ -60,21 +60,45 @@ func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
 	return firstDate.Tag, secondDate.Tag
 }
 
+// TODO(@cpu): This function is a little bit rough around the edges (especially
+// after my quick fixes for the ineffassigns) and would be a good candidate for
+// clean-up/refactoring.
 func GetTimes(cert *x509.Certificate) (asn1.RawValue, asn1.RawValue) {
 	var outSeq, firstDate, secondDate asn1.RawValue
 	// Unmarshal into the sequence
-	rest, err := asn1.Unmarshal(cert.RawTBSCertificate, &outSeq)
+	_, err := asn1.Unmarshal(cert.RawTBSCertificate, &outSeq)
+	if err != nil {
+		return asn1.RawValue{}, asn1.RawValue{}
+	}
 	// Start unmarshalling the bytes
-	rest, err = asn1.Unmarshal(outSeq.Bytes, &outSeq)
+	rest, err := asn1.Unmarshal(outSeq.Bytes, &outSeq)
+	if err != nil {
+		return asn1.RawValue{}, asn1.RawValue{}
+	}
 	// This is here to account for if version is not included
 	if outSeq.Tag == 0 {
 		rest, err = asn1.Unmarshal(rest, &outSeq)
+		if err != nil {
+			return asn1.RawValue{}, asn1.RawValue{}
+		}
 	}
 	rest, err = asn1.Unmarshal(rest, &outSeq)
+	if err != nil {
+		return asn1.RawValue{}, asn1.RawValue{}
+	}
 	rest, err = asn1.Unmarshal(rest, &outSeq)
-	rest, err = asn1.Unmarshal(rest, &outSeq)
+	if err != nil {
+		return asn1.RawValue{}, asn1.RawValue{}
+	}
+	_, err = asn1.Unmarshal(rest, &outSeq)
+	if err != nil {
+		return asn1.RawValue{}, asn1.RawValue{}
+	}
 	// Finally at the validity date, load them into a different RawValue
 	rest, err = asn1.Unmarshal(outSeq.Bytes, &firstDate)
+	if err != nil {
+		return asn1.RawValue{}, asn1.RawValue{}
+	}
 	_, err = asn1.Unmarshal(rest, &secondDate)
 	if err != nil {
 		return asn1.RawValue{}, asn1.RawValue{}

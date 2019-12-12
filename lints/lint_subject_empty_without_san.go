@@ -51,10 +51,7 @@ func (l *emptyWithoutSAN) Execute(cert *x509.Certificate) *LintResult {
 }
 
 func subjectIsEmpty(cert *x509.Certificate) bool {
-	if cert.Subject.Names == nil {
-		return true
-	}
-	return false
+	return len(cert.Subject.Names) == 0
 }
 
 func init() {

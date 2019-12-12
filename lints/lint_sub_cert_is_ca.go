@@ -37,7 +37,7 @@ func (l *subCertNotCA) Execute(c *x509.Certificate) *LintResult {
 	if _, err := asn1.Unmarshal(e.Value, &constraints); err != nil {
 		return &LintResult{Status: Fatal}
 	}
-	if constraints.IsCA == true {
+	if constraints.IsCA {
 		return &LintResult{Status: Error}
 	} else {
 		return &LintResult{Status: Pass}

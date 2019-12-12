@@ -71,7 +71,15 @@ var (
 	SHA384OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 2}
 	SHA512OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 3}
 	// other OIDs
+	OidRSAEncryption           = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
 	OidRSASSAPSS               = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 10}
+	OidMD2WithRSAEncryption    = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 2}
+	OidMD5WithRSAEncryption    = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 4}
+	OidSHA1WithRSAEncryption   = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 5}
+	OidSHA224WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 14}
+	OidSHA256WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 11}
+	OidSHA384WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 12}
+	OidSHA512WithRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 13}
 	AnyPolicyOID               = asn1.ObjectIdentifier{2, 5, 29, 32, 0}
 	UserNoticeOID              = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 2}
 	CpsOID                     = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1}
@@ -101,11 +109,14 @@ func IsExtInCert(cert *x509.Certificate, oid asn1.ObjectIdentifier) bool {
 
 // GetExtFromCert returns the extension with the matching OID, if present. If
 // the extension if not present, it returns nil.
+//nolint:interfacer
 func GetExtFromCert(cert *x509.Certificate, oid asn1.ObjectIdentifier) *pkix.Extension {
-	for i := range cert.Extensions {
-		if oid.Equal(cert.Extensions[i].Id) {
-			return &(cert.Extensions[i])
-		}
+	// Since this function is called by many Lint CheckApplies functions we use
+	// the x509.Certificate.ExtensionsMap field added by zcrypto to check for
+	// the extension in O(1) instead of looping through the
+	// `x509.Certificate.Extensions` in O(n).
+	if ext, found := cert.ExtensionsMap[oid.String()]; found {
+		return &ext
 	}
 	return nil
 }
@@ -131,22 +142,22 @@ func TypeInName(name *pkix.Name, oid asn1.ObjectIdentifier) bool {
 }
 
 //helper function to parse policyMapping extensions, returns slices of CertPolicyIds separated by domain
-func GetMappedPolicies(polMap *pkix.Extension) (out [][2]asn1.ObjectIdentifier, err error) {
+func GetMappedPolicies(polMap *pkix.Extension) ([][2]asn1.ObjectIdentifier, error) {
 	if polMap == nil {
 		return nil, errors.New("policyMap: null pointer")
 	}
 	var outSeq, inSeq asn1.RawValue
 
 	empty, err := asn1.Unmarshal(polMap.Value, &outSeq) //strip outer sequence tag/length should be nothing extra
-	if err != nil || len(empty) != 0 || outSeq.Class != 0 || outSeq.Tag != 16 || outSeq.IsCompound == false {
+	if err != nil || len(empty) != 0 || outSeq.Class != 0 || outSeq.Tag != 16 || !outSeq.IsCompound {
 		return nil, errors.New("policyMap: Could not unmarshal outer sequence.")
 	}
 
+	var out [][2]asn1.ObjectIdentifier
 	for done := false; !done; { //loop through SEQUENCE OF
 		outSeq.Bytes, err = asn1.Unmarshal(outSeq.Bytes, &inSeq) //extract next inner SEQUENCE (OID pair)
-		if err != nil || inSeq.Class != 0 || inSeq.Tag != 16 || inSeq.IsCompound == false {
-			err = errors.New("policyMap: Could not unmarshal inner sequence.")
-			return
+		if err != nil || inSeq.Class != 0 || inSeq.Tag != 16 || !inSeq.IsCompound {
+			return nil, errors.New("policyMap: Could not unmarshal inner sequence.")
 		}
 		if len(outSeq.Bytes) == 0 { //nothing remaining to parse, stop looping after
 			done = true
@@ -156,19 +167,17 @@ func GetMappedPolicies(polMap *pkix.Extension) (out [][2]asn1.ObjectIdentifier, 
 		var restIn asn1.RawContent
 		restIn, err = asn1.Unmarshal(inSeq.Bytes, &oidIssue) //extract first inner CertPolicyId (issuer domain)
 		if err != nil || len(restIn) == 0 {
-			err = errors.New("policyMap: Could not unmarshal inner sequence.")
-			return
+			return nil, errors.New("policyMap: Could not unmarshal inner sequence.")
 		}
 
 		empty, err = asn1.Unmarshal(restIn, &oidSubject) //extract second inner CertPolicyId (subject domain)
 		if err != nil || len(empty) != 0 {
-			err = errors.New("policyMap: Could not unmarshal inner sequence.")
-			return
+			return nil, errors.New("policyMap: Could not unmarshal inner sequence.")
 		}
 
 		//append found OIDs
 		out = append(out, [2]asn1.ObjectIdentifier{oidIssue, oidSubject})
 	}
 
-	return
+	return out, nil
 }

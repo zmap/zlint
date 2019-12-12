@@ -33,7 +33,7 @@ func TestOnionNotEV(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["san_dns_name_onion_not_ev_cert"].Execute(ReadCertificate(inputPath))
+			result := Lints["e_san_dns_name_onion_not_ev_cert"].Execute(ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

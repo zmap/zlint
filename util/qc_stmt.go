@@ -21,39 +21,6 @@ import (
 	"reflect"
 )
 
-func etsiOidToDescString(oid asn1.ObjectIdentifier) string {
-	switch {
-	case oid.Equal(IdEtsiQcsQcCompliance):
-		{
-			return "IdEtsiQcsQcCompliance"
-		}
-	case oid.Equal(IdEtsiQcsQcLimitValue):
-		{
-			return "IdEtsiQcsQcLimitValue"
-		}
-	case oid.Equal(IdEtsiQcsQcRetentionPeriod):
-		{
-			return "IdEtsiQcsQcRetentionPeriod"
-		}
-	case oid.Equal(IdEtsiQcsQcSSCD):
-		{
-			return "IdEtsiQcsQcSSCSD"
-		}
-	case oid.Equal(IdEtsiQcsQcEuPDS):
-		{
-			return "IdEtsiQcsQcEuPDS"
-		}
-	case oid.Equal(IdEtsiQcsQcType):
-		{
-			return "IdEtsiQcsQcType"
-		}
-	default:
-		{
-			panic("unresolved ETSI QC Statement OID")
-		}
-	}
-}
-
 type anyContent struct {
 	Raw asn1.RawContent
 }
@@ -98,14 +65,14 @@ type EtsiQcSscd struct {
 }
 
 type EtsiMonetaryValueAlph struct {
-	iso4217CurrencyCodeAlph string `asn1:"printable"`
-	amount                  int
-	exponent                int
+	Iso4217CurrencyCodeAlph string `asn1:"printable"`
+	Amount                  int
+	Exponent                int
 }
 type EtsiMonetaryValueNum struct {
-	iso4217CurrencyCodeNum int
-	amount                 int
-	exponent               int
+	Iso4217CurrencyCodeNum int
+	Amount                 int
+	Exponent               int
 }
 
 type EtsiQcLimitValue struct {
@@ -167,6 +134,7 @@ func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
 	return false
 }
 
+//nolint:gocyclo
 func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 	sl := make([]anyContent, 0)
 	rest, err := asn1.Unmarshal(extVal, &sl)
@@ -217,9 +185,9 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 				numErr = true
 			} else {
 				etsiObj.IsNum = true
-				etsiObj.Amount = numeric.amount
-				etsiObj.Exponent = numeric.exponent
-				etsiObj.CurrencyNum = numeric.iso4217CurrencyCodeNum
+				etsiObj.Amount = numeric.Amount
+				etsiObj.Exponent = numeric.Exponent
+				etsiObj.CurrencyNum = numeric.Iso4217CurrencyCodeNum
 
 			}
 			if numErr {
@@ -228,9 +196,9 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 					alphErr = true
 				} else {
 					etsiObj.IsNum = false
-					etsiObj.Amount = alphabetic.amount
-					etsiObj.Exponent = alphabetic.exponent
-					etsiObj.CurrencyAlph = alphabetic.iso4217CurrencyCodeAlph
+					etsiObj.Amount = alphabetic.Amount
+					etsiObj.Exponent = alphabetic.Exponent
+					etsiObj.CurrencyAlph = alphabetic.Iso4217CurrencyCodeAlph
 					AppendToStringSemicolonDelim(&etsiObj.errorInfo,
 						checkAsn1Reencoding(reflect.ValueOf(alphabetic).Interface(),
 							statem.Any.FullBytes, "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))

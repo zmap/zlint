@@ -107,9 +107,7 @@ func IsInTLDMap(label string) bool {
 // return false.
 func CertificateSubjInTLD(c *x509.Certificate, label string) bool {
 	label = strings.ToLower(label)
-	if strings.HasPrefix(label, ".") {
-		label = label[1:]
-	}
+	label = strings.TrimPrefix(label, ".")
 	if !IsInTLDMap(label) {
 		return false
 	}
