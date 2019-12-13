@@ -54,7 +54,10 @@ const (
 	RFC5891
 	ZLint
 	AWSLabs
-	EtsiEsi // ETSI - Electronic Signatures and Infrastructures (ESI)
+	EtsiEsi                         // ETSI EN 319 412-5 V2.1.1 (ETSI - Electronic Signatures and Infrastructures (ESI))
+	EtsiTs_119_495_EsiPsd           // ETSI TS 119 495 V1.2.1 ("PSD2 Directive")
+	EtsiEn_319_412_1_CommDataStruct // ETSI EN 319 412-1 Overview and Common Data Structures
+	EtsiEn_319_412_4_CertProfileWeb // ETSI EN 319 412-4
 	CABFEVGuidelines
 	AppleCTPolicy // https://support.apple.com/en-us/HT205280
 )

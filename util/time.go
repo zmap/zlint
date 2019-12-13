@@ -54,6 +54,9 @@ var (
 	OnionOnlyEVDate             = time.Date(2015, time.May, 1, 0, 0, 0, 0, time.UTC)
 	CABV201Date                 = time.Date(2017, time.July, 28, 0, 0, 0, 0, time.UTC)
 	AppleCTPolicyDate           = time.Date(2018, time.October, 15, 0, 0, 0, 0, time.UTC)
+	CABAltRegNumEvDate          = time.Date(2019, time.June, 21, 0, 0, 0, 0, time.UTC)
+	CABAltRegNumEvExtMandDate   = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
+	EtsiPSD2Date                = time.Date(2018, time.November, 1, 0, 0, 0, 0, time.UTC)
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {

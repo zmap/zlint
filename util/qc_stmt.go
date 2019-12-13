@@ -18,8 +18,55 @@ import (
 	"bytes"
 	"encoding/asn1"
 	"fmt"
+	"github.com/zmap/zcrypto/x509"
 	"reflect"
+	"regexp"
+	"strings"
+	"unicode"
 )
+
+var EtsiQcStmtOidList = [...]*asn1.ObjectIdentifier{
+	&IdEtsiQcsQcCompliance,
+	&IdEtsiQcsQcLimitValue,
+	&IdEtsiQcsQcRetentionPeriod,
+	&IdEtsiQcsQcSSCD,
+	&IdEtsiQcsQcEuPDS,
+	&IdEtsiQcsQcType,
+	&IdEtsiPsd2Statem,
+}
+
+func etsiOidToDescString(oid asn1.ObjectIdentifier) string {
+	switch {
+	case oid.Equal(IdEtsiQcsQcCompliance):
+		{
+			return "IdEtsiQcsQcCompliance"
+		}
+	case oid.Equal(IdEtsiQcsQcLimitValue):
+		{
+			return "IdEtsiQcsQcLimitValue"
+		}
+	case oid.Equal(IdEtsiQcsQcRetentionPeriod):
+		{
+			return "IdEtsiQcsQcRetentionPeriod"
+		}
+	case oid.Equal(IdEtsiQcsQcSSCD):
+		{
+			return "IdEtsiQcsQcSSCSD"
+		}
+	case oid.Equal(IdEtsiQcsQcEuPDS):
+		{
+			return "IdEtsiQcsQcEuPDS"
+		}
+	case oid.Equal(IdEtsiQcsQcType):
+		{
+			return "IdEtsiQcsQcType"
+		}
+	default:
+		{
+			panic("unresolved ETSI QC Statement OID")
+		}
+	}
+}
 
 type anyContent struct {
 	Raw asn1.RawContent
@@ -29,10 +76,12 @@ type qcStatementWithInfoField struct {
 	Oid asn1.ObjectIdentifier
 	Any asn1.RawValue
 }
+
 type qcStatementWithoutInfoField struct {
 	Oid asn1.ObjectIdentifier
 }
 
+// === etsi base ==>
 type etsiBase struct {
 	errorInfo string
 	isPresent bool
@@ -45,6 +94,8 @@ func (this etsiBase) GetErrorInfo() string {
 func (this etsiBase) IsPresent() bool {
 	return this.isPresent
 }
+
+// <== etsi base ===
 
 type EtsiQcStmtIf interface {
 	GetErrorInfo() string
@@ -97,16 +148,85 @@ type EtsiQcPds struct {
 	PdsLocations []PdsLocation
 }
 
-func AppendToStringSemicolonDelim(this *string, s string) {
-	if len(*this) > 0 && len(s) > 0 {
-		(*this) += "; "
-	}
-	(*this) += s
+// ==== QcStatement 2 (RFC3739)types ===>
+
+type DecodedQcS2 struct {
+	etsiBase
+	Decoded QcStatemt2
+}
+type QcStatemt2 struct {
+	SemanticsId        asn1.ObjectIdentifier       `asn1:"optional"`
+	NameRegAuthorities NameRegistrationAuthorities `asn1:"optional"`
 }
 
-func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfComparisonFails string) string {
+type NameRegistrationAuthorities []asn1.RawValue
+
+// <=== QcStatement 2 (RFC3739)types ====
+
+// ==== PSD2 QcStatement types ===>
+type Psd2RoleOfPspType int
+
+const (
+	RoleAs Psd2RoleOfPspType = 1
+	RolePi Psd2RoleOfPspType = 2
+	RoleAi Psd2RoleOfPspType = 3
+	RoleIc Psd2RoleOfPspType = 4
+)
+
+// 	=== ASN.1 Types ==>
+type Psd2RoleOfPsp struct {
+	RoleType      asn1.ObjectIdentifier
+	RoleOfPspName string `asn1:"utf8"`
+}
+
+type EtsiPsd2QcStatem struct {
+	Roles           []Psd2RoleOfPsp
+	NCAName         string `asn1:"utf8"`
+	CountryAndNCAId string `asn1:"utf8"`
+}
+
+// 	<== ASN.1 Types ===
+
+type EtsiPsd2 struct {
+	etsiBase
+	DecodedPsd2Statm EtsiPsd2QcStatem
+}
+
+func (this EtsiPsd2) getCountryAndNcaId() (string, string) {
+	runes := []rune(this.DecodedPsd2Statm.CountryAndNCAId)
+	if len(this.DecodedPsd2Statm.CountryAndNCAId) < 4 || !unicode.IsUpper(runes[0]) || !unicode.IsUpper(runes[1]) || runes[2] != '-' {
+		return "", ""
+	}
+	return string(runes[0:2]), string(runes[3:])
+}
+
+func (this EtsiPsd2) GetNcaCountry() string {
+	co, _ := this.getCountryAndNcaId()
+	return co
+}
+func (this EtsiPsd2) GetNcaId() string {
+	_, ncaId := this.getCountryAndNcaId()
+	return ncaId
+}
+
+// <=== PSD2 QcStatement types ====
+
+func isOnlyUpperCaseLetters(s string) bool {
+	for _, c := range s {
+		if !unicode.IsUpper(c) {
+			return false
+		}
+	}
+	return true
+}
+
+func CheckAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfComparisonFails string) string {
+	return CheckAsn1ReencodingWithParams(i, originalEncoding, appendIfComparisonFails, "")
+}
+
+func CheckAsn1ReencodingWithParams(i interface{}, originalEncoding []byte, appendIfComparisonFails string, params string) string {
 	result := ""
-	reencoded, marshErr := asn1.Marshal(i)
+	reencoded, marshErr := asn1.MarshalWithParams(i, params)
 	if marshErr != nil {
 		AppendToStringSemicolonDelim(&result, fmt.Sprintf("error reencoding ASN1 value of statementInfo field: %s",
 			marshErr))
@@ -117,15 +237,124 @@ func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfCompari
 	return result
 }
 
+func CertHasSubjectOrgIdWithPrefix(c *x509.Certificate, prefix string) bool {
+
+	if !IsExtInCert(c, QcStateOid) {
+		return false
+	}
+	if !ParseQcStatem(GetExtFromCert(c, QcStateOid).Value, IdEtsiPsd2Statem).IsPresent() {
+		return false
+	}
+
+	orgId := GetSubjectOrgId(c.RawSubject)
+	if len(orgId.ErrorString) != 0 || !orgId.IsPresent {
+		return false
+	}
+	runes := []rune(orgId.Value)
+	prefixLen := len(prefix)
+	if len(runes) < prefixLen || string(runes[0:prefixLen]) != prefix {
+		return false
+	}
+	return true
+}
+
+type EtsiPsd2OrgId struct {
+	Rsi, Country, NcaId, PspId string
+}
+
+func ParseEtsiPsd2OrgId(oi *string) (string, EtsiPsd2OrgId) {
+	var result EtsiPsd2OrgId
+	re_psd := regexp.MustCompile(`^(PSD)([A-Z]{2})-([A-Z]{2,8})-(.+)$`)
+	re_generic := regexp.MustCompile(`^(.{3})([A-Z]{2})()-(.+)$`)
+	var sm []string
+	if re_psd.MatchString(*oi) {
+		sm = re_psd.FindStringSubmatch(*oi)
+	} else if !strings.HasPrefix(*oi, "PSD") && re_generic.MatchString(*oi) {
+		sm = re_generic.FindStringSubmatch(*oi)
+	} else {
+		return "invalid format of PSD2 organizationIdentifier", result
+	}
+	result.Rsi = sm[1]
+	result.Country = sm[2]
+	result.NcaId = sm[3]
+	result.PspId = sm[4]
+	return "", result
+}
+
+func CheckEtsiPsd2OrgIdPsd(oi *string) string {
+	errStr, x := ParseEtsiPsd2OrgId(oi)
+	if len(errStr) != 0 {
+		return errStr
+	}
+	if x.Rsi != "PSD" {
+		return "ETSI PSD2 OrganizationIdentifier does not start with 'PSD'"
+	}
+	return ""
+}
+
+func GetEtsiQcTypes(c *x509.Certificate) []asn1.ObjectIdentifier {
+	var result []asn1.ObjectIdentifier
+	ext := GetExtFromCert(c, QcStateOid)
+	if ext == nil {
+		return nil
+	}
+	s := ParseQcStatem(ext.Value, IdEtsiQcsQcType)
+	if len(s.GetErrorInfo()) != 0 {
+		return nil
+	}
+	if !s.IsPresent() {
+		return result
+	}
+	qcType := s.(Etsi423QcType)
+	for _, t := range qcType.TypeOids {
+		result = append(result, t)
+	}
+	return result
+}
+
+func HasCertAnyEtsiQcpPolicy(c *x509.Certificate) bool {
+	for _, p := range c.PolicyIdentifiers {
+		if p.Equal(IdEtsiPolicyQcpNatural) || p.Equal(IdEtsiPolicyQcpLegal) || p.Equal(IdEtsiPolicyQcpNaturalQscd) || p.Equal(IdEtsiPolicyQcpLegalQscd) || p.Equal(IdEtsiPolicyQcpWeb) {
+			return true
+		}
+	}
+	return false
+
+}
+
+func HasCertPolicy(c *x509.Certificate, soughtPolicyOid asn1.ObjectIdentifier) bool {
+
+	for _, policyOid := range c.PolicyIdentifiers {
+		if policyOid.Equal(soughtPolicyOid) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasCertEtsiQcType(c *x509.Certificate, soughtTypeOid asn1.ObjectIdentifier) bool {
+	typeList := GetEtsiQcTypes(c)
+	if typeList == nil {
+		return false
+	}
+	for _, typeOid := range typeList {
+		if typeOid.Equal(soughtTypeOid) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasCertAnyEtsiQcStatement(c *x509.Certificate) bool {
+	ext := GetExtFromCert(c, QcStateOid)
+	if ext == nil {
+		return false
+	}
+	return IsAnyEtsiQcStatementPresent(ext.Value)
+}
+
 func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
-	oidList := make([]*asn1.ObjectIdentifier, 6)
-	oidList[0] = &IdEtsiQcsQcCompliance
-	oidList[1] = &IdEtsiQcsQcLimitValue
-	oidList[2] = &IdEtsiQcsQcRetentionPeriod
-	oidList[3] = &IdEtsiQcsQcSSCD
-	oidList[4] = &IdEtsiQcsQcEuPDS
-	oidList[5] = &IdEtsiQcsQcType
-	for _, oid := range oidList {
+	for _, oid := range EtsiQcStmtOidList {
 		r := ParseQcStatem(extVal, *oid)
 		if r.IsPresent() {
 			return true
@@ -134,7 +363,32 @@ func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
 	return false
 }
 
-//nolint:gocyclo
+func IsQcStatemPresent(c *x509.Certificate, oid *asn1.ObjectIdentifier) (string, bool) {
+	if !IsExtInCert(c, QcStateOid) {
+		return "", false
+	}
+	qcs := ParseQcStatem(GetExtFromCert(c, QcStateOid).Value, *oid)
+	if qcs.GetErrorInfo() != "" {
+		return qcs.GetErrorInfo(), qcs.IsPresent()
+	}
+	return "", qcs.IsPresent()
+}
+
+func CheckNationalScheme(oi string) bool {
+	if len(oi) < 6 {
+		return false
+	}
+	re := regexp.MustCompile(`^.{2}:[A-Z]{2}-.+$`)
+	if re.MatchString(oi) {
+		return true
+	}
+	return false
+}
+
+func GetQcStatemExtValue(c *x509.Certificate) []byte {
+	return GetExtFromCert(c, QcStateOid).Value
+}
+
 func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 	sl := make([]anyContent, 0)
 	rest, err := asn1.Unmarshal(extVal, &sl)
@@ -171,7 +425,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 		if statem.Oid.Equal(IdEtsiQcsQcCompliance) {
 			etsiObj := Etsi421QualEuCert{etsiBase: etsiBase{isPresent: true}}
 			statemWithoutInfo := qcStatementWithoutInfoField{Oid: statem.Oid}
-			AppendToStringSemicolonDelim(&etsiObj.errorInfo, checkAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
+			AppendToStringSemicolonDelim(&etsiObj.errorInfo, CheckAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
 				"invalid format of ETSI Complicance statement"))
 			return etsiObj
 		} else if statem.Oid.Equal(IdEtsiQcsQcLimitValue) {
@@ -200,7 +454,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 					etsiObj.Exponent = alphabetic.Exponent
 					etsiObj.CurrencyAlph = alphabetic.Iso4217CurrencyCodeAlph
 					AppendToStringSemicolonDelim(&etsiObj.errorInfo,
-						checkAsn1Reencoding(reflect.ValueOf(alphabetic).Interface(),
+						CheckAsn1Reencoding(reflect.ValueOf(alphabetic).Interface(),
 							statem.Any.FullBytes, "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
 				}
 			}
@@ -220,7 +474,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 		} else if statem.Oid.Equal(IdEtsiQcsQcSSCD) {
 			etsiObj := EtsiQcSscd{etsiBase: etsiBase{isPresent: true}}
 			statemWithoutInfo := qcStatementWithoutInfoField{Oid: statem.Oid}
-			AppendToStringSemicolonDelim(&etsiObj.errorInfo, checkAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
+			AppendToStringSemicolonDelim(&etsiObj.errorInfo, CheckAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
 				"invalid format of ETSI SCSD statement"))
 			return etsiObj
 		} else if statem.Oid.Equal(IdEtsiQcsQcEuPDS) {
@@ -230,7 +484,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 				etsiObj.errorInfo = "error parsing the statementInfo field"
 			} else {
 				AppendToStringSemicolonDelim(&etsiObj.errorInfo,
-					checkAsn1Reencoding(reflect.ValueOf(etsiObj.PdsLocations).Interface(), statem.Any.FullBytes,
+					CheckAsn1Reencoding(reflect.ValueOf(etsiObj.PdsLocations).Interface(), statem.Any.FullBytes,
 						"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
 			}
 			return etsiObj
@@ -242,6 +496,36 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 				return etsiBase{errorInfo: "error parsing IdEtsiQcsQcType extension statementInfo field", isPresent: true}
 			}
 			return qcType
+		} else if statem.Oid.Equal(IdEtsiPsd2Statem) {
+			var psd2Statem EtsiPsd2
+			psd2Statem.isPresent = true
+			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &psd2Statem.DecodedPsd2Statm)
+			if len(rest) != 0 || err != nil {
+				return etsiBase{errorInfo: "error parsing IdEtsiPsd2Statem extension statementInfo field", isPresent: true}
+			}
+			if psd2Statem.DecodedPsd2Statm.CountryAndNCAId == "" || psd2Statem.DecodedPsd2Statm.NCAName == "" {
+				AppendToStringSemicolonDelim(&psd2Statem.errorInfo, "field has length 0")
+			}
+			for _, role := range psd2Statem.DecodedPsd2Statm.Roles {
+				if role.RoleOfPspName == "" {
+					AppendToStringSemicolonDelim(&psd2Statem.errorInfo, "field has length 0")
+				}
+			}
+			AppendToStringSemicolonDelim(&psd2Statem.errorInfo,
+				CheckAsn1Reencoding(reflect.ValueOf(psd2Statem.DecodedPsd2Statm).Interface(), statem.Any.FullBytes,
+					"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+			return psd2Statem
+		} else if statem.Oid.Equal(IdQcsPkixQCSyntaxV2) {
+			var qcs2Statem DecodedQcS2
+			qcs2Statem.isPresent = true
+			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcs2Statem.Decoded)
+			if err != nil {
+				AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "error parsing statement: "+err.Error())
+			}
+			if len(rest) != 0 {
+				AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "trailing bytes after QcStatement")
+			}
+			return qcs2Statem
 		} else {
 			return etsiBase{errorInfo: "", isPresent: true}
 		}

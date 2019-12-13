@@ -17,7 +17,6 @@ package lints
 import (
 	"encoding/asn1"
 	"fmt"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -50,7 +49,7 @@ func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *LintResult {
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
 	errString += s.GetErrorInfo()
 	if len(errString) == 0 {
-		qcType := s.(util.Etsi423QcType)
+		qcType := s.(util.Etsi423QcType) // cast is always good because preconditions in CheckApplies
 		if len(qcType.TypeOids) == 0 {
 			errString += "no QcType present, sequence of OIDs is empty"
 		}
@@ -61,8 +60,9 @@ func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *LintResult {
 				found = true
 			}
 		}
-		if !found {
+		if found != true {
 			wrnString += fmt.Sprintf("etsi Type does not indicate certificate as a 'web' certificate")
+
 		}
 	}
 
