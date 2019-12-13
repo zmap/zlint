@@ -15,9 +15,10 @@ package lints
  */
 
 import (
-	"github.com/zmap/zlint/util"
 	"testing"
 	"time"
+
+	"github.com/zmap/zlint/util"
 )
 
 func TestEvAltRegNumOrgIdExtPresentMandatory(t *testing.T) {
