@@ -28,10 +28,7 @@ func (l *qcStatemPsd2PolicyMandatory) Initialize() error {
 
 func (l *qcStatemPsd2PolicyMandatory) CheckApplies(c *x509.Certificate) bool {
 	isPresent := util.HasCertAnyEtsiQcStatement(c)
-	if !isPresent {
-		return false
-	}
-	return true
+	return isPresent
 }
 
 func policyAndTypeAreConsistent(c *x509.Certificate, policy asn1.ObjectIdentifier, policyStr string, qcType asn1.ObjectIdentifier, typeStr string, mustHaveQcStmtFour bool) string {

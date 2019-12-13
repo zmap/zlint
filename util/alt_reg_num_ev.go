@@ -146,7 +146,7 @@ func GetSubjectElement(rawSubject []byte, soughtOid asn1.ObjectIdentifier) parse
 				}
 				result.IsPresent = true
 				var parsedString string
-				rest, err = asn1.Unmarshal(typeAndValue.Value.FullBytes, &parsedString)
+				asn1.Unmarshal(typeAndValue.Value.FullBytes, &parsedString)
 				result.Value = parsedString
 				result.Asn1RawValue = typeAndValue.Value
 			}

@@ -264,9 +264,7 @@ func GetEtsiQcTypes(c *x509.Certificate) []asn1.ObjectIdentifier {
 		return result
 	}
 	qcType := s.(Etsi423QcType)
-	for _, t := range qcType.TypeOids {
-		result = append(result, t)
-	}
+	result = append(result, qcType.TypeOids...)
 	return result
 }
 

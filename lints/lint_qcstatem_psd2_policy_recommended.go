@@ -27,10 +27,7 @@ func (l *qcStatemPsd2PolicyRecomm) Initialize() error {
 
 func (l *qcStatemPsd2PolicyRecomm) CheckApplies(c *x509.Certificate) bool {
 	isPresent := util.HasCertAnyEtsiQcStatement(c)
-	if !isPresent {
-		return false
-	}
-	return true
+	return isPresent
 }
 
 func (l *qcStatemPsd2PolicyRecomm) Execute(c *x509.Certificate) *LintResult {

@@ -30,10 +30,7 @@ func (l *qcStatemPsd2Pd2StatemEnc) CheckApplies(c *x509.Certificate) bool {
 		return false
 	}
 	_, isPresent := util.IsQcStatemPresent(c, &util.IdEtsiPsd2Statem)
-	if !isPresent {
-		return false
-	}
-	return true
+	return isPresent
 }
 
 func (l *qcStatemPsd2Pd2StatemEnc) Execute(c *x509.Certificate) *LintResult {

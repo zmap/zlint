@@ -16,9 +16,10 @@ package lints
 
 import (
 	"encoding/asn1"
+	"regexp"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"regexp"
 )
 
 type qcStatemPsd2NationalScheme struct{}
