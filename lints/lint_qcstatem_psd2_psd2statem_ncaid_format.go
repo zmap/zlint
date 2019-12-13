@@ -27,10 +27,7 @@ func (l *qcStatemPsd2Psd2StatemNcaidFormat) Initialize() error {
 
 func (l *qcStatemPsd2Psd2StatemNcaidFormat) CheckApplies(c *x509.Certificate) bool {
 	_, isPresent := util.IsQcStatemPresent(c, &util.IdEtsiPsd2Statem)
-	if !isPresent {
-		return false
-	}
-	return true
+	return isPresent
 }
 
 func (l *qcStatemPsd2Psd2StatemNcaidFormat) Execute(c *x509.Certificate) *LintResult {

@@ -16,9 +16,10 @@ package util
 
 import (
 	"encoding/asn1"
-	"github.com/zmap/zcrypto/x509"
 	"reflect"
 	"regexp"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 type RDNSequence []RelativeDistinguishedNameSET

@@ -15,10 +15,11 @@
 package lints
 
 import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/util"
 	"regexp"
 	"unicode/utf8"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/util"
 )
 
 type qcStatemPsd2OrgId struct{}

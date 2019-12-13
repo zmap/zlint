@@ -34,21 +34,15 @@ func (l *qcStatemPsd2Roles) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent()
+
 }
 
 func isValidPSD2Role(oid *asn1.ObjectIdentifier, name *string) bool {
-	if !((oid.Equal(util.IdEtsiPsd2RolePspAs) && *name == "PSP_AS") ||
+	return ((oid.Equal(util.IdEtsiPsd2RolePspAs) && *name == "PSP_AS") ||
 		(oid.Equal(util.IdEtsiPsd2RolePspPi) && *name == "PSP_PI") ||
 		(oid.Equal(util.IdEtsiPsd2RolePspAi) && *name == "PSP_AI") ||
-		(oid.Equal(util.IdEtsiPsd2RolePspIc) && *name == "PSP_IC")) {
-		return false
-	}
-	return true
-
+		(oid.Equal(util.IdEtsiPsd2RolePspIc) && *name == "PSP_IC"))
 }
 
 func (l *qcStatemPsd2Roles) Execute(c *x509.Certificate) *LintResult {
@@ -63,7 +57,6 @@ func (l *qcStatemPsd2Roles) Execute(c *x509.Certificate) *LintResult {
 			if !isValidPSD2Role(&oid, &role.RoleOfPspName) {
 				return &LintResult{Status: Error, Details: "invalid role in PSD2 QcStatement"}
 			}
-
 		}
 		return &LintResult{Status: Pass}
 	} else {

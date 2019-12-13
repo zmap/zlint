@@ -18,11 +18,12 @@ import (
 	"bytes"
 	"encoding/asn1"
 	"fmt"
-	"github.com/zmap/zcrypto/x509"
 	"reflect"
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 var EtsiQcStmtOidList = [...]*asn1.ObjectIdentifier{

@@ -32,10 +32,7 @@ func (l *qcStatemPsd2Psd2StatemNcaidEulist) Initialize() error {
 
 func (l *qcStatemPsd2Psd2StatemNcaidEulist) CheckApplies(c *x509.Certificate) bool {
 	_, isPresent := util.IsQcStatemPresent(c, &util.IdEtsiPsd2Statem)
-	if !isPresent {
-		return false
-	}
-	return true
+	return isPresent
 }
 
 func (l *qcStatemPsd2Psd2StatemNcaidEulist) Execute(c *x509.Certificate) *LintResult {
