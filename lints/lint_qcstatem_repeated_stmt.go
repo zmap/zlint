@@ -82,7 +82,7 @@ func init() {
 	RegisterLint(&Lint{
 		Name:          "e_qcstatem_repeated_stmt",
 		Description:   "Checks that none of the ETSI QcStatements appear multiple times within the QcStatements.",
-		Citation:      "(Implict requirement)",
+		Citation:      "(Implicit requirement)",
 		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemRepeatedStmt{},

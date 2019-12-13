@@ -60,9 +60,8 @@ func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *LintResult {
 				found = true
 			}
 		}
-		if found != true {
+		if !found {
 			wrnString += fmt.Sprintf("etsi Type does not indicate certificate as a 'web' certificate")
-
 		}
 	}
 

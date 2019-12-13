@@ -35,39 +35,6 @@ var EtsiQcStmtOidList = [...]*asn1.ObjectIdentifier{
 	&IdEtsiPsd2Statem,
 }
 
-func etsiOidToDescString(oid asn1.ObjectIdentifier) string {
-	switch {
-	case oid.Equal(IdEtsiQcsQcCompliance):
-		{
-			return "IdEtsiQcsQcCompliance"
-		}
-	case oid.Equal(IdEtsiQcsQcLimitValue):
-		{
-			return "IdEtsiQcsQcLimitValue"
-		}
-	case oid.Equal(IdEtsiQcsQcRetentionPeriod):
-		{
-			return "IdEtsiQcsQcRetentionPeriod"
-		}
-	case oid.Equal(IdEtsiQcsQcSSCD):
-		{
-			return "IdEtsiQcsQcSSCSD"
-		}
-	case oid.Equal(IdEtsiQcsQcEuPDS):
-		{
-			return "IdEtsiQcsQcEuPDS"
-		}
-	case oid.Equal(IdEtsiQcsQcType):
-		{
-			return "IdEtsiQcsQcType"
-		}
-	default:
-		{
-			panic("unresolved ETSI QC Statement OID")
-		}
-	}
-}
-
 type anyContent struct {
 	Raw asn1.RawContent
 }
@@ -210,15 +177,6 @@ func (this EtsiPsd2) GetNcaId() string {
 }
 
 // <=== PSD2 QcStatement types ====
-
-func isOnlyUpperCaseLetters(s string) bool {
-	for _, c := range s {
-		if !unicode.IsUpper(c) {
-			return false
-		}
-	}
-	return true
-}
 
 func CheckAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfComparisonFails string) string {
 	return CheckAsn1ReencodingWithParams(i, originalEncoding, appendIfComparisonFails, "")

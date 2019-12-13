@@ -35,10 +35,7 @@ func (l *qcStatemPsd2NationalScheme) CheckApplies(c *x509.Certificate) bool {
 
 	orgId := util.GetSubjectOrgId(c.RawSubject)
 	re := regexp.MustCompile(`^.{2}:`)
-	if re.MatchString(orgId.Value) {
-		return true
-	}
-	return false
+	return re.MatchString(orgId.Value)
 }
 
 func (l *qcStatemPsd2NationalScheme) Execute(c *x509.Certificate) *LintResult {

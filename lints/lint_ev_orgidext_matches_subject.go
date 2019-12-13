@@ -26,12 +26,9 @@ func (l *evOrgIdExtMatchesSubject) Initialize() error {
 }
 
 func (l *evOrgIdExtMatchesSubject) CheckApplies(c *x509.Certificate) bool {
-
-	if util.IsExtInCert(c, util.CabfExtensionOrganizationIdentifier) {
-		return true
-	}
-	return false
+	return util.IsExtInCert(c, util.CabfExtensionOrganizationIdentifier)
 }
+
 func (l *evOrgIdExtMatchesSubject) Execute(c *x509.Certificate) *LintResult {
 	orgId := util.GetSubjectOrgId(c.RawSubject)
 	errStr, parsedExt := util.ParseCabfOrgIdExt(c)
@@ -53,7 +50,7 @@ func (l *evOrgIdExtMatchesSubject) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_orgidext_matches_subject",
-		Description:   "Checks that the contents of the OrganisationIdentifier extension match the entries of the corresponing field in the subject DN.",
+		Description:   "Checks that the contents of the OrganisationIdentifier extension match the entries of the corresponding field in the subject DN.",
 		Citation:      "CA/Browser Forum EV Guidelines v1.7, Sec. 9.2.8, 9.8.2",
 		Source:        CABFEVGuidelines,
 		EffectiveDate: util.CABAltRegNumEvDate,

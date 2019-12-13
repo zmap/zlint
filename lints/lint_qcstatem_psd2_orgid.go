@@ -42,11 +42,7 @@ func orgidHasLegalPersonPrefix(orgId string) bool {
 		return false
 	}
 	re := regexp.MustCompile(`^(NTR|VAT|PSD|LEI|(.){2}:)`)
-	if re.MatchString(orgId) {
-		return true
-	}
-	return false
-
+	return re.MatchString(orgId)
 }
 
 func (l *qcStatemPsd2OrgId) Execute(c *x509.Certificate) *LintResult {

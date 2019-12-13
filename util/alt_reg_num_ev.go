@@ -19,21 +19,7 @@ import (
 	"github.com/zmap/zcrypto/x509"
 	"reflect"
 	"regexp"
-	"unicode"
 )
-
-type anyContentArn struct {
-	Raw asn1.RawContent
-}
-
-type nameComponent struct {
-	Oid  asn1.ObjectIdentifier
-	Name string
-}
-
-type seqOfSetsOfNameComponents struct {
-	Names []nameComponent `asn1:"set"`
-}
 
 type RDNSequence []RelativeDistinguishedNameSET
 
@@ -169,24 +155,6 @@ func GetSubjectElement(rawSubject []byte, soughtOid asn1.ObjectIdentifier) parse
 	return result
 }
 
-func HasSubjectOrgId(rawSubject []byte) (bool, string) {
-	orgIdObj := GetSubjectOrgId(rawSubject)
-	return orgIdObj.IsPresent, orgIdObj.ErrorString
-}
-
 type ParsedOrgId struct {
 	Rsi, Country, SubDiv, RegRef string
-}
-
-func parseRsiAndCountryFromOrgId(oi *string) (string, string, string) {
-
-	runes := []rune(*oi)
-	for _, r := range runes[0:5] {
-		if !unicode.IsUpper(r) {
-			return "non upper case latter encountered within first five characters", "", ""
-		}
-	}
-	Rsi := string(runes[0:3])
-	Country := string(runes[3:5])
-	return "", Rsi, Country
 }
