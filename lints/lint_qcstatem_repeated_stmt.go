@@ -17,6 +17,7 @@ package lints
 import (
 	"encoding/asn1"
 	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -63,7 +64,7 @@ func (l *qcStatemRepeatedStmt) Execute(c *x509.Certificate) *LintResult {
 	}
 	for _, raw := range sl {
 		var statem qcStatementWithOptionalInfoField
-		rest, err = asn1.Unmarshal(raw.Raw, &statem)
+		_, err = asn1.Unmarshal(raw.Raw, &statem)
 		if err != nil {
 			return &LintResult{Status: Error, Details: "error when parsing QcStatements: " + err.Error()}
 		}
