@@ -336,10 +336,7 @@ func CheckNationalScheme(oi string) bool {
 		return false
 	}
 	re := regexp.MustCompile(`^.{2}:[A-Z]{2}-.+$`)
-	if re.MatchString(oi) {
-		return true
-	}
-	return false
+	return re.MatchString(oi)
 }
 
 func GetQcStatemExtValue(c *x509.Certificate) []byte {
@@ -380,115 +377,145 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 			continue
 		}
 		if statem.Oid.Equal(IdEtsiQcsQcCompliance) {
-			etsiObj := Etsi421QualEuCert{etsiBase: etsiBase{isPresent: true}}
-			statemWithoutInfo := qcStatementWithoutInfoField{Oid: statem.Oid}
-			AppendToStringSemicolonDelim(&etsiObj.errorInfo, CheckAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
-				"invalid format of ETSI Complicance statement"))
-			return etsiObj
+			return handleIdEtsiQcsQcCompliance(statem, raw)
 		} else if statem.Oid.Equal(IdEtsiQcsQcLimitValue) {
-			etsiObj := EtsiQcLimitValue{etsiBase: etsiBase{isPresent: true}}
-			numErr := false
-			alphErr := false
-			var numeric EtsiMonetaryValueNum
-			var alphabetic EtsiMonetaryValueAlph
-			restNum, errNum := asn1.Unmarshal(statem.Any.FullBytes, &numeric)
-			if len(restNum) != 0 || errNum != nil {
-				numErr = true
-			} else {
-				etsiObj.IsNum = true
-				etsiObj.Amount = numeric.Amount
-				etsiObj.Exponent = numeric.Exponent
-				etsiObj.CurrencyNum = numeric.Iso4217CurrencyCodeNum
-
-			}
-			if numErr {
-				restAlph, errAlph := asn1.Unmarshal(statem.Any.FullBytes, &alphabetic)
-				if len(restAlph) != 0 || errAlph != nil {
-					alphErr = true
-				} else {
-					etsiObj.IsNum = false
-					etsiObj.Amount = alphabetic.Amount
-					etsiObj.Exponent = alphabetic.Exponent
-					etsiObj.CurrencyAlph = alphabetic.Iso4217CurrencyCodeAlph
-					AppendToStringSemicolonDelim(&etsiObj.errorInfo,
-						CheckAsn1Reencoding(reflect.ValueOf(alphabetic).Interface(),
-							statem.Any.FullBytes, "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
-				}
-			}
-			if numErr && alphErr {
-				etsiObj.errorInfo = "error parsing the ETSI Qc Statement statementInfo field"
-			}
-			return etsiObj
-
+			return handleIdEtsiQcsQcLimitValue(statem)
 		} else if statem.Oid.Equal(IdEtsiQcsQcRetentionPeriod) {
-			etsiObj := EtsiQcRetentionPeriod{etsiBase: etsiBase{isPresent: true}}
-			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.Period)
-
-			if len(rest) != 0 || err != nil {
-				etsiObj.errorInfo = "error parsing the statementInfo field"
-			}
-			return etsiObj
+			return handleIdEtsiQcsQcRetentionPeriod(statem)
 		} else if statem.Oid.Equal(IdEtsiQcsQcSSCD) {
-			etsiObj := EtsiQcSscd{etsiBase: etsiBase{isPresent: true}}
-			statemWithoutInfo := qcStatementWithoutInfoField{Oid: statem.Oid}
-			AppendToStringSemicolonDelim(&etsiObj.errorInfo, CheckAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
-				"invalid format of ETSI SCSD statement"))
-			return etsiObj
+			return handleIdEtsiQcsQcSSCD(statem, raw)
 		} else if statem.Oid.Equal(IdEtsiQcsQcEuPDS) {
-			etsiObj := EtsiQcPds{etsiBase: etsiBase{isPresent: true}}
-			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.PdsLocations)
-			if len(rest) != 0 || err != nil {
-				etsiObj.errorInfo = "error parsing the statementInfo field"
-			} else {
-				AppendToStringSemicolonDelim(&etsiObj.errorInfo,
-					CheckAsn1Reencoding(reflect.ValueOf(etsiObj.PdsLocations).Interface(), statem.Any.FullBytes,
-						"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
-			}
-			return etsiObj
+			return handleIdEtsiQcsQcEuPDS(statem)
 		} else if statem.Oid.Equal(IdEtsiQcsQcType) {
-			var qcType Etsi423QcType
-			qcType.isPresent = true
-			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcType.TypeOids)
-			if len(rest) != 0 || err != nil {
-				return etsiBase{errorInfo: "error parsing IdEtsiQcsQcType extension statementInfo field", isPresent: true}
-			}
-			return qcType
+			return handleIdEtsiQcsQcType(statem)
 		} else if statem.Oid.Equal(IdEtsiPsd2Statem) {
-			var psd2Statem EtsiPsd2
-			psd2Statem.isPresent = true
-			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &psd2Statem.DecodedPsd2Statm)
-			if len(rest) != 0 || err != nil {
-				return etsiBase{errorInfo: "error parsing IdEtsiPsd2Statem extension statementInfo field", isPresent: true}
-			}
-			if psd2Statem.DecodedPsd2Statm.CountryAndNCAId == "" || psd2Statem.DecodedPsd2Statm.NCAName == "" {
-				AppendToStringSemicolonDelim(&psd2Statem.errorInfo, "field has length 0")
-			}
-			for _, role := range psd2Statem.DecodedPsd2Statm.Roles {
-				if role.RoleOfPspName == "" {
-					AppendToStringSemicolonDelim(&psd2Statem.errorInfo, "field has length 0")
-				}
-			}
-			AppendToStringSemicolonDelim(&psd2Statem.errorInfo,
-				CheckAsn1Reencoding(reflect.ValueOf(psd2Statem.DecodedPsd2Statm).Interface(), statem.Any.FullBytes,
-					"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
-			return psd2Statem
+			return handleIdEtsiPsd2Statem(statem)
 		} else if statem.Oid.Equal(IdQcsPkixQCSyntaxV2) {
-			var qcs2Statem DecodedQcS2
-			qcs2Statem.isPresent = true
-			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcs2Statem.Decoded)
-			if err != nil {
-				AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "error parsing statement: "+err.Error())
-			}
-			if len(rest) != 0 {
-				AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "trailing bytes after QcStatement")
-			}
-			return qcs2Statem
+			return handleIdQcsPkixQCSyntaxV2(statem)
 		} else {
 			return etsiBase{errorInfo: "", isPresent: true}
 		}
-
 	}
 
 	return etsiBase{errorInfo: "", isPresent: false}
 
+}
+
+func handleIdQcsPkixQCSyntaxV2(statem qcStatementWithInfoField) EtsiQcStmtIf {
+	var qcs2Statem DecodedQcS2
+	qcs2Statem.isPresent = true
+	rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcs2Statem.Decoded)
+	if err != nil {
+		AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "error parsing statement: "+err.Error())
+	}
+	if len(rest) != 0 {
+		AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "trailing bytes after QcStatement")
+	}
+	return qcs2Statem
+}
+
+func handleIdEtsiPsd2Statem(statem qcStatementWithInfoField) EtsiQcStmtIf {
+	var psd2Statem EtsiPsd2
+	psd2Statem.isPresent = true
+	rest, err := asn1.Unmarshal(statem.Any.FullBytes, &psd2Statem.DecodedPsd2Statm)
+	if len(rest) != 0 || err != nil {
+		return etsiBase{errorInfo: "error parsing IdEtsiPsd2Statem extension statementInfo field", isPresent: true}
+	}
+	if psd2Statem.DecodedPsd2Statm.CountryAndNCAId == "" || psd2Statem.DecodedPsd2Statm.NCAName == "" {
+		AppendToStringSemicolonDelim(&psd2Statem.errorInfo, "field has length 0")
+	}
+	for _, role := range psd2Statem.DecodedPsd2Statm.Roles {
+		if role.RoleOfPspName == "" {
+			AppendToStringSemicolonDelim(&psd2Statem.errorInfo, "field has length 0")
+		}
+	}
+	AppendToStringSemicolonDelim(&psd2Statem.errorInfo,
+		CheckAsn1Reencoding(reflect.ValueOf(psd2Statem.DecodedPsd2Statm).Interface(), statem.Any.FullBytes,
+			"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+	return psd2Statem
+}
+
+func handleIdEtsiQcsQcType(statem qcStatementWithInfoField) EtsiQcStmtIf {
+	var qcType Etsi423QcType
+	qcType.isPresent = true
+	rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcType.TypeOids)
+	if len(rest) != 0 || err != nil {
+		return etsiBase{errorInfo: "error parsing IdEtsiQcsQcType extension statementInfo field", isPresent: true}
+	}
+	return qcType
+}
+
+func handleIdEtsiQcsQcEuPDS(statem qcStatementWithInfoField) EtsiQcStmtIf {
+	etsiObj := EtsiQcPds{etsiBase: etsiBase{isPresent: true}}
+	rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.PdsLocations)
+	if len(rest) != 0 || err != nil {
+		etsiObj.errorInfo = "error parsing the statementInfo field"
+	} else {
+		AppendToStringSemicolonDelim(&etsiObj.errorInfo,
+			CheckAsn1Reencoding(reflect.ValueOf(etsiObj.PdsLocations).Interface(), statem.Any.FullBytes,
+				"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+	}
+	return etsiObj
+}
+
+func handleIdEtsiQcsQcSSCD(statem qcStatementWithInfoField, raw anyContent) EtsiQcStmtIf {
+	etsiObj := EtsiQcSscd{etsiBase: etsiBase{isPresent: true}}
+	statemWithoutInfo := qcStatementWithoutInfoField{Oid: statem.Oid}
+	AppendToStringSemicolonDelim(&etsiObj.errorInfo, CheckAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
+		"invalid format of ETSI SCSD statement"))
+	return etsiObj
+}
+
+func handleIdEtsiQcsQcRetentionPeriod(statem qcStatementWithInfoField) EtsiQcStmtIf {
+	etsiObj := EtsiQcRetentionPeriod{etsiBase: etsiBase{isPresent: true}}
+	rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.Period)
+
+	if len(rest) != 0 || err != nil {
+		etsiObj.errorInfo = "error parsing the statementInfo field"
+	}
+	return etsiObj
+}
+
+func handleIdEtsiQcsQcLimitValue(statem qcStatementWithInfoField) EtsiQcStmtIf {
+	etsiObj := EtsiQcLimitValue{etsiBase: etsiBase{isPresent: true}}
+	numErr := false
+	alphErr := false
+	var numeric EtsiMonetaryValueNum
+	var alphabetic EtsiMonetaryValueAlph
+	restNum, errNum := asn1.Unmarshal(statem.Any.FullBytes, &numeric)
+	if len(restNum) != 0 || errNum != nil {
+		numErr = true
+	} else {
+		etsiObj.IsNum = true
+		etsiObj.Amount = numeric.Amount
+		etsiObj.Exponent = numeric.Exponent
+		etsiObj.CurrencyNum = numeric.Iso4217CurrencyCodeNum
+
+	}
+	if numErr {
+		restAlph, errAlph := asn1.Unmarshal(statem.Any.FullBytes, &alphabetic)
+		if len(restAlph) != 0 || errAlph != nil {
+			alphErr = true
+		} else {
+			etsiObj.IsNum = false
+			etsiObj.Amount = alphabetic.Amount
+			etsiObj.Exponent = alphabetic.Exponent
+			etsiObj.CurrencyAlph = alphabetic.Iso4217CurrencyCodeAlph
+			AppendToStringSemicolonDelim(&etsiObj.errorInfo,
+				CheckAsn1Reencoding(reflect.ValueOf(alphabetic).Interface(),
+					statem.Any.FullBytes, "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+		}
+	}
+	if numErr && alphErr {
+		etsiObj.errorInfo = "error parsing the ETSI Qc Statement statementInfo field"
+	}
+	return etsiObj
+}
+
+func handleIdEtsiQcsQcCompliance(statem qcStatementWithInfoField, raw anyContent) EtsiQcStmtIf {
+	etsiObj := Etsi421QualEuCert{etsiBase: etsiBase{isPresent: true}}
+	statemWithoutInfo := qcStatementWithoutInfoField{Oid: statem.Oid}
+	AppendToStringSemicolonDelim(&etsiObj.errorInfo, CheckAsn1Reencoding(reflect.ValueOf(statemWithoutInfo).Interface(), raw.Raw,
+		"invalid format of ETSI Complicance statement"))
+	return etsiObj
 }
