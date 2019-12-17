@@ -26,13 +26,13 @@ func TestEvAltRegNumOrgIdExtPresentMandatory(t *testing.T) {
 		"EvAltRegNumCert52NoOrgId.pem": NA,
 	}
 	mBeforeExtMandDate := map[string]LintStatus{
-		"EvAltRegNumCert53OrgIdInvalid.pem":         NE,
-		"EvAltRegNumCert54OrgIdInvalid.pem":         NE,
-		"EvAltRegNumCert55OrgIdExtMissing.pem":      NE,
-		"EvAltRegNumCert56JurContryNotMatching.pem": NE,
+		"EvAltRegNumCert53OrgIdInvalid.pem":         NA,
+		"EvAltRegNumCert54OrgIdInvalid.pem":         NA,
+		"EvAltRegNumCert55OrgIdExtMissing.pem":      NA,
+		"EvAltRegNumCert56JurContryNotMatching.pem": NA,
 	}
 	mAfterExtMandDate := map[string]LintStatus{
-		"EvAltRegNumCert55OrgIdExtMissing.pem":      Error,
+		"EvAltRegNumCert55OrgIdExtMissing.pem":      Pass, // pass because its notBefore date is too early
 		"EvAltRegNumCert67ValidNtrWithOrgIdExt.pem": Pass,
 	}
 	for inputPath, expected := range m {

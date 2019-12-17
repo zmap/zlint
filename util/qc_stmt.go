@@ -404,6 +404,9 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 func handleIdQcsPkixQCSyntaxV2(statem qcStatementWithInfoField) EtsiQcStmtIf {
 	var qcs2Statem DecodedQcS2
 	qcs2Statem.isPresent = true
+	if len(statem.Any.FullBytes) == 0 {
+		return qcs2Statem
+	}
 	rest, err := asn1.Unmarshal(statem.Any.FullBytes, &qcs2Statem.Decoded)
 	if err != nil {
 		AppendToStringSemicolonDelim(&qcs2Statem.errorInfo, "error parsing statement: "+err.Error())

@@ -607,6 +607,18 @@
     "e_wrong_time_format_pre2050": {
       "ErrCount": 19
     },
+    "e_ev_ntr_subject_jurisdiction_serial": {
+      "ErrCount": 2
+    },
+    "e_qcstatem_psd2_psd2statem_ncaid_format": {
+      "ErrCount": 2
+    },
+    "e_qcstatem_psd2_psd": {
+      "ErrCount": 2
+    },
+    "e_qcstatem_psd2_policy_mandatory": {
+      "ErrCount": 29
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 212
     },
@@ -729,6 +741,12 @@
     },
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 64
+    },
+    "w_qcstatem_psd2_psd2statem_ncaid_eulist": {
+      "WarnCount": 2
+    },
+    "w_qcstatem_psd2_policy_recommended": {
+      "WarnCount": 85
     }
   }
 }

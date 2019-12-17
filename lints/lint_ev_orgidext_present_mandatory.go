@@ -30,7 +30,7 @@ func (l *evOrgIdExtPresentMandatory) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsEV(c.PolicyIdentifiers) || !orgId.IsPresent {
 		return false
 	}
-	return true
+	return (*c).NotBefore.After(util.CABAltRegNumEvExtMandDate)
 }
 
 func (l *evOrgIdExtPresentMandatory) Execute(c *x509.Certificate) *LintResult {

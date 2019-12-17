@@ -57,7 +57,7 @@ func (l *evNtrSubjectJurisdiction) CheckApplies(c *x509.Certificate) bool {
 
 func (l *evNtrSubjectJurisdiction) Execute(c *x509.Certificate) *LintResult {
 
-	_, parsedOrgId := GetOrgIdFromSubjOrExt(c) // one must be present, eitherwise lint would not be invoked
+	_, parsedOrgId := GetOrgIdFromSubjOrExt(c) // one must be present, otherwise lint would not be invoked
 
 	// perform checks against subject:jurisdiction fields in case of NTR:
 	jurSop := util.GetSubjectElement(c.RawSubject, util.SubjectJurisdictionStateOrProvinceNameOID)
