@@ -18,7 +18,7 @@ import (
 	"testing"
 )
 
-func crlCompleteDp(t *testing.T) {
+func TestCRLCompleteDp(t *testing.T) {
 	inputPath := "../testlint/testCerts/crlComlepteDp.pem"
 	expected := Pass
 	out := Lints["e_distribution_point_incomplete"].Execute(ReadCertificate(inputPath))
@@ -27,7 +27,7 @@ func crlCompleteDp(t *testing.T) {
 	}
 }
 
-func crlIncompleteDp(t *testing.T) {
+func TestCRLIncompleteDp(t *testing.T) {
 	inputPath := "../testlint/testCerts/crlIncomlepteDp.pem"
 	expected := Error
 	out := Lints["e_distribution_point_incomplete"].Execute(ReadCertificate(inputPath))

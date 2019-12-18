@@ -17,9 +17,10 @@ package lints
 import (
 	"encoding/asn1"
 	"fmt"
+	"unicode"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"unicode"
 )
 
 type qcStatemQcPdsLangCase struct{}

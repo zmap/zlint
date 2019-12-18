@@ -32,10 +32,7 @@ func RemovePrependedQuestionMarks(domain string) string {
 }
 
 func RemovePrependedWildcard(domain string) string {
-	if strings.HasPrefix(domain, "*.") {
-		domain = domain[2:]
-	}
-	return domain
+	return strings.TrimPrefix(domain, "*.")
 }
 
 func IsFQDN(domain string) bool {
