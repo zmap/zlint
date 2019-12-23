@@ -37,7 +37,7 @@ func (l *subCertPolicyCrit) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subCertPolicyCrit) Execute(c *x509.Certificate) *LintResult {
 	e := util.GetExtFromCert(c, util.CertPolicyOID)
-	if e.Critical == false {
+	if !e.Critical {
 		return &LintResult{Status: Pass}
 	} else {
 		return &LintResult{Status: Warn}

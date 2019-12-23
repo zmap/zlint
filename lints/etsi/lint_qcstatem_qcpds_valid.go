@@ -17,9 +17,10 @@ package lints
 import (
 	"encoding/asn1"
 	"fmt"
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
-	"strings"
 )
 
 type qcStatemQcPdsValid struct{}

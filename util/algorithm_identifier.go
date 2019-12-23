@@ -43,7 +43,7 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 	// byte comparison of algorithm sequence and checking no trailing data is present
 	var algorithmBytes []byte
 	if algorithmSequence.ReadBytes(&algorithmBytes, len(expectedAlgoIDBytes)) {
-		if bytes.Compare(algorithmBytes, expectedAlgoIDBytes) == 0 && algorithmSequence.Empty() {
+		if bytes.Equal(algorithmBytes, expectedAlgoIDBytes) && algorithmSequence.Empty() {
 			return nil
 		}
 	}

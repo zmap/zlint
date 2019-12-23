@@ -5,6 +5,8 @@ package integration
 import (
 	"fmt"
 	"log"
+	"sort"
+	"strings"
 	"sync"
 	"testing"
 
@@ -14,26 +16,41 @@ import (
 
 // lintCertificate lints the provided work item's certificate to produce
 // a certResult that can be used to determine which lint results the certificate
-// had without maintaining the full ResultSet.
+// had without maintaining the full ResultSet. If lintFilter is not nil only
+// lints with names matching the filter will be run.
 func lintCertificate(work workItem) certResult {
 	// Lint the certiifcate to produce a full result set
-	result := certResult{
+	cr := certResult{
 		Fingerprint: work.Fingerprint,
+		LintSummary: make(map[string]lints.LintStatus),
 	}
-	resultSet := zlint.LintCertificate(work.Certificate)
-	for _, r := range resultSet.Results {
-		switch r.Status {
-		case lints.Notice:
-			result.Result.NoticeCount++
-		case lints.Warn:
-			result.Result.WarnCount++
-		case lints.Error:
-			result.Result.ErrCount++
-		case lints.Fatal:
-			result.Result.FatalCount++
-		}
+	resultSet := zlint.LintCertificateFiltered(work.Certificate, lintFilter)
+	for lintName, r := range resultSet.Results {
+		cr.LintSummary[lintName] = r.Status
+		cr.Result.Inc(r.Status)
 	}
-	return result
+	return cr
+}
+
+// keyedCounts are a map from a string key (hex encoded cert fingerprint, lint name)
+// to a resultCount for that key.
+type keyedCounts map[string]resultCount
+
+// String returns a sorted table of keys and their resultCount that is formatted
+// for printing. Keys should be less than 65 characters long to preserve the
+// table format.
+func (counts keyedCounts) String() string {
+	var keys []string
+	for k := range counts {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	var buf strings.Builder
+	for _, k := range keys {
+		buf.WriteString(fmt.Sprintf("%-65s\t%s\n", k, counts[k]))
+	}
+	return buf.String()
 }
 
 // TestCorpus concurrently reads certificates from each of the global conf's CSV
@@ -79,7 +96,8 @@ func TestCorpus(t *testing.T) {
 	// results into the results map
 	var total int
 	var fatalResults int
-	resultsMap := make(map[string]result)
+	resultsByFP := make(keyedCounts)
+	resultsByLint := make(keyedCounts)
 	doneChan := make(chan bool, 1)
 	go func() {
 		// Read results as they arrive on the channel until it is closed.
@@ -87,10 +105,17 @@ func TestCorpus(t *testing.T) {
 			// Count fatal results separately since this should always be 0
 			fatalResults += int(r.Result.FatalCount)
 			// if the result had some error/warn/info findings, track the fingerprint
-			// in the results map.
+			// in the resultsByFP map and update the resultsByLint count for each
+			// of the lints that didn't pass.
 			if !r.Result.fullPass() {
-				resultsMap[r.Fingerprint] = r.Result
+				resultsByFP[r.Fingerprint] = r.Result
+				for lintName, status := range r.LintSummary {
+					cur := resultsByLint[lintName]
+					cur.Inc(status)
+					resultsByLint[lintName] = cur
+				}
 			}
+
 			// Every *outputTick certificate results print a '.' to keep CI from thinking this
 			// long running job is dead in the water.
 			total++
@@ -117,27 +142,42 @@ func TestCorpus(t *testing.T) {
 		t.Errorf("expected 0 fatal results, found %d\n", fatalResults)
 	}
 
-	if *summarize {
-		for serial, result := range resultsMap {
-			fmt.Printf("%s\t%s\n", serial, result)
-		}
+	if *fpSummarize {
+		fmt.Println("\nsummary of result type by certificate fingerprint:")
+		fmt.Println(resultsByFP)
+	}
+
+	if *lintSummarize {
+		fmt.Println("\nsummary of result type by lint name:")
+		fmt.Println(resultsByLint)
 	}
 
 	// No expected to confirm against, save a new expected
 	if len(conf.Expected) == 0 {
-		t.Logf("config file %q had no expected map. "+
-			"Saving results from this execution as the new expected map", *configFile)
-		conf.Expected = resultsMap
-		if err := conf.Save(*configFile); err != nil {
-			t.Errorf("failed to save expected map to config file %q: %v", *configFile, err)
-		}
+		t.Logf("config file %q had no expected map to enforce results against",
+			*configFile)
 	} else {
 		// Otherwise enforce the maps match
-		for k, v := range resultsMap {
+		for k, v := range resultsByLint {
 			if conf.Expected[k] != v {
-				t.Errorf("expected serial %q to have result %s got %s\n",
+				t.Errorf("expected lint %q to have result %s got %s\n",
 					k, conf.Expected[k], v)
 			}
+		}
+	}
+
+	// If *overwriteExpected is true overwrite the expected map with the results
+	// from this run and save the updated configuration to disk. If there were
+	// t.Errorf's in this run then they will pass next run because the
+	// expectations will match reality. This should primarily be used to bootstrap
+	// an initial expectedMap or to update the expectedMap with vetted changes to
+	// the corpus that result from new lints, bugfixes, etc.
+	if *overwriteExpected {
+		t.Logf("overwriting expected map in config file %q",
+			*configFile)
+		conf.Expected = resultsByLint
+		if err := conf.Save(*configFile); err != nil {
+			t.Errorf("failed to save expected map to config file %q: %v", *configFile, err)
 		}
 	}
 }

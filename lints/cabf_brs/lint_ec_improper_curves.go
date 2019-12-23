@@ -41,12 +41,11 @@ func (l *ecImproperCurves) Execute(c *x509.Certificate) *LintResult {
 	/* Declare theKey to be a ECDSA Public Key */
 	var theKey *ecdsa.PublicKey
 	/* Need to do different things based on what c.PublicKey is */
-	switch c.PublicKey.(type) {
+	switch keyType := c.PublicKey.(type) {
 	case *x509.AugmentedECDSA:
-		temp := c.PublicKey.(*x509.AugmentedECDSA)
-		theKey = temp.Pub
+		theKey = keyType.Pub
 	case *ecdsa.PublicKey:
-		theKey = c.PublicKey.(*ecdsa.PublicKey)
+		theKey = keyType
 	}
 	/* Now can actually check the params */
 	theParams := theKey.Curve.Params()

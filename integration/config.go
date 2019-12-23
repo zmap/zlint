@@ -89,7 +89,7 @@ func (f dataFile) DownloadTo(dir string) error {
 type config struct {
 	CacheDir string
 	Files    []dataFile
-	Expected map[string]result
+	Expected keyedCounts
 }
 
 // loadConfig returns a config struct populated from the JSON serialization in
@@ -148,12 +148,12 @@ func (c config) PrepareCache(force bool) error {
 	} else {
 		log.Printf("Using existing cache directory %q\n", c.CacheDir)
 	}
-	for _, f := range c.Files {
+	for i, f := range c.Files {
 		if exists, err := f.ExistsIn(c.CacheDir); err != nil {
 			log.Fatalf("error checking cache: %v\n", err)
 		} else if !exists || force {
-			log.Printf("Downloading data file %q (url: %q)",
-				f.Name, f.URL)
+			log.Printf("Downloading data file %q (%d of %d, url: %q)",
+				f.Name, i+1, len(c.Files), f.URL)
 			if err := f.DownloadTo(c.CacheDir); err != nil {
 				log.Fatalf("Failed to download: %v", err)
 			}
