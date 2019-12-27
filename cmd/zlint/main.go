@@ -29,6 +29,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint"
+	"github.com/zmap/zlint/lint"
 )
 
 var ( // flags
@@ -82,7 +83,7 @@ func main() {
 
 	var inform = strings.ToLower(format)
 	if flag.NArg() < 1 || flag.Arg(0) == "-" {
-		lint(os.Stdin, inform)
+		doLint(os.Stdin, inform)
 	} else {
 		for _, filePath := range flag.Args() {
 			var inputFile *os.File
@@ -99,13 +100,13 @@ func main() {
 				fileInform = "pem"
 			}
 
-			lint(inputFile, fileInform)
+			doLint(inputFile, fileInform)
 			inputFile.Close()
 		}
 	}
 }
 
-func lint(inputFile *os.File, inform string) {
+func doLint(inputFile *os.File, inform string) {
 	fileBytes, err := ioutil.ReadAll(inputFile)
 	if err != nil {
 		log.Fatalf("unable to read file %s: %s", inputFile.Name(), err)
