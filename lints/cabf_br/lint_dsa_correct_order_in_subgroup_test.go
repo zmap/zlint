@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,7 +22,7 @@ import (
 
 func TestDSACorrectOrderSubgroup(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaCorrectOrderInSubgroup.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -36,7 +36,7 @@ func TestDSANotCorrectOrderSubgroup(t *testing.T) {
 	pMinusOne := big.NewInt(0)
 	pMinusOne.Sub(dsaKey.P, big.NewInt(1))
 	dsaKey.Y = pMinusOne
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dsa_correct_order_in_subgroup"].Execute(c)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

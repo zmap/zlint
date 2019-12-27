@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestIssuerRDNTwoAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/issuerRDNTwoAttribute.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_multiple_issuer_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestIssuerRDNTwoAttribute(t *testing.T) {
 
 func TestIssuerRDNOneAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_multiple_issuer_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

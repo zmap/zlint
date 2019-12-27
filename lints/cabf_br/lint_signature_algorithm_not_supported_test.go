@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSignatureAlgorithmNotSupported(t *testing.T) {
 	inputPath := "../testlint/testCerts/md5WithRSASignatureAlgorithm.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_signature_algorithm_not_supported"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSignatureAlgorithmNotSupported(t *testing.T) {
 
 func TestSignatureAlgorithmSHA1Supported(t *testing.T) {
 	inputPath := "../testlint/testCerts/sha1WithRSASignatureAlgorithm.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_signature_algorithm_not_supported"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

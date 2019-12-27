@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -24,6 +24,7 @@ import (
 	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -42,22 +43,22 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	exponent := key.E
 	const lowerBound = 65536 // 2^16 + 1
 	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
-	return &LintResult{Status: Warn}
+	return &lint.LintResult{Status: lint.Warn}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_rsa_public_exponent_not_in_range",
 		Description:   "RSA: Public exponent SHOULD be in the range between 2^16 + 1 and 2^256 - 1",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaParsedTestsExpInRange{},
 	})

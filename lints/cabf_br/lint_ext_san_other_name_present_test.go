@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSANOtherNamePresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANOtherName.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ext_san_other_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSANOtherNamePresent(t *testing.T) {
 
 func TestSANOtherNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANEDIParty.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ext_san_other_name_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

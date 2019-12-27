@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -24,6 +24,7 @@ import (
 	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -38,22 +39,22 @@ func (l *rsaParsedTestsKeyModOdd) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsKeyModOdd) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaParsedTestsKeyModOdd) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	z := big.NewInt(0)
 	if (z.Mod(key.N, big.NewInt(2)).Cmp(big.NewInt(1))) == 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_rsa_mod_not_odd",
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: an odd number",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaParsedTestsKeyModOdd{},
 	})

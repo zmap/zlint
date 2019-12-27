@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCnNotFromSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWithMissingCN.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_subject_common_name_not_from_san"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCnNotFromSAN(t *testing.T) {
 
 func TestCnFromSAN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANRegisteredIdBeginning.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_subject_common_name_not_from_san"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -38,7 +38,7 @@ func TestCnFromSAN(t *testing.T) {
 
 func TestSANCaseNotMatchingCN(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaseNotMatchingCN.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_subject_common_name_not_from_san"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

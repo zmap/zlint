@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCrlCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCrlDistCrit.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_sub_cert_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCrlCrit(t *testing.T) {
 
 func TestCrlNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCrlDistNoCrit.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_sub_cert_crl_distribution_points_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

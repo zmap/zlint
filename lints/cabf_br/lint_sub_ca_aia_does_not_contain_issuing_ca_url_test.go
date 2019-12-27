@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSubCaAiaNoIssuerUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWOcspURL.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSubCaAiaNoIssuerUrl(t *testing.T) {
 
 func TestSubCaAiaHasIssuerUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWBothURL.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

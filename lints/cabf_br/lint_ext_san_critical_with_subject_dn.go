@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -27,6 +27,7 @@ Further, if the only subject identity included in the certificate is an
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -40,20 +41,20 @@ func (l *ExtSANCriticalWithSubjectDN) CheckApplies(cert *x509.Certificate) bool 
 	return util.IsExtInCert(cert, util.SubjectAlternateNameOID)
 }
 
-func (l *ExtSANCriticalWithSubjectDN) Execute(cert *x509.Certificate) *LintResult {
+func (l *ExtSANCriticalWithSubjectDN) Execute(cert *x509.Certificate) *lint.LintResult {
 	san := util.GetExtFromCert(cert, util.SubjectAlternateNameOID)
 	if san.Critical && util.NotAllNameFieldsAreEmpty(&cert.Subject) {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_ext_san_critical_with_subject_dn",
 		Description:   "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
 		Citation:      "RFC 5280: 4.2.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &ExtSANCriticalWithSubjectDN{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,19 +30,19 @@ func (l *subCertValidTimeLongerThan39Months) CheckApplies(c *x509.Certificate) b
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeLongerThan39Months) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertValidTimeLongerThan39Months) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_valid_time_longer_than_39_months",
 		Description:   "Subscriber Certificates issued after 1 July 2016 but prior to 1 March 2018 MUST have a Validity Period no greater than 39 months.",
 		Citation:      "BRs: 6.3.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.SubCert39Month,
 		Lint:          &subCertValidTimeLongerThan39Months{},
 	})

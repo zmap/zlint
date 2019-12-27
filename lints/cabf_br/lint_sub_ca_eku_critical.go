@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -24,6 +24,7 @@ If present, this extension SHOULD be marked non‐critical.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,20 +38,20 @@ func (l *subCAEKUCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *subCAEKUCrit) Execute(c *x509.Certificate) *LintResult {
+func (l *subCAEKUCrit) Execute(c *x509.Certificate) *lint.LintResult {
 	if e := util.GetExtFromCert(c, util.EkuSynOid); e.Critical {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_sub_ca_eku_critical",
 		Description:   "Subordinate CA certificate extkeyUsage extension should be marked non-critical if present",
 		Citation:      "BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV116Date,
 		Lint:          &subCAEKUCrit{},
 	})

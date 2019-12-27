@@ -69,3 +69,5 @@ func IsEV(in []asn1.ObjectIdentifier) bool {
 	}
 	return false
 }
+
+const OnionTLD = ".onion"

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"encoding/asn1"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -36,26 +37,26 @@ func (l *caIsCA) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && c.KeyUsage&x509.KeyUsageCertSign != 0 && util.IsExtInCert(c, util.BasicConstOID)
 }
 
-func (l *caIsCA) Execute(c *x509.Certificate) *LintResult {
+func (l *caIsCA) Execute(c *x509.Certificate) *lint.LintResult {
 	e := util.GetExtFromCert(c, util.BasicConstOID)
 	var constraints basicConstraints
 	_, err := asn1.Unmarshal(e.Value, &constraints)
 	if err != nil {
-		return &LintResult{Status: Fatal}
+		return &lint.LintResult{Status: lint.Fatal}
 	}
 	if constraints.IsCA {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ca_is_ca",
 		Description:   "Root and Sub CA Certificate: The CA field MUST be set to true.",
 		Citation:      "BRs: 7.1.2.1, BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caIsCA{},
 	})

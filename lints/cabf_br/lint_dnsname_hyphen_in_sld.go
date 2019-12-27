@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,35 +32,35 @@ func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
-			return &LintResult{Status: NA}
+			return &lint.LintResult{Status: lint.NA}
 		}
 		if strings.HasPrefix(domainInfo.ParsedDomain.SLD, "-") || strings.HasSuffix(domainInfo.ParsedDomain.SLD, "-") {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
-			return &LintResult{Status: NA}
+			return &lint.LintResult{Status: lint.NA}
 		}
 		if strings.HasPrefix(parsedSANDNSNames[i].ParsedDomain.SLD, "-") ||
 			strings.HasSuffix(parsedSANDNSNames[i].ParsedDomain.SLD, "-") {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_hyphen_in_sld",
 		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
 		Citation:      "BRs 7.1.4.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameHyphenInSLD{},
 	})

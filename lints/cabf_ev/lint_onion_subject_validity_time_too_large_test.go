@@ -1,4 +1,4 @@
-package lints
+package cabf_ev
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ func TestTorValidityTooLarge(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "Onion subject, long expiry before util.OnionOnlyEVDate",
@@ -19,12 +19,12 @@ func TestTorValidityTooLarge(t *testing.T) {
 		{
 			Name:           "Onion subject, long expiry, after util.OnionOnlyEVDate",
 			InputFilename:  "onionSANLongExpiry.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Onion subject, valid expiry",
 			InputFilename:  "onionSANGoodExpiry.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,19 +30,19 @@ func (l *evSNMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers) && util.IsSubscriberCert(c)
 }
 
-func (l *evSNMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *evSNMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	if len(c.Subject.SerialNumber) == 0 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ev_serial_number_missing",
 		Description:   "EV certificates must include serialNumber in subject",
 		Citation:      "EV gudelines: 9.2.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evSNMissing{},
 	})

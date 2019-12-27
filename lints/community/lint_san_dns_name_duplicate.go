@@ -12,12 +12,13 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package community
 
 import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,26 +32,26 @@ func (l *SANDNSDuplicate) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANDNSDuplicate) Execute(c *x509.Certificate) *LintResult {
+func (l *SANDNSDuplicate) Execute(c *x509.Certificate) *lint.LintResult {
 	checkedDNSNames := map[string]struct{}{}
 	for _, dns := range c.DNSNames {
 		normalizedDNSName := strings.ToLower(dns)
 		if _, isPresent := checkedDNSNames[normalizedDNSName]; isPresent {
-			return &LintResult{Status: Notice}
+			return &lint.LintResult{Status: lint.Notice}
 		}
 
 		checkedDNSNames[normalizedDNSName] = struct{}{}
 	}
 
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "n_san_dns_name_duplicate",
 		Description:   "SAN DNSName contains duplicate values",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SANDNSDuplicate{},
 	})

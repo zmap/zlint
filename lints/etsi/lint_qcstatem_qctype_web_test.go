@@ -1,4 +1,4 @@
-package lints
+package etsi
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,9 +20,9 @@ import (
 
 func TestEtsiQcTypeWeb(t *testing.T) {
 	m := map[string]LintStatus{
-		"QcStmtEtsiValidCert11.pem":         Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    Warn,
-		"QcStmtEtsiNoQcStatmentsCert22.pem": NA,
+		"QcStmtEtsiValidCert11.pem":         lint.Pass,
+		"QcStmtEtsiEsealValidCert02.pem":    lint.Warn,
+		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath

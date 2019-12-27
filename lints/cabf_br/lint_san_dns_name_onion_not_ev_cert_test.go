@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ func TestOnionNotEV(t *testing.T) {
 	testCases := []struct {
 		Name            string
 		InputFilename   string
-		ExpectedResult  LintStatus
+		ExpectedResult  lint.LintStatus
 		ExpectedDetails string
 	}{
 		{
@@ -20,13 +20,13 @@ func TestOnionNotEV(t *testing.T) {
 		{
 			Name:            "Onion subject, not EV cert, after util.OnionOnlyEVDate",
 			InputFilename:   "onionSANNotEV.pem",
-			ExpectedResult:  Error,
+			ExpectedResult:  lint.Error,
 			ExpectedDetails: `certificate contains one or more .onion subject domains but is not an EV certificate`,
 		},
 		{
 			Name:           "Onion subject, EV cert",
 			InputFilename:  "onionSANEV.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 

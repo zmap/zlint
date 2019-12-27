@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,21 +32,21 @@ func (l *brSANBareWildcard) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *brSANBareWildcard) Execute(c *x509.Certificate) *LintResult {
+func (l *brSANBareWildcard) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
 		if strings.HasSuffix(dns, "*") {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_san_bare_wildcard",
 		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &brSANBareWildcard{},
 	})

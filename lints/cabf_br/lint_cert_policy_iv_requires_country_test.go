@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCertPolicyIvCountry(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_cert_policy_iv_requires_country"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCertPolicyIvCountry(t *testing.T) {
 
 func TestCertPolicyIvNoCountry(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValNoCountry.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cert_policy_iv_requires_country"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

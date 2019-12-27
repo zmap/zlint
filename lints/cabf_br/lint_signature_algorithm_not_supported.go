@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,21 +30,21 @@ func (l *signatureAlgorithmNotSupported) CheckApplies(c *x509.Certificate) bool 
 	return true
 }
 
-func (l *signatureAlgorithmNotSupported) Execute(c *x509.Certificate) *LintResult {
+func (l *signatureAlgorithmNotSupported) Execute(c *x509.Certificate) *lint.LintResult {
 
 	if c.SignatureAlgorithm == x509.SHA1WithRSA || c.SignatureAlgorithm == x509.SHA256WithRSA || c.SignatureAlgorithm == x509.SHA384WithRSA || c.SignatureAlgorithm == x509.SHA512WithRSA || c.SignatureAlgorithm == x509.DSAWithSHA1 || c.SignatureAlgorithm == x509.DSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 || c.SignatureAlgorithm == x509.ECDSAWithSHA384 || c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_signature_algorithm_not_supported",
 		Description:   "Certificates MUST meet the following requirements for algorithm Source: SHA-1*, SHA-256, SHA-384, SHA-512",
 		Citation:      "BRs: 6.1.5",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &signatureAlgorithmNotSupported{},
 	})

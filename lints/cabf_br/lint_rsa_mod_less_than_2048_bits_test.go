@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestRsaModSizeSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/noRsaLength.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_rsa_mod_less_than_2048_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestRsaModSizeSmall(t *testing.T) {
 
 func TestRsaModSizeNotSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/yesRsaLength.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_rsa_mod_less_than_2048_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

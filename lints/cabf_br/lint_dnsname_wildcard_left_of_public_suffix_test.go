@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -29,7 +29,7 @@ func TestWildcardLeftOfPublicSuffix(t *testing.T) {
 
 func TestWildcardNotLeftOfPublicSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWildcardNotLeftOfPublicSuffix.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_dnsname_wildcard_left_of_public_suffix"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestLeftLabelWildcardCorrect(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWildcardCorrect.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dnsname_left_label_wildcard_correct"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestLeftLabelWildcardCorrect(t *testing.T) {
 
 func TestLeftLabelWildcardIncorrect(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWildcardIncorrect.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dnsname_left_label_wildcard_correct"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

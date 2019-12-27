@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCountryNotIso(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectInvalidCountry.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_subject_country_not_iso"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCountryNotIso(t *testing.T) {
 
 func TestCountryIsIso(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectValidCountry.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_subject_country_not_iso"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

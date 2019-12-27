@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,20 +30,20 @@ func (l *subCAEKUMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c)
 }
 
-func (l *subCAEKUMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *subCAEKUMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	if util.IsExtInCert(c, util.EkuSynOid) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Notice}
+		return &lint.LintResult{Status: lint.Notice}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "n_sub_ca_eku_missing",
 		Description:   "To be considered Technically Constrained, the Subordinate CA certificate MUST have extkeyUsage extension",
 		Citation:      "BRs: 7.1.5",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCAEKUMissing{},
 	})

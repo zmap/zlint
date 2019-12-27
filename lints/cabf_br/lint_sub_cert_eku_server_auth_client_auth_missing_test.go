@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestEkuBothPres(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageCodeSign.pem"
-	expected := NA
+	expected := lint.NA
 	out := Lints["e_sub_cert_eku_server_auth_client_auth_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestEkuBothPres(t *testing.T) {
 
 func TestEkuNeitherPres(t *testing.T) {
 	inputPath := "../testlint/testCerts/subExtKeyUsageServClient.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_sub_cert_eku_server_auth_client_auth_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

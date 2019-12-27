@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSubjectIPReserved(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectReservedIP.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_subject_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSubjectIPReserved(t *testing.T) {
 
 func TestSubjectIPReserved6(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectReservedIP6.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_subject_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -38,7 +38,7 @@ func TestSubjectIPReserved6(t *testing.T) {
 
 func TestSubjectIPNotReserved(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectGoodIP.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_subject_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

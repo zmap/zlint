@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ It MUST contain the HTTP URL of the CA’s CRL service.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,20 +36,20 @@ func (l *subCACRLDistCrit) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCACRLDistCrit) Execute(c *x509.Certificate) *LintResult {
+func (l *subCACRLDistCrit) Execute(c *x509.Certificate) *lint.LintResult {
 	if e := util.GetExtFromCert(c, util.CrlDistOID); e.Critical {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_ca_crl_distribution_points_marked_critical",
 		Description:   "Subordinate CA Certificate: cRLDistributionPoints MUST be present and MUST NOT be marked critical.",
 		Citation:      "BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCACRLDistCrit{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -27,6 +27,7 @@ import (
 	"net"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -40,19 +41,19 @@ func (l *subjectReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *subjectReservedIP) Execute(c *x509.Certificate) *LintResult {
+func (l *subjectReservedIP) Execute(c *x509.Certificate) *lint.LintResult {
 	if ip := net.ParseIP(c.Subject.CommonName); ip != nil && util.IsIANAReserved(ip) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_contains_reserved_ip",
 		Description:   "Certificates expiring later than 11 Jan 2015 MUST NOT contain a reserved IP address in the common name field",
 		Citation:      "BRs: 7.1.4.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subjectReservedIP{},
 	})

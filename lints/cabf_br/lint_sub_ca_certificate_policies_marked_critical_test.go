@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSubCaPolicyCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWCertPolicyCrit.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_sub_ca_certificate_policies_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSubCaPolicyCrit(t *testing.T) {
 
 func TestSubCaPolicyNotCrit(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWCertPolicyNoCrit.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_sub_ca_certificate_policies_marked_critical"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -26,6 +26,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -39,21 +40,21 @@ func (l *countryNotIso) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *countryNotIso) Execute(c *x509.Certificate) *LintResult {
+func (l *countryNotIso) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, j := range c.Subject.Country {
 		if !util.IsISOCountryCode(strings.ToUpper(j)) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_country_not_iso",
 		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
 		Citation:      "BRs: 7.1.4.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &countryNotIso{},
 	})

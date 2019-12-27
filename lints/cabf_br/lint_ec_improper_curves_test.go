@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestECP224(t *testing.T) {
 	inputPath := "../testlint/testCerts/ecdsaP224.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestECP224(t *testing.T) {
 
 func TestECP256(t *testing.T) {
 	inputPath := "../testlint/testCerts/ecdsaP256.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -38,7 +38,7 @@ func TestECP256(t *testing.T) {
 
 func TestECP384(t *testing.T) {
 	inputPath := "../testlint/testCerts/ecdsaP384.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -47,7 +47,7 @@ func TestECP384(t *testing.T) {
 
 func TestECP521(t *testing.T) {
 	inputPath := "../testlint/testCerts/ecdsaP521.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

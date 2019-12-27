@@ -29,7 +29,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint"
-	"github.com/zmap/zlint/lints"
 )
 
 var ( // flags
@@ -65,8 +64,8 @@ func main() {
 	}
 
 	if listLintsSchema {
-		names := make([]string, 0, len(lints.Lints))
-		for lintName := range lints.Lints {
+		names := make([]string, 0, len(lint.Lints))
+		for lintName := range lint.Lints {
 			names = append(names, lintName)
 		}
 		sort.Strings(names)
@@ -173,7 +172,7 @@ func includeLints() {
 	var includesMap = make(map[string]struct{}, len(includes))
 	for _, includeName := range includes {
 		includeName = strings.TrimSpace(includeName)
-		if _, ok := lints.Lints[includeName]; !ok {
+		if _, ok := lint.Lints[includeName]; !ok {
 			log.Fatalf("unknown lint %q in include list", includeName)
 		}
 
@@ -181,9 +180,9 @@ func includeLints() {
 	}
 
 	// clear all initialized lints except for includes
-	for lintName := range lints.Lints {
+	for lintName := range lint.Lints {
 		if _, ok := includesMap[lintName]; !ok {
-			delete(lints.Lints, lintName)
+			delete(lint.Lints, lintName)
 		}
 	}
 }
@@ -202,10 +201,10 @@ func excludeLints() {
 
 	// exclude lints
 	for excludeName := range excludesMap {
-		if _, ok := lints.Lints[excludeName]; !ok {
+		if _, ok := lint.Lints[excludeName]; !ok {
 			log.Fatalf("unknown lint %q in exclude list", excludeName)
 		}
 
-		delete(lints.Lints, excludeName)
+		delete(lint.Lints, excludeName)
 	}
 }

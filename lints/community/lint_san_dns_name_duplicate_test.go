@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,11 +16,13 @@ package lints
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
 )
 
 func TestBrSANDNSDuplicate(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDNSDuplicate.pem"
-	expected := Notice
+	expected := lint.Notice
 	out := Lints["n_san_dns_name_duplicate"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

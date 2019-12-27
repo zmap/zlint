@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,26 +30,26 @@ func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		if !util.HasValidTLD(c.Subject.CommonName, c.NotBefore) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		if !util.HasValidTLD(dns, c.NotBefore) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_not_valid_tld",
 		Description:   "DNSNames must have a valid TLD.",
 		Citation:      "BRs: 7.1.4.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameValidTLD{},
 	})

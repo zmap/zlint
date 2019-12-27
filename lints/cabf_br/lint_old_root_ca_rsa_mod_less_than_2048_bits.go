@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,21 +38,21 @@ func (l *rootCaModSize) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA && util.IsRootCA(c) && issueDate.Before(util.NoRSA1024RootDate)
 }
 
-func (l *rootCaModSize) Execute(c *x509.Certificate) *LintResult {
+func (l *rootCaModSize) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 2048 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_old_root_ca_rsa_mod_less_than_2048_bits",
 		Description:   "In a validity period beginning on or before 31 Dec 2010, root CA certificates using RSA public key algorithm MUST use a 2048 bit modulus",
 		Citation:      "BRs: 6.1.5",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &rootCaModSize{},
 	})

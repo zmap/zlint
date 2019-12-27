@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,7 +30,7 @@ func (l *subCAEKUValidFields) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
-func (l *subCAEKUValidFields) Execute(c *x509.Certificate) *LintResult {
+func (l *subCAEKUValidFields) Execute(c *x509.Certificate) *lint.LintResult {
 	validFieldsPresent := false
 	for _, ekuValue := range c.ExtKeyUsage {
 		if ekuValue == x509.ExtKeyUsageServerAuth ||
@@ -38,18 +39,18 @@ func (l *subCAEKUValidFields) Execute(c *x509.Certificate) *LintResult {
 		}
 	}
 	if validFieldsPresent {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Notice}
+		return &lint.LintResult{Status: lint.Notice}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "n_sub_ca_eku_not_technically_constrained",
 		Description:   "Subordinate CA extkeyUsage, either id-kp-serverAuth or id-kp-clientAuth or both values MUST be present to be technically constrained.",
 		Citation:      "BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV116Date,
 		Lint:          &subCAEKUValidFields{},
 	})

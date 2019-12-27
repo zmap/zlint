@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -24,6 +24,7 @@ import (
 	"crypto/ecdsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,7 +38,7 @@ func (l *ecImproperCurves) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.ECDSA
 }
 
-func (l *ecImproperCurves) Execute(c *x509.Certificate) *LintResult {
+func (l *ecImproperCurves) Execute(c *x509.Certificate) *lint.LintResult {
 	/* Declare theKey to be a ECDSA Public Key */
 	var theKey *ecdsa.PublicKey
 	/* Need to do different things based on what c.PublicKey is */
@@ -51,18 +52,18 @@ func (l *ecImproperCurves) Execute(c *x509.Certificate) *LintResult {
 	theParams := theKey.Curve.Params()
 	switch theParams.Name {
 	case "P-256", "P-384", "P-521":
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	default:
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:        "e_ec_improper_curves",
 		Description: "Only one of NIST P‐256, P‐384, or P‐521 can be used",
 		Citation:    "BRs: 6.1.5",
-		Source:      CABFBaselineRequirements,
+		Source:      lint.CABFBaselineRequirements,
 		// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
 		EffectiveDate: util.ZeroDate,
 		Lint:          &ecImproperCurves{},

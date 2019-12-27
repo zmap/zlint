@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCertPolicyNotConflictWithOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_cab_dv_conflicts_with_org"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCertPolicyNotConflictWithOrg(t *testing.T) {
 
 func TestCertPolicyConflictsWithOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValWithOrg.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cab_dv_conflicts_with_org"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

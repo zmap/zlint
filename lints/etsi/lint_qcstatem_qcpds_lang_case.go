@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package etsi
 
 import (
 	"encoding/asn1"
@@ -20,6 +20,7 @@ import (
 	"unicode"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -52,7 +53,7 @@ func isOnlyLowerCaseLetters(s string) bool {
 	return true
 }
 
-func (l *qcStatemQcPdsLangCase) Execute(c *x509.Certificate) *LintResult {
+func (l *qcStatemQcPdsLangCase) Execute(c *x509.Certificate) *lint.LintResult {
 	errString := ""
 	wrnString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
@@ -69,21 +70,21 @@ func (l *qcStatemQcPdsLangCase) Execute(c *x509.Certificate) *LintResult {
 	}
 	if len(errString) == 0 {
 		if len(wrnString) == 0 {
-			return &LintResult{Status: Pass}
+			return &lint.LintResult{Status: lint.Pass}
 		} else {
-			return &LintResult{Status: Warn, Details: wrnString}
+			return &lint.LintResult{Status: lint.Warn, Details: wrnString}
 		}
 	} else {
-		return &LintResult{Status: Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_qcstatem_qcpds_lang_case",
 		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcPDS features a language code comprised of only lower case letters",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.4",
-		Source:        EtsiEsi,
+		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQcPdsLangCase{},
 	})

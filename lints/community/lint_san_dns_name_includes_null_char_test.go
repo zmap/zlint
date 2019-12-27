@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestBrSANDNSNull(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANDNSNull.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_san_dns_name_includes_null_char"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestBrSANDNSNull(t *testing.T) {
 
 func TestBrSANDNSNotNull(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_san_dns_name_includes_null_char"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

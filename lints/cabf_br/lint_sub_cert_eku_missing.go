@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or bot
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,21 +36,21 @@ func (l *subExtKeyUsage) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subExtKeyUsage) Execute(c *x509.Certificate) *LintResult {
+func (l *subExtKeyUsage) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.EkuSynOid) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_eku_missing",
 		Description:   "Subscriber certificates MUST have the extended key usage extension present",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subExtKeyUsage{},
 	})

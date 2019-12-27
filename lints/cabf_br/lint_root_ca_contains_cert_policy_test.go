@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestRootCACertPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCAWithCertPolicy.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_root_ca_contains_cert_policy"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestRootCACertPolicy(t *testing.T) {
 
 func TestRootCANoCertPolicy(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCAValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_root_ca_contains_cert_policy"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

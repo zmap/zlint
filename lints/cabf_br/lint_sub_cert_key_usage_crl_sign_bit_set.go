@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ If present, bit positions for keyCertSign and cRLSign MUST NOT be set.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,21 +36,21 @@ func (l *subCrlSignAllowed) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID) && !util.IsCACert(c)
 }
 
-func (l *subCrlSignAllowed) Execute(c *x509.Certificate) *LintResult {
+func (l *subCrlSignAllowed) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	if (c.KeyUsage & x509.KeyUsageCRLSign) == x509.KeyUsageCRLSign {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else { //key usage doesn't allow cert signing or isn't present
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_key_usage_crl_sign_bit_set",
 		Description:   "Subscriber Certificate: keyUsage if present, bit positions for keyCertSign and cRLSign MUST NOT be set.",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCrlSignAllowed{},
 	})

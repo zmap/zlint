@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestValidityNegative(t *testing.T) {
 	inputPath := "../testlint/testCerts/validityNegative.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_validity_time_not_positive"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestValidityNegative(t *testing.T) {
 
 func TestValidityPositive(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_validity_time_not_positive"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

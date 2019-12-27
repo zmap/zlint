@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCaCommonNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caCommonNameMissing.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ca_common_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCaCommonNameMissing(t *testing.T) {
 
 func TestCaCommonNameNotMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caCommonNameNotMissing.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ca_common_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

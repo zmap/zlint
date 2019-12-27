@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestRsaModEven(t *testing.T) {
 	inputPath := "../testlint/testCerts/evenRsaMod.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_rsa_mod_not_odd"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestRsaModEven(t *testing.T) {
 
 func TestRsaModOdd(t *testing.T) {
 	inputPath := "../testlint/testCerts/oddRsaMod.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_rsa_mod_not_odd"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

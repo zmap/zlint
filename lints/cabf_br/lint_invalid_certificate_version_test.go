@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCertVersion2(t *testing.T) {
 	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_invalid_certificate_version"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCertVersion2(t *testing.T) {
 
 func TestCertVersion3(t *testing.T) {
 	inputPath := "../testlint/testCerts/certVersion3NoExtensions.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_invalid_certificate_version"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

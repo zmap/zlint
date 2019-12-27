@@ -12,11 +12,13 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package apple
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
 )
 
 func TestSCTCountPolicyUnsatisified(t *testing.T) {
@@ -35,67 +37,67 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 			Name: "No SCTs, poisoned",
 			// go run sctTestCerts.go -lifetime 3 -scts 0 -poison > testlint/testCerts/ctNoSCTsPoisoned.pem
 			Filename:       "ctNoSCTsPoisoned.pem",
-			ExpectedResult: NA,
+			ExpectedResult: lint.NA,
 		},
 		{
 			Name: "No SCTs, no poison",
 			// go run sctTestCerts.go -lifetime 3 -scts 0 > testlint/testCerts/ctNoSCTs.pem
 			Filename:       "ctNoSCTs.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name: "Lifetime <15mo, 1 SCT",
 			// go run sctTestCerts.go -lifetime 3 -scts 1 > testlint/testCerts/ct3mo1SCTs.pem
 			Filename:       "ct3mo1SCTs.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name: "Lifetime <15mo, 2 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 3 -scts 2 > testlint/testCerts/ct3mo2SCTs.pem
 			Filename:       "ct3mo2SCTs.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name: "Lifetime <15mo, 2 SCTs same logs",
 			// go run sctTestCerts.go -lifetime 3 -scts 2 -differentLogs=false > testlint/testCerts/ct3mo2DupeSCTs.pem
 			Filename:       "ct3mo2DupeSCTs.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name: "Lifetime >15mo <27mo, 2 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 18 -scts 2 > testlint/testCerts/ct18mo2SCTs.pem
 			Filename:       "ct18mo2SCTs.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name: "Lifetime >15mo <27mo, 3 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 18 -scts 3 > testlint/testCerts/ct18mo3SCTs.pem
 			Filename:       "ct18mo3SCTs.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name: "Lifetime >27mo <39mo, 3 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 38 -scts 3 > testlint/testCerts/ct38mo3SCTs.pem
 			Filename:       "ct38mo3SCTs.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name: "Lifetime >27mo <39mo, 4 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 38 -scts 4 > testlint/testCerts/ct38mo4SCTs.pem
 			Filename:       "ct38mo4SCTs.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name: "Lifetime >39mo, 4 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 666 -scts 4 > testlint/testCerts/ct666mo4SCTs.pem
 			Filename:       "ct666mo4SCTs.pem",
-			ExpectedResult: Notice,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name: "Lifetime >39mo, 5 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 666 -scts 5 > testlint/testCerts/ct666mo5SCTs.pem
 			Filename:       "ct666mo5SCTs.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 

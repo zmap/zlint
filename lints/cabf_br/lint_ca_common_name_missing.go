@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,20 +30,20 @@ func (l *caCommonNameMissing) CheckApplies(c *x509.Certificate) bool {
 	return util.IsCACert(c)
 }
 
-func (l *caCommonNameMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *caCommonNameMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName == "" {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ca_common_name_missing",
 		Description:   "CA Certificates common name MUST be included.",
 		Citation:      "BRs: 7.1.4.3.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV148Date,
 		Lint:          &caCommonNameMissing{},
 	})

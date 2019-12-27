@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestIssuerDNTrailingSpace(t *testing.T) {
 	inputPath := "../testlint/testCerts/issuerDNTrailingSpace.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_issuer_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestIssuerDNTrailingSpace(t *testing.T) {
 
 func TestIssuerDNGood2(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_issuer_dn_trailing_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

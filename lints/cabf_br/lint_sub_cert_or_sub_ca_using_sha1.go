@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -21,6 +21,7 @@ SHA‐1	MAY	be	used	with	RSA	keys	in	accordance	with	the	criteria	defined	in	Sec
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -34,19 +35,19 @@ func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) *LintResult {
+func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.SignatureAlgorithm == x509.SHA1WithRSA || c.SignatureAlgorithm == x509.DSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA1 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_or_sub_ca_using_sha1",
 		Description:   "CAs MUST NOT issue any new Subscriber certificates or Subordinate CA certificates using SHA-1 after 1 January 2016",
 		Citation:      "BRs: 7.1.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.NO_SHA1,
 		Lint:          &sigAlgTestsSHA1{},
 	})

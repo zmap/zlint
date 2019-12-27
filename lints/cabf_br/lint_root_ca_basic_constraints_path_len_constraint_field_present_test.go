@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestRootCaMaxLenPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCaMaxPathLenPresent.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestRootCaMaxLenPresent(t *testing.T) {
 
 func TestRootCaMaxLenMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCaMaxPathLenMissing.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package cabf_br
 
 import (
 	"fmt"
@@ -20,6 +20,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -52,9 +53,9 @@ func (l *arpaMalformedIP) CheckApplies(c *x509.Certificate) bool {
 
 // Execute will check the given certificate to ensure that all of the DNS
 // subject alternate names that specify a reverse DNS name under the respective
-// IPv4 or IPv6 arpa zones are well formed. A Warn LintResult is returned if
+// IPv4 or IPv6 arpa zones are well formed. A lint.Warn lint.LintResult is returned if
 // the name is in a reverse DNS zone but has the wrong number of labels.
-func (l *arpaMalformedIP) Execute(c *x509.Certificate) *LintResult {
+func (l *arpaMalformedIP) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, name := range c.DNSNames {
 		name = strings.ToLower(name)
 		var err error
@@ -69,15 +70,15 @@ func (l *arpaMalformedIP) Execute(c *x509.Certificate) *LintResult {
 		}
 		// Return the first error as a negative lint result
 		if err != nil {
-			return &LintResult{
-				Status:  Warn,
+			return &lint.LintResult{
+				Status:  lint.Warn,
 				Details: err.Error(),
 			}
 		}
 	}
 
-	return &LintResult{
-		Status: Pass,
+	return &lint.LintResult{
+		Status: lint.Pass,
 	}
 }
 
@@ -128,11 +129,11 @@ func lintReversedIPAddressLabels(name string, ipv6 bool) error {
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_subject_contains_malformed_arpa_ip",
 		Description:   "Checks no subject domain name contains a rDNS entry in an .arpa zone with the wrong number of labels",
 		Citation:      "BRs: 7.1.4.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &arpaMalformedIP{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -32,26 +33,26 @@ func (l *IssuerRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResult {
+func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) *lint.LintResult {
 	var issuer pkix.RDNSequence
 	_, err := asn1.Unmarshal(c.RawIssuer, &issuer)
 	if err != nil {
-		return &LintResult{Status: Fatal}
+		return &lint.LintResult{Status: lint.Fatal}
 	}
 	for _, rdn := range issuer {
 		if len(rdn) > 1 {
-			return &LintResult{Status: Warn}
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_multiple_issuer_rdn",
 		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &IssuerRDNHasMultipleAttribute{},
 	})

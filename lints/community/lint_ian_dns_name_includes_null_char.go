@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,23 +30,23 @@ func (l *IANDNSNull) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.IssuerAlternateNameOID)
 }
 
-func (l *IANDNSNull) Execute(c *x509.Certificate) *LintResult {
+func (l *IANDNSNull) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.IANDNSNames {
 		for i := 0; i < len(dns); i++ {
 			if dns[i] == 0 {
-				return &LintResult{Status: Error}
+				return &lint.LintResult{Status: lint.Error}
 			}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ian_dns_name_includes_null_char",
 		Description:   "DNSName MUST NOT include a null character",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &IANDNSNull{},
 	})

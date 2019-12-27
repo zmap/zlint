@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,36 +32,36 @@ func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
-			return &LintResult{Status: NA}
+			return &lint.LintResult{Status: lint.NA}
 		}
 		if strings.Contains(domainInfo.ParsedDomain.TRD, "_") {
-			return &LintResult{Status: Warn}
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
 
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
-			return &LintResult{Status: NA}
+			return &lint.LintResult{Status: lint.NA}
 		}
 		if strings.Contains(parsedSANDNSNames[i].ParsedDomain.TRD, "_") {
-			return &LintResult{Status: Warn}
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
 
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_dnsname_underscore_in_trd",
 		Description:   "DNSName should not have an underscore in labels left of the ETLD+1",
 		Citation:      "BRs: 7.1.4.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInTRD{},
 	})

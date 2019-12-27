@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -28,7 +28,7 @@ in which the CA’s place	of business	is located.
 
 func TestCaCountryNameMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/caBlankCountry.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ca_country_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -37,7 +37,7 @@ func TestCaCountryNameMissing(t *testing.T) {
 
 func TestCaCountryNamePresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/caValCountry.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ca_country_name_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

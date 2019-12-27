@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -32,19 +33,19 @@ func (l *certPolicyConflictsWithLocality) CheckApplies(cert *x509.Certificate) b
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRDomainValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *certPolicyConflictsWithLocality) Execute(cert *x509.Certificate) *LintResult {
+func (l *certPolicyConflictsWithLocality) Execute(cert *x509.Certificate) *lint.LintResult {
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cab_dv_conflicts_with_locality",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, locality name MUST NOT be included in subject",
 		Citation:      "BRs: 7.1.6.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &certPolicyConflictsWithLocality{},
 	})

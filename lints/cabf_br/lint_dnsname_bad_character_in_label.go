@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"regexp"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,26 +38,26 @@ func (l *DNSNameProperCharacters) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		if !l.CompiledExpression.MatchString(c.Subject.CommonName) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		if !l.CompiledExpression.MatchString(dns) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_bad_character_in_label",
 		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
 		Citation:      "BRs: 7.1.4.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameProperCharacters{},
 	})

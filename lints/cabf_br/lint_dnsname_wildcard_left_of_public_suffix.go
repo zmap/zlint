@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,37 +30,37 @@ func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bo
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		domainInfo := c.GetParsedSubjectCommonName(false)
 		if domainInfo.ParseError != nil {
-			return &LintResult{Status: NA}
+			return &lint.LintResult{Status: lint.NA}
 		}
 
 		if domainInfo.ParsedDomain.SLD == "*" {
-			return &LintResult{Status: Warn}
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
 
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
-			return &LintResult{Status: NA}
+			return &lint.LintResult{Status: lint.NA}
 		}
 
 		if parsedSANDNSNames[i].ParsedDomain.SLD == "*" {
-			return &LintResult{Status: Warn}
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_dnsname_wildcard_left_of_public_suffix",
 		Description:   "the CA MUST establish and follow a documented procedure[^pubsuffix] that determines if the wildcard character occurs in the first label position to the left of a “registry‐controlled” label or “public suffix”",
 		Citation:      "BRs: 3.2.2.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameWildcardLeftofPublicSuffix{},
 	})

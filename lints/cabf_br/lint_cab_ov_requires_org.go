@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,22 +32,22 @@ func (l *CertPolicyRequiresOrg) CheckApplies(cert *x509.Certificate) bool {
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BROrganizationValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *CertPolicyRequiresOrg) Execute(cert *x509.Certificate) *LintResult {
-	var out LintResult
+func (l *CertPolicyRequiresOrg) Execute(cert *x509.Certificate) *lint.LintResult {
+	var out lint.LintResult
 	if util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
-		out.Status = Pass
+		out.Status = lint.Pass
 	} else {
-		out.Status = Error
+		out.Status = lint.Error
 	}
 	return &out
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cab_ov_requires_org",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, organizationName MUST be included in subject",
 		Citation:      "BRs: 7.1.6.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &CertPolicyRequiresOrg{},
 	})

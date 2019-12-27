@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,7 +18,7 @@ import "testing"
 
 func TestDNSNameLabelTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameLabelTooLong.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dnsname_label_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

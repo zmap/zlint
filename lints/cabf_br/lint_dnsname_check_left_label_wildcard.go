@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -42,24 +43,24 @@ func wildcardInLeftLabelIncorrect(domain string) bool {
 	return false
 }
 
-func (l *DNSNameLeftLabelWildcardCheck) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameLeftLabelWildcardCheck) Execute(c *x509.Certificate) *lint.LintResult {
 	if wildcardInLeftLabelIncorrect(c.Subject.CommonName) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 	for _, dns := range c.DNSNames {
 		if wildcardInLeftLabelIncorrect(dns) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_left_label_wildcard_correct",
 		Description:   "Wildcards in the left label of DNSName should only be *",
 		Citation:      "BRs: 7.1.4.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameLeftLabelWildcardCheck{},
 	})

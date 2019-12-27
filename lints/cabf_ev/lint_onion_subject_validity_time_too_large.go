@@ -12,12 +12,13 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package cabf_ev
 
 import (
 	"fmt"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -39,29 +40,29 @@ func (l *torValidityTooLarge) Initialize() error {
 // CheckApplies returns true if the certificate is a subscriber certificate that
 // contains a subject name ending in `.onion`.
 func (l *torValidityTooLarge) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.CertificateSubjInTLD(c, onionTLD)
+	return util.IsSubscriberCert(c) && util.CertificateSubjInTLD(c, util.OnionTLD)
 }
 
-// Execute will return an Error LintResult if the provided certificate has
+// Execute will return an lint.Error lint.LintResult if the provided certificate has
 // a validity period longer than the maximum allowed validity for a certificate
 // with a .onion subject.
-func (l *torValidityTooLarge) Execute(c *x509.Certificate) *LintResult {
+func (l *torValidityTooLarge) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.NotBefore.AddDate(0, maxOnionValidityMonths, 0).Before(c.NotAfter) {
-		return &LintResult{
-			Status: Error,
+		return &lint.LintResult{
+			Status: lint.Error,
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name: "e_onion_subject_validity_time_too_large",
 		Description: fmt.Sprintf(
 			"certificates with .onion names can not be valid for more than %d months",
 			maxOnionValidityMonths),
 		Citation:      "CABF EV Guidelines: Appendix F",
-		Source:        CABFEVGuidelines,
+		Source:        lint.CABFEVGuidelines,
 		EffectiveDate: util.OnionOnlyEVDate,
 		Lint:          &torValidityTooLarge{},
 	})

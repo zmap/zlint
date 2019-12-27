@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,21 +30,21 @@ func (l *subCaAIAMarkedCritical) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && util.IsExtInCert(c, util.AiaOID)
 }
 
-func (l *subCaAIAMarkedCritical) Execute(c *x509.Certificate) *LintResult {
+func (l *subCaAIAMarkedCritical) Execute(c *x509.Certificate) *lint.LintResult {
 	e := util.GetExtFromCert(c, util.AiaOID)
 	if e.Critical {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_ca_aia_marked_critical",
 		Description:   "Subordinate CA Certificate: authorityInformationAccess MUST NOT be marked critical",
 		Citation:      "BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &subCaAIAMarkedCritical{},
 	})

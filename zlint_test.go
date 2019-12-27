@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
 )
 
 func TestLintNames(t *testing.T) {

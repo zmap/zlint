@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCertPolicyOvHasOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_cab_ov_requires_org"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCertPolicyOvHasOrg(t *testing.T) {
 
 func TestCertPolicyOvNoOrg(t *testing.T) {
 	inputPath := "../testlint/testCerts/orgValNoOrg.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cab_ov_requires_org"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -21,6 +21,7 @@ This extension SHOULD NOT be present.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -34,20 +35,20 @@ func (l *rootCAContainsCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAContainsCertPolicy) Execute(c *x509.Certificate) *LintResult {
+func (l *rootCAContainsCertPolicy) Execute(c *x509.Certificate) *lint.LintResult {
 	if util.IsExtInCert(c, util.CertPolicyOID) {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_root_ca_contains_cert_policy",
 		Description:   "Root CA Certificate: certificatePolicies SHOULD NOT be present.",
 		Citation:      "BRs: 7.1.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &rootCAContainsCertPolicy{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -38,22 +39,22 @@ func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.CrlDistOID)
 }
 
-func (l *subCRLDistNoURL) Execute(c *x509.Certificate) *LintResult {
+func (l *subCRLDistNoURL) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	for _, s := range c.CRLDistributionPoints {
 		if strings.HasPrefix(s, "http://") {
-			return &LintResult{Status: Pass}
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_crl_distribution_points_does_not_contain_url",
 		Description:   "Subscriber certificate cRLDistributionPoints extension must contain the HTTP URL of the CA’s CRL service",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCRLDistNoURL{},
 	})

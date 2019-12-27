@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"crypto/dsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,24 +32,24 @@ func (l *dsaParamsMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaParamsMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *dsaParamsMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return &LintResult{Status: Fatal}
+		return &lint.LintResult{Status: lint.Fatal}
 	}
 	params := dsaKey.Parameters
 	if params.P.BitLen() == 0 || params.Q.BitLen() == 0 || params.G.BitLen() == 0 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dsa_params_missing",
 		Description:   "DSA: Certificates MUST include all domain parameters",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &dsaParamsMissing{},
 	})

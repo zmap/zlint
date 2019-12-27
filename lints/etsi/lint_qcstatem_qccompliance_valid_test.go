@@ -1,4 +1,4 @@
-package lints
+package etsi
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,14 +20,14 @@ import (
 
 func TestEtsiQcCompliance(t *testing.T) {
 	m := map[string]LintStatus{
-		"QcStmtEtsiQcComplWithNonEmptyStmtInfoCert19.pem": Error,
-		"QcStmtEtsiWrongEncodingCert01.pem":               Error,
-		"QcStmtEtsiValidCert03.pem":                       Pass,
-		"QcStmtEtsiEsealValidCert02.pem":                  Pass,
-		"QcStmtEtsiTwoQcTypesCert15.pem":                  Pass,
-		"QcStmtEtsiValidCert11.pem":                       Pass,
-		"QcStmtEtsiMissingMandatoryCert14.pem":            NA,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":               NA,
+		"QcStmtEtsiQcComplWithNonEmptyStmtInfoCert19.pem": lint.Error,
+		"QcStmtEtsiWrongEncodingCert01.pem":               lint.Error,
+		"QcStmtEtsiValidCert03.pem":                       lint.Pass,
+		"QcStmtEtsiEsealValidCert02.pem":                  lint.Pass,
+		"QcStmtEtsiTwoQcTypesCert15.pem":                  lint.Pass,
+		"QcStmtEtsiValidCert11.pem":                       lint.Pass,
+		"QcStmtEtsiMissingMandatoryCert14.pem":            lint.NA,
+		"QcStmtEtsiNoQcStatmentsCert22.pem":               lint.NA,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath

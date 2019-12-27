@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,23 +30,23 @@ func (l *SANWildCardFirst) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANWildCardFirst) Execute(c *x509.Certificate) *LintResult {
+func (l *SANWildCardFirst) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
 		for i := 1; i < len(dns); i++ {
 			if dns[i] == '*' {
-				return &LintResult{Status: Error}
+				return &lint.LintResult{Status: lint.Error}
 			}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_san_wildcard_not_first",
 		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks DNSName)",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SANWildCardFirst{},
 	})

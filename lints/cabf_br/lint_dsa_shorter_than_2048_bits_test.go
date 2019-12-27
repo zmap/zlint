@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,7 +18,7 @@ import "testing"
 
 func TestDSAShorterThan2048Bits(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaShorterThan2048Bits.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dsa_shorter_than_2048_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -27,7 +27,7 @@ func TestDSAShorterThan2048Bits(t *testing.T) {
 
 func TestDSANotShorterThan2048Bits(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dsa_shorter_than_2048_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

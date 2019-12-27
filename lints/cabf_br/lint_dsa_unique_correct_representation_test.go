@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,7 +22,7 @@ import (
 
 func TestDSAUniqueCorrectRepresentation(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dsa_unique_correct_representation"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -40,7 +40,7 @@ func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
 	dsaKey.Y = pMinusOne
 
 	// Expect failure
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dsa_unique_correct_representation"].Execute(c)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

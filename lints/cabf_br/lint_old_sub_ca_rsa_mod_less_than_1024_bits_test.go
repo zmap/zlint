@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestOldCaRsaModSizeSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/oldSubModTooSmall.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_old_sub_ca_rsa_mod_less_than_1024_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestOldCaRsaModSizeSmall(t *testing.T) {
 
 func TestOldCaRsaModSizeNotSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/oldSubModSmall.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_old_sub_ca_rsa_mod_less_than_1024_bits"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

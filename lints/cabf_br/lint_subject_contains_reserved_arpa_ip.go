@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package cabf_br
 
 import (
 	"fmt"
@@ -20,6 +20,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -76,10 +77,10 @@ func (l *arpaReservedIP) CheckApplies(c *x509.Certificate) bool {
 // Execute will check the given certificate to ensure that all of the DNS
 // subject alternate names that specify a well formed reverse DNS name under the
 // respective IPv4 or IPv6 arpa zones do not specify an IP in an IANA
-// reserved IP space. An Error LintResult is returned if the name specifies an
+// reserved IP space. An lint.Error lint.LintResult is returned if the name specifies an
 // IP address of the wrong class, or specifies an IP address in an IANA reserved
 // network.
-func (l *arpaReservedIP) Execute(c *x509.Certificate) *LintResult {
+func (l *arpaReservedIP) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, name := range c.DNSNames {
 		name = strings.ToLower(name)
 		var err error
@@ -94,15 +95,15 @@ func (l *arpaReservedIP) Execute(c *x509.Certificate) *LintResult {
 		}
 		// Return the first error as a negative lint result
 		if err != nil {
-			return &LintResult{
-				Status:  Error,
+			return &lint.LintResult{
+				Status:  lint.Error,
 				Details: err.Error(),
 			}
 		}
 	}
 
-	return &LintResult{
-		Status: Pass,
+	return &lint.LintResult{
+		Status: lint.Pass,
 	}
 }
 
@@ -221,11 +222,11 @@ func lintReversedIPAddress(name string, ipv6 bool) error {
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_contains_reserved_arpa_ip",
 		Description:   "Checks no subject domain name contains a rDNS entry in an .arpa zone specifying a reserved IP address",
 		Citation:      "BRs: 7.1.4.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &arpaReservedIP{},
 	})

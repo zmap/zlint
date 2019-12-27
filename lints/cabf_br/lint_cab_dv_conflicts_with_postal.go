@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -32,22 +33,22 @@ func (l *certPolicyConflictsWithPostal) CheckApplies(cert *x509.Certificate) boo
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRDomainValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *certPolicyConflictsWithPostal) Execute(cert *x509.Certificate) *LintResult {
-	var out LintResult
+func (l *certPolicyConflictsWithPostal) Execute(cert *x509.Certificate) *lint.LintResult {
+	var out lint.LintResult
 	if util.TypeInName(&cert.Subject, util.PostalCodeOID) {
-		out.Status = Error
+		out.Status = lint.Error
 	} else {
-		out.Status = Pass
+		out.Status = lint.Pass
 	}
 	return &out
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cab_dv_conflicts_with_postal",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, postalCode MUST NOT be included in subject",
 		Citation:      "BRs: 7.1.6.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &certPolicyConflictsWithPostal{},
 	})

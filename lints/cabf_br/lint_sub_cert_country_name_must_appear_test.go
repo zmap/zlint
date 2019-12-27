@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSubCertCountryNameMustAppear(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertCountryNameMustAppear.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_sub_cert_country_name_must_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

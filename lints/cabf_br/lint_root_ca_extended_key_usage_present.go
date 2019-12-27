@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -21,6 +21,7 @@ This extension MUST NOT be present.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -34,21 +35,21 @@ func (l *rootCAContainsEKU) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAContainsEKU) Execute(c *x509.Certificate) *LintResult {
+func (l *rootCAContainsEKU) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.EkuSynOid) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_root_ca_extended_key_usage_present",
 		Description:   "Root CA Certificate: extendedKeyUsage MUST NOT be present.t",
 		Citation:      "BRs: 7.1.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &rootCAContainsEKU{},
 	})

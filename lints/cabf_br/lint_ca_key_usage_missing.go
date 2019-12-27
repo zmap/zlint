@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -24,6 +24,7 @@ Conforming CAs MUST include this extension in certificates that
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,20 +38,20 @@ func (l *caKeyUsageMissing) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caKeyUsageMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *caKeyUsageMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.KeyUsage != x509.KeyUsage(0) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ca_key_usage_missing",
 		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be present",
 		Citation:      "BRs: 7.1.2.1, RFC 5280: 4.2.1.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC3280Date,
 		Lint:          &caKeyUsageMissing{},
 	})

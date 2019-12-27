@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 import (
 	"fmt"
@@ -13,50 +13,50 @@ func TestSubjectReverseDNSARPA(t *testing.T) {
 	testCases := []struct {
 		Name            string
 		InputFilename   string
-		ExpectedResult  LintStatus
+		ExpectedResult  lint.LintStatus
 		ExpectedDetails string
 	}{
 		{
 			Name:           "IPv4 rDNS too few labels",
 			InputFilename:  "subjectRDNSIPv4TooFewLabels.pem",
-			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
+			ExpectedResult: lint.Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
 			Name:           "IPv4 rDNS bad IP",
 			InputFilename:  "subjectRDNSIPv4BadIP.pem",
-			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
+			ExpectedResult: lint.Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
 			Name:            "IPv4 rDNS reserved IP",
 			InputFilename:   "subjectRDNSIPv4ReservedIP.pem",
-			ExpectedResult:  Error,
+			ExpectedResult:  lint.Error,
 			ExpectedDetails: `the first 4 labels of name "1.1.168.192.in-addr.arpa" parsed as a reversed IP address in an IANA reserved IP space.`,
 		},
 		{
 			Name:           "IPv4 rDNS OK",
 			InputFilename:  "subjectRDNSIPv4GoodIP.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name:           "IPv6 rDNS too few labels",
 			InputFilename:  "subjectRDNSIPv6TooFewLabels.pem",
-			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
+			ExpectedResult: lint.Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
 			Name:           "IPv6 rDNS bad IP",
 			InputFilename:  "subjectRDNSIPv6BadIP.pem",
-			ExpectedResult: Pass, // this linter only cares about well formed rDNS for a reserved network address
+			ExpectedResult: lint.Pass, // this linter only cares about well formed rDNS for a reserved network address
 		},
 		{
 			Name:            "IPv6 rDNS reserved IP",
 			InputFilename:   "subjectRDNSIPv6ReservedIP.pem",
-			ExpectedResult:  Error,
+			ExpectedResult:  lint.Error,
 			ExpectedDetails: `the first 32 labels of name "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.e.f.ip6.arpa" parsed as a reversed IP address in an IANA reserved IP space.`,
 		},
 		{
 			Name:           "IPv6 rDNS OK",
 			InputFilename:  "subjectRDNSIPv6GoodIP.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 

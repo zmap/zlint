@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestDNSNameValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameValidTLD.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestDNSNameValidTLD(t *testing.T) {
 
 func TestDNSNameNotValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNotValidTLD.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -41,7 +41,7 @@ func TestDNSNameNotValidTLD(t *testing.T) {
 // expecting an error.
 func TestDNSNameNotYetValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNotYetValidTLD.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -53,7 +53,7 @@ func TestDNSNameNotYetValidTLD(t *testing.T) {
 // the certificate was issued, expecting an error.
 func TestDNSNameNoLongerValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNoLongerValidTLD.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -65,7 +65,7 @@ func TestDNSNameNoLongerValidTLD(t *testing.T) {
 // after the certificate was issued, expecting no error.
 func TestDNSNameWasValidTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWasValidTLD.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -78,7 +78,7 @@ func TestDNSNameWasValidTLD(t *testing.T) {
 // TLD.
 func TestDNSNameOnionTLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameOnionTLD.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -87,7 +87,7 @@ func TestDNSNameOnionTLD(t *testing.T) {
 
 func TestDNSNameWithIPInCommonName(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameWithIPInCN.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

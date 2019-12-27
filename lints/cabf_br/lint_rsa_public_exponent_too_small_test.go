@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestRsaExpTooSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/badRsaExpLength.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_rsa_public_exponent_too_small"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestRsaExpTooSmall(t *testing.T) {
 
 func TestRsaExpNotTooSmall(t *testing.T) {
 	inputPath := "../testlint/testCerts/goodRsaExpLength.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_rsa_public_exponent_too_small"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package apple
 
 import (
 	"fmt"
@@ -20,6 +20,7 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/ct"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -43,7 +44,7 @@ func (l *sctPolicyCount) CheckApplies(c *x509.Certificate) bool {
 //
 // The number of required SCTs from different logs is calculated based on the
 // Certificate's lifetime. If the number of required SCTs are not embedded in
-// the certificate a Notice level LintResult is returned.
+// the certificate a Notice level lint.LintResult is returned.
 //
 // | Certificate lifetime | # of SCTs from separate logs |
 // -------------------------------------------------------
@@ -66,15 +67,15 @@ func (l *sctPolicyCount) CheckApplies(c *x509.Certificate) bool {
 //
 // [0]: https://support.apple.com/en-us/HT205280
 // [1]: https://github.com/zmap/zlint/issues/226
-func (l *sctPolicyCount) Execute(c *x509.Certificate) *LintResult {
+func (l *sctPolicyCount) Execute(c *x509.Certificate) *lint.LintResult {
 	// Determine the required number of SCTs from separate logs
 	expected := appleCTPolicyExpectedSCTs(c)
 
 	// If there are no SCTs then the job is easy. We can return a Notice
-	// LintResult immediately.
+	// lint.LintResult immediately.
 	if len(c.SignedCertificateTimestampList) == 0 && expected > 0 {
-		return &LintResult{
-			Status: Notice,
+		return &lint.LintResult{
+			Status: lint.Notice,
 			Details: fmt.Sprintf(
 				"Certificate had 0 embedded SCTs. Browser policy may require %d for this certificate.",
 				expected),
@@ -89,16 +90,16 @@ func (l *sctPolicyCount) Execute(c *x509.Certificate) *LintResult {
 	}
 
 	// If the number of embedded SCTs from separate logs meets expected return
-	// a Pass result.
+	// a lint.Pass result.
 	if len(sctsByLogID) >= expected {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 
 	// Otherwise return a Notice result - there weren't enough SCTs embedded in
 	// the certificate. More must be provided by OCSP stapling if the certificate
 	// is to meet Apple's CT policy.
-	return &LintResult{
-		Status: Notice,
+	return &lint.LintResult{
+		Status: lint.Notice,
 		Details: fmt.Sprintf(
 			"Certificate had %d embedded SCTs from distinct log IDs. "+
 				"Browser policy may require %d for this certificate.",
@@ -145,11 +146,11 @@ func appleCTPolicyExpectedSCTs(cert *x509.Certificate) int {
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_ct_sct_policy_count_unsatisfied",
 		Description:   "Check if certificate has enough embedded SCTs to meet Apple CT Policy",
 		Citation:      "https://support.apple.com/en-us/HT205280",
-		Source:        AppleCTPolicy,
+		Source:        lint.AppleCTPolicy,
 		EffectiveDate: util.AppleCTPolicyDate,
 		Lint:          &sctPolicyCount{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ If the Root CA Private Key is used for signing OCSP responses, then the digitalS
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,20 +36,20 @@ func (l *caDigSignNotSet) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caDigSignNotSet) Execute(c *x509.Certificate) *LintResult {
+func (l *caDigSignNotSet) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Notice}
+		return &lint.LintResult{Status: lint.Notice}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "n_ca_digital_signature_not_set",
 		Description:   "Root and Subordinate CA Certificates that wish to use their private key for signing OCSP responses will not be able to without their digital signature set",
 		Citation:      "BRs: 7.1.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caDigSignNotSet{},
 	})

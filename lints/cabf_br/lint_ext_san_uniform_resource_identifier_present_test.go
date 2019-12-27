@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSANURIMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCaGood.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSANURIMissing(t *testing.T) {
 
 func TestSANURIPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIBeginning.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -38,7 +38,7 @@ func TestSANURIPresent(t *testing.T) {
 
 func TestSANURIPresent2(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIEnd.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ext_san_uniform_resource_identifier_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

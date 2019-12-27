@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -36,25 +37,25 @@ func isRedactedCertificate(domain string) bool {
 	return strings.HasPrefix(domain, "?.")
 }
 
-func (l *DNSNameRedacted) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameRedacted) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" {
 		if isRedactedCertificate(c.Subject.CommonName) {
-			return &LintResult{Status: Notice}
+			return &lint.LintResult{Status: lint.Notice}
 		}
 	}
 	for _, domain := range c.DNSNames {
 		if isRedactedCertificate(domain) {
-			return &LintResult{Status: Notice}
+			return &lint.LintResult{Status: lint.Notice}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "n_contains_redacted_dnsname",
 		Description:   "Some precerts are redacted and of the form ?.?.a.com or *.?.a.com",
-		Source:        ZLint,
+		Source:        lint.ZLint,
 		Citation:      "IETF Draft: https://tools.ietf.org/id/draft-strad-trans-redaction-00.html",
 		EffectiveDate: util.ZeroDate,
 		Lint:          &DNSNameRedacted{},

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -25,6 +25,7 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -40,20 +41,20 @@ func (l *sha1ExpireLong) CheckApplies(c *x509.Certificate) bool {
 		c.SignatureAlgorithm == x509.ECDSAWithSHA1)
 }
 
-func (l *sha1ExpireLong) Execute(c *x509.Certificate) *LintResult {
+func (l *sha1ExpireLong) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.NotAfter.After(time.Date(2017, time.January, 1, 0, 0, 0, 0, time.UTC)) {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_sub_cert_sha1_expiration_too_long",
 		Description:   "Subscriber certificates using the SHA-1 algorithm SHOULD NOT have an expiration date later than 1 Jan 2017",
 		Citation:      "BRs: 7.1.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC),
 		Lint:          &sha1ExpireLong{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or bot
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,24 +36,24 @@ func (l *subExtKeyUsageClientOrServer) CheckApplies(c *x509.Certificate) bool {
 	return c.ExtKeyUsage != nil
 }
 
-func (l *subExtKeyUsageClientOrServer) Execute(c *x509.Certificate) *LintResult {
+func (l *subExtKeyUsageClientOrServer) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth || kp == x509.ExtKeyUsageClientAuth {
-			// If we find either of ServerAuth or ClientAuth, Pass
-			return &LintResult{Status: Pass}
+			// If we find either of ServerAuth or ClientAuth, lint.Pass
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
-	// If neither were found, Error
-	return &LintResult{Status: Error}
+	// If neither were found, lint.Error
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_eku_server_auth_client_auth_missing",
 		Description:   "Subscriber certificates MUST have have either id-kp-serverAuth or id-kp-clientAuth or both present in extKeyUsage",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subExtKeyUsageClientOrServer{},
 	})

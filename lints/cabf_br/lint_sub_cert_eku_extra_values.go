@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or bot
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,7 +36,7 @@ func (l *subExtKeyUsageLegalUsage) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && c.ExtKeyUsage != nil
 }
 
-func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) *LintResult {
+func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth ||
@@ -45,19 +46,19 @@ func (l *subExtKeyUsageLegalUsage) Execute(c *x509.Certificate) *LintResult {
 			continue
 		} else {
 			// A bad usage was found, report and leave
-			return &LintResult{Status: Warn}
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
 	// If no bad usage was found, pass
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_sub_cert_eku_extra_values",
 		Description:   "Subscriber Certificate: extKeyUsage values other than id-kp-serverAuth, id-kp-clientAuth, and id-kp-emailProtection SHOULD NOT be present.",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subExtKeyUsageLegalUsage{},
 	})

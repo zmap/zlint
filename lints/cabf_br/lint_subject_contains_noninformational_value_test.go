@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,17 +22,17 @@ func TestSubjectInformational(t *testing.T) {
 	testCases := []struct {
 		name      string
 		inputPath string
-		result    LintStatus
+		result    lint.LintStatus
 	}{
 		{
 			name:      "simple all legal",
 			inputPath: "../testlint/testCerts/legalChar.pem",
-			result:    Pass,
+			result:    lint.Pass,
 		},
 		{
 			name:      "subject with metadata only",
 			inputPath: "../testlint/testCerts/illegalChar.pem",
-			result:    Error,
+			result:    lint.Error,
 		},
 	}
 

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -23,6 +23,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,21 +38,21 @@ func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedTestsKeyExpOdd) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaParsedTestsKeyExpOdd) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.E%2 == 1 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_rsa_public_exponent_not_odd",
 		Description:   "RSA: Value of public exponent is an odd number equal to 3 or more.",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaParsedTestsKeyExpOdd{},
 	})

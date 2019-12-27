@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -36,21 +37,21 @@ func (l *rsaParsedTestsKeySize) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA && c.NotAfter.After(util.NoRSA1024Date.Add(-1))
 }
 
-func (l *rsaParsedTestsKeySize) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaParsedTestsKeySize) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if key.N.BitLen() < 2048 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_rsa_mod_less_than_2048_bits",
 		Description:   "For certificates valid after 31 Dec 2013, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
 		Citation:      "BRs: 6.1.5",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &rsaParsedTestsKeySize{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestDNSNameUnderscoreInTRD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameUnderscoreInTRD.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_dnsname_underscore_in_trd"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestDNSNameUnderscoreInTRD(t *testing.T) {
 
 func TestDNSNameNoUnderscoreInTRD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInTRD.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_dnsname_underscore_in_trd"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

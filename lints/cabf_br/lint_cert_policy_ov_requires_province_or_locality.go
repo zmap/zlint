@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -32,22 +33,22 @@ func (l *CertPolicyOVRequiresProvinceOrLocal) CheckApplies(cert *x509.Certificat
 	return util.IsSubscriberCert(cert) && util.SliceContainsOID(cert.PolicyIdentifiers, util.BROrganizationValidatedOID)
 }
 
-func (l *CertPolicyOVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) *LintResult {
-	var out LintResult
+func (l *CertPolicyOVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) *lint.LintResult {
+	var out lint.LintResult
 	if util.TypeInName(&cert.Subject, util.LocalityNameOID) || util.TypeInName(&cert.Subject, util.StateOrProvinceNameOID) {
-		out.Status = Pass
+		out.Status = lint.Pass
 	} else {
-		out.Status = Error
+		out.Status = lint.Error
 	}
 	return &out
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cert_policy_ov_requires_province_or_locality",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
 		Citation:      "BRs: 7.1.6.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &CertPolicyOVRequiresProvinceOrLocal{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"crypto/dsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,25 +32,25 @@ func (l *dsaImproperSize) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaImproperSize) Execute(c *x509.Certificate) *LintResult {
+func (l *dsaImproperSize) Execute(c *x509.Certificate) *lint.LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return &LintResult{Status: NA}
+		return &lint.LintResult{Status: lint.NA}
 	}
 	L := dsaKey.Parameters.P.BitLen()
 	N := dsaKey.Parameters.Q.BitLen()
 	if (L == 2048 && N == 224) || (L == 2048 && N == 256) || (L == 3072 && N == 256) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dsa_improper_modulus_or_divisor_size",
 		Description:   "Certificates MUST meet the following requirements for DSA algorithm type and key size: L=2048 and N=224,256 or L=3072 and N=256",
 		Citation:      "BRs: 6.1.5",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &dsaImproperSize{},
 	})

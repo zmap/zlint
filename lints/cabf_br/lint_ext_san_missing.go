@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -23,6 +23,7 @@ Required/Optional: Required
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -36,20 +37,20 @@ func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *SANMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *SANMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	if util.IsExtInCert(c, util.SubjectAlternateNameOID) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ext_san_missing",
 		Description:   "Subscriber certificates MUST contain the Subject Alternate Name extension",
 		Citation:      "BRs: 7.1.4.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &SANMissing{},
 	})

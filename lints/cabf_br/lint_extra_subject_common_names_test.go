@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 import (
 	"fmt"
@@ -9,17 +9,17 @@ func TestExtraSubjectCommonNames(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "One subject common name",
 			InputFilename:  "commonNamesURL.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name:           "Multiple subject common names",
 			InputFilename:  "extraCommonNames.pem",
-			ExpectedResult: Warn,
+			ExpectedResult: lint.Warn,
 		},
 	}
 

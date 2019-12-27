@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSANCritWithSubjectDn(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_ext_san_critical_with_subject_dn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSANCritWithSubjectDn(t *testing.T) {
 
 func TestSANNotCritWithSubjectDn(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_ext_san_critical_with_subject_dn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

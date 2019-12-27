@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestRootCAEKU(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCAWithEKU.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_root_ca_extended_key_usage_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestRootCAEKU(t *testing.T) {
 
 func TestRootCANoEKU(t *testing.T) {
 	inputPath := "../testlint/testCerts/rootCAValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_root_ca_extended_key_usage_present"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

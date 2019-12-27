@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestImproperModulusBadQ(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaBadQLen.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dsa_improper_modulus_or_divisor_size"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestImproperModulusBadQ(t *testing.T) {
 
 func TestImproperModulusGoodQ(t *testing.T) {
 	inputPath := "../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dsa_improper_modulus_or_divisor_size"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

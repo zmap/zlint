@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCaKeyUsageNoCRLSign(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageNoCRL.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ca_crl_sign_not_set"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCaKeyUsageNoCRLSign(t *testing.T) {
 
 func TestKeyUsageCRLSign(t *testing.T) {
 	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ca_crl_sign_not_set"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

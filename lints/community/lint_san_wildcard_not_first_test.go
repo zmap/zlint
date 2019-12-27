@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestBrSANWildcardFirst(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANWildcardFirst.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_san_wildcard_not_first"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestBrSANWildcardFirst(t *testing.T) {
 
 func TestBrSANWildcardNotFirst(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANURIValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_san_wildcard_not_first"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

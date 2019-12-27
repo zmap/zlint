@@ -1,4 +1,4 @@
-package lints
+package etsi
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,19 +20,19 @@ import (
 
 func TestEtsiQcPds(t *testing.T) {
 	m := map[string]LintStatus{
-		"QcStmtEtsiNumberInLangCodeCert21.pem":      Error,
-		"QcStmtEtsiMissingEnglishPdsCert04.pem":     Error,
-		"QcStmtEtsiTwoEnglPdsCert12.pem":            Error,
-		"QcStmtEtsiWrongEncodingLangCodeCert07.pem": Error,
-		"QcStmtEtsiWrongLangCodeCert05.pem":         Error,
-		"QcStmtEtsiLangCodeUpperCaseCert23.pem":     Pass,
-		"QcStmtEtsiWrongEncodingUrlCert08.pem":      Error,
-		"QcStmtEtsiTwoLangCodesCert17.pem":          Error,
-		"QcStmtEtsiValidCert03.pem":                 Pass,
-		"QcStmtEtsiValidCert11.pem":                 Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":          Pass,
-		"QcStmtEtsiEsealValidCert02.pem":            Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":         NA,
+		"QcStmtEtsiNumberInLangCodeCert21.pem":      lint.Error,
+		"QcStmtEtsiMissingEnglishPdsCert04.pem":     lint.Error,
+		"QcStmtEtsiTwoEnglPdsCert12.pem":            lint.Error,
+		"QcStmtEtsiWrongEncodingLangCodeCert07.pem": lint.Error,
+		"QcStmtEtsiWrongLangCodeCert05.pem":         lint.Error,
+		"QcStmtEtsiLangCodeUpperCaseCert23.pem":     lint.Pass,
+		"QcStmtEtsiWrongEncodingUrlCert08.pem":      lint.Error,
+		"QcStmtEtsiTwoLangCodesCert17.pem":          lint.Error,
+		"QcStmtEtsiValidCert03.pem":                 lint.Pass,
+		"QcStmtEtsiValidCert11.pem":                 lint.Pass,
+		"QcStmtEtsiValidAddLangCert13.pem":          lint.Pass,
+		"QcStmtEtsiEsealValidCert02.pem":            lint.Pass,
+		"QcStmtEtsiNoQcStatmentsCert22.pem":         lint.NA,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath

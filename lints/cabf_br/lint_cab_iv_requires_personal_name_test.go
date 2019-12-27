@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCertPolicyIvHasPerson(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCertPolicyIvHasPerson(t *testing.T) {
 
 func TestCertPolicyIvHasSurname(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValSurnameOnly.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -38,7 +38,7 @@ func TestCertPolicyIvHasSurname(t *testing.T) {
 
 func TestCertPolicyIvHasLastName(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValGivenNameOnly.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -47,7 +47,7 @@ func TestCertPolicyIvHasLastName(t *testing.T) {
 
 func TestCertPolicyIvNoPerson(t *testing.T) {
 	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

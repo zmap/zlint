@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -25,6 +25,7 @@ Address or Internal Name.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -38,22 +39,22 @@ func (l *SANReservedIP) CheckApplies(c *x509.Certificate) bool {
 	return c.NotAfter.After(util.NoReservedIP)
 }
 
-func (l *SANReservedIP) Execute(c *x509.Certificate) *LintResult {
+func (l *SANReservedIP) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, ip := range c.IPAddresses {
 		if util.IsIANAReserved(ip) {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ext_san_contains_reserved_ip",
 		Description:   "Effective October 1, 2016, CAs must revoke all unexpired certificates that contains a reserved IP or internal name.",
 		Citation:      "BRs: 7.1.4.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &SANReservedIP{},
 	})

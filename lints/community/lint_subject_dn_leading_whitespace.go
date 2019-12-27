@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,23 +30,23 @@ func (l *SubjectDNLeadingSpace) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *SubjectDNLeadingSpace) Execute(c *x509.Certificate) *LintResult {
+func (l *SubjectDNLeadingSpace) Execute(c *x509.Certificate) *lint.LintResult {
 	leading, _, err := util.CheckRDNSequenceWhiteSpace(c.RawSubject)
 	if err != nil {
-		return &LintResult{Status: Fatal}
+		return &lint.LintResult{Status: lint.Fatal}
 	}
 	if leading {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_subject_dn_leading_whitespace",
 		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
-		Citation:      "AWSLabs certlint",
-		Source:        AWSLabs,
+		Citation:      "lint.AWSLabs certlint",
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SubjectDNLeadingSpace{},
 	})

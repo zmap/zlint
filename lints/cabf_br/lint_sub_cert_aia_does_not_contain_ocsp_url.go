@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -27,6 +27,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -40,21 +41,21 @@ func (l *subCertOcspUrl) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertOcspUrl) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertOcspUrl) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, url := range c.OCSPServer {
 		if strings.HasPrefix(url, "http://") {
-			return &LintResult{Status: Pass}
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_aia_does_not_contain_ocsp_url",
 		Description:   "Subscriber Certificate: authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's OSCP responder.",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertOcspUrl{},
 	})

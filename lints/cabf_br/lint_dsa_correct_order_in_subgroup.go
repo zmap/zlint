@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ import (
 	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -38,27 +39,27 @@ func (l *dsaSubgroup) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *dsaSubgroup) Execute(c *x509.Certificate) *LintResult {
+func (l *dsaSubgroup) Execute(c *x509.Certificate) *lint.LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return &LintResult{Status: NA}
+		return &lint.LintResult{Status: lint.NA}
 	}
 	output := big.Int{}
 
 	// Enforce that Y^Q == 1 mod P, e.g. that Order(Y) == Q mod P.
 	output.Exp(dsaKey.Y, dsaKey.Q, dsaKey.P)
 	if output.Cmp(big.NewInt(1)) == 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dsa_correct_order_in_subgroup",
 		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &dsaSubgroup{},
 	})

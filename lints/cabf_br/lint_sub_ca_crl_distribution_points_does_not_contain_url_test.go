@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSubCaCrlNoUrl(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCaCrlMissing.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_sub_ca_crl_distribution_points_does_not_contain_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSubCaCrlNoUrl(t *testing.T) {
 
 func TestSubCaCrlUrlPresent(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCaCrlPresent.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_sub_ca_crl_distribution_points_does_not_contain_url"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

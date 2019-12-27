@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -38,30 +39,30 @@ func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
 	return c.Subject.CommonName != "" && !util.IsCACert(c)
 }
 
-func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *LintResult {
+func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
 	cn := c.Subject.CommonName
 
 	for _, dn := range c.DNSNames {
 		if strings.EqualFold(cn, dn) {
-			return &LintResult{Status: Pass}
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
 
 	for _, ip := range c.IPAddresses {
 		if cn == ip.String() {
-			return &LintResult{Status: Pass}
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
 
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_common_name_not_from_san",
 		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
 		Citation:      "BRs: 7.1.4.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subjectCommonNameNotFromSAN{},
 	})

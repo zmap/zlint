@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSANBarePubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANBareSuffix.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSANBarePubSuffix(t *testing.T) {
 
 func TestSANBarePrivatePubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/sanPrivatePublicSuffix.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -38,7 +38,7 @@ func TestSANBarePrivatePubSuffix(t *testing.T) {
 
 func TestSANGoodPubSuffix(t *testing.T) {
 	inputPath := "../testlint/testCerts/SANGoodSuffix.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

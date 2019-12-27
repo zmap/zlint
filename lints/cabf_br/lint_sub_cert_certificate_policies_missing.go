@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -22,6 +22,7 @@ This extension MUST be present and SHOULD NOT be marked critical.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,21 +36,21 @@ func (l *subCertPolicy) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertPolicy) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertPolicy) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.CertPolicyOID) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_certificate_policies_missing",
 		Description:   "Subscriber Certificate: certificatePolicies MUST be present and SHOULD NOT be marked critical.",
 		Citation:      "BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertPolicy{},
 	})

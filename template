@@ -28,12 +28,12 @@ func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
 	// Add conditions for application here
 }
 
-func (l *SUBST) Execute(c *x509.Certificate) *LintResult {
+func (l *SUBST) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "SUBTEST",
 		Description:   "Fill this in...",
 		Citation:      "Fill this in...",

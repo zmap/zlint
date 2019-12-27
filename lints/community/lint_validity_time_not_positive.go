@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,6 +20,7 @@ Change this to match source TEXT
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -33,19 +34,19 @@ func (l *validityNegative) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *validityNegative) Execute(c *x509.Certificate) *LintResult {
+func (l *validityNegative) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.NotBefore.After(c.NotAfter) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_validity_time_not_positive",
 		Description:   "Certificates MUST have a positive time for which they are valid",
-		Citation:      "AWSLabs certlint",
-		Source:        AWSLabs,
+		Citation:      "lint.AWSLabs certlint",
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &validityNegative{},
 	})

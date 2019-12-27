@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -25,6 +25,7 @@ marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP res
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -38,20 +39,20 @@ func (l *subCertAiaMissing) CheckApplies(c *x509.Certificate) bool {
 	return !util.IsCACert(c)
 }
 
-func (l *subCertAiaMissing) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertAiaMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	if util.IsExtInCert(c, util.AiaOID) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_aia_missing",
 		Description:   "Subscriber Certiifcate: authorityInformationAccess MUST be present, with the exception of stapling.",
 		Citation:      "BRs: 7.1.2.3",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &subCertAiaMissing{},
 	})

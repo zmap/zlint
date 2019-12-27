@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,7 +18,7 @@ import "testing"
 
 func TestDNSNameUnderscoreInSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameUnderscoreInSLD.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -27,7 +27,7 @@ func TestDNSNameUnderscoreInSLD(t *testing.T) {
 
 func TestDNSNameNoUnderscoreInSLD(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInSLD.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

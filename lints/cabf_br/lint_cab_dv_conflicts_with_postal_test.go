@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestCertPolicyNotConflictWithPostal(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_cab_dv_conflicts_with_postal"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestCertPolicyNotConflictWithPostal(t *testing.T) {
 
 func TestCertPolicyConflictsWithPostal(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValWithPostal.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_cab_dv_conflicts_with_postal"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

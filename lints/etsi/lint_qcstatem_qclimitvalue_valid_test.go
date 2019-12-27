@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package etsi
 
 import (
 	"testing"
@@ -20,7 +20,7 @@ import (
 
 func TestQcStatemQcLimitValueValid(t *testing.T) {
 	m := map[string]LintStatus{
-		"QcStmtValidLimitValue.pem": Pass,
+		"QcStmtValidLimitValue.pem": lint.Pass,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath
@@ -34,7 +34,7 @@ func TestQcStatemQcLimitValueValid(t *testing.T) {
 
 func TestQcStatemQcLimitValueInvalid(t *testing.T) {
 	m := map[string]LintStatus{
-		"QcStmtInvalidLimitValue.pem": Error,
+		"QcStmtInvalidLimitValue.pem": lint.Error,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath

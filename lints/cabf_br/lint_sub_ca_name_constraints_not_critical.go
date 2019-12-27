@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,6 +20,7 @@ Change this to match source TEXT
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -33,20 +34,20 @@ func (l *SubCANameConstraintsNotCritical) CheckApplies(cert *x509.Certificate) b
 	return util.IsSubCA(cert) && util.IsExtInCert(cert, util.NameConstOID)
 }
 
-func (l *SubCANameConstraintsNotCritical) Execute(cert *x509.Certificate) *LintResult {
+func (l *SubCANameConstraintsNotCritical) Execute(cert *x509.Certificate) *lint.LintResult {
 	if ski := util.GetExtFromCert(cert, util.NameConstOID); ski.Critical {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_sub_ca_name_constraints_not_critical",
 		Description:   "Subordinate CA Certificate: NameConstraints if present, SHOULD be marked critical.",
 		Citation:      "BRs: 7.1.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV102Date,
 		Lint:          &SubCANameConstraintsNotCritical{},
 	})

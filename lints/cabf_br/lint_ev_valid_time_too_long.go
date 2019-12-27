@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,19 +30,19 @@ func (l *evValidTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsEV(c.PolicyIdentifiers) && util.IsSubscriberCert(c)
 }
 
-func (l *evValidTooLong) Execute(c *x509.Certificate) *LintResult {
+func (l *evValidTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.NotBefore.AddDate(0, 0, 825).Before(c.NotAfter) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ev_valid_time_too_long",
 		Description:   "EV certificates must be 825 days in validity or less",
 		Citation:      "BRs: 6.3.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &evValidTooLong{},
 	})

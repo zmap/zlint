@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestSubjectDNLeadingSpace(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectDNLeadingSpace.pem"
-	expected := Warn
+	expected := lint.Warn
 	out := Lints["w_subject_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestSubjectDNLeadingSpace(t *testing.T) {
 
 func TestSubjectDNGood(t *testing.T) {
 	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["w_subject_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

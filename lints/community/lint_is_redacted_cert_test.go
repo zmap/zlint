@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,11 +16,13 @@ package lints
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
 )
 
 func TestDNSNameContainsQuestionMark(t *testing.T) {
 	inputPath := "../testlint/testCerts/dnsNameContainsQuestionMark.pem"
-	expected := Notice
+	expected := lint.Notice
 	out := Lints["n_contains_redacted_dnsname"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -27,6 +27,7 @@ Wildcard FQDNs are permitted.
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -40,19 +41,19 @@ func (l *SANRegId) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *SANRegId) Execute(c *x509.Certificate) *LintResult {
+func (l *SANRegId) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.RegisteredIDs != nil {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ext_san_registered_id_present",
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types.",
 		Citation:      "BRs: 7.1.4.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &SANRegId{},
 	})

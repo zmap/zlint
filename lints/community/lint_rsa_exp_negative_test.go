@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 // func TestRsaExpNegative(t *testing.T) {
 // 	inputPath := "../testlint/testCerts/rsaExpNegative.pem"
-// 	expected := Error
+// 	expected := lint.Error
 // 	out := Lints["rsa_exp_negative"].ExecuteTest(ReadCertificate(inputPath))
 // 	if out.Result != expected {
 // 		t.Error(
@@ -33,7 +33,7 @@ import (
 
 func TestRsaExpPositive(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_rsa_exp_negative"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

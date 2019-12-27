@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -23,6 +23,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,21 +38,21 @@ func (l *rsaModSmallFactor) CheckApplies(c *x509.Certificate) bool {
 	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaModSmallFactor) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaModSmallFactor) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	if util.PrimeNoSmallerThan752(key.N) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
-	return &LintResult{Status: Warn}
+	return &lint.LintResult{Status: lint.Warn}
 
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_rsa_mod_factors_smaller_than_752",
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: no factors smaller than 752",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV113Date,
 		Lint:          &rsaModSmallFactor{},
 	})

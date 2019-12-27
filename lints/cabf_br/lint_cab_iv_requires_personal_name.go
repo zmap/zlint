@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,22 +32,22 @@ func (l *CertPolicyRequiresPersonalName) CheckApplies(cert *x509.Certificate) bo
 	return util.SliceContainsOID(cert.PolicyIdentifiers, util.BRIndividualValidatedOID) && !util.IsCACert(cert)
 }
 
-func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) *LintResult {
-	var out LintResult
+func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) *lint.LintResult {
+	var out lint.LintResult
 	if util.TypeInName(&cert.Subject, util.OrganizationNameOID) || (util.TypeInName(&cert.Subject, util.GivenNameOID) && util.TypeInName(&cert.Subject, util.SurnameOID)) {
-		out.Status = Pass
+		out.Status = lint.Pass
 	} else {
-		out.Status = Error
+		out.Status = lint.Error
 	}
 	return &out
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cab_iv_requires_personal_name",
 		Description:   "If certificate policy 2.23.140.1.2.3 is included, either organizationName or givenName and surname MUST be included in subject",
 		Citation:      "BRs: 7.1.6.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV131Date,
 		Lint:          &CertPolicyRequiresPersonalName{},
 	})

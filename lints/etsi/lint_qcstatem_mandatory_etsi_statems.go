@@ -12,12 +12,13 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package etsi
 
 import (
 	"encoding/asn1"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,7 +38,7 @@ func (l *qcStatemQcmandatoryEtsiStatems) CheckApplies(c *x509.Certificate) bool 
 	return false
 }
 
-func (l *qcStatemQcmandatoryEtsiStatems) Execute(c *x509.Certificate) *LintResult {
+func (l *qcStatemQcmandatoryEtsiStatems) Execute(c *x509.Certificate) *lint.LintResult {
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 
@@ -53,18 +54,18 @@ func (l *qcStatemQcmandatoryEtsiStatems) Execute(c *x509.Certificate) *LintResul
 	}
 
 	if len(errString) == 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_qcstatem_mandatory_etsi_statems",
 		Description:   "Checks that a QC Statement that contains at least one of the ETSI ESI statements, also features the set of mandatory ETSI ESI QC statements.",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 5",
-		Source:        EtsiEsi,
+		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQcmandatoryEtsiStatems{},
 	})

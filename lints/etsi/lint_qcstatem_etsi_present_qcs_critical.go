@@ -12,10 +12,11 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package etsi
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -35,7 +36,7 @@ func (l *qcStatemQcEtsiPresentQcsCritical) CheckApplies(c *x509.Certificate) boo
 	return false
 }
 
-func (l *qcStatemQcEtsiPresentQcsCritical) Execute(c *x509.Certificate) *LintResult {
+func (l *qcStatemQcEtsiPresentQcsCritical) Execute(c *x509.Certificate) *lint.LintResult {
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	if ext.Critical {
@@ -43,18 +44,18 @@ func (l *qcStatemQcEtsiPresentQcsCritical) Execute(c *x509.Certificate) *LintRes
 	}
 
 	if len(errString) == 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_qcstatem_etsi_present_qcs_critical",
 		Description:   "Checks that a QC Statement which contains any of the id-etsi-qcs-... QC Statements is not marked critical",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.1",
-		Source:        EtsiEsi,
+		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQcEtsiPresentQcsCritical{},
 	})

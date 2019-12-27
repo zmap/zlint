@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -37,25 +38,25 @@ func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA
 }
 
-func (l *caCountryNameInvalid) Execute(c *x509.Certificate) *LintResult {
+func (l *caCountryNameInvalid) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.Country != nil {
 		for _, j := range c.Subject.Country {
 			if !util.IsISOCountryCode(j) {
-				return &LintResult{Status: Error}
+				return &lint.LintResult{Status: lint.Error}
 			}
 		}
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: NA}
+		return &lint.LintResult{Status: lint.NA}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ca_country_name_invalid",
 		Description:   "Root and Subordinate CA certificates MUST have a two-letter country code specified in ISO 3166-1",
 		Citation:      "BRs: 7.1.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caCountryNameInvalid{},
 	})

@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -32,25 +33,25 @@ func (l *SubjectRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool 
 	return true
 }
 
-func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *LintResult {
+func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *lint.LintResult {
 	var subject pkix.RDNSequence
 	if _, err := asn1.Unmarshal(c.RawSubject, &subject); err != nil {
-		return &LintResult{Status: Fatal}
+		return &lint.LintResult{Status: lint.Fatal}
 	}
 	for _, rdn := range subject {
 		if len(rdn) > 1 {
-			return &LintResult{Status: Notice}
+			return &lint.LintResult{Status: lint.Notice}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "n_multiple_subject_rdn",
 		Description:   "Certificates typically do not have have multiple attributes in a single RDN (subject). This may be an error.",
-		Citation:      "AWSLabs certlint",
-		Source:        AWSLabs,
+		Citation:      "lint.AWSLabs certlint",
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SubjectRDNHasMultipleAttribute{},
 	})

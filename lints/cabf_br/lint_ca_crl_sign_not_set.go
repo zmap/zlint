@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2017 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -36,20 +37,20 @@ func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *caCRLSignNotSet) Execute(c *x509.Certificate) *LintResult {
+func (l *caCRLSignNotSet) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ca_crl_sign_not_set",
 		Description:   "Root and Subordinate CA certificate keyUsage extension's crlSign bit MUST be set",
 		Citation:      "BRs: 7.1.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &caCRLSignNotSet{},
 	})

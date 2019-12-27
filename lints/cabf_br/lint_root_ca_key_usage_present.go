@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,21 +30,21 @@ func (l *rootCAKeyUsagePresent) CheckApplies(c *x509.Certificate) bool {
 	return util.IsRootCA(c)
 }
 
-func (l *rootCAKeyUsagePresent) Execute(c *x509.Certificate) *LintResult {
+func (l *rootCAKeyUsagePresent) Execute(c *x509.Certificate) *lint.LintResult {
 	// Add actual lint here
 	if util.IsExtInCert(c, util.KeyUsageOID) {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_root_ca_key_usage_present",
 		Description:   "Root CA certificates MUST have Key Usage Extension Present",
 		Citation:      "BRs: 7.1.2.1",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC2459Date,
 		Lint:          &rootCAKeyUsagePresent{},
 	})

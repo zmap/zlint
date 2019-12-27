@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -19,6 +19,7 @@ import (
 	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -32,27 +33,27 @@ func (l *dsaUniqueCorrectRepresentation) CheckApplies(c *x509.Certificate) bool 
 	return c.PublicKeyAlgorithm == x509.DSA
 }
 
-func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) *LintResult {
+func (l *dsaUniqueCorrectRepresentation) Execute(c *x509.Certificate) *lint.LintResult {
 	dsaKey, ok := c.PublicKey.(*dsa.PublicKey)
 	if !ok {
-		return &LintResult{Status: NA}
+		return &lint.LintResult{Status: lint.NA}
 	}
 	// Verify that 2 ≤ y ≤ p-2.
 	two := big.NewInt(2)
 	pMinusTwo := big.NewInt(0)
 	pMinusTwo.Sub(dsaKey.P, two)
 	if two.Cmp(dsaKey.Y) > 0 || dsaKey.Y.Cmp(pMinusTwo) > 0 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dsa_unique_correct_representation",
 		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
 		Citation:      "BRs: 6.1.6",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &dsaUniqueCorrectRepresentation{},
 	})

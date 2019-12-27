@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestBrIANDNSStartsWithPeriod(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANDNSPeriod.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ian_dns_name_starts_with_period"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestBrIANDNSStartsWithPeriod(t *testing.T) {
 
 func TestBrIANDNSNotPeriod(t *testing.T) {
 	inputPath := "../testlint/testCerts/IANURIValid.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ian_dns_name_starts_with_period"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

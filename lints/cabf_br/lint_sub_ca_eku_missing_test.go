@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,11 +16,13 @@ package lints
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
 )
 
 func TestSubCaEkuMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAEKUMissing.pem"
-	expected := Notice
+	expected := lint.Notice
 	out := Lints["n_sub_ca_eku_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +31,7 @@ func TestSubCaEkuMissing(t *testing.T) {
 
 func TestSubCaEkuNotMissing(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCAWEkuCrit.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["n_sub_ca_eku_missing"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

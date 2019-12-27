@@ -12,12 +12,13 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package etsi
 
 import (
 	"encoding/asn1"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -41,25 +42,25 @@ func (l *qcStatemQcComplianceValid) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *qcStatemQcComplianceValid) Execute(c *x509.Certificate) *LintResult {
+func (l *qcStatemQcComplianceValid) Execute(c *x509.Certificate) *lint.LintResult {
 
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
 	errString += s.GetErrorInfo()
 	if len(errString) == 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_qcstatem_qccompliance_valid",
 		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcCompliance has the correct form",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.1",
-		Source:        EtsiEsi,
+		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQcComplianceValid{},
 	})

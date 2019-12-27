@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,11 +16,13 @@ package lints
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
 )
 
 func TestSubjectRDNTwoAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/subjectRDNTwoAttribute.pem"
-	expected := Notice
+	expected := lint.Notice
 	out := Lints["n_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +31,7 @@ func TestSubjectRDNTwoAttribute(t *testing.T) {
 
 func TestSubjectRDNOneAttribute(t *testing.T) {
 	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["n_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

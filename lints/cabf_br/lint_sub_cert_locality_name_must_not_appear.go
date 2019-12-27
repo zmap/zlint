@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,21 +30,21 @@ func (l *subCertLocalityNameMustNotAppear) CheckApplies(c *x509.Certificate) boo
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertLocalityNameMustNotAppear) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertLocalityNameMustNotAppear) Execute(c *x509.Certificate) *lint.LintResult {
 	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.Locality) > 0 {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_locality_name_must_not_appear",
 		Description:   "Subscriber Certificate: subject:localityName MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
 		Citation:      "BRs: 7.1.4.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABGivenNameDate,
 		Lint:          &subCertLocalityNameMustNotAppear{},
 	})

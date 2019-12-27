@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package cabf_br
 
 import (
 	"fmt"
@@ -20,8 +20,11 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
+
+const onionTLD = ".onion"
 
 type torServiceDescHashInvalid struct{}
 
@@ -37,9 +40,9 @@ func (l *torServiceDescHashInvalid) CheckApplies(c *x509.Certificate) bool {
 }
 
 // failResult is a small utility function for creating a failed lint result.
-func failResult(format string, args ...interface{}) *LintResult {
-	return &LintResult{
-		Status:  Error,
+func failResult(format string, args ...interface{}) *lint.LintResult {
+	return &lint.LintResult{
+		Status:  lint.Error,
 		Details: fmt.Sprintf(format, args...),
 	}
 }
@@ -59,7 +62,7 @@ var torServiceDescExtName = fmt.Sprintf(
 //
 // If all of the above hold then nil is returned. If any of the above conditions
 // are not met an error lint result pointer is returned.
-func lintOnionURL(onion string) *LintResult {
+func lintOnionURL(onion string) *lint.LintResult {
 	if onionURL, err := url.Parse(onion); err != nil {
 		return failResult(
 			"%s contained "+
@@ -80,7 +83,7 @@ func lintOnionURL(onion string) *LintResult {
 	return nil
 }
 
-// Execute will lint the provided certificate. An Error LintResult will be
+// Execute will lint the provided certificate. An lint.Error lint.LintResult will be
 // returned if:
 //
 //   1) There is no TorServiceDescriptor extension present.
@@ -92,7 +95,7 @@ func lintOnionURL(onion string) *LintResult {
 //      an onion subject in the cert.
 //   6) There is an onion subject in the cert that doesn't correspond to
 //      a TorServiceDescriptorHash.
-func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *LintResult {
+func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *lint.LintResult {
 	// If the BRTorServiceDescriptor extension is missing return a lint error. We
 	// know the cert contains one or more `.onion` subjects because of
 	// `CheckApplies` and all such certs are expected to have this extension after
@@ -193,17 +196,17 @@ func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *LintResult {
 	}
 
 	// Everything checks out!
-	return &LintResult{
-		Status: Pass,
+	return &lint.LintResult{
+		Status: lint.Pass,
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ext_tor_service_descriptor_hash_invalid",
 		Description:   "certificates with .onion names need valid TorServiceDescriptors in extension",
 		Citation:      "BRS: Ballot 201",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV201Date,
 		Lint:          &torServiceDescHashInvalid{},
 	})

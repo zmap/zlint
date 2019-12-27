@@ -12,10 +12,11 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package cabf_br
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -29,22 +30,22 @@ func (l *extraSubjectCommonNames) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *extraSubjectCommonNames) Execute(c *x509.Certificate) *LintResult {
+func (l *extraSubjectCommonNames) Execute(c *x509.Certificate) *lint.LintResult {
 	// Multiple subject commonName fields are not expressly prohibited by section
 	// 7.1.4.2.2 but do seem to run afoul of the intent. For that reason we return
-	// only a Warn level finding here.
+	// only a lint.Warn level finding here.
 	if len(c.Subject.CommonNames) > 1 {
-		return &LintResult{Status: Warn}
+		return &lint.LintResult{Status: lint.Warn}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_extra_subject_common_names",
 		Description:   "if present the subject commonName field MUST contain a single IP address or Fully-Qualified Domain Name",
 		Citation:      "BRs: 7.1.4.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &extraSubjectCommonNames{},
 	})

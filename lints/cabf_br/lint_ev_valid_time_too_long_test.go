@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestEvValidTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/evValidTooLong.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ev_valid_time_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestEvValidTooLong(t *testing.T) {
 
 func TestEvValidNotTooLong(t *testing.T) {
 	inputPath := "../testlint/testCerts/evValidNotTooLong.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ev_valid_time_too_long"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

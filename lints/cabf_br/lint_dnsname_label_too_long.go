@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -41,28 +42,28 @@ func labelLengthTooLong(domain string) bool {
 	return false
 }
 
-func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) *LintResult {
+func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
 		labelTooLong := labelLengthTooLong(c.Subject.CommonName)
 		if labelTooLong {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
 		labelTooLong := labelLengthTooLong(dns)
 		if labelTooLong {
-			return &LintResult{Status: Error}
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_label_too_long",
 		Description:   "DNSName labels MUST be less than or equal to 63 characters",
 		Citation:      "RFC 1035",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameLabelLengthTooLong{},
 	})

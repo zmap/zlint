@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,21 +32,21 @@ func (l *rsaParsedPubKeyExist) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *rsaParsedPubKeyExist) Execute(c *x509.Certificate) *LintResult {
+func (l *rsaParsedPubKeyExist) Execute(c *x509.Certificate) *lint.LintResult {
 	_, ok := c.PublicKey.(*rsa.PublicKey)
 	if !ok {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_rsa_no_public_key",
 		Description:   "The RSA public key should be present",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &rsaParsedPubKeyExist{},
 	})

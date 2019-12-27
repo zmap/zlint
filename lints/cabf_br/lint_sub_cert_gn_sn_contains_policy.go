@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -30,21 +31,21 @@ func (l *subCertSubjectGnOrSnContainsPolicy) CheckApplies(c *x509.Certificate) b
 	return util.IsSubscriberCert(c) && (len(c.Subject.GivenName) != 0 || len(c.Subject.Surname) != 0)
 }
 
-func (l *subCertSubjectGnOrSnContainsPolicy) Execute(c *x509.Certificate) *LintResult {
+func (l *subCertSubjectGnOrSnContainsPolicy) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, policyIds := range c.PolicyIdentifiers {
 		if policyIds.Equal(util.BRIndividualValidatedOID) {
-			return &LintResult{Status: Pass}
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_given_name_surname_contains_correct_policy",
 		Description:   "Subscriber Certificate: A certificate containing a subject:givenName field or subject:surname field MUST contain the (2.23.140.1.2.3) certPolicy OID.",
 		Citation:      "BRs: 7.1.4.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABGivenNameDate,
 		Lint:          &subCertSubjectGnOrSnContainsPolicy{},
 	})

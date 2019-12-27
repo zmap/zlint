@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -27,6 +27,7 @@ import (
 	"fmt"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -40,7 +41,7 @@ func (l *illegalChar) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *illegalChar) Execute(c *x509.Certificate) *LintResult {
+func (l *illegalChar) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, j := range c.Subject.Names {
 		value, ok := j.Value.(string)
 		if !ok {
@@ -48,19 +49,19 @@ func (l *illegalChar) Execute(c *x509.Certificate) *LintResult {
 		}
 
 		if !checkAlphaNumericOrUTF8Present(value) {
-			return &LintResult{Status: Error, Details: fmt.Sprintf("found only metadata %s in subjectDN attribute %s", value, j.Type.String())}
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("found only metadata %s in subjectDN attribute %s", value, j.Type.String())}
 		}
 	}
 
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_contains_noninformational_value",
 		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
 		Citation:      "BRs: 7.1.4.2.2",
-		Source:        CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &illegalChar{},
 	})

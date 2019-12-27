@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -20,7 +20,7 @@ import (
 
 func TestKeyCertSignNotCA(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyCertSignNotCA.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_ca_is_ca"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -29,7 +29,7 @@ func TestKeyCertSignNotCA(t *testing.T) {
 
 func TestKeyCertSignCA(t *testing.T) {
 	inputPath := "../testlint/testCerts/keyCertSignCA.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_ca_is_ca"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

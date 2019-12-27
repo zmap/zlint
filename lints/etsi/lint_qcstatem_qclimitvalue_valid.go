@@ -12,13 +12,14 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package etsi
 
 import (
 	"encoding/asn1"
 	"unicode"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -51,7 +52,7 @@ func isOnlyLetters(s string) bool {
 	return true
 }
 
-func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
+func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *lint.LintResult {
 
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
@@ -60,7 +61,7 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
 	if len(errString) == 0 {
 		qcLv, ok := s.(util.EtsiQcLimitValue)
 		if !ok {
-			return &LintResult{Status: Error, Details: "parsed QcStatem is not a EtsiQcLimitValue"}
+			return &lint.LintResult{Status: lint.Error, Details: "parsed QcStatem is not a EtsiQcLimitValue"}
 		}
 		if qcLv.Amount < 0 {
 			util.AppendToStringSemicolonDelim(&errString, "amount is negative")
@@ -81,18 +82,18 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *LintResult {
 
 	}
 	if len(errString) == 0 {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &LintResult{Status: Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_qcstatem_qclimitvalue_valid",
 		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
-		Source:        EtsiEsi,
+		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemQcLimitValueValid{},
 	})

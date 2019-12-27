@@ -1,4 +1,4 @@
-package lints
+package cabf_br
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -24,7 +24,7 @@ import (
 
 func TestSubCertLocalityNameProhibited(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertLocalityNameProhibited.pem"
-	expected := Error
+	expected := lint.Error
 	out := Lints["e_sub_cert_locality_name_must_not_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -33,7 +33,7 @@ func TestSubCertLocalityNameProhibited(t *testing.T) {
 
 func TestSubCertLocalityNameNotProhibited(t *testing.T) {
 	inputPath := "../testlint/testCerts/subCertLocalityNameNotProhibited.pem"
-	expected := Pass
+	expected := lint.Pass
 	out := Lints["e_sub_cert_locality_name_must_not_appear"].Execute(ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

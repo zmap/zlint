@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -31,26 +32,26 @@ func (l *pubSuffix) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
-func (l *pubSuffix) Execute(c *x509.Certificate) *LintResult {
+func (l *pubSuffix) Execute(c *x509.Certificate) *lint.LintResult {
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			if strings.HasSuffix(parsedSANDNSNames[i].ParseError.Error(), "is a suffix") {
-				return &LintResult{Status: Warn}
+				return &lint.LintResult{Status: lint.Warn}
 			} else {
-				return &LintResult{Status: NA}
+				return &lint.LintResult{Status: lint.NA}
 			}
 		}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "w_san_iana_pub_suffix_empty",
 		Description:   "The domain SHOULD NOT have a bare public suffix",
 		Citation:      "awslabs certlint",
-		Source:        AWSLabs,
+		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &pubSuffix{},
 	})
