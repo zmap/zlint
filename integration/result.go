@@ -5,7 +5,7 @@ package integration
 import (
 	"fmt"
 
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
 )
 
 type resultCount struct {
@@ -27,15 +27,15 @@ func (r resultCount) String() string {
 }
 
 // Inc increases the resultCount count for the given lint status level.
-func (r *resultCount) Inc(status lints.LintStatus) {
+func (r *resultCount) Inc(status lint.LintStatus) {
 	switch status {
-	case lints.Notice:
+	case lint.Notice:
 		r.NoticeCount++
-	case lints.Warn:
+	case lint.Warn:
 		r.WarnCount++
-	case lints.Error:
+	case lint.Error:
 		r.ErrCount++
-	case lints.Fatal:
+	case lint.Fatal:
 		r.FatalCount++
 	}
 }
@@ -46,7 +46,7 @@ func (r *resultCount) Inc(status lints.LintStatus) {
 type certResult struct {
 	Fingerprint string
 	Result      resultCount
-	LintSummary map[string]lints.LintStatus
+	LintSummary map[string]lint.LintStatus
 }
 
 func (cr certResult) String() string {
