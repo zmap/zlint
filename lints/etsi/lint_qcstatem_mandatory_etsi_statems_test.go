@@ -16,10 +16,13 @@ package etsi
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEtsiMandatoryQcStmts(t *testing.T) {
-	m := map[string]LintStatus{
+	m := map[string]lint.LintStatus{
 		"QcStmtEtsiMissingMandatoryCert14.pem": lint.Error,
 		"QcStmtEtsiMissingPDSCert16.pem":       lint.Pass,
 		"QcStmtEtsiValidCert03.pem":            lint.Pass,
@@ -29,8 +32,8 @@ func TestEtsiMandatoryQcStmts(t *testing.T) {
 		"QcStmtEtsiNoQcStatmentsCert22.pem":    lint.NA,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../testlint/testCerts/" + inputPath
-		out := Lints["e_qcstatem_mandatory_etsi_statems"].Execute(ReadCertificate(inputPath))
+		inputPath = "../../testlint/testCerts/" + inputPath
+		out := lint.Lints["e_qcstatem_mandatory_etsi_statems"].Execute(util.ReadCertificate(inputPath))
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

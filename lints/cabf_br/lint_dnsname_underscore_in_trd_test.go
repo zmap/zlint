@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestDNSNameUnderscoreInTRD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameUnderscoreInTRD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameUnderscoreInTRD.pem"
 	expected := lint.Warn
-	out := Lints["w_dnsname_underscore_in_trd"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_dnsname_underscore_in_trd"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNoUnderscoreInTRD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInTRD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameNoUnderscoreInTRD.pem"
 	expected := lint.Pass
-	out := Lints["w_dnsname_underscore_in_trd"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_dnsname_underscore_in_trd"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRsaExpNotInRange(t *testing.T) {
-	inputPath := "../testlint/testCerts/badRsaExp.pem"
+	inputPath := "../../testlint/testCerts/badRsaExp.pem"
 	expected := lint.Warn
-	out := Lints["w_rsa_public_exponent_not_in_range"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_rsa_public_exponent_not_in_range"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaExpInRange(t *testing.T) {
-	inputPath := "../testlint/testCerts/validRsaExpRange.pem"
+	inputPath := "../../testlint/testCerts/validRsaExpRange.pem"
 	expected := lint.Pass
-	out := Lints["w_rsa_public_exponent_not_in_range"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_rsa_public_exponent_not_in_range"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestDNSNameValidTLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameValidTLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameValidTLD.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNotValidTLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameNotValidTLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameNotValidTLD.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -40,9 +43,9 @@ func TestDNSNameNotValidTLD(t *testing.T) {
 // with a TLD that was not yet delegated at the time the certificate was issued,
 // expecting an error.
 func TestDNSNameNotYetValidTLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameNotYetValidTLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameNotYetValidTLD.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -52,9 +55,9 @@ func TestDNSNameNotYetValidTLD(t *testing.T) {
 // name with a TLD whose delegation was removed from the root DNS at the time
 // the certificate was issued, expecting an error.
 func TestDNSNameNoLongerValidTLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameNoLongerValidTLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameNoLongerValidTLD.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -64,9 +67,9 @@ func TestDNSNameNoLongerValidTLD(t *testing.T) {
 // with a TLD whose delegation was removed from the root DNS, but not until
 // after the certificate was issued, expecting no error.
 func TestDNSNameWasValidTLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameWasValidTLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameWasValidTLD.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -77,18 +80,18 @@ func TestDNSNameWasValidTLD(t *testing.T) {
 // correctly and isn't omitted simply because it is not an ICANN/IANA delegated
 // TLD.
 func TestDNSNameOnionTLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameOnionTLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameOnionTLD.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameWithIPInCommonName(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameWithIPInCN.pem"
+	inputPath := "../../testlint/testCerts/dnsNameWithIPInCN.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_not_valid_tld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_not_valid_tld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

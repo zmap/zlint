@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEkuExtra(t *testing.T) {
-	inputPath := "../testlint/testCerts/subExtKeyUsageServClientEmailCodeSign.pem"
+	inputPath := "../../testlint/testCerts/subExtKeyUsageServClientEmailCodeSign.pem"
 	expected := lint.Warn
-	out := Lints["w_sub_cert_eku_extra_values"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_sub_cert_eku_extra_values"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEkuNoExtra(t *testing.T) {
-	inputPath := "../testlint/testCerts/subExtKeyUsageServClientEmail.pem"
+	inputPath := "../../testlint/testCerts/subExtKeyUsageServClientEmail.pem"
 	expected := lint.Pass
-	out := Lints["w_sub_cert_eku_extra_values"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_sub_cert_eku_extra_values"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCRLCompleteDp(t *testing.T) {
-	inputPath := "../testlint/testCerts/crlComlepteDp.pem"
+	inputPath := "../../testlint/testCerts/crlComlepteDp.pem"
 	expected := lint.Pass
-	out := Lints["e_distribution_point_incomplete"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_distribution_point_incomplete"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLIncompleteDp(t *testing.T) {
-	inputPath := "../testlint/testCerts/crlIncomlepteDp.pem"
+	inputPath := "../../testlint/testCerts/crlIncomlepteDp.pem"
 	expected := lint.Error
-	out := Lints["e_distribution_point_incomplete"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_distribution_point_incomplete"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

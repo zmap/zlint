@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCertPolicyNotConflictWithPostal(t *testing.T) {
-	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := Lints["e_cab_dv_conflicts_with_postal"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cab_dv_conflicts_with_postal"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyConflictsWithPostal(t *testing.T) {
-	inputPath := "../testlint/testCerts/domainValWithPostal.pem"
+	inputPath := "../../testlint/testCerts/domainValWithPostal.pem"
 	expected := lint.Error
-	out := Lints["e_cab_dv_conflicts_with_postal"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cab_dv_conflicts_with_postal"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

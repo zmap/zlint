@@ -16,30 +16,33 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestNcMaxPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncAllPres.pem"
+	inputPath := "../../testlint/testCerts/ncAllPres.pem"
 	expected := lint.Error
-	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_maximum_not_absent"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcMinPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncMinPres.pem"
+	inputPath := "../../testlint/testCerts/ncMinPres.pem"
 	expected := lint.Pass
-	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_maximum_not_absent"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcEmptyValue(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncEmptyValue.pem"
+	inputPath := "../../testlint/testCerts/ncEmptyValue.pem"
 	expected := lint.Pass
-	out := Lints["e_name_constraint_maximum_not_absent"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_maximum_not_absent"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -3,6 +3,9 @@ package cabf_ev
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestTorValidityTooLarge(t *testing.T) {
@@ -14,7 +17,7 @@ func TestTorValidityTooLarge(t *testing.T) {
 		{
 			Name:           "Onion subject, long expiry before util.OnionOnlyEVDate",
 			InputFilename:  "onionSANLongExpiryPreBallot.pem",
-			ExpectedResult: NE,
+			ExpectedResult: lint.NE,
 		},
 		{
 			Name:           "Onion subject, long expiry, after util.OnionOnlyEVDate",
@@ -30,8 +33,8 @@ func TestTorValidityTooLarge(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_onion_subject_validity_time_too_large"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_onion_subject_validity_time_too_large"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

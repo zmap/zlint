@@ -14,39 +14,44 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestDNSNameHyphenBeginningSLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameHyphenBeginningSLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameHyphenBeginningSLD.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameHyphenEndingSLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameHyphenEndingSLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameHyphenEndingSLD.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNoHyphenInSLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameWildcardCorrect.pem"
+	inputPath := "../../testlint/testCerts/dnsNameWildcardCorrect.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNamePrivatePublicSuffixNoHyphenInSLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNamePrivatePublicSuffix.pem"
+	inputPath := "../../testlint/testCerts/dnsNamePrivatePublicSuffix.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_hyphen_in_sld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

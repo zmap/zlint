@@ -19,12 +19,12 @@ import (
 	"testing"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
 )
 
 var (
 	globalLintResult       *ResultSet
-	globalSingleLintResult *lints.LintResult
+	globalSingleLintResult *lint.LintResult
 )
 
 const bigCertificatePem = `-----BEGIN CERTIFICATE-----
@@ -111,10 +111,10 @@ func BenchmarkZlint(b *testing.B) {
 
 	b.Run("Fast lints", func(b *testing.B) {
 		globalLintResult = &ResultSet{}
-		globalLintResult.Results = make(map[string]*lints.LintResult, len(lints.Lints))
+		globalLintResult.Results = make(map[string]*lint.LintResult, len(lint.Lints))
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			for key, value := range lints.Lints {
+			for key, value := range lint.Lints {
 				switch key {
 				case "w_dnsname_underscore_in_trd", "e_dnsname_underscore_in_sld", "e_dnsname_hyphen_in_sld",
 					"w_dnsname_wildcard_left_of_public_suffix", "w_san_iana_pub_suffix_empty":
@@ -131,10 +131,10 @@ func BenchmarkZlint(b *testing.B) {
 
 	b.Run("Fastest lints", func(b *testing.B) {
 		globalLintResult = &ResultSet{}
-		globalLintResult.Results = make(map[string]*lints.LintResult, len(lints.Lints))
+		globalLintResult.Results = make(map[string]*lint.LintResult, len(lint.Lints))
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			for key, value := range lints.Lints {
+			for key, value := range lint.Lints {
 				switch key {
 				case "w_dnsname_underscore_in_trd", "e_dnsname_underscore_in_sld", "e_dnsname_hyphen_in_sld",
 					"w_dnsname_wildcard_left_of_public_suffix", "w_san_iana_pub_suffix_empty",
@@ -157,13 +157,13 @@ func BenchmarkZlint(b *testing.B) {
 		}
 	})
 
-	for key, value := range lints.Lints {
+	for key, value := range lint.Lints {
 		b.Run(key, func(b *testing.B) {
 			if !value.Lint.CheckApplies(x509Cert) {
 				b.Skip("Check doesn't apply")
 			}
 
-			var result *lints.LintResult
+			var result *lint.LintResult
 			for i := 0; i < b.N; i++ {
 				result = value.Lint.Execute(x509Cert)
 			}

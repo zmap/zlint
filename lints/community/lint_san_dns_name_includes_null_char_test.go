@@ -16,21 +16,24 @@ package community
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestBrSANDNSNull(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANDNSNull.pem"
+	inputPath := "../../testlint/testCerts/SANDNSNull.pem"
 	expected := lint.Error
-	out := Lints["e_san_dns_name_includes_null_char"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_san_dns_name_includes_null_char"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBrSANDNSNotNull(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIValid.pem"
+	inputPath := "../../testlint/testCerts/SANURIValid.pem"
 	expected := lint.Pass
-	out := Lints["e_san_dns_name_includes_null_char"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_san_dns_name_includes_null_char"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

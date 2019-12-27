@@ -3,6 +3,9 @@ package cabf_br
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestOnionNotEV(t *testing.T) {
@@ -15,7 +18,7 @@ func TestOnionNotEV(t *testing.T) {
 		{
 			Name:           "Onion subject, not EV cert, before util.OnionOnlyEVDate",
 			InputFilename:  "dnsNameOnionTLD.pem",
-			ExpectedResult: NE,
+			ExpectedResult: lint.NE,
 		},
 		{
 			Name:            "Onion subject, not EV cert, after util.OnionOnlyEVDate",
@@ -32,8 +35,8 @@ func TestOnionNotEV(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_san_dns_name_onion_not_ev_cert"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_san_dns_name_onion_not_ev_cert"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

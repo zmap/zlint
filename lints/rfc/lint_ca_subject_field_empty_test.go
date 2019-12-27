@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCaSubjectMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caSubjectMissing.pem"
+	inputPath := "../../testlint/testCerts/caSubjectMissing.pem"
 	expected := lint.Error
-	out := Lints["e_ca_subject_field_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_subject_field_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaSubjectValid(t *testing.T) {
-	inputPath := "../testlint/testCerts/caValCountry.pem"
+	inputPath := "../../testlint/testCerts/caValCountry.pem"
 	expected := lint.Pass
-	out := Lints["e_ca_subject_field_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_subject_field_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

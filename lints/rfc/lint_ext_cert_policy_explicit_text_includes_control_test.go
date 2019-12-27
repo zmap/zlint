@@ -16,30 +16,33 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestExplicitTextUtfControlX10(t *testing.T) {
-	inputPath := "../testlint/testCerts/utf8ControlX10.pem"
+	inputPath := "../../testlint/testCerts/utf8ControlX10.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextUtfControlX88(t *testing.T) {
-	inputPath := "../testlint/testCerts/utf8ControlX88.pem"
+	inputPath := "../../testlint/testCerts/utf8ControlX88.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextUtfNoControl(t *testing.T) {
-	inputPath := "../testlint/testCerts/utf8NoControl.pem"
+	inputPath := "../../testlint/testCerts/utf8NoControl.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

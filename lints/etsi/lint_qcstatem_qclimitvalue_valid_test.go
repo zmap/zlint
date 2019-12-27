@@ -16,15 +16,18 @@ package etsi
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestQcStatemQcLimitValueValid(t *testing.T) {
-	m := map[string]LintStatus{
+	m := map[string]lint.LintStatus{
 		"QcStmtValidLimitValue.pem": lint.Pass,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../testlint/testCerts/" + inputPath
-		out := Lints["e_qcstatem_qclimitvalue_valid"].Execute(ReadCertificate(inputPath))
+		inputPath = "../../testlint/testCerts/" + inputPath
+		out := lint.Lints["e_qcstatem_qclimitvalue_valid"].Execute(util.ReadCertificate(inputPath))
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -33,12 +36,12 @@ func TestQcStatemQcLimitValueValid(t *testing.T) {
 }
 
 func TestQcStatemQcLimitValueInvalid(t *testing.T) {
-	m := map[string]LintStatus{
+	m := map[string]lint.LintStatus{
 		"QcStmtInvalidLimitValue.pem": lint.Error,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../testlint/testCerts/" + inputPath
-		out := Lints["e_qcstatem_qclimitvalue_valid"].Execute(ReadCertificate(inputPath))
+		inputPath = "../../testlint/testCerts/" + inputPath
+		out := lint.Lints["e_qcstatem_qclimitvalue_valid"].Execute(util.ReadCertificate(inputPath))
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -18,21 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubjectRDNTwoAttribute(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectRDNTwoAttribute.pem"
+	inputPath := "../../testlint/testCerts/subjectRDNTwoAttribute.pem"
 	expected := lint.Notice
-	out := Lints["n_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["n_multiple_subject_rdn"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectRDNOneAttribute(t *testing.T) {
-	inputPath := "../testlint/testCerts/RSASHA1Good.pem"
+	inputPath := "../../testlint/testCerts/RSASHA1Good.pem"
 	expected := lint.Pass
-	out := Lints["n_multiple_subject_rdn"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["n_multiple_subject_rdn"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

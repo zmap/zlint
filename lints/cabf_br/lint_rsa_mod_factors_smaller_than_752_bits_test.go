@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRsaModFactorTooSmall(t *testing.T) {
-	inputPath := "../testlint/testCerts/evenRsaMod.pem"
+	inputPath := "../../testlint/testCerts/evenRsaMod.pem"
 	expected := lint.Warn
-	out := Lints["w_rsa_mod_factors_smaller_than_752"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_rsa_mod_factors_smaller_than_752"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaModFactorNotTooSmall(t *testing.T) {
-	inputPath := "../testlint/testCerts/goodRsaExp.pem"
+	inputPath := "../../testlint/testCerts/goodRsaExp.pem"
 	expected := lint.Pass
-	out := Lints["w_rsa_mod_factors_smaller_than_752"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_rsa_mod_factors_smaller_than_752"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

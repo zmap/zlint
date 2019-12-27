@@ -16,39 +16,42 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestExplicitTextIA5String(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticePres.pem"
+	inputPath := "../../testlint/testCerts/userNoticePres.pem"
 	expected := lint.Error
-	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextNotIA5String(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeExpTextNotIA5String.pem"
+	inputPath := "../../testlint/testCerts/userNoticeExpTextNotIA5String.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextNotPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
+	inputPath := "../../testlint/testCerts/userNoticeMissing.pem"
 	expected := lint.NA
-	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextNotPresent2(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeUnrecommended.pem"
+	inputPath := "../../testlint/testCerts/userNoticeUnrecommended.pem"
 	expected := lint.NA
-	out := Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

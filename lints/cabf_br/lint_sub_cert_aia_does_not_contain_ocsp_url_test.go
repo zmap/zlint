@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCertNoIssuerOcsp(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertWIssuerURL.pem"
+	inputPath := "../../testlint/testCerts/subCertWIssuerURL.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertHasIssuerOcsp(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertWOcspURL.pem"
+	inputPath := "../../testlint/testCerts/subCertWOcspURL.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

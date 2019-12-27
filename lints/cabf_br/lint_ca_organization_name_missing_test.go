@@ -16,30 +16,33 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCAOrgNameBlank(t *testing.T) {
-	inputPath := "../testlint/testCerts/caOrgNameEmpty.pem"
+	inputPath := "../../testlint/testCerts/caOrgNameEmpty.pem"
 	expected := lint.Error
-	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_organization_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCAOrgNameMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caOrgNameMissing.pem"
+	inputPath := "../../testlint/testCerts/caOrgNameMissing.pem"
 	expected := lint.Error
-	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_organization_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCAOrgNameValid(t *testing.T) {
-	inputPath := "../testlint/testCerts/caValOrgName.pem"
+	inputPath := "../../testlint/testCerts/caValOrgName.pem"
 	expected := lint.Pass
-	out := Lints["e_ca_organization_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_organization_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

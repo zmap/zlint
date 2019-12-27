@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRootCAEKU(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCAWithEKU.pem"
+	inputPath := "../../testlint/testCerts/rootCAWithEKU.pem"
 	expected := lint.Error
-	out := Lints["e_root_ca_extended_key_usage_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_root_ca_extended_key_usage_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRootCANoEKU(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCAValid.pem"
+	inputPath := "../../testlint/testCerts/rootCAValid.pem"
 	expected := lint.Pass
-	out := Lints["e_root_ca_extended_key_usage_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_root_ca_extended_key_usage_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

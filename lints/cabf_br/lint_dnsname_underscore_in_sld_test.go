@@ -14,21 +14,26 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestDNSNameUnderscoreInSLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameUnderscoreInSLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameUnderscoreInSLD.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_underscore_in_sld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNoUnderscoreInSLD(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameNoUnderscoreInSLD.pem"
+	inputPath := "../../testlint/testCerts/dnsNameNoUnderscoreInSLD.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_underscore_in_sld"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_underscore_in_sld"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

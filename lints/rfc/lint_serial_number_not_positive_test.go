@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSnNeagtive(t *testing.T) {
-	inputPath := "../testlint/testCerts/serialNumberNegative.pem"
+	inputPath := "../../testlint/testCerts/serialNumberNegative.pem"
 	expected := lint.Error
-	out := Lints["e_serial_number_not_positive"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_serial_number_not_positive"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSnNotNeagtive(t *testing.T) {
-	inputPath := "../testlint/testCerts/serialNumberValid.pem"
+	inputPath := "../../testlint/testCerts/serialNumberValid.pem"
 	expected := lint.Pass
-	out := Lints["e_serial_number_not_positive"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_serial_number_not_positive"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

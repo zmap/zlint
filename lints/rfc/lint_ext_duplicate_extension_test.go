@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestDuplicateExtension(t *testing.T) {
-	inputPath := "../testlint/testCerts/extSANDuplicated.pem"
+	inputPath := "../../testlint/testCerts/extSANDuplicated.pem"
 	expected := lint.Error
-	out := Lints["e_ext_duplicate_extension"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_duplicate_extension"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoDuplicateExtension(t *testing.T) {
-	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
+	inputPath := "../../testlint/testCerts/caBasicConstCrit.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_duplicate_extension"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_duplicate_extension"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

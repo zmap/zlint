@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCaAiaNoIssuerUrl(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWOcspURL.pem"
+	inputPath := "../../testlint/testCerts/subCAWOcspURL.pem"
 	expected := lint.Warn
-	out := Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaAiaHasIssuerUrl(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWBothURL.pem"
+	inputPath := "../../testlint/testCerts/subCAWBothURL.pem"
 	expected := lint.Pass
-	out := Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_sub_ca_aia_does_not_contain_issuing_ca_url"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,48 +16,51 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANURIHostNotFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURINotFQDN.pem"
+	inputPath := "../../testlint/testCerts/SANURINotFQDN.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIHostWildcardFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostWildcardFQDN.pem"
+	inputPath := "../../testlint/testCerts/SANURIHostWildcardFQDN.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIHostWrongWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostWrongWildcard.pem"
+	inputPath := "../../testlint/testCerts/SANURIHostWrongWildcard.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIHostAsterisk(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostAsterisk.pem"
+	inputPath := "../../testlint/testCerts/SANURIHostAsterisk.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIHostFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIHostFQDN.pem"
+	inputPath := "../../testlint/testCerts/SANURIHostFQDN.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -66,9 +69,9 @@ func TestSANURIHostFQDN(t *testing.T) {
 func TestSANURINoAuthority(t *testing.T) {
 	// This certificate has a SAN with URI=sip:alice@sip.uri.com
 	// Since this has no authority section, it should be accepted.
-	inputPath := "../testlint/testCerts/SANURINoAuthority.pem"
+	inputPath := "../../testlint/testCerts/SANURINoAuthority.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

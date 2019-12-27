@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRootCaMaxLenPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCaMaxPathLenPresent.pem"
+	inputPath := "../../testlint/testCerts/rootCaMaxPathLenPresent.pem"
 	expected := lint.Warn
-	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRootCaMaxLenMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCaMaxPathLenMissing.pem"
+	inputPath := "../../testlint/testCerts/rootCaMaxPathLenMissing.pem"
 	expected := lint.Pass
-	out := Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_root_ca_basic_constraints_path_len_constraint_field_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

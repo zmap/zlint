@@ -18,20 +18,23 @@ import (
 	"crypto/dsa"
 	"math/big"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestDSAUniqueCorrectRepresentation(t *testing.T) {
-	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
+	inputPath := "../../testlint/testCerts/dsaUniqueRep.pem"
 	expected := lint.Pass
-	out := Lints["e_dsa_unique_correct_representation"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dsa_unique_correct_representation"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
-	inputPath := "../testlint/testCerts/dsaUniqueRep.pem"
-	c := ReadCertificate(inputPath)
+	inputPath := "../../testlint/testCerts/dsaUniqueRep.pem"
+	c := util.ReadCertificate(inputPath)
 
 	// Replace Y with P - 1
 	dsaKey := c.PublicKey.(*dsa.PublicKey)
@@ -41,7 +44,7 @@ func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
 
 	// Expect failure
 	expected := lint.Error
-	out := Lints["e_dsa_unique_correct_representation"].Execute(c)
+	out := lint.Lints["e_dsa_unique_correct_representation"].Execute(c)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,6 +16,9 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 /************************************************
@@ -27,18 +30,18 @@ in which the CA’s place	of business	is located.
 ************************************************/
 
 func TestCaCountryNameMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caBlankCountry.pem"
+	inputPath := "../../testlint/testCerts/caBlankCountry.pem"
 	expected := lint.Error
-	out := Lints["e_ca_country_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_country_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaCountryNamePresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/caValCountry.pem"
+	inputPath := "../../testlint/testCerts/caValCountry.pem"
 	expected := lint.Pass
-	out := Lints["e_ca_country_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_country_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

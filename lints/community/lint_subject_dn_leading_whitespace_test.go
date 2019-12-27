@@ -16,21 +16,24 @@ package community
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubjectDNLeadingSpace(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectDNLeadingSpace.pem"
+	inputPath := "../../testlint/testCerts/subjectDNLeadingSpace.pem"
 	expected := lint.Warn
-	out := Lints["w_subject_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_subject_dn_leading_whitespace"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectDNGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := Lints["w_subject_dn_leading_whitespace"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_subject_dn_leading_whitespace"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

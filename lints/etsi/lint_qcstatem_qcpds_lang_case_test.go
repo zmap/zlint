@@ -16,10 +16,13 @@ package etsi
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEtsiQcPdsLangCase(t *testing.T) {
-	m := map[string]LintStatus{
+	m := map[string]lint.LintStatus{
 		"QcStmtEtsiTwoEnglPdsCert12.pem":        lint.Pass,
 		"QcStmtEtsiLangCodeUpperCaseCert23.pem": lint.Warn,
 		"QcStmtEtsiValidCert03.pem":             lint.Pass,
@@ -29,8 +32,8 @@ func TestEtsiQcPdsLangCase(t *testing.T) {
 		"QcStmtEtsiNoQcStatmentsCert22.pem":     lint.NA,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../testlint/testCerts/" + inputPath
-		out := Lints["w_qcstatem_qcpds_lang_case"].Execute(ReadCertificate(inputPath))
+		inputPath = "../../testlint/testCerts/" + inputPath
+		out := lint.Lints["w_qcstatem_qcpds_lang_case"].Execute(util.ReadCertificate(inputPath))
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestAuthorityKeyIdNoKeyIdField(t *testing.T) {
-	inputPath := "../testlint/testCerts/akidNoKeyIdentifier.pem"
+	inputPath := "../../testlint/testCerts/akidNoKeyIdentifier.pem"
 	expected := lint.Error
-	out := Lints["e_ext_authority_key_identifier_no_key_identifier"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_authority_key_identifier_no_key_identifier"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAuthorityKeyIdYesKeyIdField(t *testing.T) {
-	inputPath := "../testlint/testCerts/akidWithKeyID.pem"
+	inputPath := "../../testlint/testCerts/akidWithKeyID.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_authority_key_identifier_no_key_identifier"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_authority_key_identifier_no_key_identifier"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

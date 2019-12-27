@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestIDNDnsNameNotNFC(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNamesNotNFC.pem"
+	inputPath := "../../testlint/testCerts/dnsNamesNotNFC.pem"
 	expected := lint.Error
-	out := Lints["e_international_dns_name_not_nfc"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_international_dns_name_not_nfc"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIDNDnsNameIsNFC(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNamesNFC.pem"
+	inputPath := "../../testlint/testCerts/dnsNamesNFC.pem"
 	expected := lint.Pass
-	out := Lints["e_international_dns_name_not_nfc"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_international_dns_name_not_nfc"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

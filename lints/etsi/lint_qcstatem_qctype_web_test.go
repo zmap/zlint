@@ -16,17 +16,20 @@ package etsi
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEtsiQcTypeWeb(t *testing.T) {
-	m := map[string]LintStatus{
+	m := map[string]lint.LintStatus{
 		"QcStmtEtsiValidCert11.pem":         lint.Pass,
 		"QcStmtEtsiEsealValidCert02.pem":    lint.Warn,
 		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../testlint/testCerts/" + inputPath
-		out := Lints["w_qcstatem_qctype_web"].Execute(ReadCertificate(inputPath))
+		inputPath = "../../testlint/testCerts/" + inputPath
+		out := lint.Lints["w_qcstatem_qctype_web"].Execute(util.ReadCertificate(inputPath))
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

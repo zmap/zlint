@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCountryNotIso(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectInvalidCountry.pem"
+	inputPath := "../../testlint/testCerts/subjectInvalidCountry.pem"
 	expected := lint.Error
-	out := Lints["e_subject_country_not_iso"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_country_not_iso"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCountryIsIso(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectValidCountry.pem"
+	inputPath := "../../testlint/testCerts/subjectValidCountry.pem"
 	expected := lint.Pass
-	out := Lints["e_subject_country_not_iso"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_country_not_iso"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestBasicConstNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
+	inputPath := "../../testlint/testCerts/caBasicConstNotCrit.pem"
 	expected := lint.Error
-	out := Lints["e_basic_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_basic_constraints_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBasicConstCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
+	inputPath := "../../testlint/testCerts/caBasicConstCrit.pem"
 	expected := lint.Pass
-	out := Lints["e_basic_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_basic_constraints_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

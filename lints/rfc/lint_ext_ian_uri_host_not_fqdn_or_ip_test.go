@@ -16,57 +16,60 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestIANHostURINotFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostNotFQDNOrIP.pem"
+	inputPath := "../../testlint/testCerts/IANURIHostNotFQDNOrIP.pem"
 	expected := lint.Error
-	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANHostURIFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostFQDN.pem"
+	inputPath := "../../testlint/testCerts/IANURIHostFQDN.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANHostURIIP(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostIP.pem"
+	inputPath := "../../testlint/testCerts/IANURIHostIP.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANHostWildcardFQDN(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostWildcardFQDN.pem"
+	inputPath := "../../testlint/testCerts/IANURIHostWildcardFQDN.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANHostWrongWildcard(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostWrongWildcard.pem"
+	inputPath := "../../testlint/testCerts/IANURIHostWrongWildcard.pem"
 	expected := lint.Error
-	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANHostAsterisk(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANURIHostAsterisk.pem"
+	inputPath := "../../testlint/testCerts/IANURIHostAsterisk.pem"
 	expected := lint.Error
-	out := Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_uri_host_not_fqdn_or_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

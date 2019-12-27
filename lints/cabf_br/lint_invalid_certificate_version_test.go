@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCertVersion2(t *testing.T) {
-	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
+	inputPath := "../../testlint/testCerts/certVersion2WithExtension.pem"
 	expected := lint.Error
-	out := Lints["e_invalid_certificate_version"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_invalid_certificate_version"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertVersion3(t *testing.T) {
-	inputPath := "../testlint/testCerts/certVersion3NoExtensions.pem"
+	inputPath := "../../testlint/testCerts/certVersion3NoExtensions.pem"
 	expected := lint.Pass
-	out := Lints["e_invalid_certificate_version"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_invalid_certificate_version"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

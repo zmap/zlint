@@ -16,12 +16,15 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEvNoBiz(t *testing.T) {
-	inputPath := "../testlint/testCerts/evAllGood.pem"
+	inputPath := "../../testlint/testCerts/evAllGood.pem"
 	expected := lint.Error
-	out := Lints["e_ev_business_category_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ev_business_category_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,30 +16,33 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANIPReserved(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANReservedIP.pem"
+	inputPath := "../../testlint/testCerts/SANReservedIP.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_contains_reserved_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANIPReserved6(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANReservedIP6.pem"
+	inputPath := "../../testlint/testCerts/SANReservedIP6.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_contains_reserved_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANIPNotReserved(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANValidIP.pem"
+	inputPath := "../../testlint/testCerts/SANValidIP.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_contains_reserved_ip"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_contains_reserved_ip"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

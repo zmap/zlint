@@ -14,23 +14,28 @@ package rfc
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestSubjectCountryGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/SubjectDNAndIssuerDNCountryPrintableString.pem"
+	inputPath := "../../testlint/testCerts/SubjectDNAndIssuerDNCountryPrintableString.pem"
 	expected := lint.Pass
 
-	out := Lints["e_subject_dn_country_not_printable_string"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_country_not_printable_string"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCountryBad(t *testing.T) {
-	inputPath := "../testlint/testCerts/SubjectDNCountryNotPrintableString.pem"
+	inputPath := "../../testlint/testCerts/SubjectDNCountryNotPrintableString.pem"
 	expected := lint.Error
 
-	out := Lints["e_subject_dn_country_not_printable_string"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_country_not_printable_string"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

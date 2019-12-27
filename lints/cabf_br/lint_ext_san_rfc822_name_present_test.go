@@ -16,30 +16,33 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANEmailPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANRFC822Beginning.pem"
+	inputPath := "../../testlint/testCerts/SANRFC822Beginning.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_rfc822_name_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANEmailPresent2(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANRFC822End.pem"
+	inputPath := "../../testlint/testCerts/SANRFC822End.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_rfc822_name_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANEmailMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANCaGood.pem"
+	inputPath := "../../testlint/testCerts/SANCaGood.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_rfc822_name_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_rfc822_name_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

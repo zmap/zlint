@@ -16,48 +16,51 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCertKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/keyUsageNotCriticalSubCert.pem"
+	inputPath := "../../testlint/testCerts/keyUsageNotCriticalSubCert.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageNotCrit.pem"
+	inputPath := "../../testlint/testCerts/caKeyUsageNotCrit.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertKeyUsageCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaKeyUsageCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
+	inputPath := "../../testlint/testCerts/caKeyUsageCrit.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_key_usage_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertKeyUsageNotIncludedCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageMissing.pem"
+	inputPath := "../../testlint/testCerts/caKeyUsageMissing.pem"
 	expected := lint.NA
-	out := Lints["e_ext_key_usage_without_bits"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_key_usage_without_bits"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

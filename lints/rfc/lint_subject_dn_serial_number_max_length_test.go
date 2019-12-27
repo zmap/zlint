@@ -14,23 +14,28 @@ package rfc
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestSubjectDNSerialNumberBelowMaximumLengthGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/evAllGood.pem"
+	inputPath := "../../testlint/testCerts/evAllGood.pem"
 	expected := lint.Pass
 
-	out := Lints["e_subject_dn_serial_number_max_length"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_serial_number_max_length"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectDNSerialNumberTooLongBad(t *testing.T) {
-	inputPath := "../testlint/testCerts/SubjectDNSerialNumberTooLong.pem"
+	inputPath := "../../testlint/testCerts/SubjectDNSerialNumberTooLong.pem"
 	expected := lint.Error
 
-	out := Lints["e_subject_dn_serial_number_max_length"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_serial_number_max_length"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

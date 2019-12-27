@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestIANInvalidEmail(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANInvalidEmail.pem"
+	inputPath := "../../testlint/testCerts/IANInvalidEmail.pem"
 	expected := lint.Error
-	out := Lints["e_ext_ian_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_rfc822_format_invalid"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANValidEmail(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANValidEmail.pem"
+	inputPath := "../../testlint/testCerts/IANValidEmail.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_ian_rfc822_format_invalid"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_ian_rfc822_format_invalid"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

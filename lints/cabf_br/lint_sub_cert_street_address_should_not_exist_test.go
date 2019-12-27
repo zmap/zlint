@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestStreetAddressShouldNotExist(t *testing.T) {
-	inputPath := "../testlint/testCerts/streetAddressCannotExist.pem"
+	inputPath := "../../testlint/testCerts/streetAddressCannotExist.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_street_address_should_not_exist"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_street_address_should_not_exist"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestStreetAddressCanExist(t *testing.T) {
-	inputPath := "../testlint/testCerts/streetAddressCanExist.pem"
+	inputPath := "../../testlint/testCerts/streetAddressCanExist.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_cert_street_address_should_not_exist"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_street_address_should_not_exist"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

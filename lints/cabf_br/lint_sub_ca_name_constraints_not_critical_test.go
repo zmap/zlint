@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCaNcNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWNameConstNoCrit.pem"
+	inputPath := "../../testlint/testCerts/subCAWNameConstNoCrit.pem"
 	expected := lint.Warn
-	out := Lints["w_sub_ca_name_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_sub_ca_name_constraints_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaNcCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAWNameConstCrit.pem"
+	inputPath := "../../testlint/testCerts/subCAWNameConstCrit.pem"
 	expected := lint.Pass
-	out := Lints["w_sub_ca_name_constraints_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_sub_ca_name_constraints_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

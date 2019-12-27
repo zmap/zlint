@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestUtcHasSeconds(t *testing.T) {
-	inputPath := "../testlint/testCerts/utcHasSeconds.pem"
+	inputPath := "../../testlint/testCerts/utcHasSeconds.pem"
 	expected := lint.Pass
-	out := Lints["e_utc_time_does_not_include_seconds"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_utc_time_does_not_include_seconds"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUtcNoSeconds(t *testing.T) {
-	inputPath := "../testlint/testCerts/utcNoSeconds.pem"
+	inputPath := "../../testlint/testCerts/utcNoSeconds.pem"
 	expected := lint.Error
-	out := Lints["e_utc_time_does_not_include_seconds"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_utc_time_does_not_include_seconds"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

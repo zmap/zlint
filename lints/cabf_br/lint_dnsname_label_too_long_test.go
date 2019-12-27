@@ -14,12 +14,17 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestDNSNameLabelTooLong(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameLabelTooLong.pem"
+	inputPath := "../../testlint/testCerts/dnsNameLabelTooLong.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_label_too_long"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_label_too_long"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

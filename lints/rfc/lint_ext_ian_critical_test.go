@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestIANCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANCritical.pem"
+	inputPath := "../../testlint/testCerts/IANCritical.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_ian_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_ian_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANNotCritical.pem"
+	inputPath := "../../testlint/testCerts/IANNotCritical.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_ian_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_ian_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

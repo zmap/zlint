@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestInhibitAnyPolicyNotCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/inhibitAnyNotCrit.pem"
+	inputPath := "../../testlint/testCerts/inhibitAnyNotCrit.pem"
 	expected := lint.Error
-	out := Lints["e_inhibit_any_policy_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_inhibit_any_policy_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestInhibitAnyPolicyCrit(t *testing.T) {
-	inputPath := "../testlint/testCerts/inhibitAnyCrit.pem"
+	inputPath := "../../testlint/testCerts/inhibitAnyCrit.pem"
 	expected := lint.Pass
-	out := Lints["e_inhibit_any_policy_not_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_inhibit_any_policy_not_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

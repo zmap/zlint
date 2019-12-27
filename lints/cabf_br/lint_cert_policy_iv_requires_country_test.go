@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCertPolicyIvCountry(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/indivValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["e_cert_policy_iv_requires_country"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_policy_iv_requires_country"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvNoCountry(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValNoCountry.pem"
+	inputPath := "../../testlint/testCerts/indivValNoCountry.pem"
 	expected := lint.Error
-	out := Lints["e_cert_policy_iv_requires_country"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_policy_iv_requires_country"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

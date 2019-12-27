@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestUtcZulu(t *testing.T) {
-	inputPath := "../testlint/testCerts/utcHasSeconds.pem"
+	inputPath := "../../testlint/testCerts/utcHasSeconds.pem"
 	expected := lint.Pass
-	out := Lints["e_utc_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_utc_time_not_in_zulu"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUtcNotZulu(t *testing.T) {
-	inputPath := "../testlint/testCerts/utcNotZulu.pem"
+	inputPath := "../../testlint/testCerts/utcNotZulu.pem"
 	expected := lint.Error
-	out := Lints["e_utc_time_not_in_zulu"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_utc_time_not_in_zulu"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

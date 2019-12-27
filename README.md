@@ -150,7 +150,7 @@ Example:
 ```go
 func TestBasicConstNotCritical(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
+	inputPath := "../../testlint/testCerts/caBasicConstNotCrit.pem"
 	expected := Error
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != expected {

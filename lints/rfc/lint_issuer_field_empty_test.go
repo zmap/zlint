@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestNoIssuerField(t *testing.T) {
-	inputPath := "../testlint/testCerts/issuerFieldMissing.pem"
+	inputPath := "../../testlint/testCerts/issuerFieldMissing.pem"
 	expected := lint.Error
-	out := Lints["e_issuer_field_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_issuer_field_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestHasIssuerField(t *testing.T) {
-	inputPath := "../testlint/testCerts/issuerFieldFilled.pem"
+	inputPath := "../../testlint/testCerts/issuerFieldFilled.pem"
 	expected := lint.Pass
-	out := Lints["e_issuer_field_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_issuer_field_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

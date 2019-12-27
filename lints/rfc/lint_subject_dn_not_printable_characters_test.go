@@ -14,33 +14,38 @@ package rfc
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestSubjectCharactersGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
 	expected := lint.Pass
 
-	out := Lints["e_subject_dn_not_printable_characters"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_not_printable_characters"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCharactersGoodUTF8(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectDNNotPrintableCharsUTF8.pem"
+	inputPath := "../../testlint/testCerts/subjectDNNotPrintableCharsUTF8.pem"
 	expected := lint.Pass
 
-	out := Lints["e_subject_dn_not_printable_characters"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_not_printable_characters"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCharactersBad(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectDNNotPrintableCharacters.pem"
+	inputPath := "../../testlint/testCerts/subjectDNNotPrintableCharacters.pem"
 	expected := lint.Error
 
-	out := Lints["e_subject_dn_not_printable_characters"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_dn_not_printable_characters"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

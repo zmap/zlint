@@ -16,30 +16,33 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCertValidTimeLongerThan825Days(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertOver825DaysBad.pem"
+	inputPath := "../../testlint/testCerts/subCertOver825DaysBad.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_valid_time_longer_than_825_days"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_valid_time_longer_than_825_days"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertValidTimeLongerThan825DaysBeforeCutoff(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertOver825DaysOK.pem"
-	expected := NE
-	out := Lints["e_sub_cert_valid_time_longer_than_825_days"].Execute(ReadCertificate(inputPath))
+	inputPath := "../../testlint/testCerts/subCertOver825DaysOK.pem"
+	expected := lint.NE
+	out := lint.Lints["e_sub_cert_valid_time_longer_than_825_days"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertValidTime825Days(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCert825DaysOK.pem"
+	inputPath := "../../testlint/testCerts/subCert825DaysOK.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_cert_valid_time_longer_than_825_days"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_valid_time_longer_than_825_days"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

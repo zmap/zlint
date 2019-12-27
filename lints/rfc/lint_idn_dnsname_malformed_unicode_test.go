@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestIDNMalformedUnicode(t *testing.T) {
-	inputPath := "../testlint/testCerts/idnMalformedUnicode.pem"
+	inputPath := "../../testlint/testCerts/idnMalformedUnicode.pem"
 	expected := lint.Error
-	out := Lints["e_international_dns_name_not_unicode"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_international_dns_name_not_unicode"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIDNCorrectUnicode(t *testing.T) {
-	inputPath := "../testlint/testCerts/idnCorrectUnicode.pem"
+	inputPath := "../../testlint/testCerts/idnCorrectUnicode.pem"
 	expected := lint.Pass
-	out := Lints["e_international_dns_name_not_unicode"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_international_dns_name_not_unicode"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

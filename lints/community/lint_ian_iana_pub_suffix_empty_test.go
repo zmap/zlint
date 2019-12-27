@@ -16,21 +16,24 @@ package community
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestIANBarePubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANBareSuffix.pem"
+	inputPath := "../../testlint/testCerts/IANBareSuffix.pem"
 	expected := lint.Warn
-	out := Lints["w_ian_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ian_iana_pub_suffix_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANGoodPubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/IANGoodSuffix.pem"
+	inputPath := "../../testlint/testCerts/IANGoodSuffix.pem"
 	expected := lint.Pass
-	out := Lints["w_ian_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ian_iana_pub_suffix_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

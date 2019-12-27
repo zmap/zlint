@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANOtherNamePresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANOtherName.pem"
+	inputPath := "../../testlint/testCerts/SANOtherName.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_other_name_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_other_name_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANOtherNameMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANEDIParty.pem"
+	inputPath := "../../testlint/testCerts/SANEDIParty.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_other_name_present"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_other_name_present"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

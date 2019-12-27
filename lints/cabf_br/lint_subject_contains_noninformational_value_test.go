@@ -16,6 +16,9 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubjectInformational(t *testing.T) {
@@ -26,19 +29,19 @@ func TestSubjectInformational(t *testing.T) {
 	}{
 		{
 			name:      "simple all legal",
-			inputPath: "../testlint/testCerts/legalChar.pem",
+			inputPath: "../../testlint/testCerts/legalChar.pem",
 			result:    lint.Pass,
 		},
 		{
 			name:      "subject with metadata only",
-			inputPath: "../testlint/testCerts/illegalChar.pem",
+			inputPath: "../../testlint/testCerts/illegalChar.pem",
 			result:    lint.Error,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			out := Lints["e_subject_contains_noninformational_value"].Execute(ReadCertificate(tc.inputPath))
+			out := lint.Lints["e_subject_contains_noninformational_value"].Execute(util.ReadCertificate(tc.inputPath))
 			if out.Status != tc.result {
 				t.Errorf("%s: expected %s, got %s", tc.inputPath, tc.result, out.Status)
 			}

@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCertPolicyMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertPolicyMissing.pem"
+	inputPath := "../../testlint/testCerts/subCertPolicyMissing.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_cert_policy_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_cert_policy_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertPolicyNoCrit.pem"
+	inputPath := "../../testlint/testCerts/subCertPolicyNoCrit.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_cert_cert_policy_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_cert_policy_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestNoticeRefUsed(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticePres.pem"
+	inputPath := "../../testlint/testCerts/userNoticePres.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_cert_policy_contains_noticeref"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_cert_policy_contains_noticeref"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoticeRefNotUsed(t *testing.T) {
-	inputPath := "../testlint/testCerts/userNoticeMissing.pem"
+	inputPath := "../../testlint/testCerts/userNoticeMissing.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_cert_policy_contains_noticeref"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_cert_policy_contains_noticeref"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubjectPrintableStringBadAlpha(t *testing.T) {
@@ -45,8 +46,8 @@ func TestSubjectPrintableStringBadAlpha(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.filename)
-			result := Lints["e_subject_printable_string_badalpha"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.filename)
+			result := lint.Lints["e_subject_printable_string_badalpha"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.expected.Status {
 				t.Errorf("expected result status %v was %v", tc.expected.Status, result.Status)
 			}

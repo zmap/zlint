@@ -16,30 +16,33 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestPKTypeUnknown(t *testing.T) {
-	inputPath := "../testlint/testCerts/unknownpublickey.pem"
+	inputPath := "../../testlint/testCerts/unknownpublickey.pem"
 	expected := lint.Error
-	out := Lints["e_public_key_type_not_allowed"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_public_key_type_not_allowed"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPKTypeRSA(t *testing.T) {
-	inputPath := "../testlint/testCerts/rsawithsha1before2016.pem"
+	inputPath := "../../testlint/testCerts/rsawithsha1before2016.pem"
 	expected := lint.Pass
-	out := Lints["e_public_key_type_not_allowed"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_public_key_type_not_allowed"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPKTypeECDSA(t *testing.T) {
-	inputPath := "../testlint/testCerts/ecdsaP256.pem"
+	inputPath := "../../testlint/testCerts/ecdsaP256.pem"
 	expected := lint.Pass
-	out := Lints["e_public_key_type_not_allowed"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_public_key_type_not_allowed"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

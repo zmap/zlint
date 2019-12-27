@@ -16,21 +16,24 @@ package community
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestBrSANWildcardFirst(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANWildcardFirst.pem"
+	inputPath := "../../testlint/testCerts/SANWildcardFirst.pem"
 	expected := lint.Error
-	out := Lints["e_san_wildcard_not_first"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_san_wildcard_not_first"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBrSANWildcardNotFirst(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANURIValid.pem"
+	inputPath := "../../testlint/testCerts/SANURIValid.pem"
 	expected := lint.Pass
-	out := Lints["e_san_wildcard_not_first"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_san_wildcard_not_first"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

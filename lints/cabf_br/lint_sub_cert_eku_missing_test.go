@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEkuMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/subExtKeyUsageMissing.pem"
+	inputPath := "../../testlint/testCerts/subExtKeyUsageMissing.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_eku_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_eku_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEkuPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subExtKeyUsageServClient.pem"
+	inputPath := "../../testlint/testCerts/subExtKeyUsageServClient.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_cert_eku_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_eku_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

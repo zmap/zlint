@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEvValidTooLong(t *testing.T) {
-	inputPath := "../testlint/testCerts/evValidTooLong.pem"
+	inputPath := "../../testlint/testCerts/evValidTooLong.pem"
 	expected := lint.Error
-	out := Lints["e_ev_valid_time_too_long"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ev_valid_time_too_long"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEvValidNotTooLong(t *testing.T) {
-	inputPath := "../testlint/testCerts/evValidNotTooLong.pem"
+	inputPath := "../../testlint/testCerts/evValidNotTooLong.pem"
 	expected := lint.Pass
-	out := Lints["e_ev_valid_time_too_long"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ev_valid_time_too_long"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

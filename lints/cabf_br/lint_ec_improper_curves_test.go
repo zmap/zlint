@@ -16,39 +16,42 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestECP224(t *testing.T) {
-	inputPath := "../testlint/testCerts/ecdsaP224.pem"
+	inputPath := "../../testlint/testCerts/ecdsaP224.pem"
 	expected := lint.Error
-	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ec_improper_curves"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestECP256(t *testing.T) {
-	inputPath := "../testlint/testCerts/ecdsaP256.pem"
+	inputPath := "../../testlint/testCerts/ecdsaP256.pem"
 	expected := lint.Pass
-	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ec_improper_curves"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestECP384(t *testing.T) {
-	inputPath := "../testlint/testCerts/ecdsaP384.pem"
+	inputPath := "../../testlint/testCerts/ecdsaP384.pem"
 	expected := lint.Pass
-	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ec_improper_curves"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestECP521(t *testing.T) {
-	inputPath := "../testlint/testCerts/ecdsaP521.pem"
+	inputPath := "../../testlint/testCerts/ecdsaP521.pem"
 	expected := lint.Pass
-	out := Lints["e_ec_improper_curves"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ec_improper_curves"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

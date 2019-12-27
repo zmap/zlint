@@ -16,39 +16,42 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestAIAcaIssuerMissingHTTPorLDAP(t *testing.T) {
-	inputPath := "../testlint/testCerts/caIssuerNoHTTPLDAP.pem"
+	inputPath := "../../testlint/testCerts/caIssuerNoHTTPLDAP.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_aia_access_location_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAIAcaIssuerHTTP(t *testing.T) {
-	inputPath := "../testlint/testCerts/caIssuerHTTP.pem"
+	inputPath := "../../testlint/testCerts/caIssuerHTTP.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_aia_access_location_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAIAcaIssuerLDAP(t *testing.T) {
-	inputPath := "../testlint/testCerts/caIssuerLDAP.pem"
+	inputPath := "../../testlint/testCerts/caIssuerLDAP.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_aia_access_location_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAIAcaIssuerBlank(t *testing.T) {
-	inputPath := "../testlint/testCerts/caIssuerBlank.pem"
+	inputPath := "../../testlint/testCerts/caIssuerBlank.pem"
 	expected := lint.NA
-	out := Lints["w_ext_aia_access_location_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

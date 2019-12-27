@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCaKeyUsageNoCertSign(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageNoCertSign.pem"
+	inputPath := "../../testlint/testCerts/caKeyUsageNoCertSign.pem"
 	expected := lint.Error
-	out := Lints["e_ca_key_cert_sign_not_set"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_key_cert_sign_not_set"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestKeyUsageCertSign(t *testing.T) {
-	inputPath := "../testlint/testCerts/caKeyUsageCrit.pem"
+	inputPath := "../../testlint/testCerts/caKeyUsageCrit.pem"
 	expected := lint.Pass
-	out := Lints["e_ca_key_cert_sign_not_set"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_key_cert_sign_not_set"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

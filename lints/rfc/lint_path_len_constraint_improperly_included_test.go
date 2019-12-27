@@ -16,48 +16,51 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCaMaxLenPresentNoCertSign(t *testing.T) {
-	inputPath := "../testlint/testCerts/caMaxPathLenPresentNoCertSign.pem"
+	inputPath := "../../testlint/testCerts/caMaxPathLenPresentNoCertSign.pem"
 	expected := lint.Error
-	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_path_len_constraint_improperly_included"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaMaxLenPresentGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/caMaxPathLenPositive.pem"
+	inputPath := "../../testlint/testCerts/caMaxPathLenPositive.pem"
 	expected := lint.Pass
-	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_path_len_constraint_improperly_included"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaMaxLenMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caMaxPathLenMissing.pem"
+	inputPath := "../../testlint/testCerts/caMaxPathLenMissing.pem"
 	expected := lint.Pass
-	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_path_len_constraint_improperly_included"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertMaxLenPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertPathLenPositive.pem"
+	inputPath := "../../testlint/testCerts/subCertPathLenPositive.pem"
 	expected := lint.Error
-	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_path_len_constraint_improperly_included"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertMaxLenNone(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["e_path_len_constraint_improperly_included"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_path_len_constraint_improperly_included"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

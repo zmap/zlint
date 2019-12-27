@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANCritWithSubjectDn(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
+	inputPath := "../../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
 	expected := lint.Warn
-	out := Lints["w_ext_san_critical_with_subject_dn"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_san_critical_with_subject_dn"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANNotCritWithSubjectDn(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/indivValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["w_ext_san_critical_with_subject_dn"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_ext_san_critical_with_subject_dn"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

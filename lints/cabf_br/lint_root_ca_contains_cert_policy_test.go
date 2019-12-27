@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRootCACertPolicy(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCAWithCertPolicy.pem"
+	inputPath := "../../testlint/testCerts/rootCAWithCertPolicy.pem"
 	expected := lint.Warn
-	out := Lints["w_root_ca_contains_cert_policy"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_root_ca_contains_cert_policy"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRootCANoCertPolicy(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCAValid.pem"
+	inputPath := "../../testlint/testCerts/rootCAValid.pem"
 	expected := lint.Pass
-	out := Lints["w_root_ca_contains_cert_policy"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_root_ca_contains_cert_policy"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

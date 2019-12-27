@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestNcMinZero(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncMinZero.pem"
+	inputPath := "../../testlint/testCerts/ncMinZero.pem"
 	expected := lint.Pass
-	out := Lints["e_name_constraint_minimum_non_zero"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_minimum_non_zero"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcMinNotZero(t *testing.T) {
-	inputPath := "../testlint/testCerts/ncMinPres.pem"
+	inputPath := "../../testlint/testCerts/ncMinPres.pem"
 	expected := lint.Error
-	out := Lints["e_name_constraint_minimum_non_zero"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_minimum_non_zero"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

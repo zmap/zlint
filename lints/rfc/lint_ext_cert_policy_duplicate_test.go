@@ -16,29 +16,32 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCertPolicyDuplicated(t *testing.T) {
-	inputPath := "../testlint/testCerts/certPolicyDuplicateShort.pem"
+	inputPath := "../../testlint/testCerts/certPolicyDuplicateShort.pem"
 	expected := lint.Error
-	out := Lints["e_ext_cert_policy_duplicate"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_duplicate"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 func TestCertPolicyDuplicatedAssertion(t *testing.T) {
-	inputPath := "../testlint/testCerts/certPolicyAssertionDuplicated.pem"
+	inputPath := "../../testlint/testCerts/certPolicyAssertionDuplicated.pem"
 	expected := lint.Error
-	out := Lints["e_ext_cert_policy_duplicate"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_duplicate"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyNotDuplicated(t *testing.T) {
-	inputPath := "../testlint/testCerts/certPolicyNoDuplicate.pem"
+	inputPath := "../../testlint/testCerts/certPolicyNoDuplicate.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_cert_policy_duplicate"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_cert_policy_duplicate"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

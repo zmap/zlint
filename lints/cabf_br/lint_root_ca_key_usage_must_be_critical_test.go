@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRootCAKeyUsageCritical(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCAKeyUsagePresent.pem"
+	inputPath := "../../testlint/testCerts/rootCAKeyUsagePresent.pem"
 	expected := lint.Pass
-	out := Lints["e_root_ca_key_usage_must_be_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_root_ca_key_usage_must_be_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRootCAKeyUsageNotCritical(t *testing.T) {
-	inputPath := "../testlint/testCerts/rootCAKeyUsageNotCritical.pem"
+	inputPath := "../../testlint/testCerts/rootCAKeyUsageNotCritical.pem"
 	expected := lint.Error
-	out := Lints["e_root_ca_key_usage_must_be_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_root_ca_key_usage_must_be_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

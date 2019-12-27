@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestECDSAInvalidKU(t *testing.T) {
@@ -39,8 +40,8 @@ func TestECDSAInvalidKU(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.filename)
-		result := Lints["n_ecdsa_ee_invalid_ku"].Execute(ReadCertificate(inputPath))
+		inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.filename)
+		result := lint.Lints["n_ecdsa_ee_invalid_ku"].Execute(util.ReadCertificate(inputPath))
 		if result.Status != tc.expectedStatus {
 			t.Errorf("expected result %v. actual result was %v",
 				tc.expectedStatus, result.Status)

@@ -16,6 +16,9 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 // As a note, these certificates were not built, but instead grabbed from censys.io/query
@@ -23,18 +26,18 @@ import (
 // select raw, parsed.validity.start from certificates.pemtificates where parsed.signature_algorithm.oid = "1.2.840.113549.1.1.5" limit 200
 
 func TestSHA1After2016(t *testing.T) {
-	inputPath := "../testlint/testCerts/rsawithsha1after2016.pem"
+	inputPath := "../../testlint/testCerts/rsawithsha1after2016.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_or_sub_ca_using_sha1"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_or_sub_ca_using_sha1"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSHA1Before2016(t *testing.T) {
-	inputPath := "../testlint/testCerts/rsawithsha1before2016.pem"
-	expected := NE
-	out := Lints["e_sub_cert_or_sub_ca_using_sha1"].Execute(ReadCertificate(inputPath))
+	inputPath := "../../testlint/testCerts/rsawithsha1before2016.pem"
+	expected := lint.NE
+	out := lint.Lints["e_sub_cert_or_sub_ca_using_sha1"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

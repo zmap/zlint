@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubjectSurnameLengthOK(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectSurname.pem"
+	inputPath := "../../testlint/testCerts/subjectSurname.pem"
 	expected := lint.Pass
-	out := Lints["e_subject_surname_max_length"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_surname_max_length"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectSurnameTooLong(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectSurnameTooLong.pem"
+	inputPath := "../../testlint/testCerts/subjectSurnameTooLong.pem"
 	expected := lint.Error
-	out := Lints["e_subject_surname_max_length"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_subject_surname_max_length"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCaCommonNameMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caCommonNameMissing.pem"
+	inputPath := "../../testlint/testCerts/caCommonNameMissing.pem"
 	expected := lint.Error
-	out := Lints["e_ca_common_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_common_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaCommonNameNotMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/caCommonNameNotMissing.pem"
+	inputPath := "../../testlint/testCerts/caCommonNameNotMissing.pem"
 	expected := lint.Pass
-	out := Lints["e_ca_common_name_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ca_common_name_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

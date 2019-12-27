@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestRsaExpEven(t *testing.T) {
-	inputPath := "../testlint/testCerts/badRsaExp.pem"
+	inputPath := "../../testlint/testCerts/badRsaExp.pem"
 	expected := lint.Error
-	out := Lints["e_rsa_public_exponent_not_odd"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_rsa_public_exponent_not_odd"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaExpOdd(t *testing.T) {
-	inputPath := "../testlint/testCerts/goodRsaExp.pem"
+	inputPath := "../../testlint/testCerts/goodRsaExp.pem"
 	expected := lint.Pass
-	out := Lints["e_rsa_public_exponent_not_odd"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_rsa_public_exponent_not_odd"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

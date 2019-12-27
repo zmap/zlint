@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCAAIAMarkedCritical(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAAIAMarkedCritical.pem"
+	inputPath := "../../testlint/testCerts/subCAAIAMarkedCritical.pem"
 	expected := lint.Error
-	out := Lints["e_sub_ca_aia_marked_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_ca_aia_marked_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCAAIANotMarkedCritical(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCAAIANotMarkedCritical.pem"
+	inputPath := "../../testlint/testCerts/subCAAIANotMarkedCritical.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_ca_aia_marked_critical"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_ca_aia_marked_critical"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

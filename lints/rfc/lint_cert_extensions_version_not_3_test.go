@@ -16,30 +16,33 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestExtsV2(t *testing.T) {
-	inputPath := "../testlint/testCerts/certVersion2WithExtension.pem"
+	inputPath := "../../testlint/testCerts/certVersion2WithExtension.pem"
 	expected := lint.Error
-	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_extensions_version_not_3"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExtsV3(t *testing.T) {
-	inputPath := "../testlint/testCerts/caBasicConstCrit.pem"
+	inputPath := "../../testlint/testCerts/caBasicConstCrit.pem"
 	expected := lint.Pass
-	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_extensions_version_not_3"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoExtsV2(t *testing.T) {
-	inputPath := "../testlint/testCerts/certVersion2NoExtensions.pem"
+	inputPath := "../../testlint/testCerts/certVersion2NoExtensions.pem"
 	expected := lint.Pass
-	out := Lints["e_cert_extensions_version_not_3"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_extensions_version_not_3"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

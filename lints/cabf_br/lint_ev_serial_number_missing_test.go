@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestEvHasSN(t *testing.T) {
-	inputPath := "../testlint/testCerts/evAllGood.pem"
+	inputPath := "../../testlint/testCerts/evAllGood.pem"
 	expected := lint.Pass
-	out := Lints["e_ev_serial_number_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ev_serial_number_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEvNoSN(t *testing.T) {
-	inputPath := "../testlint/testCerts/evNoSN.pem"
+	inputPath := "../../testlint/testCerts/evNoSN.pem"
 	expected := lint.Error
-	out := Lints["e_ev_serial_number_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ev_serial_number_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

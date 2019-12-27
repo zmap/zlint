@@ -16,30 +16,33 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestBadCharacterInDNSLabel(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameBadCharacterInLabel.pem"
+	inputPath := "../../testlint/testCerts/dnsNameBadCharacterInLabel.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_bad_character_in_label"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_bad_character_in_label"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestClientDNSCertificate(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameClientCert.pem"
+	inputPath := "../../testlint/testCerts/dnsNameClientCert.pem"
 	expected := lint.NA
-	out := Lints["e_dnsname_bad_character_in_label"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_bad_character_in_label"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestClientValidCertificate(t *testing.T) {
-	inputPath := "../testlint/testCerts/validComodo.pem"
+	inputPath := "../../testlint/testCerts/validComodo.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_bad_character_in_label"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_bad_character_in_label"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

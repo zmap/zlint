@@ -14,21 +14,26 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
+)
 
 func TestDSAShorterThan2048Bits(t *testing.T) {
-	inputPath := "../testlint/testCerts/dsaShorterThan2048Bits.pem"
+	inputPath := "../../testlint/testCerts/dsaShorterThan2048Bits.pem"
 	expected := lint.Error
-	out := Lints["e_dsa_shorter_than_2048_bits"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dsa_shorter_than_2048_bits"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDSANotShorterThan2048Bits(t *testing.T) {
-	inputPath := "../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
+	inputPath := "../../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
 	expected := lint.Pass
-	out := Lints["e_dsa_shorter_than_2048_bits"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dsa_shorter_than_2048_bits"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

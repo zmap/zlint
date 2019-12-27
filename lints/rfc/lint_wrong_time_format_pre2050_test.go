@@ -16,30 +16,33 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestGeneralizedAfter2050(t *testing.T) {
-	inputPath := "../testlint/testCerts/generalizedAfter2050.pem"
+	inputPath := "../../testlint/testCerts/generalizedAfter2050.pem"
 	expected := lint.Pass
-	out := Lints["e_wrong_time_format_pre2050"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_wrong_time_format_pre2050"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUTCPrior2050(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["e_wrong_time_format_pre2050"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_wrong_time_format_pre2050"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestGeneralizedPrior2050(t *testing.T) {
-	inputPath := "../testlint/testCerts/generalizedPrior2050.pem"
+	inputPath := "../../testlint/testCerts/generalizedPrior2050.pem"
 	expected := lint.Error
-	out := Lints["e_wrong_time_format_pre2050"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_wrong_time_format_pre2050"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

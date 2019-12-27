@@ -19,6 +19,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSCTCountPolicyUnsatisified(t *testing.T) {
@@ -31,7 +32,7 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		Filename       string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name: "No SCTs, poisoned",
@@ -103,8 +104,8 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.Filename)
-			result := Lints["w_ct_sct_policy_count_unsatisfied"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.Filename)
+			result := lint.Lints["w_ct_sct_policy_count_unsatisfied"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

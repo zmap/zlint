@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestNoNameConstraint(t *testing.T) {
-	inputPath := "../testlint/testCerts/noNameConstraint.pem"
+	inputPath := "../../testlint/testCerts/noNameConstraint.pem"
 	expected := lint.Error
-	out := Lints["e_name_constraint_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestHasNameConstraint(t *testing.T) {
-	inputPath := "../testlint/testCerts/yesNameConstraint.pem"
+	inputPath := "../../testlint/testCerts/yesNameConstraint.pem"
 	expected := lint.Pass
-	out := Lints["e_name_constraint_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_name_constraint_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

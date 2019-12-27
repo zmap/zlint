@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCertAiaMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertWNoURL.pem"
+	inputPath := "../../testlint/testCerts/subCertWNoURL.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_aia_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_aia_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertAiaPresent(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertWBothURL.pem"
+	inputPath := "../../testlint/testCerts/subCertWBothURL.pem"
 	expected := lint.Pass
-	out := Lints["e_sub_cert_aia_missing"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_aia_missing"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

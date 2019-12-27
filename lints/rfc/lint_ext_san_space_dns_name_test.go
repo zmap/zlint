@@ -16,21 +16,24 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANGood(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["e_ext_san_space_dns_name"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_space_dns_name"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANSpace(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANWithSpaceDNS.pem"
+	inputPath := "../../testlint/testCerts/SANWithSpaceDNS.pem"
 	expected := lint.Error
-	out := Lints["e_ext_san_space_dns_name"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_ext_san_space_dns_name"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

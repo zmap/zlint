@@ -16,30 +16,33 @@ package community
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSANBarePubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANBareSuffix.pem"
+	inputPath := "../../testlint/testCerts/SANBareSuffix.pem"
 	expected := lint.Warn
-	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_san_iana_pub_suffix_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANBarePrivatePubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/sanPrivatePublicSuffix.pem"
+	inputPath := "../../testlint/testCerts/sanPrivatePublicSuffix.pem"
 	expected := lint.Pass
-	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_san_iana_pub_suffix_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANGoodPubSuffix(t *testing.T) {
-	inputPath := "../testlint/testCerts/SANGoodSuffix.pem"
+	inputPath := "../../testlint/testCerts/SANGoodSuffix.pem"
 	expected := lint.Pass
-	out := Lints["w_san_iana_pub_suffix_empty"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["w_san_iana_pub_suffix_empty"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

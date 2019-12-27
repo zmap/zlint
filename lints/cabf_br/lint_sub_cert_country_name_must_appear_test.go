@@ -16,12 +16,15 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestSubCertCountryNameMustAppear(t *testing.T) {
-	inputPath := "../testlint/testCerts/subCertCountryNameMustAppear.pem"
+	inputPath := "../../testlint/testCerts/subCertCountryNameMustAppear.pem"
 	expected := lint.Error
-	out := Lints["e_sub_cert_country_name_must_appear"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_sub_cert_country_name_must_appear"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

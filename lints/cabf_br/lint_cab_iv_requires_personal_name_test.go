@@ -16,39 +16,42 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestCertPolicyIvHasPerson(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/indivValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvHasSurname(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValSurnameOnly.pem"
+	inputPath := "../../testlint/testCerts/indivValSurnameOnly.pem"
 	expected := lint.Error
-	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvHasLastName(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValGivenNameOnly.pem"
+	inputPath := "../../testlint/testCerts/indivValGivenNameOnly.pem"
 	expected := lint.Error
-	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvNoPerson(t *testing.T) {
-	inputPath := "../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
+	inputPath := "../../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
 	expected := lint.Error
-	out := Lints["e_cab_iv_requires_personal_name"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

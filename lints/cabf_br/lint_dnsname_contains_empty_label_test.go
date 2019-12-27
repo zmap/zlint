@@ -16,21 +16,24 @@ package cabf_br
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestDNSNameEmptyLabel(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameEmptyLabel.pem"
+	inputPath := "../../testlint/testCerts/dnsNameEmptyLabel.pem"
 	expected := lint.Error
-	out := Lints["e_dnsname_empty_label"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_empty_label"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNotEmptyLabel(t *testing.T) {
-	inputPath := "../testlint/testCerts/dnsNameNotEmptyLabel.pem"
+	inputPath := "../../testlint/testCerts/dnsNameNotEmptyLabel.pem"
 	expected := lint.Pass
-	out := Lints["e_dnsname_empty_label"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_dnsname_empty_label"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

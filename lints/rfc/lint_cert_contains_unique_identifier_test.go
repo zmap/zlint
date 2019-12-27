@@ -16,30 +16,33 @@ package rfc
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestUIDPresentIssuer(t *testing.T) {
-	inputPath := "../testlint/testCerts/issuerUID.pem"
+	inputPath := "../../testlint/testCerts/issuerUID.pem"
 	expected := lint.Error
-	out := Lints["e_cert_contains_unique_identifier"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_contains_unique_identifier"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUIDPresentSubject(t *testing.T) {
-	inputPath := "../testlint/testCerts/subjectUID.pem"
+	inputPath := "../../testlint/testCerts/subjectUID.pem"
 	expected := lint.Error
-	out := Lints["e_cert_contains_unique_identifier"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_contains_unique_identifier"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUIDMissing(t *testing.T) {
-	inputPath := "../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := Lints["e_cert_contains_unique_identifier"].Execute(ReadCertificate(inputPath))
+	out := lint.Lints["e_cert_contains_unique_identifier"].Execute(util.ReadCertificate(inputPath))
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
