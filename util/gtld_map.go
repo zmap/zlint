@@ -4276,7 +4276,7 @@ var tldMap = map[string]GTLDPeriod{
 	"movistar": {
 		GTLD:           "movistar",
 		DelegationDate: "2015-06-26",
-		RemovalDate:    "",
+		RemovalDate:    "2019-12-23",
 	},
 	"mp": {
 		GTLD:           "mp",
@@ -6201,7 +6201,7 @@ var tldMap = map[string]GTLDPeriod{
 	"telefonica": {
 		GTLD:           "telefonica",
 		DelegationDate: "2015-06-26",
-		RemovalDate:    "",
+		RemovalDate:    "2019-12-23",
 	},
 	"temasek": {
 		GTLD:           "temasek",
