@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2018 Regents of the University of Michigan
+ * ZLint Copyright 2020 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -23,25 +23,31 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
+	_ "github.com/zmap/zlint/lints/apple"
+	_ "github.com/zmap/zlint/lints/cabf_br"
+	_ "github.com/zmap/zlint/lints/cabf_ev"
+	_ "github.com/zmap/zlint/lints/community"
+	_ "github.com/zmap/zlint/lints/etsi"
+	_ "github.com/zmap/zlint/lints/rfc"
 )
 
 const Version int64 = 3
 
 // ResultSet contains the output of running all lints against a single certificate.
 type ResultSet struct {
-	Version         int64                        `json:"version"`
-	Timestamp       int64                        `json:"timestamp"`
-	Results         map[string]*lints.LintResult `json:"lints"`
-	NoticesPresent  bool                         `json:"notices_present"`
-	WarningsPresent bool                         `json:"warnings_present"`
-	ErrorsPresent   bool                         `json:"errors_present"`
-	FatalsPresent   bool                         `json:"fatals_present"`
+	Version         int64                       `json:"version"`
+	Timestamp       int64                       `json:"timestamp"`
+	Results         map[string]*lint.LintResult `json:"lints"`
+	NoticesPresent  bool                        `json:"notices_present"`
+	WarningsPresent bool                        `json:"warnings_present"`
+	ErrorsPresent   bool                        `json:"errors_present"`
+	FatalsPresent   bool                        `json:"fatals_present"`
 }
 
 func (z *ResultSet) execute(cert *x509.Certificate, filter *regexp.Regexp) {
-	z.Results = make(map[string]*lints.LintResult, len(lints.Lints))
-	for name, l := range lints.Lints {
+	z.Results = make(map[string]*lint.LintResult, len(lint.Lints))
+	for name, l := range lint.Lints {
 		if filter != nil && !filter.MatchString(name) {
 			continue
 		}
@@ -51,15 +57,15 @@ func (z *ResultSet) execute(cert *x509.Certificate, filter *regexp.Regexp) {
 	}
 }
 
-func (z *ResultSet) updateErrorStatePresent(result *lints.LintResult) {
+func (z *ResultSet) updateErrorStatePresent(result *lint.LintResult) {
 	switch result.Status {
-	case lints.Notice:
+	case lint.Notice:
 		z.NoticesPresent = true
-	case lints.Warn:
+	case lint.Warn:
 		z.WarningsPresent = true
-	case lints.Error:
+	case lint.Error:
 		z.ErrorsPresent = true
-	case lints.Fatal:
+	case lint.Fatal:
 		z.FatalsPresent = true
 	}
 }
@@ -69,7 +75,7 @@ func (z *ResultSet) updateErrorStatePresent(result *lints.LintResult) {
 func EncodeLintDescriptionsToJSON(w io.Writer) {
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
-	for _, lint := range lints.Lints {
+	for _, lint := range lint.Lints {
 		_ = enc.Encode(lint)
 	}
 }

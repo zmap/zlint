@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2017 Regents of the University of Michigan
+ * ZLint Copyright 2020 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -29,7 +29,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint"
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
 )
 
 var ( // flags
@@ -65,8 +65,8 @@ func main() {
 	}
 
 	if listLintsSchema {
-		names := make([]string, 0, len(lints.Lints))
-		for lintName := range lints.Lints {
+		names := make([]string, 0, len(lint.Lints))
+		for lintName := range lint.Lints {
 			names = append(names, lintName)
 		}
 		sort.Strings(names)
@@ -83,7 +83,7 @@ func main() {
 
 	var inform = strings.ToLower(format)
 	if flag.NArg() < 1 || flag.Arg(0) == "-" {
-		lint(os.Stdin, inform)
+		doLint(os.Stdin, inform)
 	} else {
 		for _, filePath := range flag.Args() {
 			var inputFile *os.File
@@ -100,13 +100,13 @@ func main() {
 				fileInform = "pem"
 			}
 
-			lint(inputFile, fileInform)
+			doLint(inputFile, fileInform)
 			inputFile.Close()
 		}
 	}
 }
 
-func lint(inputFile *os.File, inform string) {
+func doLint(inputFile *os.File, inform string) {
 	fileBytes, err := ioutil.ReadAll(inputFile)
 	if err != nil {
 		log.Fatalf("unable to read file %s: %s", inputFile.Name(), err)
@@ -173,7 +173,7 @@ func includeLints() {
 	var includesMap = make(map[string]struct{}, len(includes))
 	for _, includeName := range includes {
 		includeName = strings.TrimSpace(includeName)
-		if _, ok := lints.Lints[includeName]; !ok {
+		if _, ok := lint.Lints[includeName]; !ok {
 			log.Fatalf("unknown lint %q in include list", includeName)
 		}
 
@@ -181,9 +181,9 @@ func includeLints() {
 	}
 
 	// clear all initialized lints except for includes
-	for lintName := range lints.Lints {
+	for lintName := range lint.Lints {
 		if _, ok := includesMap[lintName]; !ok {
-			delete(lints.Lints, lintName)
+			delete(lint.Lints, lintName)
 		}
 	}
 }
@@ -202,10 +202,10 @@ func excludeLints() {
 
 	// exclude lints
 	for excludeName := range excludesMap {
-		if _, ok := lints.Lints[excludeName]; !ok {
+		if _, ok := lint.Lints[excludeName]; !ok {
 			log.Fatalf("unknown lint %q in exclude list", excludeName)
 		}
 
-		delete(lints.Lints, excludeName)
+		delete(lint.Lints, excludeName)
 	}
 }

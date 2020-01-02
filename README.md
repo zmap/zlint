@@ -150,7 +150,7 @@ Example:
 ```go
 func TestBasicConstNotCritical(t *testing.T) {
 	// Only need to change these two values and the lint name
-	inputPath := "../testlint/testCerts/caBasicConstNotCrit.pem"
+	inputPath := "../../testlint/testCerts/caBasicConstNotCrit.pem"
 	expected := Error
 	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
 	if out.Result != expected {
@@ -216,7 +216,7 @@ another CA/project that uses zlint.
 License and Copyright
 ---------------------
 
-ZMap Copyright 2019 Regents of the University of Michigan
+ZMap Copyright 2020 Regents of the University of Michigan
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

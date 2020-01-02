@@ -8,6 +8,7 @@ import (
 	"encoding/asn1"
 	"errors"
 	"fmt"
+
 	"github.com/zmap/zcrypto/x509/pkix"
 )
 

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
 )
 
 func TestLintNames(t *testing.T) {
@@ -14,7 +14,7 @@ func TestLintNames(t *testing.T) {
 		"e_", // lints.Error
 	}
 
-	for name := range lints.Lints {
+	for name := range lint.Lints {
 		var valid bool
 		for _, prefix := range allowedPrefixes {
 			if strings.HasPrefix(name, prefix) {
