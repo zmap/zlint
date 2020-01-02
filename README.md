@@ -170,6 +170,13 @@ update these expected values when you add/change lints. Please see the
 README](https://github.com/zmap/zlint/blob/master/integration/README.md) for
 more information.
 
+**Submitting Lints for Review.** We strongly prefer multiple small pull
+requests (PR), each of which contain a single lint or a small handful of lints,
+over a single large PR. This allows for better code review, faster turnaround
+times on comments and merging, as well as for contributors to learn from any
+requested changes in the initial round of review. We are happy to wait to cut
+new a version of ZLint until a set of PRs have been approved and merged.
+
 Updating the TLD Map
 --------------------
 
