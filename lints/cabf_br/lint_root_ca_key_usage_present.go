@@ -31,7 +31,6 @@ func (l *rootCAKeyUsagePresent) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rootCAKeyUsagePresent) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if util.IsExtInCert(c, util.KeyUsageOID) {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {

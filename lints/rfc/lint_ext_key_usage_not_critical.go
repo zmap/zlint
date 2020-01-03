@@ -33,7 +33,6 @@ func (l *checkKeyUsageCritical) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *checkKeyUsageCritical) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	keyUsage := util.GetExtFromCert(c, util.KeyUsageOID)
 	if keyUsage == nil {
 		return &lint.LintResult{Status: lint.NA}

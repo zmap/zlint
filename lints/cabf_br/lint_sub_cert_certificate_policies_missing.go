@@ -37,7 +37,6 @@ func (l *subCertPolicy) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCertPolicy) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if util.IsExtInCert(c, util.CertPolicyOID) {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {

@@ -38,7 +38,6 @@ func (l *InvalidCertificateVersion) Execute(cert *x509.Certificate) *lint.LintRe
 	if cert.Version != 3 {
 		return &lint.LintResult{Status: lint.Error}
 	}
-	//else
 	return &lint.LintResult{Status: lint.Pass}
 }
 

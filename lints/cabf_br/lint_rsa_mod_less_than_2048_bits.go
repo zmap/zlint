@@ -14,10 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-/************************************************
-Change this to match source TEXT
-************************************************/
-
 import (
 	"crypto/rsa"
 
