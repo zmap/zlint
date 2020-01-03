@@ -22,6 +22,7 @@ func TestLeftoverTemplates(t *testing.T) {
 		`"Change this..."`,
 		"// Add conditions for application here",
 		"// Add actual lint here",
+		"Change this to match source TEXT",
 	}
 
 	for _, lintSrc := range lint.LintSources {

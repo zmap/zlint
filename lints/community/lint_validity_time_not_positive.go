@@ -14,10 +14,6 @@ package community
  * permissions and limitations under the License.
  */
 
-/************************************************
-Change this to match source TEXT
-************************************************/
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lint"

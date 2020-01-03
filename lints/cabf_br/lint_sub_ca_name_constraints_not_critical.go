@@ -15,7 +15,14 @@ package cabf_br
  */
 
 /************************************************
-Change this to match source TEXT
+CA Brower Forum Baseline Requirements, Section 7.1.2.2:
+
+   f. nameConstraints (optional)
+If present, this extension SHOULD be marked critical*.
+
+* Non-critical Name Constraints are an exception to RFC 5280 (4.2.1.10), however, they MAY be used until the
+Name Constraints extension is supported by Application Software Suppliers whose software is used by a
+substantial portion of Relying Parties worldwide
 ************************************************/
 
 import (
