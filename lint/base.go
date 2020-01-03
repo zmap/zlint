@@ -59,7 +59,6 @@ const (
 	EtsiEsi // ETSI - Electronic Signatures and Infrastructures (ESI)
 	CABFEVGuidelines
 	AppleCTPolicy // https://support.apple.com/en-us/HT205280
-
 )
 
 // LintSources contains a list of the valid lint sources we expect to be used
