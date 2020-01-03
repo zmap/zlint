@@ -43,7 +43,7 @@ func (l *keyUsageCertSignNoCa) CheckApplies(c *x509.Certificate) bool {
 
 func (l *keyUsageCertSignNoCa) Execute(c *x509.Certificate) *lint.LintResult {
 	if (c.KeyUsage & x509.KeyUsageCertSign) != 0 {
-		if c.BasicConstraintsValid && util.IsCACert(c) { //CA certs may assert certtificate signing usage
+		if c.BasicConstraintsValid && util.IsCACert(c) { //CA certs may assert certificate signing usage
 			return &lint.LintResult{Status: lint.Pass}
 		} else {
 			return &lint.LintResult{Status: lint.Error}
