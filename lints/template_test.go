@@ -47,7 +47,7 @@ func TestLeftoverTemplates(t *testing.T) {
 			for _, leftover := range leftovers {
 				if bytes.Contains(src, []byte(leftover)) {
 					t.Errorf("Lint %q contains template leftover %q",
-						f.Name(), leftover)
+						srcPath, leftover)
 				}
 			}
 		}
