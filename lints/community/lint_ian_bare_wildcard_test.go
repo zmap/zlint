@@ -1,4 +1,4 @@
-package rfc
+package community
 
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
