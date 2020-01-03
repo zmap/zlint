@@ -21,18 +21,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-// func TestRsaExpNegative(t *testing.T) {
-// 	inputPath := "../../testlint/testCerts/rsaExpNegative.pem"
-// 	expected := lint.Error
-// 	out := lint.Lints["rsa_exp_negative"].ExecuteTest(util.ReadCertificate(inputPath))
-// 	if out.Result != expected {
-// 		t.Error(
-// 			"For", inputPath,
-// 			"expected", expected,
-// 			"got", out.Result,
-// 		)
-// 	}
-// }
+// TODO: There should be a test for negative RSA exp.
 
 func TestRsaExpPositive(t *testing.T) {
 	inputPath := "../../testlint/testCerts/IANURIValid.pem"

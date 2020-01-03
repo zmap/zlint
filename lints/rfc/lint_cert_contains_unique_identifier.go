@@ -46,7 +46,7 @@ func (l *CertContainsUniqueIdentifier) CheckApplies(cert *x509.Certificate) bool
 func (l *CertContainsUniqueIdentifier) Execute(cert *x509.Certificate) *lint.LintResult {
 	if cert.IssuerUniqueId.Bytes == nil && cert.SubjectUniqueId.Bytes == nil {
 		return &lint.LintResult{Status: lint.Pass}
-	} //else
+	}
 	return &lint.LintResult{Status: lint.Error}
 }
 
