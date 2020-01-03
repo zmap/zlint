@@ -40,7 +40,6 @@ func (l *subCRLDistNoURL) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCRLDistNoURL) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	for _, s := range c.CRLDistributionPoints {
 		if strings.HasPrefix(s, "http://") {
 			return &lint.LintResult{Status: lint.Pass}

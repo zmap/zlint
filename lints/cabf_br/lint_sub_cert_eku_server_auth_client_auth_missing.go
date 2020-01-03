@@ -37,7 +37,6 @@ func (l *subExtKeyUsageClientOrServer) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subExtKeyUsageClientOrServer) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	for _, kp := range c.ExtKeyUsage {
 		if kp == x509.ExtKeyUsageServerAuth || kp == x509.ExtKeyUsageClientAuth {
 			// If we find either of ServerAuth or ClientAuth, lint.Pass

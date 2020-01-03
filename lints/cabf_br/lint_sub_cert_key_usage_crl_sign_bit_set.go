@@ -37,7 +37,6 @@ func (l *subCrlSignAllowed) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCrlSignAllowed) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if (c.KeyUsage & x509.KeyUsageCRLSign) == x509.KeyUsageCRLSign {
 		return &lint.LintResult{Status: lint.Error}
 	} else { //key usage doesn't allow cert signing or isn't present

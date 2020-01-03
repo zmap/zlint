@@ -37,7 +37,6 @@ func (l *subCertKeyUsageBitSet) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCertKeyUsageBitSet) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if (c.KeyUsage & x509.KeyUsageCertSign) == x509.KeyUsageCertSign {
 		return &lint.LintResult{Status: lint.Error}
 	} else { //key usage doesn't allow cert signing or isn't present

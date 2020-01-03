@@ -37,7 +37,6 @@ func (l *subExtKeyUsage) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subExtKeyUsage) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if util.IsExtInCert(c, util.EkuSynOid) {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {

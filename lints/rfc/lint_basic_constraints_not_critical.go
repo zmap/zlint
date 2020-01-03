@@ -43,7 +43,6 @@ func (l *basicConstCrit) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *basicConstCrit) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if e := util.GetExtFromCert(c, util.BasicConstOID); e != nil {
 		if e.Critical {
 			return &lint.LintResult{Status: lint.Pass}
