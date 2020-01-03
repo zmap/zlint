@@ -44,7 +44,7 @@ func (l *brIANWildcardFirst) Execute(c *x509.Certificate) *lint.LintResult {
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ian_wildcard_not_first",
-		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks DNSName)",
+		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks IANDNSNames)",
 		Citation:      "awslabs certlint",
 		Source:        lint.AWSLabs,
 		EffectiveDate: util.ZeroDate,

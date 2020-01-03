@@ -44,7 +44,7 @@ func (l *brIANBareWildcard) Execute(c *x509.Certificate) *lint.LintResult {
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ian_bare_wildcard",
-		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
+		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks IANDNSNames)",
 		Citation:      "RFC5280",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.ZeroDate,
