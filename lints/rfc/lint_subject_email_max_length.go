@@ -59,7 +59,7 @@ func (l *subjectEmailMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_email_max_length",
-		Description:   "The 'Email' field of the subject MUST be less than 255 characters",
+		Description:   "The 'Email' field of the subject MUST be less than 256 characters",
 		Citation:      "RFC 5280: A.1",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC2459Date,

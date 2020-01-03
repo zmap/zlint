@@ -52,7 +52,7 @@ func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) *lint.LintRe
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_locality_name_max_length",
-		Description:   "The 'Locality Name' field of the subject MUST be less than 128 characters",
+		Description:   "The 'Locality Name' field of the subject MUST be less than 129 characters",
 		Citation:      "RFC 5280: A.1",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC2459Date,

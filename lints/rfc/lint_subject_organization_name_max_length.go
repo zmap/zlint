@@ -52,7 +52,7 @@ func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) *lint.Li
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_organization_name_max_length",
-		Description:   "The 'Organization Name' field of the subject MUST be less than 64 characters",
+		Description:   "The 'Organization Name' field of the subject MUST be less than 65 characters",
 		Citation:      "RFC 5280: A.1",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC2459Date,
