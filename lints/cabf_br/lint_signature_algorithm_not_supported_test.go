@@ -38,3 +38,12 @@ func TestSignatureAlgorithmSHA1Supported(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestSignatureAlgorithmRSAPSSWarn(t *testing.T) {
+	inputPath := "../../testlint/testCerts/sha256WithRSAPSSSignatureAlgorithm.pem"
+	expected := lint.Warn
+	out := lint.Lints["e_signature_algorithm_not_supported"].Execute(util.ReadCertificate(inputPath))
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
