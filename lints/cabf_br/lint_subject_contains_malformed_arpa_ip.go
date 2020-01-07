@@ -130,9 +130,19 @@ func lintReversedIPAddressLabels(name string, ipv6 bool) error {
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "w_subject_contains_malformed_arpa_ip",
-		Description:   "Checks no subject domain name contains a rDNS entry in an .arpa zone with the wrong number of labels",
-		Citation:      "BRs: 7.1.4.2.1",
+		Name: "w_subject_contains_malformed_arpa_ip",
+		Description: "Checks no subject domain name contains a rDNS entry in the " +
+			"registry-controlled .arpa zone with the wrong number of labels, or " +
+			"an invalid IP address (RFC 3596, BCP49)",
+		// NOTE(@cpu): 3.2.2.6 is particular to wildcard domain validation for names
+		// in a registry controlled zone (like .arpa), which would be an appropriate
+		// citation for when this lint finds a rDNS entry with the wrong
+		// number of labels/invalid IP because of the presence of a wildcard
+		// character. There is a larger on-going discussion[0] on the BRs stance on
+		// the .arpa zone entries that may produce a better citation to use here.
+		//
+		// [0]: https://github.com/cabforum/documents/issues/153
+		Citation:      "BRs: 3.2.2.6",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &arpaMalformedIP{},
