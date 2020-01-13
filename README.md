@@ -202,6 +202,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo and crt.sh](https://groups.google.com/forum/#!msg/mozilla.dev.security.policy/sjXswrcsvrE/Nl3OLd4PAAAJ)
 * [Digicert](https://bugzilla.mozilla.org/show_bug.cgi?id=1550645#c9)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
+* Google Trust Services
 * [Government of Spain, FNMT](https://bugzilla.mozilla.org/show_bug.cgi?id=1495507#c8)
 * [Globalsign](https://cabforum.org/pipermail/public/2018-April/013233.html)
 * [GoDaddy](https://bugzilla.mozilla.org/show_bug.cgi?id=1462844#c6)
