@@ -197,19 +197,19 @@ Pre-issuance linting is **strongly recommended** by the [Mozilla root
 program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issuance_Linting).
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
-* [Camerfirma](https://bugzilla.mozilla.org/show_bug.cgi?id=1556806#c5)
-* [CFSSL](https://github.com/cloudflare/cfssl/pull/1015)
-* [Sectigo and crt.sh](https://groups.google.com/forum/#!msg/mozilla.dev.security.policy/sjXswrcsvrE/Nl3OLd4PAAAJ)
-* [Digicert](https://bugzilla.mozilla.org/show_bug.cgi?id=1550645#c9)
+* [Camerfirma](https://www.camerfirma.com/)
+* [CFSSL](https://github.com/cloudflare/cfssl)
+* [Sectigo](https://sectigo.com/) and [crt.sh](crt.sh)
+* [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
-* Google Trust Services
-* [Government of Spain, FNMT](https://bugzilla.mozilla.org/show_bug.cgi?id=1495507#c8)
-* [Globalsign](https://cabforum.org/pipermail/public/2018-April/013233.html)
-* [GoDaddy](https://bugzilla.mozilla.org/show_bug.cgi?id=1462844#c6)
-* [Izenpe](https://bugzilla.mozilla.org/show_bug.cgi?id=1528290#c5)
+* [Google Trust Services](https://pki.goog/)
+* [Government of Spain, FNMT](http://www.fnmt.es/)
+* [Globalsign](https://www.globalsign.com/en/)
+* [GoDaddy](https://www.godaddy.com)
+* [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
-* [Siemens](https://bugzilla.mozilla.org/show_bug.cgi?id=1391063#c32)
-* [QuoVadis](https://bugzilla.mozilla.org/show_bug.cgi?id=1521950#c3)
+* [Siemens](https://siemens.com)
+* [QuoVadis](https://www.quovadisglobal.com/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
