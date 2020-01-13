@@ -199,7 +199,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
-* [Sectigo](https://sectigo.com/) and [crt.sh](crt.sh)
+* [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
 * [Google Trust Services](https://pki.goog/)
