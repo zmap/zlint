@@ -22,6 +22,7 @@ package lints
 import (
 	"encoding/asn1"
 	"errors"
+	"fmt"
 	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
@@ -100,22 +101,28 @@ func (l *ecdsaAllowedAlgorithm) Execute(c *x509.Certificate) *lint.LintResult {
 	case c.SignatureAlgorithm == x509.ECDSAWithSHA256 && signKeySize == 256:
 		return &lint.LintResult{
 			Status:  lint.Pass,
-			Details: "Detected ECDSAWithSHA256 and 256 bit signing key.",
+			Details: "ECDSAWithSHA256 and 256 bit signing key.",
 		}
 	case c.SignatureAlgorithm == x509.ECDSAWithSHA384 && signKeySize == 384:
 		return &lint.LintResult{
 			Status:  lint.Pass,
-			Details: "Detected ECDSAWithSHA384 and 384 bit signing key.",
+			Details: "ECDSAWithSHA384 and 384 bit signing key.",
 		}
 	}
 
-	return &lint.LintResult{Status: lint.Error}
+	return &lint.LintResult{
+		Status: lint.Error,
+		Details: fmt.Sprintf(
+			"Signing key size (%d) did not match sig. alg curve/hash pair specified (%d)",
+			signKeySize,
+			c.SignatureAlgorithm),
+	}
 }
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_mp_ecdsa_allowed_curve_hash_pair",
-		Description:   "ECDSA keys using one of the following curve-hash pairs: P‐256 with SHA-256, P‐384 with SHA-384",
+		Description:   "ECDSA keys using one of the following curve/hash pairs: P‐256 with SHA-256, P‐384 with SHA-384",
 		Citation:      "Mozilla Root Store Policy / Section 5.1",
 		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy24Date,
