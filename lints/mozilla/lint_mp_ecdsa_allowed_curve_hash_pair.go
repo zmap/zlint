@@ -114,7 +114,7 @@ func (l *ecdsaAllowedAlgorithm) Execute(c *x509.Certificate) *lint.LintResult {
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_mp_ecdsa_allowed_algorithm",
+		Name:          "e_mp_ecdsa_allowed_curve_hash_pair",
 		Description:   "ECDSA keys using one of the following curve-hash pairs: P‐256 with SHA-256, P‐384 with SHA-384",
 		Citation:      "Mozilla Root Store Policy / Section 5.1",
 		Source:        lint.MozillaRootStorePolicy,
