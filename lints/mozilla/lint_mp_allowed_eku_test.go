@@ -31,17 +31,17 @@ func TestAllowedEKUs(t *testing.T) {
 		{
 			Name:           "SubCA with no EKU",
 			InputFilename:  "mpSubCAEKUDisallowed1.pem",
-			ExpectedResult: lint.Error,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name:           "SubCA with anyExtendedKeyUsage",
 			InputFilename:  "mpSubCAEKUDisallowed2.pem",
-			ExpectedResult: lint.Error,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name:           "SubCA with serverAuth and emailProtection",
 			InputFilename:  "mpSubCAEKUDisallowed3.pem",
-			ExpectedResult: lint.Error,
+			ExpectedResult: lint.Notice,
 		},
 		{
 			Name:           "SubCA with serverAuth EKU",
@@ -49,9 +49,11 @@ func TestAllowedEKUs(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Cross-Certificate with no EKU",
-			InputFilename:  "mpCrossCertNoEKU.pem",
-			ExpectedResult: lint.NA,
+			Name:          "Cross-Certificate with no EKU",
+			InputFilename: "mpCrossCertNoEKU.pem",
+			// NOTE(@cpu): This should be a lint.Pass. It is a false positive that
+			// would be addressed by tracking Mozilla trusted roots. See XXX.
+			ExpectedResult: lint.Notice,
 		},
 	}
 
