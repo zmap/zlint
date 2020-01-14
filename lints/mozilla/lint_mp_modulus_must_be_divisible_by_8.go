@@ -23,6 +23,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -36,25 +37,28 @@ func (l *modulusDivisibleBy8) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.RSA
 }
 
-func (l *modulusDivisibleBy8) Execute(c *x509.Certificate) *LintResult {
+func (l *modulusDivisibleBy8) Execute(c *x509.Certificate) *lint.LintResult {
 	pubKey, ok := c.PublicKey.(*rsa.PublicKey)
 	if !ok {
-		return &LintResult{Status: Fatal, Details: "certificate public key was not an RSA public key"}
+		return &lint.LintResult{
+			Status:  lint.Fatal,
+			Details: "certificate public key was not an RSA public key",
+		}
 	}
 
 	if bitLen := pubKey.N.BitLen(); (bitLen % 8) != 0 {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_mp_modulus_must_be_divisible_by_8",
 		Description:   "RSA keys must have a modulus size divisible by 8",
 		Citation:      "Mozilla Root Store Policy / Section 5.1",
-		Source:        MozillaRootStorePolicy,
+		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy24Date,
 		Lint:          &modulusDivisibleBy8{},
 	})

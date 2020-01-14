@@ -17,30 +17,33 @@ package lints
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestAuthorityKeyIdentifier(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "Authority key ID includes both the key ID and the issuer's name and serial",
 			InputFilename:  "mpAuthorityKeyIdentifierIncorrect.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Authority key ID includes the key ID",
 			InputFilename:  "mpAuthorityKeyIdentifierCorrect.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_authority_key_identifier_correct"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_mp_authority_key_identifier_correct"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

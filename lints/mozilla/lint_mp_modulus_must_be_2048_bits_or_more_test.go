@@ -17,30 +17,33 @@ package lints
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestModulus2048OrMore(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "Certificate with less than 2048 bit rsa key modulus length",
 			InputFilename:  "mpModulus1024.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Certificate with rsa key modulus length equal to 2048",
 			InputFilename:  "mpModulus2048.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_modulus_must_be_2048_bits_or_more"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_mp_modulus_must_be_2048_bits_or_more"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

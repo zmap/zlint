@@ -30,6 +30,7 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -43,21 +44,21 @@ func (l *allowedEKU) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubCA(c) && !util.IsInMozillaRootStore(c)
 }
 
-func (l *allowedEKU) Execute(c *x509.Certificate) *LintResult {
+func (l *allowedEKU) Execute(c *x509.Certificate) *lint.LintResult {
 	if len(c.ExtKeyUsage) == 0 || util.HasEKU(c, x509.ExtKeyUsageAny) ||
 		(util.HasEKU(c, x509.ExtKeyUsageEmailProtection) && util.HasEKU(c, x509.ExtKeyUsageServerAuth)) {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
 
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_mp_allowed_eku",
 		Description:   "Separation of id-kp-serverAuth and id-kp-emailProtection KeyPurposeIds",
 		Citation:      "Mozilla Root Store Policy / Section 5.3",
-		Source:        MozillaRootStorePolicy,
+		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
 		Lint:          &allowedEKU{},
 	})

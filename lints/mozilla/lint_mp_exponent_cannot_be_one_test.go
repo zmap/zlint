@@ -17,30 +17,33 @@ package lints
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestExponentCannotBeOne(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "Certificate with exponent equal to 0x1",
 			InputFilename:  "mpExponent1.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Certificate with exponent equal to 0x10001",
 			InputFilename:  "mpExponent10001.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_exponent_cannot_be_one"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_mp_exponent_cannot_be_one"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

@@ -17,35 +17,38 @@ package lints
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestECDSAAlgorithms(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "Secp384r1 CA with ECDSAwithSHA256",
 			InputFilename:  "mpECDSAAlgorithmsDisallowed1.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Secp256r1 CA with ECDSAwithSHA384",
 			InputFilename:  "mpECDSAAlgorithmsDisallowed2.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Secp256r1 CA with ECDSAwithSHA256",
 			InputFilename:  "mpECDSAAlgorithmsAllowed.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_ecdsa_allowed_algorithm"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_mp_ecdsa_allowed_algorithm"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

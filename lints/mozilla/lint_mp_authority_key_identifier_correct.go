@@ -26,6 +26,7 @@ import (
 	"fmt"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -45,19 +46,19 @@ func (l *authorityKeyIdentifierCorrect) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.AuthkeyOID)
 }
 
-func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *LintResult {
+func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *lint.LintResult {
 	var keyID keyIdentifier
 
 	ext := util.GetExtFromCert(c, util.AuthkeyOID)
 	if ext == nil {
-		return &LintResult{
-			Status:  Fatal,
+		return &lint.LintResult{
+			Status:  lint.Fatal,
 			Details: "certificate is missing Authority Key Identifier extension",
 		}
 	}
 	if _, err := asn1.Unmarshal(ext.Value, &keyID); err != nil {
-		return &LintResult{
-			Status:  Fatal,
+		return &lint.LintResult{
+			Status:  lint.Fatal,
 			Details: fmt.Sprintf("error unmarshalling authority key identifier extension: %v", err),
 		}
 	}
@@ -65,17 +66,17 @@ func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *LintResult
 	hasKeyID := len(keyID.KeyIdentifier.Bytes) > 0
 	hasCertIssuer := len(keyID.AuthorityCertIssuer.Bytes) > 0
 	if hasKeyID && hasCertIssuer {
-		return &LintResult{Status: Error}
+		return &lint.LintResult{Status: lint.Error}
 	}
-	return &LintResult{Status: Pass}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_mp_authority_key_identifier_correct",
 		Description:   "CAs MUST NOT issue certificates that have authority key IDs that include both the key ID and the issuer's issuer name and serial number",
 		Citation:      "Mozilla Root Store Policy / Section 5.2",
-		Source:        MozillaRootStorePolicy,
+		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy22Date,
 		Lint:          &authorityKeyIdentifierCorrect{},
 	})

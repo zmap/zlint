@@ -25,6 +25,7 @@ import (
 	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
@@ -84,37 +85,37 @@ func (l *ecdsaAllowedAlgorithm) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *ecdsaAllowedAlgorithm) Execute(c *x509.Certificate) *LintResult {
+func (l *ecdsaAllowedAlgorithm) Execute(c *x509.Certificate) *lint.LintResult {
 	signKeySize, err := getSigningKeySize(c)
 	if err != nil {
-		return &LintResult{
-			Status:  Fatal,
+		return &lint.LintResult{
+			Status:  lint.Fatal,
 			Details: "cannot identify signing ECDSA key length",
 		}
 	}
 
 	switch {
 	case c.SignatureAlgorithm == x509.ECDSAWithSHA256 && signKeySize == 256:
-		return &LintResult{
-			Status:  Pass,
+		return &lint.LintResult{
+			Status:  lint.Pass,
 			Details: "Detected ECDSAWithSHA256 and 256 bit signing key.",
 		}
 	case c.SignatureAlgorithm == x509.ECDSAWithSHA384 && signKeySize == 384:
-		return &LintResult{
-			Status:  Pass,
+		return &lint.LintResult{
+			Status:  lint.Pass,
 			Details: "Detected ECDSAWithSHA384 and 384 bit signing key.",
 		}
 	}
 
-	return &LintResult{Status: Error}
+	return &lint.LintResult{Status: lint.Error}
 }
 
 func init() {
-	RegisterLint(&Lint{
+	lint.RegisterLint(&lint.Lint{
 		Name:          "e_mp_ecdsa_allowed_algorithm",
 		Description:   "ECDSA keys using one of the following curve-hash pairs: P‐256 with SHA-256, P‐384 with SHA-384",
 		Citation:      "Mozilla Root Store Policy / Section 5.1",
-		Source:        MozillaRootStorePolicy,
+		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy24Date,
 		Lint:          &ecdsaAllowedAlgorithm{},
 	})

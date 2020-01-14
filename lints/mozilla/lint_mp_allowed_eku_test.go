@@ -17,45 +17,48 @@ package lints
 import (
 	"fmt"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/util"
 )
 
 func TestAllowedEKUs(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
-		ExpectedResult LintStatus
+		ExpectedResult lint.LintStatus
 	}{
 		{
 			Name:           "SubCA with no EKU",
 			InputFilename:  "mpSubCAEKUDisallowed1.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "SubCA with anyExtendedKeyUsage",
 			InputFilename:  "mpSubCAEKUDisallowed2.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "SubCA with serverAuth and emailProtection",
 			InputFilename:  "mpSubCAEKUDisallowed3.pem",
-			ExpectedResult: Error,
+			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "SubCA with serverAuth EKU",
 			InputFilename:  "mpSubCAEKUAllowed.pem",
-			ExpectedResult: Pass,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name:           "Cross-Certificate with no EKU",
 			InputFilename:  "mpCrossCertNoEKU.pem",
-			ExpectedResult: NA,
+			ExpectedResult: lint.NA,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", testCaseDir, tc.InputFilename)
-			result := Lints["e_mp_allowed_eku"].Execute(ReadCertificate(inputPath))
+			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
+			result := lint.Lints["e_mp_allowed_eku"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
