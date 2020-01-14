@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint"
-	"github.com/zmap/zlint/lints"
+	"github.com/zmap/zlint/lint"
 )
 
 // lintCertificate lints the provided work item's certificate to produce
@@ -22,7 +22,7 @@ func lintCertificate(work workItem) certResult {
 	// Lint the certiifcate to produce a full result set
 	cr := certResult{
 		Fingerprint: work.Fingerprint,
-		LintSummary: make(map[string]lints.LintStatus),
+		LintSummary: make(map[string]lint.LintStatus),
 	}
 	resultSet := zlint.LintCertificateFiltered(work.Certificate, lintFilter)
 	for lintName, r := range resultSet.Results {
