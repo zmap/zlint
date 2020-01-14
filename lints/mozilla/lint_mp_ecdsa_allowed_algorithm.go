@@ -76,13 +76,15 @@ func (l *ecdsaAllowedAlgorithm) Initialize() error {
 	return nil
 }
 
-func (l *ecdsaAllowedAlgorithm) CheckApplies(c *x509.Certificate) bool {
-	if c.SignatureAlgorithm == x509.ECDSAWithSHA1 || c.SignatureAlgorithm == x509.ECDSAWithSHA256 ||
-		c.SignatureAlgorithm == x509.ECDSAWithSHA384 || c.SignatureAlgorithm == x509.ECDSAWithSHA512 {
-		return true
-	}
+var applicableSigAlgs = map[x509.SignatureAlgorithm]bool{
+	x509.ECDSAWithSHA1:   true,
+	x509.ECDSAWithSHA256: true,
+	x509.ECDSAWithSHA384: true,
+	x509.ECDSAWithSHA512: true,
+}
 
-	return false
+func (l *ecdsaAllowedAlgorithm) CheckApplies(c *x509.Certificate) bool {
+	return applicableSigAlgs[c.SignatureAlgorithm]
 }
 
 func (l *ecdsaAllowedAlgorithm) Execute(c *x509.Certificate) *lint.LintResult {
