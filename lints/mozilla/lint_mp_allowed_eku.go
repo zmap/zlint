@@ -56,7 +56,8 @@ func (l *allowedEKU) Execute(c *x509.Certificate) *lint.LintResult {
 
 	if noEKU || anyEKU || emailAndServerAuthEKU {
 		// NOTE(@cpu): When this lint's scope is improved (see CheckApplies TODO)
-		// this should be a lint.Error result instead of lint.Notice. See XXX
+		// this should be a lint.Error result instead of lint.Notice. See
+		// https://github.com/zmap/zlint/issues/352
 		return &lint.LintResult{Status: lint.Notice}
 	}
 
@@ -65,7 +66,7 @@ func (l *allowedEKU) Execute(c *x509.Certificate) *lint.LintResult {
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_mp_allowed_eku",
+		Name:          "n_mp_allowed_eku",
 		Description:   "Separation of id-kp-serverAuth and id-kp-emailProtection KeyPurposeIds",
 		Citation:      "Mozilla Root Store Policy / Section 5.3",
 		Source:        lint.MozillaRootStorePolicy,

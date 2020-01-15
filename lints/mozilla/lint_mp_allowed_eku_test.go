@@ -61,7 +61,7 @@ func TestAllowedEKUs(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
-			result := lint.Lints["e_mp_allowed_eku"].Execute(util.ReadCertificate(inputPath))
+			result := lint.Lints["n_mp_allowed_eku"].Execute(util.ReadCertificate(inputPath))
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
