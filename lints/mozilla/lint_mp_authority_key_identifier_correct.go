@@ -49,13 +49,8 @@ func (l *authorityKeyIdentifierCorrect) CheckApplies(c *x509.Certificate) bool {
 func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *lint.LintResult {
 	var keyID keyIdentifier
 
+	// ext is assumed not-nil based on CheckApplies.
 	ext := util.GetExtFromCert(c, util.AuthkeyOID)
-	if ext == nil {
-		return &lint.LintResult{
-			Status:  lint.Fatal,
-			Details: "certificate is missing Authority Key Identifier extension",
-		}
-	}
 	if _, err := asn1.Unmarshal(ext.Value, &keyID); err != nil {
 		return &lint.LintResult{
 			Status:  lint.Fatal,
