@@ -43,7 +43,7 @@ func (l *allowedEKU) Initialize() error {
 func (l *allowedEKU) CheckApplies(c *x509.Certificate) bool {
 	// TODO(@cpu): This lint should be limited to SubCAs that do not share
 	// a private key with a corresponding root certificate in the Mozilla root
-	// store. See XXX
+	// store. See https://github.com/zmap/zlint/issues/352
 	return util.IsSubCA(c)
 }
 

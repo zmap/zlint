@@ -52,7 +52,8 @@ func TestAllowedEKUs(t *testing.T) {
 			Name:          "Cross-Certificate with no EKU",
 			InputFilename: "mpCrossCertNoEKU.pem",
 			// NOTE(@cpu): This should be a lint.Pass. It is a false positive that
-			// would be addressed by tracking Mozilla trusted roots. See XXX.
+			// would be addressed by tracking Mozilla trusted roots. See
+			// https://github.com/zmap/zlint/issues/352
 			ExpectedResult: lint.Notice,
 		},
 	}
