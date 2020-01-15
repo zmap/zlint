@@ -78,7 +78,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_orgid",
 		Description:   "For a PSD2 Certificate this lint checks that if the Legal Person Semantics Identifier is present, the subject:organizationIdentifier field has one of the allowed prefixes",
 		Citation:      "ETSI TS 119 495 V1.2.1, Sec. 5.2.1",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2OrgId{},
 	})

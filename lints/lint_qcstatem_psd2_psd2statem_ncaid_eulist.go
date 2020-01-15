@@ -98,7 +98,7 @@ func init() {
 		Name:          "w_qcstatem_psd2_psd2statem_ncaid_eulist",
 		Description:   "If the country given in the PSD2 QcStatement NCAId field is found in the ETSI list in Annex D (see citation), then this lint checks that the corresponding NcaId is contained in the NcaId field of the PSD2 QcStatement",
 		Citation:      "ETSI TS 119 495, Annex D",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemPsd2Psd2StatemNcaidEulist{},
 	})

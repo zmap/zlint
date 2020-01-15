@@ -72,7 +72,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_policy_mandatory",
 		Description:   "Tests various requirements regarding policy identifiers of EU Qualified Certificates",
 		Citation:      "ETSI EN 319 412-4, ETSI EN 319 412-5, ETSI EN 319 411-2",
-		Source:        EtsiEn_319_412_4_CertProfileWeb,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2PolicyMandatory{},
 	})

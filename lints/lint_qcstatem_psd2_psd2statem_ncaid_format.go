@@ -51,7 +51,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_psd2statem_ncaid_format",
 		Description:   "Checks that the NCAId field of the PSD2 QcStatement has the correct syntax.",
 		Citation:      "ETSI TS 119 495, '5.2.3 Name and identifier of the competent authority'",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemPsd2Psd2StatemNcaidFormat{},
 	})

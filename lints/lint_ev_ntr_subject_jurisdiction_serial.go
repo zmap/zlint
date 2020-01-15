@@ -59,6 +59,13 @@ func (l *evNtrSubjectJurisdiction) Execute(c *x509.Certificate) *LintResult {
 
 	_, parsedOrgId := GetOrgIdFromSubjOrExt(c) // one must be present, otherwise lint would not be invoked
 
+	if util.IsExtInCert(c, util.CabfExtensionOrganizationIdentifier) {
+		errStr, _ := util.ParseCabfOrgIdExt(c)
+		if errStr != "" {
+			return &LintResult{Status: Error, Details: errStr}
+		}
+	}
+
 	// perform checks against subject:jurisdiction fields in case of NTR:
 	jurSop := util.GetSubjectElement(c.RawSubject, util.SubjectJurisdictionStateOrProvinceNameOID)
 	if jurSop.ErrorString != "" {
@@ -90,8 +97,8 @@ func (l *evNtrSubjectJurisdiction) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_ntr_subject_jurisdiction_serial",
-		Description:   "Checks that the requirements for the subject:jurisdiction...Name fields and the subject:SerialNumber from Sec 9.2.4, 9.2.5, and Annex H are satisfied",
-		Citation:      "CA/Browser Forum EV Guidelines v1.7, Sec. 9.2.4, 9.2.5, and Annex H",
+		Description:   "Checks that the consistency requirements about NTR regarding subject:jurisdiction...Name fields, subject:SerialNumber, and organization identifier are satisfied",
+		Citation:      "CA/Browser Forum EV Guidelines v1.7, Appendix H",
 		Source:        CABFEVGuidelines,
 		EffectiveDate: util.CABAltRegNumEvDate,
 		Lint:          &evNtrSubjectJurisdiction{},

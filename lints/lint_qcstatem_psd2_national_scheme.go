@@ -91,7 +91,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_national_scheme",
 		Description:   "This lint applies if in a PSD2 certificate (i.e. featuring the PSD2 QcStatement) the subject:organizationIdentifier has a prefix of the form: 2 arbitrary initial characters followed by a colon. In this case it checks that the remainder of the string also fulfills the national scheme syntax.",
 		Citation:      "ETSI TS 119 495, '5.2.1 PSD2 Authorization Number or other recognized identifier'",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2NationalScheme{},
 	})

@@ -70,7 +70,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_psd",
 		Description:   "Applies to ETSI PSD2 certificates the subject:OrganizationIdentifier of which is of the form 'PSD...' and checks whether the format of the subject:OrganizationIdentifier field is correct and whether the NCAId therein matches the one in the PSD2 statement.",
 		Citation:      "ETSI TS 119 495, '5.2.1 PSD2 Authorization Number or other recognized identifier'",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2Psd{},
 	})

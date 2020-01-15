@@ -71,7 +71,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_roles",
 		Description:   "Verifies that the PSD2 QC Statement extension contains only allowed role OIDs",
 		Citation:      "ETSI TS 119 495 V1.2.1, GEN-5.1-2",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2Roles{},
 	})

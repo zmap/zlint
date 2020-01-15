@@ -61,7 +61,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_vat_ntr",
 		Description:   "Applies to ETSI PSD2 certificates the subject:OrganizationIdentifier of which is of the form 'VAT...' or 'NTR...' or 'LEI... 'and checks whether the format of the subject:OrganizationIdentifier field is correct",
 		Citation:      "ETSI EN 319 412-1, Sec. '5.1.4 Legal person semantics identifier' ",
-		Source:        EtsiEn_319_412_1_CommDataStruct,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemPsd2VatNtr{},
 	})

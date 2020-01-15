@@ -46,7 +46,7 @@ func init() {
 		Name:          "e_qcstatem_psd2_psd2statem_encoding",
 		Description:   "This test checks that a PSD2 QcStatement has the correct encoding.",
 		Citation:      "ETSI TS 119 495, 'Annex A (normative): ASN.1 Declaration'",
-		Source:        EtsiTs_119_495_EsiPsd,
+		Source:        EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		Lint:          &qcStatemPsd2Pd2StatemEnc{},
 	})
