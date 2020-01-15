@@ -37,7 +37,7 @@ type ecdsaSignature struct {
 func getSigningKeySize(cert *x509.Certificate) (int, error) {
 	sig := new(ecdsaSignature)
 	if _, err := asn1.Unmarshal(cert.Signature, sig); err != nil {
-		return -1, err
+		return 0, err
 	}
 
 	rsize := sig.R.BitLen()
@@ -68,7 +68,7 @@ func getSigningKeySize(cert *x509.Certificate) (int, error) {
 		return 521, nil
 	}
 
-	return -1, errors.New("cannot identify signing ECDSA key length")
+	return 0, errors.New("cannot identify signing ECDSA key length")
 }
 
 type ecdsaAllowedAlgorithm struct{}
