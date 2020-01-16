@@ -12,12 +12,14 @@ Adding New Lints
 ----------------
 
 **Generating Lint Scaffolding.** The scaffolding for a new lints can be created
-by running `./newLint.sh <lint_name> <structName>`. Lint names are generally of
-the form `e_subject_common_name_not_from_san` where the first letter is one of:
-`e`, `w`, or `n` (error, warning, or notice respectively). Struct names
-following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Example:
-`./newLint.sh e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`.
-This will generate a new lint in the `lints` directory with the necessary
+by running `./newLint.sh <path_name> <lint_name> <structName>`. Path name may be
+one of the existing folders under `lints` (for example `apple`, `cabf_br`, `rfc`
+etc) and the choice depends on who authors/suggests the lint specification. Lint
+names are generally of the form `e_subject_common_name_not_from_san` where the
+first letter is one of: `e`, `w`, or `n` (error, warning, or notice respectively).
+Struct names following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Example:
+`./newLint.sh rfc e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`.
+This will generate a new lint in the `lints/rfc` directory with the necessary
 fields filled out.
 
 **Choosing a Lint Result Level.** When choosing what `lints.LintStatus` your new
