@@ -95,34 +95,6 @@ func ParseCabfOrgId(oi string) (string, ParsedEvOrgId) {
 	return "", result
 
 }
-func ParseCabfOrgId_old(oi string) (string, ParsedEvOrgId) {
-
-	var result ParsedEvOrgId
-	re_ntr := regexp.MustCompile(`^NTR(.{2})([+]([A-Z]{2}))?-(.+)$`)
-	re_vat_psd := regexp.MustCompile(`^(VAT|PSD)([A-Z]{2})-(.+)$`)
-	re_lei := regexp.MustCompile(`^(LEI)(XG)-(.+)$`)
-	if re_ntr.MatchString(oi) {
-		sm := re_ntr.FindStringSubmatch(oi)
-		result.Rsi = "NTR"
-		result.Country = sm[1]
-		result.StateOrProvince = sm[3]
-		result.RegRef = sm[4]
-
-	} else if re_vat_psd.MatchString(oi) {
-		sm := re_vat_psd.FindStringSubmatch(oi)
-		result.Rsi = sm[1]
-		result.Country = sm[2]
-		result.RegRef = sm[3]
-	} else if re_lei.MatchString(oi) {
-		sm := re_lei.FindStringSubmatch(oi)
-		result.Rsi = sm[1]
-		result.Country = sm[2]
-		result.RegRef = sm[3]
-	} else {
-		return "CAB/F subject:organizationIdentifier has an invalid format", result
-	}
-	return "", result
-}
 
 func GetSubjectOrgId(rawSubject []byte) parsedSubjectElement {
 	return GetSubjectElement(rawSubject, CabfSubjectOrganizationIdentifier)
@@ -142,7 +114,7 @@ func GetSubjectElement(rawSubject []byte, soughtOid asn1.ObjectIdentifier) parse
 		for _, typeAndValue := range item {
 			if typeAndValue.Type.Equal(soughtOid) {
 				if result.IsPresent {
-					AppendToStringSemicolonDelim(&result.ErrorString, "multi-valued subject:... encountered, this is not expected")
+					AppendToStringSemicolonDelim(&result.ErrorString, "double AVA found in subject:... encountered, this is not expected")
 					return result
 				}
 				result.IsPresent = true
