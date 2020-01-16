@@ -41,6 +41,8 @@ PATHNAME=$1
 FILENAME=$2
 TESTNAME=$3
 
-sed -e "s/SUBST/${TESTNAME}/g" -e "s/SUBTEST/${FILENAME}/g" template > lints/${PATHNAME}/lint_${FILENAME}.go
+sed -e "s/PACKAGE/${PATHNAME}/" \
+    -e "s/SUBST/${TESTNAME}/g" \
+    -e "s/SUBTEST/${FILENAME}/g" template > lints/${PATHNAME}/lint_${FILENAME}.go
 
 echo "Created file lint_${FILENAME}.go with test name ${TESTNAME}"

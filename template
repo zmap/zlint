@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package lints
+package PACKAGE
 
 import (
 	"github.com/zmap/zcrypto/x509"
