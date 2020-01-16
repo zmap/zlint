@@ -15,6 +15,7 @@
 package lints
 
 import (
+	"encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
 )
@@ -34,19 +35,30 @@ func (l *evOrgIdEncoding) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *evOrgIdEncoding) Execute(c *x509.Certificate) *LintResult {
-	orgId := util.GetSubjectOrgId(c.RawSubject)
-	var errStr string
-	reencParams := []string{"printable", "utf8"}
-	foundCorrectEncoding := false
-	for _, rp := range reencParams {
-		errStr = util.CheckAsn1ReencodingWithParams(orgId.Value, orgId.Asn1RawValue.FullBytes, "error with subject:organizationIdentifier ASN.1 string type", rp)
-		if errStr == "" {
-			foundCorrectEncoding = true
-			break
+
+	rdnSequence := util.RawRDNSequence{}
+	rest, err := asn1.Unmarshal(c.RawSubject, &rdnSequence)
+	if err != nil {
+		return &LintResult{
+			Status:  Fatal,
+			Details: "Failed to Unmarshal RawSubject into RawRDNSequence",
 		}
 	}
-	if !foundCorrectEncoding {
-		return &LintResult{Status: Error, Details: "invalid string type in subject:organizationIdentifier"}
+	if len(rest) > 0 {
+		return &LintResult{
+			Status:  Fatal,
+			Details: "Trailing data after RawSubject RawRDNSequence",
+		}
+	}
+
+	for _, attrTypeAndValueSet := range rdnSequence {
+		for _, attrTypeAndValue := range attrTypeAndValueSet {
+			if attrTypeAndValue.Type.Equal(util.OrganizationIdentifierOID) {
+				if !(attrTypeAndValue.Value.Tag == asn1.TagPrintableString || attrTypeAndValue.Value.Tag == asn1.TagUTF8String) {
+					return &LintResult{Status: Error, Details: "invalid string type in subject:organizationIdentifier"}
+				}
+			}
+		}
 	}
 	return &LintResult{Status: Pass}
 }
@@ -54,7 +66,7 @@ func (l *evOrgIdEncoding) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_orgid_encoding",
-		Description:   "If the subject:organizationIdentifier field is present in an EV certificate, then this lint checks that the format of its encoding (i.e. the string type) is in conformance to the CAB/F EV Guidelines",
+		Description:   "The organizationIdentifier MUST be encoded as a PrintableString or UTF8String",
 		Citation:      "CA/Browser Forum EV Guidelines v1.7, Sec. 9.2.8",
 		Source:        CABFEVGuidelines,
 		EffectiveDate: util.CABAltRegNumEvDate,
