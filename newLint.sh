@@ -38,11 +38,12 @@ then
 fi
 
 PATHNAME=$1
-FILENAME=$2
-TESTNAME=$3
+LINTNAME=$2
+FILENAME=${LINTNAME:2}
+STRUCTNAME=$3
 
 sed -e "s/PACKAGE/${PATHNAME}/" \
-    -e "s/SUBST/${TESTNAME}/g" \
-    -e "s/SUBTEST/${FILENAME}/g" template > lints/${PATHNAME}/lint_${FILENAME}.go
+    -e "s/SUBST/${STRUCTNAME}/g" \
+    -e "s/SUBTEST/${LINTNAME}/g" template > lints/${PATHNAME}/lint_${FILENAME}.go
 
-echo "Created file lint_${FILENAME}.go with test name ${TESTNAME}"
+echo "Created file lints/${PATHNAME}/lint_${FILENAME}.go with struct name ${STRUCTNAME}"
