@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCountryNotIso(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectInvalidCountry.pem"
+	inputPath := "subjectInvalidCountry.pem"
 	expected := lint.Error
-	out := lint.Lints["e_subject_country_not_iso"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_country_not_iso", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCountryIsIso(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectValidCountry.pem"
+	inputPath := "subjectValidCountry.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_country_not_iso"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_country_not_iso", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

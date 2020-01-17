@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestBrSANBareWildcard(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANBareWildcard.pem"
+	inputPath := "SANBareWildcard.pem"
 	expected := lint.Error
-	out := lint.Lints["e_san_bare_wildcard"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_san_bare_wildcard", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBrSANNotBareWildcard(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANURIValid.pem"
+	inputPath := "SANURIValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_san_bare_wildcard"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_san_bare_wildcard", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

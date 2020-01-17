@@ -18,49 +18,49 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCertKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/keyUsageNotCriticalSubCert.pem"
+	inputPath := "keyUsageNotCriticalSubCert.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_key_usage_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caKeyUsageNotCrit.pem"
+	inputPath := "caKeyUsageNotCrit.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_key_usage_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertKeyUsageCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_key_usage_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaKeyUsageCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caKeyUsageCrit.pem"
+	inputPath := "caKeyUsageCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_key_usage_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertKeyUsageNotIncludedCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caKeyUsageMissing.pem"
+	inputPath := "caKeyUsageMissing.pem"
 	expected := lint.NA
-	out := lint.Lints["e_ext_key_usage_without_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_key_usage_without_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

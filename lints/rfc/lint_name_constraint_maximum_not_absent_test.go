@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNcMaxPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncAllPres.pem"
+	inputPath := "ncAllPres.pem"
 	expected := lint.Error
-	out := lint.Lints["e_name_constraint_maximum_not_absent"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_maximum_not_absent", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcMinPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncMinPres.pem"
+	inputPath := "ncMinPres.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_name_constraint_maximum_not_absent"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_maximum_not_absent", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcEmptyValue(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncEmptyValue.pem"
+	inputPath := "ncEmptyValue.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_name_constraint_maximum_not_absent"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_maximum_not_absent", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

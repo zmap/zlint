@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDNSNameUnderscoreInTRD(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameUnderscoreInTRD.pem"
+	inputPath := "dnsNameUnderscoreInTRD.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_dnsname_underscore_in_trd"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_dnsname_underscore_in_trd", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNoUnderscoreInTRD(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameNoUnderscoreInTRD.pem"
+	inputPath := "dnsNameNoUnderscoreInTRD.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_dnsname_underscore_in_trd"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_dnsname_underscore_in_trd", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

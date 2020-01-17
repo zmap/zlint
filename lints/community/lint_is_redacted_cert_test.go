@@ -18,13 +18,13 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDNSNameContainsQuestionMark(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameContainsQuestionMark.pem"
+	inputPath := "dnsNameContainsQuestionMark.pem"
 	expected := lint.Notice
-	out := lint.Lints["n_contains_redacted_dnsname"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("n_contains_redacted_dnsname", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

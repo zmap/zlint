@@ -18,24 +18,24 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectCountryGood(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SubjectDNAndIssuerDNCountryPrintableString.pem"
+	inputPath := "SubjectDNAndIssuerDNCountryPrintableString.pem"
 	expected := lint.Pass
 
-	out := lint.Lints["e_subject_dn_country_not_printable_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_country_not_printable_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCountryBad(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SubjectDNCountryNotPrintableString.pem"
+	inputPath := "SubjectDNCountryNotPrintableString.pem"
 	expected := lint.Error
 
-	out := lint.Lints["e_subject_dn_country_not_printable_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_country_not_printable_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

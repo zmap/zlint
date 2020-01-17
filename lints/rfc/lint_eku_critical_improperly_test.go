@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEKUAnyCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ekuAnyCrit.pem"
+	inputPath := "ekuAnyCrit.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_eku_critical_improperly"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_eku_critical_improperly", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEKUNoCritWAny(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ekuAnyNoCrit.pem"
+	inputPath := "ekuAnyNoCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_eku_critical_improperly"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_eku_critical_improperly", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEKUNoAnyCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ekuNoAnyCrit.pem"
+	inputPath := "ekuNoAnyCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_eku_critical_improperly"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_eku_critical_improperly", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

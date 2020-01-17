@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestIDNDnsNameNotNFC(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNamesNotNFC.pem"
+	inputPath := "dnsNamesNotNFC.pem"
 	expected := lint.Error
-	out := lint.Lints["e_international_dns_name_not_nfc"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_international_dns_name_not_nfc", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIDNDnsNameIsNFC(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNamesNFC.pem"
+	inputPath := "dnsNamesNFC.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_international_dns_name_not_nfc"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_international_dns_name_not_nfc", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

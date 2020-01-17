@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCrlCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCrlDistCrit.pem"
+	inputPath := "subCrlDistCrit.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_crl_distribution_points_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_crl_distribution_points_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCrlNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCrlDistNoCrit.pem"
+	inputPath := "subCrlDistNoCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_crl_distribution_points_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_crl_distribution_points_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

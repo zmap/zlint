@@ -15,11 +15,10 @@ package lints
  */
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestAllowedEKUs(t *testing.T) {
@@ -60,8 +59,7 @@ func TestAllowedEKUs(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
-			result := lint.Lints["n_mp_allowed_eku"].Execute(util.ReadCertificate(inputPath))
+			result := test.TestLint("n_mp_allowed_eku", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

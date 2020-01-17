@@ -18,34 +18,34 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectCharactersGood(t *testing.T) {
-	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "orgValGoodAllFields.pem"
 	expected := lint.Pass
 
-	out := lint.Lints["e_subject_dn_not_printable_characters"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_not_printable_characters", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCharactersGoodUTF8(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectDNNotPrintableCharsUTF8.pem"
+	inputPath := "subjectDNNotPrintableCharsUTF8.pem"
 	expected := lint.Pass
 
-	out := lint.Lints["e_subject_dn_not_printable_characters"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_not_printable_characters", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCharactersBad(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectDNNotPrintableCharacters.pem"
+	inputPath := "subjectDNNotPrintableCharacters.pem"
 	expected := lint.Error
 
-	out := lint.Lints["e_subject_dn_not_printable_characters"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_not_printable_characters", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

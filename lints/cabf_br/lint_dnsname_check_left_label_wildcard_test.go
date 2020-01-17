@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestLeftLabelWildcardCorrect(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardCorrect.pem"
+	inputPath := "dnsNameWildcardCorrect.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dnsname_left_label_wildcard_correct"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_left_label_wildcard_correct", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestLeftLabelWildcardIncorrect(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardIncorrect.pem"
+	inputPath := "dnsNameWildcardIncorrect.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_left_label_wildcard_correct"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_left_label_wildcard_correct", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSnTooLarge(t *testing.T) {
-	inputPath := "../../testlint/testCerts/serialNumberLarge.pem"
+	inputPath := "serialNumberLarge.pem"
 	expected := lint.Error
-	out := lint.Lints["e_serial_number_longer_than_20_octets"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_serial_number_longer_than_20_octets", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSnNotTooLarge(t *testing.T) {
-	inputPath := "../../testlint/testCerts/serialNumberValid.pem"
+	inputPath := "serialNumberValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_serial_number_longer_than_20_octets"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_serial_number_longer_than_20_octets", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

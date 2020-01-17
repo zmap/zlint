@@ -18,13 +18,13 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCertCountryNameMustAppear(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertCountryNameMustAppear.pem"
+	inputPath := "subCertCountryNameMustAppear.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_country_name_must_appear"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_country_name_must_appear", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

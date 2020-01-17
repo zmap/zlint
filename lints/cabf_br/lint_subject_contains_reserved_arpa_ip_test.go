@@ -1,11 +1,10 @@
 package cabf_br
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectReverseDNSARPA(t *testing.T) {
@@ -61,8 +60,7 @@ func TestSubjectReverseDNSARPA(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
-			result := lint.Lints["e_subject_contains_reserved_arpa_ip"].Execute(util.ReadCertificate(inputPath))
+			result := test.TestLint("e_subject_contains_reserved_arpa_ip", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

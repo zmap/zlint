@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANURIIA5(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANURIIA5.pem"
+	inputPath := "SANURIIA5.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_uri_not_ia5"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_uri_not_ia5", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURINotIA5(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANURINotIA5.pem"
+	inputPath := "SANURINotIA5.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_uri_not_ia5"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_uri_not_ia5", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

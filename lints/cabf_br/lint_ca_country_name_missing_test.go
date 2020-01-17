@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 /************************************************
@@ -30,18 +30,18 @@ in which the CA’s place	of business	is located.
 ************************************************/
 
 func TestCaCountryNameMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caBlankCountry.pem"
+	inputPath := "caBlankCountry.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ca_country_name_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ca_country_name_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaCountryNamePresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caValCountry.pem"
+	inputPath := "caValCountry.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ca_country_name_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ca_country_name_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

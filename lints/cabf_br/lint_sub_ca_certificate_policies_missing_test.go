@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCaPolicyMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAWNoCertPolicy.pem"
+	inputPath := "subCAWNoCertPolicy.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_ca_certificate_policies_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_ca_certificate_policies_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaPolicyPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAWCertPolicyNoCrit.pem"
+	inputPath := "subCAWCertPolicyNoCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_ca_certificate_policies_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_ca_certificate_policies_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

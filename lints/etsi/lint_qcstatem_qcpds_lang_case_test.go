@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEtsiQcPdsLangCase(t *testing.T) {
@@ -32,8 +32,7 @@ func TestEtsiQcPdsLangCase(t *testing.T) {
 		"QcStmtEtsiNoQcStatmentsCert22.pem":     lint.NA,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../../testlint/testCerts/" + inputPath
-		out := lint.Lints["w_qcstatem_qcpds_lang_case"].Execute(util.ReadCertificate(inputPath))
+		out := test.TestLint("w_qcstatem_qcpds_lang_case", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

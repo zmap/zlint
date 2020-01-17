@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectCommonNameLengthGood(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectCommonNameLengthGood.pem"
+	inputPath := "subjectCommonNameLengthGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_common_name_max_length"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_common_name_max_length", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectCommonNameLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectCommonNameLong.pem"
+	inputPath := "subjectCommonNameLong.pem"
 	expected := lint.Error
-	out := lint.Lints["e_subject_common_name_max_length"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_common_name_max_length", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

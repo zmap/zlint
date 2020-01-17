@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDSAShorterThan2048Bits(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dsaShorterThan2048Bits.pem"
+	inputPath := "dsaShorterThan2048Bits.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dsa_shorter_than_2048_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dsa_shorter_than_2048_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDSANotShorterThan2048Bits(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
+	inputPath := "dsaNotShorterThan2048Bits.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dsa_shorter_than_2048_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dsa_shorter_than_2048_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

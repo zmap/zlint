@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zcrypto/x509"
 )
 
 func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
@@ -44,8 +44,10 @@ func TestAllLintsHaveSource(t *testing.T) {
 }
 
 func TestLintCheckEffective(t *testing.T) {
+	c := &x509.Certificate{
+		NotBefore: time.Now(),
+	}
 	l := Lint{}
-	c := util.ReadCertificate("../testlint/testCerts/caBasicConstCrit.pem")
 
 	l.EffectiveDate = time.Time{}
 	if l.CheckEffective(c) != true {

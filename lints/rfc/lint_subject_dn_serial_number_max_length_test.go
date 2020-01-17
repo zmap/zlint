@@ -18,24 +18,24 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectDNSerialNumberBelowMaximumLengthGood(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evAllGood.pem"
+	inputPath := "evAllGood.pem"
 	expected := lint.Pass
 
-	out := lint.Lints["e_subject_dn_serial_number_max_length"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_serial_number_max_length", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectDNSerialNumberTooLongBad(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SubjectDNSerialNumberTooLong.pem"
+	inputPath := "SubjectDNSerialNumberTooLong.pem"
 	expected := lint.Error
 
-	out := lint.Lints["e_subject_dn_serial_number_max_length"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_dn_serial_number_max_length", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestUtcHasSeconds(t *testing.T) {
-	inputPath := "../../testlint/testCerts/utcHasSeconds.pem"
+	inputPath := "utcHasSeconds.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_utc_time_does_not_include_seconds"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_utc_time_does_not_include_seconds", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUtcNoSeconds(t *testing.T) {
-	inputPath := "../../testlint/testCerts/utcNoSeconds.pem"
+	inputPath := "utcNoSeconds.pem"
 	expected := lint.Error
-	out := lint.Lints["e_utc_time_does_not_include_seconds"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_utc_time_does_not_include_seconds", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

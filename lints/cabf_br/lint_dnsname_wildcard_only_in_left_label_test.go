@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDNSNameWildcardOnlyInLeftLabel(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardOnlyInLeftLabel.pem"
+	inputPath := "dnsNameWildcardOnlyInLeftLabel.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dnsname_wildcard_only_in_left_label"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_wildcard_only_in_left_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameWildcardNotOnlyInLeftLabel(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardNotOnlyInLeftLabel.pem"
+	inputPath := "dnsNameWildcardNotOnlyInLeftLabel.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_wildcard_only_in_left_label"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_wildcard_only_in_left_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCrlNoUrl(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCrlDistNoURL.pem"
+	inputPath := "subCrlDistNoURL.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_crl_distribution_points_does_not_contain_url"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_crl_distribution_points_does_not_contain_url", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCrlContainsUrl(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCrlDistURL.pem"
+	inputPath := "subCrlDistURL.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_crl_distribution_points_does_not_contain_url"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_crl_distribution_points_does_not_contain_url", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -46,9 +46,9 @@ func TestCrlContainsUrlInCompoundFullName(t *testing.T) {
 	// interpreted as different names for the same underlying CRL, i.e.
 	// providing an LDAP URI and an HTTP URI -- see section 4.2.1.13 of
 	// lint.RFC5280).
-	inputPath := "../../testlint/testCerts/subCrlDistURLInCompoundFullName.pem"
+	inputPath := "subCrlDistURLInCompoundFullName.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_crl_distribution_points_does_not_contain_url"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_crl_distribution_points_does_not_contain_url", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

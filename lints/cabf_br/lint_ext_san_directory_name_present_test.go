@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANDirNamePresent2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANDirectoryNameBeginning.pem"
+	inputPath := "SANDirectoryNameBeginning.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_directory_name_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_directory_name_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANDirNamePresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANDirectoryNameEnd.pem"
+	inputPath := "SANDirectoryNameEnd.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_directory_name_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_directory_name_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANDirNameMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANCaGood.pem"
+	inputPath := "SANCaGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_directory_name_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_directory_name_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

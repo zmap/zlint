@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDNSNameEmptyLabel(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameEmptyLabel.pem"
+	inputPath := "dnsNameEmptyLabel.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_empty_label"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_empty_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNotEmptyLabel(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameNotEmptyLabel.pem"
+	inputPath := "dnsNameNotEmptyLabel.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dnsname_empty_label"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_empty_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

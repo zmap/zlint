@@ -18,58 +18,58 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCaMaxLenNegative(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caMaxPathNegative.pem"
+	inputPath := "caMaxPathNegative.pem"
 	expected := lint.Error
-	out := lint.Lints["e_path_len_constraint_zero_or_less"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_path_len_constraint_zero_or_less", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCerMaxLenNegative(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertPathLenNegative.pem"
+	inputPath := "subCertPathLenNegative.pem"
 	expected := lint.Error
-	out := lint.Lints["e_path_len_constraint_zero_or_less"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_path_len_constraint_zero_or_less", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaMaxLenPositive(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caMaxPathLenPositive.pem"
+	inputPath := "caMaxPathLenPositive.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_path_len_constraint_zero_or_less"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_path_len_constraint_zero_or_less", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertMaxLenPositive(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertPathLenPositive.pem"
+	inputPath := "subCertPathLenPositive.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_path_len_constraint_zero_or_less"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_path_len_constraint_zero_or_less", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertMaxLenMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caBasicConstMissing.pem"
+	inputPath := "caBasicConstMissing.pem"
 	expected := lint.NA
-	out := lint.Lints["e_path_len_constraint_zero_or_less"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_path_len_constraint_zero_or_less", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCAMaxLenNone(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caMaxPathLenMissing.pem"
+	inputPath := "caMaxPathLenMissing.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_path_len_constraint_zero_or_less"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_path_len_constraint_zero_or_less", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

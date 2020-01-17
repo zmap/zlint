@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestIANURIRelative(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANURINoScheme.pem"
+	inputPath := "IANURINoScheme.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_ian_uri_relative"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_ian_uri_relative", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANURIAbsolute(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANURIValid.pem"
+	inputPath := "IANURIValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_ian_uri_relative"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_ian_uri_relative", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

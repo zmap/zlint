@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestRootCACertPolicy(t *testing.T) {
-	inputPath := "../../testlint/testCerts/rootCAWithCertPolicy.pem"
+	inputPath := "rootCAWithCertPolicy.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_root_ca_contains_cert_policy"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_root_ca_contains_cert_policy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRootCANoCertPolicy(t *testing.T) {
-	inputPath := "../../testlint/testCerts/rootCAValid.pem"
+	inputPath := "rootCAValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_root_ca_contains_cert_policy"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_root_ca_contains_cert_policy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

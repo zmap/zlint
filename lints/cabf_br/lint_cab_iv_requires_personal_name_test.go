@@ -18,40 +18,40 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCertPolicyIvHasPerson(t *testing.T) {
-	inputPath := "../../testlint/testCerts/indivValGoodAllFields.pem"
+	inputPath := "indivValGoodAllFields.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvHasSurname(t *testing.T) {
-	inputPath := "../../testlint/testCerts/indivValSurnameOnly.pem"
+	inputPath := "indivValSurnameOnly.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvHasLastName(t *testing.T) {
-	inputPath := "../../testlint/testCerts/indivValGivenNameOnly.pem"
+	inputPath := "indivValGivenNameOnly.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyIvNoPerson(t *testing.T) {
-	inputPath := "../../testlint/testCerts/indivValNoOrgOrPersonalNames.pem"
+	inputPath := "indivValNoOrgOrPersonalNames.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cab_iv_requires_personal_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

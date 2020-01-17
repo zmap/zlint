@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestQcStatemQcLimitValueValid(t *testing.T) {
@@ -26,8 +26,7 @@ func TestQcStatemQcLimitValueValid(t *testing.T) {
 		"QcStmtValidLimitValue.pem": lint.Pass,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../../testlint/testCerts/" + inputPath
-		out := lint.Lints["e_qcstatem_qclimitvalue_valid"].Execute(util.ReadCertificate(inputPath))
+		out := test.TestLint("e_qcstatem_qclimitvalue_valid", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -40,8 +39,7 @@ func TestQcStatemQcLimitValueInvalid(t *testing.T) {
 		"QcStmtInvalidLimitValue.pem": lint.Error,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../../testlint/testCerts/" + inputPath
-		out := lint.Lints["e_qcstatem_qclimitvalue_valid"].Execute(util.ReadCertificate(inputPath))
+		out := test.TestLint("e_qcstatem_qclimitvalue_valid", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

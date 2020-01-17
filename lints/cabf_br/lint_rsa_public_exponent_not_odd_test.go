@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestRsaExpEven(t *testing.T) {
-	inputPath := "../../testlint/testCerts/badRsaExp.pem"
+	inputPath := "badRsaExp.pem"
 	expected := lint.Error
-	out := lint.Lints["e_rsa_public_exponent_not_odd"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_rsa_public_exponent_not_odd", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaExpOdd(t *testing.T) {
-	inputPath := "../../testlint/testCerts/goodRsaExp.pem"
+	inputPath := "goodRsaExp.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_rsa_public_exponent_not_odd"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_rsa_public_exponent_not_odd", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEkuBothPres(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subExtKeyUsageCodeSign.pem"
+	inputPath := "subExtKeyUsageCodeSign.pem"
 	expected := lint.NA
-	out := lint.Lints["e_sub_cert_eku_server_auth_client_auth_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_eku_server_auth_client_auth_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEkuNeitherPres(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subExtKeyUsageServClient.pem"
+	inputPath := "subExtKeyUsageServClient.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_eku_server_auth_client_auth_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_eku_server_auth_client_auth_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

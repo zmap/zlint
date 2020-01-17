@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNameConstraintsNotInCa(t *testing.T) {
-	inputPath := "../../testlint/testCerts/noNameConstraint.pem"
+	inputPath := "noNameConstraint.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_name_constraints_not_in_ca"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_name_constraints_not_in_ca", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNameConstraintsInCa(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAWNameConstCrit.pem"
+	inputPath := "subCAWNameConstCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_name_constraints_not_in_ca"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_name_constraints_not_in_ca", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

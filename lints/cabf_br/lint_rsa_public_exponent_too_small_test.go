@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestRsaExpTooSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/badRsaExpLength.pem"
+	inputPath := "badRsaExpLength.pem"
 	expected := lint.Error
-	out := lint.Lints["e_rsa_public_exponent_too_small"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_rsa_public_exponent_too_small", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaExpNotTooSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/goodRsaExpLength.pem"
+	inputPath := "goodRsaExpLength.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_rsa_public_exponent_too_small"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_rsa_public_exponent_too_small", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

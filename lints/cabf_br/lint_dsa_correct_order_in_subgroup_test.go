@@ -20,27 +20,27 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDSACorrectOrderSubgroup(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dsaCorrectOrderInSubgroup.pem"
+	inputPath := "dsaCorrectOrderInSubgroup.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dsa_correct_order_in_subgroup"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dsa_correct_order_in_subgroup", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDSANotCorrectOrderSubgroup(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dsaCorrectOrderInSubgroup.pem"
-	c := util.ReadCertificate(inputPath)
+	inputPath := "dsaCorrectOrderInSubgroup.pem"
+	c := test.ReadTestCert(inputPath)
 	dsaKey := c.PublicKey.(*dsa.PublicKey)
 	pMinusOne := big.NewInt(0)
 	pMinusOne.Sub(dsaKey.P, big.NewInt(1))
 	dsaKey.Y = pMinusOne
 	expected := lint.Error
-	out := lint.Lints["e_dsa_correct_order_in_subgroup"].Execute(c)
+	out := test.TestLintCert("e_dsa_correct_order_in_subgroup", c)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

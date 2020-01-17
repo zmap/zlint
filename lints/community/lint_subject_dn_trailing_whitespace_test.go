@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectDNTrailingSpace(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectDNTrailingSpace.pem"
+	inputPath := "subjectDNTrailingSpace.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_subject_dn_trailing_whitespace"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_subject_dn_trailing_whitespace", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectDNGood2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_subject_dn_trailing_whitespace"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_subject_dn_trailing_whitespace", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNoNameConstraint(t *testing.T) {
-	inputPath := "../../testlint/testCerts/noNameConstraint.pem"
+	inputPath := "noNameConstraint.pem"
 	expected := lint.Error
-	out := lint.Lints["e_name_constraint_empty"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestHasNameConstraint(t *testing.T) {
-	inputPath := "../../testlint/testCerts/yesNameConstraint.pem"
+	inputPath := "yesNameConstraint.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_name_constraint_empty"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

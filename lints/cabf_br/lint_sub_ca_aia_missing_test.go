@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCaAiaMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAAIAMissing.pem"
+	inputPath := "subCAAIAMissing.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_ca_aia_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_ca_aia_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCaAiaPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAAIAValid.pem"
+	inputPath := "subCAAIAValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_ca_aia_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_ca_aia_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

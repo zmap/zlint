@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNoticeRef(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticePres.pem"
+	inputPath := "userNoticePres.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCps(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeMissing.pem"
+	inputPath := "userNoticeMissing.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoticeRefUnknown(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeUnrecommended.pem"
+	inputPath := "userNoticeUnrecommended.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_cert_policy_disallowed_any_policy_qualifier"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

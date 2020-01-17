@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestOldSubCertRsaModSizeSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/oldSubTooSmall.pem"
+	inputPath := "oldSubTooSmall.pem"
 	expected := lint.Error
-	out := lint.Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_old_sub_cert_rsa_mod_less_than_1024_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestOldSubCertRsaModSizeNotSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/oldSubSmall.pem"
+	inputPath := "oldSubSmall.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_old_sub_cert_rsa_mod_less_than_1024_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_old_sub_cert_rsa_mod_less_than_1024_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

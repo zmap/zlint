@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestImproperModulusBadQ(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dsaBadQLen.pem"
+	inputPath := "dsaBadQLen.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dsa_improper_modulus_or_divisor_size"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dsa_improper_modulus_or_divisor_size", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestImproperModulusGoodQ(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dsaNotShorterThan2048Bits.pem"
+	inputPath := "dsaNotShorterThan2048Bits.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dsa_improper_modulus_or_divisor_size"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dsa_improper_modulus_or_divisor_size", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

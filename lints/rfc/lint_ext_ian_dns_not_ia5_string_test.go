@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestIANDNSIA5String(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANDNSIA5String.pem"
+	inputPath := "IANDNSIA5String.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_ian_dns_not_ia5_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_ian_dns_not_ia5_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANDNSNotIA5String(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANDNSNotIA5String.pem"
+	inputPath := "IANDNSNotIA5String.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_ian_dns_not_ia5_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_ian_dns_not_ia5_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

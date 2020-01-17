@@ -18,40 +18,40 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestExplicitTextUtf8NFC(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeExpTextUtf8.pem"
+	inputPath := "userNoticeExpTextUtf8.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_cert_policy_explicit_text_not_nfc"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_not_nfc", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextUtf8NotNFC(t *testing.T) {
-	inputPath := "../../testlint/testCerts/explicitTextUtf8NotNFC.pem"
+	inputPath := "explicitTextUtf8NotNFC.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_cert_policy_explicit_text_not_nfc"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_not_nfc", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextBMPNFC(t *testing.T) {
-	inputPath := "../../testlint/testCerts/explicitTextBMPNFC.pem"
+	inputPath := "explicitTextBMPNFC.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_cert_policy_explicit_text_not_nfc"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_not_nfc", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextBMPNotNFC(t *testing.T) {
-	inputPath := "../../testlint/testCerts/explicitTextBMPNotNFC.pem"
+	inputPath := "explicitTextBMPNotNFC.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_cert_policy_explicit_text_not_nfc"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_not_nfc", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

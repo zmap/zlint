@@ -18,40 +18,40 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestAIAcaIssuerMissingHTTPorLDAP(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caIssuerNoHTTPLDAP.pem"
+	inputPath := "caIssuerNoHTTPLDAP.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_aia_access_location_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAIAcaIssuerHTTP(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caIssuerHTTP.pem"
+	inputPath := "caIssuerHTTP.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_aia_access_location_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAIAcaIssuerLDAP(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caIssuerLDAP.pem"
+	inputPath := "caIssuerLDAP.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_aia_access_location_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestAIAcaIssuerBlank(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caIssuerBlank.pem"
+	inputPath := "caIssuerBlank.pem"
 	expected := lint.NA
-	out := lint.Lints["w_ext_aia_access_location_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_aia_access_location_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

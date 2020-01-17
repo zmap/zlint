@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestStreetAddressShouldNotExist(t *testing.T) {
-	inputPath := "../../testlint/testCerts/streetAddressCannotExist.pem"
+	inputPath := "streetAddressCannotExist.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_street_address_should_not_exist"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_street_address_should_not_exist", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestStreetAddressCanExist(t *testing.T) {
-	inputPath := "../../testlint/testCerts/streetAddressCanExist.pem"
+	inputPath := "streetAddressCanExist.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_street_address_should_not_exist"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_street_address_should_not_exist", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

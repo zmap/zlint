@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCertNoIssuerOcsp(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertWIssuerURL.pem"
+	inputPath := "subCertWIssuerURL.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_aia_does_not_contain_ocsp_url", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertHasIssuerOcsp(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertWOcspURL.pem"
+	inputPath := "subCertWOcspURL.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_aia_does_not_contain_ocsp_url"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_aia_does_not_contain_ocsp_url", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCRLCompleteDp(t *testing.T) {
-	inputPath := "../../testlint/testCerts/crlComlepteDp.pem"
+	inputPath := "crlComlepteDp.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_distribution_point_incomplete"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_distribution_point_incomplete", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLIncompleteDp(t *testing.T) {
-	inputPath := "../../testlint/testCerts/crlIncomlepteDp.pem"
+	inputPath := "crlIncomlepteDp.pem"
 	expected := lint.Error
-	out := lint.Lints["e_distribution_point_incomplete"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_distribution_point_incomplete", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDuplicateExtension(t *testing.T) {
-	inputPath := "../../testlint/testCerts/extSANDuplicated.pem"
+	inputPath := "extSANDuplicated.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_duplicate_extension"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_duplicate_extension", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoDuplicateExtension(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caBasicConstCrit.pem"
+	inputPath := "caBasicConstCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_duplicate_extension"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_duplicate_extension", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

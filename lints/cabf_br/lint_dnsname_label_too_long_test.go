@@ -18,13 +18,13 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDNSNameLabelTooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameLabelTooLong.pem"
+	inputPath := "dnsNameLabelTooLong.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_label_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_label_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

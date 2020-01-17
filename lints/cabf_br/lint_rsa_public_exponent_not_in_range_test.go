@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestRsaExpNotInRange(t *testing.T) {
-	inputPath := "../../testlint/testCerts/badRsaExp.pem"
+	inputPath := "badRsaExp.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_rsa_public_exponent_not_in_range"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_rsa_public_exponent_not_in_range", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaExpInRange(t *testing.T) {
-	inputPath := "../../testlint/testCerts/validRsaExpRange.pem"
+	inputPath := "validRsaExpRange.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_rsa_public_exponent_not_in_range"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_rsa_public_exponent_not_in_range", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

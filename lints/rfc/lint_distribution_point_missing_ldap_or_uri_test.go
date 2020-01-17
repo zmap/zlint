@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCRLDistNoHttp(t *testing.T) {
-	inputPath := "../../testlint/testCerts/crlDistribNoHTTP.pem"
+	inputPath := "crlDistribNoHTTP.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_distribution_point_missing_ldap_or_uri"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_distribution_point_missing_ldap_or_uri", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLDistHttp(t *testing.T) {
-	inputPath := "../../testlint/testCerts/crlDistribWithHTTP.pem"
+	inputPath := "crlDistribWithHTTP.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_distribution_point_missing_ldap_or_uri"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_distribution_point_missing_ldap_or_uri", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLDistLdap(t *testing.T) {
-	inputPath := "../../testlint/testCerts/crlDistribWithLDAP.pem"
+	inputPath := "crlDistribWithLDAP.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_distribution_point_missing_ldap_or_uri"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_distribution_point_missing_ldap_or_uri", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

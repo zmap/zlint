@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEvHasOrg(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evAllGood.pem"
+	inputPath := "evAllGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ev_organization_name_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ev_organization_name_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEvNoOrg(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evNoOrg.pem"
+	inputPath := "evNoOrg.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ev_organization_name_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ev_organization_name_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

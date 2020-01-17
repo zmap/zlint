@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANInvalidEmail(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANWithInvalidEmail.pem"
+	inputPath := "SANWithInvalidEmail.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_rfc822_format_invalid"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_rfc822_format_invalid", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANInvalidEmail2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANWithInvalidEmail2.pem"
+	inputPath := "SANWithInvalidEmail2.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_rfc822_format_invalid"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_rfc822_format_invalid", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANValidEmail(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANWithValidEmail.pem"
+	inputPath := "SANWithValidEmail.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_rfc822_format_invalid"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_rfc822_format_invalid", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

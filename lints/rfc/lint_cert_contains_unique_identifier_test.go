@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestUIDPresentIssuer(t *testing.T) {
-	inputPath := "../../testlint/testCerts/issuerUID.pem"
+	inputPath := "issuerUID.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cert_contains_unique_identifier"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cert_contains_unique_identifier", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUIDPresentSubject(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectUID.pem"
+	inputPath := "subjectUID.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cert_contains_unique_identifier"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cert_contains_unique_identifier", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestUIDMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_cert_contains_unique_identifier"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cert_contains_unique_identifier", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

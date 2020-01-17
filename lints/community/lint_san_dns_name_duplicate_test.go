@@ -18,13 +18,13 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestBrSANDNSDuplicate(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANDNSDuplicate.pem"
+	inputPath := "SANDNSDuplicate.pem"
 	expected := lint.Notice
-	out := lint.Lints["n_san_dns_name_duplicate"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("n_san_dns_name_duplicate", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

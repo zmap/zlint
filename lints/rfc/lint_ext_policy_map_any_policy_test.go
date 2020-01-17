@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestPolicyMapFromAnyPolicy(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyMapFromAnyPolicy.pem"
+	inputPath := "policyMapFromAnyPolicy.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_policy_map_any_policy"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_policy_map_any_policy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPolicyMapToAnyPolicy(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyMapToAnyPolicy.pem"
+	inputPath := "policyMapToAnyPolicy.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_policy_map_any_policy"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_policy_map_any_policy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPolicyMapToNoAnyPolicy(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyMapGood.pem"
+	inputPath := "policyMapGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_policy_map_any_policy"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_policy_map_any_policy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

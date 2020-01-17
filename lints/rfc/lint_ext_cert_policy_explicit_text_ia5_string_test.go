@@ -18,40 +18,40 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestExplicitTextIA5String(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticePres.pem"
+	inputPath := "userNoticePres.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_ia5_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextNotIA5String(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeExpTextNotIA5String.pem"
+	inputPath := "userNoticeExpTextNotIA5String.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_ia5_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextNotPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeMissing.pem"
+	inputPath := "userNoticeMissing.pem"
 	expected := lint.NA
-	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_ia5_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextNotPresent2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeUnrecommended.pem"
+	inputPath := "userNoticeUnrecommended.pem"
 	expected := lint.NA
-	out := lint.Lints["e_ext_cert_policy_explicit_text_ia5_string"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_ia5_string", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

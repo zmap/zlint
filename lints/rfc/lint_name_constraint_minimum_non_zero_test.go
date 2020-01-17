@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNcMinZero(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncMinZero.pem"
+	inputPath := "ncMinZero.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_name_constraint_minimum_non_zero"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_minimum_non_zero", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcMinNotZero(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncMinPres.pem"
+	inputPath := "ncMinPres.pem"
 	expected := lint.Error
-	out := lint.Lints["e_name_constraint_minimum_non_zero"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_name_constraint_minimum_non_zero", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

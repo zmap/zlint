@@ -15,11 +15,10 @@ package lints
  */
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestModulusDivisibleBy8(t *testing.T) {
@@ -42,8 +41,7 @@ func TestModulusDivisibleBy8(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
-			result := lint.Lints["e_mp_modulus_must_be_divisible_by_8"].Execute(util.ReadCertificate(inputPath))
+			result := test.TestLint("e_mp_modulus_must_be_divisible_by_8", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEkuMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subExtKeyUsageMissing.pem"
+	inputPath := "subExtKeyUsageMissing.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_eku_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_eku_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEkuPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subExtKeyUsageServClient.pem"
+	inputPath := "subExtKeyUsageServClient.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_eku_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_eku_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

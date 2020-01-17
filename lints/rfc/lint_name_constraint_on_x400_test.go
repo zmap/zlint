@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNcNoX400(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncMinZero.pem"
+	inputPath := "ncMinZero.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_name_constraint_on_x400"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_name_constraint_on_x400", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcX400(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncOnX400.pem"
+	inputPath := "ncOnX400.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_name_constraint_on_x400"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_name_constraint_on_x400", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
