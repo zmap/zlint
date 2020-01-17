@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANRegIdMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANCaGood.pem"
+	inputPath := "SANCaGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_registered_id_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_registered_id_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANRegIdPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANRegisteredIdBeginning.pem"
+	inputPath := "SANRegisteredIdBeginning.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_registered_id_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_registered_id_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANRegIdPresent2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANRegisteredIdEnd.pem"
+	inputPath := "SANRegisteredIdEnd.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_registered_id_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_registered_id_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

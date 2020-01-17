@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANDNSShort(t *testing.T) {
-	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_dns_name_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_dns_name_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANDNSTooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANDNSTooLong.pem"
+	inputPath := "SANDNSTooLong.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_dns_name_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_dns_name_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

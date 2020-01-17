@@ -18,13 +18,13 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestIANABareSuffix(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameContainsBareIANASuffix.pem"
+	inputPath := "dnsNameContainsBareIANASuffix.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_contains_bare_iana_suffix"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_contains_bare_iana_suffix", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubEmptyNoSAN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectEmptyNoSAN.pem"
+	inputPath := "subjectEmptyNoSAN.pem"
 	expected := lint.Error
-	out := lint.Lints["e_subject_empty_without_san"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_empty_without_san", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubEmptyYesSAN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANSubjectEmptyNotCritical.pem"
+	inputPath := "SANSubjectEmptyNotCritical.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_empty_without_san"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_empty_without_san", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNoticeRefUsed(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticePres.pem"
+	inputPath := "userNoticePres.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_cert_policy_contains_noticeref"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_contains_noticeref", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoticeRefNotUsed(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeMissing.pem"
+	inputPath := "userNoticeMissing.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_cert_policy_contains_noticeref"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_contains_noticeref", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

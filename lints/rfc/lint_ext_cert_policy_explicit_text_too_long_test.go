@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestExplicitText200Char(t *testing.T) {
-	inputPath := "../../testlint/testCerts/explicitText200Char.pem"
+	inputPath := "explicitText200Char.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_cert_policy_explicit_text_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextBMPString(t *testing.T) {
-	inputPath := "../../testlint/testCerts/explicitTextBMPString.pem"
+	inputPath := "explicitTextBMPString.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_cert_policy_explicit_text_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitText7Char(t *testing.T) {
-	inputPath := "../../testlint/testCerts/userNoticeExpTextUtf8.pem"
+	inputPath := "userNoticeExpTextUtf8.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_cert_policy_explicit_text_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_cert_policy_explicit_text_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

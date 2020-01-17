@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSiaCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/siaCrit.pem"
+	inputPath := "siaCrit.pem"
 	expected := lint.Error
-	out := lint.Lints["e_subject_info_access_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_info_access_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSiaNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/siaNotCrit.pem"
+	inputPath := "siaNotCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_info_access_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_info_access_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectEmailLengthOK(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectEmailPresent.pem"
+	inputPath := "subjectEmailPresent.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_email_max_length"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_email_max_length", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubjectEmailTooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SubjectEmailToolLong.pem"
+	inputPath := "SubjectEmailToolLong.pem"
 	expected := lint.Error
-	out := lint.Lints["e_subject_email_max_length"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_email_max_length", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

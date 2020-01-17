@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestBrSANDNSStartsWithPeriod(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANDNSPeriod.pem"
+	inputPath := "SANDNSPeriod.pem"
 	expected := lint.Error
-	out := lint.Lints["e_san_dns_name_starts_with_period"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_san_dns_name_starts_with_period", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBrSANDNSNotPeriod(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANURIValid.pem"
+	inputPath := "SANURIValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_san_dns_name_starts_with_period"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_san_dns_name_starts_with_period", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

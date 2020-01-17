@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNcNoEDI(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncMinZero.pem"
+	inputPath := "ncMinZero.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_name_constraint_on_edi_party_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_name_constraint_on_edi_party_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNcEDI(t *testing.T) {
-	inputPath := "../../testlint/testCerts/ncOnEDI.pem"
+	inputPath := "ncOnEDI.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_name_constraint_on_edi_party_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_name_constraint_on_edi_party_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

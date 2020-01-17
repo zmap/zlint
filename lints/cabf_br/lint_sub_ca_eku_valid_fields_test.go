@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCAEKUValidFields(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAEKUValidFields.pem"
+	inputPath := "subCAEKUValidFields.pem"
 	expected := lint.Pass
-	out := lint.Lints["n_sub_ca_eku_not_technically_constrained"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("n_sub_ca_eku_not_technically_constrained", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCAEKUNotValidFields(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAEKUNotValidFields.pem"
+	inputPath := "subCAEKUNotValidFields.pem"
 	expected := lint.NA
-	out := lint.Lints["n_sub_ca_eku_not_technically_constrained"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("n_sub_ca_eku_not_technically_constrained", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

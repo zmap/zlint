@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANCritWithSubjectDn(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANCriticalSubjectUncommonOnly.pem"
+	inputPath := "SANCriticalSubjectUncommonOnly.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_san_critical_with_subject_dn"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_san_critical_with_subject_dn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANNotCritWithSubjectDn(t *testing.T) {
-	inputPath := "../../testlint/testCerts/indivValGoodAllFields.pem"
+	inputPath := "indivValGoodAllFields.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_san_critical_with_subject_dn"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_san_critical_with_subject_dn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

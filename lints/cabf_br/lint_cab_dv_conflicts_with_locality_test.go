@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCertPolicyNotConflictWithLocal(t *testing.T) {
-	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_cab_dv_conflicts_with_locality"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_dv_conflicts_with_locality", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyConflictsWithLocal(t *testing.T) {
-	inputPath := "../../testlint/testCerts/domainValWithLocal.pem"
+	inputPath := "domainValWithLocal.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cab_dv_conflicts_with_locality"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_dv_conflicts_with_locality", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

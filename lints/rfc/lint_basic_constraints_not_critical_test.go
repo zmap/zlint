@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestBasicConstNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caBasicConstNotCrit.pem"
+	inputPath := "caBasicConstNotCrit.pem"
 	expected := lint.Error
-	out := lint.Lints["e_basic_constraints_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_basic_constraints_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestBasicConstCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caBasicConstCrit.pem"
+	inputPath := "caBasicConstCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_basic_constraints_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_basic_constraints_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEvValidTooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evValidTooLong.pem"
+	inputPath := "evValidTooLong.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ev_valid_time_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ev_valid_time_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestEvValidNotTooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evValidNotTooLong.pem"
+	inputPath := "evValidNotTooLong.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ev_valid_time_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ev_valid_time_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

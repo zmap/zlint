@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANURIMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANCaGood.pem"
+	inputPath := "SANCaGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_uniform_resource_identifier_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_uniform_resource_identifier_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANURIBeginning.pem"
+	inputPath := "SANURIBeginning.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_uniform_resource_identifier_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_uniform_resource_identifier_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANURIPresent2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANURIEnd.pem"
+	inputPath := "SANURIEnd.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_uniform_resource_identifier_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_uniform_resource_identifier_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

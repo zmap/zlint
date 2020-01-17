@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestNoSAN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subjectEmptyNoSAN.pem"
+	inputPath := "subjectEmptyNoSAN.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestHasSAN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/orgValGoodAllFields.pem"
+	inputPath := "orgValGoodAllFields.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

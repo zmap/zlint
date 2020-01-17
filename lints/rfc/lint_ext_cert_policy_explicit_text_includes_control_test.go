@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestExplicitTextUtfControlX10(t *testing.T) {
-	inputPath := "../../testlint/testCerts/utf8ControlX10.pem"
+	inputPath := "utf8ControlX10.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_includes_control", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextUtfControlX88(t *testing.T) {
-	inputPath := "../../testlint/testCerts/utf8ControlX88.pem"
+	inputPath := "utf8ControlX88.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_includes_control", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExplicitTextUtfNoControl(t *testing.T) {
-	inputPath := "../../testlint/testCerts/utf8NoControl.pem"
+	inputPath := "utf8NoControl.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_cert_policy_explicit_text_includes_control"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_cert_policy_explicit_text_includes_control", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

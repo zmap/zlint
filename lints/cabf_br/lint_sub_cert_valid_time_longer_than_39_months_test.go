@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubCertValidTimeLongerThan39Months(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertValidTimeTooLong.pem"
+	inputPath := "subCertValidTimeTooLong.pem"
 	expected := lint.Error
-	out := lint.Lints["e_sub_cert_valid_time_longer_than_39_months"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_valid_time_longer_than_39_months", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSubCertValidTimeGood(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCertValidTimeGood.pem"
+	inputPath := "subCertValidTimeGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_sub_cert_valid_time_longer_than_39_months"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_sub_cert_valid_time_longer_than_39_months", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

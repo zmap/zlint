@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCRLDistribCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAWcrlDistCrit.pem"
+	inputPath := "subCAWcrlDistCrit.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_crl_distribution_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_crl_distribution_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCRLDistribNoCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subCAWcrlDistNoCrit.pem"
+	inputPath := "subCAWcrlDistNoCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_crl_distribution_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_crl_distribution_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

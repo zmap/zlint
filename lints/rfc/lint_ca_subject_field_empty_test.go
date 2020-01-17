@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCaSubjectMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caSubjectMissing.pem"
+	inputPath := "caSubjectMissing.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ca_subject_field_empty"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ca_subject_field_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCaSubjectValid(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caValCountry.pem"
+	inputPath := "caValCountry.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ca_subject_field_empty"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ca_subject_field_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

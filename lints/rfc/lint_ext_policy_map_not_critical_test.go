@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestPolicyMapNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyMapNotCritical.pem"
+	inputPath := "policyMapNotCritical.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_ext_policy_map_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_policy_map_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPolicyMapCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyMapGood.pem"
+	inputPath := "policyMapGood.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_ext_policy_map_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_ext_policy_map_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

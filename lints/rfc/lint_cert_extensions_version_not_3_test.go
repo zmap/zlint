@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestExtsV2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/certVersion2WithExtension.pem"
+	inputPath := "certVersion2WithExtension.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cert_extensions_version_not_3"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cert_extensions_version_not_3", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestExtsV3(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caBasicConstCrit.pem"
+	inputPath := "caBasicConstCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_cert_extensions_version_not_3"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cert_extensions_version_not_3", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestNoExtsV2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/certVersion2NoExtensions.pem"
+	inputPath := "certVersion2NoExtensions.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_cert_extensions_version_not_3"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cert_extensions_version_not_3", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

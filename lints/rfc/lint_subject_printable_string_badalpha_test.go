@@ -1,11 +1,10 @@
 package rfc
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectPrintableStringBadAlpha(t *testing.T) {
@@ -46,8 +45,7 @@ func TestSubjectPrintableStringBadAlpha(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.filename)
-			result := lint.Lints["e_subject_printable_string_badalpha"].Execute(util.ReadCertificate(inputPath))
+			result := test.TestLint("e_subject_printable_string_badalpha", tc.filename)
 			if result.Status != tc.expected.Status {
 				t.Errorf("expected result status %v was %v", tc.expected.Status, result.Status)
 			}

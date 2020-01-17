@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEtsiTypeAsQcStmt(t *testing.T) {
@@ -32,8 +32,7 @@ func TestEtsiTypeAsQcStmt(t *testing.T) {
 		"QcStmtEtsiValidCert24.pem":          lint.Pass,
 	}
 	for inputPath, expected := range m {
-		inputPath = "../../testlint/testCerts/" + inputPath
-		out := lint.Lints["e_qcstatem_etsi_type_as_statem"].Execute(util.ReadCertificate(inputPath))
+		out := test.TestLint("e_qcstatem_etsi_type_as_statem", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

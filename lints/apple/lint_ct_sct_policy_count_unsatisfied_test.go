@@ -15,11 +15,10 @@
 package apple
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSCTCountPolicyUnsatisified(t *testing.T) {
@@ -104,8 +103,7 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.Filename)
-			result := lint.Lints["w_ct_sct_policy_count_unsatisfied"].Execute(util.ReadCertificate(inputPath))
+			result := test.TestLint("w_ct_sct_policy_count_unsatisfied", tc.Filename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

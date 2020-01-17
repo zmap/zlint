@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestValidityNegative(t *testing.T) {
-	inputPath := "../../testlint/testCerts/validityNegative.pem"
+	inputPath := "validityNegative.pem"
 	expected := lint.Error
-	out := lint.Lints["e_validity_time_not_positive"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_validity_time_not_positive", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestValidityPositive(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANURIValid.pem"
+	inputPath := "IANURIValid.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_validity_time_not_positive"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_validity_time_not_positive", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSdaCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/subDirAttCritical.pem"
+	inputPath := "subDirAttCritical.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_subject_directory_attr_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_subject_directory_attr_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSdaNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/RFC5280example2.pem"
+	inputPath := "RFC5280example2.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_subject_directory_attr_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_subject_directory_attr_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSubjectInformational(t *testing.T) {
@@ -29,19 +29,19 @@ func TestSubjectInformational(t *testing.T) {
 	}{
 		{
 			name:      "simple all legal",
-			inputPath: "../../testlint/testCerts/legalChar.pem",
+			inputPath: "legalChar.pem",
 			result:    lint.Pass,
 		},
 		{
 			name:      "subject with metadata only",
-			inputPath: "../../testlint/testCerts/illegalChar.pem",
+			inputPath: "illegalChar.pem",
 			result:    lint.Error,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			out := lint.Lints["e_subject_contains_noninformational_value"].Execute(util.ReadCertificate(tc.inputPath))
+			out := test.TestLint("e_subject_contains_noninformational_value", tc.inputPath)
 			if out.Status != tc.result {
 				t.Errorf("%s: expected %s, got %s", tc.inputPath, tc.result, out.Status)
 			}

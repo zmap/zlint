@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCaKeyUsageNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caKeyUsageNotCrit.pem"
+	inputPath := "caKeyUsageNotCrit.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ca_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ca_key_usage_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestKeyUsageCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/caKeyUsageCrit.pem"
+	inputPath := "caKeyUsageCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ca_key_usage_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ca_key_usage_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

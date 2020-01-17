@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestRsaSha1TooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/sha1ExpireAfter2017.pem"
+	inputPath := "sha1ExpireAfter2017.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_sub_cert_sha1_expiration_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_sub_cert_sha1_expiration_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaSha1NotTooLong(t *testing.T) {
-	inputPath := "../../testlint/testCerts/sha1ExpirePrior2017.pem"
+	inputPath := "sha1ExpirePrior2017.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_sub_cert_sha1_expiration_too_long"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_sub_cert_sha1_expiration_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

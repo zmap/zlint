@@ -15,11 +15,10 @@ package lints
  */
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestAuthorityKeyIdentifier(t *testing.T) {
@@ -42,8 +41,7 @@ func TestAuthorityKeyIdentifier(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			inputPath := fmt.Sprintf("%s%s", util.TestCaseDir, tc.InputFilename)
-			result := lint.Lints["e_mp_authority_key_identifier_correct"].Execute(util.ReadCertificate(inputPath))
+			result := test.TestLint("e_mp_authority_key_identifier_correct", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

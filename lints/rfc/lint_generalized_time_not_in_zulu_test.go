@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestGenralizedNotZulu(t *testing.T) {
-	inputPath := "../../testlint/testCerts/generalizedNotZulu.pem"
+	inputPath := "generalizedNotZulu.pem"
 	expected := lint.Error
-	out := lint.Lints["e_generalized_time_not_in_zulu"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_generalized_time_not_in_zulu", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestGenralizedZulu(t *testing.T) {
-	inputPath := "../../testlint/testCerts/generalizedHasSeconds.pem"
+	inputPath := "generalizedHasSeconds.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_generalized_time_not_in_zulu"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_generalized_time_not_in_zulu", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

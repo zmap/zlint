@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestOldRootRsaModSizeSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/oldRootModTooSmall.pem"
+	inputPath := "oldRootModTooSmall.pem"
 	expected := lint.Error
-	out := lint.Lints["e_old_root_ca_rsa_mod_less_than_2048_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_old_root_ca_rsa_mod_less_than_2048_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestOldRootRsaModSizeNotSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/oldRootModSmall.pem"
+	inputPath := "oldRootModSmall.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_old_root_ca_rsa_mod_less_than_2048_bits"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_old_root_ca_rsa_mod_less_than_2048_bits", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

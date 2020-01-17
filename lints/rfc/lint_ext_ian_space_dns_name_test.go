@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestIANEmptyDNS(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANEmptyDNS.pem"
+	inputPath := "IANEmptyDNS.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_ian_space_dns_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_ian_space_dns_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestIANNotEmptyDNS(t *testing.T) {
-	inputPath := "../../testlint/testCerts/IANNonEmptyDNS.pem"
+	inputPath := "IANNonEmptyDNS.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_ian_space_dns_name"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_ian_space_dns_name", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

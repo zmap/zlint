@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestInhibitAnyPolicyNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/inhibitAnyNotCrit.pem"
+	inputPath := "inhibitAnyNotCrit.pem"
 	expected := lint.Error
-	out := lint.Lints["e_inhibit_any_policy_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_inhibit_any_policy_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestInhibitAnyPolicyCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/inhibitAnyCrit.pem"
+	inputPath := "inhibitAnyCrit.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_inhibit_any_policy_not_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_inhibit_any_policy_not_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

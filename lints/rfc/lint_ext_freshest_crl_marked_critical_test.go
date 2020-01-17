@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestFreshestCrlCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/frshCRLCritical.pem"
+	inputPath := "frshCRLCritical.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_freshest_crl_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_freshest_crl_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestFreshestCrlNotCrit(t *testing.T) {
-	inputPath := "../../testlint/testCerts/frshCRLNotCritical.pem"
+	inputPath := "frshCRLNotCritical.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_freshest_crl_marked_critical"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_freshest_crl_marked_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

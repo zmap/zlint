@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCertPolicyNotConflictWithStreet(t *testing.T) {
-	inputPath := "../../testlint/testCerts/domainValGoodSubject.pem"
+	inputPath := "domainValGoodSubject.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_cab_dv_conflicts_with_street"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertPolicyConflictsWithStreet(t *testing.T) {
-	inputPath := "../../testlint/testCerts/domainValWithStreet.pem"
+	inputPath := "domainValWithStreet.pem"
 	expected := lint.Error
-	out := lint.Lints["e_cab_dv_conflicts_with_street"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

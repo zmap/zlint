@@ -18,13 +18,13 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestEvNoBiz(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evAllGood.pem"
+	inputPath := "evAllGood.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ev_business_category_missing"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ev_business_category_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

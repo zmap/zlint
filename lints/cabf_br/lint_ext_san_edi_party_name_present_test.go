@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestSANEDIPartyPresent(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANEDIParty.pem"
+	inputPath := "SANEDIParty.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_san_edi_party_name_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_edi_party_name_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANEDIPartyMissing(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANOtherName.pem"
+	inputPath := "SANOtherName.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_san_edi_party_name_present"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_san_edi_party_name_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

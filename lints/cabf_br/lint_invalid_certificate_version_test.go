@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCertVersion2(t *testing.T) {
-	inputPath := "../../testlint/testCerts/certVersion2WithExtension.pem"
+	inputPath := "certVersion2WithExtension.pem"
 	expected := lint.Error
-	out := lint.Lints["e_invalid_certificate_version"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_invalid_certificate_version", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCertVersion3(t *testing.T) {
-	inputPath := "../../testlint/testCerts/certVersion3NoExtensions.pem"
+	inputPath := "certVersion3NoExtensions.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_invalid_certificate_version"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_invalid_certificate_version", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

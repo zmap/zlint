@@ -18,31 +18,31 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestCnNotFromSAN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANWithMissingCN.pem"
+	inputPath := "SANWithMissingCN.pem"
 	expected := lint.Error
-	out := lint.Lints["e_subject_common_name_not_from_san"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_common_name_not_from_san", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestCnFromSAN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANRegisteredIdBeginning.pem"
+	inputPath := "SANRegisteredIdBeginning.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_common_name_not_from_san"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_common_name_not_from_san", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestSANCaseNotMatchingCN(t *testing.T) {
-	inputPath := "../../testlint/testCerts/SANCaseNotMatchingCN.pem"
+	inputPath := "SANCaseNotMatchingCN.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_subject_common_name_not_from_san"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_subject_common_name_not_from_san", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

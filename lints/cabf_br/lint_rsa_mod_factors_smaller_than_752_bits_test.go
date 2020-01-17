@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestRsaModFactorTooSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/evenRsaMod.pem"
+	inputPath := "evenRsaMod.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_rsa_mod_factors_smaller_than_752"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_rsa_mod_factors_smaller_than_752", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestRsaModFactorNotTooSmall(t *testing.T) {
-	inputPath := "../../testlint/testCerts/goodRsaExp.pem"
+	inputPath := "goodRsaExp.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_rsa_mod_factors_smaller_than_752"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_rsa_mod_factors_smaller_than_752", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

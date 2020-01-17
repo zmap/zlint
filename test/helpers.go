@@ -23,31 +23,76 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 )
 
-func ReadCertificate(inPath string) *x509.Certificate {
-	// All of this can be encapsulated in a function
-	data, err := ioutil.ReadFile(inPath)
-	if err != nil {
-		//read failure, die horribly here
-		fmt.Println(err)
-		panic("File read failed!")
+// TestLint executes the given lintName against a certificate read from
+// a testcert data file with the given filename. Filenames should be relative to
+// `testdata/` and not absolute file paths.
+//
+// Important: TestLint is only appropriate for unit tests. It will panic if the
+// lintName is not known or if the testCertFilename can not be loaded.
+func TestLint(lintName string, testCertFilename string) *lint.LintResult {
+	return TestLintCert(lintName, ReadTestCert(testCertFilename))
+}
+
+func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
+	// NOTE(@cpu): Once the `lint.Lints` is not exported this will have to be
+	// changed, likely to use a function like `lint.LintByName`. For now use the
+	// exported map directly to consolidate access to this one function instead of
+	// many individual lint unit tests.
+	l := lint.Lints[lintName]
+	if l == nil {
+		panic(fmt.Sprintf(
+			"Lint name %q does not exist in lint.Lints. "+
+				"Did you forget to RegisterLint?\n",
+			lintName))
 	}
-	var textData string = string(data)
-	if strings.Contains(textData, "-BEGIN CERTIFICATE-") {
+
+	res := l.Execute(cert)
+	// We never expect a lint to return a nil LintResult
+	if res == nil {
+		panic(fmt.Sprintf(
+			"Running lint %q on test certificate generated a nil LintResult.\n",
+			lintName))
+	}
+	return res
+}
+
+// ReadTestCert loads a x509.Certificate from the given inPath which is assumed
+// to be relative to `testdata/`.
+//
+// Important: ReadTestCert is only appropriate for unit tests. It will panic if
+// the inPath file can not be loaded.
+func ReadTestCert(inPath string) *x509.Certificate {
+	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
+
+	data, err := ioutil.ReadFile(fullPath)
+	if err != nil {
+		panic(fmt.Sprintf(
+			"Unable to read test certificate from %q - %q "+
+				"Does a unit test have an incorrect test file name?\n",
+			fullPath, err))
+	}
+
+	if strings.Contains(string(data), "-BEGIN CERTIFICATE-") {
 		block, _ := pem.Decode(data)
 		if block == nil {
-			panic("PEM decode failed!")
+			panic(fmt.Sprintf(
+				"Failed to PEM decode test certificate from %q - "+
+					"Does a unit test have a buggy test cert file?\n",
+				fullPath))
 		}
 		data = block.Bytes
 	}
+
 	theCert, err := x509.ParseCertificate(data)
 	if err != nil {
-		//die horribly here
-		fmt.Println(err)
-		return nil
+		panic(fmt.Sprintf(
+			"Failed to parse x509 test certificate from %q - "+
+				"Does a unit test have a buggy test cert file?\n",
+			fullPath))
 	}
+
 	return theCert
 }
-
-const TestCaseDir = "../testdata/"

@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestPolicyConstraintsEmpty(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyConstEmpty.pem"
+	inputPath := "policyConstEmpty.pem"
 	expected := lint.Error
-	out := lint.Lints["e_ext_policy_constraints_empty"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_policy_constraints_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestPolicyConstraintsNotEmpty(t *testing.T) {
-	inputPath := "../../testlint/testCerts/policyConstGoodBoth.pem"
+	inputPath := "policyConstGoodBoth.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_ext_policy_constraints_empty"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_ext_policy_constraints_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

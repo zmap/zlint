@@ -18,40 +18,40 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestDNSNameHyphenBeginningSLD(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameHyphenBeginningSLD.pem"
+	inputPath := "dnsNameHyphenBeginningSLD.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameHyphenEndingSLD(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameHyphenEndingSLD.pem"
+	inputPath := "dnsNameHyphenEndingSLD.pem"
 	expected := lint.Error
-	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNameNoHyphenInSLD(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardCorrect.pem"
+	inputPath := "dnsNameWildcardCorrect.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestDNSNamePrivatePublicSuffixNoHyphenInSLD(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNamePrivatePublicSuffix.pem"
+	inputPath := "dnsNamePrivatePublicSuffix.pem"
 	expected := lint.Pass
-	out := lint.Lints["e_dnsname_hyphen_in_sld"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

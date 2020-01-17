@@ -18,22 +18,22 @@ import (
 	"testing"
 
 	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/test"
 )
 
 func TestWildcardLeftOfPublicSuffix(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardLeftOfPublicSuffix.pem"
+	inputPath := "dnsNameWildcardLeftOfPublicSuffix.pem"
 	expected := lint.Warn
-	out := lint.Lints["w_dnsname_wildcard_left_of_public_suffix"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_dnsname_wildcard_left_of_public_suffix", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
 func TestWildcardNotLeftOfPublicSuffix(t *testing.T) {
-	inputPath := "../../testlint/testCerts/dnsNameWildcardNotLeftOfPublicSuffix.pem"
+	inputPath := "dnsNameWildcardNotLeftOfPublicSuffix.pem"
 	expected := lint.Pass
-	out := lint.Lints["w_dnsname_wildcard_left_of_public_suffix"].Execute(util.ReadCertificate(inputPath))
+	out := test.TestLint("w_dnsname_wildcard_left_of_public_suffix", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
