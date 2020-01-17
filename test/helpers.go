@@ -1,4 +1,4 @@
-package util
+package test
 
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
@@ -50,4 +50,4 @@ func ReadCertificate(inPath string) *x509.Certificate {
 	return theCert
 }
 
-const TestCaseDir = "../../testlint/testCerts/"
+const TestCaseDir = "../testdata/"
