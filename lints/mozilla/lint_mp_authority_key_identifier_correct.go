@@ -19,7 +19,7 @@ CAs MUST NOT issue certificates that have:
   that include both the key ID and the issuer’s issuer name and serial number);
 ********************************************************************/
 
-package lints
+package mozilla
 
 import (
 	"encoding/asn1"

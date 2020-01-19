@@ -24,7 +24,7 @@ Note that the lint cannot distinguish cross-certificates from other
 intermediates.
 ********************************************************************/
 
-package lints
+package mozilla
 
 import (
 	"time"
