@@ -17,7 +17,7 @@ Section 5.1 - Algorithms
 RSA keys whose modulus size in bits is divisible by 8, and is at least 2048.
 ********************************************************************/
 
-package lints
+package mozilla
 
 import (
 	"crypto/rsa"
