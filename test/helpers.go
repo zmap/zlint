@@ -31,13 +31,20 @@ import (
 // `testdata/` and not absolute file paths.
 //
 // Important: TestLint is only appropriate for unit tests. It will panic if the
-// lintName is not known or if the testCertFilename can not be loaded.
+// lintName is not known or if the testCertFilename can not be loaded, or if the
+// lint result is nil.
 func TestLint(lintName string, testCertFilename string) *lint.LintResult {
 	return TestLintCert(lintName, ReadTestCert(testCertFilename))
 }
 
+// TestLintCert executes a lint with the given name against an already parsed
+// certificate. This is useful when a unit test reads a certificate from disk
+// and then mutates it in some way before trying to lint it.
+//
+// Important: TestLintCert is only appropriate for unit tests. It will panic if
+// the lintName is not known or if the lint result is nil.
 func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
-	// NOTE(@cpu): Once the `lint.Lints` is not exported this will have to be
+	// NOTE(@cpu): Once `lint.Lints` is not exported this will have to be
 	// changed, likely to use a function like `lint.LintByName`. For now use the
 	// exported map directly to consolidate access to this one function instead of
 	// many individual lint unit tests.
