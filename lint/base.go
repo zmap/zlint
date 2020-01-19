@@ -74,6 +74,7 @@ var LintSources = []LintSource{
 	EtsiEsi,
 	ZLint,
 	AWSLabs,
+	MozillaRootStorePolicy,
 }
 
 // Directory returns the directory name in `lints/` for the LintSource.
@@ -89,6 +90,8 @@ func (l LintSource) Directory() string {
 		return "apple"
 	case EtsiEsi:
 		return "etsi"
+	case MozillaRootStorePolicy:
+		return "mozilla"
 	default:
 		return "community"
 	}
