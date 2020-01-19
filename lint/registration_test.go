@@ -14,29 +14,26 @@ package lint
  * permissions and limitations under the License.
  */
 
-import (
-	"testing"
-	"time"
+import "testing"
 
-	"github.com/zmap/zcrypto/x509"
-)
+func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
+	for name, lint := range Lints {
+		if lint.Name == "" {
+			t.Errorf("lint %s has empty name", name)
+		}
+		if lint.Description == "" {
+			t.Errorf("lint %s has empty description", name)
+		}
+		if lint.Citation == "" {
+			t.Errorf("lint %s has empty citation", name)
+		}
+	}
+}
 
-func TestLintCheckEffective(t *testing.T) {
-	c := &x509.Certificate{
-		NotBefore: time.Now(),
-	}
-	l := Lint{}
-
-	l.EffectiveDate = time.Time{}
-	if l.CheckEffective(c) != true {
-		t.Errorf("EffectiveDate of zero should always be true")
-	}
-	l.EffectiveDate = time.Unix(1, 0)
-	if l.CheckEffective(c) != true {
-		t.Errorf("EffectiveDate of 1970-01-01 should be true")
-	}
-	l.EffectiveDate = time.Unix(32503680000, 0) // 3000-01-01
-	if l.CheckEffective(c) != false {
-		t.Errorf("EffectiveDate of 3000 should be false")
+func TestAllLintsHaveSource(t *testing.T) {
+	for name, lint := range Lints {
+		if lint.Source == UnknownLintSource {
+			t.Errorf("lint %s has unknown source", name)
+		}
 	}
 }

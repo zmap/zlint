@@ -14,29 +14,17 @@ package lint
  * permissions and limitations under the License.
  */
 
-import (
-	"testing"
-	"time"
-
-	"github.com/zmap/zcrypto/x509"
+var (
+	// Lints is a map of all known lints by name. Add a Lint to the map by calling
+	// RegisterLint.
+	Lints = make(map[string]*Lint)
 )
 
-func TestLintCheckEffective(t *testing.T) {
-	c := &x509.Certificate{
-		NotBefore: time.Now(),
+// RegisterLint must be called once for each lint to be excuted. Duplicate lint
+// names are squashed. Normally, RegisterLint is called during init().
+func RegisterLint(l *Lint) {
+	if err := l.Lint.Initialize(); err != nil {
+		panic("could not initialize lint: " + l.Name + ": " + err.Error())
 	}
-	l := Lint{}
-
-	l.EffectiveDate = time.Time{}
-	if l.CheckEffective(c) != true {
-		t.Errorf("EffectiveDate of zero should always be true")
-	}
-	l.EffectiveDate = time.Unix(1, 0)
-	if l.CheckEffective(c) != true {
-		t.Errorf("EffectiveDate of 1970-01-01 should be true")
-	}
-	l.EffectiveDate = time.Unix(32503680000, 0) // 3000-01-01
-	if l.CheckEffective(c) != false {
-		t.Errorf("EffectiveDate of 3000 should be false")
-	}
+	Lints[l.Name] = l
 }
