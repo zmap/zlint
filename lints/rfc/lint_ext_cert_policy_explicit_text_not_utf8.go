@@ -15,6 +15,8 @@ package rfc
  */
 
 /*******************************************************************
+https://tools.ietf.org/html/rfc6818#section-3
+
 An explicitText field includes the textual statement directly in
 the certificate.  The explicitText field is a string with a
 maximum size of 200 characters.  Conforming CAs SHOULD use the

@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -35,18 +36,26 @@ import (
 var ( // flags
 	listLintsJSON   bool
 	listLintsSchema bool
+	listLintSources bool
 	prettyprint     bool
 	format          string
-	include         string
-	exclude         string
+	nameFilter      string
+	includeNames    string
+	excludeNames    string
+	includeSources  string
+	excludeSources  string
 )
 
 func init() {
-	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print supported lints in JSON format, one per line")
-	flag.BoolVar(&listLintsSchema, "list-lints-schema", false, "Print supported lints as a ZSchema")
+	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
+	flag.BoolVar(&listLintsSchema, "list-lints-schema", false, "Print lints as a ZSchema")
+	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
-	flag.StringVar(&include, "include", "", "Comma-separated list of lints to include by name")
-	flag.StringVar(&exclude, "exclude", "", "Comma-separated list of lints to exclude by name")
+	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
+	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name")
+	flag.StringVar(&excludeNames, "excludeNames", "", "Comma-separated list of lints to exclude by name")
+	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
+	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
 
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
 	flag.Usage = func() {
@@ -58,32 +67,40 @@ func init() {
 }
 
 func main() {
+	// Build a registry of lints using the include/exclude lint name and source
+	// flags.
+	registry, err := setLints()
+	if err != nil {
+		log.Fatalf("unable to configure included/exclude lints: %v\n", err)
+	}
 
 	if listLintsJSON {
-		zlint.EncodeLintDescriptionsToJSON(os.Stdout)
+		registry.WriteJSON(os.Stdout)
 		return
 	}
 
 	if listLintsSchema {
-		names := make([]string, 0, len(lint.Lints))
-		for lintName := range lint.Lints {
-			names = append(names, lintName)
-		}
-		sort.Strings(names)
+		names := registry.Names()
 		fmt.Printf("Lints = SubRecord({\n")
 		for _, lintName := range names {
-			fmt.Printf("    \"%s\":LintBool(),\n", lintName)
+			fmt.Printf("    %q:LintBool(),\n", lintName)
 		}
 		fmt.Printf("})\n")
 		return
 	}
 
-	// include/exclude lints based on flags
-	setLints()
+	if listLintSources {
+		sources := registry.Sources()
+		sort.Sort(sources)
+		for _, source := range sources {
+			fmt.Printf("    %s\n", source)
+		}
+		return
+	}
 
 	var inform = strings.ToLower(format)
 	if flag.NArg() < 1 || flag.Arg(0) == "-" {
-		doLint(os.Stdin, inform)
+		doLint(os.Stdin, inform, registry)
 	} else {
 		for _, filePath := range flag.Args() {
 			var inputFile *os.File
@@ -100,13 +117,13 @@ func main() {
 				fileInform = "pem"
 			}
 
-			doLint(inputFile, fileInform)
+			doLint(inputFile, fileInform, registry)
 			inputFile.Close()
 		}
 	}
 }
 
-func doLint(inputFile *os.File, inform string) {
+func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 	fileBytes, err := ioutil.ReadAll(inputFile)
 	if err != nil {
 		log.Fatalf("unable to read file %s: %s", inputFile.Name(), err)
@@ -136,7 +153,7 @@ func doLint(inputFile *os.File, inform string) {
 		log.Fatalf("unable to parse certificate: %s", err)
 	}
 
-	zlintResult := zlint.LintCertificate(c)
+	zlintResult := zlint.LintCertificateEx(c, registry)
 	jsonBytes, err := json.Marshal(zlintResult.Results)
 	if err != nil {
 		log.Fatalf("unable to encode lints JSON: %s", err)
@@ -154,58 +171,50 @@ func doLint(inputFile *os.File, inform string) {
 	os.Stdout.Sync()
 }
 
-func setLints() {
-	if include != "" && exclude != "" {
-		log.Fatal("unable to use include and exclude flag at the same time")
+// trimmedList takes a comma separated string argument in raw, splits it by
+// comma, and returns a list of the separated elements after trimming spaces
+// from each element.
+func trimmedList(raw string) []string {
+	var list []string
+	for _, item := range strings.Split(raw, ",") {
+		list = append(list, strings.TrimSpace(item))
 	}
-
-	includeLints()
-	excludeLints()
+	return list
 }
 
-func includeLints() {
-	if include == "" {
-		return
+// setLints returns a filtered registry to use based on the nameFilter,
+// includeNames, excludeNames, includeSources, and excludeSources flag values in
+// use.
+func setLints() (lint.Registry, error) {
+	// If there's no filter options set, use the global registry as-is
+	if nameFilter == "" && includeNames == "" && excludeNames == "" && includeSources == "" && excludeSources == "" {
+		return nil, nil
 	}
 
-	// parse includes to map for easier matching
-	var includes = strings.Split(include, ",")
-	var includesMap = make(map[string]struct{}, len(includes))
-	for _, includeName := range includes {
-		includeName = strings.TrimSpace(includeName)
-		if _, ok := lint.Lints[includeName]; !ok {
-			log.Fatalf("unknown lint %q in include list", includeName)
+	filterOpts := lint.FilterOptions{}
+	if nameFilter != "" {
+		r, err := regexp.Compile(nameFilter)
+		if err != nil {
+			return nil, fmt.Errorf("bad -nameFilter: %v", err)
 		}
-
-		includesMap[includeName] = struct{}{}
+		filterOpts.NameFilter = r
 	}
-
-	// clear all initialized lints except for includes
-	for lintName := range lint.Lints {
-		if _, ok := includesMap[lintName]; !ok {
-			delete(lint.Lints, lintName)
+	if excludeSources != "" {
+		if err := filterOpts.ExcludeSources.FromString(excludeSources); err != nil {
+			log.Fatalf("invalid -excludeSources: %v", err)
 		}
 	}
-}
-
-func excludeLints() {
-	if exclude == "" {
-		return
-	}
-
-	// parse excludes to map to get rid of duplicates
-	var excludes = strings.Split(exclude, ",")
-	var excludesMap = make(map[string]struct{}, len(excludes))
-	for _, excludeName := range excludes {
-		excludesMap[strings.TrimSpace(excludeName)] = struct{}{}
-	}
-
-	// exclude lints
-	for excludeName := range excludesMap {
-		if _, ok := lint.Lints[excludeName]; !ok {
-			log.Fatalf("unknown lint %q in exclude list", excludeName)
+	if includeSources != "" {
+		if err := filterOpts.IncludeSources.FromString(includeSources); err != nil {
+			log.Fatalf("invalid -includeSources: %v\n", err)
 		}
-
-		delete(lint.Lints, excludeName)
 	}
+	if excludeNames != "" {
+		filterOpts.ExcludeNames = trimmedList(excludeNames)
+	}
+	if includeNames != "" {
+		filterOpts.IncludeNames = trimmedList(includeNames)
+	}
+
+	return lint.GlobalRegistry().Filter(filterOpts)
 }

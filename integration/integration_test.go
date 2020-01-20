@@ -8,6 +8,8 @@ import (
 	"os"
 	"regexp"
 	"testing"
+
+	"github.com/zmap/zlint/lint"
 )
 
 var (
@@ -37,6 +39,8 @@ var (
 	// lintFilterString is a flag for controlling which lints are run against the test
 	// corpus.
 	lintFilterString = flag.String("lintFilter", "", "if not-empty only lints with a name that match the provided regexp will be run")
+	includeSources   = flag.String("includeSources", "", "Comma-separated list of lint sources to include")
+	excludeSources   = flag.String("excludeSources", "", "Comma-separated list of lint sources to exclude")
 	// outputTick is a flag for controlling the number of certificates that are
 	// linted before a '.' is printed in the console. This controls the mechanism
 	// used to keep Travis from thinking the job is dead because there hasn't been
@@ -52,6 +56,9 @@ var (
 	// fpFilter and lintFilter are regexps for filtering certificate fingerprints
 	// to be linted and lints to be run.
 	fpFilter, lintFilter *regexp.Regexp
+
+	// registry is the lint registry used. It may be filtered based on command line flags.
+	registry = lint.GlobalRegistry()
 )
 
 // TestMain loads the integration test config, validates it, and prepares the
@@ -82,6 +89,31 @@ func TestMain(m *testing.M) {
 	}
 	if err := c.Valid(); err != nil {
 		log.Fatalf("error processing config file %q: %v", *configFile, err)
+	}
+
+	// Configure filter options
+	filterOpts := lint.FilterOptions{}
+	if *excludeSources != "" {
+		if err := filterOpts.ExcludeSources.FromString(*excludeSources); err != nil {
+			log.Fatalf("invalid -excludeSources: %v", err)
+		}
+	}
+	if *includeSources != "" {
+		if err := filterOpts.IncludeSources.FromString(*includeSources); err != nil {
+			log.Fatalf("invalid -includeSources: %v\n", err)
+		}
+	}
+	if lintFilter != nil {
+		filterOpts.NameFilter = lintFilter
+	}
+
+	// If there were filter options configured apply them and update the registry
+	if !filterOpts.Empty() {
+		r, err := registry.Filter(filterOpts)
+		if err != nil {
+			log.Fatalf("failed to filter lint registry: %v\n", err)
+		}
+		registry = r
 	}
 
 	// Prepare cache, downloading data files if required (or if forced by user
