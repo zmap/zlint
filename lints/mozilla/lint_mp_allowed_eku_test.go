@@ -1,4 +1,4 @@
-package lints
+package mozilla
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan

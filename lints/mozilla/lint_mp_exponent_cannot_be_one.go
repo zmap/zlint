@@ -18,7 +18,7 @@ CAs MUST NOT issue certificates that have:
 - invalid public keys (e.g., RSA certificates with public exponent equal to 1);
 ********************************************************************/
 
-package lints
+package mozilla
 
 import (
 	"crypto/rsa"
