@@ -46,8 +46,6 @@ type LintInterface interface {
 // An Enum to programmatically represent the source of a lint
 type LintSource int
 
-// NOTE(@cpu): If you are adding a new LintSource make sure you have considered
-// updating the Directory() function.
 const (
 	UnknownLintSource LintSource = iota
 	CABFBaselineRequirements
@@ -61,41 +59,6 @@ const (
 	AppleCTPolicy          // https://support.apple.com/en-us/HT205280
 	MozillaRootStorePolicy // https://github.com/mozilla/pkipolicy
 )
-
-// LintSources contains a list of the valid lint sources we expect to be used
-// by ZLint lints.
-var LintSources = []LintSource{
-	CABFBaselineRequirements,
-	CABFEVGuidelines,
-	RFC5280,
-	RFC5480,
-	RFC5891,
-	AppleCTPolicy,
-	EtsiEsi,
-	ZLint,
-	AWSLabs,
-	MozillaRootStorePolicy,
-}
-
-// Directory returns the directory name in `lints/` for the LintSource.
-func (l LintSource) Directory() string {
-	switch l {
-	case CABFBaselineRequirements:
-		return "cabf_br"
-	case CABFEVGuidelines:
-		return "cabf_ev"
-	case RFC5280, RFC5480, RFC5891:
-		return "rfc"
-	case AppleCTPolicy:
-		return "apple"
-	case EtsiEsi:
-		return "etsi"
-	case MozillaRootStorePolicy:
-		return "mozilla"
-	default:
-		return "community"
-	}
-}
 
 // A Lint struct represents a single lint, e.g.
 // "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
