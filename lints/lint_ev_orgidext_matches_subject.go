@@ -31,6 +31,11 @@ func (l *evOrgIdExtMatchesSubject) CheckApplies(c *x509.Certificate) bool {
 
 func (l *evOrgIdExtMatchesSubject) Execute(c *x509.Certificate) *LintResult {
 	orgId := util.GetSubjectOrgId(c.RawSubject)
+
+	if orgId.ErrorString != "" {
+		return &LintResult{Status: Error, Details: orgId.ErrorString}
+	}
+
 	errStr, parsedExt := util.ParseCabfOrgIdExt(c)
 	if errStr != "" {
 		return &LintResult{Status: Error, Details: errStr}
@@ -38,11 +43,11 @@ func (l *evOrgIdExtMatchesSubject) Execute(c *x509.Certificate) *LintResult {
 	if !orgId.IsPresent {
 		return &LintResult{Status: Pass}
 	}
-	_, parsedOrgId := util.ParseCabfOrgId(orgId.Value)
+	_, parsedOrgId := util.ParseCabfOrgId(orgId.Value, false)
 	// no need to check an error parsing the subject:organizationIdentifier here, this is done in other lints dealing with that field explicitly.
 	// StateOrProvince doesn't have to match literally, only semantically
 	if parsedExt.Rsi != parsedOrgId.Rsi || parsedExt.Country != parsedOrgId.Country || parsedExt.RegRef != parsedOrgId.RegRef {
-		return &LintResult{Status: Error, Details: "values in subject:organizationIdentifier and CAB/F organizationIdentifier Extension don't match"}
+		return &LintResult{Status: Error, Details: "values in subject:organizationIdentifier and CAB/F organizationIdentifier Extension do not match"}
 	}
 	return &LintResult{Status: Pass}
 }
@@ -50,7 +55,7 @@ func (l *evOrgIdExtMatchesSubject) Execute(c *x509.Certificate) *LintResult {
 func init() {
 	RegisterLint(&Lint{
 		Name:          "e_ev_orgidext_matches_subject",
-		Description:   "Checks that the contents of the OrganisationIdentifier extension match the entries of the corresponding field in the subject DN.",
+		Description:   "The contents of the cabfOrganizationIdentifier extension must match the entries of the corresponding field in the subject DN.",
 		Citation:      "CA/Browser Forum EV Guidelines v1.7, Sec. 9.2.8, 9.8.2",
 		Source:        CABFEVGuidelines,
 		EffectiveDate: util.CABAltRegNumEvDate,

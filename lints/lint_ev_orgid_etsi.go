@@ -19,24 +19,26 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type evOrgId struct{}
+type evOrgIdEtsi struct{}
 
-func (l *evOrgId) Initialize() error {
+func (l *evOrgIdEtsi) Initialize() error {
 	return nil
 }
 
-func (l *evOrgId) CheckApplies(c *x509.Certificate) bool {
+func (l *evOrgIdEtsi) CheckApplies(c *x509.Certificate) bool {
+	_, isPsd2 := util.IsQcStatemPresent(c, &util.IdEtsiPsd2Statem)
 	orgId := util.GetSubjectOrgId(c.RawSubject)
-	if !util.IsEV(c.PolicyIdentifiers) || !orgId.IsPresent {
+	if isPsd2 || !util.IsEV(c.PolicyIdentifiers) || !orgId.IsPresent {
+		// PSD2 certificates follow different requirements
 		return false
 	}
 	return true
 }
 
-func (l *evOrgId) Execute(c *x509.Certificate) *LintResult {
+func (l *evOrgIdEtsi) Execute(c *x509.Certificate) *LintResult {
 	orgId := util.GetSubjectOrgId(c.RawSubject)
 
-	errStr, _ := util.ParseCabfOrgId(orgId.Value, false)
+	errStr, _ := util.ParseCabfOrgId(orgId.Value, true)
 	if errStr != "" {
 		return &LintResult{Status: Error, Details: errStr}
 	}
@@ -45,11 +47,11 @@ func (l *evOrgId) Execute(c *x509.Certificate) *LintResult {
 
 func init() {
 	RegisterLint(&Lint{
-		Name:          "e_ev_orgid",
-		Description:   "If the subject:organizationIdentifier field is present in an EV certificate, then this lint checks that the format of its contents is in conformance to the CAB/F EV Guidelines",
-		Citation:      "CA/Browser Forum EV Guidelines v1.7, Sec. 9.2.8",
-		Source:        CABFEVGuidelines,
-		EffectiveDate: util.CABAltRegNumEvDate,
-		Lint:          &evOrgId{},
+		Name:          "e_ev_orgid_etsi",
+		Description:   "If the subject:organizationIdentifier field is present in an EV certificate, then this lint checks that the format of its contents is in conformance to the CAB/F EV Guidelines and ETSI certificate profiles",
+		Citation:      "CA/Browser Forum EV Guidelines v1.7, Sec. 9.2.8 and ETSI TS 119 412-1 V1.3.1 (2019-08), Sec. 5.1.4",
+		Source:        EtsiEsi,
+		EffectiveDate: util.EtsiEn119_412_1_V1_3_1_Date,
+		Lint:          &evOrgIdEtsi{},
 	})
 }

@@ -73,7 +73,7 @@ func ParseCabfOrgIdExt(c *x509.Certificate) (string, ParsedEvOrgId) {
 	return "", result
 }
 
-func ParseCabfOrgId(oi string) (string, ParsedEvOrgId) {
+func ParseCabfOrgId(oi string, isEtsi bool) (string, ParsedEvOrgId) {
 	var result ParsedEvOrgId
 	re_ntr := regexp.MustCompile(`^(NTR)([A-Z]{2})([+]([A-Z]{2}))?-(.+)$`)
 	re_vat_psd := regexp.MustCompile(`^(VAT|PSD)([A-Z]{2})(())-(.+)$`)
@@ -84,7 +84,11 @@ func ParseCabfOrgId(oi string) (string, ParsedEvOrgId) {
 	} else if re_vat_psd.MatchString(oi) {
 		sm = re_vat_psd.FindStringSubmatch(oi)
 	} else if re_lei.MatchString(oi) {
-		sm = re_lei.FindStringSubmatch(oi)
+		if isEtsi {
+			sm = re_lei.FindStringSubmatch(oi)
+		} else {
+			return "CAB/F subject:organizationIdentifier does not allow LEI", result
+		}
 	} else {
 		return "CAB/F subject:organizationIdentifier has an invalid format", result
 	}

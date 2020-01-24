@@ -18,11 +18,11 @@ import (
 	"testing"
 )
 
-func TestEvAltRegNumOrgid(t *testing.T) {
+func TestEvAltRegNumOrgidEtsi(t *testing.T) {
 	m := map[string]LintStatus{
 		"evAllGood.pem":                             NA,
 		"EvAltRegNumCert54OrgIdInvalid.pem":         Error,
-		"oiLEI.pem":                                 Error,
+		"oiLEI.pem":                                 Pass,
 		"EvAltRegNumCert56JurContryNotMatching.pem": Pass,
 		"EvAltRegNumCert57NtrJurSopMissing.pem":     Pass,
 		"EvAltRegNumCert58ValidNtr.pem":             Pass,
@@ -34,7 +34,7 @@ func TestEvAltRegNumOrgid(t *testing.T) {
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath
-		out := Lints["e_ev_orgid"].Execute(ReadCertificate(inputPath))
+		out := Lints["e_ev_orgid_etsi"].Execute(ReadCertificate(inputPath))
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

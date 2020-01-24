@@ -34,7 +34,7 @@ func GetOrgIdFromSubjOrExt(c *x509.Certificate) (bool, util.ParsedEvOrgId) {
 		_, result = util.ParseCabfOrgIdExt(c) // check error string during Execute
 
 	} else if subjOrgId.IsPresent {
-		_, result = util.ParseCabfOrgId(subjOrgId.Value)
+		_, result = util.ParseCabfOrgId(subjOrgId.Value, false)
 	} else {
 		return false, result
 	}
@@ -56,6 +56,11 @@ func (l *evNtrSubjectJurisdiction) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *evNtrSubjectJurisdiction) Execute(c *x509.Certificate) *LintResult {
+
+	// see https://github.com/zmap/zlint/pull/336#discussion_r362983627
+	// The correctness of this lint relies on lint_ev_orgidext_matches_subject.go also running.
+	// If that did not run, this lint would no longer produce correct results, because the subject field
+	// could be misencoded if the extension was present and encoded correctly.
 
 	_, parsedOrgId := GetOrgIdFromSubjOrExt(c) // one must be present, otherwise lint would not be invoked
 

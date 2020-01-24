@@ -57,6 +57,7 @@ var (
 	CABAltRegNumEvDate          = time.Date(2019, time.June, 21, 0, 0, 0, 0, time.UTC)
 	CABAltRegNumEvExtMandDate   = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
 	EtsiPSD2Date                = time.Date(2018, time.November, 1, 0, 0, 0, 0, time.UTC)
+	EtsiEn119_412_1_V1_3_1_Date = time.Date(2019, time.August, 1, 0, 0, 0, 0, time.UTC)
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
