@@ -17,6 +17,7 @@ package lints
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/util"
+	"strings"
 )
 
 type evOrgIdExtMatchesSubject struct{}
@@ -49,6 +50,16 @@ func (l *evOrgIdExtMatchesSubject) Execute(c *x509.Certificate) *LintResult {
 	if parsedExt.Rsi != parsedOrgId.Rsi || parsedExt.Country != parsedOrgId.Country || parsedExt.RegRef != parsedOrgId.RegRef {
 		return &LintResult{Status: Error, Details: "values in subject:organizationIdentifier and CAB/F organizationIdentifier Extension do not match"}
 	}
+
+	// if a state or province is present in subject:organizationIdentifier
+	// then the corresponding field in the extension must not be blank
+	if parsedOrgId.StateOrProvince != "" {
+		isStateOrProvBlank := strings.TrimSpace(parsedExt.StateOrProvince) == ""
+		if isStateOrProvBlank {
+			return &LintResult{Status: Error, Details: "Empty registrationStateOrProvince found but present in subject:organizationIdentifier"}
+		}
+	}
+
 	return &LintResult{Status: Pass}
 }
 

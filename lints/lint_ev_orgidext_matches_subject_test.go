@@ -35,7 +35,8 @@ func TestEvAltRegNumOrgIdExtMatchesSubject(t *testing.T) {
 		"EvAltRegNumCert77OrgIdExtWrongEncoding.pem":       Error,
 		"EvAltRegNumCert78OrgIdExtWrongEncoding.pem":       Error,
 		"EvAltRegNumCert79OrgIdExtWrongEncoding.pem":       Error,
-		"doubleOI.pem": Error,
+		"doubleOI.pem":                         Error,
+		"emptyRegistrationStateOrProvince.pem": Error,
 	}
 	for inputPath, expected := range m {
 		inputPath = "../testlint/testCerts/" + inputPath
