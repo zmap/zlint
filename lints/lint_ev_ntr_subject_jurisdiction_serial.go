@@ -19,29 +19,30 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
+/************************************************
+CA/Browser Forum EV Guidelines v1.7, Appendix H
+
+This lints considers the additional consistency requirements in the case of the NTR registration scheme.
+
+NTR: The information carried in this field shall be the same as held in Subject Registration Number Field as specified
+in 9.2.5 and the country code used in the Registration Scheme identifier shall match that of the subject’s jurisdiction
+as specified in Section 9.2.4. Where the Subject Jurisdiction of Incorporation or Registration Field in 9.2.4 includes
+more than the country code, the additional locality information shall be included as specified in sections 9.2.8
+and/or 9.8.1.
+************************************************/
+
 type evNtrSubjectJurisdiction struct{}
 
 func (l *evNtrSubjectJurisdiction) Initialize() error {
 	return nil
 }
 
-func GetOrgIdFromSubjOrExt(c *x509.Certificate) (bool, util.ParsedEvOrgId) {
-
-	var result util.ParsedEvOrgId
-
-	subjOrgId := util.GetSubjectOrgId(c.RawSubject)
-	if util.IsExtInCert(c, util.CabfExtensionOrganizationIdentifier) {
-		_, result = util.ParseCabfOrgIdExt(c) // check error string during Execute
-
-	} else if subjOrgId.IsPresent {
-		_, result = util.ParseCabfOrgId(subjOrgId.Value, false)
-	} else {
-		return false, result
-	}
-	return true, result
-}
 func (l *evNtrSubjectJurisdiction) CheckApplies(c *x509.Certificate) bool {
-	// check whether the cert is an EV cert and features either a subject:organizationIdentifier or the CabfExtensionOrganizationIdentifier Extension with scheme ID "NTR". If at least one of the two is present, the subject:SerialNumber in its role as subject registration number, and subject:jurisdiction... values are checked against the organizationIdentifier values
+	// check whether the cert is an EV cert and features either a subject:organizationIdentifier
+	// or the CabfExtensionOrganizationIdentifier Extension with scheme ID "NTR". If at least one of the two is present,
+	// the subject:SerialNumber in its role as subject registration number, and subject:jurisdiction... values are
+	// checked against the organizationIdentifier values
+
 	if !util.IsEV(c.PolicyIdentifiers) {
 		return false
 	}
