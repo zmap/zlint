@@ -22,6 +22,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"sync"
 )
 
 // FilterOptions is a struct used by Registry.Filter to create a sub registry
@@ -91,6 +92,7 @@ type Registry interface {
 // registryImpl implements the Registry interface to provide a global collection
 // of Lints that have been registered.
 type registryImpl struct {
+	sync.RWMutex
 	// lintsByName is a map of all registered lints by name.
 	lintsByName map[string]*Lint
 	// lintNames is a sorted list of all of the registered lint names. It is
@@ -153,7 +155,7 @@ func (r *registryImpl) register(l *Lint, initialize bool) error {
 	if l.Name == "" {
 		return errEmptyName
 	}
-	if existing := r.lintsByName[l.Name]; existing != nil {
+	if existing := r.ByName(l.Name); existing != nil {
 		return &errDuplicateName{l.Name}
 	}
 	if initialize {
@@ -161,6 +163,8 @@ func (r *registryImpl) register(l *Lint, initialize bool) error {
 			return &errBadInit{l.Name, err}
 		}
 	}
+	r.Lock()
+	defer r.Unlock()
 	r.lintNames = append(r.lintNames, l.Name)
 	r.lintsByName[l.Name] = l
 	r.lintsBySource[l.Source] = append(r.lintsBySource[l.Source], l)
@@ -171,24 +175,32 @@ func (r *registryImpl) register(l *Lint, initialize bool) error {
 // ByName returns the Lint previously registered under the given name with
 // Register, or nil if no matching lint name has been registered.
 func (r *registryImpl) ByName(name string) *Lint {
+	r.RLock()
+	defer r.RUnlock()
 	return r.lintsByName[name]
 }
 
 // Names returns a list of all of the lint names that have been registered
 // in string sorted order.
 func (r *registryImpl) Names() []string {
+	r.RLock()
+	defer r.RUnlock()
 	return r.lintNames
 }
 
 // BySource returns a list of registered lints that have the same LintSource as
 // provided (or nil if there were no such lints).
 func (r *registryImpl) BySource(s LintSource) []*Lint {
+	r.RLock()
+	defer r.RUnlock()
 	return r.lintsBySource[s]
 }
 
 // Sources returns a SourceList of registered LintSources. The list is not
 // sorted but can be sorted by the caller with sort.Sort() if required.
 func (r *registryImpl) Sources() SourceList {
+	r.RLock()
+	defer r.RUnlock()
 	var results SourceList
 	for k := range r.lintsBySource {
 		results = append(results, k)
