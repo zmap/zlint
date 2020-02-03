@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/zmap/zcrypto/x509"
 	"golang.org/x/crypto/cryptobyte"
 	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
@@ -83,4 +84,27 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 	}
 
 	return errors.New("RSA algorithm appears correct, but didn't match byte-wise comparison")
+}
+
+func GetPublicKeyOID(c *x509.Certificate) (asn1.ObjectIdentifier, error) {
+
+	// see also lint_spki_rsa_encryption_parameter_not_null.go
+	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
+
+	var publicKeyInfo cryptobyte.String
+	if !input.ReadASN1(&publicKeyInfo, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading pkixPublicKey")
+	}
+
+	var algorithm cryptobyte.String
+	if !publicKeyInfo.ReadASN1(&algorithm, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading public key algorithm identifier")
+	}
+
+	publicKeyOID := asn1.ObjectIdentifier{}
+	if !algorithm.ReadASN1ObjectIdentifier(&publicKeyOID) {
+		return nil, errors.New("error reading public key OID")
+	}
+
+	return publicKeyOID, nil
 }

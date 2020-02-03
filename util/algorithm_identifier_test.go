@@ -3,6 +3,11 @@ package util
 import (
 	"encoding/asn1"
 	"encoding/base64"
+	"encoding/pem"
+	"fmt"
+	"github.com/zmap/zcrypto/x509"
+	"io/ioutil"
+	"strings"
 	"testing"
 )
 
@@ -129,5 +134,46 @@ func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
 				t.Errorf("expected error %q was %q", tc.errStr, err.Error())
 			}
 		})
+	}
+}
+
+func TestGetPublicKeyOID(t *testing.T) {
+
+	path := "../testdata/rsaSigAlgoNoNULLParam.pem"
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic(fmt.Sprintf(
+			"Unable to read test certificate from %q - %q "+
+				"Does a unit test have an incorrect test file name?\n",
+			path, err))
+	}
+
+	if strings.Contains(string(data), "-BEGIN CERTIFICATE-") {
+		block, _ := pem.Decode(data)
+		if block == nil {
+			panic(fmt.Sprintf(
+				"Failed to PEM decode test certificate from %q - "+
+					"Does a unit test have a buggy test cert file?\n",
+				path))
+		}
+		data = block.Bytes
+	}
+
+	cert, err := x509.ParseCertificate(data)
+	if err != nil {
+		panic(fmt.Sprintf(
+			"Failed to parse x509 test certificate from %q - "+
+				"Does a unit test have a buggy test cert file?\n",
+			path))
+	}
+
+	oid, err := GetPublicKeyOID(cert)
+
+	if err != nil {
+		t.Error("Got an error parsing public key to get the OID")
+	}
+
+	if !oid.Equal(OidRSAEncryption) {
+		t.Errorf("Expected %s,  got %s", oid.String(), OidRSAEncryption.String())
 	}
 }
