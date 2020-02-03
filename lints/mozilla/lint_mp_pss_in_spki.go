@@ -23,10 +23,11 @@ CAs MUST NOT use the id-RSASSA-PSS OID (1.2.840.113549.1.1.10) within a SubjectP
 ************************************************/
 
 import (
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
-	"time"
 )
 
 type pssInSPKI struct{}

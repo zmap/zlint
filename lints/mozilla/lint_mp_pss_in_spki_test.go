@@ -15,9 +15,10 @@ package mozilla
  */
 
 import (
+	"testing"
+
 	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/test"
-	"testing"
 )
 
 func TestPssInSPKI(t *testing.T) {

@@ -5,10 +5,11 @@ import (
 	"encoding/base64"
 	"encoding/pem"
 	"fmt"
-	"github.com/zmap/zcrypto/x509"
 	"io/ioutil"
 	"strings"
 	"testing"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
