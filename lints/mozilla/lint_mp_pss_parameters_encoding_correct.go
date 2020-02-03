@@ -48,10 +48,10 @@ The encoded AlgorithmIdentifier MUST match the following hex-encoded bytes:
 import (
 	"bytes"
 	"encoding/hex"
-	"github.com/zmap/zlint/lint"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
