@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/zmap/zcrypto/x509"
 	"golang.org/x/crypto/cryptobyte"
 	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
@@ -83,4 +84,33 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 	}
 
 	return errors.New("RSA algorithm appears correct, but didn't match byte-wise comparison")
+}
+
+// Returns the signatureAlgorithm field of the TBSCertificate in a DER encoded form
+func GetSignatureAlgorithmInTBSEncoded(c *x509.Certificate) ([]byte, error) {
+
+	// see also: lint_tbs_signature_rsa_encryption_parameter_not_null.go
+	input := cryptobyte.String(c.RawTBSCertificate)
+
+	var tbsCert cryptobyte.String
+	if !input.ReadASN1(&tbsCert, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading tbsCertificate")
+	}
+
+	if !tbsCert.SkipOptionalASN1(cryptobyte_asn1.Tag(0).Constructed().ContextSpecific()) {
+		return nil, errors.New("error reading tbsCertificate.version")
+	}
+
+	if !tbsCert.SkipASN1(cryptobyte_asn1.INTEGER) {
+		return nil, errors.New("error reading tbsCertificate.serialNumber")
+	}
+
+	var signatureAlgoID cryptobyte.String
+	var tag cryptobyte_asn1.Tag
+	// use ReadAnyElement to preserve tag and length octets
+	if !tbsCert.ReadAnyASN1Element(&signatureAlgoID, &tag) {
+		return nil, errors.New("error reading tbsCertificate.signature")
+	}
+
+	return signatureAlgoID, nil
 }

@@ -3,7 +3,14 @@ package util
 import (
 	"encoding/asn1"
 	"encoding/base64"
+	"encoding/hex"
+	"encoding/pem"
+	"fmt"
+	"io/ioutil"
+	"strings"
 	"testing"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
@@ -129,5 +136,48 @@ func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
 				t.Errorf("expected error %q was %q", tc.errStr, err.Error())
 			}
 		})
+	}
+}
+
+func TestGetSignatureAlgorithmInTBSEncoded(t *testing.T) {
+
+	path := "../testdata/pssWithSHA256.pem"
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic(fmt.Sprintf(
+			"Unable to read test certificate from %q - %q "+
+				"Does a unit test have an incorrect test file name?\n",
+			path, err))
+	}
+
+	if strings.Contains(string(data), "-BEGIN CERTIFICATE-") {
+		block, _ := pem.Decode(data)
+		if block == nil {
+			panic(fmt.Sprintf(
+				"Failed to PEM decode test certificate from %q - "+
+					"Does a unit test have a buggy test cert file?\n",
+				path))
+		}
+		data = block.Bytes
+	}
+
+	cert, err := x509.ParseCertificate(data)
+	if err != nil {
+		panic(fmt.Sprintf(
+			"Failed to parse x509 test certificate from %q - "+
+				"Does a unit test have a buggy test cert file?\n",
+			path))
+	}
+
+	aidEncoded, err := GetSignatureAlgorithmInTBSEncoded(cert)
+
+	if err != nil {
+		t.Error("Got an error parsing signature algorithm")
+	}
+
+	expected := "304106092A864886F70D01010A3034A00F300D06096086480165030402010500A11C301A06092A864886F70D010108300D06096086480165030402010500A203020120"
+
+	if !strings.EqualFold(hex.EncodeToString(aidEncoded), expected) {
+		t.Errorf("Expected %s,  got %s", expected, hex.EncodeToString(aidEncoded))
 	}
 }
