@@ -39,6 +39,9 @@ var ( // flags
 	format          string
 	include         string
 	exclude         string
+
+	// version is replaced by GoReleaser using an LDFlags option at release time.
+	version = "dev"
 )
 
 func init() {
@@ -50,6 +53,7 @@ func init() {
 
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
 	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "ZLint version %s\n\n", version)
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags] file...\n", os.Args[0])
 		flag.PrintDefaults()
 	}
