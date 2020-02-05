@@ -17,9 +17,9 @@ package etsi
 import (
 	"encoding/asn1"
 	"fmt"
-	"github.com/zmap/zlint/lint"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
