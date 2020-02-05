@@ -397,6 +397,9 @@
     "w_subject_dn_leading_whitespace": {},
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 4
+    },
+    "w_qcstatem_psd2_policy_recommended": {
+      "WarnCount": 23
     }
   }
 }
