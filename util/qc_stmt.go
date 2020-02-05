@@ -19,7 +19,19 @@ import (
 	"encoding/asn1"
 	"fmt"
 	"reflect"
+
+	"github.com/zmap/zcrypto/x509"
 )
+
+var EtsiQcStmtOidList = [...]*asn1.ObjectIdentifier{
+	&IdEtsiQcsQcCompliance,
+	&IdEtsiQcsQcLimitValue,
+	&IdEtsiQcsQcRetentionPeriod,
+	&IdEtsiQcsQcSSCD,
+	&IdEtsiQcsQcEuPDS,
+	&IdEtsiQcsQcType,
+	&IdEtsiPsd2Statem,
+}
 
 type anyContent struct {
 	Raw asn1.RawContent
@@ -102,6 +114,18 @@ func AppendToStringSemicolonDelim(this *string, s string) {
 		(*this) += "; "
 	}
 	(*this) += s
+}
+
+func HasCertAnyEtsiQcStatement(c *x509.Certificate) bool {
+	ext := GetExtFromCert(c, QcStateOid)
+	if ext == nil {
+		return false
+	}
+	return IsAnyEtsiQcStatementPresent(ext.Value)
+}
+
+func GetQcStatemExtValue(c *x509.Certificate) []byte {
+	return GetExtFromCert(c, QcStateOid).Value
 }
 
 func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfComparisonFails string) string {
