@@ -7448,6 +7448,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2016-04-06",
 		RemovalDate:    "",
 	},
+	"xn--mgbcpq6gpa1a": {
+		GTLD:           "xn--mgbcpq6gpa1a",
+		DelegationDate: "1985-01-01",
+		RemovalDate:    "",
+	},
 	"xn--mgberp4a5d4ar": {
 		GTLD:           "xn--mgberp4a5d4ar",
 		DelegationDate: "1985-01-01",
@@ -7571,6 +7576,11 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--pssy2u": {
 		GTLD:           "xn--pssy2u",
 		DelegationDate: "2015-07-28",
+		RemovalDate:    "",
+	},
+	"xn--q7ce6a": {
+		GTLD:           "xn--q7ce6a",
+		DelegationDate: "1985-01-01",
 		RemovalDate:    "",
 	},
 	"xn--q9jyb4c": {
