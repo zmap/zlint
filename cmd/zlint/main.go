@@ -180,7 +180,7 @@ func trimmedList(raw string) []string {
 func setLints() (lint.Registry, error) {
 	// If there's no filter options set, use the global registry as-is
 	if nameFilter == "" && includeNames == "" && excludeNames == "" && includeSources == "" && excludeSources == "" {
-		return nil, nil
+		return lint.GlobalRegistry(), nil
 	}
 
 	filterOpts := lint.FilterOptions{}
