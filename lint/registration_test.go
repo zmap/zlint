@@ -81,7 +81,7 @@ func TestRegister(t *testing.T) {
 		Lint:   &mockLint{},
 		Source: ZLint,
 	}
-	dupeReg := newRegistry()
+	dupeReg := NewRegistry()
 	_ = dupeReg.register(egLint, true)
 
 	badInitErr := errors.New("mock init error")
@@ -152,7 +152,7 @@ func TestRegister(t *testing.T) {
 	for _, tc := range testCases {
 		var reg *registryImpl
 		if tc.registry == nil {
-			reg = newRegistry()
+			reg = NewRegistry()
 		} else {
 			reg = tc.registry
 		}
@@ -190,7 +190,7 @@ func TestRegistryFilter(t *testing.T) {
 	}
 
 	// Create a registry and add some test lints
-	registry := newRegistry()
+	registry := NewRegistry()
 
 	mustRegister(registry, testLint("e_mp_example1", MozillaRootStorePolicy))
 	mustRegister(registry, testLint("w_mp_example2", MozillaRootStorePolicy))

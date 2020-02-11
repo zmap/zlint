@@ -249,7 +249,7 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 		return r, nil
 	}
 
-	filteredRegistry := newRegistry()
+	filteredRegistry := NewRegistry()
 
 	sourceExcludes := sourceListToMap(opts.ExcludeSources)
 	sourceIncludes := sourceListToMap(opts.IncludeSources)
@@ -308,8 +308,9 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 	}
 }
 
-// newRegistry constructs a registryImpl that can be used to register lints.
-func newRegistry() *registryImpl {
+// NewRegistry constructs a Registry implementation that can be used to register
+// lints.
+func NewRegistry() *registryImpl {
 	return &registryImpl{
 		lintsByName:   make(map[string]*Lint),
 		lintsBySource: make(map[LintSource][]*Lint),
@@ -318,7 +319,7 @@ func newRegistry() *registryImpl {
 
 // globalRegistry is the Registry used by all loaded lints that call
 // RegisterLint().
-var globalRegistry *registryImpl = newRegistry()
+var globalRegistry *registryImpl = NewRegistry()
 
 // RegisterLint must be called once for each lint to be executed. Normally,
 // RegisterLint is called from the Go init() function of a lint implementation.
