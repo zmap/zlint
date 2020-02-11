@@ -35,7 +35,6 @@ import (
 
 var ( // flags
 	listLintsJSON   bool
-	listLintsSchema bool
 	listLintSources bool
 	prettyprint     bool
 	format          string
@@ -51,7 +50,6 @@ var ( // flags
 
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
-	flag.BoolVar(&listLintsSchema, "list-lints-schema", false, "Print lints as a ZSchema")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
@@ -80,16 +78,6 @@ func main() {
 
 	if listLintsJSON {
 		registry.WriteJSON(os.Stdout)
-		return
-	}
-
-	if listLintsSchema {
-		names := registry.Names()
-		fmt.Printf("Lints = SubRecord({\n")
-		for _, lintName := range names {
-			fmt.Printf("    %q:LintBool(),\n", lintName)
-		}
-		fmt.Printf("})\n")
 		return
 	}
 
