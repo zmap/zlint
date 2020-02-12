@@ -617,6 +617,9 @@
     "e_wrong_time_format_pre2050": {
       "ErrCount": 19
     },
+    "e_qcstatem_psd2_psd2statem_ncaid_format": {
+      "ErrCount": 2
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 212
     },
