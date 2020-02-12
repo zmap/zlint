@@ -15,9 +15,10 @@ package etsi
  */
 
 import (
+	"testing"
+
 	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/test"
-	"testing"
 )
 
 func TestQcStatemPsd2PolicyMandatory(t *testing.T) {
