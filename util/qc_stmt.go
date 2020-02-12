@@ -19,6 +19,8 @@ import (
 	"encoding/asn1"
 	"fmt"
 	"reflect"
+
+	"github.com/zmap/zcrypto/x509"
 )
 
 type anyContent struct {
@@ -115,6 +117,76 @@ func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfCompari
 		AppendToStringSemicolonDelim(&result, appendIfComparisonFails)
 	}
 	return result
+}
+
+func GetEtsiQcTypes(c *x509.Certificate) []asn1.ObjectIdentifier {
+	var result []asn1.ObjectIdentifier
+	ext := GetExtFromCert(c, QcStateOid)
+	if ext == nil {
+		return nil
+	}
+	s := ParseQcStatem(ext.Value, IdEtsiQcsQcType)
+	if len(s.GetErrorInfo()) != 0 {
+		return nil
+	}
+	if !s.IsPresent() {
+		return result
+	}
+	qcType := s.(Etsi423QcType)
+	result = append(result, qcType.TypeOids...)
+	return result
+}
+
+func HasCertAnyEtsiQcStatement(c *x509.Certificate) bool {
+	ext := GetExtFromCert(c, QcStateOid)
+	if ext == nil {
+		return false
+	}
+	return IsAnyEtsiQcStatementPresent(ext.Value)
+}
+
+func HasCertPolicy(c *x509.Certificate, soughtPolicyOid asn1.ObjectIdentifier) bool {
+
+	for _, policyOid := range c.PolicyIdentifiers {
+		if policyOid.Equal(soughtPolicyOid) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasCertEtsiQcType(c *x509.Certificate, soughtTypeOid asn1.ObjectIdentifier) bool {
+	typeList := GetEtsiQcTypes(c)
+	if typeList == nil {
+		return false
+	}
+	for _, typeOid := range typeList {
+		if typeOid.Equal(soughtTypeOid) {
+			return true
+		}
+	}
+	return false
+}
+
+func IsQcStatemPresent(c *x509.Certificate, oid *asn1.ObjectIdentifier) (string, bool) {
+	if !IsExtInCert(c, QcStateOid) {
+		return "", false
+	}
+	qcs := ParseQcStatem(GetExtFromCert(c, QcStateOid).Value, *oid)
+	if qcs.GetErrorInfo() != "" {
+		return qcs.GetErrorInfo(), qcs.IsPresent()
+	}
+	return "", qcs.IsPresent()
+}
+
+func HasCertAnyEtsiQcpPolicy(c *x509.Certificate) bool {
+	for _, p := range c.PolicyIdentifiers {
+		if p.Equal(IdEtsiPolicyQcpNatural) || p.Equal(IdEtsiPolicyQcpLegal) || p.Equal(IdEtsiPolicyQcpNaturalQscd) || p.Equal(IdEtsiPolicyQcpLegalQscd) || p.Equal(IdEtsiPolicyQcpWeb) {
+			return true
+		}
+	}
+	return false
+
 }
 
 func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
