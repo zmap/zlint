@@ -18,8 +18,8 @@ import (
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/util"
 	"golang.org/x/net/idna"
 )
 

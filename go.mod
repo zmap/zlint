@@ -1,4 +1,4 @@
-module github.com/zmap/zlint
+module github.com/zmap/zlint/v2
 
 require (
 	github.com/sirupsen/logrus v1.3.0

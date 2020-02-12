@@ -5,7 +5,7 @@ package integration
 import (
 	"fmt"
 
-	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/v2/lint"
 )
 
 type resultCount struct {

@@ -17,8 +17,8 @@ package cabf_br
 import (
 	"testing"
 
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 func TestCrlNoUrl(t *testing.T) {
@@ -40,7 +40,7 @@ func TestCrlContainsUrl(t *testing.T) {
 }
 
 func TestCrlContainsUrlInCompoundFullName(t *testing.T) {
-	// Re: https://github.com/zmap/zlint/issues/223
+	// Re: https://github.com/zmap/zlint/v2/issues/223
 	// Previously, we only grabbed the first entry in the fullName of each
 	// DistributionPoint, whereas multiple names are allowed (these are
 	// interpreted as different names for the same underlying CRL, i.e.

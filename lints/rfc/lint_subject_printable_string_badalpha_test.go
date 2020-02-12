@@ -3,8 +3,8 @@ package rfc
 import (
 	"testing"
 
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 func TestSubjectPrintableStringBadAlpha(t *testing.T) {

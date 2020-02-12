@@ -17,8 +17,8 @@ package etsi
 import (
 	"testing"
 
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 func TestQcStatemQcLimitValueValid(t *testing.T) {

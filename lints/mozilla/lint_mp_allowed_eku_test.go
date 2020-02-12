@@ -17,8 +17,8 @@ package mozilla
 import (
 	"testing"
 
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 func TestAllowedEKUs(t *testing.T) {
@@ -52,7 +52,7 @@ func TestAllowedEKUs(t *testing.T) {
 			InputFilename: "mpCrossCertNoEKU.pem",
 			// NOTE(@cpu): This should be a lint.Pass. It is a false positive that
 			// would be addressed by tracking Mozilla trusted roots. See
-			// https://github.com/zmap/zlint/issues/352
+			// https://github.com/zmap/zlint/v2/issues/352
 			ExpectedResult: lint.Notice,
 		},
 	}

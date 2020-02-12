@@ -20,8 +20,8 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/ct"
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/util"
 )
 
 type sctPolicyCount struct{}
@@ -66,7 +66,7 @@ func (l *sctPolicyCount) CheckApplies(c *x509.Certificate) bool {
 // in any way.
 //
 // [0]: https://support.apple.com/en-us/HT205280
-// [1]: https://github.com/zmap/zlint/issues/226
+// [1]: https://github.com/zmap/zlint/v2/issues/226
 func (l *sctPolicyCount) Execute(c *x509.Certificate) *lint.LintResult {
 	// Determine the required number of SCTs from separate logs
 	expected := appleCTPolicyExpectedSCTs(c)

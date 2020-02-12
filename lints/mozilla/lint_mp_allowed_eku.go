@@ -30,8 +30,8 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/util"
 )
 
 type allowedEKU struct{}
@@ -43,7 +43,7 @@ func (l *allowedEKU) Initialize() error {
 func (l *allowedEKU) CheckApplies(c *x509.Certificate) bool {
 	// TODO(@cpu): This lint should be limited to SubCAs that do not share
 	// a private key with a corresponding root certificate in the Mozilla root
-	// store. See https://github.com/zmap/zlint/issues/352
+	// store. See https://github.com/zmap/zlint/v2/issues/352
 	return util.IsSubCA(c)
 }
 
@@ -57,7 +57,7 @@ func (l *allowedEKU) Execute(c *x509.Certificate) *lint.LintResult {
 	if noEKU || anyEKU || emailAndServerAuthEKU {
 		// NOTE(@cpu): When this lint's scope is improved (see CheckApplies TODO)
 		// this should be a lint.Error result instead of lint.Notice. See
-		// https://github.com/zmap/zlint/issues/352
+		// https://github.com/zmap/zlint/v2/issues/352
 		return &lint.LintResult{Status: lint.Notice}
 	}
 

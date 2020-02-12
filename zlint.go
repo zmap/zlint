@@ -20,14 +20,14 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/lint"
-	_ "github.com/zmap/zlint/lints/apple"
-	_ "github.com/zmap/zlint/lints/cabf_br"
-	_ "github.com/zmap/zlint/lints/cabf_ev"
-	_ "github.com/zmap/zlint/lints/community"
-	_ "github.com/zmap/zlint/lints/etsi"
-	_ "github.com/zmap/zlint/lints/mozilla"
-	_ "github.com/zmap/zlint/lints/rfc"
+	"github.com/zmap/zlint/v2/lint"
+	_ "github.com/zmap/zlint/v2/lints/apple"
+	_ "github.com/zmap/zlint/v2/lints/cabf_br"
+	_ "github.com/zmap/zlint/v2/lints/cabf_ev"
+	_ "github.com/zmap/zlint/v2/lints/community"
+	_ "github.com/zmap/zlint/v2/lints/etsi"
+	_ "github.com/zmap/zlint/v2/lints/mozilla"
+	_ "github.com/zmap/zlint/v2/lints/rfc"
 )
 
 const Version int64 = 3
