@@ -75,7 +75,7 @@ command-line certificate parser that links against ZLint.
 
 Example ZLint CLI usage:
 
-	go get github.com/zmap/zlint/cmd/zlint
+	go get github.com/zmap/zlint/v2/cmd/zlint
 	echo "Lint mycert.pem with all applicable lints"
 	zlint mycert.pem
 
@@ -100,7 +100,7 @@ lints is as simple as using `zlint.LintCertificate` with a parsed certificate:
 ```go
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint"
+	"github.com/zmap/zlint/v2"
 )
 
 var certDER []byte = ...
@@ -114,8 +114,8 @@ name) filter the global lint registry and use it with `zlint.LintCertificateEx`:
 ```go
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint"
-	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/v2"
+	"github.com/zmap/zlint/v2/lint"
 )
 
 var certDER []byte = ...
