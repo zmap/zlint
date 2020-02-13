@@ -6,6 +6,8 @@ PARALLELISM := 5
 #   make integration INT_FLAGS="-overwriteExpected -config custom.config.json"
 #   make integration INT_FLAGS="-fingerprintSummary -lintSummary -fingerprintFilter='^[ea]' -lintFilter='^w_ext_cert_policy_explicit_text_not_utf8' -config small.config.json"
 #   make integration INT_FLAGS="-lintSummary -fingerprintSummary -lintFilter='^e_' -config small.config.json"
+#   make integration INT_FLAGS="-lintSummary -fingerprintSummary -excludeSources='Mozilla,ETSI_ESI' -config small.config.json"
+#   make integration INT_FLAGS="-includeSources='Mozilla,ETSI_ESI' -config small.config.json"
 INT_FLAGS :=
 
 CMDS = zlint zlint-gtld-update
