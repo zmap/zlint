@@ -46,19 +46,23 @@ Config options
 
 * `-parallelism` - number of linting Go routines to spawn (_Default: 5_)
 
-* `-configFile` - integration test config file (_Default `integration/config.json`_)
+* `-config` - integration test config file (_Default `integration/config.json`_)
 
 * `-forceDownload` - ignore cached data files on disk forcing it to be downloaded fresh (_Default false_)
 
 * `-overwriteExpected` - overwrite the expected results map in the `-configFile` with the results of the test run. This is useful when new lints or bugfixes are added and the changes in the results map have been vetted and are ready to be committed to the repository. (_Default false_)
 
-* `-fingerprintSummarize` - print a summary of all certificate fingerprints that had lint findings. Can be quite spammy with the default data set. (_Default false_)
+* `-fingerprintSummary` - print a summary of all certificate fingerprints that had lint findings. Can be quite spammy with the default data set. (_Default false_)
 
-* `-fingerprintFilterString` - only lint certificates with hex encoded fingerprints that match the provided regular expression (_Default none_)
+* `-fingerprintFilter` - only lint certificates with hex encoded fingerprints that match the provided regular expression (_Default none_)
 
-* `-lintSummarize` - print a summary of result type counts by lint name. (_Default false_)
+* `-lintSummary` - print a summary of result type counts by lint name. (_Default false_)
 
-* `-lintFilterString` - only lint certificates with lints that have a name that matches the provided regular expression (_Default: none_)
+* `-lintFilter` - only lint certificates with lints that have a name that matches the provided regular expression (_Default: none_)
+
+* `-includeSources` - only lint certificates with lints that specify a Source present in the comma separated list provided (case sensitive) (_Default: none_)
+
+* `-excludeSources` - only lint certificates with lints that do not specify a Source present in the comma separated list provided (case sensitive) (_Default: none_)
 
 * `-outputTick` - number of certificates to lint before printing a "." marker to output (_Default 1000_)
 

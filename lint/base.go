@@ -21,12 +21,6 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-var (
-	// Lints is a map of all known lints by name. Add a Lint to the map by calling
-	// RegisterLint.
-	Lints = make(map[string]*Lint)
-)
-
 // LintInterface is implemented by each Lint.
 type LintInterface interface {
 	// Initialize runs once per-lint. It is called during RegisterLint().
@@ -42,23 +36,6 @@ type LintInterface interface {
 	// which CheckApplies() returns true.
 	Execute(c *x509.Certificate) *LintResult
 }
-
-// An Enum to programmatically represent the source of a lint
-type LintSource int
-
-const (
-	UnknownLintSource LintSource = iota
-	CABFBaselineRequirements
-	RFC5280
-	RFC5480
-	RFC5891
-	ZLint
-	AWSLabs
-	EtsiEsi // ETSI - Electronic Signatures and Infrastructures (ESI)
-	CABFEVGuidelines
-	AppleCTPolicy          // https://support.apple.com/en-us/HT205280
-	MozillaRootStorePolicy // https://github.com/mozilla/pkipolicy
-)
 
 // A Lint struct represents a single lint, e.g.
 // "e_basic_constraints_not_critical". It contains an implementation of LintInterface.
@@ -77,7 +54,7 @@ type Lint struct {
 	Citation string `json:"citation,omitempty"`
 
 	// Programmatic source of the check, BRs, RFC5280, or ZLint
-	Source LintSource `json:"-"`
+	Source LintSource `json:"source"`
 
 	// Lints automatically returns NE for all certificates where CheckApplies() is
 	// true but with NotBefore < EffectiveDate. This check is bypassed if
@@ -116,13 +93,4 @@ func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
 	}
 	res := l.Lint.Execute(cert)
 	return res
-}
-
-// RegisterLint must be called once for each lint to be excuted. Duplicate lint
-// names are squashed. Normally, RegisterLint is called during init().
-func RegisterLint(l *Lint) {
-	if err := l.Lint.Initialize(); err != nil {
-		panic("could not initialize lint: " + l.Name + ": " + err.Error())
-	}
-	Lints[l.Name] = l
 }

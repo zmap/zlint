@@ -17,9 +17,6 @@
 package zlint
 
 import (
-	"encoding/json"
-	"io"
-	"regexp"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -35,74 +32,30 @@ import (
 
 const Version int64 = 3
 
-// ResultSet contains the output of running all lints against a single certificate.
-type ResultSet struct {
-	Version         int64                       `json:"version"`
-	Timestamp       int64                       `json:"timestamp"`
-	Results         map[string]*lint.LintResult `json:"lints"`
-	NoticesPresent  bool                        `json:"notices_present"`
-	WarningsPresent bool                        `json:"warnings_present"`
-	ErrorsPresent   bool                        `json:"errors_present"`
-	FatalsPresent   bool                        `json:"fatals_present"`
-}
-
-func (z *ResultSet) execute(cert *x509.Certificate, filter *regexp.Regexp) {
-	z.Results = make(map[string]*lint.LintResult, len(lint.Lints))
-	for name, l := range lint.Lints {
-		if filter != nil && !filter.MatchString(name) {
-			continue
-		}
-		res := l.Execute(cert)
-		z.Results[name] = res
-		z.updateErrorStatePresent(res)
-	}
-}
-
-func (z *ResultSet) updateErrorStatePresent(result *lint.LintResult) {
-	switch result.Status {
-	case lint.Notice:
-		z.NoticesPresent = true
-	case lint.Warn:
-		z.WarningsPresent = true
-	case lint.Error:
-		z.ErrorsPresent = true
-	case lint.Fatal:
-		z.FatalsPresent = true
-	}
-}
-
-// EncodeLintDescriptionsToJSON outputs a description of each lint as JSON
-// object, one object per line.
-func EncodeLintDescriptionsToJSON(w io.Writer) {
-	enc := json.NewEncoder(w)
-	enc.SetEscapeHTML(false)
-	for _, lint := range lint.Lints {
-		_ = enc.Encode(lint)
-	}
-}
-
-// LintCertificate runs all registered lints on c, producing a ZLint.
+// LintCertificate runs all registered lints on c using default options,
+// producing a ResultSet.
+//
+// Using LintCertificate(c) is equivalent to calling LintCertificateEx(c, nil).
 func LintCertificate(c *x509.Certificate) *ResultSet {
-	// Instead of panicing on nil certificate, just returns nil and let the client
-	// panic when accessing ZLint, if they're into panicing.
-	if c == nil {
-		return nil
-	}
-
-	// Run all tests
-	return LintCertificateFiltered(c, nil)
+	// Run all lints from the global registry
+	return LintCertificateEx(c, nil)
 }
 
-// LintCertificateFiltered runs all lints with names matching the provided
-// regexp on c, producing a ResultSet.
-func LintCertificateFiltered(c *x509.Certificate, filter *regexp.Regexp) *ResultSet {
+// LintCertificateEx runs lints from the provided registry on c producing
+// a ResultSet. Providing an explicit registry allows the caller to filter the
+// lints that will be run. (See lint.Registry.Filter())
+//
+// If registry is nil then the global registry of all lints is used and this
+// function is equivalent to calling LintCertificate(c).
+func LintCertificateEx(c *x509.Certificate, registry lint.Registry) *ResultSet {
 	if c == nil {
 		return nil
 	}
-
-	// Run tests with provided filter
+	if registry == nil {
+		registry = lint.GlobalRegistry()
+	}
 	res := new(ResultSet)
-	res.execute(c, filter)
+	res.execute(c, registry)
 	res.Version = Version
 	res.Timestamp = time.Now().Unix()
 	return res
