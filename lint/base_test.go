@@ -21,28 +21,6 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
-func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
-	for name, lint := range Lints {
-		if lint.Name == "" {
-			t.Errorf("lint %s has empty name", name)
-		}
-		if lint.Description == "" {
-			t.Errorf("lint %s has empty description", name)
-		}
-		if lint.Citation == "" {
-			t.Errorf("lint %s has empty citation", name)
-		}
-	}
-}
-
-func TestAllLintsHaveSource(t *testing.T) {
-	for name, lint := range Lints {
-		if lint.Source == UnknownLintSource {
-			t.Errorf("lint %s has unknown source", name)
-		}
-	}
-}
-
 func TestLintCheckEffective(t *testing.T) {
 	c := &x509.Certificate{
 		NotBefore: time.Now(),

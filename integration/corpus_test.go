@@ -24,7 +24,7 @@ func lintCertificate(work workItem) certResult {
 		Fingerprint: work.Fingerprint,
 		LintSummary: make(map[string]lint.LintStatus),
 	}
-	resultSet := zlint.LintCertificateFiltered(work.Certificate, lintFilter)
+	resultSet := zlint.LintCertificateEx(work.Certificate, registry)
 	for lintName, r := range resultSet.Results {
 		cr.LintSummary[lintName] = r.Status
 		cr.Result.Inc(r.Status)

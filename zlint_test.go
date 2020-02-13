@@ -14,7 +14,7 @@ func TestLintNames(t *testing.T) {
 		"e_", // lints.Error
 	}
 
-	for name := range lint.Lints {
+	for _, name := range lint.GlobalRegistry().Names() {
 		var valid bool
 		for _, prefix := range allowedPrefixes {
 			if strings.HasPrefix(name, prefix) {

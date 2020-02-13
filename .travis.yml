@@ -21,6 +21,16 @@ script:
   # Run integration tests
   - make integration PARALLELISM=3
 
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: curl -sL https://git.io/goreleaser | bash
+    api_key: $GITHUB_AUTH_TOKEN
+    draft: true
+    on:
+      repo: zmap/zlint
+      tags: true
+
 notifications:
   email:
   - dkumar11@illinois.edu

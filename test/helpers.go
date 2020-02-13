@@ -44,11 +44,7 @@ func TestLint(lintName string, testCertFilename string) *lint.LintResult {
 // Important: TestLintCert is only appropriate for unit tests. It will panic if
 // the lintName is not known or if the lint result is nil.
 func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
-	// NOTE(@cpu): Once `lint.Lints` is not exported this will have to be
-	// changed, likely to use a function like `lint.LintByName`. For now use the
-	// exported map directly to consolidate access to this one function instead of
-	// many individual lint unit tests.
-	l := lint.Lints[lintName]
+	l := lint.GlobalRegistry().ByName(lintName)
 	if l == nil {
 		panic(fmt.Sprintf(
 			"Lint name %q does not exist in lint.Lints. "+

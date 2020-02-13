@@ -109,18 +109,20 @@ func BenchmarkZlint(b *testing.B) {
 		globalLintResult = lintResult
 	})
 
+	names := lint.GlobalRegistry().Names()
+
 	b.Run("Fast lints", func(b *testing.B) {
 		globalLintResult = &ResultSet{}
-		globalLintResult.Results = make(map[string]*lint.LintResult, len(lint.Lints))
+		globalLintResult.Results = make(map[string]*lint.LintResult, len(names))
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			for key, value := range lint.Lints {
+			for _, key := range names {
 				switch key {
 				case "w_dnsname_underscore_in_trd", "e_dnsname_underscore_in_sld", "e_dnsname_hyphen_in_sld",
 					"w_dnsname_wildcard_left_of_public_suffix", "w_san_iana_pub_suffix_empty":
 					continue
 				}
-
+				value := lint.GlobalRegistry().ByName(key)
 				if !value.Lint.CheckApplies(x509Cert) {
 					continue
 				}
@@ -131,10 +133,10 @@ func BenchmarkZlint(b *testing.B) {
 
 	b.Run("Fastest lints", func(b *testing.B) {
 		globalLintResult = &ResultSet{}
-		globalLintResult.Results = make(map[string]*lint.LintResult, len(lint.Lints))
+		globalLintResult.Results = make(map[string]*lint.LintResult, len(names))
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			for key, value := range lint.Lints {
+			for _, key := range names {
 				switch key {
 				case "w_dnsname_underscore_in_trd", "e_dnsname_underscore_in_sld", "e_dnsname_hyphen_in_sld",
 					"w_dnsname_wildcard_left_of_public_suffix", "w_san_iana_pub_suffix_empty",
@@ -148,7 +150,7 @@ func BenchmarkZlint(b *testing.B) {
 					"e_path_len_constraint_zero_or_less", "e_san_dns_name_includes_null_char":
 					continue
 				}
-
+				value := lint.GlobalRegistry().ByName(key)
 				if !value.Lint.CheckApplies(x509Cert) {
 					continue
 				}
@@ -157,8 +159,9 @@ func BenchmarkZlint(b *testing.B) {
 		}
 	})
 
-	for key, value := range lint.Lints {
+	for _, key := range names {
 		b.Run(key, func(b *testing.B) {
+			value := lint.GlobalRegistry().ByName(key)
 			if !value.Lint.CheckApplies(x509Cert) {
 				b.Skip("Check doesn't apply")
 			}
