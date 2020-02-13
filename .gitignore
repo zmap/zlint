@@ -120,7 +120,7 @@ v2/zlint-gtld-update
 v2/cmd/zlint-gtld-update/zlint-gtld-update
 
 ### Integration test data ###
-data
+v2/data
 
 ### Goreleaser builds ###
 dist
