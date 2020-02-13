@@ -12,6 +12,7 @@ install:
 script:
   # Fast-fail on non-zero exit codes
   - set -e
+  - cd v2
   # Build commands
   - make
   # Verify that all files pass the golangci-lint code lints
