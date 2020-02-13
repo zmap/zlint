@@ -43,7 +43,6 @@ func (l *pssInSPKI) CheckApplies(c *x509.Certificate) bool {
 
 func (l *pssInSPKI) Execute(c *x509.Certificate) *lint.LintResult {
 	publicKeyOID, err := util.GetPublicKeyOID(c)
-
 	if err != nil {
 		return &lint.LintResult{Status: lint.Error, Details: "error reading public key OID"}
 	}
