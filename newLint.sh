@@ -26,7 +26,7 @@ fi
 
 if [ ! -d lints/$1 ]
 then
-   echo "Directory $1 does not exist. Can't make new file."
+   echo "Directory 'lints/$1' does not exist. Can't make new file."
    exit 1
 fi
 
@@ -39,6 +39,7 @@ fi
 
 PATHNAME=$1
 LINTNAME=$2
+# Remove the first two characters from ${LINTNAME} and save the resulting string into FILENAME
 FILENAME=${LINTNAME:2}
 STRUCTNAME=$3
 

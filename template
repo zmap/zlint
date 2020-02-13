@@ -16,6 +16,7 @@ package PACKAGE
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 )
 
 type SUBST struct{}
