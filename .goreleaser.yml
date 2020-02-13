@@ -4,6 +4,7 @@ before:
     - go mod tidy
 builds:
   -
+    dir: v2
     main: ./cmd/zlint/main.go
     binary: zlint
     env:
