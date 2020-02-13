@@ -30,7 +30,7 @@ import (
 	"github.com/zmap/zlint/util"
 )
 
-type pssInSPKI struct{}
+type rsaPssInSPKI struct{}
 
 func (l *pssInSPKI) Initialize() error {
 	return nil
