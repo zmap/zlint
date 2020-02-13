@@ -168,7 +168,6 @@ func TestGetPublicKeyOID(t *testing.T) {
 	}
 
 	oid, err := GetPublicKeyOID(cert)
-
 	if err != nil {
 		t.Error("Got an error parsing public key to get the OID")
 	}
