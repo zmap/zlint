@@ -15,11 +15,11 @@ package etsi
  */
 
 import (
-	"github.com/zmap/zlint/lint"
 	"regexp"
 	"unicode/utf8"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
