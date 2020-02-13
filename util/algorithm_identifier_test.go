@@ -139,7 +139,6 @@ func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
 }
 
 func TestGetPublicKeyOID(t *testing.T) {
-
 	path := "../testdata/rsaSigAlgoNoNULLParam.pem"
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
