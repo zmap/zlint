@@ -17,8 +17,8 @@ package cabf_br
 import (
 	"testing"
 
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 // As a note, these certificates were not built, but instead grabbed from censys.io/query

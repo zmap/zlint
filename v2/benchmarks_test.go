@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/v2/lint"
 )
 
 var (

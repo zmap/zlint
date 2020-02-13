@@ -30,7 +30,7 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/v2/util"
 )
 
 const (

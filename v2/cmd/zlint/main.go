@@ -29,8 +29,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint"
-	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/v2"
+	"github.com/zmap/zlint/v2/lint"
 )
 
 var ( // flags

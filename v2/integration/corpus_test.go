@@ -10,8 +10,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/zmap/zlint"
-	"github.com/zmap/zlint/lint"
+	"github.com/zmap/zlint/v2"
+	"github.com/zmap/zlint/v2/lint"
 )
 
 // lintCertificate lints the provided work item's certificate to produce
