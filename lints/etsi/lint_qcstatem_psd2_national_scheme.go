@@ -16,10 +16,10 @@ package etsi
 
 import (
 	"encoding/asn1"
-	"github.com/zmap/zlint/lint"
 	"regexp"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/lint"
 	"github.com/zmap/zlint/util"
 )
 
