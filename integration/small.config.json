@@ -299,6 +299,9 @@
     "e_utc_time_not_in_zulu": {},
     "e_validity_time_not_positive": {},
     "e_wrong_time_format_pre2050": {},
+    "e_mp_authority_key_identifier_correct": {
+      "ErrCount": 125
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
