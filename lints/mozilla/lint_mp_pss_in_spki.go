@@ -23,6 +23,7 @@ CAs MUST NOT use the id-RSASSA-PSS OID (1.2.840.113549.1.1.10) within a SubjectP
 ************************************************/
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -32,19 +33,19 @@ import (
 
 type rsaPssInSPKI struct{}
 
-func (l *pssInSPKI) Initialize() error {
+func (l *rsaPssInSPKI) Initialize() error {
 	return nil
 }
 
-func (l *pssInSPKI) CheckApplies(c *x509.Certificate) bool {
+func (l *rsaPssInSPKI) CheckApplies(c *x509.Certificate) bool {
 	// always check, no certificate is allowed to contain the PSS OID in public key
 	return true
 }
 
-func (l *pssInSPKI) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *rsaPssInSPKI) Execute(c *x509.Certificate) *lint.LintResult {
 	publicKeyOID, err := util.GetPublicKeyOID(c)
 	if err != nil {
-		return &lint.LintResult{Status: lint.Error, Details: "error reading public key OID"}
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("error reading public key OID: %v", err)}
 	}
 
 	if publicKeyOID.Equal(util.OidRSASSAPSS) {
@@ -61,6 +62,6 @@ func init() {
 		Citation:      "Mozilla Root Store Policy / Section 5.1.1",
 		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
-		Lint:          &pssInSPKI{},
+		Lint:          &rsaPssInSPKI{},
 	})
 }

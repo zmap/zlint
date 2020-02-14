@@ -140,6 +140,19 @@ func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
 
 func TestGetPublicKeyOID(t *testing.T) {
 	path := "../testdata/rsaSigAlgoNoNULLParam.pem"
+	err, cert := ReadCertificate(path)
+
+	oid, err := GetPublicKeyOID(cert)
+	if err != nil {
+		t.Error("Got an error parsing public key to get the OID")
+	}
+
+	if !oid.Equal(OidRSAEncryption) {
+		t.Errorf("Expected %s,  got %s", oid.String(), OidRSAEncryption.String())
+	}
+}
+
+func ReadCertificate(path string) (error, *x509.Certificate) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		panic(fmt.Sprintf(
@@ -166,13 +179,5 @@ func TestGetPublicKeyOID(t *testing.T) {
 				"Does a unit test have a buggy test cert file?\n",
 			path))
 	}
-
-	oid, err := GetPublicKeyOID(cert)
-	if err != nil {
-		t.Error("Got an error parsing public key to get the OID")
-	}
-
-	if !oid.Equal(OidRSAEncryption) {
-		t.Errorf("Expected %s,  got %s", oid.String(), OidRSAEncryption.String())
-	}
+	return err, cert
 }

@@ -88,7 +88,6 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 
 func GetPublicKeyOID(c *x509.Certificate) (asn1.ObjectIdentifier, error) {
 
-	// see also lint_spki_rsa_encryption_parameter_not_null.go
 	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
 
 	var publicKeyInfo cryptobyte.String
