@@ -4,7 +4,7 @@ before:
     - go mod tidy
 builds:
   -
-    main: ./v2/cmd/zlint/main.go
+    main: ./cmd/zlint/main.go
     binary: zlint
     env:
       - CGO_ENABLED=0
