@@ -56,6 +56,7 @@ var (
 	AppleCTPolicyDate           = time.Date(2018, time.October, 15, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy22Date         = time.Date(2013, time.July, 26, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy24Date         = time.Date(2017, time.February, 28, 0, 0, 0, 0, time.UTC)
+	CABAltRegNumEvDate          = time.Date(2019, time.June, 21, 0, 0, 0, 0, time.UTC)
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
