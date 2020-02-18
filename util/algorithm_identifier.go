@@ -86,8 +86,14 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 	return errors.New("RSA algorithm appears correct, but didn't match byte-wise comparison")
 }
 
+// Returns the algorithm field of the SubjectPublicKeyInfo of the certificate or an error
+// if the algorithm field could not be extracted.
+//
+//    SubjectPublicKeyInfo  ::=  SEQUENCE  {
+//        algorithm            AlgorithmIdentifier,
+//        subjectPublicKey     BIT STRING  }
+//
 func GetPublicKeyOID(c *x509.Certificate) (asn1.ObjectIdentifier, error) {
-
 	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
 
 	var publicKeyInfo cryptobyte.String

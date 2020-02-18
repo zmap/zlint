@@ -28,20 +28,20 @@ func TestPssInSPKI(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "Correct certificate without PSS OID in public key",
-			InputFilename:  "pssWithSHA256.pem",
+			Name:           "Correct certificate without RSASSA-PSS OID in public key",
+			InputFilename:  "rsassapssWithSHA256.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Certificate with PSS OID in public key",
-			InputFilename:  "pssInSPKI.pem",
+			Name:           "Certificate with RSASSA-PSS OID in public key",
+			InputFilename:  "rsassapssInSPKI.pem",
 			ExpectedResult: lint.Error,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_mp_pss_in_spki", tc.InputFilename)
+			result := test.TestLint("e_mp_rsassa-pss_in_spki", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
