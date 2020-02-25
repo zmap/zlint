@@ -86,7 +86,7 @@ Example ZLint CLI usage:
 	zlint -list-lints-source
 
 	echo "Lint mycert.pem with all of the lints except for ETSI ESI sourced lints"
-	zlint -excludeSources=ESTI_ESI mycert.pem
+	zlint -excludeSources=ETSI_ESI mycert.pem
 
 See `zlint -h` for all available command line options.
 
@@ -122,7 +122,7 @@ var certDER []byte = ...
 parsed, _ := x509.ParseCertificate(certDER)
 
 registry, _ := lint.GlobalRegistry().Filter(lint.FilterOptions{
-  ExcludeSources: lint.ETSI_ESI,
+  ExcludeSources: []lint.LintSource{lint.EtsiEsi},
 })
 zlintResultSet := zlint.LintCertificateEx(parsed, registry)
 ```
