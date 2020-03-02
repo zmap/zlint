@@ -1,7 +1,7 @@
 package mozilla
 
 /*
- * ZLint Copyright 2018 Regents of the University of Michigan
+ * ZLint Copyright 2020 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -73,7 +73,6 @@ func (l *rsaPssAidEncoding) CheckApplies(c *x509.Certificate) bool {
 
 func (l *rsaPssAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 	signatureAlgoID, err := util.GetSignatureAlgorithmInTBSEncoded(c)
-
 	if err != nil {
 		return &lint.LintResult{Status: lint.Error, Details: "error reading signatureAlgorithm from TBS"}
 	}
