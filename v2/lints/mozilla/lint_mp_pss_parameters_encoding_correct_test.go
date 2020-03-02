@@ -61,7 +61,7 @@ func TestPssAidEncoding(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_mp_rsassa-pss_parameters_encoding_correct", tc.InputFilename)
+			result := test.TestLint("e_mp_rsassa-pss_parameters_encoding_in_signature_algorithm_correct", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
