@@ -49,6 +49,7 @@ an explicit NULL.
 import (
 	"bytes"
 	"encoding/hex"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
