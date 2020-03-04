@@ -72,7 +72,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_qcstatem_psd2_policy_mandatory",
 		Description:   "Tests various requirements regarding policy identifiers of EU Qualified Certificates",
-		Citation:      "ETSI EN 319 412-4, ETSI EN 319 412-5, ETSI EN 319 411-2",
+		Citation:      "ETSI EN 319 411-2: GEN-6.6.1-05, ETSI EN 319 412-4: Clause 4.3, ETSI EN 319 412-5: Clause 5",
 		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2PolicyMandatory{},
