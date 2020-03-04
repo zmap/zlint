@@ -5,14 +5,21 @@ ZLint
 [![Go Report Card](https://goreportcard.com/badge/github.com/zmap/zlint)](https://goreportcard.com/report/github.com/zmap/zlint)
 
 ZLint is a X.509 certificate linter written in Go that checks for consistency
-with standards (e.g. [RFC 5280]) and PKI requirements (e.g., [CA/Browser Forum
-Baseline Requirements][BR v1.4.8]). It can be used as a command line tool or as
-a library integrated into CA software. [ZLint
-v2.0.0](https://github.com/zmap/zlint/tree/v2.0.0) is the latest stable
-release.
+with standards (e.g. [RFC 5280]) and other relevant PKI requirements (e.g.
+[CA/Browser Forum Baseline Requirements][BR v1.4.8]).
+
+It can be used as a command line tool or as a library integrated into CA
+software.
 
 [RFC 5280]: https://www.ietf.org/rfc/rfc5280.txt
 [BR v1.4.8]: https://cabforum.org/wp-content/uploads/CA-Browser-Forum-BR-1.4.8.pdf
+
+Requirements
+------------
+
+ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
+installed. The command line setup instructions assume the `go` command is in
+your `$PATH`.
 
 Lint Sources
 ------------
@@ -57,12 +64,8 @@ before finalizing a production ready release tag. We encourage users to test RC
 releases to provide feedback early enough for bugs to be addressed before the
 final release is made available.
 
-Requirements
-------------
 
-ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
-installed. The command line setup instructions assume the `go` command is in
-your `$PATH`.
+Command Line Usage
 ------------------
 
 ZLint can be used on the command-line through a simple bundled executable
