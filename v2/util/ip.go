@@ -33,7 +33,7 @@ const (
 	as112
 	amt
 	orchidV2
-	lisp // deprecated
+	_ // deprecated: lisp
 	thisHostOnThisNetwork
 	translatableAddress6to4
 	translatableAddress4to6
