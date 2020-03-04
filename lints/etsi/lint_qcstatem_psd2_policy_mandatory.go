@@ -40,7 +40,7 @@ func policyAndTypeAreConsistent(c *x509.Certificate, policy asn1.ObjectIdentifie
 	}
 	_, isQscdStmtPresent := util.IsQcStatemPresent(c, &util.IdEtsiQcsQcSSCD)
 	if util.HasCertPolicy(c, policy) && mustHaveQcStmtFour && !isQscdStmtPresent {
-		return "EU Qualified Certificate has policy indicating private key storage in QSCD, but the corresponding QC Statement 4 is missing (ETSI EN 319 412-4: \"Policy identifiers included in the certificate policies extension of EU Qualified Certificates shall be consistent with the EU Qualified Certificate Statements\")."
+		return "Policy indicating QSCD is present, but etsi4-qcStatement-4 is missing (ETSI EN 319 412-5: Clause 5, ETSI EN 319 412-5, Clause 4.2.2)"
 	}
 	if util.HasCertPolicy(c, policy) && !mustHaveQcStmtFour && isQscdStmtPresent {
 		return "EU Qualified Certificate does not feature the policy indicating private key storage in QSCD, but the corresponding QC Statement 4, indicating this, is present (ETSI EN 319 412-4: \"Policy identifiers included in the certificate policies extension of EU Qualified Certificates shall be consistent with the EU Qualified Certificate Statements\")."
