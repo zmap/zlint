@@ -43,7 +43,7 @@ func policyAndTypeAreConsistent(c *x509.Certificate, policy asn1.ObjectIdentifie
 		return "Policy indicating QSCD is present, but etsi4-qcStatement-4 is missing (ETSI EN 319 412-5: Clause 5, ETSI EN 319 412-5, Clause 4.2.2)"
 	}
 	if util.HasCertPolicy(c, policy) && !mustHaveQcStmtFour && isQscdStmtPresent {
-		return "EU Qualified Certificate does not feature the policy indicating private key storage in QSCD, but the corresponding QC Statement 4, indicating this, is present (ETSI EN 319 412-4: \"Policy identifiers included in the certificate policies extension of EU Qualified Certificates shall be consistent with the EU Qualified Certificate Statements\")."
+		return "ETSI EN 319 411-2: GEN-6.6.1-04:  The qcStatement for QSCD (esi4-qcStatement-4) shall not be included in certificates that are not issued according to [QCP-n-qscd] or [QCP-l-qscd] requirements"
 	}
 	return ""
 }
