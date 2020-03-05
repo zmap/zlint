@@ -73,6 +73,19 @@ func IsIANAReserved(ip net.IP) bool {
 	return false
 }
 
+// IntersectsIANAReserved checks if a CIDR intersects any IANA reserved CIDRs
+func IntersectsIANAReserved(net net.IPNet) bool {
+	if !net.IP.IsGlobalUnicast() {
+		return true
+	}
+	for _, reserved := range reservedNetworks {
+		if reserved.Contains(net.IP) || net.Contains(reserved.IP) {
+			return true
+		}
+	}
+	return false
+}
+
 func init() {
 	var networks = map[subnetCategory][]string{
 		privateUse:                           {"10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"},
