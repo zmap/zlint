@@ -15,7 +15,6 @@
 package apple
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -30,7 +29,6 @@ func (l *serverCertValidityTooLong) Initialize() error {
 }
 
 func (l *serverCertValidityTooLong) CheckApplies(c *x509.Certificate) bool {
-	fmt.Printf("Applicable? %v\n", util.IsServerAuthCert(c))
 	return util.IsServerAuthCert(c)
 }
 
