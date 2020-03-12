@@ -57,6 +57,11 @@ func TestPssAidEncoding(t *testing.T) {
 			InputFilename:  "rsassapssWithSHA512EmptyHashParams.pem",
 			ExpectedResult: lint.Error,
 		},
+		{
+			Name:           "Standard RSASSA-PSS with SHA256 but the salt length is 17 instead of 32",
+			InputFilename:  "rsassapssWithSHA256ButIrregularSaltLength.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 
 	for _, tc := range testCases {
