@@ -86,6 +86,50 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 	return errors.New("RSA algorithm appears correct, but didn't match byte-wise comparison")
 }
 
+// Returns the signature field of the tbsCertificate of this certificate in a DER encoded form or an error
+// if the signature field could not be extracted. The encoded form contains the tag and the length.
+//
+//    TBSCertificate  ::=  SEQUENCE  {
+//        version         [0]  EXPLICIT Version DEFAULT v1,
+//        serialNumber         CertificateSerialNumber,
+//        signature            AlgorithmIdentifier,
+//        issuer               Name,
+//        validity             Validity,
+//        subject              Name,
+//        subjectPublicKeyInfo SubjectPublicKeyInfo,
+//        issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
+//                             -- If present, version MUST be v2 or v3
+//        subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
+//                             -- If present, version MUST be v2 or v3
+//        extensions      [3]  EXPLICIT Extensions OPTIONAL
+//                             -- If present, version MUST be v3
+//        }
+func GetSignatureAlgorithmInTBSEncoded(c *x509.Certificate) ([]byte, error) {
+	input := cryptobyte.String(c.RawTBSCertificate)
+
+	var tbsCert cryptobyte.String
+	if !input.ReadASN1(&tbsCert, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading tbsCertificate")
+	}
+
+	if !tbsCert.SkipOptionalASN1(cryptobyte_asn1.Tag(0).Constructed().ContextSpecific()) {
+		return nil, errors.New("error reading tbsCertificate.version")
+	}
+
+	if !tbsCert.SkipASN1(cryptobyte_asn1.INTEGER) {
+		return nil, errors.New("error reading tbsCertificate.serialNumber")
+	}
+
+	var signatureAlgoID cryptobyte.String
+	var tag cryptobyte_asn1.Tag
+	// use ReadAnyElement to preserve tag and length octets
+	if !tbsCert.ReadAnyASN1Element(&signatureAlgoID, &tag) {
+		return nil, errors.New("error reading tbsCertificate.signature")
+	}
+
+	return signatureAlgoID, nil
+}
+
 // Returns the algorithm field of the SubjectPublicKeyInfo of the certificate or an error
 // if the algorithm field could not be extracted.
 //
