@@ -6676,7 +6676,7 @@ var tldMap = map[string]GTLDPeriod{
 	"vistaprint": {
 		GTLD:           "vistaprint",
 		DelegationDate: "2015-06-22",
-		RemovalDate:    "",
+		RemovalDate:    "2020-03-13",
 	},
 	"viva": {
 		GTLD:           "viva",
