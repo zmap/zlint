@@ -34,7 +34,6 @@ for f in "$CERTS_DIR"/*.pem; do
   fi
 
   # Prepend the test cert with its -text OpenSSL output.
-  openssl x509 -in "$f" -text -noout | \
-    cat - "$f" > "$TMP_DIR/$CERT_NAME.new" && \
-    mv "$TMP_DIR/$CERT_NAME.new" "$f"
+  openssl x509 -text -in "$f" -outform PEM -out "$TMP_DIR/$CERT_NAME.new" \
+    && mv "$TMP_DIR/$CERT_NAME.new" "$f"
 done
