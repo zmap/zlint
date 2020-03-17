@@ -36,7 +36,8 @@ func (l *serverCertValidityTooLong) Execute(c *x509.Certificate) *lint.LintResul
 	// "398 days is measured with a day being equal to 86,400 seconds. Any time
 	// greater than this indicates an additional day of validity."
 	dayLength := 86400 * time.Second
-	// "TLS server certificates issued on or after September 1, 2020 00:00 GMT/UTC must not have a validity period greater than 398 days."
+	// "TLS server certificates issued on or after September 1, 2020 00:00 GMT/UTC
+	// must not have a validity period greater than 398 days."
 	maxValidity := 398 * dayLength
 	// "We recommend that certificates be issued with a maximum validity of 397 days."
 	warnValidity := 397 * dayLength
@@ -60,9 +61,10 @@ func (l *serverCertValidityTooLong) Execute(c *x509.Certificate) *lint.LintResul
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:        "e_tls_server_cert_valid_time_longer_than_398_days",
-		Description: "TLS server certificates issued on or after September 1, 2020 00:00 GMT/UTC must not have a validity period greater than 398 days",
-		Citation:    "https://support.apple.com/en-us/HT211025",
+		Name: "e_tls_server_cert_valid_time_longer_than_398_days",
+		Description: "TLS server certificates issued on or after September 1, 2020 " +
+			"00:00 GMT/UTC must not have a validity period greater than 398 days",
+		Citation: "https://support.apple.com/en-us/HT211025",
 		// TODO(@cpu): The Source should be `lint.ApplePolicy` or something similar.
 		// The "CT" bit is too specific. Unfortunately since the constant is
 		// exported by the `util` package we can't change it without bumping the
