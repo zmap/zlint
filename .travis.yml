@@ -17,6 +17,8 @@ script:
   - make
   # Verify that all files pass the golangci-lint code lints
   - make code-lint
+  # Verify that all testdata files are prepended with text
+  - make testdata-lint
   # Run unit tests
   - make test
   # Run integration tests
