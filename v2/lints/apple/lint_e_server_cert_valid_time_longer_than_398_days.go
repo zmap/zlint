@@ -50,7 +50,10 @@ func (l *serverCertValidityTooLong) Execute(c *x509.Certificate) *lint.LintResul
 		return &lint.LintResult{Status: lint.Error}
 	} else if c.NotAfter.After(warnEndDate) {
 		return &lint.LintResult{
-			Status: lint.Notice,
+			// RFC 2119 has SHOULD and RECOMMENDED as equal. Since Apple recommends
+			// 397 days we treat this as a lint.Warn result as a violation of
+			// a SHOULD.
+			Status: lint.Warn,
 			Details: "Apple recommends that certificates be issued with a maximum " +
 				"validity of 397 days.",
 		}

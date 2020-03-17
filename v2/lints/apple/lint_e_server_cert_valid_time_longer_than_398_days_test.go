@@ -27,12 +27,12 @@ func TestServerCertValidityTooLong(t *testing.T) {
 		{
 			// Cert issued after Sept 1, 2020 with lifetime > 397 and < 398 days.
 			testCert: "eeServerCertValidOver397.pem",
-			expected: lint.Notice,
+			expected: lint.Warn,
 		},
 		{
 			// Cert issued after Sept 1, 2020 with lifetime == 398 days.
 			testCert: "eeServerCertValidEqual398.pem",
-			expected: lint.Notice,
+			expected: lint.Warn,
 		},
 		{
 			// Cert issued after Sept 1, 2020 with lifetime > 398 days.
