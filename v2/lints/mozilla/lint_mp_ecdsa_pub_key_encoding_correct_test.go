@@ -1,7 +1,7 @@
 package mozilla
 
 /*
- * ZLint Copyright 2018 Regents of the University of Michigan
+ * ZLint Copyright 2020 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestPssAidEncoding(t *testing.T) {
+func TestECDSAPubKeyAidEncoding(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string

@@ -1,3 +1,5 @@
+package cabf_br
+
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
  *
@@ -12,34 +14,27 @@
  * permissions and limitations under the License.
  */
 
-package PACKAGE
-
 import (
-	"github.com/zmap/zcrypto/x509"
+	"testing"
+
 	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
-type SUBST struct{}
-
-func (l *SUBST) Initialize() error {
-	return nil
+func TestNCIPNetReserved(t *testing.T) {
+	inputPath := "NCReservedIPNet.pem"
+	expected := lint.Error
+	out := test.TestLint("e_ext_nc_intersects_reserved_ip", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
 }
 
-func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
-}
-
-func (l *SUBST) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "SUBTEST",
-		Description:   "Fill this in...",
-		Citation:      "Fill this in...",
-		Source:        UnknownLintSource,
-		EffectiveDate: "Change this...",
-		Lint:          &SUBST{},
-	})
+func TestNCIPNetNotReserved(t *testing.T) {
+	inputPath := "NCValidIPNet.pem"
+	expected := lint.Pass
+	out := test.TestLint("e_ext_nc_intersects_reserved_ip", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
 }

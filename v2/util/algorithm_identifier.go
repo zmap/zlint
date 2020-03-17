@@ -105,7 +105,6 @@ func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn
 //                             -- If present, version MUST be v3
 //        }
 func GetSignatureAlgorithmInTBSEncoded(c *x509.Certificate) ([]byte, error) {
-
 	input := cryptobyte.String(c.RawTBSCertificate)
 
 	var tbsCert cryptobyte.String

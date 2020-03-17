@@ -1,7 +1,7 @@
 package mozilla
 
 /*
- * ZLint Copyright 2018 Regents of the University of Michigan
+ * ZLint Copyright 2020 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -49,6 +49,7 @@ an explicit NULL.
 import (
 	"bytes"
 	"encoding/hex"
+	"fmt"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
@@ -57,9 +58,12 @@ import (
 
 type ecdsaPubKeyAidEncoding struct{}
 
-var allowedAidEncodingsForECDSA = [2]string{
-	"301306072a8648ce3d020106082a8648ce3d030107",
-	"301006072a8648ce3d020106052b81040022"}
+var ecSPKIAlgorithmIDToDER = [2][]byte{
+	// encoded AlgorithmIdentifier for a P-256 key
+	{0x30, 0x13, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07},
+	// encoded AlgorithmIdentifier for a P-384 key
+	{0x30, 0x10, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x22},
+}
 
 func (l *ecdsaPubKeyAidEncoding) Initialize() error {
 	return nil
@@ -77,20 +81,19 @@ func (l *ecdsaPubKeyAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error, Details: "error reading public key algorithm identifier from TBS"}
 	}
 
-	for _, encoding := range allowedAidEncodingsForECDSA {
-		expectedEncoding, _ := hex.DecodeString(encoding)
-		if bytes.Equal(encodedPublicKey, expectedEncoding) {
+	for _, encoding := range ecSPKIAlgorithmIDToDER {
+		if bytes.Equal(encodedPublicKey, encoding) {
 			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
 
-	return &lint.LintResult{Status: lint.Error, Details: "Wrong encoding of ECC public key"}
+	return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Wrong encoding of ECC public key. Got the unsupported %s", hex.EncodeToString(encodedPublicKey))}
 }
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_mp_ecdsa_pub_key_encoding_correct",
-		Description:   "The encoded algorithm identifiers for ECDSA public keys MUST match specific hex-encoded bytes",
+		Description:   "The encoded algorithm identifiers for ECDSA public keys MUST match specific bytes",
 		Citation:      "Mozilla Root Store Policy / Section 5.1.2",
 		Source:        lint.MozillaRootStorePolicy,
 		EffectiveDate: util.MozillaPolicy27Date,

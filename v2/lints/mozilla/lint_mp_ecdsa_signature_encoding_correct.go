@@ -1,7 +1,7 @@
 package mozilla
 
 /*
- * ZLint Copyright 2018 Regents of the University of Michigan
+ * ZLint Copyright 2020 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -50,6 +50,7 @@ import (
 	"bytes"
 	"encoding/asn1"
 	"encoding/hex"
+	"fmt"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
@@ -94,23 +95,23 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 	// Seq Tag+Length = 2, r Tag+length = 2, s Tag+length =2, r max 32+1 (unsigned representation), same for s
 	// len <= 2+2+2+33+33 (= 72)
 	if signatureSize <= 72 {
-		expectedEncoding, _ := hex.DecodeString("300a06082a8648ce3d040302")
+		expectedEncoding := []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x02}
 
 		if bytes.Equal(encoded, expectedEncoding) {
 			return &lint.LintResult{Status: lint.Pass}
 		} else {
-			return &lint.LintResult{Status: lint.Error, Details: "Encoding of signature algorithm does not match signing key on P-256 curve"}
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key on P-256 curve. Got the unsupported %s", hex.EncodeToString(encoded))}
 		}
 	} else if signatureSize <= 104 { //2+2+2+49+49
-		expectedEncoding, _ := hex.DecodeString("300a06082a8648ce3d040303")
+		expectedEncoding := []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x03}
 
 		if bytes.Equal(encoded, expectedEncoding) {
 			return &lint.LintResult{Status: lint.Pass}
 		} else {
-			return &lint.LintResult{Status: lint.Error, Details: "Encoding of signature algorithm does not match signing key on P-384 curve"}
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key on P-384 curve. Got the unsupported %s", hex.EncodeToString(encoded))}
 		}
 	} else {
-		return &lint.LintResult{Status: lint.Error, Details: "Encoding of signature algorithm does not match signing key"}
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key. Got signature length %v", signatureSize)}
 	}
 }
 

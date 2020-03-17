@@ -21,47 +21,52 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestECDSASignatureAidEncoding(t *testing.T) {
+func TestPssAidEncoding(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "Standard ECC certificate with a P-256 key signed by a P-256 key using SHA256withECDSA",
-			InputFilename:  "eccP256.pem",
+			Name:           "Standard RSASSA-PSS with SHA256",
+			InputFilename:  "rsassapssWithSHA256.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Standard ECC certificate with a P-384 key signed by a P-384 key using SHA384withECDSA",
-			InputFilename:  "eccP384.pem",
+			Name:           "Standard RSASSA-PSS with SHA256 but the hash parameters are empty instead of NULL",
+			InputFilename:  "rsassapssWithSHA256EmptyHashParams.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "Standard RSASSA-PSS with SHA384",
+			InputFilename:  "rsassapssWithSHA384.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Standard ECC certificate signed by a P-384 key using SHA256withECDSA",
-			InputFilename:  "eccSignedWithP384ButSHA256Signature.pem",
+			Name:           "Standard RSASSA-PSS with SHA384 but the hash parameters are empty instead of NULL",
+			InputFilename:  "rsassapssWithSHA384EmptyHashParams.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "Certificate signed with RSA",
-			InputFilename:  "evAllGood.pem",
-			ExpectedResult: lint.NA,
+			Name:           "Standard RSASSA-PSS with SHA512",
+			InputFilename:  "rsassapssWithSHA512.pem",
+			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Standard ECC certificate with a P-256 key signed by a P-256 key using SHA512withECDSA",
-			InputFilename:  "eccSignedWithSHA512Signature.pem",
+			Name:           "Standard RSASSA-PSS with SHA512 but the hash parameters are empty instead of NULL",
+			InputFilename:  "rsassapssWithSHA512EmptyHashParams.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "Standard ECC certificate with a secp521r1 key signed by a secp521r1 key using SHA512withECDSA",
-			InputFilename:  "eccWithSecp521r1KeySignedWithSHA512Signature.pem",
+			Name:           "Standard RSASSA-PSS with SHA256 but the salt length is 17 instead of 32",
+			InputFilename:  "rsassapssWithSHA256ButIrregularSaltLength.pem",
 			ExpectedResult: lint.Error,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_mp_ecdsa_signature_encoding_correct", tc.InputFilename)
+			result := test.TestLint("e_mp_rsassa-pss_parameters_encoding_in_signature_algorithm_correct", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
