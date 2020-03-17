@@ -12,6 +12,7 @@ install:
 script:
   # Fast-fail on non-zero exit codes
   - set -e
+  - cd v2
   # Build commands
   - make
   # Verify that all files pass the golangci-lint code lints
@@ -20,6 +21,16 @@ script:
   - make test
   # Run integration tests
   - make integration PARALLELISM=3
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: curl -sL https://git.io/goreleaser | bash
+    api_key: $GITHUB_AUTH_TOKEN
+    draft: true
+    on:
+      repo: zmap/zlint
+      tags: true
 
 notifications:
   email:
