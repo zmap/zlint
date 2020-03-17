@@ -71,7 +71,7 @@ func init() {
 		// TODO(@cpu): The Source should be `lint.ApplePolicy` or something similar.
 		// The "CT" bit is too specific. Unfortunately since the constant is
 		// exported by the `util` package we can't change it without bumping the
-		// major version.
+		// major version. See https://github.com/zmap/zlint/issues/418
 		Source:        lint.AppleCTPolicy,
 		EffectiveDate: util.AppleReducedLifetimeDate,
 		Lint:          &serverCertValidityTooLong{},
