@@ -4381,7 +4381,7 @@ var tldMap = map[string]GTLDPeriod{
 	"nadex": {
 		GTLD:           "nadex",
 		DelegationDate: "2015-05-02",
-		RemovalDate:    "",
+		RemovalDate:    "2020-03-27",
 	},
 	"nagoya": {
 		GTLD:           "nagoya",
