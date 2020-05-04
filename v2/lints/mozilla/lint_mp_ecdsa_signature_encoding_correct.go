@@ -17,20 +17,6 @@ package mozilla
 /************************************************
 https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
 
-When ECDSA keys are encoded in a SubjectPublicKeyInfo structure, the algorithm field MUST be one of the following, as
-specified by RFC 5480, Section 2.1.1:
-
-The encoded AlgorithmIdentifier for a P-256 key MUST match the following hex-encoded
-bytes: > 301306072a8648ce3d020106082a8648ce3d030107.
-
-The encoded AlgorithmIdentifier for a P-384 key MUST match the following hex-encoded
-bytes: > 301006072a8648ce3d020106052b81040022.
-
-The above encodings consist of an ecPublicKey OID (1.2.840.10045.2.1) with a named curve parameter of the corresponding
-curve OID. Certificates MUST NOT use the implicit or specified curve forms.
-
-This lint covers the next part. The previous part is covered by e_mp_ecdsa_pub_key_encoding_correct.
-
 When a root or intermediate certificate's ECDSA key is used to produce a signature, only the following algorithms may
 be used, and with the following encoding requirements:
 
