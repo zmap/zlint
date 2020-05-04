@@ -80,8 +80,8 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 	// Thus we need the issuer public key which it is not available so easy.
 	// At this stage all certificates (also of sub-CAs and root-CAs, provided they are linted) are either
 	// P-256 or P-384 (see lint e_mp_ecdsa_pub_key_encoding_correct).
-	// Therefore we check the length of the signature in the certificate. If it is less that 72 bytes then it is
-	// done by a P-256 key and if it is less than 104 bytes it is done by a P-384.
+	// Therefore we check the length of the signature in the certificate. If it is 0 ... 72 bytes then it is
+	// assumed done by a P-256 key and if it is 73 ... 104 bytes it is assumed done by a P-384 key.
 
 	signature := c.Signature
 	signatureSize := len(signature)
