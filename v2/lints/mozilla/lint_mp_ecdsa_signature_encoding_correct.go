@@ -72,7 +72,6 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 	signature := c.Signature
 	signatureSize := len(signature)
 	encoded, err := util.GetSignatureAlgorithmInTBSEncoded(c)
-
 	if err != nil {
 		return &lint.LintResult{Status: lint.Error, Details: "error reading signatureAlgorithm from TBS"}
 	}
