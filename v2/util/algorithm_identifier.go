@@ -13,6 +13,7 @@ import (
 
 // additional OIDs not provided by the x509 package
 var (
+	// 1.2.840.10045.4.3.1 is SHA224withECDSA
 	OidSignatureSHA224withECDSA = asn1.ObjectIdentifier{1, 2, 840, 10045, 4, 3, 1}
 )
 
