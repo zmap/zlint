@@ -74,7 +74,6 @@ func (l *ecdsaPubKeyAidEncoding) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *ecdsaPubKeyAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
-
 	encodedPublicKey, err := util.GetPublicKeyAidEncoded(c)
 	if err != nil {
 		return &lint.LintResult{Status: lint.Error, Details: "error reading public key algorithm identifier from TBS"}
