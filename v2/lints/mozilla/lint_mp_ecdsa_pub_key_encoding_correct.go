@@ -74,7 +74,7 @@ func (l *ecdsaPubKeyAidEncoding) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *ecdsaPubKeyAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
-	encodedPublicKey, err := util.GetPublicKeyAidEncoded(c)
+	encodedPublicKeyAid, err := util.GetPublicKeyAidEncoded(c)
 	if err != nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
@@ -83,12 +83,12 @@ func (l *ecdsaPubKeyAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	for _, encoding := range acceptedAlgIDEncodingsDER {
-		if bytes.Equal(encodedPublicKey, encoding) {
+		if bytes.Equal(encodedPublicKeyAid, encoding) {
 			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
 
-	return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Wrong encoding of ECC public key. Got the unsupported %s", hex.EncodeToString(encodedPublicKey))}
+	return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Wrong encoding of ECC public key. Got the unsupported %s", hex.EncodeToString(encodedPublicKeyAid))}
 }
 
 func init() {
