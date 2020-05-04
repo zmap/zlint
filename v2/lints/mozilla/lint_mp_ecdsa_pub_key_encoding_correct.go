@@ -58,7 +58,7 @@ import (
 
 type ecdsaPubKeyAidEncoding struct{}
 
-var ecSPKIAlgorithmIDToDER = [2][]byte{
+var acceptedAlgIDEncodingsDER = [2][]byte{
 	// encoded AlgorithmIdentifier for a P-256 key
 	{0x30, 0x13, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07},
 	// encoded AlgorithmIdentifier for a P-384 key
@@ -77,12 +77,12 @@ func (l *ecdsaPubKeyAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 	encodedPublicKey, err := util.GetPublicKeyAidEncoded(c)
 	if err != nil {
 		return &lint.LintResult{
-			Status: lint.Error, 
-			Details: fmt.Sprintf("error reading public key algorithm identifier: %v",err),
+			Status:  lint.Error,
+			Details: fmt.Sprintf("error reading public key algorithm identifier: %v", err),
 		}
 	}
 
-	for _, encoding := range ecSPKIAlgorithmIDToDER {
+	for _, encoding := range acceptedAlgIDEncodingsDER {
 		if bytes.Equal(encodedPublicKey, encoding) {
 			return &lint.LintResult{Status: lint.Pass}
 		}

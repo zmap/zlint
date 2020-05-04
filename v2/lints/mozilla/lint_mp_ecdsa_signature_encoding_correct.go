@@ -91,10 +91,14 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 		return &lint.LintResult{Status: lint.Error, Details: "error reading signatureAlgorithm from TBS"}
 	}
 
-	// Signatures made with P-256 are not going to be greater that 72 bytes long
+	// Signatures made with P-256 are not going to be greater than 72 bytes long
 	// Seq Tag+Length = 2, r Tag+length = 2, s Tag+length = 2, r max 32+1 (unsigned representation), same for s
 	// len <= 2+2+2+33+33 (= 72)
-	if signatureSize <= 72 {
+	const maxP256SigByteLen = 72
+	// len <= 2+2+2+49+49 (= 104)
+	const maxP384SigByteLen = 104
+
+	if signatureSize <= maxP256SigByteLen {
 		expectedEncoding := []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x02}
 
 		if bytes.Equal(encoded, expectedEncoding) {
@@ -102,7 +106,7 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 		} else {
 			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key on P-256 curve. Got the unsupported %s", hex.EncodeToString(encoded))}
 		}
-	} else if signatureSize <= 104 { //2+2+2+49+49
+	} else if signatureSize <= maxP384SigByteLen {
 		expectedEncoding := []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x03}
 
 		if bytes.Equal(encoded, expectedEncoding) {
