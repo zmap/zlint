@@ -64,7 +64,7 @@ func (l *ecdsaSignatureAidEncoding) Initialize() error {
 }
 
 func (l *ecdsaSignatureAidEncoding) CheckApplies(c *x509.Certificate) bool {
-	// check for all ECDSA signatures to avoid missing this lint if an unsupported algorithm is used on the first place
+	// check for all ECDSA signature algorithms to avoid missing this lint if an unsupported algorithm is used in the first place
 	// 1.2.840.10045.4.3.1 is SHA224withECDSA
 	return c.SignatureAlgorithm == x509.ECDSAWithSHA1 ||
 		c.SignatureAlgorithm == x509.ECDSAWithSHA256 ||
