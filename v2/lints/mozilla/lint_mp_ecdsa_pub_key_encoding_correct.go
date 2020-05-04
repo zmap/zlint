@@ -29,21 +29,6 @@ bytes: > 301006072a8648ce3d020106052b81040022.
 The above encodings consist of an ecPublicKey OID (1.2.840.10045.2.1) with a named curve parameter of the corresponding
 curve OID. Certificates MUST NOT use the implicit or specified curve forms.
 
-This lint covers the previous part. Next part is covered by e_mp_ecdsa_signature_encoding_correct.
-
-When a root or intermediate certificate's ECDSA key is used to produce a signature, only the following algorithms may
-be used, and with the following encoding requirements:
-
-If the signing key is P-256, the signature MUST use ECDSA with SHA-256. The encoded AlgorithmIdentifier MUST match the
-following hex-encoded bytes: 300a06082a8648ce3d040302.
-
-If the signing key is P-384, the signature MUST use ECDSA with SHA-384. The encoded AlgorithmIdentifier MUST match the
-following hex-encoded bytes: 300a06082a8648ce3d040303.
-
-The above encodings consist of the corresponding OID with the parameters field omitted, as specified by RFC 5758,
-Section 3.2. Certificates MUST NOT include a NULL parameter. Note this differs from RSASSA-PKCS1-v1_5, which includes
-an explicit NULL.
-
 ************************************************/
 
 import (
