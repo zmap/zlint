@@ -11,6 +11,11 @@ import (
 	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
 
+// additional OIDs not provided by the x509 package
+var (
+	OidSignatureSHA224withECDSA = asn1.ObjectIdentifier{1, 2, 840, 10045, 4, 3, 1}
+)
+
 // RSAAlgorithmIDToDER contains DER representations of pkix.AlgorithmIdentifier for different RSA OIDs with Parameters as asn1.NULL
 var RSAAlgorithmIDToDER = map[string][]byte{
 	// rsaEncryption
