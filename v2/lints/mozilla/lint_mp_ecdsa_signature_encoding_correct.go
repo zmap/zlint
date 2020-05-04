@@ -92,7 +92,7 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 	}
 
 	// Signatures made with P-256 are not going to be greater that 72 bytes long
-	// Seq Tag+Length = 2, r Tag+length = 2, s Tag+length =2, r max 32+1 (unsigned representation), same for s
+	// Seq Tag+Length = 2, r Tag+length = 2, s Tag+length = 2, r max 32+1 (unsigned representation), same for s
 	// len <= 2+2+2+33+33 (= 72)
 	if signatureSize <= 72 {
 		expectedEncoding := []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x02}
