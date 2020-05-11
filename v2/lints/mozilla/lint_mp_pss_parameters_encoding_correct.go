@@ -77,7 +77,7 @@ func (l *rsaPssAidEncoding) CheckApplies(c *x509.Certificate) bool {
 func (l *rsaPssAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 	signatureAlgoID, err := util.GetSignatureAlgorithmInTBSEncoded(c)
 	if err != nil {
-		return &lint.LintResult{Status: lint.Error, Details: "error reading signatureAlgorithm from TBS"}
+		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
 	}
 
 	for _, encoding := range RSASSAPSSAlgorithmIDToDER {
