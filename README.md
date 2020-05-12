@@ -64,6 +64,10 @@ before finalizing a production ready release tag. We encourage users to test RC
 releases to provide feedback early enough for bugs to be addressed before the
 final release is made available.
 
+Release candidates and releases will be announced on the
+[ZLint Announcements](https://groups.google.com/forum/#!forum/zlint-announcements)
+mailing list.
+
 
 Command Line Usage
 ------------------
