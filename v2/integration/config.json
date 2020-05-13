@@ -360,6 +360,7 @@
       "ErrCount": 130
     },
     "e_ext_name_constraints_not_in_ca": {},
+    "e_ext_nc_intersects_reserved_ip": {},
     "e_ext_policy_constraints_empty": {},
     "e_ext_policy_constraints_not_critical": {},
     "e_ext_policy_map_any_policy": {},
@@ -422,6 +423,8 @@
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 135
     },
+    "e_mp_ecdsa_pub_key_encoding_correct": {},
+    "e_mp_ecdsa_signature_encoding_correct": {},
     "e_mp_exponent_cannot_be_one": {},
     "e_mp_modulus_must_be_2048_bits_or_more": {
       "ErrCount": 1
@@ -429,6 +432,8 @@
     "e_mp_modulus_must_be_divisible_by_8": {
       "ErrCount": 21
     },
+    "e_mp_rsassa-pss_in_spki": {},
+    "e_mp_rsassa-pss_parameters_encoding_in_signature_algorithm_correct": {},
     "e_name_constraint_empty": {},
     "e_name_constraint_maximum_not_absent": {},
     "e_name_constraint_minimum_non_zero": {},
@@ -533,7 +538,7 @@
       "ErrCount": 95
     },
     "e_sub_cert_locality_name_must_not_appear": {
-      "ErrCount": 23
+      "ErrCount": 13
     },
     "e_sub_cert_not_is_ca": {
       "ErrCount": 1
@@ -541,18 +546,14 @@
     "e_sub_cert_or_sub_ca_using_sha1": {
       "ErrCount": 12
     },
-    "e_sub_cert_postal_code_must_not_appear": {
-      "ErrCount": 8
-    },
+    "e_sub_cert_postal_code_must_not_appear": {},
     "e_sub_cert_province_must_appear": {
       "ErrCount": 95
     },
     "e_sub_cert_province_must_not_appear": {
-      "ErrCount": 16
-    },
-    "e_sub_cert_street_address_should_not_exist": {
       "ErrCount": 8
     },
+    "e_sub_cert_street_address_should_not_exist": {},
     "e_sub_cert_valid_time_longer_than_39_months": {
       "ErrCount": 109
     },
@@ -609,6 +610,7 @@
     "e_tbs_signature_rsa_encryption_parameter_not_null": {
       "ErrCount": 96
     },
+    "e_tls_server_cert_valid_time_longer_than_398_days": {},
     "e_utc_time_does_not_include_seconds": {
       "ErrCount": 1
     },
