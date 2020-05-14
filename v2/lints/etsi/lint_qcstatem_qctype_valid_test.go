@@ -23,8 +23,6 @@ import (
 
 func TestEtsiQcType(t *testing.T) {
 	m := map[string]lint.LintStatus{
-		"QcStmtEtsiMissingSeqForQcTypesCert18.pem": lint.Error,
-		"QcStmtEtsiMissingOidCert09.pem":           lint.Error,
 		"QcStmtEtsiValidCert03.pem":                lint.Pass,
 		"QcStmtEtsiValidCert11.pem":                lint.Pass,
 		"QcStmtEtsiValidAddLangCert13.pem":         lint.Pass,

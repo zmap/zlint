@@ -24,7 +24,6 @@ import (
 func TestEtsiQcCompliance(t *testing.T) {
 	m := map[string]lint.LintStatus{
 		"QcStmtEtsiQcComplWithNonEmptyStmtInfoCert19.pem": lint.Error,
-		"QcStmtEtsiWrongEncodingCert01.pem":               lint.Error,
 		"QcStmtEtsiValidCert03.pem":                       lint.Pass,
 		"QcStmtEtsiEsealValidCert02.pem":                  lint.Pass,
 		"QcStmtEtsiTwoQcTypesCert15.pem":                  lint.Pass,
