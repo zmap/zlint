@@ -24,7 +24,6 @@ import (
 func TestEtsiTypeAsQcStmt(t *testing.T) {
 	m := map[string]lint.LintStatus{
 		"QcStmtEtsiQcTypeAsQcStmtCert10.pem": lint.Error,
-		"QcStmtEtsiTaggedValueCert20.pem":    lint.Error,
 		"QcStmtEtsiValidCert03.pem":          lint.Pass,
 		"QcStmtEtsiEsealValidCert02.pem":     lint.Pass,
 		"QcStmtEtsiTwoQcTypesCert15.pem":     lint.Pass,
