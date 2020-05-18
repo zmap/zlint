@@ -5,12 +5,14 @@ ZLint
 [![Go Report Card](https://goreportcard.com/badge/github.com/zmap/zlint)](https://goreportcard.com/report/github.com/zmap/zlint)
 
 ZLint is a X.509 certificate linter written in Go that checks for consistency
-with [RFC 5280](https://www.ietf.org/rfc/rfc5280.txt) and the CA/Browser Forum
-Baseline Requirements
-([v.1.4.8](https://cabforum.org/wp-content/uploads/CA-Browser-Forum-BR-1.4.8.pdf)).
+with standards (e.g. [RFC 5280]) and other relevant PKI requirements (e.g.
+[CA/Browser Forum Baseline Requirements][BR v1.4.8]).
 
-A detailed list of BR coverage can be found here:
-https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00e-Y.
+It can be used as a command line tool or as a library integrated into CA
+software.
+
+[RFC 5280]: https://www.ietf.org/rfc/rfc5280.txt
+[BR v1.4.8]: https://cabforum.org/wp-content/uploads/CA-Browser-Forum-BR-1.4.8.pdf
 
 Requirements
 ------------
@@ -19,13 +21,56 @@ ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
 installed. The command line setup instructions assume the `go` command is in
 your `$PATH`.
 
-Versioning
-----------
+Lint Sources
+------------
+
+Historically ZLint was focused on only [RFC 5280] and [v1.4.8][BR v1.4.8] of the
+[CA/Browser Forum baseline requirements][BRs]. A detailed list of the original
+BR coverage can be found [in this spreadsheet][Coverage Spreadsheet].
+
+More recently ZLint has been restructured to make it easier to add lints based
+on other sources. While not complete, presently ZLint has lints sourced from:
+
+* [CA/Browser Forum EV SSL Certificate Guidelines][CABF EV]
+* [ETSI ESI]
+* [Mozilla's PKI policy][MozPolicy]
+* [Apple's CT policy][AppleCT]
+* Various RFCs (e.g. [RFC 6818], [RFC 4055], [RFC 8399])
+
+By default ZLint will apply applicable lints from all sources but consumers may
+also customize which lints are used by including/exclduing specific sources.
+
+[BRs]: https://cabforum.org/baseline-requirements-documents/
+[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00e-Y
+[CABF EV]: https://cabforum.org/extended-validation/
+[MozPolicy]: https://github.com/mozilla/pkipolicy
+[ETSI ESI]: https://www.etsi.org/technologies/digital-signature
+[AppleCT]: https://support.apple.com/en-us/HT205280
+[RFC 6818]: https://www.ietf.org/rfc/rfc6818.txt
+[RFC 4055]: https://www.ietf.org/rfc/rfc4055.txt
+[RFC 8399]: https://www.ietf.org/rfc/rfc8399.txt
+
+
+Versioning and Releases
+-----------------------
 
 ZLint aims to follow [semantic versioning](https://semver.org/). The addition of
 new lints will generally result in a MINOR version revision. Since downstream
 projects depend on lint results and names for policy decisions changes of this
 nature will result in MAJOR version revision.
+
+Where possible we will try to make available a release candidate (RC) a week
+before finalizing a production ready release tag. We encourage users to test RC
+releases to provide feedback early enough for bugs to be addressed before the
+final release is made available.
+
+Please subscribe to the [ZLint Announcements][zlint-announce] mailing list to
+receive notifications of new releases/release candidates. This low-volumne
+announcements mailing list is only used for new ZLint releases and major
+project announcements, not questions/support/bug reports.
+
+[zlint-announce]:  https://groups.google.com/forum/#!forum/zlint-announcements
+
 
 Command Line Usage
 ------------------
@@ -37,158 +82,70 @@ command-line certificate parser that links against ZLint.
 
 Example ZLint CLI usage:
 
-	go get github.com/zmap/zlint/cmd/zlint
+	go get github.com/zmap/zlint/v2/cmd/zlint
+	echo "Lint mycert.pem with all applicable lints"
 	zlint mycert.pem
+
+	echo "Lint mycert.pem with just the two named lints"
+	zlint -includeNames=e_mp_exponent_cannot_be_one,e_mp_modulus_must_be_divisible_by_8 mycert.pem
+
+	echo "List available lint sources"
+	zlint -list-lints-source
+
+	echo "Lint mycert.pem with all of the lints except for ETSI ESI sourced lints"
+	zlint -excludeSources=ETSI_ESI mycert.pem
+
+See `zlint -h` for all available command line options.
 
 
 Library Usage
 -------------
 
-ZLint can also be used as a library:
+ZLint can also be used as a library. To lint a certificate with all applicable
+lints is as simple as using `zlint.LintCertificate` with a parsed certificate:
 
 ```go
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint"
+	"github.com/zmap/zlint/v2"
 )
 
-parsed, err := x509.ParseCertificate(raw)
-if err != nil {
-	// The certificate could not be parsed. Either error or halt.
-	log.Fatalf("could not parse certificate: %s", err)
-}
+var certDER []byte = ...
+parsed, _ := x509.ParseCertificate(certDER)
 zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
+To lint a certificate with a subset of lints (e.g. based on lint source, or
+name) filter the global lint registry and use it with `zlint.LintCertificateEx`:
 
-See https://github.com/zmap/zlint/blob/master/cmd/zlint/main.go for an example.
+```go
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v2"
+	"github.com/zmap/zlint/v2/lint"
+)
+
+var certDER []byte = ...
+parsed, _ := x509.ParseCertificate(certDER)
+
+registry, _ := lint.GlobalRegistry().Filter(lint.FilterOptions{
+  ExcludeSources: []lint.LintSource{lint.EtsiEsi},
+})
+zlintResultSet := zlint.LintCertificateEx(parsed, registry)
+```
+
+See [the `zlint` command][zlint cmd]'s source code for an example.
+
+[zlint cmd]: https://github.com/zmap/zlint/blob/master/v2/cmd/zlint/main.go
 
 
-Adding New Lints
+Extending ZLint
 ----------------
 
-**Generating Lint Scaffolding.** The scaffolding for a new lints can be created
-by running `./newLint.sh <lint_name> <structName>`. Lint names are generally of
-the form `e_subject_common_name_not_from_san` where the first letter is one of:
-`e`, `w`, or `n` (error, warning, or notice respectively). Struct names
-following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Example:
-`./newLint.sh e_subject_common_name_not_from_san subjectCommonNameNotFromSAN`.
-This will generate a new lint in the `lints` directory with the necessary
-fields filled out.
+For information on extending ZLint with new lints see [CONTRIBUTING.md]
 
-**Choosing a Lint Result Level.** When choosing what `lints.LintStatus` your new
-lint should return (e.g. `Notice`,`Warn`, `Error`, or `Fatal`) the following
-general guidance may help. `Error` should be used for clear violations of RFC/BR
-`MUST` or `MUST NOT` requirements and include strong citations. `Warn` should be
-used for violations of RFC/BR `SHOULD` or `SHOULD NOT` requirements and again
-should include strong citations. `Notice` should be used for more general "FYI"
-statements that violate non-codified community standards or for cases where
-citations are unclear. Lastly `Fatal` should be used when there is an
-unresolvable error in `zlint`, `zcrypto` or some other part of the certificate
-processing.
+[CONTRIBUTING.md]: https://github.com/zmap/zlint/blob/master/CONTRIBUTING.md
 
-**Scoping a Lint.** Lints are executed in three steps. First, the ZLint
-framework determines whether a certificate falls within the scope of a given
-lint by calling `CheckApplies`. This is often used to scope lints to only check
-subscriber, intermediate CA, or root CAs. This function commonly calls one of a
-select number of helper functions: `IsCA`, `IsSubscriber`, `IsExtInCert`, or
-`DNSNamesExist`. Example:
-
-```go
-func (l *caCRLSignNotSet) CheckApplies(c *x509.Certificate) bool {
-	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
-}
-```
-
-Next, the framework determines whether the certificate was issued after the
-effective date of a Lint by checking whether the certificate was issued prior
-to the lint's `EffectiveDate`. You'll also need to fill out the source and
-description of what the lint is checking. We encourage you to copy text
-directly from the BR or RFC here. Example:
-
-```go
-func init() {
-	RegisterLint(&Lint{
-		Name:          "e_ca_country_name_missing",
-		Description:   "Root and Subordinate CA certificates MUST have a countryName present in subject information",
-		Citation:      "BRs: 7.1.2.1",
-		EffectiveDate: util.CABEffectiveDate,
-		Test:          &caCountryNameMissing{},
-	})
-}
-```
-
-The meat of the lint is contained within the `RunTest` function, which is
-passed `x509.Certificate`. **Note:** This is an X.509 object from
-[ZCrypto](https://github.com/zmap/zcrypto) not the Go standard library. Lints
-should perform their described test and then return a `ResultStruct` that
-contains a Result and optionally a `Details` string, e.g.,
-`ResultStruct{Result: Pass}`. If you encounter a situation in which you
-typically would return a Go `error` object, instead return
-`ResultStruct{Result: Fatal}`.
-
-Example:
-
-```go
-func (l *caCRLSignNotSet) RunTest(c *x509.Certificate) *ResultStruct {
-	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		return &ResultStruct{Result: Pass}
-	}
-	return &ResultStruct{Result: Error}
-}
-```
-
-**Creating Unit Tests.** Every lint should also have two corresponding unit
-tests for a success and failure condition. We have typically generated test
-certificates using Go (see https://golang.org/pkg/crypto/x509/#CreateCertificate
-for details), but OpenSSL could also be used. Test certificates should be placed
-in `testlint/testCerts` and called from the test file created by `newLint.sh`.
-Prepend the PEM with the output of `openssl x509 -text`.
-
-Example:
-
-```go
-func TestBasicConstNotCritical(t *testing.T) {
-	// Only need to change these two values and the lint name
-	inputPath := "../../testlint/testCerts/caBasicConstNotCrit.pem"
-	expected := Error
-	out, _ := Lints["e_basic_constraints_not_critical"].ExecuteTest(ReadCertificate(inputPath))
-	if out.Result != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-```
-
-**Integration Tests.** ZLint's [continuous
-integration](https://travis-ci.org/zmap/zlint) includes an integration test
-phase where all lints are run against a large corpus of certificates. The number
-of notice, warning, error and fatal results for each lint are captured and
-compared to a set of expected values in a configuration file. You may need to
-update these expected values when you add/change lints. Please see the
-[integration tests
-README](https://github.com/zmap/zlint/blob/master/integration/README.md) for
-more information.
-
-**Submitting Lints for Review.** We strongly prefer multiple small pull
-requests (PR), each of which contain a single lint or a small handful of lints,
-over a single large PR. This allows for better code review, faster turnaround
-times on comments and merging, as well as for contributors to learn from any
-requested changes in the initial round of review. We are happy to wait to cut
-new a version of ZLint until a set of PRs have been approved and merged.
-
-Updating the TLD Map
---------------------
-
-ZLint maintains [a map of
-top-level-domains](https://github.com/zmap/zlint/blob/master/util/gtld_map.go)
-and their validity periods that is referenced by linters. As ICANN adds and
-removes TLDs this map need to be updated. To do so, ensure the
-`zlint-gtld-update` command is installed and in your `$PATH` and run `go
-generate`:
-
-	go get github.com/zmap/zlint/cmd/zlint-gtld-update
-	go generate github.com/zmap/zlint/...
 
 Zlint Users/Integrations
 -------------------------
@@ -213,6 +170,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
+
 
 License and Copyright
 ---------------------
