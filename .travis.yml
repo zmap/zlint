@@ -3,23 +3,36 @@ language: go
 dist: trusty
 
 go:
-  - "1.13.x"
+  - "1.14.x"
 
 install:
   # Install `golangci-lint` using the installer script
-  - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.21.0
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.21.0
 
 script:
   # Fast-fail on non-zero exit codes
   - set -e
+  - cd v2
   # Build commands
   - make
   # Verify that all files pass the golangci-lint code lints
   - make code-lint
+  # Verify that all testdata files are prepended with text
+  - make testdata-lint
   # Run unit tests
   - make test
   # Run integration tests
   - make integration PARALLELISM=3
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: curl -sL https://git.io/goreleaser | bash
+    api_key: $GITHUB_AUTH_TOKEN
+    draft: true
+    on:
+      repo: zmap/zlint
+      tags: true
 
 notifications:
   email:
