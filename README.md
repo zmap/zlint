@@ -64,6 +64,13 @@ before finalizing a production ready release tag. We encourage users to test RC
 releases to provide feedback early enough for bugs to be addressed before the
 final release is made available.
 
+Please subscribe to the [ZLint Announcements][zlint-announce] mailing list to
+receive notifications of new releases/release candidates. This low-volumne
+announcements mailing list is only used for new ZLint releases and major
+project announcements, not questions/support/bug reports.
+
+[zlint-announce]:  https://groups.google.com/forum/#!forum/zlint-announcements
+
 
 Command Line Usage
 ------------------

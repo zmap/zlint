@@ -11,6 +11,12 @@ import (
 	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
 
+// additional OIDs not provided by the x509 package
+var (
+	// 1.2.840.10045.4.3.1 is SHA224withECDSA
+	OidSignatureSHA224withECDSA = asn1.ObjectIdentifier{1, 2, 840, 10045, 4, 3, 1}
+)
+
 // RSAAlgorithmIDToDER contains DER representations of pkix.AlgorithmIdentifier for different RSA OIDs with Parameters as asn1.NULL
 var RSAAlgorithmIDToDER = map[string][]byte{
 	// rsaEncryption
@@ -156,4 +162,29 @@ func GetPublicKeyOID(c *x509.Certificate) (asn1.ObjectIdentifier, error) {
 	}
 
 	return publicKeyOID, nil
+}
+
+// Returns the algorithm field of the SubjectPublicKeyInfo of the certificate in its encoded form (containing Tag
+// and Length) or an error if the algorithm field could not be extracted.
+//
+//    SubjectPublicKeyInfo  ::=  SEQUENCE  {
+//        algorithm            AlgorithmIdentifier,
+//        subjectPublicKey     BIT STRING  }
+//
+func GetPublicKeyAidEncoded(c *x509.Certificate) ([]byte, error) {
+	input := cryptobyte.String(c.RawSubjectPublicKeyInfo)
+	var spkiContent cryptobyte.String
+
+	if !input.ReadASN1(&spkiContent, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading pkixPublicKey")
+	}
+
+	var algorithm cryptobyte.String
+	var tag cryptobyte_asn1.Tag
+
+	if !spkiContent.ReadAnyASN1Element(&algorithm, &tag) {
+		return nil, errors.New("error reading public key algorithm identifier")
+	}
+
+	return algorithm, nil
 }
