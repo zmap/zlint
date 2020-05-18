@@ -114,10 +114,13 @@ _testmain.go
 0
 
 ### Build Targets ###
-/zlint
-cmd/zlint/zlint
-/zlint-gtld-update
-cmd/zlint-gtld-update/zlint-gtld-update
+v2/zlint
+v2/cmd/zlint/zlint
+v2/zlint-gtld-update
+v2/cmd/zlint-gtld-update/zlint-gtld-update
 
 ### Integration test data ###
-data
+v2/data
+
+### Goreleaser builds ###
+dist
