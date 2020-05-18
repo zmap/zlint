@@ -43,7 +43,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "w_qcstatem_psd2_policy_recommended",
 		Description:   "Check the requirement that EU Qualified Certificates include at least one of the QCP qualifiers.",
-		Citation:      "FETSI EN 319 412-4",
+		Citation:      "ETSI EN 319 412-4",
 		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiPSD2Date,
 		Lint:          &qcStatemPsd2PolicyRecomm{},
