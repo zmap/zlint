@@ -15,9 +15,10 @@ package cabf_ev
  */
 
 import (
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
 	"testing"
+
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 func TestEvAltRegNumOrgid(t *testing.T) {
