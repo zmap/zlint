@@ -17,8 +17,8 @@ package cabf_ev
 import (
 	"testing"
 
-	"github.com/zmap/zlint/lint"
-	"github.com/zmap/zlint/test"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/test"
 )
 
 func TestEvAltRegNumOrgIdExtMatchesSubject(t *testing.T) {
@@ -32,7 +32,6 @@ func TestEvAltRegNumOrgIdExtMatchesSubject(t *testing.T) {
 		"EvAltRegNumCert71OrgIdExtWrongSchemeId.pem":       lint.Error,
 		"EvAltRegNumCert72OrgIdExtRegRefZeroLen.pem":       lint.Error,
 		"EvAltRegNumCert73OrgIdExtWrongRegRef.pem":         lint.Error,
-		"EvAltRegNumCert74OrgIdExtWrongEncoding.pem":       lint.Error,
 		"EvAltRegNumCert75ValidOrgIdExt.pem":               lint.Pass,
 		"EvAltRegNumCert76OrgIdExtWrongEncoding.pem":       lint.Error,
 		"EvAltRegNumCert77OrgIdExtWrongEncoding.pem":       lint.Error,

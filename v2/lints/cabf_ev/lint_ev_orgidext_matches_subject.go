@@ -15,11 +15,11 @@ package cabf_ev
  */
 
 import (
-	"github.com/zmap/zlint/lint"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/util"
 )
 
 type evOrgIdExtMatchesSubject struct{}
