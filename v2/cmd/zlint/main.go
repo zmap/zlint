@@ -263,6 +263,7 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 	if longSummary {
 		// make a table with the internal lint names grouped
 		// by type
+<<<<<<< HEAD
 		var olsl string
 		var orescount int
 		headings := []string{
@@ -279,6 +280,11 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		// LintStatus(level) or the results count.  Also, just
 		// because a level wasn't seen doesn't mean it isn't
 		// important; display "empty" levels, too
+=======
+		longTable := tablewriter.NewWriter(os.Stdout)
+		longTable.SetHeader([]string{"Level", "# occurrences", "Details"})
+		longTable.SetAutoMergeCells(true)
+>>>>>>> eef788b... spelling fix
 		for _, level := range sortedLevels {
 			foundDetail := false
 			for _, detail := range resultDetails[lint.LintStatus(level)] {
