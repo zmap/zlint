@@ -264,7 +264,7 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		// make a table with the internal lint names grouped
 		// by type
 		longTable := tablewriter.NewWriter(os.Stdout)
-		longTable.SetHeader([]string{"Level", "# occurances", "Details"})
+		longTable.SetHeader([]string{"Level", "# occurrences", "Details"})
 		longTable.SetAutoMergeCells(true)
 		for _, level := range sortedLevels {
 			foundDetail := false
@@ -289,7 +289,7 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		// Make a table of the count of each error type and
 		// print it nicely
 		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{"Level", "# occurances"})
+		table.SetHeader([]string{"Level", "# occurrences"})
 
 		for _, level := range sortedLevels {
 			table.Append([]string{
