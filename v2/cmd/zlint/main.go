@@ -27,6 +27,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/olekukonko/tablewriter"
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2"
@@ -36,6 +37,7 @@ import (
 var ( // flags
 	listLintsJSON   bool
 	listLintSources bool
+	summary         bool
 	prettyprint     bool
 	format          string
 	nameFilter      string
@@ -51,6 +53,7 @@ var ( // flags
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
+	flag.BoolVar(&summary, "summary", false, "Prints a short human-readable summary report")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
 	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name")
@@ -58,7 +61,7 @@ func init() {
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
 
-	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
+	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "ZLint version %s\n\n", version)
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags] file...\n", os.Args[0])
@@ -156,6 +159,8 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 			log.Fatalf("can't format output: %s", err)
 		}
 		os.Stdout.Write(out.Bytes())
+	} else if summary {
+		outputSummary(zlintResult)
 	} else {
 		os.Stdout.Write(jsonBytes)
 	}
@@ -209,4 +214,46 @@ func setLints() (lint.Registry, error) {
 	}
 
 	return lint.GlobalRegistry().Filter(filterOpts)
+}
+
+func outputSummary(zlintResult *zlint.ResultSet) {
+	var sortedLevels []int
+	resultCount := make(map[lint.LintStatus]int)
+	lintLevelsAboveThreshold := make(map[int]lint.LintStatus)
+	// Set the threashold under which (inclusive) events are not
+	// counted
+	threshold := lint.Pass
+
+	// Make the list of lint levels that matter
+	for _, i := range lint.StatusLabelToLintStatus {
+		if i <= threshold {
+			continue
+		}
+		lintLevelsAboveThreshold[int(i)] = i
+	}
+	// Set all of the levels to 0 events to they are all displayed
+	// in the end
+	for _, level := range lintLevelsAboveThreshold {
+		resultCount[level] = 0
+	}
+	// Count up the number of each event
+	for _, value := range zlintResult.Results {
+		if value.Status > threshold {
+			resultCount[value.Status]++
+		}
+	}
+	// Sort the levels we have so we can get a nice output
+	for key, _ := range resultCount {
+		sortedLevels = append(sortedLevels, int(key))
+	}
+	sort.Ints(sortedLevels)
+	// Make a table of the events and print it nicely
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Level", "# occurances"})
+
+	for _, level := range sortedLevels {
+		table.Append([]string{fmt.Sprintf("%s", lint.LintStatus(level)),
+			fmt.Sprintf("%d", resultCount[lint.LintStatus(level)])})
+	}
+	table.Render()
 }
