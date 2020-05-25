@@ -25,7 +25,9 @@ import (
 	"os"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
+	"unicode/utf8"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
@@ -36,6 +38,8 @@ import (
 var ( // flags
 	listLintsJSON   bool
 	listLintSources bool
+	summary         bool
+	longSummary     bool
 	prettyprint     bool
 	format          string
 	nameFilter      string
@@ -51,6 +55,8 @@ var ( // flags
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
+	flag.BoolVar(&summary, "summary", false, "Prints a short human-readable summary report")
+	flag.BoolVar(&longSummary, "longSummary", false, "Prints a human-readable summary report with details")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
 	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name")
@@ -58,7 +64,7 @@ func init() {
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
 
-	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
+	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "ZLint version %s\n\n", version)
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags] file...\n", os.Args[0])
@@ -156,6 +162,10 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 			log.Fatalf("can't format output: %s", err)
 		}
 		os.Stdout.Write(out.Bytes())
+	} else if summary {
+		outputSummary(zlintResult, false)
+	} else if longSummary {
+		outputSummary(zlintResult, true)
 	} else {
 		os.Stdout.Write(jsonBytes)
 	}
@@ -209,4 +219,134 @@ func setLints() (lint.Registry, error) {
 	}
 
 	return lint.GlobalRegistry().Filter(filterOpts)
+}
+
+func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
+	var sortedLevels []int
+	resultCount := make(map[lint.LintStatus]int)
+	resultDetails := make(map[lint.LintStatus][]string)
+	lintLevelsAboveThreshold := make(map[int]lint.LintStatus)
+	// Set the threashold under which (inclusive) events are not
+	// counted
+	threshold := lint.Pass
+
+	// Make the list of lint levels that matter
+	for _, i := range lint.StatusLabelToLintStatus {
+		if i <= threshold {
+			continue
+		}
+		lintLevelsAboveThreshold[int(i)] = i
+	}
+	// Set all of the levels to 0 events so they are all displayed
+	// in the -summary table
+	for _, level := range lintLevelsAboveThreshold {
+		resultCount[level] = 0
+	}
+	// Count up the number of each event
+	for lintName, lintResult := range zlintResult.Results {
+		if lintResult.Status > threshold {
+			resultCount[lintResult.Status]++
+			if longSummary {
+				resultDetails[lintResult.Status] = append(
+					resultDetails[lintResult.Status],
+					string(lintName),
+				)
+			}
+		}
+	}
+	// Sort the levels we have so we can get a nice output
+	for key, _ := range resultCount {
+		sortedLevels = append(sortedLevels, int(key))
+	}
+	sort.Ints(sortedLevels)
+	// make the requested table type
+	if longSummary {
+		// make a table with the internal lint names grouped
+		// by type
+		var olsl string
+		headings := []string{
+			"Level",
+			"# occurrences",
+			"                      Details                      ",
+		}
+		lines := [][]string{}
+		lsl := ""
+		rescount:= ""
+
+		hlengths := printTableHeadings(headings)
+		// Construct the table lines, but don't repeat
+		// LintStatus(level) or the results count.  Also, just
+		// because a level wasn't seen doesn't mean it isn't
+		// important; display "empty" levels, too
+		for _, level := range sortedLevels {
+			foundDetail := false
+			for _, detail := range resultDetails[lint.LintStatus(level)] {
+				if fmt.Sprintf("%s", lint.LintStatus(level)) != olsl {
+					olsl = fmt.Sprintf("%s", lint.LintStatus(level))
+					lsl = olsl
+					rescount = strconv.Itoa(resultCount[lint.LintStatus(level)])
+				} else {
+					lsl = ""
+					rescount = ""
+				}
+				lines = append(lines, ([]string{lsl, rescount, detail}))
+				foundDetail = true
+			}
+			if !foundDetail {
+				lines = append(lines, []string{
+					fmt.Sprintf("%s", lint.LintStatus(level)),
+					strconv.Itoa(resultCount[lint.LintStatus(level)]),
+					" - ",
+				})
+			}
+		}
+		printTableBody(hlengths, lines)
+	} else {
+		headings := []string{"Level", "# occurrences"}
+		hlengths := printTableHeadings(headings)
+		lines := [][]string{}
+		for _, level := range sortedLevels {
+			lines = append(lines, []string{
+				fmt.Sprintf("%s", lint.LintStatus(level)),
+				strconv.Itoa(resultCount[lint.LintStatus(level)])})
+		}
+		printTableBody(hlengths, lines)
+	}
+}
+
+func printTableHeadings(headings []string) []int {
+	hlengths := []int{}
+	for i, h := range headings {
+		hlengths = append(
+			hlengths,
+			utf8.RuneCountInString(h)+1)
+		fmt.Printf("| %s ", strings.ToUpper(h))
+		if i == len(headings)-1 {
+			fmt.Printf("|\n")
+			for ii, j := range hlengths {
+				fmt.Printf("+%s", strings.Repeat("-", j+1))
+				if ii == len(headings)-1 {
+					fmt.Printf("+\n")
+				}
+			}
+		}
+	}
+	return hlengths
+}
+
+func printTableBody(hlengths []int, lines [][]string) {
+	for _, line := range lines {
+		for i, hlen := range hlengths {
+			// This makes a format string with the
+			// right widths, e.g. "%7.7s"
+			fmtstring := fmt.Sprintf("|%%%[1]d.%[1]ds", hlen)
+			fmt.Printf(fmtstring, line[i])
+			if i == len(hlengths)-1 {
+				fmt.Printf(" |\n")
+			} else {
+				fmt.Printf(" ")
+			}
+		}
+	}
+
 }
