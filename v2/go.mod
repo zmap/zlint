@@ -1,7 +1,6 @@
 module github.com/zmap/zlint/v2
 
 require (
-	github.com/olekukonko/tablewriter v0.0.4
 	github.com/sirupsen/logrus v1.3.0
 	github.com/weppos/publicsuffix-go v0.4.0
 	github.com/zmap/zcrypto v0.0.0-20200513165325-16679db567ff

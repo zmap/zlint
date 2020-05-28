@@ -27,8 +27,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"unicode/utf8"
 
-	"github.com/olekukonko/tablewriter"
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2"
@@ -263,40 +263,96 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 	if longSummary {
 		// make a table with the internal lint names grouped
 		// by type
-		longTable := tablewriter.NewWriter(os.Stdout)
-		longTable.SetHeader([]string{"Level", "# occurances", "Details"})
-		longTable.SetAutoMergeCells(true)
+		var olsl string
+		var orescount int
+		headings := []string{
+			"Level",
+			"# occurrences",
+			"                 Details                 ",
+		}
+		lines := [][]string{}
+		lsl := ""
+		rescount := ""
+
+		hlengths := printTableHeadings(headings)
+		// Construct the table lines, but don't repeat
+		// LintStatus(level) or the results count.  Also, just
+		// because a level wasn't seen doesn't mean it isn't
+		// important; display "empty" levels, too
 		for _, level := range sortedLevels {
 			foundDetail := false
 			for _, detail := range resultDetails[lint.LintStatus(level)] {
-				longTable.Append([]string{
-					fmt.Sprintf("%s", lint.LintStatus(level)),
-					strconv.Itoa(resultCount[lint.LintStatus(level)]),
-					detail,
-				})
+				if fmt.Sprintf("%s", lint.LintStatus(level)) != olsl {
+					olsl = fmt.Sprintf("%s", lint.LintStatus(level))
+					lsl = olsl
+				} else {
+					lsl = ""
+				}
+				if resultCount[lint.LintStatus(level)] != orescount {
+					orescount = resultCount[lint.LintStatus(level)]
+					rescount = strconv.Itoa(orescount)
+				} else {
+					rescount = ""
+				}
+				lines = append(lines, ([]string{lsl, rescount, detail}))
 				foundDetail = true
 			}
 			if !foundDetail {
-				longTable.Append([]string{
+				lines = append(lines, []string{
 					fmt.Sprintf("%s", lint.LintStatus(level)),
 					strconv.Itoa(resultCount[lint.LintStatus(level)]),
 					" - ",
 				})
 			}
 		}
-		longTable.Render()
+		printTableBody(hlengths, lines)
 	} else {
-		// Make a table of the count of each error type and
-		// print it nicely
-		table := tablewriter.NewWriter(os.Stdout)
-		table.SetHeader([]string{"Level", "# occurances"})
-
+		headings := []string{"Level", "# occurrences"}
+		hlengths := printTableHeadings(headings)
+		lines := [][]string{}
 		for _, level := range sortedLevels {
-			table.Append([]string{
+			lines = append(lines, []string{
 				fmt.Sprintf("%s", lint.LintStatus(level)),
-				strconv.Itoa(resultCount[lint.LintStatus(level)]),
-			})
+				strconv.Itoa(resultCount[lint.LintStatus(level)])})
 		}
-		table.Render()
+		printTableBody(hlengths, lines)
 	}
+}
+
+func printTableHeadings(headings []string) []int {
+	hlengths := []int{}
+	for i, h := range headings {
+		hlengths = append(
+			hlengths,
+			utf8.RuneCountInString(h)+1)
+		fmt.Printf("| %s ", strings.ToUpper(h))
+		if i == len(headings)-1 {
+			fmt.Printf("|\n")
+			for ii, j := range hlengths {
+				fmt.Printf("+%s", strings.Repeat("-", j+1))
+				if ii == len(headings)-1 {
+					fmt.Printf("+\n")
+				}
+			}
+		}
+	}
+	return hlengths
+}
+
+func printTableBody(hlengths []int, lines [][]string) {
+
+	for _, line := range lines {
+		for i, hlen := range hlengths {
+			// This makes a format string with the
+			// right widths, e.g. "%7.7s"
+			fmtstring := fmt.Sprintf("|%%%[1]d.%[1]ds", hlen)
+			fmt.Printf(fmtstring, line[i])
+			if i == len(hlengths)-1 {
+				fmt.Printf(" |\n")
+			} else {
+				fmt.Printf(" ")
+			}
+		}
+	}
+
 }
