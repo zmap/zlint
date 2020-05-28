@@ -323,3 +323,17 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 	return etsiBase{errorInfo: "", isPresent: false}
 
 }
+
+// Return an empty error and true if this certificate c contains a QcStatement with this oid, an empty error and false
+// otherwise. If the QcStatement extension is not present at all it returns an empty error and false. If the extension
+// could not be parsed it returns an error.
+func IsQcStatementPresent(c *x509.Certificate, oid *asn1.ObjectIdentifier) (string, bool) {
+	if !IsExtInCert(c, QcStateOid) {
+		return "", false
+	}
+	qcs := ParseQcStatem(GetExtFromCert(c, QcStateOid).Value, *oid)
+	if qcs.GetErrorInfo() != "" {
+		return qcs.GetErrorInfo(), qcs.IsPresent()
+	}
+	return "", qcs.IsPresent()
+}
