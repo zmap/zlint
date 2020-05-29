@@ -108,22 +108,22 @@ func TestPolicyAndQCTypeConsistent(t *testing.T) {
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert95InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-esign QcType. Policies contain only the identifier qcp-legal",
 			InputFilename:  "QcStmtPsd2Cert95InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert96InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-esign QcType. Policies contain only the identifier qcp-legal-qscd.",
 			InputFilename:  "QcStmtPsd2Cert96InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert97InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-web QcType. Policies contain only the identifier qcp-legal.",
 			InputFilename:  "QcStmtPsd2Cert97InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert98InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-web QcType. Policies contain only the identifier qcp-legal-qscd.",
 			InputFilename:  "QcStmtPsd2Cert98InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
