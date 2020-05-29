@@ -37,7 +37,7 @@ func (l *consistentPolicyAndQCType) CheckApplies(c *x509.Certificate) bool {
 func policyAndTypeAreConsistent(c *x509.Certificate, policy asn1.ObjectIdentifier, policyStr string, qcType asn1.ObjectIdentifier, typeStr string) string {
 
 	// Check #1: Policy in question is present.
-	// if the EU qualified certificate does not have the policy in question, there will be no error regarding consistency.
+	// If the policy is missing, not enough information exists to determine if there is an inconsistency.
 	if !util.HasCertPolicy(c, policy) {
 		return ""
 	}
