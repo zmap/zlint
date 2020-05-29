@@ -68,12 +68,12 @@ func TestPolicyAndQCTypeConsistent(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "QcStmtPsd2Cert87EuQcCertWoQcPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-eseal QcType. Policies contain only the identifier qcp-natural.",
 			InputFilename:  "QcStmtPsd2Cert87EuQcCertWoQcPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert88EuQcCertWoQcPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-eseal QcType. Policies contain only the identifier qcp-natural-qscd.",
 			InputFilename:  "QcStmtPsd2Cert88EuQcCertWoQcPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
