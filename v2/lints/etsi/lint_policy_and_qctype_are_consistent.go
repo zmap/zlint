@@ -70,6 +70,15 @@ func (l *consistentPolicyAndQCType) Execute(c *x509.Certificate) *lint.LintResul
 		return &lint.LintResult{Status: lint.Error, Details: "The certificate shall include at least one of the following policy identifier [CHOICE] (ETSI EN 319 411-2: GEN-6.6.1-05)."}
 	}
 
+	// Attempt to determine the type based on the certificate policy, based on ETSI EN 319
+	// 411-2, GEN-6.6.1-05 
+	// CAs are allowed to use either the ETSI-defined policy OIDs or CA-specific OIDs,
+	// similar to EV certificates. If using a CA-specific OID, it's not possible to
+	// determine the claimed certificate type without maintaining a mapping of every
+	// policy OID to ETSI type, similar to what is done for EV policies. Because that is
+	// not implemented, this only checks to see if the CA is using one of the standard
+	// ETSI policy OIDs as described in GEN-6.6.1-05. If not, the check is skipped
+	// because not enough information is present.
 	errStr := policyAndTypeAreConsistent(c, util.IdEtsiPolicyQcpWeb, "QCP-w", util.IdEtsiQcsQctWeb, "Web")
 	util.AppendToStringSemicolonDelim(&errStr, policyAndTypeAreConsistent(c, util.IdEtsiPolicyQcpNatural, "QCP-n", util.IdEtsiQcsQctEsign, "eSign"))
 	util.AppendToStringSemicolonDelim(&errStr, policyAndTypeAreConsistent(c, util.IdEtsiPolicyQcpNaturalQscd, "QCP-n-qscd", util.IdEtsiQcsQctEsign, "eSign"))
