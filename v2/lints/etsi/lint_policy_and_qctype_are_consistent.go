@@ -65,13 +65,8 @@ func policyAndTypeAreConsistent(c *x509.Certificate, policy asn1.ObjectIdentifie
 
 func (l *consistentPolicyAndQCType) Execute(c *x509.Certificate) *lint.LintResult {
 
-	// Check if an EU qualified certificate contains at least one policy identifier
-	if len(c.PolicyIdentifiers) == 0 {
-		return &lint.LintResult{Status: lint.Error, Details: "The certificate shall include at least one of the following policy identifier [CHOICE] (ETSI EN 319 411-2: GEN-6.6.1-05)."}
-	}
-
 	// Attempt to determine the type based on the certificate policy, based on ETSI EN 319
-	// 411-2, GEN-6.6.1-05 
+	// 411-2, GEN-6.6.1-05
 	// CAs are allowed to use either the ETSI-defined policy OIDs or CA-specific OIDs,
 	// similar to EV certificates. If using a CA-specific OID, it's not possible to
 	// determine the claimed certificate type without maintaining a mapping of every
