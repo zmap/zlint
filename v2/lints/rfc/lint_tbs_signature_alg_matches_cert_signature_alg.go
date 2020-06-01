@@ -1,15 +1,3 @@
-package rfc
-
-import (
-	"bytes"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/util"
-	"golang.org/x/crypto/cryptobyte"
-	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
-)
-
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
  *
@@ -31,6 +19,18 @@ algorithm identifier as the signature field in the sequence
 tbsCertificate
 ********************************************************************/
 
+package rfc
+
+import (
+	"bytes"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/util"
+	"golang.org/x/crypto/cryptobyte"
+	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
+)
+
 type mismatchingSigAlg struct{}
 
 func (l *mismatchingSigAlg) Initialize() error {
@@ -48,7 +48,8 @@ func (l *mismatchingSigAlg) Execute(c *x509.Certificate) *lint.LintResult {
 	if !input.ReadASN1(&cert, cryptobyte_asn1.SEQUENCE) {
 		return &lint.LintResult{Status: lint.Fatal, Details: "error reading certificate"}
 	}
-	if !cert.SkipASN1(cryptobyte_asn1.SEQUENCE) {
+	var tbsCert cryptobyte.String
+	if !cert.ReadASN1(&tbsCert, cryptobyte_asn1.SEQUENCE) {
 		return &lint.LintResult{Status: lint.Fatal, Details: "error reading certificate.tbsCertificate"}
 	}
 	var certSigAlg cryptobyte.String
@@ -57,11 +58,6 @@ func (l *mismatchingSigAlg) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	// parse out tbsCertificate signature
-	input = cryptobyte.String(c.RawTBSCertificate)
-	var tbsCert cryptobyte.String
-	if !input.ReadASN1(&tbsCert, cryptobyte_asn1.SEQUENCE) {
-		return &lint.LintResult{Status: lint.Fatal, Details: "error reading tbsCertificate"}
-	}
 	if !tbsCert.SkipOptionalASN1(cryptobyte_asn1.Tag(0).Constructed().ContextSpecific()) {
 		return &lint.LintResult{Status: lint.Fatal, Details: "error reading tbsCertificate.version"}
 	}
