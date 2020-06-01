@@ -741,6 +741,9 @@
     },
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 64
+    },
+    "e_cert_sig_alg_not_match_tbs_sig_alg": {
+      "ErrCount": 10
     }
   }
 }
