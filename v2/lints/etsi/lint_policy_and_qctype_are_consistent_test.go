@@ -28,42 +28,22 @@ func TestPolicyAndQCTypeConsistent(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "evAllGood.pem",
+			Name:           "Standard EV certificate.",
 			InputFilename:  "evAllGood.pem",
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:           "QcStmtPsd2Cert80EuQcCertWoAnyPolicy.pem",
-			InputFilename:  "QcStmtPsd2Cert80EuQcCertWoAnyPolicy.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "QcStmtPsd2Cert81EuQcCertWoAnyPolicy.pem",
-			InputFilename:  "QcStmtPsd2Cert81EuQcCertWoAnyPolicy.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "QcStmtPsd2Cert82EuQcCertWoAnyPolicy.pem",
-			InputFilename:  "QcStmtPsd2Cert82EuQcCertWoAnyPolicy.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "QcStmtPsd2Cert83EuQcCertWoAnyPolicy.pem",
-			InputFilename:  "QcStmtPsd2Cert83EuQcCertWoAnyPolicy.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "QcStmtPsd2Cert84InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-eseal QcType. Policies contain the identifiers qcp-web and QCP-w-psd2",
 			InputFilename:  "QcStmtPsd2Cert84InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert85InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-esign QcType. Policies contain the identifiers qcp-web and QCP-w-psd2",
 			InputFilename:  "QcStmtPsd2Cert85InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert86ValidWebPolicyConsistent.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-web QcType. Policies contain the identifiers qcp-web and QCP-w-psd2",
 			InputFilename:  "QcStmtPsd2Cert86ValidWebPolicyConsistent.pem",
 			ExpectedResult: lint.Pass,
 		},
@@ -78,32 +58,32 @@ func TestPolicyAndQCTypeConsistent(t *testing.T) {
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert89ValidQcTypeEsign.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-esign QcType. Policies contain only the identifier qcp-natural.",
 			InputFilename:  "QcStmtPsd2Cert89ValidQcTypeEsign.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "QcStmtPsd2Cert90MissingQcSscdStmt.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-esign QcType. Policies contain only the identifier qcp-natural-qscd.",
 			InputFilename:  "QcStmtPsd2Cert90MissingQcSscdStmt.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert91InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-web QcType. Policies contain only the identifier qcp-natural.",
 			InputFilename:  "QcStmtPsd2Cert91InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert92InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-web QcType. Policies contain only the identifier qcp-natural-qscd.",
 			InputFilename:  "QcStmtPsd2Cert92InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert93ValidEsealPolicyConsistent.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-eseal QcType. Policies contain only the identifier qcp-legal",
 			InputFilename:  "QcStmtPsd2Cert93ValidEsealPolicyConsistent.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "QcStmtPsd2Cert94MissingQcSscdStmt.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qct-eseal QcType. Policies contain only the identifier qcp-legal-qscd",
 			InputFilename:  "QcStmtPsd2Cert94MissingQcSscdStmt.pem",
 			ExpectedResult: lint.Error,
 		},
@@ -128,27 +108,27 @@ func TestPolicyAndQCTypeConsistent(t *testing.T) {
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with QCP-w-psd2 and qcp-web policies",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance). Policies contain the identifiers qcp-web and QCP-w-psd2",
 			InputFilename:  "QcStmtPsd2Cert102InconsistentPolicy.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with esi4-qcStatement-4 but without policy qcp-natural-qscd or qcp-legal-qscd",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qcs-QcSSCD set and id-etsi-qct-esign QcType. Policies contain only the identifier qcp-natural.",
 			InputFilename:  "QcStmtPsd2Cert103InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert104ValidEsignQcSSCD.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qcs-QcSSCD set and id-etsi-qct-esign QcType. Policies contain only the identifier qcp-natural-qscd.",
 			InputFilename:  "QcStmtPsd2Cert104ValidEsignQcSSCD.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "QcStmtPsd2Cert105InconsistentPolicy.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qcs-QcSSCD set and id-etsi-qct-eseal QcType. Policies contain only the identifier qcp-legal.",
 			InputFilename:  "QcStmtPsd2Cert105InconsistentPolicy.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "QcStmtPsd2Cert106ValidEsealQcSSCD.pem",
+			Name:           "EU qualified certificate (id-etsi-qcs-QcCompliance) with id-etsi-qcs-QcSSCD set and id-etsi-qct-eseal QcType. Policies contain only the identifier qcp-legal-qscd.",
 			InputFilename:  "QcStmtPsd2Cert106ValidEsealQcSSCD.pem",
 			ExpectedResult: lint.Pass,
 		},
