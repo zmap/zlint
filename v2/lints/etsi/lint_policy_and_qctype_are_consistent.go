@@ -52,7 +52,7 @@ func policyAndTypeAreConsistent(c *x509.Certificate, policy asn1.ObjectIdentifie
 	// Check #3: Consistency of QCStatement QcSSCD (id-etsi-qcs-QcSSCD) and policy (bidirectional).
 	_, isQscdStatementPresent := util.IsQcStatementPresent(c, &util.IdEtsiQcsQcSSCD)
 
-	qscdPolicyIsPresent := util.HasCertPolicy(c, util.IdEtsiPolicyQcpNaturalQscd) || util.HasCertPolicy(c, util.IdEtsiPolicyQcpLegalQscd)
+	qscdPolicyIsPresent := util.IsQcsdPolicy(c)
 
 	if !qscdPolicyIsPresent && isQscdStatementPresent {
 		return "ETSI EN 319 411-2: GEN-6.6.1-04: The qcStatement for QSCD (esi4-qcStatement-4) shall not be included in certificates that are not issued according to [QCP-n-qscd] or [QCP-l-qscd] requirements"

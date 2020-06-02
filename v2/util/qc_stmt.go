@@ -337,3 +337,10 @@ func IsQcStatementPresent(c *x509.Certificate, oid *asn1.ObjectIdentifier) (stri
 	}
 	return "", qcs.IsPresent()
 }
+
+// Return true if this certificate c contains a Qscd Policy, that is a policy that indicates that the private key and
+// the related certificate reside on a Qualified Signature Creation Device (QSCD), false otherwise.
+// Policies QCP-l-qscd and QCP-n-qscd are such policies.
+func IsQcsdPolicy(c *x509.Certificate) bool {
+	return HasCertPolicy(c, IdEtsiPolicyQcpNaturalQscd) || HasCertPolicy(c, IdEtsiPolicyQcpLegalQscd)
+}
