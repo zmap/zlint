@@ -39,7 +39,7 @@ var ( // flags
 	listLintsJSON   bool
 	listLintSources bool
 	summary         bool
-	longsummary     bool
+	longSummary     bool
 	prettyprint     bool
 	format          string
 	nameFilter      string
@@ -56,7 +56,7 @@ func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
 	flag.BoolVar(&summary, "summary", false, "Prints a short human-readable summary report")
-	flag.BoolVar(&longsummary, "longsummary", false, "Prints a human-readable summary report with details")
+	flag.BoolVar(&longSummary, "longSummary", false, "Prints a human-readable summary report with details")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
 	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name")
@@ -164,7 +164,7 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		os.Stdout.Write(out.Bytes())
 	} else if summary {
 		outputSummary(zlintResult, false)
-	} else if longsummary {
+	} else if longSummary {
 		outputSummary(zlintResult, true)
 	} else {
 		os.Stdout.Write(jsonBytes)
@@ -264,15 +264,14 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		// make a table with the internal lint names grouped
 		// by type
 		var olsl string
-		var orescount int
 		headings := []string{
 			"Level",
 			"# occurrences",
-			"                 Details                 ",
+			"                      Details                      ",
 		}
 		lines := [][]string{}
 		lsl := ""
-		rescount := ""
+		rescount:= ""
 
 		hlengths := printTableHeadings(headings)
 		// Construct the table lines, but don't repeat
@@ -285,13 +284,9 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 				if fmt.Sprintf("%s", lint.LintStatus(level)) != olsl {
 					olsl = fmt.Sprintf("%s", lint.LintStatus(level))
 					lsl = olsl
+					rescount = strconv.Itoa(resultCount[lint.LintStatus(level)])
 				} else {
 					lsl = ""
-				}
-				if resultCount[lint.LintStatus(level)] != orescount {
-					orescount = resultCount[lint.LintStatus(level)]
-					rescount = strconv.Itoa(orescount)
-				} else {
 					rescount = ""
 				}
 				lines = append(lines, ([]string{lsl, rescount, detail}))
