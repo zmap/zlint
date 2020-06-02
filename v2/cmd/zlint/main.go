@@ -237,19 +237,19 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		}
 		lintLevelsAboveThreshold[int(i)] = i
 	}
-	// Set all of the levels to 0 events to they are all displayed
+	// Set all of the levels to 0 events so they are all displayed
 	// in the -summary table
 	for _, level := range lintLevelsAboveThreshold {
 		resultCount[level] = 0
 	}
 	// Count up the number of each event
-	for key, value := range zlintResult.Results {
-		if value.Status > threshold {
-			resultCount[value.Status]++
+	for lintName, lintResult := range zlintResult.Results {
+		if lintResult.Status > threshold {
+			resultCount[lintResult.Status]++
 			if longSummary {
-				resultDetails[value.Status] = append(
-					resultDetails[value.Status],
-					string(key),
+				resultDetails[lintResult.Status] = append(
+					resultDetails[lintResult.Status],
+					string(lintName),
 				)
 			}
 		}
@@ -335,7 +335,6 @@ func printTableHeadings(headings []string) []int {
 }
 
 func printTableBody(hlengths []int, lines [][]string) {
-
 	for _, line := range lines {
 		for i, hlen := range hlengths {
 			// This makes a format string with the
