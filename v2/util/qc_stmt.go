@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"reflect"
+	"strings"
 )
 
 type anyContent struct {
@@ -98,6 +99,33 @@ type EtsiQcPds struct {
 	PdsLocations []PdsLocation
 }
 
+// Start ErrorStringBuilder
+type ErrorStringBuilder struct {
+	builder   strings.Builder
+	Delimiter string
+}
+
+func (esb *ErrorStringBuilder) Append(errorString string) {
+	if esb.builder.Len() > 0 && len(errorString) > 0 {
+		esb.builder.WriteString(esb.Delimiter)
+	}
+	esb.builder.WriteString(errorString)
+}
+
+func (esb *ErrorStringBuilder) String() string {
+	return esb.builder.String()
+}
+
+func (esb *ErrorStringBuilder) Len() int {
+	return esb.builder.Len()
+}
+
+func (esb *ErrorStringBuilder) IsEmpty() bool {
+	return esb.builder.Len() == 0
+}
+
+// End ErrorStringBuilder
+
 func AppendToStringSemicolonDelim(this *string, s string) {
 	if len(*this) > 0 && len(s) > 0 {
 		(*this) += "; "
@@ -118,7 +146,7 @@ func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfCompari
 	return result
 }
 
-var etsiQCStatements = [6]string{
+var etsiQCStatements = []string{
 	IdEtsiQcsQcCompliance.String(),
 	IdEtsiQcsQcLimitValue.String(),
 	IdEtsiQcsQcRetentionPeriod.String(),
@@ -130,8 +158,8 @@ var etsiQCStatements = [6]string{
 func IsAnyEtsiQcStatementPresent(c *x509.Certificate) bool {
 	statements := c.QCStatements
 	statementIDs := statements.StatementIDs
-	for oid := range statementIDs {
-		for etsiOid := range etsiQCStatements {
+	for _, oid := range statementIDs {
+		for _, etsiOid := range etsiQCStatements {
 			if oid == etsiOid {
 				return true
 			}
