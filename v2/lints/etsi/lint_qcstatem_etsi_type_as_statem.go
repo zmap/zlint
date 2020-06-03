@@ -17,7 +17,6 @@ package etsi
 import (
 	"encoding/asn1"
 	"fmt"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
@@ -34,26 +33,29 @@ func (l *qcStatemEtsiTypeAsStatem) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *qcStatemEtsiTypeAsStatem) Execute(c *x509.Certificate) *lint.LintResult {
-	errString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
+	errString := util.ErrorStringBuilder{Delimiter: "; "}
 
-	oidList := make([]*asn1.ObjectIdentifier, 3)
-	oidList[0] = &util.IdEtsiQcsQctEsign
-	oidList[1] = &util.IdEtsiQcsQctEseal
-	oidList[2] = &util.IdEtsiQcsQctWeb
+	oidList := []asn1.ObjectIdentifier{
+		util.IdEtsiQcsQctEsign,
+		util.IdEtsiQcsQctEseal,
+		util.IdEtsiQcsQctWeb,
+	}
 
-	for _, oid := range oidList {
-		r := util.ParseQcStatem(ext.Value, *oid)
-		util.AppendToStringSemicolonDelim(&errString, r.GetErrorInfo())
-		if r.IsPresent() {
-			util.AppendToStringSemicolonDelim(&errString, fmt.Sprintf("ETSI QC Type OID %v used as QC statement", oid))
+	statements := c.QCStatements
+	statementIDs := statements.StatementIDs
+
+	for _, oid := range statementIDs {
+		for _, qcTypeOid := range oidList {
+			if oid == qcTypeOid.String() {
+				errString.Append(fmt.Sprintf("ETSI QC Type OID %v used as QC statement", oid))
+			}
 		}
 	}
 
-	if len(errString) == 0 {
+	if errString.IsEmpty() {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString.String()}
 	}
 }
 
