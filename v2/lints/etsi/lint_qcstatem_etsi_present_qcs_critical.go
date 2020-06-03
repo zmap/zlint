@@ -1,3 +1,5 @@
+package etsi
+
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
  *
@@ -11,8 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
-package etsi
 
 import (
 	"github.com/zmap/zcrypto/x509"
@@ -30,24 +30,15 @@ func (l *qcStatemQcEtsiPresentQcsCritical) CheckApplies(c *x509.Certificate) boo
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.IsAnyEtsiQcStatementPresent(util.GetExtFromCert(c, util.QcStateOid).Value) {
-		return true
-	}
-	return false
+	return util.IsAnyEtsiQcStatementPresent(c)
 }
 
 func (l *qcStatemQcEtsiPresentQcsCritical) Execute(c *x509.Certificate) *lint.LintResult {
-	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	if ext.Critical {
-		errString = "ETSI QC Statement is present and QC Statements extension is marked critical"
+		return &lint.LintResult{Status: lint.Error, Details: "ETSI QCStatement is present and QCStatements extension is marked critical"}
 	}
-
-	if len(errString) == 0 {
-		return &lint.LintResult{Status: lint.Pass}
-	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
-	}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {

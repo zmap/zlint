@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"encoding/asn1"
 	"fmt"
+	"github.com/zmap/zcrypto/x509"
 	"reflect"
 )
 
@@ -117,18 +118,23 @@ func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfCompari
 	return result
 }
 
-func IsAnyEtsiQcStatementPresent(extVal []byte) bool {
-	oidList := make([]*asn1.ObjectIdentifier, 6)
-	oidList[0] = &IdEtsiQcsQcCompliance
-	oidList[1] = &IdEtsiQcsQcLimitValue
-	oidList[2] = &IdEtsiQcsQcRetentionPeriod
-	oidList[3] = &IdEtsiQcsQcSSCD
-	oidList[4] = &IdEtsiQcsQcEuPDS
-	oidList[5] = &IdEtsiQcsQcType
-	for _, oid := range oidList {
-		r := ParseQcStatem(extVal, *oid)
-		if r.IsPresent() {
-			return true
+var etsiQCStatements = [6]string{
+	IdEtsiQcsQcCompliance.String(),
+	IdEtsiQcsQcLimitValue.String(),
+	IdEtsiQcsQcRetentionPeriod.String(),
+	IdEtsiQcsQcSSCD.String(),
+	IdEtsiQcsQcEuPDS.String(),
+	IdEtsiQcsQcType.String(),
+}
+
+func IsAnyEtsiQcStatementPresent(c *x509.Certificate) bool {
+	statements := c.QCStatements
+	statementIDs := statements.StatementIDs
+	for oid := range statementIDs {
+		for etsiOid := range etsiQCStatements {
+			if oid == etsiOid {
+				return true
+			}
 		}
 	}
 	return false

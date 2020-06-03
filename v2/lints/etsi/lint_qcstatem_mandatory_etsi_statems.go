@@ -32,10 +32,7 @@ func (l *qcStatemQcmandatoryEtsiStatems) CheckApplies(c *x509.Certificate) bool 
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.IsAnyEtsiQcStatementPresent(util.GetExtFromCert(c, util.QcStateOid).Value) {
-		return true
-	}
-	return false
+	return util.IsAnyEtsiQcStatementPresent(c)
 }
 
 func (l *qcStatemQcmandatoryEtsiStatems) Execute(c *x509.Certificate) *lint.LintResult {
