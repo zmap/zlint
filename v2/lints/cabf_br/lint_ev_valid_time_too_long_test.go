@@ -22,19 +22,33 @@ import (
 )
 
 func TestEvValidTooLong(t *testing.T) {
-	inputPath := "evValidTooLong.pem"
-	expected := lint.Error
-	out := test.TestLint("e_ev_valid_time_too_long", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "EV certificate valid for > 27 months",
+			InputFilename:  "evValidTooLong.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "EV certificate issued before Ballot 193 valid for 27 months",
+			InputFilename:  "evValidNotTooLong.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "EV certificate issued after Ballot 193, valid for 825 days, which is >27 months",
+			InputFilename:  "evValidNotTooLong825Days.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
-}
-
-func TestEvValidNotTooLong(t *testing.T) {
-	inputPath := "evValidNotTooLong.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ev_valid_time_too_long", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_ev_valid_time_too_long", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }
