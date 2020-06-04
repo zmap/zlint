@@ -122,7 +122,7 @@ file. You may need to update these expected values when you add/change lints.
 Please see the [integration tests README] for more information.
 
 [CI]: https://travis-ci.org/zmap/zlint
-[integration tests README]: https://github.com/zmap/zlint/blob/master/integration/README.md
+[integration tests README]: https://github.com/zmap/zlint/blob/master/v2/integration/README.md
 
 
 Updating the TLD Map
