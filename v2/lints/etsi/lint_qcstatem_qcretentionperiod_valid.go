@@ -36,30 +36,19 @@ func (l *qcStatemQcRetentionPeriodValid) CheckApplies(c *x509.Certificate) bool 
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.IsQCStatementPresent(c, util.IdEtsiQcsQcRetentionPeriod.String())
 }
 
 func (l *qcStatemQcRetentionPeriodValid) Execute(c *x509.Certificate) *lint.LintResult {
-
-	errString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
-	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-
-		rp := s.(util.EtsiQcRetentionPeriod)
-		if rp.Period < 0 {
-			util.AppendToStringSemicolonDelim(&errString, "retention period is negative")
-		}
+	if len(c.QCStatements.ParsedStatements.RetentionPeriod) != 1 {
+		return &lint.LintResult{Status: lint.Error, Details: "invalid number of QcEuRetentionPeriod values"}
 	}
-	if len(errString) == 0 {
-		return &lint.LintResult{Status: lint.Pass}
-	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
+	retentionPeriod := c.QCStatements.ParsedStatements.RetentionPeriod[0]
+
+	if retentionPeriod < 0 {
+		return &lint.LintResult{Status: lint.Error, Details: "retention period is negative"}
 	}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {

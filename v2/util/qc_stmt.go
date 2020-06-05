@@ -17,6 +17,7 @@ package util
 import (
 	"bytes"
 	"encoding/asn1"
+	"errors"
 	"fmt"
 	"github.com/zmap/zcrypto/x509"
 	"reflect"
@@ -146,13 +147,13 @@ func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfCompari
 	return result
 }
 
-var etsiQCStatements = []string{
-	IdEtsiQcsQcCompliance.String(),
-	IdEtsiQcsQcLimitValue.String(),
-	IdEtsiQcsQcRetentionPeriod.String(),
-	IdEtsiQcsQcSSCD.String(),
-	IdEtsiQcsQcEuPDS.String(),
-	IdEtsiQcsQcType.String(),
+var etsiQCStatements = []asn1.ObjectIdentifier{
+	IdEtsiQcsQcCompliance,
+	IdEtsiQcsQcLimitValue,
+	IdEtsiQcsQcRetentionPeriod,
+	IdEtsiQcsQcSSCD,
+	IdEtsiQcsQcEuPDS,
+	IdEtsiQcsQcType,
 }
 
 func IsAnyEtsiQcStatementPresent(c *x509.Certificate) bool {
@@ -160,12 +161,31 @@ func IsAnyEtsiQcStatementPresent(c *x509.Certificate) bool {
 	statementIDs := statements.StatementIDs
 	for _, oid := range statementIDs {
 		for _, etsiOid := range etsiQCStatements {
-			if oid == etsiOid {
+			if oid == etsiOid.String() {
 				return true
 			}
 		}
 	}
 	return false
+}
+
+func IsQCStatementPresent(c *x509.Certificate, statementOid string) bool {
+	statementIDs := c.QCStatements.StatementIDs
+	for _, oid := range statementIDs {
+		if oid == statementOid {
+			return true
+		}
+	}
+	return false
+}
+
+func IndexOfValue(values []string, searchValue string) (int, error) {
+	for i, value := range values {
+		if value == searchValue {
+			return i, nil
+		}
+	}
+	return 0, errors.New("value not found")
 }
 
 //nolint:gocyclo

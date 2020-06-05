@@ -17,11 +17,10 @@ package etsi
 import (
 	"encoding/asn1"
 	"fmt"
-	"strings"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
+	"strings"
 )
 
 type qcStatemQcPdsValid struct{}
@@ -38,54 +37,95 @@ func (l *qcStatemQcPdsValid) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.IsQCStatementPresent(c, util.IdEtsiQcsQcEuPDS.String())
 }
 
 func isInList(s string, list []string) bool {
 	for _, i := range list {
-		if strings.Compare(i, s) == 0 {
+		if i == s {
 			return true
 		}
 	}
 	return false
 }
 
-func (l *qcStatemQcPdsValid) Execute(c *x509.Certificate) *lint.LintResult {
-	errString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
-	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-		codeList := make([]string, 0)
-		foundEn := false
-		pds := s.(util.EtsiQcPds)
-		if len(pds.PdsLocations) == 0 {
-			util.AppendToStringSemicolonDelim(&errString, "PDS list is empty")
-		}
-		for i, loc := range pds.PdsLocations {
-			if len(loc.Language) != 2 {
-				util.AppendToStringSemicolonDelim(&errString, fmt.Sprintf("PDS location %d has a language code with an invalid length", i))
-			}
-			if strings.Compare(strings.ToLower(loc.Language), "en") == 0 {
-				foundEn = true
-			}
-			if isInList(strings.ToLower(loc.Language), codeList) {
-				util.AppendToStringSemicolonDelim(&errString, "country code '"+loc.Language+"' appears multiple times")
-			}
-			codeList = append(codeList, loc.Language)
+func checkPdsTags(c *x509.Certificate, statementOid string) string {
+	errString := util.ErrorStringBuilder{Delimiter: "; "}
 
+	pdsQCStatementIndex, err := util.IndexOfValue(c.QCStatements.StatementIDs, statementOid)
+	if err != nil {
+		errString.Append(fmt.Sprintf("QCStatement %v not present", statementOid))
+	}
+
+	ext := util.GetExtFromCert(c, util.QcStateOid)
+	rawStatements := x509.QCStatementsASN{}
+	if _, err := asn1.Unmarshal(ext.Value, &rawStatements.QCStatements); err != nil {
+		return "QCStatement PdsLocations is malformed"
+	}
+
+	parsedPdsLocations := make([]asn1.RawValue, 0)
+	rawPdsLocations := rawStatements.QCStatements[pdsQCStatementIndex].StatementInfo.FullBytes
+	if _, err := asn1.Unmarshal(rawPdsLocations, &parsedPdsLocations); err != nil {
+		return "QCStatement PdsLocations is malformed"
+	}
+
+	for index, rawPdsLocation := range parsedPdsLocations {
+		parsedPdsLocation := make([]asn1.RawValue, 0)
+		if _, err := asn1.Unmarshal(rawPdsLocation.FullBytes, &parsedPdsLocation); err != nil {
+			return "QCStatement PdsLocations is malformed"
 		}
-		if !foundEn {
-			util.AppendToStringSemicolonDelim(&errString, "no english PDS present")
+		if len(parsedPdsLocation) != 2 {
+			errString.Append(fmt.Sprintf("PdsLocation at index %d is malformed", index))
+			continue
+		}
+		if parsedPdsLocation[0].Tag != asn1.TagIA5String {
+			errString.Append(fmt.Sprintf("url attribute of PdsLocation at index %d has an incorrect asn.1 tag", index))
+		}
+		if parsedPdsLocation[1].Tag != asn1.TagPrintableString {
+			errString.Append(fmt.Sprintf("language attribute of PdsLocation at index %d has an incorrect asn.1 tag", index))
 		}
 	}
-	if len(errString) == 0 {
+	return errString.String()
+}
+
+func (l *qcStatemQcPdsValid) Execute(c *x509.Certificate) *lint.LintResult {
+	errString := util.ErrorStringBuilder{Delimiter: "; "}
+
+	if len(c.QCStatements.ParsedStatements.PDSLocations) != 1 {
+		return &lint.LintResult{Status: lint.Error, Details: "invalid number of PdsLocations objects"}
+	}
+
+	//check whether the correct ASN.1 tags were used
+	errString.Append(checkPdsTags(c, util.IdEtsiQcsQcEuPDS.String()))
+
+	pds := c.QCStatements.ParsedStatements.PDSLocations[0]
+	if len(pds.Locations) == 0 {
+		errString.Append("PDS list is empty")
+	}
+
+	codeList := make([]string, 0)
+	foundEn := false
+	for i, loc := range pds.Locations {
+		if len(loc.Language) != 2 {
+			errString.Append(fmt.Sprintf("PDS location %d has a language code with an invalid length", i))
+		}
+		if strings.ToLower(loc.Language) == "en" {
+			foundEn = true
+		}
+		if isInList(strings.ToLower(loc.Language), codeList) {
+			errString.Append("country code '" + loc.Language + "' appears multiple times")
+		}
+		codeList = append(codeList, loc.Language)
+	}
+
+	if !foundEn {
+		errString.Append("no english PDS present")
+	}
+
+	if errString.IsEmpty() {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString.String()}
 	}
 }
 

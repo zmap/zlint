@@ -15,9 +15,7 @@
 package etsi
 
 import (
-	"encoding/asn1"
 	"fmt"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
@@ -37,39 +35,25 @@ func (l *qcStatemQctypeValid) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.IsQCStatementPresent(c, util.IdEtsiQcsQcType.String())
 }
 
 func (l *qcStatemQctypeValid) Execute(c *x509.Certificate) *lint.LintResult {
+	if len(c.QCStatements.ParsedStatements.Types) != 1 {
+		return &lint.LintResult{Status: lint.Error, Details: "invalid number of QcType objects"}
+	}
+	qcType := c.QCStatements.ParsedStatements.Types[0]
 
-	errString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
-	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-		qcType := s.(util.Etsi423QcType)
-		if len(qcType.TypeOids) == 0 {
-			errString += "no QcType present, sequence of OIDs is empty"
-		}
-		for _, t := range qcType.TypeOids {
-
-			if !t.Equal(util.IdEtsiQcsQctEsign) && !t.Equal(util.IdEtsiQcsQctEseal) && !t.Equal(util.IdEtsiQcsQctWeb) {
-				if len(errString) > 0 {
-					errString += "; "
-				}
-				errString += fmt.Sprintf("encountered invalid ETSI QcType OID: %v", t)
-			}
-		}
+	if len(qcType.TypeIdentifiers) == 0 {
+		return &lint.LintResult{Status: lint.Error, Details: "no QcType present, sequence of OIDs is empty"}
 	}
 
-	if len(errString) == 0 {
-		return &lint.LintResult{Status: lint.Pass}
-	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
+	for _, t := range qcType.TypeIdentifiers {
+		if !t.Equal(util.IdEtsiQcsQctEsign) && !t.Equal(util.IdEtsiQcsQctEseal) && !t.Equal(util.IdEtsiQcsQctWeb) {
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("encountered invalid ETSI QcType OID: %v", t)}
+		}
 	}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {

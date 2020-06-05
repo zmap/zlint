@@ -38,10 +38,7 @@ func (l *qcStatemQcPdsLangCase) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.IsQCStatementPresent(c, util.IdEtsiQcsQcEuPDS.String())
 }
 
 func isOnlyLowerCaseLetters(s string) bool {
@@ -54,28 +51,23 @@ func isOnlyLowerCaseLetters(s string) bool {
 }
 
 func (l *qcStatemQcPdsLangCase) Execute(c *x509.Certificate) *lint.LintResult {
-	errString := ""
-	wrnString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
-	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-		pds := s.(util.EtsiQcPds)
-		for i, loc := range pds.PdsLocations {
-			if !isOnlyLowerCaseLetters(loc.Language) {
-				util.AppendToStringSemicolonDelim(&wrnString, fmt.Sprintf("PDS location %d has a language code containing invalid letters", i))
-			}
+	warnString := util.ErrorStringBuilder{Delimiter: "; "}
 
+	if len(c.QCStatements.ParsedStatements.PDSLocations) != 1 {
+		return &lint.LintResult{Status: lint.Error, Details: "invalid number of PdsLocations objects"}
+	}
+	pds := c.QCStatements.ParsedStatements.PDSLocations[0]
+
+	for i, loc := range pds.Locations {
+		if !isOnlyLowerCaseLetters(loc.Language) {
+			warnString.Append(fmt.Sprintf("PDS location %d has a language code containing invalid letters", i))
 		}
 	}
-	if len(errString) == 0 {
-		if len(wrnString) == 0 {
-			return &lint.LintResult{Status: lint.Pass}
-		} else {
-			return &lint.LintResult{Status: lint.Warn, Details: wrnString}
-		}
+
+	if warnString.IsEmpty() {
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
+		return &lint.LintResult{Status: lint.Warn, Details: warnString.String()}
 	}
 }
 

@@ -37,10 +37,7 @@ func (l *qcStatemQcLimitValueValid) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.IsQCStatementPresent(c, util.IdEtsiQcsQcLimitValue.String())
 }
 
 func isOnlyLetters(s string) bool {
@@ -53,38 +50,36 @@ func isOnlyLetters(s string) bool {
 }
 
 func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *lint.LintResult {
+	errString := util.ErrorStringBuilder{Delimiter: "; "}
 
-	errString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
-	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-		qcLv, ok := s.(util.EtsiQcLimitValue)
-		if !ok {
-			return &lint.LintResult{Status: lint.Error, Details: "parsed QcStatem is not a EtsiQcLimitValue"}
-		}
-		if qcLv.Amount < 0 {
-			util.AppendToStringSemicolonDelim(&errString, "amount is negative")
-		}
-		if qcLv.IsNum {
-			if qcLv.CurrencyNum < 1 || qcLv.CurrencyNum > 999 {
-				util.AppendToStringSemicolonDelim(&errString, "numeric currency code is out of range")
-			}
-		} else {
-			if len(qcLv.CurrencyAlph) != 3 {
-				util.AppendToStringSemicolonDelim(&errString, "invalid string length of currency code")
-			}
-			if !isOnlyLetters(qcLv.CurrencyAlph) {
-				util.AppendToStringSemicolonDelim(&errString, "currency code string contains not only letters")
-			}
-
-		}
-
+	if len(c.QCStatements.ParsedStatements.Limit) != 1 {
+		return &lint.LintResult{Status: lint.Error, Details: "invalid number of MonetaryValue objects"}
 	}
-	if len(errString) == 0 {
+	qcLv := c.QCStatements.ParsedStatements.Limit[0]
+
+	if qcLv.Amount < 0 {
+		errString.Append("amount is negative")
+	}
+
+	// Check whether the alphabetic currency code was set
+	if len(qcLv.Currency) > 0 {
+		// Check whether alphabetic code is set correctly
+		if len(qcLv.Currency) != 3 {
+			errString.Append("invalid string length of currency code")
+		}
+		if !isOnlyLetters(qcLv.Currency) {
+			errString.Append("currency code string contains not only letters")
+		}
+	} else { // if the alphabetic code is not set, check numeric code
+		if qcLv.CurrencyNumber < 1 || qcLv.CurrencyNumber > 999 {
+			errString.Append("numeric currency code is out of range")
+		}
+	}
+
+	if errString.IsEmpty() {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
+		return &lint.LintResult{Status: lint.Error, Details: errString.String()}
 	}
 }
 

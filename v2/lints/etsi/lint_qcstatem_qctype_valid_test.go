@@ -22,18 +22,44 @@ import (
 )
 
 func TestEtsiQcType(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert03.pem":                lint.Pass,
-		"QcStmtEtsiValidCert11.pem":                lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":         lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":           lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":        lint.NA,
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "QcStmtEtsiValidCert03.pem",
+			InputFilename:  "QcStmtEtsiValidCert03.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert11.pem",
+			InputFilename:  "QcStmtEtsiValidCert11.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidAddLangCert13.pem",
+			InputFilename:  "QcStmtEtsiValidAddLangCert13.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiEsealValidCert02.pem",
+			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiNoQcStatmentsCert22.pem",
+			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qctype_valid", inputPath)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_qcstatem_qctype_valid", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }

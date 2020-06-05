@@ -15,9 +15,7 @@
 package etsi
 
 import (
-	"encoding/asn1"
 	"fmt"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
@@ -37,45 +35,27 @@ func (l *qcStatemQctypeWeb) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
-	}
-	return false
+	return util.IsQCStatementPresent(c, util.IdEtsiQcsQcType.String())
 }
 
 func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *lint.LintResult {
+	if len(c.QCStatements.ParsedStatements.Types) != 1 {
+		return &lint.LintResult{Status: lint.Error, Details: "invalid number of QcType objects"}
+	}
+	qcType := c.QCStatements.ParsedStatements.Types[0]
 
-	errString := ""
-	wrnString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
-	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-		qcType := s.(util.Etsi423QcType)
-		if len(qcType.TypeOids) == 0 {
-			errString += "no QcType present, sequence of OIDs is empty"
-		}
-		found := false
-		for _, t := range qcType.TypeOids {
-
-			if t.Equal(util.IdEtsiQcsQctWeb) {
-				found = true
-			}
-		}
-		if !found {
-			wrnString += fmt.Sprintf("etsi Type does not indicate certificate as a 'web' certificate")
-		}
+	if len(qcType.TypeIdentifiers) == 0 {
+		return &lint.LintResult{Status: lint.Error, Details: "no QcType present, sequence of OIDs is empty"}
 	}
 
-	if len(errString) == 0 {
-		if len(wrnString) == 0 {
+	for _, t := range qcType.TypeIdentifiers {
+		if t.Equal(util.IdEtsiQcsQctWeb) {
 			return &lint.LintResult{Status: lint.Pass}
-		} else {
-			return &lint.LintResult{Status: lint.Warn, Details: wrnString}
 		}
-	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
+
+	return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf("etsi Type does not indicate certificate as a 'web' certificate")}
+
 }
 
 func init() {
