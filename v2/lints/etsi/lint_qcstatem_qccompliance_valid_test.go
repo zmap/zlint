@@ -13,6 +13,9 @@ package etsi
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+// TODO remove this test when
+// https://github.com/zmap/zcrypto/pull/224
+// takes effect in zlint
 
 import (
 	"testing"

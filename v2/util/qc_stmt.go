@@ -188,6 +188,9 @@ func IndexOfValue(values []string, searchValue string) (int, error) {
 	return 0, errors.New("value not found")
 }
 
+// TODO remove it when
+// https://github.com/zmap/zcrypto/pull/224
+// takes effect in zlint
 //nolint:gocyclo
 func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 	sl := make([]anyContent, 0)

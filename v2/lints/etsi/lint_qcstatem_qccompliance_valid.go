@@ -12,6 +12,9 @@
  * permissions and limitations under the License.
  */
 
+// TODO remove this lint when
+// https://github.com/zmap/zcrypto/pull/224
+// takes effect in zlint
 package etsi
 
 import (
