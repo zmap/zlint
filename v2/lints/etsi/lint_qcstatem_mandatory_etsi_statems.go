@@ -15,8 +15,6 @@
 package etsi
 
 import (
-	"encoding/asn1"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
@@ -36,25 +34,10 @@ func (l *qcStatemQcmandatoryEtsiStatems) CheckApplies(c *x509.Certificate) bool 
 }
 
 func (l *qcStatemQcmandatoryEtsiStatems) Execute(c *x509.Certificate) *lint.LintResult {
-	errString := ""
-	ext := util.GetExtFromCert(c, util.QcStateOid)
-
-	oidList := make([]*asn1.ObjectIdentifier, 1)
-	oidList[0] = &util.IdEtsiQcsQcCompliance
-
-	for _, oid := range oidList {
-		r := util.ParseQcStatem(ext.Value, *oid)
-		util.AppendToStringSemicolonDelim(&errString, r.GetErrorInfo())
-		if !r.IsPresent() {
-			util.AppendToStringSemicolonDelim(&errString, "missing mandatory ETSI QC statement")
-		}
-	}
-
-	if len(errString) == 0 {
+	if util.IsQCStatementPresent(c, util.IdEtsiQcsQcCompliance.String()) {
 		return &lint.LintResult{Status: lint.Pass}
-	} else {
-		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
+	return &lint.LintResult{Status: lint.Error, Details: "missing mandatory ETSI QC statement"}
 }
 
 func init() {

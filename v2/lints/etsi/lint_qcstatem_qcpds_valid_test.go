@@ -22,26 +22,84 @@ import (
 )
 
 func TestEtsiQcPds(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiNumberInLangCodeCert21.pem":      lint.Error,
-		"QcStmtEtsiMissingEnglishPdsCert04.pem":     lint.Error,
-		"QcStmtEtsiTwoEnglPdsCert12.pem":            lint.Error,
-		"QcStmtEtsiWrongEncodingLangCodeCert07.pem": lint.Error,
-		"QcStmtEtsiWrongLangCodeCert05.pem":         lint.Error,
-		"QcStmtEtsiLangCodeUpperCaseCert23.pem":     lint.Pass,
-		"QcStmtEtsiWrongEncodingUrlCert08.pem":      lint.Error,
-		"QcStmtEtsiTwoLangCodesCert17.pem":          lint.Error,
-		"QcStmtEtsiValidCert03.pem":                 lint.Pass,
-		"QcStmtEtsiValidCert11.pem":                 lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":          lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":            lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":         lint.NA,
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "QcStmtEtsiNumberInLangCodeCert21.pem",
+			InputFilename:  "QcStmtEtsiNumberInLangCodeCert21.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiMissingEnglishPdsCert04.pem",
+			InputFilename:  "QcStmtEtsiMissingEnglishPdsCert04.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiTwoEnglPdsCert12.pem",
+			InputFilename:  "QcStmtEtsiTwoEnglPdsCert12.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiWrongEncodingLangCodeCert07.pem",
+			InputFilename:  "QcStmtEtsiWrongEncodingLangCodeCert07.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiWrongLangCodeCert05.pem",
+			InputFilename:  "QcStmtEtsiWrongLangCodeCert05.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiLangCodeUpperCaseCert23.pem",
+			InputFilename:  "QcStmtEtsiLangCodeUpperCaseCert23.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiWrongEncodingUrlCert08.pem",
+			InputFilename:  "QcStmtEtsiWrongEncodingUrlCert08.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiTwoLangCodesCert17.pem",
+			InputFilename:  "QcStmtEtsiTwoLangCodesCert17.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert03.pem",
+			InputFilename:  "QcStmtEtsiValidCert03.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert11.pem",
+			InputFilename:  "QcStmtEtsiValidCert11.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidAddLangCert13.pem",
+			InputFilename:  "QcStmtEtsiValidAddLangCert13.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiEsealValidCert02.pem",
+			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiNoQcStatmentsCert22.pem",
+			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qcpds_valid", inputPath)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_qcstatem_qcpds_valid", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }

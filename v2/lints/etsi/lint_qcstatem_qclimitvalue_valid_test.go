@@ -21,28 +21,30 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestQcStatemQcLimitValueValid(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtValidLimitValue.pem": lint.Pass,
+func TestQcStatemQcLimitValue(t *testing.T) {
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "QcStmtValidLimitValue.pem",
+			InputFilename:  "QcStmtValidLimitValue.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtInvalidLimitValue.pem",
+			InputFilename:  "QcStmtInvalidLimitValue.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qclimitvalue_valid", inputPath)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
-	}
-}
-
-func TestQcStatemQcLimitValueInvalid(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtInvalidLimitValue.pem": lint.Error,
-	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qclimitvalue_valid", inputPath)
-
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_qcstatem_qclimitvalue_valid", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }

@@ -22,20 +22,54 @@ import (
 )
 
 func TestEtsiMandatoryQcStmts(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiMissingMandatoryCert14.pem": lint.Error,
-		"QcStmtEtsiMissingPDSCert16.pem":       lint.Pass,
-		"QcStmtEtsiValidCert03.pem":            lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":       lint.Pass,
-		"QcStmtEtsiTwoQcTypesCert15.pem":       lint.Pass,
-		"QcStmtEtsiValidCert11.pem":            lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":    lint.NA,
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "QcStmtEtsiMissingMandatoryCert14.pem",
+			InputFilename:  "QcStmtEtsiMissingMandatoryCert14.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiMissingPDSCert16.pem",
+			InputFilename:  "QcStmtEtsiMissingPDSCert16.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert03.pem",
+			InputFilename:  "QcStmtEtsiValidCert03.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiEsealValidCert02.pem",
+			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiTwoQcTypesCert15.pem",
+			InputFilename:  "QcStmtEtsiTwoQcTypesCert15.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert11.pem",
+			InputFilename:  "QcStmtEtsiValidCert11.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiNoQcStatmentsCert22.pem",
+			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_mandatory_etsi_statems", inputPath)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_qcstatem_mandatory_etsi_statems", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }

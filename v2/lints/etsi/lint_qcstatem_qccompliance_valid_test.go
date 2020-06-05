@@ -21,21 +21,55 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestEtsiQcCompliance(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiQcComplWithNonEmptyStmtInfoCert19.pem": lint.Error,
-		"QcStmtEtsiValidCert03.pem":                       lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":                  lint.Pass,
-		"QcStmtEtsiTwoQcTypesCert15.pem":                  lint.Pass,
-		"QcStmtEtsiValidCert11.pem":                       lint.Pass,
-		"QcStmtEtsiMissingMandatoryCert14.pem":            lint.NA,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":               lint.NA,
+func TestEtsiQcComplianceValid(t *testing.T) {
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "QcStmtEtsiQcComplWithNonEmptyStmtInfoCert19.pem",
+			InputFilename:  "QcStmtEtsiQcComplWithNonEmptyStmtInfoCert19.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert03.pem",
+			InputFilename:  "QcStmtEtsiValidCert03.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiEsealValidCert02.pem",
+			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiTwoQcTypesCert15.pem",
+			InputFilename:  "QcStmtEtsiTwoQcTypesCert15.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert11.pem",
+			InputFilename:  "QcStmtEtsiValidCert11.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiMissingMandatoryCert14.pem",
+			InputFilename:  "QcStmtEtsiMissingMandatoryCert14.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "QcStmtEtsiNoQcStatmentsCert22.pem",
+			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qccompliance_valid", inputPath)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_qcstatem_qccompliance_valid", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }

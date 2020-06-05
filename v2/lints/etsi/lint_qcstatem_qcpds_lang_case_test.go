@@ -22,20 +22,54 @@ import (
 )
 
 func TestEtsiQcPdsLangCase(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiTwoEnglPdsCert12.pem":        lint.Pass,
-		"QcStmtEtsiLangCodeUpperCaseCert23.pem": lint.Warn,
-		"QcStmtEtsiValidCert03.pem":             lint.Pass,
-		"QcStmtEtsiValidCert11.pem":             lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":      lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":        lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":     lint.NA,
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "QcStmtEtsiTwoEnglPdsCert12.pem",
+			InputFilename:  "QcStmtEtsiTwoEnglPdsCert12.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiLangCodeUpperCaseCert23.pem",
+			InputFilename:  "QcStmtEtsiLangCodeUpperCaseCert23.pem",
+			ExpectedResult: lint.Warn,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert03.pem",
+			InputFilename:  "QcStmtEtsiValidCert03.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidCert11.pem",
+			InputFilename:  "QcStmtEtsiValidCert11.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiValidAddLangCert13.pem",
+			InputFilename:  "QcStmtEtsiValidAddLangCert13.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiEsealValidCert02.pem",
+			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiNoQcStatmentsCert22.pem",
+			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("w_qcstatem_qcpds_lang_case", inputPath)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("w_qcstatem_qcpds_lang_case", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }
