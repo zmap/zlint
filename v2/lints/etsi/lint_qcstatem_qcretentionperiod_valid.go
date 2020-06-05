@@ -15,18 +15,12 @@
 package etsi
 
 import (
-	"encoding/asn1"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
 )
 
 type qcStatemQcRetentionPeriodValid struct{}
-
-func (this *qcStatemQcRetentionPeriodValid) getStatementOid() *asn1.ObjectIdentifier {
-	return &util.IdEtsiQcsQcRetentionPeriod
-}
 
 func (l *qcStatemQcRetentionPeriodValid) Initialize() error {
 	return nil

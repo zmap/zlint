@@ -15,7 +15,6 @@
 package etsi
 
 import (
-	"encoding/asn1"
 	"unicode"
 
 	"github.com/zmap/zcrypto/x509"
@@ -24,10 +23,6 @@ import (
 )
 
 type qcStatemQcLimitValueValid struct{}
-
-func (this *qcStatemQcLimitValueValid) getStatementOid() *asn1.ObjectIdentifier {
-	return &util.IdEtsiQcsQcLimitValue
-}
 
 func (l *qcStatemQcLimitValueValid) Initialize() error {
 	return nil

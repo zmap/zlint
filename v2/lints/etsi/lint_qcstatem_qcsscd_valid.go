@@ -15,18 +15,12 @@
 package etsi
 
 import (
-	"encoding/asn1"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/util"
 )
 
 type qcStatemQcSscdValid struct{}
-
-func (this *qcStatemQcSscdValid) getStatementOid() *asn1.ObjectIdentifier {
-	return &util.IdEtsiQcsQcSSCD
-}
 
 func (l *qcStatemQcSscdValid) Initialize() error {
 	return nil
@@ -36,7 +30,7 @@ func (l *qcStatemQcSscdValid) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
+	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, util.IdEtsiQcsQcSSCD).IsPresent() {
 		return true
 	}
 	return false
@@ -46,7 +40,7 @@ func (l *qcStatemQcSscdValid) Execute(c *x509.Certificate) *lint.LintResult {
 
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
+	s := util.ParseQcStatem(ext.Value, util.IdEtsiQcsQcSSCD)
 	errString += s.GetErrorInfo()
 
 	if len(errString) == 0 {

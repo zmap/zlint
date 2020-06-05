@@ -23,10 +23,6 @@ import (
 
 type qcStatemQctypeValid struct{}
 
-func (this *qcStatemQctypeValid) getStatementOid() *asn1.ObjectIdentifier {
-	return &util.IdEtsiQcsQcType
-}
-
 func (l *qcStatemQctypeValid) Initialize() error {
 	return nil
 }

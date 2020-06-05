@@ -15,7 +15,6 @@
 package etsi
 
 import (
-	"encoding/asn1"
 	"fmt"
 	"unicode"
 
@@ -25,10 +24,6 @@ import (
 )
 
 type qcStatemQcPdsLangCase struct{}
-
-func (this *qcStatemQcPdsLangCase) getStatementOid() *asn1.ObjectIdentifier {
-	return &util.IdEtsiQcsQcEuPDS
-}
 
 func (l *qcStatemQcPdsLangCase) Initialize() error {
 	return nil
