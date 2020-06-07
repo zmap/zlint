@@ -328,7 +328,9 @@
     "e_ev_serial_number_missing": {
       "ErrCount": 1
     },
-    "e_ev_valid_time_too_long": {},
+    "e_ev_valid_time_too_long": {
+      "ErrCount": 151
+    },
     "e_ext_aia_marked_critical": {},
     "e_ext_authority_key_identifier_critical": {},
     "e_ext_authority_key_identifier_missing": {
