@@ -268,6 +268,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "1985-01-01",
 		RemovalDate:    "",
 	},
+	"amazon": {
+		GTLD:           "amazon",
+		DelegationDate: "2020-06-02",
+		RemovalDate:    "",
+	},
 	"americanexpress": {
 		GTLD:           "americanexpress",
 		DelegationDate: "2016-08-08",
@@ -7148,6 +7153,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2016-02-19",
 		RemovalDate:    "",
 	},
+	"xn--cckwcxetd": {
+		GTLD:           "xn--cckwcxetd",
+		DelegationDate: "2020-06-02",
+		RemovalDate:    "",
+	},
 	"xn--cg4bki": {
 		GTLD:           "xn--cg4bki",
 		DelegationDate: "2014-02-21",
@@ -7326,6 +7336,11 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--j6w193g": {
 		GTLD:           "xn--j6w193g",
 		DelegationDate: "1985-01-01",
+		RemovalDate:    "",
+	},
+	"xn--jlq480n2rg": {
+		GTLD:           "xn--jlq480n2rg",
+		DelegationDate: "2020-06-02",
 		RemovalDate:    "",
 	},
 	"xn--jlq61u9w7b": {

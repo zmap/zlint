@@ -328,7 +328,9 @@
     "e_ev_serial_number_missing": {
       "ErrCount": 1
     },
-    "e_ev_valid_time_too_long": {},
+    "e_ev_valid_time_too_long": {
+      "ErrCount": 151
+    },
     "e_ext_aia_marked_critical": {},
     "e_ext_authority_key_identifier_critical": {},
     "e_ext_authority_key_identifier_missing": {
@@ -741,6 +743,9 @@
     },
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 64
+    },
+    "e_cert_sig_alg_not_match_tbs_sig_alg": {
+      "ErrCount": 10
     }
   }
 }

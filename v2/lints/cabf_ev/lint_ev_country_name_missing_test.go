@@ -1,4 +1,4 @@
-package cabf_br
+package cabf_ev
 
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
@@ -21,19 +21,19 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestEvHasOrg(t *testing.T) {
+func TestEvHasCountry(t *testing.T) {
 	inputPath := "evAllGood.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_ev_organization_name_missing", inputPath)
+	out := test.TestLint("e_ev_country_name_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestEvNoOrg(t *testing.T) {
-	inputPath := "evNoOrg.pem"
+func TestEvNoCountry(t *testing.T) {
+	inputPath := "evNoCountry.pem"
 	expected := lint.Error
-	out := test.TestLint("e_ev_organization_name_missing", inputPath)
+	out := test.TestLint("e_ev_country_name_missing", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
