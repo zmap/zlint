@@ -42,6 +42,16 @@ func TestEtsiQcTypeWeb(t *testing.T) {
 			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
 			ExpectedResult: lint.NA,
 		},
+		{
+			Name:           "QcStmtEtsiDuplicatedQcTypeStatementCert27.pem",
+			InputFilename:  "QcStmtEtsiDuplicatedQcTypeStatementCert27.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiQcTypeEmtpyCert28.pem",
+			InputFilename:  "QcStmtEtsiQcTypeEmtpyCert28.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 
 	for _, tc := range testCases {

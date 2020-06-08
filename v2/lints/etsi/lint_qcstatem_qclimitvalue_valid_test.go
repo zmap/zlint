@@ -37,6 +37,26 @@ func TestQcStatemQcLimitValue(t *testing.T) {
 			InputFilename:  "QcStmtInvalidLimitValue.pem",
 			ExpectedResult: lint.Error,
 		},
+		{
+			Name:           "QcStmtEtsiInvalidAlphabeticCurrencyLengthCert29.pem",
+			InputFilename:  "QcStmtEtsiInvalidAlphabeticCurrencyLengthCert29.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiInvalidAlphabeticCurrencyCert30.pem",
+			InputFilename:  "QcStmtEtsiInvalidAlphabeticCurrencyCert30.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiValidNumericCurrencyCert31.pem",
+			InputFilename:  "QcStmtEtsiValidNumericCurrencyCert31.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "QcStmtEtsiInvalidNumericCurrencyCert32.pem",
+			InputFilename:  "QcStmtEtsiInvalidNumericCurrencyCert32.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 
 	for _, tc := range testCases {

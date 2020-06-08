@@ -28,6 +28,21 @@ func TestEtsiQcType(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
+			Name:           "QcStmtEtsiInvalidQcTypeCert26.pem",
+			InputFilename:  "QcStmtEtsiInvalidQcTypeCert26.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiDuplicatedQcTypeStatementCert27.pem",
+			InputFilename:  "QcStmtEtsiDuplicatedQcTypeStatementCert27.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "QcStmtEtsiQcTypeEmtpyCert28.pem",
+			InputFilename:  "QcStmtEtsiQcTypeEmtpyCert28.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
 			Name:           "QcStmtEtsiValidCert03.pem",
 			InputFilename:  "QcStmtEtsiValidCert03.pem",
 			ExpectedResult: lint.Pass,
