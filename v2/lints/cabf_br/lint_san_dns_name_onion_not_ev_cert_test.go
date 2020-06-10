@@ -30,6 +30,11 @@ func TestOnionNotEV(t *testing.T) {
 			InputFilename:  "onionSANEV.pem",
 			ExpectedResult: lint.Pass,
 		},
+		{
+			Name:           "Onion subject, non EV cert, after util.CABF_BRs_1_6_9_Date",
+			InputFilename:  "onionSANv3Name.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {
