@@ -44,8 +44,8 @@ See also https://github.com/cabforum/documents/issues/191
 package cabf_br
 
 import (
-	"encoding/base32"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -55,15 +55,24 @@ import (
 
 var (
 	// Per 2.4 of Rendezvous v2:
-	// Valid onion addresses contain 16 characters in a-z2-7 plus ".onion"
+	//   Valid onion addresses contain 16 characters in a-z2-7 plus ".onion"
 	onionV2Len = 16
 
 	// Per 1.2 of Rendezvous v3:
-	// A hidden service's name is its long term master identity key.  This is
-	// encoded as a hostname by encoding the entire key in Base 32, including a
-	// version byte and a checksum, and then appending the string ".onion" at the
-	// end. The result is a 56-character domain name.
+	//   A hidden service's name is its long term master identity key.  This is
+	//   encoded as a hostname by encoding the entire key in Base 32, including
+	//   a version byte and a checksum, and then appending the string ".onion"
+	//   at the end. The result is a 56-character domain name.
 	onionV3Len = 56
+
+	// Per RFC 4648, Section 6, the Base-32 alphabet is A-Z, 2-7, and =.
+	// Because v2/v3 addresses are always aligned, they should never be padded,
+	// and so omit = from the character set, as it's also not permitted in a
+	// domain in the "preferred name syntax". Because `.onion` names appear in
+	// DNS, which is case insensitive, the alphabet is extended to include a-z,
+	// as the names are tested for well-formedness prior to normalization to
+	// uppercase.
+	base32SubsetRegex = regexp.MustCompile(`^[a-zA-Z2-7]+$`)
 )
 
 type onionNotValid struct{}
@@ -119,14 +128,11 @@ func (l *onionNotValid) Execute(c *x509.Certificate) *lint.LintResult {
 				Details: fmt.Sprintf("%q is not a v2 or v3 Tor address", subj),
 			}
 		}
-		// Base-32 uses an exclusively uppercase alphabet, per spec, but DNS is
-		// case-insensitive. Convert to uppercase to ensure well-formed names will
-		// decode.
-		if _, err := base32.StdEncoding.DecodeString(strings.ToUpper(onionDomain)); err != nil {
+		if !base32SubsetRegex.MatchString(onionDomain) {
 			return &lint.LintResult{
 				Status: lint.Error,
-				Details: fmt.Sprintf("%q is not a base32-encoded v2 or v3 Tor address",
-					subj),
+				Details: fmt.Sprintf("%q contains invalid characters not permitted "+
+					"within base-32", subj),
 			}
 		}
 	}

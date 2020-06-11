@@ -46,7 +46,7 @@ func TestOnionNotInvalid(t *testing.T) {
 			Name:            "misencoded v2 onion address, EV",
 			InputFilename:   "onionSANv2NameInvalidEV.pem",
 			ExpectedResult:  lint.Error,
-			ExpectedDetails: `"v2cbb2l-lsnpio4q.onion" is not a base32-encoded v2 or v3 Tor address`,
+			ExpectedDetails: `"v2cbb2l-lsnpio4q.onion" contains invalid characters not permitted within base-32`,
 		},
 		{
 			Name:           "v3 onion address, non-EV",
