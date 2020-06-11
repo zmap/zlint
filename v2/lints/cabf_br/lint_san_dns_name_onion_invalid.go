@@ -53,6 +53,19 @@ import (
 	"github.com/zmap/zlint/v2/util"
 )
 
+var (
+	// Per 2.4 of Rendezvous v2:
+	// Valid onion addresses contain 16 characters in a-z2-7 plus ".onion"
+	onionV2Len = 16
+
+	// Per 1.2 of Rendezvous v3:
+	// A hidden service's name is its long term master identity key.  This is
+	// encoded as a hostname by encoding the entire key in Base 32, including a
+	// version byte and a checksum, and then appending the string ".onion" at the
+	// end. The result is a 56-character domain name.
+	onionV3Len = 56
+)
+
 type onionNotValid struct{}
 
 func (l *onionNotValid) Initialize() error {
@@ -88,12 +101,8 @@ func (l *onionNotValid) Execute(c *x509.Certificate) *lint.LintResult {
 			}
 		}
 		onionDomain := labels[len(labels)-2]
-		switch len(onionDomain) {
-		// Onion v2 address. These are only permitted for EV, per BRs Appendix C.
-		// Per 2.4 of Rendezvous v2:
-		// Valid onion addresses contain 16 characters in a-z2-7 plus ".onion"
-		// This is handled later, during the Base32 decode
-		case 16:
+		if len(onionDomain) == onionV2Len {
+			// Onion v2 address. These are only permitted for EV, per BRs Appendix C.
 			if !util.IsEV(c.PolicyIdentifiers) {
 				return &lint.LintResult{
 					Status: lint.Error,
@@ -101,23 +110,19 @@ func (l *onionNotValid) Execute(c *x509.Certificate) *lint.LintResult {
 						"EV", subj),
 				}
 			}
-		// Onion v3 address. Permitted for all certificates by CA/Browser Forum
-		// Ballot SC27.
-		//
-		// Per 1.2 of Rendezvous v3:
-		// A hidden service's name is its long term master identity key.  This is
-		// encoded as a hostname by encoding the entire key in Base 32, including a
-		// version byte and a checksum, and then appending the string ".onion" at the
-		// end. The result is a 56-character domain name.
-		case 56:
-		default:
+		} else if len(onionDomain) == onionV3Len {
+			// Onion v3 address. Permitted for all certificates by CA/Browser Forum
+			// Ballot SC27.
+		} else {
 			return &lint.LintResult{
 				Status:  lint.Error,
 				Details: fmt.Sprintf("%q is not a v2 or v3 Tor address", subj),
 			}
 		}
-		_, err := base32.StdEncoding.DecodeString(strings.ToUpper(onionDomain))
-		if err != nil {
+		// Base-32 uses an exclusively uppercase alphabet, per spec, but DNS is
+		// case-insensitive. Convert to uppercase to ensure well-formed names will
+		// decode.
+		if _, err := base32.StdEncoding.DecodeString(strings.ToUpper(onionDomain)); err != nil {
 			return &lint.LintResult{
 				Status: lint.Error,
 				Details: fmt.Sprintf("%q is not a base32-encoded v2 or v3 Tor address",
