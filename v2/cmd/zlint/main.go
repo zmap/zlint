@@ -52,6 +52,13 @@ var ( // flags
 	version = "dev"
 )
 
+type resultsTable struct {
+	resultCount              map[lint.LintStatus]int
+	resultDetails            map[lint.LintStatus][]string
+	lintLevelsAboveThreshold map[int]lint.LintStatus
+	sortedLevels             []int
+}
+
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
@@ -221,45 +228,53 @@ func setLints() (lint.Registry, error) {
 	return lint.GlobalRegistry().Filter(filterOpts)
 }
 
-func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
-	var sortedLevels []int
-	resultCount := make(map[lint.LintStatus]int)
-	resultDetails := make(map[lint.LintStatus][]string)
-	lintLevelsAboveThreshold := make(map[int]lint.LintStatus)
-	// Set the threashold under which (inclusive) events are not
-	// counted
-	threshold := lint.Pass
+func (r resultsTable) newRT(threshold lint.LintStatus, results *zlint.ResultSet, longSummary bool) resultsTable {
+
+	r.resultCount = make(map[lint.LintStatus]int)
+	r.resultDetails = make(map[lint.LintStatus][]string)
+	r.lintLevelsAboveThreshold = make(map[int]lint.LintStatus)
 
 	// Make the list of lint levels that matter
 	for _, i := range lint.StatusLabelToLintStatus {
 		if i <= threshold {
 			continue
 		}
-		lintLevelsAboveThreshold[int(i)] = i
+		r.lintLevelsAboveThreshold[int(i)] = i
 	}
 	// Set all of the levels to 0 events so they are all displayed
 	// in the -summary table
-	for _, level := range lintLevelsAboveThreshold {
-		resultCount[level] = 0
+	for _, level := range r.lintLevelsAboveThreshold {
+		r.resultCount[level] = 0
 	}
 	// Count up the number of each event
-	for lintName, lintResult := range zlintResult.Results {
+	for lintName, lintResult := range results.Results {
 		if lintResult.Status > threshold {
-			resultCount[lintResult.Status]++
+			r.resultCount[lintResult.Status]++
 			if longSummary {
-				resultDetails[lintResult.Status] = append(
-					resultDetails[lintResult.Status],
+				r.resultDetails[lintResult.Status] = append(
+					r.resultDetails[lintResult.Status],
 					string(lintName),
 				)
 			}
 		}
 	}
 	// Sort the levels we have so we can get a nice output
-	for key, _ := range resultCount {
-		sortedLevels = append(sortedLevels, int(key))
+	for key := range r.resultCount {
+		r.sortedLevels = append(r.sortedLevels, int(key))
 	}
-	sort.Ints(sortedLevels)
-	// make the requested table type
+	sort.Ints(r.sortedLevels)
+
+	return r
+}
+
+func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
+	// Set the threashold under which (inclusive) events are not
+	// counted
+	threshold := lint.Pass
+
+	rt := resultsTable{}.newRT(threshold, zlintResult, longSummary)
+
+	// make and print the requested table type
 	if longSummary {
 		// make a table with the internal lint names grouped
 		// by type
@@ -271,20 +286,20 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		}
 		lines := [][]string{}
 		lsl := ""
-		rescount:= ""
+		rescount := ""
 
 		hlengths := printTableHeadings(headings)
 		// Construct the table lines, but don't repeat
 		// LintStatus(level) or the results count.  Also, just
 		// because a level wasn't seen doesn't mean it isn't
 		// important; display "empty" levels, too
-		for _, level := range sortedLevels {
+		for _, level := range rt.sortedLevels {
 			foundDetail := false
-			for _, detail := range resultDetails[lint.LintStatus(level)] {
+			for _, detail := range rt.resultDetails[lint.LintStatus(level)] {
 				if fmt.Sprintf("%s", lint.LintStatus(level)) != olsl {
 					olsl = fmt.Sprintf("%s", lint.LintStatus(level))
 					lsl = olsl
-					rescount = strconv.Itoa(resultCount[lint.LintStatus(level)])
+					rescount = strconv.Itoa(rt.resultCount[lint.LintStatus(level)])
 				} else {
 					lsl = ""
 					rescount = ""
@@ -295,7 +310,7 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 			if !foundDetail {
 				lines = append(lines, []string{
 					fmt.Sprintf("%s", lint.LintStatus(level)),
-					strconv.Itoa(resultCount[lint.LintStatus(level)]),
+					strconv.Itoa(rt.resultCount[lint.LintStatus(level)]),
 					" - ",
 				})
 			}
@@ -305,10 +320,10 @@ func outputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		headings := []string{"Level", "# occurrences"}
 		hlengths := printTableHeadings(headings)
 		lines := [][]string{}
-		for _, level := range sortedLevels {
+		for _, level := range rt.sortedLevels {
 			lines = append(lines, []string{
 				fmt.Sprintf("%s", lint.LintStatus(level)),
-				strconv.Itoa(resultCount[lint.LintStatus(level)])})
+				strconv.Itoa(rt.resultCount[lint.LintStatus(level)])})
 		}
 		printTableBody(hlengths, lines)
 	}
