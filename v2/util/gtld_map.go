@@ -196,7 +196,7 @@ var tldMap = map[string]GTLDPeriod{
 	"aigo": {
 		GTLD:           "aigo",
 		DelegationDate: "2016-08-16",
-		RemovalDate:    "",
+		RemovalDate:    "2020-06-26",
 	},
 	"airbus": {
 		GTLD:           "airbus",
@@ -7371,7 +7371,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--kpu716f": {
 		GTLD:           "xn--kpu716f",
 		DelegationDate: "2015-12-15",
-		RemovalDate:    "",
+		RemovalDate:    "2020-06-26",
 	},
 	"xn--kput3i": {
 		GTLD:           "xn--kput3i",
@@ -7581,7 +7581,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--pbt977c": {
 		GTLD:           "xn--pbt977c",
 		DelegationDate: "2015-12-15",
-		RemovalDate:    "",
+		RemovalDate:    "2020-06-26",
 	},
 	"xn--pgbs0dh": {
 		GTLD:           "xn--pgbs0dh",
