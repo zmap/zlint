@@ -19,7 +19,7 @@ type resultsTable struct {
 	sortedLevels             []int
 }
 
-func (r resultsTable) newRT(threshold lint.LintStatus, results *zlint.ResultSet, longSummary bool) resultsTable {
+func (r *resultsTable) newRT(threshold lint.LintStatus, results *zlint.ResultSet, longSummary bool) resultsTable {
 
 	r.resultCount = make(map[lint.LintStatus]int)
 	r.resultDetails = make(map[lint.LintStatus][]string)
@@ -55,7 +55,7 @@ func (r resultsTable) newRT(threshold lint.LintStatus, results *zlint.ResultSet,
 	}
 	sort.Ints(r.sortedLevels)
 
-	return r
+	return *r
 }
 
 
@@ -64,7 +64,7 @@ func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 	// counted
 	threshold := lint.Pass
 
-	rt := resultsTable{}.newRT(threshold, zlintResult, longSummary)
+	rt := (&resultsTable{}).newRT(threshold, zlintResult, longSummary)
 
 	// make and print the requested table type
 	if longSummary {
