@@ -161,11 +161,15 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 			log.Fatalf("can't format output: %s", err)
 		}
 		os.Stdout.Write(out.Bytes())
-	} else if summary {
+		fmt.Printf("\n\n")
+	}
+	if summary {
 		formattedoutput.OutputSummary(zlintResult, false)
-	} else if longSummary {
+	}
+	if longSummary {
 		formattedoutput.OutputSummary(zlintResult, true)
-	} else {
+	}
+	if !prettyprint && !summary && !longSummary {
 		os.Stdout.Write(jsonBytes)
 	}
 	os.Stdout.Write([]byte{'\n'})
