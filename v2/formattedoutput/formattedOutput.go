@@ -118,6 +118,7 @@ func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 				strconv.Itoa(rt.resultCount[lint.LintStatus(level)])})
 		}
 		printTableBody(hlengths, lines)
+		fmt.Printf("\n")
 	}
 }
 
