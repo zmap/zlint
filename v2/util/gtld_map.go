@@ -6096,7 +6096,7 @@ var tldMap = map[string]GTLDPeriod{
 	"symantec": {
 		GTLD:           "symantec",
 		DelegationDate: "2015-12-03",
-		RemovalDate:    "",
+		RemovalDate:    "2020-07-17",
 	},
 	"systems": {
 		GTLD:           "systems",
