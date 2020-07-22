@@ -39,6 +39,11 @@ func TestServerCertValidityTooLong(t *testing.T) {
 			testCert: "eeServerCertValidOver398.pem",
 			expected: lint.Error,
 		},
+		{
+			// Cert containing CA basic constraint, should be Not Applicable
+			testCert: "caBasicConstCrit.pem",
+			expected: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {
