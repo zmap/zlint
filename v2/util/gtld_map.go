@@ -5321,7 +5321,7 @@ var tldMap = map[string]GTLDPeriod{
 	"rightathome": {
 		GTLD:           "rightathome",
 		DelegationDate: "2016-07-21",
-		RemovalDate:    "",
+		RemovalDate:    "2020-07-28",
 	},
 	"ril": {
 		GTLD:           "ril",
