@@ -138,9 +138,12 @@ if err != nil {
 	log.Fatal("unable to parse certificate:", err)
 }
 
-registry, _ := lint.GlobalRegistry().Filter(lint.FilterOptions{
+registry, err := lint.GlobalRegistry().Filter(lint.FilterOptions{
   ExcludeSources: []lint.LintSource{lint.EtsiEsi},
 })
+if err != nil {
+	log.Fatal("lint registry filter failed to apply:", err)
+}
 zlintResultSet := zlint.LintCertificateEx(parsed, registry)
 ```
 
