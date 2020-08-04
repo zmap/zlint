@@ -111,7 +111,12 @@ import (
 )
 
 var certDER []byte = ...
-parsed, _ := x509.ParseCertificate(certDER)
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
 zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
@@ -126,11 +131,19 @@ import (
 )
 
 var certDER []byte = ...
-parsed, _ := x509.ParseCertificate(certDER)
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
 
-registry, _ := lint.GlobalRegistry().Filter(lint.FilterOptions{
+registry, err := lint.GlobalRegistry().Filter(lint.FilterOptions{
   ExcludeSources: []lint.LintSource{lint.EtsiEsi},
 })
+if err != nil {
+	log.Fatal("lint registry filter failed to apply:", err)
+}
 zlintResultSet := zlint.LintCertificateEx(parsed, registry)
 ```
 
