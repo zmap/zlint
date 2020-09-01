@@ -16,7 +16,7 @@ func TestTorDescHashInvalid(t *testing.T) {
 	}{
 		{
 			Name:           "Onion subject, no service descriptor extension, before util.CABV201Date",
-			InputFilename:  "dnsNameOnionTLD.pem",
+			InputFilename:  "onionSANEVBefore201.pem",
 			ExpectedResult: lint.NE,
 		},
 		{

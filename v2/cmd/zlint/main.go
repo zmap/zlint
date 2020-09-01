@@ -31,11 +31,14 @@ import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2"
 	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/formattedoutput"
 )
 
 var ( // flags
 	listLintsJSON   bool
 	listLintSources bool
+	summary         bool
+	longSummary     bool
 	prettyprint     bool
 	format          string
 	nameFilter      string
@@ -51,6 +54,8 @@ var ( // flags
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
+	flag.BoolVar(&summary, "summary", false, "Prints a short human-readable summary report")
+	flag.BoolVar(&longSummary, "longSummary", false, "Prints a human-readable summary report with details")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
 	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
 	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name")
@@ -58,7 +63,7 @@ func init() {
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
 
-	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print output")
+	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "ZLint version %s\n\n", version)
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags] file...\n", os.Args[0])
@@ -156,7 +161,15 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 			log.Fatalf("can't format output: %s", err)
 		}
 		os.Stdout.Write(out.Bytes())
-	} else {
+		fmt.Printf("\n\n")
+	}
+	if summary {
+		formattedoutput.OutputSummary(zlintResult, false)
+	}
+	if longSummary {
+		formattedoutput.OutputSummary(zlintResult, true)
+	}
+	if !prettyprint && !summary && !longSummary {
 		os.Stdout.Write(jsonBytes)
 	}
 	os.Stdout.Write([]byte{'\n'})

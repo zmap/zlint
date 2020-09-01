@@ -111,7 +111,12 @@ import (
 )
 
 var certDER []byte = ...
-parsed, _ := x509.ParseCertificate(certDER)
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
 zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
@@ -126,11 +131,19 @@ import (
 )
 
 var certDER []byte = ...
-parsed, _ := x509.ParseCertificate(certDER)
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
 
-registry, _ := lint.GlobalRegistry().Filter(lint.FilterOptions{
+registry, err := lint.GlobalRegistry().Filter(lint.FilterOptions{
   ExcludeSources: []lint.LintSource{lint.EtsiEsi},
 })
+if err != nil {
+	log.Fatal("lint registry filter failed to apply:", err)
+}
 zlintResultSet := zlint.LintCertificateEx(parsed, registry)
 ```
 
@@ -159,6 +172,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
+* [Entrust Datacard](https://www.entrust.com/)
 * [Google Trust Services](https://pki.goog/)
 * [Government of Spain, FNMT](http://www.fnmt.es/)
 * [Globalsign](https://www.globalsign.com/en/)
