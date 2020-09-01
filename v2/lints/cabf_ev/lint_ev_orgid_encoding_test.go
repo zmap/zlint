@@ -1,4 +1,4 @@
-package etsi
+package cabf_ev
 
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
@@ -21,16 +21,15 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestEtsiQcType(t *testing.T) {
+func TestEvAltRegNumOrgidEncoding(t *testing.T) {
 	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert03.pem":         lint.Pass,
-		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":  lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
+		"evAllGood.pem":                               lint.NA,
+		"EvAltRegNumCert63Valid.pem":                  lint.Pass,
+		"EvAltRegNumCert64OrgIdInvalidStringType.pem": lint.Error,
+		"EvAltRegNumCert65OrgIdInvalidStringType.pem": lint.Error,
 	}
 	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qctype_valid", inputPath)
+		out := test.TestLint("e_ev_orgid_encoding", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
