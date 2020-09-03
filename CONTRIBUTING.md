@@ -139,3 +139,93 @@ and in your `$PATH` and run `go generate`:
 	go generate github.com/zmap/zlint/...
 
 [TLD Map]: https://github.com/zmap/zlint/blob/master/util/gtld_map.go
+
+
+Publishing a Release
+--------------------
+
+ZLint releases are published via Travis CI using Goreleaser and a bot Github
+account. Most of the release process is automated but there is still some manual
+effort involved in creating good release notes & communicating news of the
+release.
+
+At a high level the release process requires:
+
+1. Preparing release notes.
+1. Choosing an appropriate new version per semver.
+1. Pushing an annotated release candidate tag.
+1. Monitoring CI for successful completion.
+1. Editing & Publishing the Github release candidate created by CI.
+1. Creating a call-for-testing announcement in Github issues.
+1. Emailing the announcement list.
+1. Waiting a week.
+1. Pushing a final release tag.
+1. Editing & Publishing the Github release created by CI.
+1. Closing the release announcement Github issue.
+1. Emailing the announcement list.
+
+To prepare the release notes examine the diff between `HEAD` and the previous
+release tag. E.g. if `v2.0.0` is the latest release, use: 
+
+```bash
+git log v2.0.0..HEAD --oneline
+```
+
+Try to pull out the commits of importance, following the format of [previous
+release notes](https://github.com/zmap/zlint/releases/tag/v2.2.0-rc1). E.g.
+pulling out new lints, updated lints, bug fixes, etc. Remember that you don't
+need to mention every commit because the release tooling will include a full
+change-log of commits. Your job is to emphasize the highlights.
+
+When choosing a new version tag you should reference [the semver
+philosophy](http://semver.org/) and the commitments made in the [ZLint
+README](https://github.com/zmap/zlint#versioning-and-releases).
+
+Release tags should be annotated with the release notes you prepared so use `-a`
+when creating the new tag. You may want to GPG sign the tag, if so add `-s`.
+Lastly remember to obey the expected format for the tag name. For final versions
+`'v$MAJOR.$MINOR.$PATCH'` and for release candidates
+`'v$MAJOR.$MINOR.$PATCH-rc$NUMBER'`. See `git tag` for previous examples to
+match.
+
+As an example to create a tag for a first v2.2.0 release candidate run:
+```bash
+git tag -s -a v2.2.0-rc1
+git push origin v2.2.0-rc1
+```
+
+After pushing a tag with the expected release format the `deploy` provider
+configured in the `.travisci.yml` will kick in and invoke
+[Goreleaser](https://goreleaser.com/).
+
+Once the build completes Goreleaser and the `zlintbot` account will have created
+a **draft** release in [the project release section of
+Github](https://github.com/zmap/zlint/releases). You will need to edit this
+release to add your release notes in front of the full change-log of commits. The
+release will not be visible until you explicitly publish it. The Goreleaser
+automation will attach binary artifacts to the release as they are available.
+
+Now is a good time to create a call-for-testing issue. You can copy a [previous
+example](https://github.com/zmap/zlint/issues/466) to create a new one. It
+should reference the Github release you just published and is a central place
+for folks to report issues with a release candidate.
+
+Next, post to the [ZLint Announcements Mailing
+List](https://groups.google.com/forum/#!forum/zlint-announcements). You should
+copy the release notes in, link to the Github release, and also reference the
+call-for-testing issue.
+
+Assuming the release candidate has no issues that need to be addressed with bug
+fixes & a new release candidate tag you can "finalize" the release by pushing
+a new tag with the `-rc$NUMBER` portion removed. Repeat the process of editing
+the draft Github release to add notes, publishing it, and posting to the mailing
+list.
+
+You're done!
+
+For more detail consult the [Goreleaser
+docs](https://goreleaser.com/quick-start/), the `deploy` configuration in
+[`.travisci.yml`](https://github.com/zmap/zlint/blob/master/.travis.yml#L27-L35),
+and the
+[`.goreleaser.yml`](https://github.com/zmap/zlint/blob/master/v2/.goreleaser.yml)
+project configuration.
