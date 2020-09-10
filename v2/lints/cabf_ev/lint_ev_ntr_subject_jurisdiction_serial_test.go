@@ -1,4 +1,4 @@
-package etsi
+package cabf_ev
 
 /*
  * ZLint Copyright 2020 Regents of the University of Michigan
@@ -21,16 +21,15 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestEtsiQcType(t *testing.T) {
+func TestEvAltRegNumSubjectJurisSerial(t *testing.T) {
 	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert03.pem":         lint.Pass,
-		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":  lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
+		"EvAltRegNumCert52NoOrgId.pem":              lint.NA,
+		"EvAltRegNumCert56JurContryNotMatching.pem": lint.Error,
+		"EvAltRegNumCert57NtrJurSopMissing.pem":     lint.Error,
+		"EvAltRegNumCert61Valid.pem":                lint.NA,
 	}
 	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qctype_valid", inputPath)
+		out := test.TestLint("e_ev_ntr_subject_jurisdiction_serial", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
