@@ -83,8 +83,11 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // CheckEffective()
 // Execute()
 func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
-	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
-		return &LintResult{Status: NA}
+	if l.Source == CABFBaselineRequirements {
+		if l.Name != "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included" && !util.IsServerAuthCert(cert) {
+			// Here we have the situation that the BRGs also apply to certificates that are not intended for server authentication
+			return &LintResult{Status: NA}
+		}
 	}
 	if !l.Lint.CheckApplies(cert) {
 		return &LintResult{Status: NA}
