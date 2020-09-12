@@ -21,8 +21,27 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestCAWrong(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_CA_wrong.pem"
+func Test_SMIME_CAWrong(t *testing.T) {
+	inputPath := "ocspidpkixocspnocheckextnotincluded_SMIME_CA_wrong.pem"
+	expected := lint.Warn
+	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func Test_SMIME_CACorrect(t *testing.T) {
+	inputPath := "ocspidpkixocspnocheckextnotincluded_SMIME_CA_correct.pem"
+	expected := lint.NA
+	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+
+func Test_TLS_CAWrong(t *testing.T) {
+	inputPath := "ocspidpkixocspnocheckextnotincluded_TLS_CA_wrong.pem"
 	expected := lint.Error
 	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
 	if out.Status != expected {
@@ -30,8 +49,8 @@ func TestCAWrong(t *testing.T) {
 	}
 }
 
-func TestCACorrect(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_CA_correct.pem"
+func Test_TLS_CACorrect(t *testing.T) {
+	inputPath := "ocspidpkixocspnocheckextnotincluded_TLS_CA_correct.pem"
 	expected := lint.NA
 	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
 	if out.Status != expected {
