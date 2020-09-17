@@ -45,7 +45,7 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint
 		return &lint.LintResult{Status: lint.Error}
 	}
 
-	// If the certificate is not a TLS certificate, the BRGs apply, if the parent certificate has the Server Auth EKU or could possibly issue a certificate that has the Server EKU
+	// If the certificate is not a TLS certificate, the BRGs only apply, if the parent certificate has the Server Auth EKU or could possibly issue a certificate that has the Server EKU
 	return &lint.LintResult{Status: lint.Warn, Details: "If the parent (issuing) certificate contains the Server Auth EKU or no EKU at all this is an ERROR and not a WARN"}
 }
 
