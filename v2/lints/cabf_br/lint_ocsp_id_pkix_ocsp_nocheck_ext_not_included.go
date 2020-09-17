@@ -27,10 +27,7 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Initialize() error {
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) bool {
-	if util.HasEKU(c, x509.ExtKeyUsageOcspSigning) {
-		return true
-	}
-	return false
+	return util.HasEKU(c, x509.ExtKeyUsageOcspSigning)
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {
