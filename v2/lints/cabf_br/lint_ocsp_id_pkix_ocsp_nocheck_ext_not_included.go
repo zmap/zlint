@@ -34,7 +34,7 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) 
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {
-	if !util.HasEKU(c, x509.ExtKeyUsageOcspSigning) {
+	if !l.CheckApplies(c) {
 		// This point should never be reached, because this LINT only applies to certificates with this EKU
 		return &lint.LintResult{Status: lint.Fatal}
 	}
