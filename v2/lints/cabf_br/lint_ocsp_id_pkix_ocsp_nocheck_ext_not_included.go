@@ -34,11 +34,6 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) 
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {
-	if !l.CheckApplies(c) {
-		// This point should never be reached, because this LINT only applies to certificates with this EKU
-		return &lint.LintResult{Status: lint.Fatal}
-	}
-
 	if !util.IsExtInCert(c, util.OscpNoCheckOID) {
 		if util.IsServerAuthCert(c) {
 			// If the certificate is a TLS certificate, it is clear, that the BRGs apply and we have an ERROR
