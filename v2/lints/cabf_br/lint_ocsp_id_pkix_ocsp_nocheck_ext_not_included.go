@@ -34,17 +34,19 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) 
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {
-	if !util.IsExtInCert(c, util.OscpNoCheckOID) {
-		if util.IsServerAuthCert(c) {
-			// If the certificate is a TLS certificate, it is clear, that the BRGs apply and we have an ERROR
-			return &lint.LintResult{Status: lint.Error}
-		}
 
-		// If the certificate is not a TLS certificate, the BRGs apply, if one of the sibling certificates or the parent certificate has the Server Auth EKU
-		return &lint.LintResult{Status: lint.Warn, Details: "Check the sibling and parent certificate for the Server Auth EKU. If one of them contains the Server Auth EKU, this is an ERROR and not a WARN"}
+	// The OCSPNoCheckOID is included in the certficate this is a clear pass (at least for this lint)
+	if util.IsExtInCert(c, util.OscpNoCheckOID) {
+		return &lint.LintResult{Status: lint.Pass}
 	}
 
-	return &lint.LintResult{Status: lint.Pass}
+	if util.IsServerAuthCert(c) {
+		// If the certificate is a TLS certificate, it is clear, that the BRGs apply and we have an ERROR
+		return &lint.LintResult{Status: lint.Error}
+	}
+
+	// If the certificate is not a TLS certificate, the BRGs apply, if the parent certificate has the Server Auth EKU or could possibly issue a certificate that has the Server EKU
+	return &lint.LintResult{Status: lint.Warn, Details: "If the parent (issuing) certificate contains the Server Auth EKU or no EKU at all this is an ERROR and not a WARN"}
 }
 
 func init() {
