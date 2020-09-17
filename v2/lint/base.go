@@ -84,8 +84,8 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // Execute()
 func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
 	if l.Source == CABFBaselineRequirements {
-		if l.Name != "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included" && !util.IsServerAuthCert(cert) {
-			// Here we have the situation that the BRGs also apply to certificates that are not intended for server authentication
+		if !(util.IsServerAuthCert(cert) || util.IsOCSPCert(cert)) {
+			// OCSP certificates also fall under certain BRG lints, even if they don't have the ServerAuth EKU set
 			return &LintResult{Status: NA}
 		}
 	}

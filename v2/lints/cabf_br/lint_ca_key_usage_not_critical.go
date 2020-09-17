@@ -33,6 +33,12 @@ func (l *caKeyUsageNotCrit) Initialize() error {
 }
 
 func (l *caKeyUsageNotCrit) CheckApplies(c *x509.Certificate) bool {
+
+	// this check applies not, if the certificate only includes the OCSP EKU but is not a server auth certificate. Compare with https://github.com/zmap/zlint/pull/472#discussion_r489499211
+	if !(util.IsServerAuthCert(c) && !util.IsOCSPCert(c)) {
+		return false
+	}
+
 	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 

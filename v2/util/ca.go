@@ -44,6 +44,18 @@ func IsSubscriberCert(c *x509.Certificate) bool {
 	return !IsCACert(c) && !IsSelfSigned(c)
 }
 
+func IsOCSPCert(cert *x509.Certificate) bool {
+	if len(cert.ExtKeyUsage) == 0 {
+		return true
+	}
+	for _, eku := range cert.ExtKeyUsage {
+		if eku == x509.ExtKeyUsageAny || eku == x509.ExtKeyUsageOcspSigning {
+			return true
+		}
+	}
+	return false
+}
+
 func IsServerAuthCert(cert *x509.Certificate) bool {
 	if len(cert.ExtKeyUsage) == 0 {
 		return true
