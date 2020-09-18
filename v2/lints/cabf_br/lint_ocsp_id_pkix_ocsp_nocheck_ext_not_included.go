@@ -37,8 +37,9 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint
 		return &lint.LintResult{Status: lint.Pass}
 	}
 
+	// If the certificate is a TLS certificate, the Baseline Requirements apply, which require the presence of
+	// id-pkix-ocsp-nocheck as an extension.
 	if util.IsServerAuthCert(c) {
-		// If the certificate is a TLS certificate, it is clear, that the BRGs apply and we have an ERROR
 		return &lint.LintResult{Status: lint.Error}
 	}
 
