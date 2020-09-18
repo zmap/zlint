@@ -43,8 +43,14 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint
 		return &lint.LintResult{Status: lint.Error}
 	}
 
-	// If the certificate is not a TLS certificate, the BRGs only apply, if the parent certificate has the Server Auth EKU or could possibly issue a certificate that has the Server EKU
-	return &lint.LintResult{Status: lint.Warn, Details: "If the parent (issuing) certificate contains the Server Auth EKU or no EKU at all this is an ERROR and not a WARN"}
+	// If the certificate is not unambiguously a TLS certificate, then whether or not the OCSP responder
+	// is in scope of the Baseline Requirements depends on whether the issuer of this certificate is capable
+	// of being used for TLS. At present, this requires manual attention, so only return a warning.
+	return &lint.LintResult{
+		Status: lint.Warn,
+		Details: "OCSP signing Certificate without id-pkix-ocsp-nocheck. If the associated CA certificate "+
+			"is subject to the Baseline Requirements, this is an Error.",
+	}
 }
 
 func init() {
