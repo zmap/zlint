@@ -34,7 +34,7 @@ func (l *caKeyUsageNotCrit) Initialize() error {
 
 func (l *caKeyUsageNotCrit) CheckApplies(c *x509.Certificate) bool {
 
-	// this check doesn't apply, if the certificate not a server auth certificate
+	// this check doesn't apply, if the certificate is not a server auth certificate
 	if !util.IsServerAuthCert(c) {
 		return false
 	}
