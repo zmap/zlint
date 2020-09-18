@@ -31,7 +31,6 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) 
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {
-
 	// The OCSPNoCheckOID is included in the certficate this is a clear pass (at least for this lint)
 	if util.IsExtInCert(c, util.OscpNoCheckOID) {
 		return &lint.LintResult{Status: lint.Pass}
