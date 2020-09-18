@@ -43,20 +43,21 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint
 		return &lint.LintResult{Status: lint.Error}
 	}
 
-	// If the certificate is not unambiguously a TLS certificate, then whether or not the OCSP responder
-	// is in scope of the Baseline Requirements depends on whether the issuer of this certificate is capable
-	// of being used for TLS. At present, this requires manual attention, so only return a warning.
+	// If the certificate is not unambiguously a TLS certificate, then whether or not the OCSP responder is
+	// in scope of the Baseline Requirements depends on whether the issuer of this certificate is capable of
+	// being used for TLS. At present, this requires manual attention, so only return a warning.
 	return &lint.LintResult{
 		Status: lint.Warn,
-		Details: "OCSP signing Certificate without id-pkix-ocsp-nocheck. If the associated CA certificate "+
-			"is subject to the Baseline Requirements, this is an Error.",
+		Details: "OCSP signing Certificate without id-pkix-ocsp-nocheck. If the associated CA certificate is" +
+			" subject to the Baseline Requirements, this is an Error.",
 	}
 }
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included",
-		Description:   "OCSP signing Certificate MUST contain an extension of type id-pkixocsp-nocheck, as defined by RFC6960",
+		Name: "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included",
+		Description: "OCSP signing Certificate MUST contain an extension of type id-pkixocsp-nocheck, as" +
+			" defined by RFC6960",
 		Citation:      "BRs: 4.9.9",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.MozillaPolicy21Date,
