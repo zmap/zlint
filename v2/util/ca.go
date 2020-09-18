@@ -16,6 +16,7 @@ package util
 
 import (
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v2/util"
 )
 
 // IsCACert returns true if c has IsCA set.
@@ -45,15 +46,7 @@ func IsSubscriberCert(c *x509.Certificate) bool {
 }
 
 func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
-	if len(cert.ExtKeyUsage) == 0 {
-		return true
-	}
-	for _, eku := range cert.ExtKeyUsage {
-		if eku == x509.ExtKeyUsageAny || eku == x509.ExtKeyUsageOcspSigning {
-			return true
-		}
-	}
-	return false
+	return util.HasEKU(c, x509.ExtKeyUsageOcspSigning)
 }
 
 func IsServerAuthCert(cert *x509.Certificate) bool {
