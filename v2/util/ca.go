@@ -46,6 +46,7 @@ func IsSubscriberCert(c *x509.Certificate) bool {
 }
 
 func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
+	// compare https://tools.ietf.org/html/rfc6960#section-4.2.2.2
 	return util.HasEKU(c, x509.ExtKeyUsageOcspSigning)
 }
 
