@@ -27,7 +27,7 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Initialize() error {
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) bool {
-	return util.IsOCSPCert(c)
+	return util.IsDelegatedOCSPResponderCert(c)
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {

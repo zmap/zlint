@@ -83,7 +83,7 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // CheckEffective()
 // Execute()
 func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
-	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) && !util.IsOCSPCert(cert) {
+	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) && !util.IsDelegatedOCSPResponderCert(cert) {
 		// OCSP certificates also fall under certain BRG lints, even if they don't have the ServerAuth EKU set
 		return &LintResult{Status: NA}
 	}

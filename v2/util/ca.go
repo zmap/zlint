@@ -44,7 +44,7 @@ func IsSubscriberCert(c *x509.Certificate) bool {
 	return !IsCACert(c) && !IsSelfSigned(c)
 }
 
-func IsOCSPCert(cert *x509.Certificate) bool {
+func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
 	if len(cert.ExtKeyUsage) == 0 {
 		return true
 	}
