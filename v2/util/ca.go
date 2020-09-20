@@ -45,7 +45,8 @@ func IsSubscriberCert(c *x509.Certificate) bool {
 }
 
 func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
-	// compare https://tools.ietf.org/html/rfc6960#section-4.2.2.2
+	// See https://tools.ietf.org/html/rfc6960#section-4.2.2.2
+	// OCSP Delegated Responders require the EKU explicitly and id-kp-anyExtendedKeyUsage is not allowed.
 	return HasEKU(cert, x509.ExtKeyUsageOcspSigning)
 }
 
