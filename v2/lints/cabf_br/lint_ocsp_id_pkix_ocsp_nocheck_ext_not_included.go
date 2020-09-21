@@ -60,7 +60,7 @@ func init() {
 			" defined by RFC6960",
 		Citation:      "BRs: 4.9.9",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.MozillaPolicy21Date,
+		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &OCSPIDPKIXOCSPNocheckExtNotIncluded{},
 	})
 }
