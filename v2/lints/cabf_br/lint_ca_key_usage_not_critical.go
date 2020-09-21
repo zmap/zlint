@@ -33,13 +33,9 @@ func (l *caKeyUsageNotCrit) Initialize() error {
 }
 
 func (l *caKeyUsageNotCrit) CheckApplies(c *x509.Certificate) bool {
-
-	// this check doesn't apply, if the certificate is not a server auth certificate
-	if !util.IsServerAuthCert(c) {
-		return false
-	}
-
-	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
+	// Key Usage is only required to be critical for Root CA and Subordinate CA certificates, and does not
+	// currently apply to OCSP responder certificates.
+	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID) && util.IsServerAuthCert(c)
 }
 
 func (l *caKeyUsageNotCrit) Execute(c *x509.Certificate) *lint.LintResult {
