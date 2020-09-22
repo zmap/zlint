@@ -1,4 +1,3 @@
-// todo: This package should be renamed to something like "TestUtils"
 package test
 
 /*
@@ -23,28 +22,9 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"testing"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
 )
-
-type TestCase struct {
-	Name           string
-	Filename       string
-	ExpectedResult lint.LintStatus
-}
-
-func RunTest(lintName string, testCases []TestCase, t *testing.T) {
-	for _, tc := range testCases {
-		t.Run(tc.Name, func(t *testing.T) {
-			result := TestLint(lintName, tc.Filename)
-			if result.Status != tc.ExpectedResult {
-				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
-			}
-		})
-	}
-}
 
 // TestLint executes the given lintName against a certificate read from
 // a testcert data file with the given filename. Filenames should be relative to

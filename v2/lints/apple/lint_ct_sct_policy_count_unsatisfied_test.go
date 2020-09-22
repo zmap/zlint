@@ -28,7 +28,11 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 	// arguments that were used to create the test file.
 	//
 	// [0]: https://gist.github.com/cpu/6d26b2718f29e184ff88a90f02d7cbcb
-	testCases := []test.TestCase{
+	testCases := []struct {
+		Name           string
+		Filename       string
+		ExpectedResult lint.LintStatus
+	}{
 		{
 			Name: "No SCTs, poisoned",
 			// go run sctTestCerts.go -lifetime 3 -scts 0 -poison > testlint/testCerts/ctNoSCTsPoisoned.pem
@@ -97,7 +101,12 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 		},
 	}
 
-	lintName := "w_ct_sct_policy_count_unsatisfied"
-
-	test.RunTest(lintName, testCases, t)
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("w_ct_sct_policy_count_unsatisfied", tc.Filename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
+	}
 }
