@@ -36,7 +36,6 @@ type TestCase struct {
 }
 
 func RunTest(lintName string, testCases []TestCase, t *testing.T) {
-	t.Helper()
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
 			result := TestLint(lintName, tc.Filename)
