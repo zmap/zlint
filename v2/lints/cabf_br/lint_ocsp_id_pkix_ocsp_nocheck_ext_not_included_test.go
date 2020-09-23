@@ -21,8 +21,26 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
+type TestCase struct {
+	Name           string
+	Filename       string
+	ExpectedResult lint.LintStatus
+}
+
+func RunTest(lintName string, testCases []TestCase, t *testing.T) {
+	t.Helper()
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint(lintName, tc.Filename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
+	}
+}
+
 func TestOCSPIDPKIXOCSPNocheckExtNotIncluded(t *testing.T) {
-	testCases := []test.TestCase{
+	testCases := []TestCase{
 		{
 			Name:           "SMIME CA Wrong",
 			Filename:       "ocspidpkixocspnocheckextnotincluded_SMIME_CA_wrong.pem",
@@ -51,5 +69,5 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncluded(t *testing.T) {
 
 	lintName := "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included"
 
-	test.RunTest(lintName, testCases, t)
+	RunTest(lintName, testCases, t)
 }
