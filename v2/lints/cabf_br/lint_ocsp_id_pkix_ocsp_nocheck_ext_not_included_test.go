@@ -21,48 +21,35 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func Test_SMIME_CAWrong(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_SMIME_CA_wrong.pem"
-	expected := lint.Warn
-	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestOCSPIDPKIXOCSPNocheckExtNotIncluded(t *testing.T) {
+	testCases := []test.TestCase{
+		{
+			Name:           "SMIME CA Wrong",
+			Filename:       "ocspidpkixocspnocheckextnotincluded_SMIME_CA_wrong.pem",
+			ExpectedResult: lint.Warn,
+		},
+		{
+			Name:           "SMIME CA Correct",
+			Filename:       "ocspidpkixocspnocheckextnotincluded_SMIME_CA_correct.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "TLS CA Wrong",
+			Filename:       "ocspidpkixocspnocheckextnotincluded_TLS_CA_wrong.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "TLS CA Correct",
+			Filename:       "ocspidpkixocspnocheckextnotincluded_TLS_CA_correct.pem",
+			ExpectedResult: lint.NA,
+		}, {
+			Name:           "Delegated Responder",
+			Filename:       "ocspidpkixocspnocheckextnotincluded_delegated_responder.pem",
+			ExpectedResult: lint.Pass,
+		},
 	}
-}
 
-func Test_SMIME_CACorrect(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_SMIME_CA_correct.pem"
-	expected := lint.NA
-	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
+	lintName := "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included"
 
-
-func Test_TLS_CAWrong(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_TLS_CA_wrong.pem"
-	expected := lint.Error
-	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func Test_TLS_CACorrect(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_TLS_CA_correct.pem"
-	expected := lint.NA
-	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestDelegatedResponder(t *testing.T) {
-	inputPath := "ocspidpkixocspnocheckextnotincluded_delegated_responder.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
+	test.RunTest(lintName, testCases, t)
 }
