@@ -179,6 +179,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [GoDaddy](https://www.godaddy.com)
 * [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
+* [Nexus Certificate Manager] (https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
 * [Siemens](https://siemens.com)
 * [QuoVadis](https://www.quovadisglobal.com/)
 
