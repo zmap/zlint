@@ -35,7 +35,7 @@ func (l *DNSNameProperCharacters) Initialize() error {
 }
 
 func (l *DNSNameProperCharacters) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c) && util.IsServerAuthCert(c)
 }
 
 func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *lint.LintResult {

@@ -27,7 +27,7 @@ func (l *subCertProvinceMustAppear) Initialize() error {
 }
 
 func (l *subCertProvinceMustAppear) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCertProvinceMustAppear) Execute(c *x509.Certificate) *lint.LintResult {

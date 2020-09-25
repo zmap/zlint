@@ -35,7 +35,7 @@ func (l *subCertPolicyEmpty) Initialize() error {
 }
 
 func (l *subCertPolicyEmpty) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCACert(c)
+	return !util.IsCACert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCertPolicyEmpty) Execute(c *x509.Certificate) *lint.LintResult {

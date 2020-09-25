@@ -29,7 +29,7 @@ func (l *DNSNameLabelLengthTooLong) Initialize() error {
 }
 
 func (l *DNSNameLabelLengthTooLong) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c) && util.IsServerAuthCert(c)
 }
 
 func labelLengthTooLong(domain string) bool {

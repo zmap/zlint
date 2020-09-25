@@ -27,7 +27,7 @@ func (l *subCAEKUValidFields) Initialize() error {
 }
 
 func (l *subCAEKUValidFields) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid)
+	return util.IsSubCA(c) && util.IsExtInCert(c, util.EkuSynOid) && util.IsServerAuthCert(c)
 }
 
 func (l *subCAEKUValidFields) Execute(c *x509.Certificate) *lint.LintResult {

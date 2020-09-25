@@ -38,7 +38,7 @@ func (l *subCertOcspUrl) Initialize() error {
 }
 
 func (l *subCertOcspUrl) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCACert(c)
+	return !util.IsCACert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCertOcspUrl) Execute(c *x509.Certificate) *lint.LintResult {

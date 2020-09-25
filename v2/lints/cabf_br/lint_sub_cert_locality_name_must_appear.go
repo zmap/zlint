@@ -27,7 +27,7 @@ func (l *subCertLocalityNameMustAppear) Initialize() error {
 }
 
 func (l *subCertLocalityNameMustAppear) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCertLocalityNameMustAppear) Execute(c *x509.Certificate) *lint.LintResult {

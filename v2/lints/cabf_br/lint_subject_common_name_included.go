@@ -32,7 +32,7 @@ func (l *commonNames) Initialize() error {
 }
 
 func (l *commonNames) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCACert(c)
+	return !util.IsCACert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *commonNames) Execute(c *x509.Certificate) *lint.LintResult {

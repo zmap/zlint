@@ -36,7 +36,7 @@ func (l *subjectCommonNameNotFromSAN) Initialize() error {
 }
 
 func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
-	return c.Subject.CommonName != "" && !util.IsCACert(c)
+	return c.Subject.CommonName != "" && !util.IsCACert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *lint.LintResult {

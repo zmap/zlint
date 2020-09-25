@@ -27,7 +27,7 @@ func (l *subCertValidTimeLongerThan825Days) Initialize() error {
 }
 
 func (l *subCertValidTimeLongerThan825Days) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCertValidTimeLongerThan825Days) Execute(c *x509.Certificate) *lint.LintResult {

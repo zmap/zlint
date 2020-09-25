@@ -36,7 +36,7 @@ func (l *subCertIssuerUrl) Initialize() error {
 }
 
 func (l *subCertIssuerUrl) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCertIssuerUrl) Execute(c *x509.Certificate) *lint.LintResult {

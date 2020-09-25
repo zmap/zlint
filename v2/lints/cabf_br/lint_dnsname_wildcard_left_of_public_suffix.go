@@ -27,7 +27,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) Initialize() error {
 }
 
 func (l *DNSNameWildcardLeftofPublicSuffix) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c) && util.IsServerAuthCert(c)
 }
 
 func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *lint.LintResult {

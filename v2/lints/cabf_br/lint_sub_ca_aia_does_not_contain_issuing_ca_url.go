@@ -37,7 +37,7 @@ func (l *subCaIssuerUrl) Initialize() error {
 }
 
 func (l *subCaIssuerUrl) CheckApplies(c *x509.Certificate) bool {
-	return util.IsCACert(c) && !util.IsRootCA(c)
+	return util.IsCACert(c) && !util.IsRootCA(c) && util.IsServerAuthCert(c)
 }
 
 func (l *subCaIssuerUrl) Execute(c *x509.Certificate) *lint.LintResult {

@@ -37,7 +37,7 @@ func (l *countryNotIso) Initialize() error {
 }
 
 func (l *countryNotIso) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return util.IsServerAuthCert(c)
 }
 
 func (l *countryNotIso) Execute(c *x509.Certificate) *lint.LintResult {

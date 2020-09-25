@@ -37,7 +37,7 @@ func (l *caDigSignNotSet) Initialize() error {
 }
 
 func (l *caDigSignNotSet) CheckApplies(c *x509.Certificate) bool {
-	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)
+	return c.IsCA && util.IsExtInCert(c, util.KeyUsageOID)  && util.IsServerAuthCert(c)
 }
 
 func (l *caDigSignNotSet) Execute(c *x509.Certificate) *lint.LintResult {

@@ -27,7 +27,7 @@ func (l *DNSNameValidTLD) Initialize() error {
 }
 
 func (l *DNSNameValidTLD) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c) && util.IsServerAuthCert(c)
 }
 
 func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *lint.LintResult {
@@ -46,6 +46,7 @@ func (l *DNSNameValidTLD) Execute(c *x509.Certificate) *lint.LintResult {
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
+		// todo: why doesn't match the name of the lint to the name of the file?
 		Name:          "e_dnsname_not_valid_tld",
 		Description:   "DNSNames must have a valid TLD.",
 		Citation:      "BRs: 7.1.4.2",

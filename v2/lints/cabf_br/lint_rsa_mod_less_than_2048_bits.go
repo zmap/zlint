@@ -29,6 +29,10 @@ func (l *rsaParsedTestsKeySize) Initialize() error {
 }
 
 func (l *rsaParsedTestsKeySize) CheckApplies(c *x509.Certificate) bool {
+	if !util.IsServerAuthCert(c) {
+		return false
+	}
+
 	_, ok := c.PublicKey.(*rsa.PublicKey)
 	return ok && c.PublicKeyAlgorithm == x509.RSA && c.NotAfter.After(util.NoRSA1024Date.Add(-1))
 }

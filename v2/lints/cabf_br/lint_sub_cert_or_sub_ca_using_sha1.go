@@ -32,7 +32,7 @@ func (l *sigAlgTestsSHA1) Initialize() error {
 }
 
 func (l *sigAlgTestsSHA1) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return util.IsServerAuthCert(c)
 }
 
 func (l *sigAlgTestsSHA1) Execute(c *x509.Certificate) *lint.LintResult {
