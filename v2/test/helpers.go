@@ -92,9 +92,9 @@ func ReadTestCert(inPath string) *x509.Certificate {
 	theCert, err := x509.ParseCertificate(data)
 	if err != nil {
 		panic(fmt.Sprintf(
-			"Failed to parse x509 test certificate from %q - "+
+			"Failed to parse x509 test certificate from %q - %q "+
 				"Does a unit test have a buggy test cert file?\n",
-			fullPath))
+			fullPath, err))
 	}
 
 	return theCert
