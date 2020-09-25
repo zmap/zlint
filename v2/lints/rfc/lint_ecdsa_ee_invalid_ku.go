@@ -75,7 +75,7 @@ func (l *ecdsaInvalidKU) Execute(c *x509.Certificate) *lint.LintResult {
 		// unit testing
 		sort.Strings(invalidKUs)
 		return &lint.LintResult{
-			Status: lint.Notice,
+			Status: lint.Error,
 			Details: fmt.Sprintf(
 				"Certificate had unexpected key usage(s): %s",
 				strings.Join(invalidKUs, ", ")),
