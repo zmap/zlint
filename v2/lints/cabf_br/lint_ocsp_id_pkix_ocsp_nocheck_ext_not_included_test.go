@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-type TestCase struct {
+type testCase struct {
 	Name           string
 	Filename       string
 	ExpectedResult lint.LintStatus
