@@ -67,7 +67,5 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncluded(t *testing.T) {
 		},
 	}
 
-	lintName := "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included"
-
-	RunTest(lintName, testCases, t)
+	RunTest("e_ocsp_id_pkix_ocsp_nocheck_ext_not_included", testCases, t)
 }
