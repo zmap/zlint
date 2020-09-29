@@ -27,7 +27,7 @@ type testCase struct {
 	ExpectedResult lint.LintStatus
 }
 
-func RunTest(lintName string, testCases []TestCase, t *testing.T) {
+func runTest(lintName string, testCases []TestCase, t *testing.T) {
 	t.Helper()
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
