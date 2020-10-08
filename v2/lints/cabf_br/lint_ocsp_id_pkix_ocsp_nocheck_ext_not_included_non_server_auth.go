@@ -20,27 +20,21 @@ import (
 	"github.com/zmap/zlint/v2/util"
 )
 
-type OCSPIDPKIXOCSPNocheckExtNotIncluded struct{}
+type OCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth struct{}
 
-func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Initialize() error {
+func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth) Initialize() error {
 	return nil
 }
 
-func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) CheckApplies(c *x509.Certificate) bool {
-	return util.IsDelegatedOCSPResponderCert(c)
+func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth) CheckApplies(c *x509.Certificate) bool {
+	return util.IsDelegatedOCSPResponderCert(c) && !util.IsServerAuthCert(c)
 }
 
-func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth) Execute(c *x509.Certificate) *lint.LintResult {
 	// If the id-pkix-ocsp-nocheck extension, as specified in RFC 6960, Section 4.2.2.2.1, is present, then
 	// the certificate complies.
 	if util.IsExtInCert(c, util.OscpNoCheckOID) {
 		return &lint.LintResult{Status: lint.Pass}
-	}
-
-	// If the certificate is a TLS certificate, the Baseline Requirements apply, which require the presence of
-	// id-pkix-ocsp-nocheck as an extension.
-	if util.IsServerAuthCert(c) {
-		return &lint.LintResult{Status: lint.Error}
 	}
 
 	// If the certificate is not unambiguously a TLS certificate, then whether or not the OCSP responder is
@@ -55,12 +49,12 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncluded) Execute(c *x509.Certificate) *lint
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name: "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included",
+		Name: "w_ocsp_id_pkix_ocsp_nocheck_ext_not_included_non_server_auth",
 		Description: "OCSP signing Certificate MUST contain an extension of type id-pkixocsp-nocheck, as" +
 			" defined by RFC6960",
 		Citation:      "BRs: 4.9.9",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &OCSPIDPKIXOCSPNocheckExtNotIncluded{},
+		Lint:          &OCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth{},
 	})
 }
