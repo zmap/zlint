@@ -180,7 +180,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
-* [Siemens](https://siemens.com)
+* [Siemens](https://siemens.com/pki)
 * [QuoVadis](https://www.quovadisglobal.com/)
 
 Please submit a pull request to update the README if you are aware of
