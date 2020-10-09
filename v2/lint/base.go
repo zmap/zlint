@@ -83,19 +83,14 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // CheckEffective()
 // Execute()
 func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
-	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) && !util.IsDelegatedOCSPResponderCert(cert) {
-		// The Baseline Requirements only apply to certificates technically capable of TLS issuance, as well as the
-		// infrastructure supporting them, such as OCSP responders. This is checked early, to avoid having to
-		// duplicate this check in every lint.
+	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
 		return &LintResult{Status: NA}
 	}
-
 	if !l.Lint.CheckApplies(cert) {
 		return &LintResult{Status: NA}
 	} else if !l.CheckEffective(cert) {
 		return &LintResult{Status: NE}
 	}
-
 	res := l.Lint.Execute(cert)
 	return res
 }

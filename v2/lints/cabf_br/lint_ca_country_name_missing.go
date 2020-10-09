@@ -35,7 +35,7 @@ func (l *caCountryNameMissing) Initialize() error {
 }
 
 func (l *caCountryNameMissing) CheckApplies(c *x509.Certificate) bool {
-	return c.IsCA  && util.IsServerAuthCert(c)
+	return c.IsCA
 }
 
 func (l *caCountryNameMissing) Execute(c *x509.Certificate) *lint.LintResult {

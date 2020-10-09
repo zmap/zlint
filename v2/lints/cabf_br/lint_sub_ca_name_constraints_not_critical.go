@@ -38,7 +38,7 @@ func (l *SubCANameConstraintsNotCritical) Initialize() error {
 }
 
 func (l *SubCANameConstraintsNotCritical) CheckApplies(cert *x509.Certificate) bool {
-	return util.IsSubCA(cert) && util.IsExtInCert(cert, util.NameConstOID) && util.IsServerAuthCert(cert)
+	return util.IsSubCA(cert) && util.IsExtInCert(cert, util.NameConstOID)
 }
 
 func (l *SubCANameConstraintsNotCritical) Execute(cert *x509.Certificate) *lint.LintResult {

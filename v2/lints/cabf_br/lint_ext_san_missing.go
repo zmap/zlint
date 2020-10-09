@@ -34,7 +34,7 @@ func (l *SANMissing) Initialize() error {
 }
 
 func (l *SANMissing) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCACert(c) && util.IsServerAuthCert(c)
+	return !util.IsCACert(c)
 }
 
 func (l *SANMissing) Execute(c *x509.Certificate) *lint.LintResult {
