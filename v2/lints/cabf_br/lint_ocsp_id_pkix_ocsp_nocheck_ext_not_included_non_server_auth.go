@@ -53,7 +53,7 @@ func init() {
 		Description: "OCSP signing Certificate MUST contain an extension of type id-pkixocsp-nocheck, as" +
 			" defined by RFC6960",
 		Citation:      "BRs: 4.9.9",
-		Source:        lint.CABFBaselineRequirements,
+		Source:        lint.CABFBaselineRequirementsOverbearing,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &OCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth{},
 	})
