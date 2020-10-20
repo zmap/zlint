@@ -158,11 +158,16 @@ func TestCorpus(t *testing.T) {
 			*configFile)
 	} else {
 		// Otherwise enforce the maps match
+		failCounter := 0
 		for k, v := range resultsByLint {
 			if conf.Expected[k] != v {
 				t.Errorf("expected lint %q to have result %s got %s\n",
 					k, conf.Expected[k], v)
+				failCounter++
 			}
+		}
+		if failCounter > 0 {
+			fmt.Printf("%d lint(s) failed", failCounter)
 		}
 	}
 
