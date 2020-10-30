@@ -44,6 +44,13 @@ func IsSubscriberCert(c *x509.Certificate) bool {
 	return !IsCACert(c) && !IsSelfSigned(c)
 }
 
+// IsDelegatedOCSPResponderCert returns true if the id-kp-OCSPSigning EKU is set
+// According https://tools.ietf.org/html/rfc6960#section-4.2.2.2 it is not sufficient
+// to have only the id-kp-anyExtendedKeyUsage included
+func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
+	return HasEKU(cert, x509.ExtKeyUsageOcspSigning)
+}
+
 func IsServerAuthCert(cert *x509.Certificate) bool {
 	if len(cert.ExtKeyUsage) == 0 {
 		return true
