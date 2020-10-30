@@ -25,17 +25,18 @@ import (
 type LintSource string
 
 const (
-	UnknownLintSource        LintSource = "Unknown"
-	RFC5280                  LintSource = "RFC5280"
-	RFC5480                  LintSource = "RFC5480"
-	RFC5891                  LintSource = "RFC5891"
-	CABFBaselineRequirements LintSource = "CABF_BR"
-	CABFEVGuidelines         LintSource = "CABF_EV"
-	MozillaRootStorePolicy   LintSource = "Mozilla"
-	AppleCTPolicy            LintSource = "Apple"
-	ZLint                    LintSource = "ZLint"
-	AWSLabs                  LintSource = "AWSLabs"
-	EtsiEsi                  LintSource = "ETSI_ESI"
+	UnknownLintSource                   LintSource = "Unknown"
+	RFC5280                             LintSource = "RFC5280"
+	RFC5480                             LintSource = "RFC5480"
+	RFC5891                             LintSource = "RFC5891"
+	CABFBaselineRequirementsOverbearing LintSource = "CABF_BR_Overbearing"
+	CABFBaselineRequirements            LintSource = "CABF_BR"
+	CABFEVGuidelines                    LintSource = "CABF_EV"
+	MozillaRootStorePolicy              LintSource = "Mozilla"
+	AppleCTPolicy                       LintSource = "Apple"
+	ZLint                               LintSource = "ZLint"
+	AWSLabs                             LintSource = "AWSLabs"
+	EtsiEsi                             LintSource = "ETSI_ESI"
 )
 
 // UnmarshalJSON implements the json.Unmarshaler interface. It ensures that the
@@ -47,7 +48,7 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 	}
 
 	switch LintSource(throwAway) {
-	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleCTPolicy, ZLint, AWSLabs, EtsiEsi:
+	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirementsOverbearing, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleCTPolicy, ZLint, AWSLabs, EtsiEsi:
 		*s = LintSource(throwAway)
 		return nil
 	default:
@@ -71,6 +72,8 @@ func (s *LintSource) FromString(src string) {
 		*s = RFC5480
 	case RFC5891:
 		*s = RFC5891
+	case CABFBaselineRequirementsOverbearing:
+		*s = CABFBaselineRequirementsOverbearing
 	case CABFBaselineRequirements:
 		*s = CABFBaselineRequirements
 	case CABFEVGuidelines:
