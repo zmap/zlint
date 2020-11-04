@@ -38,7 +38,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *lint.L
 		}
 
 		if domainInfo.ParsedDomain.SLD == "*" {
-			return &lint.LintResult{Status: lint.Warn}
+			return &lint.LintResult{Status: lint.Notice}
 		}
 	}
 
@@ -49,7 +49,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *lint.L
 		}
 
 		if parsedSANDNSNames[i].ParsedDomain.SLD == "*" {
-			return &lint.LintResult{Status: lint.Warn}
+			return &lint.LintResult{Status: lint.Notice}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
@@ -57,7 +57,7 @@ func (l *DNSNameWildcardLeftofPublicSuffix) Execute(c *x509.Certificate) *lint.L
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "w_dnsname_wildcard_left_of_public_suffix",
+		Name:          "n_dnsname_wildcard_left_of_public_suffix",
 		Description:   "the CA MUST establish and follow a documented procedure[^pubsuffix] that determines if the wildcard character occurs in the first label position to the left of a “registry‐controlled” label or “public suffix”",
 		Citation:      "BRs: 3.2.2.6",
 		Source:        lint.CABFBaselineRequirements,

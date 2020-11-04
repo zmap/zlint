@@ -24,7 +24,7 @@ import (
 func TestWildcardLeftOfPublicSuffix(t *testing.T) {
 	inputPath := "dnsNameWildcardLeftOfPublicSuffix.pem"
 	expected := lint.Warn
-	out := test.TestLint("w_dnsname_wildcard_left_of_public_suffix", inputPath)
+	out := test.TestLint("n_dnsname_wildcard_left_of_public_suffix", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -33,7 +33,7 @@ func TestWildcardLeftOfPublicSuffix(t *testing.T) {
 func TestWildcardNotLeftOfPublicSuffix(t *testing.T) {
 	inputPath := "dnsNameWildcardNotLeftOfPublicSuffix.pem"
 	expected := lint.Pass
-	out := test.TestLint("w_dnsname_wildcard_left_of_public_suffix", inputPath)
+	out := test.TestLint("n_dnsname_wildcard_left_of_public_suffix", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
