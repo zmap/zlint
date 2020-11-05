@@ -23,7 +23,7 @@ import (
 
 func TestWildcardLeftOfPublicSuffix(t *testing.T) {
 	inputPath := "dnsNameWildcardLeftOfPublicSuffix.pem"
-	expected := lint.Warn
+	expected := lint.Notice
 	out := test.TestLint("n_dnsname_wildcard_left_of_public_suffix", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -23,7 +23,7 @@ import (
 
 func TestSANBarePubSuffix(t *testing.T) {
 	inputPath := "SANBareSuffix.pem"
-	expected := lint.Warn
+	expected := lint.Notice
 	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
