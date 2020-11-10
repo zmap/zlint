@@ -33,7 +33,7 @@ fields filled out.
    lints should not be used for non-deterministic errors.
 
  * **Notice:** `Notice` should be used for more general "FYI" statements that
-   indicate there may be a problem.
+   indicate there may be a problem. Non-deterministic lints are OK. 
 
 Lints only return one non-success or non-fatal status, which must also match
 its name prefix. For example, `e_ian_wildcard_not_first` can only return a
