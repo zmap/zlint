@@ -30,7 +30,8 @@ fields filled out.
  * **Warning:** `Warn` can only be used for violations of `SHOULD` or `SHOULD
    NOT` requirements and again should include strong citations. Many
    certificate authorities block on both Error and Warning lints, and Warning
-   lints should not be used for non-deterministic errors.
+   lints should not be used for non-deterministic errors (e.g., calculating 
+   whether a serial number has sufficient entropy based on high-order bits.)
 
  * **Notice:** `Notice` should be used for more general "FYI" statements that
    indicate there may be a problem. Non-deterministic lints are OK. 
