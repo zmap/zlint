@@ -50,7 +50,7 @@ func TestKeyUsageAndExtendedKeyUsageConsistency(t *testing.T) {
 		// eo1 --> KU encipherOnly set
 		// do1 --> KU decipherOnly set
 
-		//TODO: doc for each test group
+		// Tests for 1 EKU bit set
 		{
 			Name:           "TestConsistentKUBitWithServerAuthEKUBit",
 			Filename:       "a1s1c0cs0ep0ts0o0nc1_ds1.pem",
@@ -116,11 +116,13 @@ func TestKeyUsageAndExtendedKeyUsageConsistency(t *testing.T) {
 			Filename:       "a1s0c0cs0ep0ts1o0nc1_ke1.pem",
 			ExpectedResult: lint.Error,
 		},
+		// Test for all EKU bits set
 		{
 			Name:           "TestAllEKUBitsSetWithConsistentKUBits",
 			Filename:       "a1s1c1cs1ep1ts1o1nc1_ds1.pem",
 			ExpectedResult: lint.Pass,
 		},
+		// Tests for multiple EKU bits set
 		{
 			Name:           "Test2EKUBitsSetWithConsistentKUBits",
 			Filename:       "a1s0c0cs0ep0ts1o1nc1_ds1cc1.pem",
