@@ -44,7 +44,7 @@ part of the certificate processing.
 
 **Lint Source:** Typically Lint Source is straightfoward since every lint needs
 a citation. However, sometimes the community has lints that aren't codified in
-a formal document. In these situations, do not create an `NOTICE` lint under a
+a formal document. In these situations, do not create a `NOTICE` lint under a
 common source (e.g,. RFC or Baseline Requirements). Instead, create a lint
 using the `ZLint` source. Lints in this source are included at the maintainers'
 discretion, though we typically shy away from lints with significant
