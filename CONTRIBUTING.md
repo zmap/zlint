@@ -36,7 +36,7 @@ fields filled out.
    indicate there may be a problem. Non-deterministic lints are OK. 
 
 Lints only return one non-success or non-fatal status, which must also match
-its name prefix. For example, `e_ian_wildcard_not_first` can only return a
+their name prefix. For example, `e_ian_wildcard_not_first` can only return a
 `SUCCESS`, `ERROR`, or `FATAL` status.  It cannot return a `NOTICE` or
 `WARNING` status. Any lint can return a `FATAL` error, but `FATAL` should only
 be used when there is an unresolvable error in `zlint`, `zcrypto` or some other
