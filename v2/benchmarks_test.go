@@ -119,7 +119,7 @@ func BenchmarkZlint(b *testing.B) {
 			for _, key := range names {
 				switch key {
 				case "w_dnsname_underscore_in_trd", "e_dnsname_underscore_in_sld", "e_dnsname_hyphen_in_sld",
-					"w_dnsname_wildcard_left_of_public_suffix", "w_san_iana_pub_suffix_empty":
+					"n_dnsname_wildcard_left_of_public_suffix", "n_san_iana_pub_suffix_empty":
 					continue
 				}
 				value := lint.GlobalRegistry().ByName(key)
@@ -139,7 +139,7 @@ func BenchmarkZlint(b *testing.B) {
 			for _, key := range names {
 				switch key {
 				case "w_dnsname_underscore_in_trd", "e_dnsname_underscore_in_sld", "e_dnsname_hyphen_in_sld",
-					"w_dnsname_wildcard_left_of_public_suffix", "w_san_iana_pub_suffix_empty",
+					"n_dnsname_wildcard_left_of_public_suffix", "n_san_iana_pub_suffix_empty",
 					"w_rsa_mod_factors_smaller_than_752", "e_dnsname_bad_character_in_label", "w_subject_dn_leading_whitespace",
 					"w_subject_dn_trailing_whitespace", "w_multiple_subject_rdn", "e_ext_san_dns_not_ia5_string",
 					"e_ext_san_empty_name", "e_dnsname_not_valid_tld", "e_dnsname_contains_bare_iana_suffix",
