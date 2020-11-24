@@ -746,6 +746,9 @@
     },
     "e_cert_sig_alg_not_match_tbs_sig_alg": {
       "ErrCount": 10
+    },
+    "e_key_usage_and_extended_key_usage_inconsistent": {
+      "ErrCount": 140
     }
   }
 }
