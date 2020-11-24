@@ -43,7 +43,7 @@ var (
 	excludeSources   = flag.String("excludeSources", "", "Comma-separated list of lint sources to exclude")
 	// outputTick is a flag for controlling the number of certificates that are
 	// linted before a '.' is printed in the console. This controls the mechanism
-	// used to keep Travis from thinking the job is dead because there hasn't been
+	// used to keep CI from thinking the job is dead because there hasn't been
 	// output.
 	outputTick = flag.Int("outputTick", 1000,
 		"number of certificates to lint before printing a '.' marker in the output")

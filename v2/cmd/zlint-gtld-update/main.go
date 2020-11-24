@@ -16,6 +16,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -108,7 +109,16 @@ var tldMap = map[string]GTLDPeriod{
 // getData fetches the response body bytes from an HTTP get to the provider url,
 // or returns an error.
 func getData(url string) ([]byte, error) {
-	resp, err := httpClient.Get(url)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+
+	// Change NewRequest to NewRequestWithContext and pass context it
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("unable to fetch data from %q : %s",
 			url, err)

@@ -2,14 +2,13 @@ package formattedoutput
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode/utf8"
-	"sort"
 
 	"github.com/zmap/zlint/v2"
 	"github.com/zmap/zlint/v2/lint"
-
 )
 
 type resultsTable struct {
@@ -44,7 +43,7 @@ func (r *resultsTable) newRT(threshold lint.LintStatus, results *zlint.ResultSet
 			if longSummary {
 				r.resultDetails[lintResult.Status] = append(
 					r.resultDetails[lintResult.Status],
-					string(lintName),
+					lintName,
 				)
 			}
 		}
@@ -57,7 +56,6 @@ func (r *resultsTable) newRT(threshold lint.LintStatus, results *zlint.ResultSet
 
 	return *r
 }
-
 
 func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 	// Set the threashold under which (inclusive) events are not
@@ -88,8 +86,8 @@ func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		for _, level := range rt.sortedLevels {
 			foundDetail := false
 			for _, detail := range rt.resultDetails[lint.LintStatus(level)] {
-				if fmt.Sprintf("%s", lint.LintStatus(level)) != olsl {
-					olsl = fmt.Sprintf("%s", lint.LintStatus(level))
+				if lint.LintStatus(level).String() != olsl {
+					olsl = lint.LintStatus(level).String()
 					lsl = olsl
 					rescount = strconv.Itoa(rt.resultCount[lint.LintStatus(level)])
 				} else {
@@ -101,7 +99,7 @@ func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 			}
 			if !foundDetail {
 				lines = append(lines, []string{
-					fmt.Sprintf("%s", lint.LintStatus(level)),
+					lint.LintStatus(level).String(),
 					strconv.Itoa(rt.resultCount[lint.LintStatus(level)]),
 					" - ",
 				})
@@ -114,7 +112,7 @@ func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 		lines := [][]string{}
 		for _, level := range rt.sortedLevels {
 			lines = append(lines, []string{
-				fmt.Sprintf("%s", lint.LintStatus(level)),
+				lint.LintStatus(level).String(),
 				strconv.Itoa(rt.resultCount[lint.LintStatus(level)])})
 		}
 		printTableBody(hlengths, lines)

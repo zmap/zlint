@@ -69,6 +69,7 @@ func (l *generalizedNoSeconds) Execute(c *x509.Certificate) *lint.LintResult {
 	return &lint.LintResult{Status: r}
 }
 
+//nolint:nestif
 func checkSeconds(r *lint.LintStatus, t asn1.RawValue) {
 	if t.Bytes[len(t.Bytes)-1] == 'Z' {
 		if len(t.Bytes) < 15 {

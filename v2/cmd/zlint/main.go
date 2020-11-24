@@ -30,8 +30,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2"
-	"github.com/zmap/zlint/v2/lint"
 	"github.com/zmap/zlint/v2/formattedoutput"
+	"github.com/zmap/zlint/v2/lint"
 )
 
 var ( // flags

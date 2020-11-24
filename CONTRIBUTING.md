@@ -164,10 +164,9 @@ and in your `$PATH` and run `go generate`:
 Publishing a Release
 --------------------
 
-ZLint releases are published via Travis CI using Goreleaser and a bot Github
-account. Most of the release process is automated but there is still some manual
-effort involved in creating good release notes & communicating news of the
-release.
+ZLint releases are published via Github Actions using Goreleaser. Most of the
+release process is automated but there is still some manual effort involved in
+creating good release notes & communicating news of the release.
 
 At a high level the release process requires:
 
@@ -214,11 +213,11 @@ git tag -s -a v2.2.0-rc1
 git push origin v2.2.0-rc1
 ```
 
-After pushing a tag with the expected release format the `deploy` provider
-configured in the `.travisci.yml` will kick in and invoke
-[Goreleaser](https://goreleaser.com/).
+After pushing a tag with the expected release format the deploy job 
+configured in the `.github/workflows/release.yml` workflow will kick in and
+invoke [Goreleaser](https://goreleaser.com/).
 
-Once the build completes Goreleaser and the `zlintbot` account will have created
+Once the build completes Goreleaser and Github actions will have created
 a **draft** release in [the project release section of
 Github](https://github.com/zmap/zlint/releases). You will need to edit this
 release to add your release notes in front of the full change-log of commits. The
@@ -244,8 +243,8 @@ list.
 You're done!
 
 For more detail consult the [Goreleaser
-docs](https://goreleaser.com/quick-start/), the `deploy` configuration in
-[`.travisci.yml`](https://github.com/zmap/zlint/blob/master/.travis.yml#L27-L35),
+docs](https://goreleaser.com/quick-start/), the release workflow configuration in
+[`release.yml`](https://github.com/zmap/zlint/blob/master/.github/workflows/release.yml),
 and the
 [`.goreleaser.yml`](https://github.com/zmap/zlint/blob/master/v2/.goreleaser.yml)
 project configuration.

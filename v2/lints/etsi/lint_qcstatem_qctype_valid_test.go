@@ -23,11 +23,11 @@ import (
 
 func TestEtsiQcType(t *testing.T) {
 	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert03.pem":                lint.Pass,
-		"QcStmtEtsiValidCert11.pem":                lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":         lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":           lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem":        lint.NA,
+		"QcStmtEtsiValidCert03.pem":         lint.Pass,
+		"QcStmtEtsiValidCert11.pem":         lint.Pass,
+		"QcStmtEtsiValidAddLangCert13.pem":  lint.Pass,
+		"QcStmtEtsiEsealValidCert02.pem":    lint.Pass,
+		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
 	}
 	for inputPath, expected := range m {
 		out := test.TestLint("e_qcstatem_qctype_valid", inputPath)
