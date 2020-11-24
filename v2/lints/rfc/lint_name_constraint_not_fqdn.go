@@ -15,8 +15,11 @@
 package rfc
 
 import (
+	"net/url"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v2/util"
 )
 
 type nameConstraintNotFQDN struct{}
@@ -26,11 +29,35 @@ func (l *nameConstraintNotFQDN) Initialize() error {
 }
 
 func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
+	return util.IsExtInCert(c, util.NameConstOID)
 }
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
+	for _, uri := range c.PermittedURIAddresses {
+		if uri != "" {
+			parsedUrl, err := url.Parse(uri)
+			if err != nil {
+				return &lint.LintResult{Status: lint.Error}
+			}
+			host := parsedUrl.Host
+			if !util.IsFQDN(host) {
+				return &lint.LintResult{Status: lint.Error}
+			}
+		}
+	}
+	for _, uri := range c.ExcludedURIAddresses {
+		if uri != "" {
+			parsedUrl, err := url.Parse(uri)
+			if err != nil {
+				return &lint.LintResult{Status: lint.Error}
+			}
+			host := parsedUrl.Host
+			if !util.IsFQDN(host) {
+				return &lint.LintResult{Status: lint.Error}
+			}
+		}
+	}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
