@@ -65,8 +65,8 @@ func init() {
 		Name:          "e_name_constraint_not_fqdn",
 		Description:   "Fill this in...",
 		Citation:      "Fill this in...",
-		Source:        UnknownLintSource,
-		EffectiveDate: "Change this...",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
 		Lint:          &nameConstraintNotFQDN{},
 	})
 }
