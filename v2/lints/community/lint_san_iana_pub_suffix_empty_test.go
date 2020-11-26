@@ -23,8 +23,8 @@ import (
 
 func TestSANBarePubSuffix(t *testing.T) {
 	inputPath := "SANBareSuffix.pem"
-	expected := lint.Warn
-	out := test.TestLint("w_san_iana_pub_suffix_empty", inputPath)
+	expected := lint.Notice
+	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -33,7 +33,7 @@ func TestSANBarePubSuffix(t *testing.T) {
 func TestSANBarePrivatePubSuffix(t *testing.T) {
 	inputPath := "sanPrivatePublicSuffix.pem"
 	expected := lint.Pass
-	out := test.TestLint("w_san_iana_pub_suffix_empty", inputPath)
+	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -42,7 +42,7 @@ func TestSANBarePrivatePubSuffix(t *testing.T) {
 func TestSANGoodPubSuffix(t *testing.T) {
 	inputPath := "SANGoodSuffix.pem"
 	expected := lint.Pass
-	out := test.TestLint("w_san_iana_pub_suffix_empty", inputPath)
+	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

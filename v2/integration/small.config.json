@@ -305,12 +305,16 @@
     "n_contains_redacted_dnsname": {
       "NoticeCount": 8
     },
+    "n_dnsname_wildcard_left_of_public_suffix": {},
     "n_ecdsa_ee_invalid_ku": {
       "NoticeCount": 3
     },
     "n_multiple_subject_rdn": {},
     "n_san_dns_name_duplicate": {
       "NoticeCount": 23
+    },
+    "n_san_iana_pub_suffix_empty": {
+      "NoticeCount": 1
     },
     "n_sub_ca_eku_missing": {
       "NoticeCount": 29
@@ -328,7 +332,6 @@
     "w_dnsname_underscore_in_trd": {
       "WarnCount": 13
     },
-    "w_dnsname_wildcard_left_of_public_suffix": {},
     "w_eku_critical_improperly": {},
     "w_ext_aia_access_location_missing": {
       "WarnCount": 11
@@ -374,9 +377,6 @@
     "w_rsa_mod_factors_smaller_than_752": {},
     "w_rsa_mod_not_odd": {},
     "w_rsa_public_exponent_not_in_range": {},
-    "w_san_iana_pub_suffix_empty": {
-      "WarnCount": 1
-    },
     "w_sub_ca_aia_does_not_contain_issuing_ca_url": {
       "WarnCount": 23
     },

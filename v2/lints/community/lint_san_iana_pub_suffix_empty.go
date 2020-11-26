@@ -37,7 +37,7 @@ func (l *pubSuffix) Execute(c *x509.Certificate) *lint.LintResult {
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			if strings.HasSuffix(parsedSANDNSNames[i].ParseError.Error(), "is a suffix") {
-				return &lint.LintResult{Status: lint.Warn}
+				return &lint.LintResult{Status: lint.Notice}
 			} else {
 				return &lint.LintResult{Status: lint.NA}
 			}
@@ -48,7 +48,7 @@ func (l *pubSuffix) Execute(c *x509.Certificate) *lint.LintResult {
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "w_san_iana_pub_suffix_empty",
+		Name:          "n_san_iana_pub_suffix_empty",
 		Description:   "The domain SHOULD NOT have a bare public suffix",
 		Citation:      "awslabs certlint",
 		Source:        lint.AWSLabs,
