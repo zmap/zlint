@@ -33,30 +33,30 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
-	for _, uri := range c.PermittedURIAddresses {
-		if uri != "" {
-			parsedUrl, err := url.Parse(uri)
+	for _, subtreeString := range c.PermittedURIAddresses {
+		if subtreeString.Data != "" {
+			parsedURL, err := url.Parse(subtreeString.Data)
 			if err != nil {
 				return &lint.LintResult{Status: lint.Error}
 			}
-			host := parsedUrl.Host
+			host := parsedURL.Host
 			if !util.IsFQDN(host) {
 				return &lint.LintResult{Status: lint.Error}
 			}
 		}
 	}
-	for _, uri := range c.ExcludedURIAddresses {
-		if uri != "" {
-			parsedUrl, err := url.Parse(uri)
-			if err != nil {
-				return &lint.LintResult{Status: lint.Error}
-			}
-			host := parsedUrl.Host
-			if !util.IsFQDN(host) {
-				return &lint.LintResult{Status: lint.Error}
-			}
-		}
-	}
+	// for _, uri := range c.ExcludedURIAddresses {
+	// 	if uri != "" {
+	// 		parsedUrl, err := url.Parse(uri)
+	// 		if err != nil {
+	// 			return &lint.LintResult{Status: lint.Error}
+	// 		}
+	// 		host := parsedUrl.Host
+	// 		if !util.IsFQDN(host) {
+	// 			return &lint.LintResult{Status: lint.Error}
+	// 		}
+	// 	}
+	// }
 	return &lint.LintResult{Status: lint.Pass}
 }
 
