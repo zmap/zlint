@@ -35,36 +35,36 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, subtreeString := range c.PermittedURIAddresses {
 		if subtreeString.Data != "" {
-			parsedURL, err := url.Parse(subtreeString.Data)
+			parsedURI, err := url.Parse(subtreeString.Data)
 			if err != nil {
 				return &lint.LintResult{Status: lint.Error}
 			}
-			host := parsedURL.Host
+			host := parsedURI.Host
 			if !util.IsFQDN(host) {
 				return &lint.LintResult{Status: lint.Error}
 			}
 		}
 	}
-	// for _, uri := range c.ExcludedURIAddresses {
-	// 	if uri != "" {
-	// 		parsedUrl, err := url.Parse(uri)
-	// 		if err != nil {
-	// 			return &lint.LintResult{Status: lint.Error}
-	// 		}
-	// 		host := parsedUrl.Host
-	// 		if !util.IsFQDN(host) {
-	// 			return &lint.LintResult{Status: lint.Error}
-	// 		}
-	// 	}
-	// }
+	for _, subtreeString := range c.ExcludedURIAddresses {
+		if subtreeString.Data != "" {
+			parsedURI, err := url.Parse(subtreeString.Data)
+			if err != nil {
+				return &lint.LintResult{Status: lint.Error}
+			}
+			host := parsedURI.Host
+			if !util.IsFQDN(host) {
+				return &lint.LintResult{Status: lint.Error}
+			}
+		}
+	}
 	return &lint.LintResult{Status: lint.Pass}
 }
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_name_constraint_not_fqdn",
-		Description:   "Fill this in...",
-		Citation:      "Fill this in...",
+		Description:   " For URIs, the constraint MUST be specified as a fully qualified domain name ",
+		Citation:      "RFC 5280: 4.2.1.10",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &nameConstraintNotFQDN{},
