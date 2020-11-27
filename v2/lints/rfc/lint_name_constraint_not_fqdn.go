@@ -41,10 +41,13 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 		fmt.Fprintln(os.Stdout, subtreeString.Data)
 		if subtreeString.Data != "" {
 			parsedURI, err := url.Parse(subtreeString.Data)
+			fmt.Fprintln(os.Stdout, err)
 			if err != nil {
 				return &lint.LintResult{Status: lint.Error}
 			}
+			fmt.Fprintln(os.Stdout, "err")
 			host := parsedURI.Host
+			fmt.Fprintln(os.Stdout, host)
 			if !util.IsFQDN(host) {
 				return &lint.LintResult{Status: lint.Error}
 			}
