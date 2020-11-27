@@ -15,7 +15,9 @@
 package rfc
 
 import (
+	"fmt"
 	"net/url"
+	"os"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v2/lint"
@@ -33,7 +35,11 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
+
+	fmt.Fprintln(os.Stdout, len(c.PermittedURIAddresses))
+	fmt.Fprintln(os.Stdout, "na fos")
 	for _, subtreeString := range c.PermittedURIAddresses {
+		fmt.Fprintln(os.Stdout, subtreeString.Data)
 		if subtreeString.Data != "" {
 			parsedURI, err := url.Parse(subtreeString.Data)
 			if err != nil {
@@ -46,6 +52,7 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	for _, subtreeString := range c.ExcludedURIAddresses {
+		fmt.Println(subtreeString.Data)
 		if subtreeString.Data != "" {
 			parsedURI, err := url.Parse(subtreeString.Data)
 			if err != nil {
@@ -63,7 +70,7 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_name_constraint_not_fqdn",
-		Description:   " For URIs, the constraint MUST be specified as a fully qualified domain name ",
+		Description:   "For URIs, the constraint MUST be specified as a fully qualified domain name",
 		Citation:      "RFC 5280: 4.2.1.10",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,

@@ -23,7 +23,18 @@ import (
 
 func TestNotFQDN(t *testing.T) {
 	inputPath := "constrainttest.pem"
-	expected := lint.Pass
+	expected := lint.Error
+	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestPermittedNameConstraintNotFQDN(t *testing.T) {
+	inputPath := "permConstraintNotFQDN.pem"
+	//inputPath := "testnameconstraints.pem"
+	expected := lint.Error
+
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
