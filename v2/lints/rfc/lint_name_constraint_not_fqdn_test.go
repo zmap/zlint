@@ -33,7 +33,7 @@ func TestNotFQDN(t *testing.T) {
 func TestPermittedNameConstraintNotFQDN(t *testing.T) {
 	inputPath := "permConstraintNotFQDN.pem"
 	//inputPath := "testnameconstraints.pem"
-	expected := lint.Error
+	expected := lint.Pass
 
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {

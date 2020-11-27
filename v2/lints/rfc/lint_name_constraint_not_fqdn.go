@@ -37,7 +37,6 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 
 	fmt.Fprintln(os.Stdout, len(c.PermittedURIAddresses))
-	fmt.Fprintln(os.Stdout, "na fos")
 	for _, subtreeString := range c.PermittedURIAddresses {
 		fmt.Fprintln(os.Stdout, subtreeString.Data)
 		if subtreeString.Data != "" {
