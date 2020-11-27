@@ -21,9 +21,9 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestNotFQDN(t *testing.T) {
-	inputPath := "constrainttest.pem"
-	expected := lint.Error
+func TestIsFQDN(t *testing.T) {
+	inputPath := "constraintFQDN.pem"
+	expected := lint.Pass
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -32,9 +32,16 @@ func TestNotFQDN(t *testing.T) {
 
 func TestPermittedNameConstraintNotFQDN(t *testing.T) {
 	inputPath := "permConstraintNotFQDN.pem"
-	//inputPath := "testnameconstraints.pem"
-	expected := lint.Pass
+	expected := lint.Error
+	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
 
+func TestExcludedNameConstraintNotFQDN(t *testing.T) {
+	inputPath := "excConstraintNotFQDN.pem"
+	expected := lint.Error
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
