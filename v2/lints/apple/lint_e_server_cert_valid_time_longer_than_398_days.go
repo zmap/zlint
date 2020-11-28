@@ -72,7 +72,7 @@ func init() {
 		// The "CT" bit is too specific. Unfortunately since the constant is
 		// exported by the `util` package we can't change it without bumping the
 		// major version. See https://github.com/zmap/zlint/issues/418
-		Source:        lint.AppleCTPolicy,
+		Source:        lint.AppleRootStorePolicy,
 		EffectiveDate: util.AppleReducedLifetimeDate,
 		Lint:          &serverCertValidityTooLong{},
 	})
