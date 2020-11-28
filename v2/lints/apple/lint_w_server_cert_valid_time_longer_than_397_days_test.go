@@ -7,7 +7,7 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestServerCertValidityTooLong(t *testing.T) {
+func TestServerCertValidityAlmostTooLong(t *testing.T) {
 	// Test certificates were created using a small Go program:
 	// See https://gist.github.com/cpu/96fad159e6e4db891ee69d225e8a61bc
 	testCases := []struct {
@@ -27,17 +27,17 @@ func TestServerCertValidityTooLong(t *testing.T) {
 		{
 			// Cert issued after Sept 1, 2020 with lifetime > 397 and < 398 days.
 			testCert: "eeServerCertValidOver397.pem",
-			expected: lint.Pass,
+			expected: lint.Warn,
 		},
 		{
 			// Cert issued after Sept 1, 2020 with lifetime == 398 days.
 			testCert: "eeServerCertValidEqual398.pem",
-			expected: lint.Pass,
+			expected: lint.Warn,
 		},
 		{
 			// Cert issued after Sept 1, 2020 with lifetime > 398 days.
 			testCert: "eeServerCertValidOver398.pem",
-			expected: lint.Error,
+			expected: lint.Warn,
 		},
 		{
 			// Cert containing CA basic constraint, should be Not Applicable
@@ -49,7 +49,7 @@ func TestServerCertValidityTooLong(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.testCert, func(t *testing.T) {
 			if result := test.TestLint(
-				"e_tls_server_cert_valid_time_longer_than_398_days",
+				"w_tls_server_cert_valid_time_longer_than_397_days",
 				tc.testCert); result.Status != tc.expected {
 				t.Errorf("expected result %v was %v", tc.expected, result.Status)
 			}

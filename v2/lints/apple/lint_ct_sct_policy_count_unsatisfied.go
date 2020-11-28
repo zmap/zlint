@@ -150,7 +150,7 @@ func init() {
 		Name:          "w_ct_sct_policy_count_unsatisfied",
 		Description:   "Check if certificate has enough embedded SCTs to meet Apple CT Policy",
 		Citation:      "https://support.apple.com/en-us/HT205280",
-		Source:        lint.AppleCTPolicy,
+		Source:        lint.AppleRootStorePolicy,
 		EffectiveDate: util.AppleCTPolicyDate,
 		Lint:          &sctPolicyCount{},
 	})
