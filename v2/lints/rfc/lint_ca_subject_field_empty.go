@@ -43,7 +43,7 @@ func (l *caSubjectEmpty) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *caSubjectEmpty) Execute(c *x509.Certificate) *lint.LintResult {
-	if &c.Subject != nil && util.NotAllNameFieldsAreEmpty(&c.Subject) {
+	if util.NotAllNameFieldsAreEmpty(&c.Subject) {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
 		return &lint.LintResult{Status: lint.Error}

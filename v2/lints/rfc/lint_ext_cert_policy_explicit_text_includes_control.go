@@ -47,6 +47,7 @@ func (l *controlChar) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
+//nolint:nestif
 func (l *controlChar) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, firstLvl := range c.ExplicitTexts {
 		for _, text := range firstLvl {

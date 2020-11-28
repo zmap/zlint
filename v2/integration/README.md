@@ -4,9 +4,9 @@ ZLint Integration Tests
 Overview
 --------
 
-Integration tests are run during Travis with the `make integration` target of
-the Zlint makefile. This uses the default configuration located in
-`integration/config.json`.
+Integration tests are run during the Github Actions integration test workflow
+with the `make integration` target of the Zlint makefile. This uses the default
+configuration located in `integration/config.json`.
 
 At a high level the integration test process involves fetching configured CSV
 data files, parsing certificates from the data file rows, linting the

@@ -1,7 +1,9 @@
 ZLint
 =====
 
-[![Build Status](https://travis-ci.org/zmap/zlint.svg?branch=master)](https://travis-ci.org/zmap/zlint)
+[![CI Status](https://github.com/zmap/zlint/workflows/Go/badge.svg)](https://github.com/zmap/zlint/actions?query=workflow%3AGo)
+[![Integration Tests](https://github.com/zmap/zlint/workflows/integration-test/badge.svg)](https://github.com/zmap/zlint/actions?query=workflow%3Aintegration-test)
+[![Lint Status](https://github.com/zmap/zlint/workflows/golangci-lint/badge.svg)](https://github.com/zmap/zlint/actions?query=workflow%3Agolangci-lint)
 [![Go Report Card](https://goreportcard.com/badge/github.com/zmap/zlint)](https://goreportcard.com/report/github.com/zmap/zlint)
 
 ZLint is a X.509 certificate linter written in Go that checks for consistency
@@ -17,7 +19,7 @@ software.
 Requirements
 ------------
 
-ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
+ZLint requires [Go 1.14.x or newer](https://golang.org/doc/install) be
 installed. The command line setup instructions assume the `go` command is in
 your `$PATH`.
 

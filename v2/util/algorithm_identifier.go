@@ -11,13 +11,13 @@ import (
 	cryptobyte_asn1 "golang.org/x/crypto/cryptobyte/asn1"
 )
 
-// additional OIDs not provided by the x509 package
+// additional OIDs not provided by the x509 package.
 var (
 	// 1.2.840.10045.4.3.1 is SHA224withECDSA
 	OidSignatureSHA224withECDSA = asn1.ObjectIdentifier{1, 2, 840, 10045, 4, 3, 1}
 )
 
-// RSAAlgorithmIDToDER contains DER representations of pkix.AlgorithmIdentifier for different RSA OIDs with Parameters as asn1.NULL
+// RSAAlgorithmIDToDER contains DER representations of pkix.AlgorithmIdentifier for different RSA OIDs with Parameters as asn1.NULL.
 var RSAAlgorithmIDToDER = map[string][]byte{
 	// rsaEncryption
 	"1.2.840.113549.1.1.1": {0x30, 0x0d, 0x6, 0x9, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0xd, 0x1, 0x1, 0x1, 0x5, 0x0},
@@ -38,7 +38,7 @@ var RSAAlgorithmIDToDER = map[string][]byte{
 }
 
 // CheckAlgorithmIDParamNotNULL parses an AlgorithmIdentifier with algorithm OID rsaEncryption to check the Param field is asn1.NULL
-// Expects DER-encoded AlgorithmIdentifier including tag and length
+// Expects DER-encoded AlgorithmIdentifier including tag and length.
 func CheckAlgorithmIDParamNotNULL(algorithmIdentifier []byte, requiredAlgoID asn1.ObjectIdentifier) error {
 	expectedAlgoIDBytes, ok := RSAAlgorithmIDToDER[requiredAlgoID.String()]
 	if !ok {

@@ -44,6 +44,7 @@ func (l *SANURIHost) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
 }
 
+//nolint:nestif
 func (l *SANURIHost) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, uri := range c.URIs {
 		if uri != "" {
