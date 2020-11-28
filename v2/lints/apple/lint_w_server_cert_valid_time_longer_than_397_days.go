@@ -22,27 +22,33 @@ import (
 	"github.com/zmap/zlint/v2/util"
 )
 
-type serverCertValidityTooLong struct{}
+type serverCertValidityAlmostTooLong struct{}
 
-func (l *serverCertValidityTooLong) Initialize() error {
+func (l *serverCertValidityAlmostTooLong) Initialize() error {
 	return nil
 }
 
-func (l *serverCertValidityTooLong) CheckApplies(c *x509.Certificate) bool {
+func (l *serverCertValidityAlmostTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsServerAuthCert(c) && !c.IsCA
 }
 
-func (l *serverCertValidityTooLong) Execute(c *x509.Certificate) *lint.LintResult {
-	// "TLS server certificates issued on or after September 1, 2020 00:00 GMT/UTC
-	// must not have a validity period greater than 398 days."
-	maxValidity := 398 * appleDayLength
+func (l *serverCertValidityAlmostTooLong) Execute(c *x509.Certificate) *lint.LintResult {
+	// "We recommend that certificates be issued with a maximum validity of 397 days."
+	warnValidity := 397 * appleDayLength
 
 	// RFC 5280, section 4.1.2.5: "The validity period for a certificate is the period
 	// of time from notBefore through notAfter, inclusive."
 	certValidity := c.NotAfter.Add(1 * time.Second).Sub(c.NotBefore)
 
-	if certValidity > maxValidity {
-		return &lint.LintResult{Status: lint.Error}
+	if certValidity > warnValidity {
+		return &lint.LintResult{
+			// RFC 2119 has SHOULD and RECOMMENDED as equal. Since Apple recommends
+			// 397 days we treat this as a lint.Warn result as a violation of
+			// a SHOULD.
+			Status: lint.Warn,
+			Details: "Apple recommends that certificates be issued with a maximum " +
+				"validity of 397 days.",
+		}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
@@ -50,12 +56,12 @@ func (l *serverCertValidityTooLong) Execute(c *x509.Certificate) *lint.LintResul
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name: "e_tls_server_cert_valid_time_longer_than_398_days",
+		Name: "w_tls_server_cert_valid_time_longer_than_397_days",
 		Description: "TLS server certificates issued on or after September 1, 2020 " +
-			"00:00 GMT/UTC must not have a validity period greater than 398 days",
+			"00:00 GMT/UTC should not have a validity period greater than 397 days",
 		Citation:      "https://support.apple.com/en-us/HT211025",
 		Source:        lint.AppleRootStorePolicy,
 		EffectiveDate: util.AppleReducedLifetimeDate,
-		Lint:          &serverCertValidityTooLong{},
+		Lint:          &serverCertValidityAlmostTooLong{},
 	})
 }
