@@ -46,7 +46,7 @@ func init() {
 		Name:          "e_san_dns_name_starts_with_period",
 		Description:   "DNSName MUST NOT start with a period",
 		Citation:      "awslabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SANDNSPeriod{},
 	})

@@ -46,7 +46,7 @@ func init() {
 		Name:          "e_rsa_exp_negative",
 		Description:   "RSA public key exponent MUST be positive",
 		Citation:      "awslabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &rsaExpNegative{},
 	})

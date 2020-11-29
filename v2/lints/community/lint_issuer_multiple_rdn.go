@@ -52,7 +52,7 @@ func init() {
 		Name:          "w_multiple_issuer_rdn",
 		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
 		Citation:      "awslabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &IssuerRDNHasMultipleAttribute{},
 	})

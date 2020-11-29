@@ -27,7 +27,7 @@ func TestLintSourceMarshal(t *testing.T) {
 	throwAway := struct {
 		Source LintSource
 	}{
-		Source: ZLint,
+		Source: Community,
 	}
 
 	jsonBytes, err := json.Marshal(&throwAway)
@@ -35,7 +35,7 @@ func TestLintSourceMarshal(t *testing.T) {
 		t.Fatalf("failed to marshal LintSource: %v", err)
 	}
 
-	expectedJSON := fmt.Sprintf(`{"Source":%q}`, ZLint)
+	expectedJSON := fmt.Sprintf(`{"Source":%q}`, Community)
 	if !bytes.Equal(jsonBytes, []byte(expectedJSON)) {
 		t.Fatalf("expected JSON %q got %q", expectedJSON, string(jsonBytes))
 	}
@@ -44,8 +44,8 @@ func TestLintSourceMarshal(t *testing.T) {
 	if err != nil {
 		t.Fatalf("err unmarshalling prev. marshaled LintSource: %v", err)
 	}
-	if throwAway.Source != ZLint {
-		t.Fatalf("expected post-unmarshal value of %q got %q", ZLint, throwAway.Source)
+	if throwAway.Source != Community {
+		t.Fatalf("expected post-unmarshal value of %q got %q", Community, throwAway.Source)
 	}
 
 	badJSON := []byte(`{"Source":"cpu"}`)

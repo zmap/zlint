@@ -42,7 +42,7 @@ func init() {
 		Name:          "e_validity_time_not_positive",
 		Description:   "Certificates MUST have a positive time for which they are valid",
 		Citation:      "lint.AWSLabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &validityNegative{},
 	})

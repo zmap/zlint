@@ -46,7 +46,7 @@ func init() {
 		Name:          "w_issuer_dn_trailing_whitespace",
 		Description:   "AttributeValue in issuer RelativeDistinguishedName sequence SHOULD NOT have trailing whitespace",
 		Citation:      "lint.AWSLabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &IssuerDNTrailingSpace{},
 	})

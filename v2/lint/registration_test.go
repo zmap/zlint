@@ -79,7 +79,7 @@ func TestRegister(t *testing.T) {
 	egLint := &Lint{
 		Name:   "mockLint",
 		Lint:   &mockLint{},
-		Source: ZLint,
+		Source: Community,
 	}
 	dupeReg := NewRegistry()
 	_ = dupeReg.register(egLint, true)
@@ -88,7 +88,7 @@ func TestRegister(t *testing.T) {
 	badInitLint := &Lint{
 		Name:   "badInitLint",
 		Lint:   &mockLint{badInitErr},
-		Source: ZLint,
+		Source: Community,
 	}
 
 	testCases := []struct {
@@ -145,33 +145,35 @@ func TestRegister(t *testing.T) {
 			},
 			registry:      dupeReg,
 			expectNames:   []string{"goodLint", egLint.Name},
-			expectSources: SourceList{MozillaRootStorePolicy, egLint.Source},
+			expectSources: SourceList{egLint.Source, MozillaRootStorePolicy},
 		},
 	}
 
 	for _, tc := range testCases {
-		var reg *registryImpl
-		if tc.registry == nil {
-			reg = NewRegistry()
-		} else {
-			reg = tc.registry
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			var reg *registryImpl
+			if tc.registry == nil {
+				reg = NewRegistry()
+			} else {
+				reg = tc.registry
+			}
 
-		err := reg.register(tc.lint, tc.init)
-		if err == nil && tc.expectErr != nil {
-			t.Errorf("expected err %v, got nil", tc.expectErr)
-		} else if err != nil && err.Error() != tc.expectErr.Error() {
-			t.Errorf("expected err %v got %v", tc.expectErr, err)
-		} else if err == nil {
-			if !reflect.DeepEqual(reg.Names(), tc.expectNames) {
-				t.Errorf("expected names %v, got %v", tc.expectNames, reg.Names())
+			err := reg.register(tc.lint, tc.init)
+			if err == nil && tc.expectErr != nil {
+				t.Errorf("expected err %v, got nil", tc.expectErr)
+			} else if err != nil && err.Error() != tc.expectErr.Error() {
+				t.Errorf("expected err %v got %v", tc.expectErr, err)
+			} else if err == nil {
+				if !reflect.DeepEqual(reg.Names(), tc.expectNames) {
+					t.Errorf("expected names %v, got %v", tc.expectNames, reg.Names())
+				}
+				sources := reg.Sources()
+				sort.Sort(sources)
+				if !reflect.DeepEqual(sources, tc.expectSources) {
+					t.Errorf("expected sources %v, got %v", tc.expectSources, sources)
+				}
 			}
-			sources := reg.Sources()
-			sort.Sort(sources)
-			if !reflect.DeepEqual(sources, tc.expectSources) {
-				t.Errorf("expected sources %v, got %v", tc.expectSources, sources)
-			}
-		}
+		})
 	}
 }
 
@@ -195,7 +197,7 @@ func TestRegistryFilter(t *testing.T) {
 	mustRegister(registry, testLint("e_mp_example1", MozillaRootStorePolicy))
 	mustRegister(registry, testLint("w_mp_example2", MozillaRootStorePolicy))
 	mustRegister(registry, testLint("n_mp_example3", MozillaRootStorePolicy))
-	mustRegister(registry, testLint("e_z_example1", ZLint))
+	mustRegister(registry, testLint("e_z_example1", Community))
 	mustRegister(registry, testLint("e_rfc_example1", RFC5280))
 	mustRegister(registry, testLint("w_rfc_example2", RFC5280))
 
@@ -222,7 +224,7 @@ func TestRegistryFilter(t *testing.T) {
 				"e_mp_example1", "e_rfc_example1", "e_z_example1", "n_mp_example3", "w_mp_example2", "w_rfc_example2",
 			},
 			expectedSources: SourceList{
-				MozillaRootStorePolicy, RFC5280, ZLint,
+				Community, MozillaRootStorePolicy, RFC5280,
 			},
 		},
 		{
@@ -262,7 +264,7 @@ func TestRegistryFilter(t *testing.T) {
 				"e_mp_example1", "e_z_example1", "n_mp_example3", "w_rfc_example2",
 			},
 			expectedSources: SourceList{
-				MozillaRootStorePolicy, RFC5280, ZLint,
+				Community, MozillaRootStorePolicy, RFC5280,
 			},
 		},
 		{
@@ -279,21 +281,21 @@ func TestRegistryFilter(t *testing.T) {
 				"e_z_example1",
 			},
 			expectedSources: SourceList{
-				ZLint,
+				Community,
 			},
 		},
 		{
 			name: "Filter by IncludeSources only",
 			opts: FilterOptions{
 				IncludeSources: SourceList{
-					ZLint, RFC5280,
+					Community, RFC5280,
 				},
 			},
 			expectedLintNames: []string{
 				"e_rfc_example1", "e_z_example1", "w_rfc_example2",
 			},
 			expectedSources: SourceList{
-				RFC5280, ZLint,
+				Community, RFC5280,
 			},
 		},
 		{
@@ -307,7 +309,7 @@ func TestRegistryFilter(t *testing.T) {
 				"e_mp_example1", "e_z_example1", "n_mp_example3", "w_mp_example2",
 			},
 			expectedSources: SourceList{
-				MozillaRootStorePolicy, ZLint,
+				Community, MozillaRootStorePolicy,
 			},
 		},
 		{
@@ -317,14 +319,14 @@ func TestRegistryFilter(t *testing.T) {
 					RFC5280,
 				},
 				IncludeSources: SourceList{
-					ZLint,
+					Community,
 				},
 			},
 			expectedLintNames: []string{
 				"e_z_example1",
 			},
 			expectedSources: SourceList{
-				ZLint,
+				Community,
 			},
 		},
 		{
@@ -332,7 +334,7 @@ func TestRegistryFilter(t *testing.T) {
 			opts: FilterOptions{
 				NameFilter: onlyWarnRegex,
 				ExcludeSources: SourceList{
-					ZLint,
+					Community,
 				},
 				IncludeSources: SourceList{
 					MozillaRootStorePolicy,
@@ -350,7 +352,7 @@ func TestRegistryFilter(t *testing.T) {
 			name: "Filter by IncludeSources, ExcludeSources, IncludeNames and ExcludeNames",
 			opts: FilterOptions{
 				ExcludeSources: SourceList{
-					ZLint,
+					Community,
 				},
 				IncludeSources: SourceList{
 					MozillaRootStorePolicy,

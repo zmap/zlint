@@ -51,7 +51,7 @@ func init() {
 		Name:          "n_san_dns_name_duplicate",
 		Description:   "SAN DNSName contains duplicate values",
 		Citation:      "awslabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SANDNSDuplicate{},
 	})

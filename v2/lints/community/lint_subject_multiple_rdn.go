@@ -51,7 +51,7 @@ func init() {
 		Name:          "n_multiple_subject_rdn",
 		Description:   "Certificates typically do not have have multiple attributes in a single RDN (subject). This may be an error.",
 		Citation:      "lint.AWSLabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &SubjectRDNHasMultipleAttribute{},
 	})
