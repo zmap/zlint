@@ -28,8 +28,8 @@ If the subjectAltName extension is present, the sequence MUST contain
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/util"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
 )
 
 type SANNoEntry struct{}

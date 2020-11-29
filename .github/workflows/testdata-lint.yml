@@ -17,4 +17,4 @@ jobs:
 
     - name: Lint Testdata
       run: make testdata-lint
-      working-directory: v2
+      working-directory: v3

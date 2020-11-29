@@ -24,8 +24,8 @@ marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP res
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/util"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
 )
 
 type caAiaMissing struct{}

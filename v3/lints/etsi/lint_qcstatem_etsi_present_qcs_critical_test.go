@@ -17,8 +17,8 @@ package etsi
 import (
 	"testing"
 
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/test"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/test"
 )
 
 func TestEtsiPresentQcsCriticalAgainstQcsTestCerts(t *testing.T) {

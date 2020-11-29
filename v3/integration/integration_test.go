@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v3/lint"
 )
 
 var (

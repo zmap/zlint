@@ -21,8 +21,8 @@ The Certificate Subject MUST contain the following: organizationName (OID 2.5.4.
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/util"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
 )
 
 type caOrganizationNameMissing struct{}

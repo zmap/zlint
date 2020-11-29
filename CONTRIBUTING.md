@@ -142,7 +142,7 @@ file. You may need to update these expected values when you add/change lints.
 Please see the [integration tests README] for more information.
 
 [CI]: https://travis-ci.org/zmap/zlint
-[integration tests README]: https://github.com/zmap/zlint/blob/master/v2/integration/README.md
+[integration tests README]: https://github.com/zmap/zlint/blob/master/v3/integration/README.md
 
 
 Updating the TLD Map
@@ -155,10 +155,10 @@ integration using the `zlint-gltd-update` command.
 To update the data manually ensure the `zlint-gtld-update` command is installed
 and in your `$PATH` and run `go generate`:
 
-	go get github.com/zmap/zlint/cmd/zlint-gtld-update
-	go generate github.com/zmap/zlint/...
+	go get github.com/zmap/zlint/v3/cmd/zlint-gtld-update
+	go generate github.com/zmap/v3/zlint/...
 
-[TLD Map]: https://github.com/zmap/zlint/blob/master/util/gtld_map.go
+[TLD Map]: https://github.com/zmap/zlint/blob/master/v3/util/gtld_map.go
 
 
 Publishing a Release
@@ -246,5 +246,5 @@ For more detail consult the [Goreleaser
 docs](https://goreleaser.com/quick-start/), the release workflow configuration in
 [`release.yml`](https://github.com/zmap/zlint/blob/master/.github/workflows/release.yml),
 and the
-[`.goreleaser.yml`](https://github.com/zmap/zlint/blob/master/v2/.goreleaser.yml)
+[`.goreleaser.yml`](https://github.com/zmap/zlint/blob/master/v3/.goreleaser.yml)
 project configuration.

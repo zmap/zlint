@@ -21,8 +21,8 @@ Required/Optional: Deprecated (Discouraged, but not prohibited)
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/util"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
 )
 
 type commonNames struct{}

@@ -23,9 +23,9 @@ jobs:
     - name: Check for cached integration corpus
       uses: actions/cache@v2
       with:
-        path: v2/data
-        key: ${{ runner.os }}-${{ hashFiles('v2/integration/**') }}
+        path: v3/data
+        key: ${{ runner.os }}-${{ hashFiles('v3/integration/**') }}
 
     - name: Run integration tests
       run: make integration PARALLELISM=3
-      working-directory: v2
+      working-directory: v3

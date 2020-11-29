@@ -16,7 +16,7 @@ package zlint
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v3/lint"
 )
 
 // ResultSet contains the output of running all lints in a registry against

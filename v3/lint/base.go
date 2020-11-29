@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/util"
+	"github.com/zmap/zlint/v3/util"
 )
 
 // LintInterface is implemented by each Lint.

@@ -116,7 +116,7 @@ As we'd expect after reverting a bugfix the integration tests fail.
     corpus_test.go:139: linted 599997 certificates
     corpus_test.go:163: expected lint "e_subject_printable_string_badalpha" to have result fatals: 0    errs: 7    warns: 0    infos: 0    got fatals: 0    errs: 221  warns: 0    infos: 0   
 FAIL
-FAIL	github.com/zmap/zlint/integration	448.244s
+FAIL	github.com/zmap/zlint/v3/integration	448.244s
 FAIL
 make: *** [makefile:33: integration] Error 1
 ```
