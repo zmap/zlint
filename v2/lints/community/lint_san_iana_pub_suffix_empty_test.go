@@ -21,29 +21,45 @@ import (
 	"github.com/zmap/zlint/v2/test"
 )
 
-func TestSANBarePubSuffix(t *testing.T) {
-	inputPath := "SANBareSuffix.pem"
-	expected := lint.Notice
-	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestPubSuffix(t *testing.T) {
+	testCases := []struct {
+		path            string
+		expectedStatus  lint.LintStatus
+		expectedDetails string
+	}{
+		{
+			path:            "SANBareSuffix.pem",
+			expectedStatus:  lint.Notice,
+			expectedDetails: "1 DNS name(s) are bare public suffixes: co.uk",
+		},
+		{
+			path:            "multiEmptyPubSuffix.pem",
+			expectedStatus:  lint.Notice,
+			expectedDetails: "2 DNS name(s) are bare public suffixes: co.uk, ca",
+		},
+		{
+			path:           "newlinesInTLD.pem",
+			expectedStatus: lint.Pass,
+		},
+		{
+			path:           "sanPrivatePublicSuffix.pem",
+			expectedStatus: lint.Pass,
+		},
+		{
+			path:           "SANGoodSuffix.pem",
+			expectedStatus: lint.Pass,
+		},
 	}
-}
 
-func TestSANBarePrivatePubSuffix(t *testing.T) {
-	inputPath := "sanPrivatePublicSuffix.pem"
-	expected := lint.Pass
-	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestSANGoodPubSuffix(t *testing.T) {
-	inputPath := "SANGoodSuffix.pem"
-	expected := lint.Pass
-	out := test.TestLint("n_san_iana_pub_suffix_empty", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.path, func(t *testing.T) {
+			result := test.TestLint("n_san_iana_pub_suffix_empty", tc.path)
+			if result.Status != tc.expectedStatus {
+				t.Errorf("expected status %v was %v", tc.expectedStatus, result.Status)
+			}
+			if result.Details != tc.expectedDetails {
+				t.Errorf("expected details %v was %v", tc.expectedDetails, result.Details)
+			}
+		})
 	}
 }

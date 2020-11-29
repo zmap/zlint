@@ -15,6 +15,7 @@ package community
  */
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -33,16 +34,24 @@ func (l *pubSuffix) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *pubSuffix) Execute(c *x509.Certificate) *lint.LintResult {
-	parsedSANDNSNames := c.GetParsedDNSNames(false)
-	for i := range c.GetParsedDNSNames(false) {
-		if parsedSANDNSNames[i].ParseError != nil {
-			if strings.HasSuffix(parsedSANDNSNames[i].ParseError.Error(), "is a suffix") {
-				return &lint.LintResult{Status: lint.Notice}
-			} else {
-				return &lint.LintResult{Status: lint.NA}
-			}
+	var badNames []string
+	for _, parsedName := range c.GetParsedDNSNames(false) {
+		if parseErr := parsedName.ParseError; parseErr == nil {
+			continue
+		} else if strings.HasSuffix(parseErr.Error(), "is a suffix") {
+			badNames = append(badNames, parsedName.DomainString)
 		}
 	}
+
+	if badNamesCount := len(badNames); badNamesCount > 0 {
+		return &lint.LintResult{
+			Status: lint.Notice,
+			Details: fmt.Sprintf(
+				"%d DNS name(s) are bare public suffixes: %s",
+				badNamesCount, strings.Join(badNames, ", ")),
+		}
+	}
+
 	return &lint.LintResult{Status: lint.Pass}
 }
 
