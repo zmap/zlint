@@ -55,7 +55,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "n_contains_redacted_dnsname",
 		Description:   "Some precerts are redacted and of the form ?.?.a.com or *.?.a.com",
-		Source:        lint.ZLint,
+		Source:        lint.Community,
 		Citation:      "IETF Draft: https://tools.ietf.org/id/draft-strad-trans-redaction-00.html",
 		EffectiveDate: util.ZeroDate,
 		Lint:          &DNSNameRedacted{},

@@ -46,7 +46,7 @@ func init() {
 		Name:          "e_rsa_no_public_key",
 		Description:   "The RSA public key should be present",
 		Citation:      "awslabs certlint",
-		Source:        lint.AWSLabs,
+		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
 		Lint:          &rsaParsedPubKeyExist{},
 	})
