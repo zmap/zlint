@@ -103,7 +103,7 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedNonServerAuth(t *testing.T) {
 			Name:           "o1s1ep0a1nc1",
 			Filename:       "o1s1ep0a1nc1.pem",
 			ExpectedResult: lint.NA,
-		},{
+		}, {
 			Name:           "o0s0ep1a0nc0",
 			Filename:       "o0s0ep1a0nc0.pem",
 			ExpectedResult: lint.NA,
