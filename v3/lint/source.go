@@ -25,7 +25,6 @@ import (
 type LintSource string
 
 const (
-<<<<<<< HEAD:v2/lint/source.go
 	UnknownLintSource                   LintSource = "Unknown"
 	RFC5280                             LintSource = "RFC5280"
 	RFC5480                             LintSource = "RFC5480"
@@ -34,22 +33,9 @@ const (
 	CABFBaselineRequirements            LintSource = "CABF_BR"
 	CABFEVGuidelines                    LintSource = "CABF_EV"
 	MozillaRootStorePolicy              LintSource = "Mozilla"
-	AppleCTPolicy                       LintSource = "Apple"
-	ZLint                               LintSource = "ZLint"
-	AWSLabs                             LintSource = "AWSLabs"
+	AppleRootStorePolicy                LintSource = "Apple"
+	Community                           LintSource = "ZLint"
 	EtsiEsi                             LintSource = "ETSI_ESI"
-=======
-	UnknownLintSource        LintSource = "Unknown"
-	RFC5280                  LintSource = "RFC5280"
-	RFC5480                  LintSource = "RFC5480"
-	RFC5891                  LintSource = "RFC5891"
-	CABFBaselineRequirements LintSource = "CABF_BR"
-	CABFEVGuidelines         LintSource = "CABF_EV"
-	MozillaRootStorePolicy   LintSource = "Mozilla"
-	AppleRootStorePolicy     LintSource = "Apple"
-	Community                LintSource = "Community"
-	EtsiEsi                  LintSource = "ETSI_ESI"
->>>>>>> 662504d527366b54ce9dd58a9fb96bec1b6c8f98:v3/lint/source.go
 )
 
 // UnmarshalJSON implements the json.Unmarshaler interface. It ensures that the
@@ -61,11 +47,7 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 	}
 
 	switch LintSource(throwAway) {
-<<<<<<< HEAD:v2/lint/source.go
-	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirementsOverbearing, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleCTPolicy, ZLint, AWSLabs, EtsiEsi:
-=======
-	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi:
->>>>>>> 662504d527366b54ce9dd58a9fb96bec1b6c8f98:v3/lint/source.go
+	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirementsOverbearing, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi:
 		*s = LintSource(throwAway)
 		return nil
 	default:
