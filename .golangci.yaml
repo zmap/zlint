@@ -25,6 +25,23 @@ linters:
     - wsl
     - whitespace
     - gocognit
-    # TODO(@cpu): Uncomment goconst/golint once findings resolved.
+    - testpackage
+    - goerr113
+    - gomnd
+    - gofumpt
+    - exhaustive
     - goconst
     - golint
+    - godot
+
+issues:
+  exclude-rules:
+    # The existing ETSI lints have some gnarly logic that needs
+    # simplification/cleanup. For now we skip some linters for this dir.
+    - path: lints/etsi/
+      linters:
+        - nestif
+        - gosimple
+    - path: util/qc_stmt.go
+      linters:
+        - nestif
