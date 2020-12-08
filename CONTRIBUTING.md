@@ -22,16 +22,36 @@ Struct names following Go conventions, e.g., `subjectCommonNameNotFromSAN`. Exam
 This will generate a new lint in the `lints/rfc` directory with the necessary
 fields filled out.
 
-**Choosing a Lint Result Level.** When choosing what `lints.LintStatus` your new
-lint should return (e.g. `Notice`,`Warn`, `Error`, or `Fatal`) the following
-general guidance may help. `Error` should be used for clear violations of RFC/BR
-`MUST` or `MUST NOT` requirements and include strong citations. `Warn` should be
-used for violations of RFC/BR `SHOULD` or `SHOULD NOT` requirements and again
-should include strong citations. `Notice` should be used for more general "FYI"
-statements that violate non-codified community standards or for cases where
-citations are unclear. Lastly `Fatal` should be used when there is an
-unresolvable error in `zlint`, `zcrypto` or some other part of the certificate
-processing.
+**Choosing Result Level.**  Lints return a single type of status:
+
+ * **Error:** `Error` can only be used for clear violations of `MUST` or `MUST
+   NOT` requirements and must include a specific citation.
+
+ * **Warning:** `Warn` can only be used for violations of `SHOULD` or `SHOULD
+   NOT` requirements and again should include strong citations. Many
+   certificate authorities block on both Error and Warning lints, and Warning
+   lints should not be used for non-deterministic errors (e.g., calculating 
+   whether a serial number has sufficient entropy based on high-order bits.)
+
+ * **Notice:** `Notice` should be used for more general "FYI" statements that
+   indicate there may be a problem. Non-deterministic lints are OK. 
+
+Lints only return one non-success or non-fatal status, which must also match
+their name prefix. For example, `e_ian_wildcard_not_first` can only return a
+`SUCCESS`, `ERROR`, or `FATAL` status.  It cannot return a `NOTICE` or
+`WARNING` status. Any lint can return a `FATAL` error, but `FATAL` should only
+be used when there is an unresolvable error in `zlint`, `zcrypto` or some other
+part of the certificate processing.
+
+**Lint Source:** Typically Lint Source is straightfoward since every lint needs
+a citation. However, sometimes the community has lints that aren't codified in
+a formal document. In these situations, do not create a `NOTICE` lint under a
+common source (e.g,. RFC or Baseline Requirements). Instead, create a lint
+using the `ZLint` source. Lints in this source are included at the maintainers'
+discretion, though we typically shy away from lints with significant
+controversy.  We encourage certificate authorities and other users to
+participate in the ZLint review process and to express their opinions on
+community lints during the Pull Request review period.
 
 **Scoping a Lint.** Lints are executed in three steps. First, the ZLint
 framework determines whether a certificate falls within the scope of a given
@@ -67,7 +87,7 @@ func init() {
 
 The meat of the lint is contained within the `Execute` function, which is
 passed a `x509.Certificate` instance. **Note:** This is an X.509 object from
-[ZCrypto](https://github.com/zmap/zcrypto) not the Go standard library. 
+[ZCrypto](https://github.com/zmap/zcrypto) not the Go standard library.
 
 Lints should perform their described test and then return a `*LintResult` that
 contains a `Status` and optionally a `Details` string, e.g.,
@@ -98,7 +118,7 @@ from the test file created by `newLint.sh`. You may want to prepend the PEM with
 the output of `openssl x509 -text`. You can run your lint against a test
 certificate from a unit test using the `test.TestLint` helper function.
 
-[CreateCertificates]: https://golang.org/pkg/crypto/x509/#CreateCertificate 
+[CreateCertificates]: https://golang.org/pkg/crypto/x509/#CreateCertificate
 
 Example:
 
@@ -122,7 +142,7 @@ file. You may need to update these expected values when you add/change lints.
 Please see the [integration tests README] for more information.
 
 [CI]: https://travis-ci.org/zmap/zlint
-[integration tests README]: https://github.com/zmap/zlint/blob/master/v2/integration/README.md
+[integration tests README]: https://github.com/zmap/zlint/blob/master/v3/integration/README.md
 
 
 Updating the TLD Map
@@ -135,19 +155,18 @@ integration using the `zlint-gltd-update` command.
 To update the data manually ensure the `zlint-gtld-update` command is installed
 and in your `$PATH` and run `go generate`:
 
-	go get github.com/zmap/zlint/cmd/zlint-gtld-update
-	go generate github.com/zmap/zlint/...
+	go get github.com/zmap/zlint/v3/cmd/zlint-gtld-update
+	go generate github.com/zmap/v3/zlint/...
 
-[TLD Map]: https://github.com/zmap/zlint/blob/master/util/gtld_map.go
+[TLD Map]: https://github.com/zmap/zlint/blob/master/v3/util/gtld_map.go
 
 
 Publishing a Release
 --------------------
 
-ZLint releases are published via Travis CI using Goreleaser and a bot Github
-account. Most of the release process is automated but there is still some manual
-effort involved in creating good release notes & communicating news of the
-release.
+ZLint releases are published via Github Actions using Goreleaser. Most of the
+release process is automated but there is still some manual effort involved in
+creating good release notes & communicating news of the release.
 
 At a high level the release process requires:
 
@@ -165,7 +184,7 @@ At a high level the release process requires:
 1. Emailing the announcement list.
 
 To prepare the release notes examine the diff between `HEAD` and the previous
-release tag. E.g. if `v2.0.0` is the latest release, use: 
+release tag. E.g. if `v2.0.0` is the latest release, use:
 
 ```bash
 git log v2.0.0..HEAD --oneline
@@ -194,11 +213,11 @@ git tag -s -a v2.2.0-rc1
 git push origin v2.2.0-rc1
 ```
 
-After pushing a tag with the expected release format the `deploy` provider
-configured in the `.travisci.yml` will kick in and invoke
-[Goreleaser](https://goreleaser.com/).
+After pushing a tag with the expected release format the deploy job 
+configured in the `.github/workflows/release.yml` workflow will kick in and
+invoke [Goreleaser](https://goreleaser.com/).
 
-Once the build completes Goreleaser and the `zlintbot` account will have created
+Once the build completes Goreleaser and Github actions will have created
 a **draft** release in [the project release section of
 Github](https://github.com/zmap/zlint/releases). You will need to edit this
 release to add your release notes in front of the full change-log of commits. The
@@ -224,8 +243,8 @@ list.
 You're done!
 
 For more detail consult the [Goreleaser
-docs](https://goreleaser.com/quick-start/), the `deploy` configuration in
-[`.travisci.yml`](https://github.com/zmap/zlint/blob/master/.travis.yml#L27-L35),
+docs](https://goreleaser.com/quick-start/), the release workflow configuration in
+[`release.yml`](https://github.com/zmap/zlint/blob/master/.github/workflows/release.yml),
 and the
-[`.goreleaser.yml`](https://github.com/zmap/zlint/blob/master/v2/.goreleaser.yml)
+[`.goreleaser.yml`](https://github.com/zmap/zlint/blob/master/v3/.goreleaser.yml)
 project configuration.
