@@ -80,7 +80,7 @@ func init() {
 //  CheckConsistencyWithEKU* functions return false if the certificate being linted
 //  has inconsistent Key Usage bits set with a specific Extended Key Usage
 
-//CheckConsistencyWithEKUServerAuth checks if KU bits are consistent with Client Authentication EKU bit
+//CheckConsistencyWithEKUServerAuth checks if KU bits are consistent with Server Authentication EKU bit
 func CheckConsistencyWithEKUServerAuth(c *x509.Certificate) bool {
 	//  RFC 5280 4.2.1.12 on KU consistency with Server Authentication EKU:
 	//    -- TLS WWW server authentication
@@ -111,7 +111,7 @@ func CheckConsistencyWithEKUClientAuth(c *x509.Certificate) bool {
 	return containsCombination(c.KeyUsage, allowedCombinations)
 }
 
-//CheckConsistencyWithEKUCodeSigning checks if KU bits are consistent with Client Authentication EKU bit
+//CheckConsistencyWithEKUCodeSigning checks if KU bits are consistent with Code Signing EKU bit
 func CheckConsistencyWithEKUCodeSigning(c *x509.Certificate) bool {
 	// 	RFC 5280 4.2.1.12 on KU consistency with Code Signing EKU:
 	//   -- Signing of downloadable executable code
@@ -123,7 +123,7 @@ func CheckConsistencyWithEKUCodeSigning(c *x509.Certificate) bool {
 	return containsCombination(c.KeyUsage, allowedCombinations)
 }
 
-//CheckConsistencyWithEKUEmailProtection checks if KU bits are consistent with Client Authentication EKU bit
+//CheckConsistencyWithEKUEmailProtection checks if KU bits are consistent with Email Protection EKU bit
 func CheckConsistencyWithEKUEmailProtection(c *x509.Certificate) bool {
 	// 	RFC 5280 4.2.1.12 on KU consistency with Email Protection EKU:
 	// 	  -- Email protection
@@ -148,7 +148,7 @@ func CheckConsistencyWithEKUEmailProtection(c *x509.Certificate) bool {
 	return containsCombination(c.KeyUsage, allowedCombinations)
 }
 
-//CheckConsistencyWithEKUTimeStamping checks if KU bits are consistent with Client Authentication EKU bit
+//CheckConsistencyWithEKUTimeStamping checks if KU bits are consistent with Time Stamping EKU bit
 func CheckConsistencyWithEKUTimeStamping(c *x509.Certificate) bool {
 	// 	RFC 5280 4.2.1.12 on KU consistency with Time Stamping EKU:
 	// 	  -- Binding the hash of an object to a time
@@ -165,7 +165,7 @@ func CheckConsistencyWithEKUTimeStamping(c *x509.Certificate) bool {
 	return containsCombination(c.KeyUsage, allowedCombinations)
 }
 
-//CheckConsistencyWithEKUOcspSigning checks if KU bits are consistent with Client Authentication EKU bit
+//CheckConsistencyWithEKUOcspSigning checks if KU bits are consistent with Ocsp Signing EKU bit
 func CheckConsistencyWithEKUOcspSigning(c *x509.Certificate) bool {
 	// 	RFC 5280 4.2.1.12 on KU consistency with Ocsp Signing EKU:
 	// 	  -- Signing OCSP responses
