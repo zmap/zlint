@@ -1176,7 +1176,7 @@ var tldMap = map[string]GTLDPeriod{
 	"ceb": {
 		GTLD:           "ceb",
 		DelegationDate: "2015-08-08",
-		RemovalDate:    "",
+		RemovalDate:    "2020-12-08",
 	},
 	"center": {
 		GTLD:           "center",
