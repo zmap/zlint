@@ -34,7 +34,7 @@ const (
 	CABFEVGuidelines                    LintSource = "CABF_EV"
 	MozillaRootStorePolicy              LintSource = "Mozilla"
 	AppleRootStorePolicy                LintSource = "Apple"
-	Community                           LintSource = "ZLint"
+	Community                           LintSource = "Community"
 	EtsiEsi                             LintSource = "ETSI_ESI"
 )
 
