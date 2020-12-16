@@ -87,13 +87,11 @@ func CheckConsistencyWithEKUServerAuth(c *x509.Certificate) bool {
 	//    -- Key usage bits that may be consistent: digitalSignature,
 	//    -- keyEncipherment or keyAgreement
 
-	allowedCombinations := []x509.KeyUsage{
-		x509.KeyUsageDigitalSignature,
-		x509.KeyUsageKeyEncipherment,
-		x509.KeyUsageKeyAgreement,
-	}
-
-	return containsCombination(c.KeyUsage, allowedCombinations)
+	return map[x509.KeyUsage]bool{
+		x509.KeyUsageDigitalSignature: true,
+		x509.KeyUsageKeyEncipherment:  true,
+		x509.KeyUsageKeyAgreement:     true,
+	}[c.KeyUsage]
 }
 
 //CheckConsistencyWithEKUClientAuth checks if KU bits are consistent with Client Authentication EKU bit
@@ -103,12 +101,11 @@ func CheckConsistencyWithEKUClientAuth(c *x509.Certificate) bool {
 	//    -- Key usage bits that may be consistent: digitalSignature
 	//    -- and/or keyAgreement
 
-	allowedCombinations := []x509.KeyUsage{
-		x509.KeyUsageDigitalSignature,
-		x509.KeyUsageKeyAgreement,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageKeyAgreement}
-
-	return containsCombination(c.KeyUsage, allowedCombinations)
+	return map[x509.KeyUsage]bool{
+		x509.KeyUsageDigitalSignature:                             true,
+		x509.KeyUsageKeyAgreement:                                 true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageKeyAgreement: true,
+	}[c.KeyUsage]
 }
 
 //CheckConsistencyWithEKUCodeSigning checks if KU bits are consistent with Code Signing EKU bit
@@ -117,10 +114,9 @@ func CheckConsistencyWithEKUCodeSigning(c *x509.Certificate) bool {
 	//   -- Signing of downloadable executable code
 	//   -- Key usage bits that may be consistent: digitalSignature
 
-	allowedCombinations := []x509.KeyUsage{
-		x509.KeyUsageDigitalSignature}
-
-	return containsCombination(c.KeyUsage, allowedCombinations)
+	return map[x509.KeyUsage]bool{
+		x509.KeyUsageDigitalSignature: true,
+	}[c.KeyUsage]
 }
 
 //CheckConsistencyWithEKUEmailProtection checks if KU bits are consistent with Email Protection EKU bit
@@ -131,21 +127,19 @@ func CheckConsistencyWithEKUEmailProtection(c *x509.Certificate) bool {
 	//    -- nonRepudiation, and/or (keyEncipherment or keyAgreement)
 	//  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
 
-	allowedCombinations := []x509.KeyUsage{
-		x509.KeyUsageDigitalSignature,
-		x509.KeyUsageContentCommitment,
-		x509.KeyUsageKeyEncipherment,
-		x509.KeyUsageKeyAgreement,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageKeyAgreement,
-		x509.KeyUsageContentCommitment | x509.KeyUsageKeyEncipherment,
-		x509.KeyUsageContentCommitment | x509.KeyUsageKeyAgreement,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment | x509.KeyUsageKeyEncipherment,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment | x509.KeyUsageKeyAgreement,
-	}
-
-	return containsCombination(c.KeyUsage, allowedCombinations)
+	return map[x509.KeyUsage]bool{
+		x509.KeyUsageDigitalSignature:                                                                 true,
+		x509.KeyUsageContentCommitment:                                                                true,
+		x509.KeyUsageKeyEncipherment:                                                                  true,
+		x509.KeyUsageKeyAgreement:                                                                     true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment:                                true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment:                                  true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageKeyAgreement:                                     true,
+		x509.KeyUsageContentCommitment | x509.KeyUsageKeyEncipherment:                                 true,
+		x509.KeyUsageContentCommitment | x509.KeyUsageKeyAgreement:                                    true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment | x509.KeyUsageKeyEncipherment: true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment | x509.KeyUsageKeyAgreement:    true,
+	}[c.KeyUsage]
 }
 
 //CheckConsistencyWithEKUTimeStamping checks if KU bits are consistent with Time Stamping EKU bit
@@ -156,13 +150,11 @@ func CheckConsistencyWithEKUTimeStamping(c *x509.Certificate) bool {
 	//    -- and/or nonRepudiation
 	//  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
 
-	allowedCombinations := []x509.KeyUsage{
-		x509.KeyUsageDigitalSignature,
-		x509.KeyUsageContentCommitment,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment,
-	}
-
-	return containsCombination(c.KeyUsage, allowedCombinations)
+	return map[x509.KeyUsage]bool{
+		x509.KeyUsageDigitalSignature:                                  true,
+		x509.KeyUsageContentCommitment:                                 true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment: true,
+	}[c.KeyUsage]
 }
 
 //CheckConsistencyWithEKUOcspSigning checks if KU bits are consistent with Ocsp Signing EKU bit
@@ -173,23 +165,9 @@ func CheckConsistencyWithEKUOcspSigning(c *x509.Certificate) bool {
 	//    -- and/or nonRepudiation
 	//  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
 
-	allowedCombinations := []x509.KeyUsage{
-		x509.KeyUsageDigitalSignature,
-		x509.KeyUsageContentCommitment,
-		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment,
-	}
-
-	return containsCombination(c.KeyUsage, allowedCombinations)
-}
-
-//  containsCombination takes the KeyUsage of the certificate being linted and a slice of KU bit
-//  combinations that are consistent with a certain EKU. The function returns true if the purposes
-//  are consistent with both extensions.
-func containsCombination(combination x509.KeyUsage, allowedCombinations []x509.KeyUsage) bool {
-	for _, c := range allowedCombinations {
-		if combination == c {
-			return true
-		}
-	}
-	return false
+	return map[x509.KeyUsage]bool{
+		x509.KeyUsageDigitalSignature:                                  true,
+		x509.KeyUsageContentCommitment:                                 true,
+		x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment: true,
+	}[c.KeyUsage]
 }
