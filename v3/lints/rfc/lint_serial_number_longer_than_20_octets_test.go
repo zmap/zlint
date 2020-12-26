@@ -38,3 +38,12 @@ func TestSnNotTooLarge(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestSnTooLargeDueToSignedMSB(t *testing.T) {
+	inputPath := "serialNumberLargeDueToSignedMSB.pem"
+	expected := lint.Error
+	out := test.TestLint("e_serial_number_longer_than_20_octets", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}

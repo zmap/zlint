@@ -48,7 +48,18 @@ func (l *serialNumberTooLong) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *serialNumberTooLong) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.SerialNumber.BitLen() > 160 { // 20 octets
+	if c.SerialNumber.BitLen() > 159 {
+		// https://github.com/zmap/zlint/issues/502#event-4137076637
+		//
+		// The maximum number of octets is 20 (160 bits), however there is a
+		// a complication when the serial number is exactly 160 bits long,
+		// and the MSB is 1, wherein implementations often prefix the serial
+		// with 0x00 in order to clearly signify the sign, thus putting the
+		// encoding past the octet limit.
+		//
+		// Since big.Int returns the minimum bit length required to represent
+		// the number, the MSB is always 1. Thus, if the bit length is 160 or
+		// higher then the serial number will overflow our 20 octet limit.
 		return &lint.LintResult{Status: lint.Error}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
