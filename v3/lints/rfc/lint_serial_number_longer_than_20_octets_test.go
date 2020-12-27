@@ -17,33 +17,27 @@ package rfc
 import (
 	"testing"
 
-	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"
+
+	"github.com/zmap/zlint/v3/lint"
 )
 
-func TestSnTooLarge(t *testing.T) {
-	inputPath := "serialNumberLarge.pem"
-	expected := lint.Error
-	out := test.TestLint("e_serial_number_longer_than_20_octets", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
+type testData struct {
+	file string
+	want lint.LintStatus
 }
 
-func TestSnNotTooLarge(t *testing.T) {
-	inputPath := "serialNumberValid.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_serial_number_longer_than_20_octets", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
+var tests = []testData{
+	{"serialNumberLarge.pem", lint.Error},
+	{"serialNumberValid.pem", lint.Pass},
+	{"serialNumberLargeDueToSignedMSB.pem", lint.Error},
 }
 
-func TestSnTooLargeDueToSignedMSB(t *testing.T) {
-	inputPath := "serialNumberLargeDueToSignedMSB.pem"
-	expected := lint.Error
-	out := test.TestLint("e_serial_number_longer_than_20_octets", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestSNSizeLimit(t *testing.T) {
+	for _, data := range tests {
+		got := test.TestLint("e_serial_number_longer_than_20_octets", data.file).Status
+		if got != data.want {
+			t.Errorf("%s: expected %s, got %s", data.file, data.want, got)
+		}
 	}
 }
