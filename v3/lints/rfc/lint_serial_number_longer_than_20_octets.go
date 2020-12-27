@@ -32,6 +32,9 @@ RFC 5280: 4.1.2.2.  Serial Number
 ************************************************/
 
 import (
+	"encoding/asn1"
+	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -48,32 +51,19 @@ func (l *serialNumberTooLong) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *serialNumberTooLong) Execute(c *x509.Certificate) *lint.LintResult {
-	positive := c.SerialNumber.Sign() != -1
-	length := c.SerialNumber.BitLen()
-	if positive && length > 159 {
-		// https://github.com/zmap/zlint/issues/502#event-4137076637
-		//
-		// The maximum number of octets is 20 (160 bits), however there is a
-		// a complication when the serial number is exactly 160 bits long,
-		// and the MSB is 1, wherein implementations must prefix the serial
-		// with 0x00 in order to clearly signify the sign, thus putting the
-		// encoding past the octet limit.
-		//
-		// Since big.Int returns the minimum bit length required to represent
-		// the number, the MSB is always 1. Thus, if the bit length is 160 or
-		// higher then the serial number will overflow our 20 octet limit.
-		details := ""
-		if length == 160 {
-			details = "The certificate's serial number is " +
-				"exactly 20 octets long. Once this encodes to DER, implementations " +
-				"will prefix it with a 0x00 byte in order to maintain a positive sign, " +
-				"thus putting it over the 20 octet limit (after encoding)."
-		}
+	sn, err := asn1.Marshal(c.SerialNumber)
+	if err != nil {
+		return &lint.LintResult{Status: lint.Fatal, Details: fmt.Sprint(err)}
+	}
+	// ASN1 integers are [tag (2), length, octets...]
+	length := sn[1]
+	if length > 20 {
+		details := fmt.Sprintf("The DER encoded certificate serial number is %d octets long. "+
+			"If this is surprising to you, note that DER integers are signed and that SNs that are "+
+			"20 octets long with an MSB of 1 will be automatically prefixed with 0x00, thus bumping "+
+			"it up to 21 octets long. "+
+			"SN: %X", length, sn[2:])
 		return &lint.LintResult{Status: lint.Error, Details: details}
-	} else if !positive && c.SerialNumber.BitLen() > 160 {
-		// Negative numbers are invalid, however it is still worthwhile
-		// to apply the lint.
-		return &lint.LintResult{Status: lint.Error}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
@@ -82,7 +72,7 @@ func (l *serialNumberTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_serial_number_longer_than_20_octets",
-		Description:   "Certificates must not have a serial number longer than 20 octets",
+		Description:   "Certificates must not have a DER encoded serial number longer than 20 octets",
 		Citation:      "RFC 5280: 4.1.2.2",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC3280Date,
