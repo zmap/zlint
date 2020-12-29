@@ -77,17 +77,18 @@ func init() {
 	})
 }
 
+
 // Variable containing the consistent KU combinations with Server Authentication EKU:
 //  RFC 5280 4.2.1.12 on KU consistency with Server Authentication EKU:
 //    -- TLS WWW server authentication
 //    -- Key usage bits that may be consistent: digitalSignature,
 //    -- keyEncipherment or keyAgreement
-
 var serverAuth = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature: true,
 	x509.KeyUsageKeyEncipherment:  true,
 	x509.KeyUsageKeyAgreement:     true,
 }
+
 
 // Variable containing the consistent KU combinations with Client Authentication EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Client Authentication EKU:
