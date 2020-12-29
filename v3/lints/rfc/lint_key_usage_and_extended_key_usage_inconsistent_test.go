@@ -17,7 +17,6 @@ package rfc
 import (
 	"testing"
 
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"

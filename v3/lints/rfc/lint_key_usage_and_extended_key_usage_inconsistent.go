@@ -77,7 +77,6 @@ func init() {
 	})
 }
 
-
 // Variable containing the consistent KU combinations with Server Authentication EKU:
 //  RFC 5280 4.2.1.12 on KU consistency with Server Authentication EKU:
 //    -- TLS WWW server authentication
@@ -89,13 +88,11 @@ var serverAuth = map[x509.KeyUsage]bool{
 	x509.KeyUsageKeyAgreement:     true,
 }
 
-
 // Variable containing the consistent KU combinations with Client Authentication EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Client Authentication EKU:
 //    -- TLS WWW client authentication
 //    -- Key usage bits that may be consistent: digitalSignature
 //    -- and/or keyAgreement
-
 var clientAuth = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                             true,
 	x509.KeyUsageKeyAgreement:                                 true,
@@ -106,7 +103,6 @@ var clientAuth = map[x509.KeyUsage]bool{
 // 	RFC 5280 4.2.1.12 on KU consistency with Code Signing EKU:
 //   -- Signing of downloadable executable code
 //   -- Key usage bits that may be consistent: digitalSignature
-
 var codeSigning = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature: true,
 }
@@ -117,7 +113,6 @@ var codeSigning = map[x509.KeyUsage]bool{
 //    -- Key usage bits that may be consistent: digitalSignature,
 //    -- nonRepudiation, and/or (keyEncipherment or keyAgreement)
 //  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
-
 var emailProtection = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                                                                 true,
 	x509.KeyUsageContentCommitment:                                                                true,
@@ -138,7 +133,6 @@ var emailProtection = map[x509.KeyUsage]bool{
 //    -- Key usage bits that may be consistent: digitalSignature
 //    -- and/or nonRepudiation
 //  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
-
 var timeStamping = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                                  true,
 	x509.KeyUsageContentCommitment:                                 true,
@@ -151,7 +145,6 @@ var timeStamping = map[x509.KeyUsage]bool{
 //    -- Key usage bits that may be consistent: digitalSignature
 //    -- and/or nonRepudiation
 //  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
-
 var ocspSigning = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                                  true,
 	x509.KeyUsageContentCommitment:                                 true,
