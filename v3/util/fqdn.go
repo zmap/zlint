@@ -19,7 +19,6 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/weppos/publicsuffix-go/publicsuffix"
 	zcutil "github.com/zmap/zcrypto/util"
 	"github.com/zmap/zcrypto/x509"
 )
@@ -108,10 +107,6 @@ func DNSNamesExist(cert *x509.Certificate) bool {
 	} else {
 		return true
 	}
-}
-
-func ICANNPublicSuffixParse(domain string) (*publicsuffix.DomainName, error) {
-	return publicsuffix.ParseFromListWithOptions(publicsuffix.DefaultList, domain, &publicsuffix.FindOptions{IgnorePrivate: true, DefaultRule: publicsuffix.DefaultRule})
 }
 
 func CommonNameIsIP(cert *x509.Certificate) bool {
