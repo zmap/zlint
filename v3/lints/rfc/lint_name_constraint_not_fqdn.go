@@ -34,7 +34,7 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 
-	for _, subtreeString := range c.PermittedURIAddresses {
+	for _, subtreeString := range c.PermittedURIs {
 		parsedURI, err := url.Parse(subtreeString.Data)
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
@@ -44,7 +44,7 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	for _, subtreeString := range c.ExcludedURIAddresses {
+	for _, subtreeString := range c.ExcludedURIs {
 		parsedURI, err := url.Parse(subtreeString.Data)
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
