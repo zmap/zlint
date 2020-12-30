@@ -1,0 +1,31 @@
+name: integration-test
+on:
+  push:
+  pull_request:
+  schedule:
+    # Run every 12 hours, at the 15 minute mark. E.g.
+    # 2020-11-29 00:15:00 UTC, 2020-11-29 12:15:00 UTC, 2020-11-30 00:15:00 UTC
+    - cron:  '15 */12 * * *'
+jobs:
+  test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.15
+
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Check for cached integration corpus
+      uses: actions/cache@v2
+      with:
+        path: v3/data
+        key: ${{ runner.os }}-${{ hashFiles('v3/integration/**') }}
+
+    - name: Run integration tests
+      run: make integration PARALLELISM=3
+      working-directory: v3
