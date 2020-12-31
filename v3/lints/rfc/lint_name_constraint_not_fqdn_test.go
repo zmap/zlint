@@ -30,9 +30,27 @@ func TestIsFQDN(t *testing.T) {
 	}
 }
 
-func TestPermittedNameConstraintNotFQDN(t *testing.T) {
-	inputPath := "permConstraintNotFQDN.pem"
+func TestBeginsWithPeridFQDN(t *testing.T) {
+	inputPath := "beginsWithPeriodConstraintFQDN.pem"
 	expected := lint.Error
+	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestIpAddressNotFQDN(t *testing.T) {
+	inputPath := "ipAddressConstraintNotFQDN.pem"
+	expected := lint.Error
+	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestOnlyHostFQDN(t *testing.T) {
+	inputPath := "onlyHostConstraintFQDN.pem"
+	expected := lint.Pass
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -41,6 +59,15 @@ func TestPermittedNameConstraintNotFQDN(t *testing.T) {
 
 func TestExcludedNameConstraintNotFQDN(t *testing.T) {
 	inputPath := "excConstraintNotFQDN.pem"
+	expected := lint.Error
+	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestNoAuthorityNotFQDN(t *testing.T) {
+	inputPath := "noAuthorityConstraintNotFQDN.pem"
 	expected := lint.Error
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
