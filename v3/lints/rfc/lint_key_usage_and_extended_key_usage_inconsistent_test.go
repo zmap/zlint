@@ -17,6 +17,7 @@ package rfc
 import (
 	"testing"
 
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"
 )
@@ -149,4 +150,178 @@ func TestKeyUsageAndExtendedKeyUsageInconsistent(t *testing.T) {
 			}
 		})
 	}
+}
+
+//Tests for verifying the truth tables
+func TestEKUServerAuth(t *testing.T) {
+	got := KeyUsage(x509.KeyUsageDigitalSignature).
+		Xor(KeyUsage(x509.KeyUsageKeyEncipherment).
+			Xor(KeyUsage(x509.KeyUsageKeyAgreement)))
+	for w := range serverAuth {
+		if !got[KeyUsage(w)] {
+			t.Errorf("expected %d to be present in the computed map", w)
+		}
+	}
+	for g := range got {
+		if !serverAuth[x509.KeyUsage(g)] {
+			t.Errorf("expected %d to be present in the pre-computed map", g)
+		}
+	}
+}
+
+func TestEKUClientAuth(t *testing.T) {
+	got := KeyUsage(x509.KeyUsageDigitalSignature).
+		Or(KeyUsage(x509.KeyUsageKeyAgreement))
+	for w := range clientAuth {
+		if !got[KeyUsage(w)] {
+			t.Errorf("expected %d to be present in the computed map", w)
+		}
+	}
+	for g := range got {
+		if !clientAuth[x509.KeyUsage(g)] {
+			t.Errorf("expected %d to be present in the pre-computed map", g)
+		}
+	}
+}
+
+func TestEKUCodeSigning(t *testing.T) {
+	got := Accepted{KeyUsage(x509.KeyUsageDigitalSignature): true}
+	for w := range codeSigning {
+		if !got[KeyUsage(w)] {
+			t.Errorf("expected %d to be present in the computed map", w)
+		}
+	}
+	for g := range got {
+		if !codeSigning[x509.KeyUsage(g)] {
+			t.Errorf("expected %d to be present in the pre-computed map", g)
+		}
+	}
+}
+
+func TestEKUEmailProtection(t *testing.T) {
+	got := KeyUsage(x509.KeyUsageDigitalSignature).
+		Or(KeyUsage(x509.KeyUsageContentCommitment).
+			Or(KeyUsage(x509.KeyUsageKeyEncipherment).Xor(KeyUsage(x509.KeyUsageKeyAgreement))))
+	for w := range emailProtection {
+		if !got[KeyUsage(w)] {
+			t.Errorf("expected %d to be present in the computed map", w)
+		}
+	}
+	for g := range got {
+		if !emailProtection[x509.KeyUsage(g)] {
+			t.Errorf("expected %d to be present in the pre-computed map", g)
+		}
+	}
+}
+
+func TestEKUTimeStamping(t *testing.T) {
+	got := KeyUsage(x509.KeyUsageDigitalSignature).
+		Or(KeyUsage(x509.KeyUsageContentCommitment))
+	for w := range timeStamping {
+		if !got[KeyUsage(w)] {
+			t.Errorf("expected %d to be present in the computed map", w)
+		}
+	}
+	for g := range got {
+		if !timeStamping[x509.KeyUsage(g)] {
+			t.Errorf("expected %d to be present in the pre-computed map", g)
+		}
+	}
+}
+
+func TestEKUOCSPSigning(t *testing.T) {
+	got := KeyUsage(x509.KeyUsageDigitalSignature).
+		Or(KeyUsage(x509.KeyUsageContentCommitment))
+	for w := range ocspSigning {
+		if !got[KeyUsage(w)] {
+			t.Errorf("expected %d to be present in the computed map", w)
+		}
+	}
+	for g := range got {
+		if !ocspSigning[x509.KeyUsage(g)] {
+			t.Errorf("expected %d to be present in the pre-computed map", g)
+		}
+	}
+}
+
+// Util for truth table tests
+type Truther interface {
+	Or(a Truther) Accepted
+	Xor(a Truther) Accepted
+}
+
+type KeyUsage x509.KeyUsage
+type Accepted map[KeyUsage]bool
+
+func (usage KeyUsage) Or(truther Truther) Accepted {
+	if truther == nil {
+		return Accepted{usage: true}
+	}
+	switch t := truther.(type) {
+	case KeyUsage:
+		return map[KeyUsage]bool{
+			usage:     true,
+			t:         true,
+			usage | t: true,
+		}
+	case Accepted:
+		t.Or(usage)
+		return t
+	default:
+		panic("")
+	}
+}
+
+func (usage KeyUsage) Xor(truther Truther) Accepted {
+	if truther == nil {
+		return Accepted{usage: true}
+	}
+	switch t := truther.(type) {
+	case KeyUsage:
+		return Accepted{
+			usage: true,
+			t:     true,
+		}
+	case Accepted:
+		t.Xor(usage)
+		return t
+	default:
+		panic("")
+	}
+}
+
+func (accepted Accepted) Or(truther Truther) Accepted {
+	if truther == nil {
+		return accepted
+	}
+	switch other := truther.(type) {
+	case KeyUsage:
+		accepted[other] = true
+		for current := range accepted {
+			accepted[current|other] = true
+		}
+	case Accepted:
+		for key := range other {
+			accepted[key] = true
+			for inner := range accepted {
+				accepted[key|inner] = true
+			}
+		}
+	}
+	return accepted
+}
+
+func (accepted Accepted) Xor(truther Truther) Accepted {
+	if truther == nil {
+		return accepted
+	}
+	switch other := truther.(type) {
+	case KeyUsage:
+		accepted[other] = true
+	case Accepted:
+		for key := range other {
+			accepted.Xor(key)
+		}
+	}
+	return accepted
 }
