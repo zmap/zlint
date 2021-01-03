@@ -42,6 +42,7 @@ var (
 	CABV116Date                 = time.Date(2013, time.July, 29, 0, 0, 0, 0, time.UTC)
 	CABV130Date                 = time.Date(2015, time.April, 16, 0, 0, 0, 0, time.UTC)
 	CABV131Date                 = time.Date(2015, time.September, 28, 0, 0, 0, 0, time.UTC)
+	CABV170Date                 = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
 	NO_SHA1                     = time.Date(2016, time.January, 1, 0, 0, 0, 0, time.UTC)
 	NoRSA1024RootDate           = time.Date(2011, time.January, 1, 0, 0, 0, 0, time.UTC)
 	NoRSA1024Date               = time.Date(2014, time.January, 1, 0, 0, 0, 0, time.UTC)
