@@ -15,11 +15,9 @@
 package rfc
 
 import (
-	"net/url"
-
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/util"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
 )
 
 type nameConstraintNotFQDN struct{}
@@ -33,24 +31,19 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
-
 	for _, subtreeString := range c.PermittedURIs {
-		parsedURI, err := url.Parse(subtreeString.Data)
-		if err != nil {
-			return &lint.LintResult{Status: lint.Error}
+		if string(subtreeString.Data[0]) == string(".") {
+			subtreeString.Data = "l" + subtreeString.Data
 		}
-		host := parsedURI.Host
-		if !util.IsFQDN(host) {
+		if !util.IsFQDN(subtreeString.Data) {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	for _, subtreeString := range c.ExcludedURIs {
-		parsedURI, err := url.Parse(subtreeString.Data)
-		if err != nil {
-			return &lint.LintResult{Status: lint.Error}
+		if string(subtreeString.Data[0]) == string(".") {
+			subtreeString.Data = "l" + subtreeString.Data
 		}
-		host := parsedURI.Host
-		if !util.IsFQDN(host) {
+		if !util.IsFQDN(subtreeString.Data) {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
