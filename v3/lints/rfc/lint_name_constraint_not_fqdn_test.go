@@ -17,22 +17,13 @@ package rfc
 import (
 	"testing"
 
-	"github.com/zmap/zlint/v2/lint"
-	"github.com/zmap/zlint/v2/test"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/test"
 )
-
-func TestIsFQDN(t *testing.T) {
-	inputPath := "constraintFQDN.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
 
 func TestBeginsWithPeridFQDN(t *testing.T) {
 	inputPath := "beginsWithPeriodConstraintFQDN.pem"
-	expected := lint.Error
+	expected := lint.Pass
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -50,7 +41,7 @@ func TestIpAddressNotFQDN(t *testing.T) {
 
 func TestOnlyHostFQDN(t *testing.T) {
 	inputPath := "onlyHostConstraintFQDN.pem"
-	expected := lint.Error
+	expected := lint.Pass
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -59,15 +50,6 @@ func TestOnlyHostFQDN(t *testing.T) {
 
 func TestNoAuthorityNotFQDN(t *testing.T) {
 	inputPath := "noAuthorityConstraintNotFQDN.pem"
-	expected := lint.Error
-	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestExcludedNameConstraintNotFQDN(t *testing.T) {
-	inputPath := "excConstraintNotFQDN.pem"
 	expected := lint.Error
 	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
 	if out.Status != expected {
