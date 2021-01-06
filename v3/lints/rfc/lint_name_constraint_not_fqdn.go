@@ -15,6 +15,8 @@
 package rfc
 
 import (
+	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -37,7 +39,10 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 			host = "l" + host
 		}
 		if !util.IsFQDN(host) {
-			return &lint.LintResult{Status: lint.Error}
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: fmt.Sprintf("certificate contained a name constraint that wasn't specified as a fully qualified domain name: %v", host),
+			}
 		}
 	}
 	for _, subtreeString := range c.ExcludedURIs {
@@ -46,7 +51,10 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 			host = "l" + host
 		}
 		if !util.IsFQDN(host) {
-			return &lint.LintResult{Status: lint.Error}
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: fmt.Sprintf("certificate contained a name constraint that wasn't specified as a fully qualified domain name: %v", host),
+			}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
