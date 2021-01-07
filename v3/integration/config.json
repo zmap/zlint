@@ -482,7 +482,9 @@
     "e_san_wildcard_not_first": {
       "ErrCount": 2
     },
-    "e_serial_number_longer_than_20_octets": {},
+    "e_serial_number_longer_than_20_octets": {
+      "ErrCount": 190
+    },
     "e_serial_number_not_positive": {},
     "e_signature_algorithm_not_supported": {},
     "e_spki_rsa_encryption_parameter_not_null": {
