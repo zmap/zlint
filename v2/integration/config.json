@@ -294,6 +294,9 @@
       "ErrCount": 66
     },
     "e_cert_unique_identifier_version_not_2_or_3": {},
+    "e_common_name_length": {
+      "ErrCount": 32
+    },
     "e_distribution_point_incomplete": {},
     "e_dnsname_bad_character_in_label": {
       "ErrCount": 167
