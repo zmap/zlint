@@ -22,6 +22,17 @@ import (
 
 type subCertValidTimeLongerThan825Days struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_sub_cert_valid_time_longer_than_825_days",
+		Description:   "Subscriber Certificates issued after 1 March 2018 MUST have a Validity Period no greater than 825 days.",
+		Citation:      "BRs: 6.3.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.SubCert825Days,
+		Lint:          &subCertValidTimeLongerThan825Days{},
+	})
+}
+
 func (l *subCertValidTimeLongerThan825Days) Initialize() error {
 	return nil
 }
@@ -35,15 +46,4 @@ func (l *subCertValidTimeLongerThan825Days) Execute(c *x509.Certificate) *lint.L
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_valid_time_longer_than_825_days",
-		Description:   "Subscriber Certificates issued after 1 March 2018 MUST have a Validity Period no greater than 825 days.",
-		Citation:      "BRs: 6.3.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.SubCert825Days,
-		Lint:          &subCertValidTimeLongerThan825Days{},
-	})
 }

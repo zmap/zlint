@@ -24,6 +24,17 @@ import (
 
 type onionNotEV struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_san_dns_name_onion_not_ev_cert",
+		Description:   "certificates with a .onion subject name must be issued in accordance with EV Guidelines",
+		Citation:      "CABF Ballot 144",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.OnionOnlyEVDate,
+		Lint:          &onionNotEV{},
+	})
+}
+
 func (l *onionNotEV) Initialize() error {
 	return nil
 }
@@ -55,15 +66,4 @@ func (l *onionNotEV) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_san_dns_name_onion_not_ev_cert",
-		Description:   "certificates with a .onion subject name must be issued in accordance with EV Guidelines",
-		Citation:      "CABF Ballot 144",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.OnionOnlyEVDate,
-		Lint:          &onionNotEV{},
-	})
 }

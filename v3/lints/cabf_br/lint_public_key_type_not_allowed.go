@@ -22,6 +22,17 @@ import (
 
 type publicKeyAllowed struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_public_key_type_not_allowed",
+		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
+		Citation:      "BRs: 6.1.5",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &publicKeyAllowed{},
+	})
+}
+
 func (l *publicKeyAllowed) Initialize() error {
 	return nil
 }
@@ -37,15 +48,4 @@ func (l *publicKeyAllowed) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_public_key_type_not_allowed",
-		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
-		Citation:      "BRs: 6.1.5",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &publicKeyAllowed{},
-	})
 }

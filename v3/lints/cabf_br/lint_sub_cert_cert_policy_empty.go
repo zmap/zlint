@@ -14,6 +14,14 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type subCertPolicyEmpty struct{}
+
 /********************************************************************************************************************
 BRs: 7.1.6.4
 Subscriber Certificates
@@ -22,13 +30,16 @@ the Certificate’s certificatePolicies extension that indicates adherence to an
 CAs complying with these Requirements MAY also assert one of the reserved policy OIDs in such Certificates.
 *********************************************************************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type subCertPolicyEmpty struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_sub_cert_cert_policy_empty",
+		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
+		Citation:      "BRs: 7.1.6.4",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCertPolicyEmpty{},
+	})
+}
 
 func (l *subCertPolicyEmpty) Initialize() error {
 	return nil
@@ -44,15 +55,4 @@ func (l *subCertPolicyEmpty) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_cert_policy_empty",
-		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
-		Citation:      "BRs: 7.1.6.4",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCertPolicyEmpty{},
-	})
 }

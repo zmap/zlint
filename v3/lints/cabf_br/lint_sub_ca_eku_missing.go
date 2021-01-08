@@ -22,6 +22,17 @@ import (
 
 type subCAEKUMissing struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "n_sub_ca_eku_missing",
+		Description:   "To be considered Technically Constrained, the Subordinate CA certificate MUST have extkeyUsage extension",
+		Citation:      "BRs: 7.1.5",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCAEKUMissing{},
+	})
+}
+
 func (l *subCAEKUMissing) Initialize() error {
 	return nil
 }
@@ -36,15 +47,4 @@ func (l *subCAEKUMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Notice}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_sub_ca_eku_missing",
-		Description:   "To be considered Technically Constrained, the Subordinate CA certificate MUST have extkeyUsage extension",
-		Citation:      "BRs: 7.1.5",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCAEKUMissing{},
-	})
 }

@@ -24,6 +24,17 @@ import (
 
 type dsaParamsMissing struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_dsa_params_missing",
+		Description:   "DSA: Certificates MUST include all domain parameters",
+		Citation:      "BRs: 6.1.6",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &dsaParamsMissing{},
+	})
+}
+
 func (l *dsaParamsMissing) Initialize() error {
 	return nil
 }
@@ -42,15 +53,4 @@ func (l *dsaParamsMissing) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dsa_params_missing",
-		Description:   "DSA: Certificates MUST include all domain parameters",
-		Citation:      "BRs: 6.1.6",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &dsaParamsMissing{},
-	})
 }

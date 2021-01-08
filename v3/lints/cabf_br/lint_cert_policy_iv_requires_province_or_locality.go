@@ -14,9 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-// 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.3, then it MUST also include (i) either organizationName or givenName and surname, (ii) localityName (to the extent such field is required under Section 7.1.4.2.2), (iii) stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and (iv) countryName in the Subject field.
-// 7.1.4.2.2 applies only to subscriber certificates.
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -24,6 +21,20 @@ import (
 )
 
 type CertPolicyIVRequiresProvinceOrLocal struct{}
+
+// 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.3, then it MUST also include (i) either organizationName or givenName and surname, (ii) localityName (to the extent such field is required under Section 7.1.4.2.2), (iii) stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and (iv) countryName in the Subject field.
+// 7.1.4.2.2 applies only to subscriber certificates.
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_cert_policy_iv_requires_province_or_locality",
+		Description:   "If certificate policy 2.23.140.1.2.3 is included, localityName or stateOrProvinceName MUST be included in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABV131Date,
+		Lint:          &CertPolicyIVRequiresProvinceOrLocal{},
+	})
+}
 
 func (l *CertPolicyIVRequiresProvinceOrLocal) Initialize() error {
 	return nil
@@ -41,15 +52,4 @@ func (l *CertPolicyIVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) *l
 		out.Status = lint.Error
 	}
 	return &out
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_cert_policy_iv_requires_province_or_locality",
-		Description:   "If certificate policy 2.23.140.1.2.3 is included, localityName or stateOrProvinceName MUST be included in subject",
-		Citation:      "BRs: 7.1.6.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV131Date,
-		Lint:          &CertPolicyIVRequiresProvinceOrLocal{},
-	})
 }

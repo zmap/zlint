@@ -14,9 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-// If the Certificate asserts the policy identifier of 2.23.140.1.2.1, then it MUST NOT include
-// organizationName, streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject field.
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -24,6 +21,20 @@ import (
 )
 
 type certPolicyConflictsWithStreet struct{}
+
+// If the Certificate asserts the policy identifier of 2.23.140.1.2.1, then it MUST NOT include
+// organizationName, streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject field.
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_cab_dv_conflicts_with_street",
+		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, streetAddress MUST NOT be included in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &certPolicyConflictsWithStreet{},
+	})
+}
 
 func (l *certPolicyConflictsWithStreet) Initialize() error {
 	return nil
@@ -41,15 +52,4 @@ func (l *certPolicyConflictsWithStreet) Execute(cert *x509.Certificate) *lint.Li
 		out.Status = lint.Pass
 	}
 	return &out
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_cab_dv_conflicts_with_street",
-		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, streetAddress MUST NOT be included in subject",
-		Citation:      "BRs: 7.1.6.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &certPolicyConflictsWithStreet{},
-	})
 }

@@ -24,6 +24,17 @@ import (
 
 type rsaParsedTestsKeySize struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_rsa_mod_less_than_2048_bits",
+		Description:   "For certificates valid after 31 Dec 2013, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
+		Citation:      "BRs: 6.1.5",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &rsaParsedTestsKeySize{},
+	})
+}
+
 func (l *rsaParsedTestsKeySize) Initialize() error {
 	return nil
 }
@@ -40,15 +51,4 @@ func (l *rsaParsedTestsKeySize) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rsa_mod_less_than_2048_bits",
-		Description:   "For certificates valid after 31 Dec 2013, all certificates using RSA public key algorithm MUST have 2048 bits of modulus",
-		Citation:      "BRs: 6.1.5",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &rsaParsedTestsKeySize{},
-	})
 }

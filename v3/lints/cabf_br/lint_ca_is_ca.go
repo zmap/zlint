@@ -24,6 +24,17 @@ import (
 
 type caIsCA struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ca_is_ca",
+		Description:   "Root and Sub CA Certificate: The CA field MUST be set to true.",
+		Citation:      "BRs: 7.1.2.1, BRs: 7.1.2.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &caIsCA{},
+	})
+}
+
 type basicConstraints struct {
 	IsCA       bool `asn1:"optional"`
 	MaxPathLen int  `asn1:"optional,default:-1"`
@@ -49,15 +60,4 @@ func (l *caIsCA) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ca_is_ca",
-		Description:   "Root and Sub CA Certificate: The CA field MUST be set to true.",
-		Citation:      "BRs: 7.1.2.1, BRs: 7.1.2.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &caIsCA{},
-	})
 }

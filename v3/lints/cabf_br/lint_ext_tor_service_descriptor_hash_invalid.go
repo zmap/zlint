@@ -26,6 +26,17 @@ import (
 
 type torServiceDescHashInvalid struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_tor_service_descriptor_hash_invalid",
+		Description:   "certificates with v2 .onion names need valid TorServiceDescriptors in extension",
+		Citation:      "BRs: Ballot 201, Ballot SC27",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABV201Date,
+		Lint:          &torServiceDescHashInvalid{},
+	})
+}
+
 func (l *torServiceDescHashInvalid) Initialize() error {
 	// There is nothing to initialize for a torServiceDescHashInvalid linter.
 	return nil
@@ -206,15 +217,4 @@ func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *lint.LintResul
 	return &lint.LintResult{
 		Status: lint.Pass,
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_tor_service_descriptor_hash_invalid",
-		Description:   "certificates with v2 .onion names need valid TorServiceDescriptors in extension",
-		Citation:      "BRs: Ballot 201, Ballot SC27",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV201Date,
-		Lint:          &torServiceDescHashInvalid{},
-	})
 }

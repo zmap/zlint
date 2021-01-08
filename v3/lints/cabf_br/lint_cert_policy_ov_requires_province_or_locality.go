@@ -14,9 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-// 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.2, then it MUST also include organizationName, localityName (to the extent such field is required under Section 7.1.4.2.2), stateOrProvinceName (to the extent such field is required under Section 7.1.4.2.2), and countryName in the Subject field.*/
-// 7.1.4.2.2 applies only to subscriber certificates.
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -24,6 +21,20 @@ import (
 )
 
 type CertPolicyOVRequiresProvinceOrLocal struct{}
+
+// 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.2, then it MUST also include organizationName, localityName (to the extent such field is required under Section 7.1.4.2.2), stateOrProvinceName (to the extent such field is required under Section 7.1.4.2.2), and countryName in the Subject field.*/
+// 7.1.4.2.2 applies only to subscriber certificates.
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_cert_policy_ov_requires_province_or_locality",
+		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
+		Citation:      "BRs: 7.1.6.1",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &CertPolicyOVRequiresProvinceOrLocal{},
+	})
+}
 
 func (l *CertPolicyOVRequiresProvinceOrLocal) Initialize() error {
 	return nil
@@ -41,15 +52,4 @@ func (l *CertPolicyOVRequiresProvinceOrLocal) Execute(cert *x509.Certificate) *l
 		out.Status = lint.Error
 	}
 	return &out
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_cert_policy_ov_requires_province_or_locality",
-		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
-		Citation:      "BRs: 7.1.6.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &CertPolicyOVRequiresProvinceOrLocal{},
-	})
 }

@@ -22,6 +22,18 @@ import (
 
 type OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name: "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth",
+		Description: "OCSP signing Certificate MUST contain an extension of type id-pkixocsp-nocheck, as" +
+			" defined by RFC6960",
+		Citation:      "BRs: 4.9.9",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth{},
+	})
+}
+
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth) Initialize() error {
 	return nil
 }
@@ -40,16 +52,4 @@ func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth) Execute(c *x509.Certific
 	// This certificate is a TLS certificate, so the Baseline Requirements apply, which require the presence
 	// of id-pkix-ocsp-nocheck as an extension.
 	return &lint.LintResult{Status: lint.Error}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name: "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth",
-		Description: "OCSP signing Certificate MUST contain an extension of type id-pkixocsp-nocheck, as" +
-			" defined by RFC6960",
-		Citation:      "BRs: 4.9.9",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth{},
-	})
 }

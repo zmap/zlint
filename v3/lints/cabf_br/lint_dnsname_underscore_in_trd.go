@@ -24,6 +24,17 @@ import (
 
 type DNSNameUnderscoreInTRD struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_dnsname_underscore_in_trd",
+		Description:   "DNSName should not have an underscore in labels left of the ETLD+1",
+		Citation:      "BRs: 7.1.4.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &DNSNameUnderscoreInTRD{},
+	})
+}
+
 func (l *DNSNameUnderscoreInTRD) Initialize() error {
 	return nil
 }
@@ -54,15 +65,4 @@ func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_dnsname_underscore_in_trd",
-		Description:   "DNSName should not have an underscore in labels left of the ETLD+1",
-		Citation:      "BRs: 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameUnderscoreInTRD{},
-	})
 }

@@ -14,6 +14,14 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type SANReservedIP struct{}
+
 /************************************************
 BRs: 7.1.4.2.1
 Also as of the Effective Date, the CA SHALL NOT
@@ -23,13 +31,16 @@ or Subject commonName field containing a Reserved IP
 Address or Internal Name.
 ************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type SANReservedIP struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_san_contains_reserved_ip",
+		Description:   "Effective October 1, 2016, CAs must revoke all unexpired certificates that contains a reserved IP or internal name.",
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &SANReservedIP{},
+	})
+}
 
 func (l *SANReservedIP) Initialize() error {
 	return nil
@@ -47,15 +58,4 @@ func (l *SANReservedIP) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_san_contains_reserved_ip",
-		Description:   "Effective October 1, 2016, CAs must revoke all unexpired certificates that contains a reserved IP or internal name.",
-		Citation:      "BRs: 7.1.4.2.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &SANReservedIP{},
-	})
 }

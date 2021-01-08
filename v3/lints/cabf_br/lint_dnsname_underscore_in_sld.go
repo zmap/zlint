@@ -24,6 +24,17 @@ import (
 
 type DNSNameUnderscoreInSLD struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_dnsname_underscore_in_sld",
+		Description:   "DNSName should not have underscore in SLD",
+		Citation:      "BRs: 7.1.4.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &DNSNameUnderscoreInSLD{},
+	})
+}
+
 func (l *DNSNameUnderscoreInSLD) Initialize() error {
 	return nil
 }
@@ -53,15 +64,4 @@ func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_underscore_in_sld",
-		Description:   "DNSName should not have underscore in SLD",
-		Citation:      "BRs: 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameUnderscoreInSLD{},
-	})
 }
