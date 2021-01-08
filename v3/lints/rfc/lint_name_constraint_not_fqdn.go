@@ -67,9 +67,7 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 
 func isHostFQDN(host string, incorrectHosts *[]string) {
 
-	if strings.HasPrefix(host, ".") {
-		host = host[1:]
-	}
+	strings.TrimPrefix(host, ".")
 
 	if !util.IsFQDN(host) {
 		*incorrectHosts = append(*incorrectHosts, host)
