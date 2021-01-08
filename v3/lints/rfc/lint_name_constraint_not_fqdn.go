@@ -15,7 +15,7 @@
 package rfc
 
 import (
-	"fmt"
+	"strings"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -33,31 +33,79 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
+
+	incorrectPermittedHosts := make([]string, 0)
+	incorrectExcludedHosts := make([]string, 0)
+	errString := ""
+
 	for _, subtreeString := range c.PermittedURIs {
-		var host = subtreeString.Data
-		if string(host[0]) == string(".") {
-			host = "l" + host
-		}
-		if !util.IsFQDN(host) {
-			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: fmt.Sprintf("certificate contained a name constraint that wasn't specified as a fully qualified domain name: %v", host),
-			}
-		}
+		isHostFQDN(subtreeString.Data, &incorrectPermittedHosts)
 	}
 	for _, subtreeString := range c.ExcludedURIs {
-		var host = subtreeString.Data
-		if string(host[0]) == string(".") {
-			host = "l" + host
-		}
-		if !util.IsFQDN(host) {
-			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: fmt.Sprintf("certificate contained a name constraint that wasn't specified as a fully qualified domain name: %v", host),
-			}
+		isHostFQDN(subtreeString.Data, &incorrectExcludedHosts)
+	}
+
+	if len(incorrectPermittedHosts) != 0 {
+		errString += returnErrorString(incorrectPermittedHosts, true)
+	}
+	if len(incorrectPermittedHosts) != 0 && len(incorrectExcludedHosts) != 0 {
+		errString += "; "
+	}
+	if len(incorrectExcludedHosts) != 0 {
+		errString += returnErrorString(incorrectExcludedHosts, false)
+	}
+
+	if len(errString) != 0 {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: errString,
 		}
 	}
+
 	return &lint.LintResult{Status: lint.Pass}
+}
+
+func isHostFQDN(host string, incorrectHosts *[]string) {
+
+	if strings.HasPrefix(host, ".") {
+		host = "l" + host
+	}
+
+	if !util.IsFQDN(host) {
+		*incorrectHosts = append(*incorrectHosts, host)
+	}
+
+}
+
+func returnErrorString(incorrectHosts []string, isInclusion bool) string {
+
+	errString := "certificate contained "
+
+	if len(incorrectHosts) > 1 {
+		errString += "multiple "
+	} else {
+		errString += "an "
+	}
+
+	if isInclusion {
+		errString += "inclusion "
+	} else {
+		errString += "exclusion "
+	}
+
+	if len(incorrectHosts) > 1 {
+
+		errString += "name constraints that weren't specified as fully qualified domain names: " + incorrectHosts[0]
+		for _, incorrectHost := range incorrectHosts[1:] {
+			util.AppendToStringSemicolonDelim(&errString, incorrectHost)
+		}
+		return errString
+
+	}
+
+	errString += "name constraint that wasn't specified as a fully qualified domain name: " + incorrectHosts[0]
+	return errString
+
 }
 
 func init() {

@@ -21,38 +21,45 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestBeginsWithPeridFQDN(t *testing.T) {
-	inputPath := "beginsWithPeriodConstraintFQDN.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestUriNameConstraintsFqdn(t *testing.T) {
+	testCases := []struct {
+		Name           string
+		Filename       string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "TestBeginsWithPeridFQDN",
+			Filename:       "beginsWithPeriodConstraintFQDN.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "TestIpAddressNotFQDN",
+			Filename:       "ipAddressConstraintNotFQDN.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "TestOnlyHostFQDN",
+			Filename:       "onlyHostConstraintFQDN.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "TestNoAuthorityNotFQDN",
+			Filename:       "noAuthorityConstraintNotFQDN.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "TestMultipleWrongContstraintsNotFQDN",
+			Filename:       "multipleWrongConstraints.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
-}
 
-func TestIpAddressNotFQDN(t *testing.T) {
-	inputPath := "ipAddressConstraintNotFQDN.pem"
-	expected := lint.Error
-	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestOnlyHostFQDN(t *testing.T) {
-	inputPath := "onlyHostConstraintFQDN.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestNoAuthorityNotFQDN(t *testing.T) {
-	inputPath := "noAuthorityConstraintNotFQDN.pem"
-	expected := lint.Error
-	out := test.TestLint("e_name_constraint_not_fqdn", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_name_constraint_not_fqdn", tc.Filename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }
