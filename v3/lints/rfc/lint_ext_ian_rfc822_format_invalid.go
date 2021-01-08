@@ -14,6 +14,16 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"strings"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type IANEmail struct{}
+
 /************************************************************************
 RFC 5280: 4.2.1.6
  When the issuerAltName extension contains an Internet mail address,
@@ -26,15 +36,16 @@ RFC 5280: 4.2.1.6
    internationalized domain names are specified in Section 7.5.
 ************************************************************************/
 
-import (
-	"strings"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type IANEmail struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_ian_rfc822_format_invalid",
+		Description:   "Email must not be surrounded with `<>`, and there MUST NOT be trailing comments in `()`",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &IANEmail{},
+	})
+}
 
 func (l *IANEmail) Initialize() error {
 	return nil
@@ -56,15 +67,4 @@ func (l *IANEmail) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_ian_rfc822_format_invalid",
-		Description:   "Email must not be surrounded with `<>`, and there MUST NOT be trailing comments in `()`",
-		Citation:      "RFC 5280: 4.2.1.7",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &IANEmail{},
-	})
 }

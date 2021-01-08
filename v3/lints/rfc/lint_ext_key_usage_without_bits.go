@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type keyUsageBitsSet struct{}
+
 /***********************************************************************
  This profile does not restrict the combinations of bits that may be
    set in an instantiation of the keyUsage extension.  However,
@@ -23,13 +31,16 @@ package rfc
    MUST be set to 1.
 ***********************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type keyUsageBitsSet struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_key_usage_without_bits",
+		Description:   "When the keyUsage extension is included, at least one bit MUST be set to 1",
+		Citation:      "RFC 5280: 4.2.1.3",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &keyUsageBitsSet{},
+	})
+}
 
 func (l *keyUsageBitsSet) Initialize() error {
 	return nil
@@ -45,15 +56,4 @@ func (l *keyUsageBitsSet) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_key_usage_without_bits",
-		Description:   "When the keyUsage extension is included, at least one bit MUST be set to 1",
-		Citation:      "RFC 5280: 4.2.1.3",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &keyUsageBitsSet{},
-	})
 }

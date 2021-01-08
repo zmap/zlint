@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type controlChar struct{}
+
 /*********************************************************************
 An explicitText field includes the textual statement directly in
 the certificate.  The explicitText field is a string with a
@@ -26,13 +34,16 @@ the UTF8String encoding is used, all character sequences SHOULD be
 normalized according to Unicode normalization form C (NFC) [NFC].
 *********************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type controlChar struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_ext_cert_policy_explicit_text_includes_control",
+		Description:   "Explicit text should not include any control characters",
+		Citation:      "RFC 6818: 3",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC6818Date,
+		Lint:          &controlChar{},
+	})
+}
 
 func (l *controlChar) Initialize() error {
 	return nil
@@ -77,15 +88,4 @@ func (l *controlChar) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_ext_cert_policy_explicit_text_includes_control",
-		Description:   "Explicit text should not include any control characters",
-		Citation:      "RFC 6818: 3",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC6818Date,
-		Lint:          &controlChar{},
-	})
 }

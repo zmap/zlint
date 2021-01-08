@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type nameConstraintOnX400 struct{}
+
 /*******************************************************************
 RFC 5280: 4.2.1.10
 Restrictions are defined in terms of permitted or excluded name
@@ -27,13 +35,16 @@ is, either the permittedSubtrees field or the excludedSubtrees MUST
 be present.
 *******************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type nameConstraintOnX400 struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_name_constraint_on_x400",
+		Description:   "The name constraints extension SHOULD NOT impose constraints on the x400Address name form",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &nameConstraintOnX400{},
+	})
+}
 
 func (l *nameConstraintOnX400) Initialize() error {
 	return nil
@@ -48,15 +59,4 @@ func (l *nameConstraintOnX400) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Warn}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_name_constraint_on_x400",
-		Description:   "The name constraints extension SHOULD NOT impose constraints on the x400Address name form",
-		Citation:      "RFC 5280: 4.2.1.10",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &nameConstraintOnX400{},
-	})
 }

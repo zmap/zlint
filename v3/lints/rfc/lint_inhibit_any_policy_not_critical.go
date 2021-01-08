@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type InhibitAnyPolicyNotCritical struct{}
+
 /************************************************
 4.2.1.14.  Inhibit anyPolicy
    The inhibit anyPolicy extension can be used in certificates issued to CAs.
@@ -29,13 +37,16 @@ package rfc
    Conforming CAs MUST mark this extension as critical.
 ************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type InhibitAnyPolicyNotCritical struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_inhibit_any_policy_not_critical",
+		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
+		Citation:      "RFC 5280: 4.2.1.14",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &InhibitAnyPolicyNotCritical{},
+	})
+}
 
 func (l *InhibitAnyPolicyNotCritical) Initialize() error {
 	return nil
@@ -50,15 +61,4 @@ func (l *InhibitAnyPolicyNotCritical) Execute(cert *x509.Certificate) *lint.Lint
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_inhibit_any_policy_not_critical",
-		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
-		Citation:      "RFC 5280: 4.2.1.14",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          &InhibitAnyPolicyNotCritical{},
-	})
 }

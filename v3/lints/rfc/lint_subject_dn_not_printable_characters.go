@@ -25,6 +25,17 @@ import (
 
 type subjectDNNotPrintableCharacters struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_dn_not_printable_characters",
+		Description:   "X520 Subject fields MUST only contain printable control characters",
+		Citation:      "RFC 5280: Appendix A",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &subjectDNNotPrintableCharacters{},
+	})
+}
+
 func (l *subjectDNNotPrintableCharacters) Initialize() error {
 	return nil
 }
@@ -60,15 +71,4 @@ func (l *subjectDNNotPrintableCharacters) Execute(c *x509.Certificate) *lint.Lin
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_dn_not_printable_characters",
-		Description:   "X520 Subject fields MUST only contain printable control characters",
-		Citation:      "RFC 5280: Appendix A",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &subjectDNNotPrintableCharacters{},
-	})
 }

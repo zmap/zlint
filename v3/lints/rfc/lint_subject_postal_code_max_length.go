@@ -14,14 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-RFC 5280: A.1
-	* In this Appendix, there is a list of upperbounds
-	for fields in a x509 Certificate. *
-	ub-postal-code-length INTEGER ::= 16
-
-************************************************/
-
 import (
 	"unicode/utf8"
 
@@ -31,6 +23,25 @@ import (
 )
 
 type subjectPostalCodeMaxLength struct{}
+
+/************************************************
+RFC 5280: A.1
+	* In this Appendix, there is a list of upperbounds
+	for fields in a x509 Certificate. *
+	ub-postal-code-length INTEGER ::= 16
+
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_postal_code_max_length",
+		Description:   "The 'PostalCode' field of the subject MUST be less than 17 characters",
+		Citation:      "RFC 5280: A.1",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &subjectPostalCodeMaxLength{},
+	})
+}
 
 func (l *subjectPostalCodeMaxLength) Initialize() error {
 	return nil
@@ -48,15 +59,4 @@ func (l *subjectPostalCodeMaxLength) Execute(c *x509.Certificate) *lint.LintResu
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_postal_code_max_length",
-		Description:   "The 'PostalCode' field of the subject MUST be less than 17 characters",
-		Citation:      "RFC 5280: A.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &subjectPostalCodeMaxLength{},
-	})
 }

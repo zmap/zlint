@@ -14,13 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-RFC 5280: A.1
-	* In this Appendix, there is a list of upperbounds
-	for fields in a x509 Certificate. *
-	ub-organizational-unit-name INTEGER ::= 64
-************************************************/
-
 import (
 	"unicode/utf8"
 
@@ -30,6 +23,24 @@ import (
 )
 
 type subjectOrganizationalUnitNameMaxLength struct{}
+
+/************************************************
+RFC 5280: A.1
+	* In this Appendix, there is a list of upperbounds
+	for fields in a x509 Certificate. *
+	ub-organizational-unit-name INTEGER ::= 64
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_organizational_unit_name_max_length",
+		Description:   "The 'Organizational Unit Name' field of the subject MUST be less than 65 characters",
+		Citation:      "RFC 5280: A.1",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &subjectOrganizationalUnitNameMaxLength{},
+	})
+}
 
 func (l *subjectOrganizationalUnitNameMaxLength) Initialize() error {
 	return nil
@@ -47,15 +58,4 @@ func (l *subjectOrganizationalUnitNameMaxLength) Execute(c *x509.Certificate) *l
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_organizational_unit_name_max_length",
-		Description:   "The 'Organizational Unit Name' field of the subject MUST be less than 65 characters",
-		Citation:      "RFC 5280: A.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &subjectOrganizationalUnitNameMaxLength{},
-	})
 }

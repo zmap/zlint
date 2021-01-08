@@ -25,6 +25,17 @@ import (
 
 type IDNMalformedUnicode struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_international_dns_name_not_unicode",
+		Description:   "Internationalized DNSNames punycode not valid unicode",
+		Citation:      "RFC 3490",
+		EffectiveDate: util.RFC3490Date,
+		Source:        lint.RFC5280,
+		Lint:          &IDNMalformedUnicode{},
+	})
+}
+
 func (l *IDNMalformedUnicode) Initialize() error {
 	return nil
 }
@@ -46,15 +57,4 @@ func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_international_dns_name_not_unicode",
-		Description:   "Internationalized DNSNames punycode not valid unicode",
-		Citation:      "RFC 3490",
-		EffectiveDate: util.RFC3490Date,
-		Source:        lint.RFC5280,
-		Lint:          &IDNMalformedUnicode{},
-	})
 }

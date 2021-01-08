@@ -14,6 +14,16 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"net/url"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type SANURIHost struct{}
+
 /*********************************************************************
 When the subjectAltName extension contains a URI, the name MUST be
 stored in the uniformResourceIdentifier (an IA5String).  The name
@@ -26,15 +36,16 @@ Internationalized Resource Identifiers (IRIs) are specified in
 Section 7.4.
 *********************************************************************/
 
-import (
-	"net/url"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type SANURIHost struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_san_uri_host_not_fqdn_or_ip",
+		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &SANURIHost{},
+	})
+}
 
 func (l *SANURIHost) Initialize() error {
 	return nil
@@ -65,15 +76,4 @@ func (l *SANURIHost) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_san_uri_host_not_fqdn_or_ip",
-		Description:   "URIs that include an authority ([RFC3986], Section 3.2) MUST include a fully qualified domain name or IP address as the host",
-		Citation:      "RFC 5280: 4.2.1.7",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &SANURIHost{},
-	})
 }

@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type extSANNotCritNoSubject struct{}
+
 /************************************************
 RFC 5280: 4.2.1.6
 Further, if the only subject identity included in the certificate is
@@ -27,13 +35,16 @@ Further, if the only subject identity included in the certificate is
    subjectAltName extension as non-critical.
 ************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type extSANNotCritNoSubject struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_san_not_critical_without_subject",
+		Description:   "If there is an empty subject field, then the SAN extension MUST be critical",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &extSANNotCritNoSubject{},
+	})
+}
 
 func (l *extSANNotCritNoSubject) Initialize() error {
 	return nil
@@ -49,15 +60,4 @@ func (l *extSANNotCritNoSubject) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_san_not_critical_without_subject",
-		Description:   "If there is an empty subject field, then the SAN extension MUST be critical",
-		Citation:      "RFC 5280: 4.2.1.6",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &extSANNotCritNoSubject{},
-	})
 }

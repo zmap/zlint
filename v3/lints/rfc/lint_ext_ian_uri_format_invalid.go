@@ -14,11 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-The name MUST include both a
-scheme (e.g., "http" or "ftp") and a scheme-specific-part.
-************************************************/
-
 import (
 	"net/url"
 
@@ -28,6 +23,22 @@ import (
 )
 
 type IANURIFormat struct{}
+
+/************************************************
+The name MUST include both a
+scheme (e.g., "http" or "ftp") and a scheme-specific-part.
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_ian_uri_format_invalid",
+		Description:   "URIs in the subjectAltName extension MUST have a scheme and scheme specific part",
+		Citation:      "RFC5280: 4.2.1.6",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &IANURIFormat{},
+	})
+}
 
 func (l *IANURIFormat) Initialize() error {
 	return nil
@@ -56,15 +67,4 @@ func (l *IANURIFormat) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_ian_uri_format_invalid",
-		Description:   "URIs in the subjectAltName extension MUST have a scheme and scheme specific part",
-		Citation:      "RFC5280: 4.2.1.6",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &IANURIFormat{},
-	})
 }

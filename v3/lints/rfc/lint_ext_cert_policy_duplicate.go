@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type ExtCertPolicyDuplicate struct{}
+
 /************************************************
   The certificate policies extension contains a sequence of one or more
   policy information terms, each of which consists of an object identifier
@@ -22,13 +30,16 @@ package rfc
   policy OID MUST NOT appear more than once in a certificate policies extension.
 ************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type ExtCertPolicyDuplicate struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_cert_policy_duplicate",
+		Description:   "A certificate policy OID must not appear more than once in the extension",
+		Citation:      "RFC 5280: 4.2.1.4",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &ExtCertPolicyDuplicate{},
+	})
+}
 
 func (l *ExtCertPolicyDuplicate) Initialize() error {
 	return nil
@@ -49,15 +60,4 @@ func (l *ExtCertPolicyDuplicate) Execute(cert *x509.Certificate) *lint.LintResul
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_cert_policy_duplicate",
-		Description:   "A certificate policy OID must not appear more than once in the extension",
-		Citation:      "RFC 5280: 4.2.1.4",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &ExtCertPolicyDuplicate{},
-	})
 }

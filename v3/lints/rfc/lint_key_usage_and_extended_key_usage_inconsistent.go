@@ -22,6 +22,17 @@ import (
 
 type KUAndEKUInconsistent struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_key_usage_and_extended_key_usage_inconsistent",
+		Description:   "The certificate MUST only be used for a purpose consistent with both key usage extension and extended key usage extension.",
+		Citation:      "RFC 5280, Section 4.2.1.12.",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &KUAndEKUInconsistent{},
+	})
+}
+
 func (l *KUAndEKUInconsistent) Initialize() error {
 	return nil
 }
@@ -64,17 +75,6 @@ func (l *KUAndEKUInconsistent) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_key_usage_and_extended_key_usage_inconsistent",
-		Description:   "The certificate MUST only be used for a purpose consistent with both key usage extension and extended key usage extension.",
-		Citation:      "RFC 5280, Section 4.2.1.12.",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &KUAndEKUInconsistent{},
-	})
 }
 
 // Variable containing the consistent KU combinations with Server Authentication EKU:

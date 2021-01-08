@@ -14,6 +14,16 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"time"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type utcTimeGMT struct{}
+
 /***********************************************************************
 4.1.2.5.1.  UTCTime
    The universal time type, UTCTime, is a standard ASN.1 type intended
@@ -33,15 +43,15 @@ package rfc
       Where YY is less than 50, the year SHALL be interpreted as 20YY.
 ***********************************************************************/
 
-import (
-	"time"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type utcTimeGMT struct {
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_utc_time_not_in_zulu",
+		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
+		Citation:      "RFC 5280: 4.1.2.5.1",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &utcTimeGMT{},
+	})
 }
 
 func (l *utcTimeGMT) Initialize() error {
@@ -84,15 +94,4 @@ func utcNotGmt(t time.Time, r *lint.LintStatus) {
 	} else {
 		*r = lint.Pass
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_utc_time_not_in_zulu",
-		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
-		Citation:      "RFC 5280: 4.1.2.5.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &utcTimeGMT{},
-	})
 }

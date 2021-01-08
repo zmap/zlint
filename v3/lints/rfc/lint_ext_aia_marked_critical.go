@@ -14,12 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-Authority Information Access
-   The authority information access extension indicates how to access information and services for the issuer of the certificate in which the extension appears. Information and services may include on-line validation services and CA policy data. (The location of CRLs is not specified in this extension; that information is provided by the cRLDistributionPoints extension.) This extension may be included in end entity or CA certificates. Conforming CAs MUST mark this extension as non-critical.
-************************************************/
-//See also: BRs: 7.1.2.3 & CAB: 7.1.2.2
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -27,6 +21,23 @@ import (
 )
 
 type ExtAiaMarkedCritical struct{}
+
+/************************************************
+Authority Information Access
+   The authority information access extension indicates how to access information and services for the issuer of the certificate in which the extension appears. Information and services may include on-line validation services and CA policy data. (The location of CRLs is not specified in this extension; that information is provided by the cRLDistributionPoints extension.) This extension may be included in end entity or CA certificates. Conforming CAs MUST mark this extension as non-critical.
+************************************************/
+//See also: BRs: 7.1.2.3 & CAB: 7.1.2.2
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_aia_marked_critical",
+		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
+		Citation:      "RFC 5280: 4.2.2.1",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &ExtAiaMarkedCritical{},
+	})
+}
 
 func (l *ExtAiaMarkedCritical) Initialize() error {
 	return nil
@@ -42,15 +53,4 @@ func (l *ExtAiaMarkedCritical) Execute(cert *x509.Certificate) *lint.LintResult 
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_aia_marked_critical",
-		Description:   "Conforming CAs must mark the Authority Information Access extension as non-critical",
-		Citation:      "RFC 5280: 4.2.2.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &ExtAiaMarkedCritical{},
-	})
 }

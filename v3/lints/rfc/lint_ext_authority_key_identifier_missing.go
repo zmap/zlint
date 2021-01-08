@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type authorityKeyIdMissing struct{}
+
 /***********************************************************************
 RFC 5280: 4.2.1.1
 The keyIdentifier field of the authorityKeyIdentifier extension MUST
@@ -29,13 +37,16 @@ The keyIdentifier field of the authorityKeyIdentifier extension MUST
    certification path building.
 ***********************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type authorityKeyIdMissing struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_authority_key_identifier_missing",
+		Description:   "CAs must support key identifiers and include them in all certificates",
+		Citation:      "RFC 5280: 4.2 & 4.2.1.1",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &authorityKeyIdMissing{},
+	})
+}
 
 func (l *authorityKeyIdMissing) Initialize() error {
 	return nil
@@ -51,15 +62,4 @@ func (l *authorityKeyIdMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_authority_key_identifier_missing",
-		Description:   "CAs must support key identifiers and include them in all certificates",
-		Citation:      "RFC 5280: 4.2 & 4.2.1.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &authorityKeyIdMissing{},
-	})
 }
