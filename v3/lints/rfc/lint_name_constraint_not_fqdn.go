@@ -68,7 +68,7 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 func isHostFQDN(host string, incorrectHosts *[]string) {
 
 	if strings.HasPrefix(host, ".") {
-		host = "l" + host
+		host = host[1:]
 	}
 
 	if !util.IsFQDN(host) {
@@ -95,7 +95,7 @@ func returnErrorString(incorrectHosts []string, isInclusion bool) string {
 
 	if len(incorrectHosts) > 1 {
 
-		errString += "name constraints that weren't specified as fully qualified domain names: " + incorrectHosts[0]
+		errString += "name constraints that are not fully qualified domain names: " + incorrectHosts[0]
 		for _, incorrectHost := range incorrectHosts[1:] {
 			util.AppendToStringSemicolonDelim(&errString, incorrectHost)
 		}
@@ -103,7 +103,7 @@ func returnErrorString(incorrectHosts []string, isInclusion bool) string {
 
 	}
 
-	errString += "name constraint that wasn't specified as a fully qualified domain name: " + incorrectHosts[0]
+	errString += "name constraint that is not a fully qualified domain name: " + incorrectHosts[0]
 	return errString
 
 }
