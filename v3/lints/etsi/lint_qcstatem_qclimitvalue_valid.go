@@ -25,6 +25,17 @@ import (
 
 type qcStatemQcLimitValueValid struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_qcstatem_qclimitvalue_valid",
+		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
+		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
+		Source:        lint.EtsiEsi,
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+		Lint:          &qcStatemQcLimitValueValid{},
+	})
+}
+
 func (this *qcStatemQcLimitValueValid) getStatementOid() *asn1.ObjectIdentifier {
 	return &util.IdEtsiQcsQcLimitValue
 }
@@ -86,15 +97,4 @@ func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *lint.LintResul
 	} else {
 		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_qcstatem_qclimitvalue_valid",
-		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
-		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
-		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemQcLimitValueValid{},
-	})
 }

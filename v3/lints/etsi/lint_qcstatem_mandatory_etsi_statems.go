@@ -24,6 +24,17 @@ import (
 
 type qcStatemQcmandatoryEtsiStatems struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_qcstatem_mandatory_etsi_statems",
+		Description:   "Checks that a QC Statement that contains at least one of the ETSI ESI statements, also features the set of mandatory ETSI ESI QC statements.",
+		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 5",
+		Source:        lint.EtsiEsi,
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+		Lint:          &qcStatemQcmandatoryEtsiStatems{},
+	})
+}
+
 func (l *qcStatemQcmandatoryEtsiStatems) Initialize() error {
 	return nil
 }
@@ -58,15 +69,4 @@ func (l *qcStatemQcmandatoryEtsiStatems) Execute(c *x509.Certificate) *lint.Lint
 	} else {
 		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_qcstatem_mandatory_etsi_statems",
-		Description:   "Checks that a QC Statement that contains at least one of the ETSI ESI statements, also features the set of mandatory ETSI ESI QC statements.",
-		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 5",
-		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemQcmandatoryEtsiStatems{},
-	})
 }

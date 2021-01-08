@@ -24,6 +24,17 @@ import (
 
 type qcStatemQcComplianceValid struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_qcstatem_qccompliance_valid",
+		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcCompliance has the correct form",
+		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.1",
+		Source:        lint.EtsiEsi,
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+		Lint:          &qcStatemQcComplianceValid{},
+	})
+}
+
 func (this *qcStatemQcComplianceValid) getStatementOid() *asn1.ObjectIdentifier {
 	return &util.IdEtsiQcsQcCompliance
 }
@@ -53,15 +64,4 @@ func (l *qcStatemQcComplianceValid) Execute(c *x509.Certificate) *lint.LintResul
 	} else {
 		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_qcstatem_qccompliance_valid",
-		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcCompliance has the correct form",
-		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.1",
-		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemQcComplianceValid{},
-	})
 }
