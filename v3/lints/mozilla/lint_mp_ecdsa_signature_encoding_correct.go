@@ -14,6 +14,18 @@ package mozilla
  * permissions and limitations under the License.
  */
 
+import (
+	"bytes"
+	"encoding/hex"
+	"fmt"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type ecdsaSignatureAidEncoding struct{}
+
 /************************************************
 https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
 
@@ -32,17 +44,16 @@ an explicit NULL.
 
 ************************************************/
 
-import (
-	"bytes"
-	"encoding/hex"
-	"fmt"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type ecdsaSignatureAidEncoding struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_mp_ecdsa_signature_encoding_correct",
+		Description:   "The encoded algorithm identifiers for ECDSA signatures MUST match specific hex-encoded bytes",
+		Citation:      "Mozilla Root Store Policy / Section 5.1.2",
+		Source:        lint.MozillaRootStorePolicy,
+		EffectiveDate: util.MozillaPolicy27Date,
+		Lint:          &ecdsaSignatureAidEncoding{},
+	})
+}
 
 func (l *ecdsaSignatureAidEncoding) Initialize() error {
 	return nil
@@ -107,15 +118,4 @@ func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResul
 		Status:  lint.Error,
 		Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key. Got signature length %v", signatureSize),
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_mp_ecdsa_signature_encoding_correct",
-		Description:   "The encoded algorithm identifiers for ECDSA signatures MUST match specific hex-encoded bytes",
-		Citation:      "Mozilla Root Store Policy / Section 5.1.2",
-		Source:        lint.MozillaRootStorePolicy,
-		EffectiveDate: util.MozillaPolicy27Date,
-		Lint:          &ecdsaSignatureAidEncoding{},
-	})
 }
