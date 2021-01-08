@@ -24,6 +24,17 @@ import (
 
 type rsaParsedPubKeyExist struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_rsa_no_public_key",
+		Description:   "The RSA public key should be present",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &rsaParsedPubKeyExist{},
+	})
+}
+
 func (l *rsaParsedPubKeyExist) Initialize() error {
 	return nil
 }
@@ -39,15 +50,4 @@ func (l *rsaParsedPubKeyExist) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rsa_no_public_key",
-		Description:   "The RSA public key should be present",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &rsaParsedPubKeyExist{},
-	})
 }

@@ -24,6 +24,17 @@ import (
 
 type brSANBareWildcard struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_san_bare_wildcard",
+		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &brSANBareWildcard{},
+	})
+}
+
 func (l *brSANBareWildcard) Initialize() error {
 	return nil
 }
@@ -39,15 +50,4 @@ func (l *brSANBareWildcard) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_san_bare_wildcard",
-		Description:   "A wildcard MUST be accompanied by other data to its right (Only checks DNSName)",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &brSANBareWildcard{},
-	})
 }

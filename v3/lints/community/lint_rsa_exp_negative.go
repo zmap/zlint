@@ -24,6 +24,17 @@ import (
 
 type rsaExpNegative struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_rsa_exp_negative",
+		Description:   "RSA public key exponent MUST be positive",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &rsaExpNegative{},
+	})
+}
+
 func (l *rsaExpNegative) Initialize() error {
 	return nil
 }
@@ -39,15 +50,4 @@ func (l *rsaExpNegative) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rsa_exp_negative",
-		Description:   "RSA public key exponent MUST be positive",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &rsaExpNegative{},
-	})
 }

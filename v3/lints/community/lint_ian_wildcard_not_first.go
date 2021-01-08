@@ -22,6 +22,17 @@ import (
 
 type brIANWildcardFirst struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ian_wildcard_not_first",
+		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks IANDNSNames)",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &brIANWildcardFirst{},
+	})
+}
+
 func (l *brIANWildcardFirst) Initialize() error {
 	return nil
 }
@@ -39,15 +50,4 @@ func (l *brIANWildcardFirst) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ian_wildcard_not_first",
-		Description:   "A wildcard MUST be in the first label of FQDN (ie not: www.*.com) (Only checks IANDNSNames)",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &brIANWildcardFirst{},
-	})
 }
