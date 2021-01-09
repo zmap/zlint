@@ -21,19 +21,21 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-var tests = map[string]lint.LintStatus{
-	"EvAltRegNumCert52NoOrgId.pem":                       lint.NA,
-	"EvAltRegNumCert55OrgIdExtMissing.pem":               lint.NE,
-	"EvAltRegNumCert67ValidNtrWithOrgIdExt.pem":          lint.NE,
-	"EvAltRegNumCert55OrgIdExtMissingNewerDate.pem":      lint.Error,
-	"EvAltRegNumCert67ValidNtrWithOrgIdExtNewerDate.pem": lint.Pass,
-}
-
 func TestOrganizationIDMissing(t *testing.T) {
+	var tests = map[string]lint.LintStatus{
+		"evOrgIdExtMissing_NoOrgId.pem":                                   lint.NA,
+		"evOrgIdExtMissing_CABFOrgIdExtMissingButBeforeEffectiveDate.pem": lint.NE,
+		"evOrgIdExtMissing_ValidButBeforeEffectiveDate.pem":               lint.NE,
+		"evOrgIdExtMissing_Invalid.pem":                                   lint.Error,
+		"evOrgIdExtMissing_Valid.pem":                                     lint.Pass,
+	}
 	for file, want := range tests {
-		got := test.TestLint("e_ev_organization_id_missing", file).Status
-		if got != want {
-			t.Errorf("%s: want %s, got %s", file, want, got)
-		}
+		t.Run(file, func(t *testing.T) {
+			t.Parallel()
+			got := test.TestLint("e_ev_organization_id_missing", file).Status
+			if got != want {
+				t.Errorf("want %s, got %s", want, got)
+			}
+		})
 	}
 }
