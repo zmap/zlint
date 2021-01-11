@@ -28,7 +28,7 @@ type subCertIssuerUrl struct{}
 BRs: 7.1.2.3
 cRLDistributionPoints
 This extension MAY be present. If present, it MUST NOT be marked critical, and it MUST contain the
-HTTP URL of the CA’s CRL service. See Section 13.2.1 for details.
+HTTP URL of the CA’s CRL service.
 *************************************************************************/
 
 func init() {

@@ -25,11 +25,11 @@ import (
 type subCaIssuerUrl struct{}
 
 /***********************************************
-CAB 7.1.2.2c
-With the exception of stapling, which is noted below, this extension MUST be present. It MUST NOT be
-marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP responder (accessMethod
-= 1.3.6.1.5.5.7.48.1). It SHOULD also contain the HTTP URL of the Issuing CA’s certificate
-(accessMethod = 1.3.6.1.5.5.7.48.2).
+BRs: 7.1.2.2c
+This extension SHOULD be present. It MUST NOT be marked critical.
+It SHOULD contain the HTTP URL of the Issuing CA’s certificate (accessMethod =
+1.3.6.1.5.5.7.48.2). It MAY contain the HTTP URL of the Issuing CA’s OCSP responder
+(accessMethod = 1.3.6.1.5.5.7.48.1).
 ************************************************/
 
 func init() {
