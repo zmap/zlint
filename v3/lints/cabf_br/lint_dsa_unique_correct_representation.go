@@ -29,7 +29,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dsa_unique_correct_representation",
 		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
-		Citation:      "BRs: 6.1.6",
+		Citation:      "BRs v1.7.0: 6.1.6",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &dsaUniqueCorrectRepresentation{},
