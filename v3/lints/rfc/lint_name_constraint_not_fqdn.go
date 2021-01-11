@@ -34,16 +34,12 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 
-	incorrectPermittedHosts := make([]string, 0)
-	incorrectExcludedHosts := make([]string, 0)
-	errString := ""
+	var incorrectPermittedHosts []string
+	var incorrectExcludedHosts []string
+	var errString string
 
-	for _, subtreeString := range c.PermittedURIs {
-		isHostFQDN(subtreeString.Data, &incorrectPermittedHosts)
-	}
-	for _, subtreeString := range c.ExcludedURIs {
-		isHostFQDN(subtreeString.Data, &incorrectExcludedHosts)
-	}
+	incorrectPermittedHosts = collectNotFQDNEntries(c.PermittedURIs)
+	incorrectExcludedHosts = collectNotFQDNEntries(c.PermittedURIs)
 
 	if len(incorrectPermittedHosts) != 0 {
 		errString += returnErrorString(incorrectPermittedHosts, true)
@@ -65,14 +61,20 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 	return &lint.LintResult{Status: lint.Pass}
 }
 
-func isHostFQDN(host string, incorrectHosts *[]string) {
+func collectNotFQDNEntries(hosts []x509.GeneralSubtreeString) []string {
+	var incorrectHosts []string
 
-	host = strings.TrimPrefix(host, ".")
+	for _, subtreeString := range hosts {
+		host := subtreeString.Data
 
-	if !util.IsFQDN(host) {
-		*incorrectHosts = append(*incorrectHosts, host)
+		host = strings.TrimPrefix(host, ".")
+
+		if !util.IsFQDN(host) {
+			incorrectHosts = append(incorrectHosts, host)
+		}
 	}
 
+	return incorrectHosts
 }
 
 func returnErrorString(incorrectHosts []string, isInclusion bool) string {
