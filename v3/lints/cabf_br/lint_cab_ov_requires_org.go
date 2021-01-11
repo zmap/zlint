@@ -22,7 +22,15 @@ import (
 
 type CertPolicyRequiresOrg struct{}
 
-/*If the Certificate asserts the policy identifier of 2.23.140.1.2.2, then it MUST also include organizationName, localityName (to the extent such field is required under Section 7.1.4.2.2), stateOrProvinceName (to the extent such field is required under Section 7.1.4.2.2), and countryName in the Subject field.*/
+/************************************************
+BRs: 7.1.6.4
+Certificate Policy Identifier: 2.23.140.1.2.2
+If the Certificate complies with these Requirements and includes Subject Identity Information
+that is verified in accordance with Section 3.2.2.1.
+Such Certificates MUST also include organizationName, localityName (to the extent such
+field is required under Section 7.1.4.2.2), stateOrProvinceName (to the extent such field is
+required under Section 7.1.4.2.2), and countryName in the Subject field.
+************************************************/
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
