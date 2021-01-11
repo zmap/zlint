@@ -30,7 +30,7 @@ has been verified in accordance with Section 3.2.2.1 or Section 3.2.3.
 Such Certificates MUST NOT include organizationName, givenName, surname,
 streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject
 field.
-************************************************/```
+************************************************/
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
