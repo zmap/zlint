@@ -26,7 +26,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_contains_bare_iana_suffix",
 		Description:   "DNSNames should not contain a bare IANA suffix.",
-		Citation:      "BRs: 7.1.4.2",
+		Citation:      "BRs: 1.6.1, Base Domain Name",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &dnsNameContainsBareIANASuffix{},
