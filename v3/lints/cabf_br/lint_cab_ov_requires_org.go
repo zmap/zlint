@@ -36,7 +36,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cab_ov_requires_org",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, organizationName MUST be included in subject",
-		Citation:      "BRs: 7.1.6.1",
+		Citation:      "BRs: 7.1.6.4",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &CertPolicyRequiresOrg{},

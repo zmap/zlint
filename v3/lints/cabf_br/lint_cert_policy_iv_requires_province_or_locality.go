@@ -22,14 +22,23 @@ import (
 
 type CertPolicyIVRequiresProvinceOrLocal struct{}
 
-// 7.1.6.1: If the Certificate asserts the policy identifier of 2.23.140.1.2.3, then it MUST also include (i) either organizationName or givenName and surname, (ii) localityName (to the extent such field is required under Section 7.1.4.2.2), (iii) stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and (iv) countryName in the Subject field.
+/************************************************
+BRs: 7.1.6.4
+Certificate Policy Identifier: 2.23.140.1.2.3
+If the Certificate complies with these Requirements and includes Subject Identity Information
+that is verified in accordance with Section 3.2.3.
+Such Certificates MUST also include either organizationName or both givenName and
+surname, localityName (to the extent such field is required under Section 7.1.4.2.2),
+stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and countryName in
+the Subject field.
+************************************************/
 // 7.1.4.2.2 applies only to subscriber certificates.
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cert_policy_iv_requires_province_or_locality",
 		Description:   "If certificate policy 2.23.140.1.2.3 is included, localityName or stateOrProvinceName MUST be included in subject",
-		Citation:      "BRs: 7.1.6.1",
+		Citation:      "BRs: 7.1.6.4",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABV131Date,
 		Lint:          &CertPolicyIVRequiresProvinceOrLocal{},
