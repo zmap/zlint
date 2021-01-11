@@ -34,7 +34,7 @@ marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP res
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_aia_missing",
-		Description:   "Subscriber Certiifcate: authorityInformationAccess MUST be present.",
+		Description:   "Subscriber Certificate: authorityInformationAccess MUST be present.",
 		Citation:      "BRs: 7.1.2.3",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
