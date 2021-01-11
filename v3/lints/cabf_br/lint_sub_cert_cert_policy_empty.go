@@ -22,14 +22,6 @@ import (
 
 type subCertPolicyEmpty struct{}
 
-/********************************************************************************************************************
-BRs: 7.1.6.4
-Subscriber Certificates
-A Certificate issued to a Subscriber MUST contain one or more policy identifier(s), defined by the Issuing CA, in
-the Certificate’s certificatePolicies extension that indicates adherence to and complIANce with these Requirements.
-CAs complying with these Requirements MAY also assert one of the reserved policy OIDs in such Certificates.
-*********************************************************************************************************************/
-
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_cert_policy_empty",

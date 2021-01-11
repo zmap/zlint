@@ -22,20 +22,10 @@ import (
 
 type SANReservedIP struct{}
 
-/************************************************
-BRs: 7.1.4.2.1
-Also as of the Effective Date, the CA SHALL NOT
-issue a certificate with an Expiry Date later than
-1 November 2015 with a subjectAlternativeName extension
-or Subject commonName field containing a Reserved IP
-Address or Internal Name.
-************************************************/
-
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ext_san_contains_reserved_ip",
-		Description:   "CAs SHALL NOT issue certificates with a subjectAltName extension or
-subject:commonName field containing a Reserved IP Address or Internal Name.",
+		Description:   "CAs SHALL NOT issue certificates with a subjectAltName extension or subject:commonName field containing a Reserved IP Address or Internal Name.",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
