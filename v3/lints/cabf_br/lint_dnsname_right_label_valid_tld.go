@@ -26,7 +26,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_not_valid_tld",
 		Description:   "DNSNames must have a valid TLD.",
-		Citation:      "BRs: 7.1.4.2",
+		Citation:      "BRs: 3.2.2.4",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameValidTLD{},
