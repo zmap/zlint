@@ -29,7 +29,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_cab_dv_conflicts_with_postal",
 		Description:   "If certificate policy 2.23.140.1.2.1 (CA/B BR domain validated) is included, postalCode MUST NOT be included in subject",
-		Citation:      "BRs: 7.1.6.1",
+		Citation:      "BRs: 7.1.6.4",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &certPolicyConflictsWithPostal{},
