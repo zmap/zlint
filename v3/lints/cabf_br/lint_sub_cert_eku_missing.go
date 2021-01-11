@@ -24,7 +24,10 @@ type subExtKeyUsage struct{}
 /*******************************************************************************************************
 BRs: 7.1.2.3
 extKeyUsage (required)
-Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or both values MUST be present. id-kp-emailProtection [RFC5280] MAY be present. Other values SHOULD NOT be present.
+Either the value id-kp-serverAuth [RFC5280] or id-kp-clientAuth [RFC5280] or
+both values MUST be present. id-kp-emailProtection [RFC5280] MAY be present.
+Other values SHOULD NOT be present. The value anyExtendedKeyUsage MUST NOT be
+present.
 *******************************************************************************************************/
 
 func init() {
