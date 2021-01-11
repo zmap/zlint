@@ -22,8 +22,15 @@ import (
 
 type certPolicyConflictsWithOrg struct{}
 
-// If the Certificate asserts the policy identifier of 2.23.140.1.2.1, then it MUST NOT include
-// organizationName, streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject field.
+/************************************************
+BRs: 7.1.6.4
+Certificate Policy Identifier: 2.23.140.1.2.1
+If the Certificate complies with these requirements and lacks Subject identity information that
+has been verified in accordance with Section 3.2.2.1 or Section 3.2.3.
+Such Certificates MUST NOT include organizationName, givenName, surname,
+streetAddress, localityName, stateOrProvinceName, or postalCode in the Subject
+field.
+************************************************/
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
