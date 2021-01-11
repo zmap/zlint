@@ -27,8 +27,8 @@ type DNSNameUnderscoreInSLD struct{}
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_underscore_in_sld",
-		Description:   "DNSName should not have underscore in SLD",
-		Citation:      "BRs: 7.1.4.2",
+		Description:   "DNSName MUST NOT contain underscore characters",
+		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInSLD{},

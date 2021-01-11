@@ -34,7 +34,8 @@ Address or Internal Name.
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ext_san_contains_reserved_ip",
-		Description:   "Effective October 1, 2016, CAs must revoke all unexpired certificates that contains a reserved IP or internal name.",
+		Description:   "CAs SHALL NOT issue certificates with a subjectAltName extension or
+subject:commonName field containing a Reserved IP Address or Internal Name.",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,

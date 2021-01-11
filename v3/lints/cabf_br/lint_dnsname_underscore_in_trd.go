@@ -27,8 +27,8 @@ type DNSNameUnderscoreInTRD struct{}
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "w_dnsname_underscore_in_trd",
-		Description:   "DNSName should not have an underscore in labels left of the ETLD+1",
-		Citation:      "BRs: 7.1.4.2",
+		Description:   "DNSName MUST NOT contain underscore characters",
+		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInTRD{},
