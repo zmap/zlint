@@ -42,13 +42,13 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 	incorrectExcludedHosts = collectNotFQDNEntries(c.ExcludedURIs)
 
 	if len(incorrectPermittedHosts) != 0 {
-		errString += returnErrorString(incorrectPermittedHosts, true)
+		errString += buildErrorString(incorrectPermittedHosts, true)
 	}
 	if len(incorrectPermittedHosts) != 0 && len(incorrectExcludedHosts) != 0 {
 		errString += "; "
 	}
 	if len(incorrectExcludedHosts) != 0 {
-		errString += returnErrorString(incorrectExcludedHosts, false)
+		errString += buildErrorString(incorrectExcludedHosts, false)
 	}
 
 	if len(errString) != 0 {
@@ -77,7 +77,7 @@ func collectNotFQDNEntries(hosts []x509.GeneralSubtreeString) []string {
 	return incorrectHosts
 }
 
-func returnErrorString(incorrectHosts []string, isInclusion bool) string {
+func buildErrorString(incorrectHosts []string, isInclusion bool) string {
 
 	errString := "certificate contained "
 
