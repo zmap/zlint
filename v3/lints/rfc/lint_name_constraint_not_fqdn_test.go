@@ -47,9 +47,30 @@ func TestUriNameConstraintsFqdn(t *testing.T) {
 			Filename:       "noAuthorityConstraintNotFQDN.pem",
 			ExpectedResult: lint.Error,
 		},
+		// Tests for the error messages
 		{
-			Name:           "TestMultipleWrongContstraintsNotFQDN",
-			Filename:       "multipleWrongConstraints.pem",
+			Name:           "Test1Exc1PermConstraint",
+			Filename:       "exc1Perm1UriConstraints.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "TestMultExcMultPermConstraint",
+			Filename:       "multExcMultPermUriConstraints.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "Test1ExcConstraint",
+			Filename:       "exc1UriConstraint.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "TestMultExc1PermConstraints",
+			Filename:       "multExc1PermUriConstraints.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "TestMultPermConstraint",
+			Filename:       "multPermUriConstraints.pem",
 			ExpectedResult: lint.Error,
 		},
 	}
