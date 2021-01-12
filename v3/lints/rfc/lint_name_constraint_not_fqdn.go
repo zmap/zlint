@@ -39,7 +39,7 @@ func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
 	var errString string
 
 	incorrectPermittedHosts = collectNotFQDNEntries(c.PermittedURIs)
-	incorrectExcludedHosts = collectNotFQDNEntries(c.PermittedURIs)
+	incorrectExcludedHosts = collectNotFQDNEntries(c.ExcludedURIs)
 
 	if len(incorrectPermittedHosts) != 0 {
 		errString += returnErrorString(incorrectPermittedHosts, true)
