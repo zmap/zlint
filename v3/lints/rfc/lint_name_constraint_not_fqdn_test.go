@@ -77,10 +77,16 @@ func TestUriNameConstraintsFqdn(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
+
 			result := test.TestLint("e_name_constraint_not_fqdn", tc.Filename)
+			if tc.ExpectedResult == lint.Error {
+				t.Logf("error message for %v: %v", tc.Name, result.Details)
+			}
+
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
+
 		})
 	}
 }
