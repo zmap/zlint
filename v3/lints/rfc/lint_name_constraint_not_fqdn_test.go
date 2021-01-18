@@ -28,7 +28,7 @@ func TestUriNameConstraintsFqdn(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "TestBeginsWithPeridFQDN",
+			Name:           "TestBeginsWithPeriodFQDN",
 			Filename:       "beginsWithPeriodConstraintFQDN.pem",
 			ExpectedResult: lint.Pass,
 		},
