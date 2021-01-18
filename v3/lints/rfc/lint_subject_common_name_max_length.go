@@ -14,13 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-RFC 5280: A.1
-	* In this Appendix, there is a list of upperbounds
-	for fields in a x509 Certificate. *
-	ub-common-name INTEGER ::= 64
-************************************************/
-
 import (
 	"unicode/utf8"
 
@@ -30,6 +23,24 @@ import (
 )
 
 type subjectCommonNameMaxLength struct{}
+
+/************************************************
+RFC 5280: A.1
+	* In this Appendix, there is a list of upperbounds
+	for fields in a x509 Certificate. *
+	ub-common-name INTEGER ::= 64
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_common_name_max_length",
+		Description:   "The commonName field of the subject MUST be less than 65 characters",
+		Citation:      "RFC 5280: A.1",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &subjectCommonNameMaxLength{},
+	})
+}
 
 func (l *subjectCommonNameMaxLength) Initialize() error {
 	return nil
@@ -45,15 +56,4 @@ func (l *subjectCommonNameMaxLength) Execute(c *x509.Certificate) *lint.LintResu
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_common_name_max_length",
-		Description:   "The commonName field of the subject MUST be less than 65 characters",
-		Citation:      "RFC 5280: A.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &subjectCommonNameMaxLength{},
-	})
 }

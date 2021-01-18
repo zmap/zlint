@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type SANDNSNotIA5String struct{}
+
 /********************************************************************
 RFC 5280: 4.2.1.6
 When the subjectAltName extension contains a domain name system
@@ -30,13 +38,16 @@ be used; such identities are to be encoded as rfc822Name.  Rules for
 encoding internationalized domain names are specified in Section 7.2.
 ********************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type SANDNSNotIA5String struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_san_dns_not_ia5_string",
+		Description:   "dNSNames MUST be IA5 strings",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &SANDNSNotIA5String{},
+	})
+}
 
 func (l *SANDNSNotIA5String) Initialize() error {
 	return nil
@@ -60,14 +71,4 @@ func (l *SANDNSNotIA5String) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_san_dns_not_ia5_string",
-		Description:   "dNSNames MUST be IA5 strings",
-		Citation:      "RFC 5280: 4.2.1.6",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &SANDNSNotIA5String{},
-	})
 }

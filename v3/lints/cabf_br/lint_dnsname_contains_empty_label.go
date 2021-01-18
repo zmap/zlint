@@ -24,6 +24,17 @@ import (
 
 type DNSNameEmptyLabel struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_dnsname_empty_label",
+		Description:   "DNSNames should not have an empty label.",
+		Citation:      "BRs: 7.1.4.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &DNSNameEmptyLabel{},
+	})
+}
+
 func (l *DNSNameEmptyLabel) Initialize() error {
 	return nil
 }
@@ -54,15 +65,4 @@ func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_empty_label",
-		Description:   "DNSNames should not have an empty label.",
-		Citation:      "BRs: 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &DNSNameEmptyLabel{},
-	})
 }

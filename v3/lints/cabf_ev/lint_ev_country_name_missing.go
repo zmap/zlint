@@ -22,6 +22,17 @@ import (
 
 type evCountryMissing struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ev_country_name_missing",
+		Description:   "EV certificates must include countryName in subject",
+		Citation:      "EVGs: 9.2.4",
+		Source:        lint.CABFEVGuidelines,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &evCountryMissing{},
+	})
+}
+
 func (l *evCountryMissing) Initialize() error {
 	return nil
 }
@@ -36,15 +47,4 @@ func (l *evCountryMissing) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ev_country_name_missing",
-		Description:   "EV certificates must include countryName in subject",
-		Citation:      "EVGs: 9.2.4",
-		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &evCountryMissing{},
-	})
 }

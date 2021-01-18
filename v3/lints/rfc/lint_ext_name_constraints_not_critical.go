@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type nameConstraintCrit struct{}
+
 /************************************************************************
 Restrictions are defined in terms of permitted or excluded name
    subtrees.  Any name matching a restriction in the excludedSubtrees
@@ -26,13 +34,16 @@ Restrictions are defined in terms of permitted or excluded name
    be present.
 ************************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type nameConstraintCrit struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_name_constraints_not_critical",
+		Description:   "If it is included, conforming CAs MUST mark the name constrains extension as critical",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &nameConstraintCrit{},
+	})
+}
 
 func (l *nameConstraintCrit) Initialize() error {
 	return nil
@@ -49,15 +60,4 @@ func (l *nameConstraintCrit) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_name_constraints_not_critical",
-		Description:   "If it is included, conforming CAs MUST mark the name constrains extension as critical",
-		Citation:      "RFC 5280: 4.2.1.10",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &nameConstraintCrit{},
-	})
 }

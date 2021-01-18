@@ -24,6 +24,17 @@ import (
 
 type SubjectDNCountryNotPrintableString struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_dn_country_not_printable_string",
+		Description:   "X520 Distinguished Name Country MUST be encoded as PrintableString",
+		Citation:      "RFC 5280: Appendix A",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &SubjectDNCountryNotPrintableString{},
+	})
+}
+
 func (l *SubjectDNCountryNotPrintableString) Initialize() error {
 	return nil
 }
@@ -51,15 +62,4 @@ func (l *SubjectDNCountryNotPrintableString) Execute(c *x509.Certificate) *lint.
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_dn_country_not_printable_string",
-		Description:   "X520 Distinguished Name Country MUST be encoded as PrintableString",
-		Citation:      "RFC 5280: Appendix A",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SubjectDNCountryNotPrintableString{},
-	})
 }

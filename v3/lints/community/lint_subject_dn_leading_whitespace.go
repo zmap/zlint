@@ -22,6 +22,17 @@ import (
 
 type SubjectDNLeadingSpace struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_subject_dn_leading_whitespace",
+		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
+		Citation:      "lint.AWSLabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &SubjectDNLeadingSpace{},
+	})
+}
+
 func (l *SubjectDNLeadingSpace) Initialize() error {
 	return nil
 }
@@ -39,15 +50,4 @@ func (l *SubjectDNLeadingSpace) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Warn}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_subject_dn_leading_whitespace",
-		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
-		Citation:      "lint.AWSLabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SubjectDNLeadingSpace{},
-	})
 }

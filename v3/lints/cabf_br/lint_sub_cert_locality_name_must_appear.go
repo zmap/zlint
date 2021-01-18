@@ -22,6 +22,17 @@ import (
 
 type subCertLocalityNameMustAppear struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_sub_cert_locality_name_must_appear",
+		Description:   "Subscriber Certificate: subject:localityName MUST appear if subject:organizationName, subject:givenName, or subject:surname fields are present but the subject:stateOrProvinceName field is absent.",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABGivenNameDate,
+		Lint:          &subCertLocalityNameMustAppear{},
+	})
+}
+
 func (l *subCertLocalityNameMustAppear) Initialize() error {
 	return nil
 }
@@ -39,15 +50,4 @@ func (l *subCertLocalityNameMustAppear) Execute(c *x509.Certificate) *lint.LintR
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_locality_name_must_appear",
-		Description:   "Subscriber Certificate: subject:localityName MUST appear if subject:organizationName, subject:givenName, or subject:surname fields are present but the subject:stateOrProvinceName field is absent.",
-		Citation:      "BRs: 7.1.4.2.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABGivenNameDate,
-		Lint:          &subCertLocalityNameMustAppear{},
-	})
 }

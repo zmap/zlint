@@ -22,6 +22,18 @@ import (
 
 type evOrgIdExtMissing struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name: "e_ev_organization_id_missing",
+		Description: "Effective January 31, 2020, if the subject:organizationIdentifier field is " +
+			"present, this [cabfOrganizationIdentifier] field MUST be present.",
+		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Sec. 9.8.2",
+		Source:        lint.CABFEVGuidelines,
+		EffectiveDate: util.CABFEV_9_8_2,
+		Lint:          &evOrgIdExtMissing{},
+	})
+}
+
 func (l *evOrgIdExtMissing) Initialize() error {
 	return nil
 }
@@ -38,16 +50,4 @@ func (l *evOrgIdExtMissing) Execute(c *x509.Certificate) *lint.LintResult {
 				"but the CA/Browser Forum Organization Identifier Field Extension is missing"}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name: "e_ev_organization_id_missing",
-		Description: "Effective January 31, 2020, if the subject:organizationIdentifier field is " +
-			"present, this [cabfOrganizationIdentifier] field MUST be present.",
-		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Sec. 9.8.2",
-		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.CABFEV_9_8_2,
-		Lint:          &evOrgIdExtMissing{},
-	})
 }

@@ -14,19 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/********************************************************************
-The cRLDistributionPoints extension is a SEQUENCE of
-DistributionPoint.  A DistributionPoint consists of three fields,
-each of which is optional: distributionPoint, reasons, and cRLIssuer.
-While each of these fields is optional, a DistributionPoint MUST NOT
-consist of only the reasons field; either distributionPoint or
-cRLIssuer MUST be present.  If the certificate issuer is not the CRL
-issuer, then the cRLIssuer field MUST be present and contain the Name
-of the CRL issuer.  If the certificate issuer is also the CRL issuer,
-then conforming CAs MUST omit the cRLIssuer field and MUST include
-the distributionPoint field.
-********************************************************************/
-
 import (
 	"encoding/asn1"
 
@@ -48,6 +35,30 @@ type distributionPointName struct {
 }
 
 type dpIncomplete struct{}
+
+/********************************************************************
+The cRLDistributionPoints extension is a SEQUENCE of
+DistributionPoint.  A DistributionPoint consists of three fields,
+each of which is optional: distributionPoint, reasons, and cRLIssuer.
+While each of these fields is optional, a DistributionPoint MUST NOT
+consist of only the reasons field; either distributionPoint or
+cRLIssuer MUST be present.  If the certificate issuer is not the CRL
+issuer, then the cRLIssuer field MUST be present and contain the Name
+of the CRL issuer.  If the certificate issuer is also the CRL issuer,
+then conforming CAs MUST omit the cRLIssuer field and MUST include
+the distributionPoint field.
+********************************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_distribution_point_incomplete",
+		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
+		Citation:      "RFC 5280: 4.2.1.13",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &dpIncomplete{},
+	})
+}
 
 func (l *dpIncomplete) Initialize() error {
 	return nil
@@ -71,15 +82,4 @@ func (l *dpIncomplete) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_distribution_point_incomplete",
-		Description:   "A DistributionPoint from the CRLDistributionPoints extension MUST NOT consist of only the reasons field; either distributionPoint or CRLIssuer must be present",
-		Citation:      "RFC 5280: 4.2.1.13",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          &dpIncomplete{},
-	})
 }

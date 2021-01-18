@@ -14,6 +14,17 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"encoding/asn1"
+	"fmt"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type serialNumberTooLong struct{}
+
 /************************************************
 RFC 5280: 4.1.2.2.  Serial Number
    The serial number MUST be a positive integer assigned by the CA to each
@@ -31,16 +42,16 @@ RFC 5280: 4.1.2.2.  Serial Number
    such certificates.
 ************************************************/
 
-import (
-	"encoding/asn1"
-	"fmt"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type serialNumberTooLong struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_serial_number_longer_than_20_octets",
+		Description:   "Certificates must not have a DER encoded serial number longer than 20 octets",
+		Citation:      "RFC 5280: 4.1.2.2",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC3280Date,
+		Lint:          &serialNumberTooLong{},
+	})
+}
 
 func (l *serialNumberTooLong) Initialize() error {
 	return nil
@@ -75,15 +86,4 @@ func (l *serialNumberTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_serial_number_longer_than_20_octets",
-		Description:   "Certificates must not have a DER encoded serial number longer than 20 octets",
-		Citation:      "RFC 5280: 4.1.2.2",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          &serialNumberTooLong{},
-	})
 }

@@ -14,11 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-/************************************************
-BRs: 7.1.2.1c certificatePolicies
-This extension SHOULD NOT be present.
-************************************************/
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -26,6 +21,22 @@ import (
 )
 
 type rootCAContainsCertPolicy struct{}
+
+/************************************************
+BRs: 7.1.2.1c certificatePolicies
+This extension SHOULD NOT be present.
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_root_ca_contains_cert_policy",
+		Description:   "Root CA Certificate: certificatePolicies SHOULD NOT be present.",
+		Citation:      "BRs: 7.1.2.1",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &rootCAContainsCertPolicy{},
+	})
+}
 
 func (l *rootCAContainsCertPolicy) Initialize() error {
 	return nil
@@ -41,15 +52,4 @@ func (l *rootCAContainsCertPolicy) Execute(c *x509.Certificate) *lint.LintResult
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_root_ca_contains_cert_policy",
-		Description:   "Root CA Certificate: certificatePolicies SHOULD NOT be present.",
-		Citation:      "BRs: 7.1.2.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &rootCAContainsCertPolicy{},
-	})
 }

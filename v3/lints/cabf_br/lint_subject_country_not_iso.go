@@ -14,14 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-/**************************************************************************************************************
-BRs: 7.1.4.2.2
-Certificate Field: issuer:countryName (OID 2.5.4.6)
-Required/Optional: Required
-Contents: This field MUST contain the two-letter ISO 3166-1 country code for the country in which the issuer’s
-place of business is located.
-**************************************************************************************************************/
-
 import (
 	"strings"
 
@@ -31,6 +23,25 @@ import (
 )
 
 type countryNotIso struct{}
+
+/**************************************************************************************************************
+BRs: 7.1.4.2.2
+Certificate Field: issuer:countryName (OID 2.5.4.6)
+Required/Optional: Required
+Contents: This field MUST contain the two-letter ISO 3166-1 country code for the country in which the issuer’s
+place of business is located.
+**************************************************************************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_country_not_iso",
+		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &countryNotIso{},
+	})
+}
 
 func (l *countryNotIso) Initialize() error {
 	return nil
@@ -47,15 +58,4 @@ func (l *countryNotIso) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_country_not_iso",
-		Description:   "The country name field MUST contain the two-letter ISO code for the country or XX",
-		Citation:      "BRs: 7.1.4.2.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &countryNotIso{},
-	})
 }

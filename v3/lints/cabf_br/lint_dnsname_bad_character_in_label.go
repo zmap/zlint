@@ -26,6 +26,17 @@ type DNSNameProperCharacters struct {
 	CompiledExpression *regexp.Regexp
 }
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_dnsname_bad_character_in_label",
+		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
+		Citation:      "BRs: 7.1.4.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &DNSNameProperCharacters{},
+	})
+}
+
 func (l *DNSNameProperCharacters) Initialize() error {
 	const dnsNameRegexp = `^(\*\.)?(\?\.)*([A-Za-z0-9*_-]+\.)*[A-Za-z0-9*_-]*$`
 	var err error
@@ -50,15 +61,4 @@ func (l *DNSNameProperCharacters) Execute(c *x509.Certificate) *lint.LintResult 
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_bad_character_in_label",
-		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
-		Citation:      "BRs: 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &DNSNameProperCharacters{},
-	})
 }

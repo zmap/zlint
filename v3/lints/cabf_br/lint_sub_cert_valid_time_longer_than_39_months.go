@@ -22,6 +22,17 @@ import (
 
 type subCertValidTimeLongerThan39Months struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_sub_cert_valid_time_longer_than_39_months",
+		Description:   "Subscriber Certificates issued after 1 July 2016 but prior to 1 March 2018 MUST have a Validity Period no greater than 39 months.",
+		Citation:      "BRs: 6.3.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.SubCert39Month,
+		Lint:          &subCertValidTimeLongerThan39Months{},
+	})
+}
+
 func (l *subCertValidTimeLongerThan39Months) Initialize() error {
 	return nil
 }
@@ -35,15 +46,4 @@ func (l *subCertValidTimeLongerThan39Months) Execute(c *x509.Certificate) *lint.
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_valid_time_longer_than_39_months",
-		Description:   "Subscriber Certificates issued after 1 July 2016 but prior to 1 March 2018 MUST have a Validity Period no greater than 39 months.",
-		Citation:      "BRs: 6.3.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.SubCert39Month,
-		Lint:          &subCertValidTimeLongerThan39Months{},
-	})
 }

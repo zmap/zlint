@@ -25,6 +25,17 @@ import (
 
 type IssuerRDNHasMultipleAttribute struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_multiple_issuer_rdn",
+		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &IssuerRDNHasMultipleAttribute{},
+	})
+}
+
 func (l *IssuerRDNHasMultipleAttribute) Initialize() error {
 	return nil
 }
@@ -45,15 +56,4 @@ func (l *IssuerRDNHasMultipleAttribute) Execute(c *x509.Certificate) *lint.LintR
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_multiple_issuer_rdn",
-		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &IssuerRDNHasMultipleAttribute{},
-	})
 }

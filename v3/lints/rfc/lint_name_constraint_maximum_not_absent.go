@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type nameConstraintMax struct{}
+
 /************************************************************************
 RFC 5280: 4.2.1.10
 Within this profile, the minimum and maximum fields are not used with
@@ -25,13 +33,16 @@ application MUST either process these fields or reject the
 certificate.
 ************************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type nameConstraintMax struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_name_constraint_maximum_not_absent",
+		Description:   "Within the name constraints name form, the maximum field is not used and therefore MUST be absent",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &nameConstraintMax{},
+	})
+}
 
 func (l *nameConstraintMax) Initialize() error {
 	return nil
@@ -114,15 +125,4 @@ func (l *nameConstraintMax) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_name_constraint_maximum_not_absent",
-		Description:   "Within the name constraints name form, the maximum field is not used and therefore MUST be absent",
-		Citation:      "RFC 5280: 4.2.1.10",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &nameConstraintMax{},
-	})
 }

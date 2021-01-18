@@ -14,13 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-/*******************************************************************************************************
-BRs: 7.1.2.3
-cRLDistributionPoints
-This extension MAY be present. If present, it MUST NOT be marked critical, and it MUST contain the HTTP
-URL of the CA’s CRL service.
-*******************************************************************************************************/
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -28,6 +21,24 @@ import (
 )
 
 type subCrlDistCrit struct{}
+
+/*******************************************************************************************************
+BRs: 7.1.2.3
+cRLDistributionPoints
+This extension MAY be present. If present, it MUST NOT be marked critical, and it MUST contain the HTTP
+URL of the CA’s CRL service.
+*******************************************************************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_sub_cert_crl_distribution_points_marked_critical",
+		Description:   "Subscriber Certificate: cRLDistributionPoints MUST NOT be marked critical, and MUST contain the HTTP URL of the CA's CRL service.",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCrlDistCrit{},
+	})
+}
 
 func (l *subCrlDistCrit) Initialize() error {
 	return nil
@@ -44,15 +55,4 @@ func (l *subCrlDistCrit) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Error}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_crl_distribution_points_marked_critical",
-		Description:   "Subscriber Certiifcate: cRLDistributionPoints MUST NOT be marked critical, and MUST contain the HTTP URL of the CA's CRL service.",
-		Citation:      "BRs: 7.1.2.3",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCrlDistCrit{},
-	})
 }

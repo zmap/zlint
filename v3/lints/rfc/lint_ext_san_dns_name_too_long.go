@@ -22,6 +22,17 @@ import (
 
 type SANDNSTooLong struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_san_dns_name_too_long",
+		Description:   "DNSName must be less than or equal to 253 bytes",
+		Citation:      "RFC 5280",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &SANDNSTooLong{},
+	})
+}
+
 func (l *SANDNSTooLong) Initialize() error {
 	return nil
 }
@@ -37,15 +48,4 @@ func (l *SANDNSTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_san_dns_name_too_long",
-		Description:   "DNSName must be less than or equal to 253 bytes",
-		Citation:      "RFC 5280",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &SANDNSTooLong{},
-	})
 }

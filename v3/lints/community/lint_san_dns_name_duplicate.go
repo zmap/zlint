@@ -24,6 +24,17 @@ import (
 
 type SANDNSDuplicate struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "n_san_dns_name_duplicate",
+		Description:   "SAN DNSName contains duplicate values",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &SANDNSDuplicate{},
+	})
+}
+
 func (l *SANDNSDuplicate) Initialize() error {
 	return nil
 }
@@ -44,15 +55,4 @@ func (l *SANDNSDuplicate) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_san_dns_name_duplicate",
-		Description:   "SAN DNSName contains duplicate values",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SANDNSDuplicate{},
-	})
 }

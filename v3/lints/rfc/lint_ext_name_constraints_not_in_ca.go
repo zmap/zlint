@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type nameConstraintNotCa struct{}
+
 /***********************************************************************
 RFC 5280: 4.2.1.10
 The name constraints extension, which MUST be used only in a CA
@@ -25,13 +33,16 @@ The name constraints extension, which MUST be used only in a CA
    certificate, the certificate is acceptable.
 ***********************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type nameConstraintNotCa struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_name_constraints_not_in_ca",
+		Description:   "The name constraints extension MUST only be used in CA certificates",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &nameConstraintNotCa{},
+	})
+}
 
 func (l *nameConstraintNotCa) Initialize() error {
 	return nil
@@ -47,15 +58,4 @@ func (l *nameConstraintNotCa) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_name_constraints_not_in_ca",
-		Description:   "The name constraints extension MUST only be used in CA certificates",
-		Citation:      "RFC 5280: 4.2.1.10",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &nameConstraintNotCa{},
-	})
 }

@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type certUniqueIdVersion struct{}
+
 /**************************************************************************
 RFC 5280: 4.1.2.8
  These fields MUST only appear if the version is 2 or 3 (Section 4.1.2.1).
@@ -28,13 +36,16 @@ RFC 5280: 4.1.2.8
  unique identifiers.
 ****************************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type certUniqueIdVersion struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_cert_unique_identifier_version_not_2_or_3",
+		Description:   "Unique identifiers MUST only appear if the X.509 version is 2 or 3",
+		Citation:      "RFC 5280: 4.1.2.8",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &certUniqueIdVersion{},
+	})
+}
 
 func (l *certUniqueIdVersion) Initialize() error {
 	return nil
@@ -50,15 +61,4 @@ func (l *certUniqueIdVersion) Execute(c *x509.Certificate) *lint.LintResult {
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_cert_unique_identifier_version_not_2_or_3",
-		Description:   "Unique identifiers MUST only appear if the X.509 version is 2 or 3",
-		Citation:      "RFC 5280: 4.1.2.8",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &certUniqueIdVersion{},
-	})
 }

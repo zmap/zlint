@@ -25,6 +25,17 @@ import (
 
 type pubSuffix struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "n_san_iana_pub_suffix_empty",
+		Description:   "The domain SHOULD NOT have a bare public suffix",
+		Citation:      "awslabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &pubSuffix{},
+	})
+}
+
 func (l *pubSuffix) Initialize() error {
 	return nil
 }
@@ -53,15 +64,4 @@ func (l *pubSuffix) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_san_iana_pub_suffix_empty",
-		Description:   "The domain SHOULD NOT have a bare public suffix",
-		Citation:      "awslabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &pubSuffix{},
-	})
 }

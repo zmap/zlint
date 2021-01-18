@@ -14,6 +14,14 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type SANIsSpaceDNS struct{}
+
 /************************************************************************
 RFC 5280: 4.2.1.6
 When the subjectAltName extension contains a domain name system
@@ -30,13 +38,16 @@ When the subjectAltName extension contains a domain name system
    encoding internationalized domain names are specified in Section 7.2.
 ************************************************************************/
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type SANIsSpaceDNS struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_san_space_dns_name",
+		Description:   "The dNSName ` ` MUST NOT be used",
+		Citation:      "RFC 5280: 4.2.1.6",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &SANIsSpaceDNS{},
+	})
+}
 
 func (l *SANIsSpaceDNS) Initialize() error {
 	return nil
@@ -53,15 +64,4 @@ func (l *SANIsSpaceDNS) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_san_space_dns_name",
-		Description:   "The dNSName ` ` MUST NOT be used",
-		Citation:      "RFC 5280: 4.2.1.6",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &SANIsSpaceDNS{},
-	})
 }

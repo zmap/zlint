@@ -25,6 +25,17 @@ import (
 
 type dsaSubgroup struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_dsa_correct_order_in_subgroup",
+		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
+		Citation:      "BRs v1.7.0: 6.1.6",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &dsaSubgroup{},
+	})
+}
+
 func (l *dsaSubgroup) Initialize() error {
 	return nil
 }
@@ -52,15 +63,4 @@ func (l *dsaSubgroup) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Pass}
 	}
 	return &lint.LintResult{Status: lint.Error}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dsa_correct_order_in_subgroup",
-		Description:   "DSA: Public key value has the unique correct representation in the field, and that the key has the correct order in the subgroup",
-		Citation:      "BRs: 6.1.6",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &dsaSubgroup{},
-	})
 }

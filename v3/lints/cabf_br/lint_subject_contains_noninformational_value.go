@@ -14,15 +14,6 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
-/**********************************************************************************************************************
-BRs: 7.1.4.2.2
-Other Subject Attributes
-With the exception of the subject:organizationalUnitName (OU) attribute, optional attributes, when present within
-the subject field, MUST contain information that has been verified by the CA. Metadata such as ‘.’, ‘-‘, and ‘ ‘ (i.e.
-space) characters, and/or any other indication that the value is absent, incomplete, or not applicable, SHALL NOT
-be used.
-**********************************************************************************************************************/
-
 import (
 	"fmt"
 
@@ -32,6 +23,26 @@ import (
 )
 
 type illegalChar struct{}
+
+/**********************************************************************************************************************
+BRs: 7.1.4.2.2
+Other Subject Attributes
+With the exception of the subject:organizationalUnitName (OU) attribute, optional attributes, when present within
+the subject field, MUST contain information that has been verified by the CA. Metadata such as ‘.’, ‘-‘, and ‘ ‘ (i.e.
+space) characters, and/or any other indication that the value is absent, incomplete, or not applicable, SHALL NOT
+be used.
+**********************************************************************************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_contains_noninformational_value",
+		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &illegalChar{},
+	})
+}
 
 func (l *illegalChar) Initialize() error {
 	return nil
@@ -54,17 +65,6 @@ func (l *illegalChar) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_contains_noninformational_value",
-		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
-		Citation:      "BRs: 7.1.4.2.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &illegalChar{},
-	})
 }
 
 // checkAlphaNumericOrUTF8Present checks if input string contains at least one occurrence of [a-Z0-9] or

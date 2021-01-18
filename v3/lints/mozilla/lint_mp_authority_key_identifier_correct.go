@@ -12,13 +12,6 @@
  * permissions and limitations under the License.
  */
 
-/********************************************************************
-Section 5.2 - Forbidden and Required Practices
-CAs MUST NOT issue certificates that have:
-- incorrect extensions (e.g., SSL certificates that exclude SSL usage, or authority key IDs
-  that include both the key ID and the issuer’s issuer name and serial number);
-********************************************************************/
-
 package mozilla
 
 import (
@@ -37,6 +30,24 @@ type keyIdentifier struct {
 }
 
 type authorityKeyIdentifierCorrect struct{}
+
+/********************************************************************
+Section 5.2 - Forbidden and Required Practices
+CAs MUST NOT issue certificates that have:
+- incorrect extensions (e.g., SSL certificates that exclude SSL usage, or authority key IDs
+  that include both the key ID and the issuer’s issuer name and serial number);
+********************************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_mp_authority_key_identifier_correct",
+		Description:   "CAs MUST NOT issue certificates that have authority key IDs that include both the key ID and the issuer's issuer name and serial number",
+		Citation:      "Mozilla Root Store Policy / Section 5.2",
+		Source:        lint.MozillaRootStorePolicy,
+		EffectiveDate: util.MozillaPolicy22Date,
+		Lint:          &authorityKeyIdentifierCorrect{},
+	})
+}
 
 func (l *authorityKeyIdentifierCorrect) Initialize() error {
 	return nil
@@ -64,15 +75,4 @@ func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *lint.LintR
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_mp_authority_key_identifier_correct",
-		Description:   "CAs MUST NOT issue certificates that have authority key IDs that include both the key ID and the issuer's issuer name and serial number",
-		Citation:      "Mozilla Root Store Policy / Section 5.2",
-		Source:        lint.MozillaRootStorePolicy,
-		EffectiveDate: util.MozillaPolicy22Date,
-		Lint:          &authorityKeyIdentifierCorrect{},
-	})
 }

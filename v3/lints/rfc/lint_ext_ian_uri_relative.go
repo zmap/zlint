@@ -14,6 +14,16 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"net/url"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type uriRelative struct{}
+
 /*************************************************************************
 When the issuerAltName extension contains a URI, the name MUST be
 stored in the uniformResourceIdentifier (an IA5String).  The name
@@ -26,15 +36,16 @@ Internationalized Resource Identifiers (IRIs) are specified in
 Section 7.4.
 *************************************************************************/
 
-import (
-	"net/url"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type uriRelative struct{}
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_ian_uri_relative",
+		Description:   "When issuerAltName extension is present and the URI is used, the name MUST NOT be a relative URI",
+		Citation:      "RFC 5280: 4.2.1.7",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &uriRelative{},
+	})
+}
 
 func (l *uriRelative) Initialize() error {
 	return nil
@@ -57,15 +68,4 @@ func (l *uriRelative) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_ian_uri_relative",
-		Description:   "When issuerAltName extension is present and the URI is used, the name MUST NOT be a relative URI",
-		Citation:      "RFC 5280: 4.2.1.7",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &uriRelative{},
-	})
 }

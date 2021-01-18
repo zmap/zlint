@@ -26,6 +26,17 @@ import (
 
 type ecdsaInvalidKU struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "n_ecdsa_ee_invalid_ku",
+		Description:   "ECDSA end-entity certificates MAY have key usages: digitalSignature, nonRepudiation and keyAgreement",
+		Citation:      "RFC 5480 Section 3",
+		Source:        lint.RFC5480,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &ecdsaInvalidKU{},
+	})
+}
+
 // Initialize is a no-op for this lint.
 func (l *ecdsaInvalidKU) Initialize() error {
 	return nil
@@ -85,15 +96,4 @@ func (l *ecdsaInvalidKU) Execute(c *x509.Certificate) *lint.LintResult {
 	return &lint.LintResult{
 		Status: lint.Pass,
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_ecdsa_ee_invalid_ku",
-		Description:   "ECDSA end-entity certificates MAY have key usages: digitalSignature, nonRepudiation and keyAgreement",
-		Citation:      "RFC 5480 Section 3",
-		Source:        lint.RFC5480,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &ecdsaInvalidKU{},
-	})
 }

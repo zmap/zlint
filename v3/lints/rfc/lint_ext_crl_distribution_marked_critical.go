@@ -14,10 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-The CRL distribution points extension identifies how CRL information is obtained. The extension SHOULD be non-critical, but this profile RECOMMENDS support for this extension by CAs and applications.
-************************************************/
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -25,6 +21,21 @@ import (
 )
 
 type ExtCrlDistributionMarkedCritical struct{}
+
+/************************************************
+The CRL distribution points extension identifies how CRL information is obtained. The extension SHOULD be non-critical, but this profile RECOMMENDS support for this extension by CAs and applications.
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_ext_crl_distribution_marked_critical",
+		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical",
+		Citation:      "RFC 5280: 4.2.1.13",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &ExtCrlDistributionMarkedCritical{},
+	})
+}
 
 func (l *ExtCrlDistributionMarkedCritical) Initialize() error {
 	return nil
@@ -43,15 +54,4 @@ func (l *ExtCrlDistributionMarkedCritical) Execute(cert *x509.Certificate) *lint
 		}
 	}
 	return &lint.LintResult{Status: lint.NA}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_ext_crl_distribution_marked_critical",
-		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical",
-		Citation:      "RFC 5280: 4.2.1.13",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &ExtCrlDistributionMarkedCritical{},
-	})
 }

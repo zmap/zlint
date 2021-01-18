@@ -54,6 +54,17 @@ const (
 // about malformed rDNS names in these zones.
 type arpaReservedIP struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_subject_contains_reserved_arpa_ip",
+		Description:   "Checks no subject domain name contains a rDNS entry in an .arpa zone specifying a reserved IP address",
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &arpaReservedIP{},
+	})
+}
+
 // Initialize for an arpaReservedIP linter is a NOP to statisfy linting
 // interfaces.
 func (l *arpaReservedIP) Initialize() error {
@@ -219,15 +230,4 @@ func lintReversedIPAddress(name string, ipv6 bool) error {
 	}
 
 	return nil
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_contains_reserved_arpa_ip",
-		Description:   "Checks no subject domain name contains a rDNS entry in an .arpa zone specifying a reserved IP address",
-		Citation:      "BRs: 7.1.4.2.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &arpaReservedIP{},
-	})
 }

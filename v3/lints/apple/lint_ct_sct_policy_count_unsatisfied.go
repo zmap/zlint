@@ -26,6 +26,17 @@ import (
 
 type sctPolicyCount struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "w_ct_sct_policy_count_unsatisfied",
+		Description:   "Check if certificate has enough embedded SCTs to meet Apple CT Policy",
+		Citation:      "https://support.apple.com/en-us/HT205280",
+		Source:        lint.AppleRootStorePolicy,
+		EffectiveDate: util.AppleCTPolicyDate,
+		Lint:          &sctPolicyCount{},
+	})
+}
+
 // Initialize for a sctPolicyCount instance does nothing.
 func (l *sctPolicyCount) Initialize() error {
 	return nil
@@ -143,15 +154,4 @@ func appleCTPolicyExpectedSCTs(cert *x509.Certificate) int {
 
 	// The certificate had a validity > 39 months.
 	return 5
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_ct_sct_policy_count_unsatisfied",
-		Description:   "Check if certificate has enough embedded SCTs to meet Apple CT Policy",
-		Citation:      "https://support.apple.com/en-us/HT205280",
-		Source:        lint.AppleRootStorePolicy,
-		EffectiveDate: util.AppleCTPolicyDate,
-		Lint:          &sctPolicyCount{},
-	})
 }

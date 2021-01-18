@@ -22,6 +22,17 @@ import (
 
 type subCertAiaMarkedCritical struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_sub_cert_aia_marked_critical",
+		Description:   "Subscriber Certificate: authorityInformationAccess MUST NOT be marked critical",
+		Citation:      "BRs: 7.1.2.3",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &subCertAiaMarkedCritical{},
+	})
+}
+
 func (l *subCertAiaMarkedCritical) Initialize() error {
 	return nil
 }
@@ -37,15 +48,4 @@ func (l *subCertAiaMarkedCritical) Execute(c *x509.Certificate) *lint.LintResult
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_aia_marked_critical",
-		Description:   "Subscriber Certificate: authorityInformationAccess MUST NOT be marked critical",
-		Citation:      "BRs: 7.1.2.3",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subCertAiaMarkedCritical{},
-	})
 }

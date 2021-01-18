@@ -22,6 +22,17 @@ import (
 
 type validityNegative struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_validity_time_not_positive",
+		Description:   "Certificates MUST have a positive time for which they are valid",
+		Citation:      "lint.AWSLabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &validityNegative{},
+	})
+}
+
 func (l *validityNegative) Initialize() error {
 	return nil
 }
@@ -35,15 +46,4 @@ func (l *validityNegative) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_validity_time_not_positive",
-		Description:   "Certificates MUST have a positive time for which they are valid",
-		Citation:      "lint.AWSLabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &validityNegative{},
-	})
 }

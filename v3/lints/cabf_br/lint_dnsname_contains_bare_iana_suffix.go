@@ -22,6 +22,17 @@ import (
 
 type dnsNameContainsBareIANASuffix struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_dnsname_contains_bare_iana_suffix",
+		Description:   "DNSNames should not contain a bare IANA suffix.",
+		Citation:      "BRs: 1.6.1, Base Domain Name",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &dnsNameContainsBareIANASuffix{},
+	})
+}
+
 func (l *dnsNameContainsBareIANASuffix) Initialize() error {
 	return nil
 }
@@ -42,15 +53,4 @@ func (l *dnsNameContainsBareIANASuffix) Execute(c *x509.Certificate) *lint.LintR
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_contains_bare_iana_suffix",
-		Description:   "DNSNames should not contain a bare IANA suffix.",
-		Citation:      "BRs: 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &dnsNameContainsBareIANASuffix{},
-	})
 }

@@ -14,6 +14,22 @@ package rfc
  * permissions and limitations under the License.
  */
 
+import (
+	"encoding/asn1"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
+)
+
+type basicConst struct {
+	CA                bool `asn1:"optional"`
+	PathLenConstraint int  `asn1:"optional"`
+}
+
+type pathLenNonPositive struct {
+}
+
 /********************************************************************
 The pathLenConstraint field is meaningful only if the cA boolean is
 asserted and the key usage extension, if present, asserts the
@@ -30,20 +46,15 @@ MUST be greater than or equal to zero.  Where pathLenConstraint does
 not appear, no limit is imposed.
 ********************************************************************/
 
-import (
-	"encoding/asn1"
-
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-	"github.com/zmap/zlint/v3/util"
-)
-
-type basicConst struct {
-	CA                bool `asn1:"optional"`
-	PathLenConstraint int  `asn1:"optional"`
-}
-
-type pathLenNonPositive struct {
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_path_len_constraint_zero_or_less",
+		Description:   "Where it appears, the pathLenConstraint field MUST be greater than or equal to zero",
+		Citation:      "RFC 5280: 4.2.1.9",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &pathLenNonPositive{},
+	})
 }
 
 func (l *pathLenNonPositive) Initialize() error {
@@ -65,15 +76,4 @@ func (l *pathLenNonPositive) Execute(cert *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_path_len_constraint_zero_or_less",
-		Description:   "Where it appears, the pathLenConstraint field MUST be greater than or equal to zero",
-		Citation:      "RFC 5280: 4.2.1.9",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &pathLenNonPositive{},
-	})
 }

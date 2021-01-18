@@ -25,6 +25,17 @@ import (
 
 type SubjectRDNHasMultipleAttribute struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "n_multiple_subject_rdn",
+		Description:   "Certificates typically do not have have multiple attributes in a single RDN (subject). This may be an error.",
+		Citation:      "lint.AWSLabs certlint",
+		Source:        lint.Community,
+		EffectiveDate: util.ZeroDate,
+		Lint:          &SubjectRDNHasMultipleAttribute{},
+	})
+}
+
 func (l *SubjectRDNHasMultipleAttribute) Initialize() error {
 	return nil
 }
@@ -44,15 +55,4 @@ func (l *SubjectRDNHasMultipleAttribute) Execute(c *x509.Certificate) *lint.Lint
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_multiple_subject_rdn",
-		Description:   "Certificates typically do not have have multiple attributes in a single RDN (subject). This may be an error.",
-		Citation:      "lint.AWSLabs certlint",
-		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          &SubjectRDNHasMultipleAttribute{},
-	})
 }
