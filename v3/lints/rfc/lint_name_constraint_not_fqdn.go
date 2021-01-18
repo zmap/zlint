@@ -24,6 +24,29 @@ import (
 
 type nameConstraintNotFQDN struct{}
 
+/***********************************************************************
+   For URIs, the constraint applies to the host part of the name.  The
+   constraint MUST be specified as a fully qualified domain name and MAY
+   specify a host or a domain.  Examples would be "host.example.com" and
+   ".example.com".  When the constraint begins with a period, it MAY be
+   expanded with one or more labels.  That is, the constraint
+   ".example.com" is satisfied by both host.example.com and
+   my.host.example.com.  However, the constraint ".example.com" is not
+   satisfied by "example.com".  When the constraint does not begin with
+   a period, it specifies a host.
+************************************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_name_constraint_not_fqdn",
+		Description:   "For URIs, the constraint MUST be specified as a fully qualified domain name [...] When the constraint begins with a period, it MAY be expanded with one or more labels.",
+		Citation:      "RFC 5280: 4.2.1.10",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &nameConstraintNotFQDN{},
+	})
+}
+
 func (l *nameConstraintNotFQDN) Initialize() error {
 	return nil
 }
@@ -106,15 +129,4 @@ func buildErrorString(incorrectHosts []string, isInclusion bool) string {
 	errString += "name constraint that is not a fully qualified domain name: " + incorrectHosts[0]
 	return errString
 
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_name_constraint_not_fqdn",
-		Description:   "For URIs, the constraint MUST be specified as a fully qualified domain name [...] When the constraint begins with a period, it MAY be expanded with one or more labels.",
-		Citation:      "RFC 5280: 4.2.1.10",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &nameConstraintNotFQDN{},
-	})
 }
