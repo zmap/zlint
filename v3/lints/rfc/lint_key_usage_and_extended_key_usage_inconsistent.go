@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2020 Regents of the University of Michigan
+ * ZLint Copyright 2021 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,6 +21,17 @@ import (
 )
 
 type KUAndEKUInconsistent struct{}
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_key_usage_and_extended_key_usage_inconsistent",
+		Description:   "The certificate MUST only be used for a purpose consistent with both key usage extension and extended key usage extension.",
+		Citation:      "RFC 5280, Section 4.2.1.12.",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &KUAndEKUInconsistent{},
+	})
+}
 
 func (l *KUAndEKUInconsistent) Initialize() error {
 	return nil
@@ -66,21 +77,7 @@ func (l *KUAndEKUInconsistent) Execute(c *x509.Certificate) *lint.LintResult {
 	return &lint.LintResult{Status: lint.Pass}
 }
 
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_key_usage_and_extended_key_usage_inconsistent",
-		Description:   "The certificate MUST only be used for a purpose consistent with both key usage extension and extended key usage extension.",
-		Citation:      "RFC 5280, Section 4.2.1.12.",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &KUAndEKUInconsistent{},
-	})
-}
-
-//  CheckConsistencyWithEKU* functions return false if the certificate being linted
-//  has inconsistent Key Usage bits set with a specific Extended Key Usage
-
-//CheckConsistencyWithEKUServerAuth checks if KU bits are consistent with Server Authentication EKU bit
+// Variable containing the consistent KU combinations with Server Authentication EKU:
 //  RFC 5280 4.2.1.12 on KU consistency with Server Authentication EKU:
 //    -- TLS WWW server authentication
 //    -- Key usage bits that may be consistent: digitalSignature,
@@ -91,34 +88,31 @@ var serverAuth = map[x509.KeyUsage]bool{
 	x509.KeyUsageKeyAgreement:     true,
 }
 
-//CheckConsistencyWithEKUClientAuth checks if KU bits are consistent with Client Authentication EKU bit
+// Variable containing the consistent KU combinations with Client Authentication EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Client Authentication EKU:
 //    -- TLS WWW client authentication
 //    -- Key usage bits that may be consistent: digitalSignature
 //    -- and/or keyAgreement
-
 var clientAuth = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                             true,
 	x509.KeyUsageKeyAgreement:                                 true,
 	x509.KeyUsageDigitalSignature | x509.KeyUsageKeyAgreement: true,
 }
 
-//CheckConsistencyWithEKUCodeSigning checks if KU bits are consistent with Code Signing EKU bit
+// Variable containing the consistent KU combinations with Code Signing EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Code Signing EKU:
 //   -- Signing of downloadable executable code
 //   -- Key usage bits that may be consistent: digitalSignature
-
 var codeSigning = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature: true,
 }
 
-//CheckConsistencyWithEKUEmailProtection checks if KU bits are consistent with Email Protection EKU bit
+// Variable containing the consistent KU combinations with Email Protection EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Email Protection EKU:
 // 	  -- Email protection
 //    -- Key usage bits that may be consistent: digitalSignature,
 //    -- nonRepudiation, and/or (keyEncipherment or keyAgreement)
 //  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
-
 var emailProtection = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                                                                 true,
 	x509.KeyUsageContentCommitment:                                                                true,
@@ -133,26 +127,24 @@ var emailProtection = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment | x509.KeyUsageKeyAgreement:    true,
 }
 
-//CheckConsistencyWithEKUTimeStamping checks if KU bits are consistent with Time Stamping EKU bit
+// Variable containing the consistent KU combinations with Time Stamping EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Time Stamping EKU:
 // 	  -- Binding the hash of an object to a time
 //    -- Key usage bits that may be consistent: digitalSignature
 //    -- and/or nonRepudiation
 //  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
-
 var timeStamping = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                                  true,
 	x509.KeyUsageContentCommitment:                                 true,
 	x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment: true,
 }
 
-//CheckConsistencyWithEKUOcspSigning checks if KU bits are consistent with Ocsp Signing EKU bit
+// Variable containing the consistent KU combinations with Ocsp Signing EKU:
 // 	RFC 5280 4.2.1.12 on KU consistency with Ocsp Signing EKU:
 // 	  -- Signing OCSP responses
 //    -- Key usage bits that may be consistent: digitalSignature
 //    -- and/or nonRepudiation
 //  Note: Recent editions of X.509 have renamed nonRepudiation bit to contentCommitment
-
 var ocspSigning = map[x509.KeyUsage]bool{
 	x509.KeyUsageDigitalSignature:                                  true,
 	x509.KeyUsageContentCommitment:                                 true,

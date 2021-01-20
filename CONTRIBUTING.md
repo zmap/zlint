@@ -110,7 +110,7 @@ Testing Lints
 -------------
 
 **Creating Unit Tests.** Every lint should also have corresponding unit
-tests (generally at least one for a success and one for afailure condition). We
+tests (generally at least one for a success and one for a failure condition). We
 have typically generated test certificates using Go (see
 [documentation][CreateCertificates] for details), but OpenSSL
 could also be used. Test certificates should be placed in `testdata/` and called
@@ -120,7 +120,8 @@ certificate from a unit test using the `test.TestLint` helper function.
 
 [CreateCertificates]: https://golang.org/pkg/crypto/x509/#CreateCertificate
 
-Example:
+If you only have one or two test cases separate unit test functions are
+acceptable, example:
 
 ```go
 func TestBasicConstNotCritical(t *testing.T) {
@@ -133,6 +134,17 @@ func TestBasicConstNotCritical(t *testing.T) {
 }
 
 ```
+
+If you have more than two or three test cases we prefer new unit tests to be
+written in a [table driven style][table-tests]. Each testcase should be invoked
+as a [subtest][subtests] so that it's easy to figure out which subtest failed
+and to allow control over which subtests are run.
+
+Example: see [`lint_ct_sct_policy_count_unsatisfied_test.go`][sct_test_eg]
+
+[table-tests]: https://github.com/golang/go/wiki/TableDrivenTests
+[subtests]: https://golang.org/pkg/testing/#hdr-Subtests_and_Sub_benchmarks
+[sct_test_eg]: https://github.com/zmap/zlint/blob/master/v3/lints/apple/lint_ct_sct_policy_count_unsatisfied_test.go
 
 **Integration Tests.** ZLint's [continuous integration][CI] includes an
 integration test phase where all lints are run against a large corpus of

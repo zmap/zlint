@@ -19,7 +19,7 @@ import (
 // had without maintaining the full ResultSet. If lintFilter is not nil only
 // lints with names matching the filter will be run.
 func lintCertificate(work workItem) certResult {
-	// Lint the certiifcate to produce a full result set
+	// Lint the certificate to produce a full result set
 	cr := certResult{
 		Fingerprint: work.Fingerprint,
 		LintSummary: make(map[string]lint.LintStatus),

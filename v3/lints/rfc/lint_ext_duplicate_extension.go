@@ -1,7 +1,7 @@
 package rfc
 
 /*
- * ZLint Copyright 2020 Regents of the University of Michigan
+ * ZLint Copyright 2021 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -14,10 +14,6 @@ package rfc
  * permissions and limitations under the License.
  */
 
-/************************************************
-"A certificate MUST NOT include more than one instance of a particular extension."
-************************************************/
-
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -25,6 +21,21 @@ import (
 )
 
 type ExtDuplicateExtension struct{}
+
+/************************************************
+"A certificate MUST NOT include more than one instance of a particular extension."
+************************************************/
+
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ext_duplicate_extension",
+		Description:   "A certificate MUST NOT include more than one instance of a particular extension",
+		Citation:      "RFC 5280: 4.2",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC2459Date,
+		Lint:          &ExtDuplicateExtension{},
+	})
+}
 
 func (l *ExtDuplicateExtension) Initialize() error {
 	return nil
@@ -45,15 +56,4 @@ func (l *ExtDuplicateExtension) Execute(cert *x509.Certificate) *lint.LintResult
 	}
 	// Nested loop will return if it finds a duplicate, so safe to assume pass
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_duplicate_extension",
-		Description:   "A certificate MUST NOT include more than one instance of a particular extension",
-		Citation:      "RFC 5280: 4.2",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          &ExtDuplicateExtension{},
-	})
 }
