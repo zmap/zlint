@@ -23,9 +23,10 @@ import (
 
 func TestUriNameConstraintsFqdn(t *testing.T) {
 	testCases := []struct {
-		Name           string
-		Filename       string
-		ExpectedResult lint.LintStatus
+		Name            string
+		Filename        string
+		ExpectedResult  lint.LintStatus
+		ExpectedDetails string
 	}{
 		{
 			Name:           "TestBeginsWithPeriodFQDN",
@@ -33,9 +34,10 @@ func TestUriNameConstraintsFqdn(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "TestIpAddressNotFQDN",
-			Filename:       "ipAddressConstraintNotFQDN.pem",
-			ExpectedResult: lint.Error,
+			Name:            "TestIpAddressNotFQDN",
+			Filename:        "ipAddressConstraintNotFQDN.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained an inclusion name constraint that is not a fully qualified domain name: dns://192.168.1.1/ftp.example.org?type=A",
 		},
 		{
 			Name:           "TestOnlyHostFQDN",
@@ -43,35 +45,41 @@ func TestUriNameConstraintsFqdn(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "TestNoAuthorityNotFQDN",
-			Filename:       "noAuthorityConstraintNotFQDN.pem",
-			ExpectedResult: lint.Error,
+			Name:            "TestNoAuthorityNotFQDN",
+			Filename:        "noAuthorityConstraintNotFQDN.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained an inclusion name constraint that is not a fully qualified domain name: example",
 		},
 		// Tests for the error messages
 		{
-			Name:           "Test1Exc1PermConstraint",
-			Filename:       "exc1Perm1UriConstraints.pem",
-			ExpectedResult: lint.Error,
+			Name:            "Test1Exc1PermConstraint",
+			Filename:        "exc1Perm1UriConstraints.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained an inclusion name constraint that is not a fully qualified domain name: wrongHostConstraintExample2; certificate contained an exclusion name constraint that is not a fully qualified domain name: wrongHostConstraintExample",
 		},
 		{
-			Name:           "TestMultExcMultPermConstraint",
-			Filename:       "multExcMultPermUriConstraints.pem",
-			ExpectedResult: lint.Error,
+			Name:            "TestMultExcMultPermConstraint",
+			Filename:        "multExcMultPermUriConstraints.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained multiple inclusion name constraints that are not fully qualified domain names: example3; example4; certificate contained multiple exclusion name constraints that are not fully qualified domain names: example; example2",
 		},
 		{
-			Name:           "Test1ExcConstraint",
-			Filename:       "exc1UriConstraint.pem",
-			ExpectedResult: lint.Error,
+			Name:            "Test1ExcConstraint",
+			Filename:        "exc1UriConstraint.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained an exclusion name constraint that is not a fully qualified domain name: wrongHostConstraintExample",
 		},
 		{
-			Name:           "TestMultExc1PermConstraints",
-			Filename:       "multExc1PermUriConstraints.pem",
-			ExpectedResult: lint.Error,
+			Name:            "TestMultExc1PermConstraints",
+			Filename:        "multExc1PermUriConstraints.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained an inclusion name constraint that is not a fully qualified domain name: example; certificate contained multiple exclusion name constraints that are not fully qualified domain names: wrongHost; example; wrongHost2",
 		},
 		{
-			Name:           "TestMultPermConstraint",
-			Filename:       "multPermUriConstraints.pem",
-			ExpectedResult: lint.Error,
+			Name:            "TestMultPermConstraint",
+			Filename:        "multPermUriConstraints.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "certificate contained multiple inclusion name constraints that are not fully qualified domain names: example; second; example",
 		},
 	}
 
@@ -79,12 +87,13 @@ func TestUriNameConstraintsFqdn(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 
 			result := test.TestLint("e_name_constraint_not_fqdn", tc.Filename)
-			if tc.ExpectedResult == lint.Error {
-				t.Logf("error message for %v: %v", tc.Name, result.Details)
+
+			if result.Details != tc.ExpectedDetails {
+				t.Errorf("expected result details %v was %v", tc.ExpectedDetails, result.Details)
 			}
 
 			if result.Status != tc.ExpectedResult {
-				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+				t.Errorf("expected result '%v' was '%v'", tc.ExpectedResult, result.Status)
 			}
 
 		})
