@@ -21,20 +21,44 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestDuplicateExtension(t *testing.T) {
-	inputPath := "extSANDuplicated.pem"
-	expected := lint.Error
-	out := test.TestLint("e_ext_duplicate_extension", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestDuplicateExtensions(t *testing.T) {
+	testCases := []struct {
+		name            string
+		path            string
+		expectedStatus  lint.LintStatus
+		expectedDetails string
+	}{
+		{
+			name:            "duplicate SAN extension",
+			path:            "extSANDuplicated.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "The following extensions are duplicated: 2.5.29.17",
+		},
+		{
+			name:            "multiple duplicate extensions",
+			path:            "multDupeExts.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "The following extensions are duplicated: 2.5.29.14, 2.5.29.35",
+		},
+		{
+			name:           "no duplicate extensions",
+			path:           "caBasicConstCrit.pem",
+			expectedStatus: lint.Pass,
+		},
 	}
-}
 
-func TestNoDuplicateExtension(t *testing.T) {
-	inputPath := "caBasicConstCrit.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ext_duplicate_extension", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := test.TestLint("e_ext_duplicate_extension", tc.path)
+			if actual.Status != tc.expectedStatus {
+				t.Errorf("%s: expected status %q got %q",
+					tc.path, tc.expectedStatus, actual.Status)
+			}
+			if actual.Details != tc.expectedDetails {
+				t.Errorf("%s: expected detail %q got %q",
+					tc.path, tc.expectedDetails, actual.Details)
+			}
+		})
 	}
 }
