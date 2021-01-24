@@ -29,9 +29,16 @@ func TestDuplicateExtensions(t *testing.T) {
 		expectedDetails string
 	}{
 		{
-			name:           "duplicate SAN extension",
-			path:           "extSANDuplicated.pem",
-			expectedStatus: lint.Error,
+			name:            "duplicate SAN extension",
+			path:            "extSANDuplicated.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "Found extension OIDs present more than one time: 2.5.29.17",
+		},
+		{
+			name:            "multiple duplicate extensions",
+			path:            "multDupeExts.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "Found extension OIDs present more than one time: 2.5.29.14, 2.5.29.35",
 		},
 		{
 			name:           "no duplicate extensions",
@@ -42,6 +49,7 @@ func TestDuplicateExtensions(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			actual := test.TestLint("e_ext_duplicate_extension", tc.path)
 			if actual.Status != tc.expectedStatus {
 				t.Errorf("%s: expected status %q got %q",
