@@ -82,7 +82,7 @@ func (l *extDuplicateExtension) Execute(cert *x509.Certificate) *lint.LintResult
 	return &lint.LintResult{
 		Status: lint.Error,
 		Details: fmt.Sprintf(
-			"Found extension OIDs present more than one time: %s",
+			"The following extensions are duplicated: %s",
 			strings.Join(duplicateOIDsList, ", ")),
 	}
 }

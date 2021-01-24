@@ -32,13 +32,13 @@ func TestDuplicateExtensions(t *testing.T) {
 			name:            "duplicate SAN extension",
 			path:            "extSANDuplicated.pem",
 			expectedStatus:  lint.Error,
-			expectedDetails: "Found extension OIDs present more than one time: 2.5.29.17",
+			expectedDetails: "The following extensions are duplicated: 2.5.29.17",
 		},
 		{
 			name:            "multiple duplicate extensions",
 			path:            "multDupeExts.pem",
 			expectedStatus:  lint.Error,
-			expectedDetails: "Found extension OIDs present more than one time: 2.5.29.14, 2.5.29.35",
+			expectedDetails: "The following extensions are duplicated: 2.5.29.14, 2.5.29.35",
 		},
 		{
 			name:           "no duplicate extensions",
