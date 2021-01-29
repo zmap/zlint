@@ -749,9 +749,6 @@
     "e_cert_sig_alg_not_match_tbs_sig_alg": {
       "ErrCount": 10
     },
-    "e_key_usage_and_extended_key_usage_inconsistent": {
-      "ErrCount": 140
-    },
     "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth": {
       "ErrCount": 78
     }
