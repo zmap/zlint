@@ -9,10 +9,10 @@ import (
 )
 
 type resultCount struct {
-	FatalCount  uint8 `json:",omitempty"`
-	ErrCount    uint8 `json:",omitempty"`
-	WarnCount   uint8 `json:",omitempty"`
-	NoticeCount uint8 `json:",omitempty"`
+	FatalCount  uint32 `json:",omitempty"`
+	ErrCount    uint32 `json:",omitempty"`
+	WarnCount   uint32 `json:",omitempty"`
+	NoticeCount uint32 `json:",omitempty"`
 }
 
 // TODO(@cpu): Accept a threshold argument so that (for e.g. notices could be
