@@ -1,3 +1,5 @@
+// based on https://stackoverflow.com/q/26441547/1426535
+
 package main
 
 import (
