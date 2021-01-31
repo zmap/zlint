@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 package cabf_smime
-=======
-package cabf_br
->>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan

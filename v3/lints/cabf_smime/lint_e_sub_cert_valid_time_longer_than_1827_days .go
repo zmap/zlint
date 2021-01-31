@@ -22,16 +22,11 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-<<<<<<< HEAD
 type subCertValidTimeLongerThan1827Days struct{}
-=======
-type subCertValidTimeLongerThan825Days struct{}
->>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_valid_time_longer_than_825_days",
-<<<<<<< HEAD
 		Description:   "Validity period: confirming that initial version will seek a maximum validity [...] MUST of 5 years",
 		Citation:      "https://cabforum.org/2020/09/30/2020-09-30-minutes-of-the-s-mime-certificate-working-group/",
 		Source:        lint.CABFSMIMEBaselineRequirements,
@@ -49,25 +44,6 @@ func (l *subCertValidTimeLongerThan1827Days) CheckApplies(c *x509.Certificate) b
 }
 
 func (l *subCertValidTimeLongerThan1827Days) Execute(c *x509.Certificate) *lint.LintResult {
-=======
-		Description:   "Validity period: confirming that initial version will seek a maximum validity SHOULD of 27 months",
-		Citation:      "BRs: 6.3.2",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: min(time.Now(), util.CABSMIMEEffectiveDate), // work around to enable this lint with INFO before the Effective Date of the SMIME BRGs
-		Lint:          &subCertValidTimeLongerThan825Days{},
-	})
-}
-
-func (l *subCertValidTimeLongerThan825Days) Initialize() error {
-	return nil
-}
-
-func (l *subCertValidTimeLongerThan825Days) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
-}
-
-func (l *subCertValidTimeLongerThan825Days) Execute(c *x509.Certificate) *lint.LintResult {
->>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 	if c.NotBefore.AddDate(0, 0, 825).Before(c.NotAfter) {
 		return &lint.LintResult{Status: lint.Error}
 	}
