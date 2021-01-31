@@ -30,11 +30,11 @@ fields filled out.
  * **Warning:** `Warn` can only be used for violations of `SHOULD` or `SHOULD
    NOT` requirements and again should include strong citations. Many
    certificate authorities block on both Error and Warning lints, and Warning
-   lints should not be used for non-deterministic errors (e.g., calculating 
+   lints should not be used for non-deterministic errors (e.g., calculating
    whether a serial number has sufficient entropy based on high-order bits.)
 
  * **Notice:** `Notice` should be used for more general "FYI" statements that
-   indicate there may be a problem. Non-deterministic lints are OK. 
+   indicate there may be a problem. Non-deterministic lints are OK.
 
 Lints only return one non-success or non-fatal status, which must also match
 their name prefix. For example, `e_ian_wildcard_not_first` can only return a
@@ -112,11 +112,12 @@ Testing Lints
 **Creating Unit Tests.** Every lint should also have corresponding unit
 tests (generally at least one for a success and one for a failure condition). We
 have typically generated test certificates using Go (see
-[documentation][CreateCertificates] for details), but OpenSSL
-could also be used. Test certificates should be placed in `testdata/` and called
-from the test file created by `newLint.sh`. You may want to prepend the PEM with
-the output of `openssl x509 -text`. You can run your lint against a test
-certificate from a unit test using the `test.TestLint` helper function.
+[documentation][CreateCertificates] for details and [example][./certGenerator.go] as
+reference), but OpenSSL could also be used. Test certificates should be placed in
+`testdata/` and called from the test file created by `newLint.sh`. You may want to
+prepend the PEM with the output of `openssl x509 -text`. You can run your lint
+against a test certificate from a unit test using the `test.TestLint` helper
+function.
 
 [CreateCertificates]: https://golang.org/pkg/crypto/x509/#CreateCertificate
 
@@ -225,7 +226,7 @@ git tag -s -a v2.2.0-rc1
 git push origin v2.2.0-rc1
 ```
 
-After pushing a tag with the expected release format the deploy job 
+After pushing a tag with the expected release format the deploy job
 configured in the `.github/workflows/release.yml` workflow will kick in and
 invoke [Goreleaser](https://goreleaser.com/).
 
