@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package cabf_smime
+=======
+package cabf_br
+>>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -15,8 +19,11 @@ package cabf_smime
  */
 
 import (
+<<<<<<< HEAD
 	"time"
 
+=======
+>>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -27,10 +34,17 @@ type subCertValidTimeLongerThan825Days struct{}
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_valid_time_longer_than_825_days",
+<<<<<<< HEAD
 		Description:   "Validity period: confirming that initial version will seek a maximum validity SHOULD of 27 months",
 		Citation:      "BRs: 6.3.2",
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: min(time.Now(), util.CABSMIMEEffectiveDate), // work around to enable this lint with INFO before the Effective Date of the SMIME BRGs
+=======
+		Description:   "Subscriber Certificates issued after 1 March 2018, but prior to 1 September 2020, MUST NOT have a Validity Period greater than 825 days.",
+		Citation:      "BRs: 6.3.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.SubCert825Days,
+>>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 		Lint:          &subCertValidTimeLongerThan825Days{},
 	})
 }

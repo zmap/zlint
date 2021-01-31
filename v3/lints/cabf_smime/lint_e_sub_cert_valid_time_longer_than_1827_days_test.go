@@ -21,7 +21,11 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
+<<<<<<< HEAD
 func TestSubCertValidTimeLongerThan1827Days(t *testing.T) {
+=======
+func TestSubCertValidTimeLongerThan825Days(t *testing.T) {
+>>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 	inputPath := "subCertOver825DaysBad.pem"
 	expected := lint.Error
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_825_days", inputPath)
@@ -30,7 +34,11 @@ func TestSubCertValidTimeLongerThan1827Days(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 func TestSubCertValidTimeLongerThan1827DaysBeforeCutoff(t *testing.T) {
+=======
+func TestSubCertValidTimeLongerThan825DaysBeforeCutoff(t *testing.T) {
+>>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 	inputPath := "subCertOver825DaysOK.pem"
 	expected := lint.NE
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_825_days", inputPath)
@@ -39,7 +47,11 @@ func TestSubCertValidTimeLongerThan1827DaysBeforeCutoff(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 func TestSubCertValidTime1827Days(t *testing.T) {
+=======
+func TestSubCertValidTime825Days(t *testing.T) {
+>>>>>>> b046d8654b4cab9c71aafc84b73c765c793560be
 	inputPath := "subCert825DaysOK.pem"
 	expected := lint.Pass
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_825_days", inputPath)
