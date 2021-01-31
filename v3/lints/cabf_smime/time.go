@@ -1,6 +1,8 @@
-package apple
+package cabf_smime
 
-import "time"
+import (
+	"time"
+)
 
 // In the context of a root policy update on trusted certificate lifetimes[0]
 // Apple provided an unambiguous definition for the length of a day:
@@ -11,3 +13,10 @@ import "time"
 //
 // [0]: https://support.apple.com/en-us/HT211025
 var appleDayLength = 86400 * time.Second
+
+func min(a, b time.Time) time.Time {
+	if a.Before(b) {
+		return a
+	}
+	return b
+}

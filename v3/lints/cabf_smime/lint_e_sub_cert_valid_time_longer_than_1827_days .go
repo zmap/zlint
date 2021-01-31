@@ -1,4 +1,4 @@
-package cabf_br
+package cabf_smime
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -15,33 +15,35 @@ package cabf_br
  */
 
 import (
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-type subCertValidTimeLongerThan825Days struct{}
+type subCertValidTimeLongerThan1827Days struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_sub_cert_valid_time_longer_than_825_days",
-		Description:   "Subscriber Certificates issued after 1 March 2018, but prior to 1 September 2020, MUST NOT have a Validity Period greater than 825 days.",
-		Citation:      "BRs: 6.3.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.SubCert825Days,
-		Lint:          &subCertValidTimeLongerThan825Days{},
+		Description:   "Validity period: confirming that initial version will seek a maximum validity [...] MUST of 5 years",
+		Citation:      "https://cabforum.org/2020/09/30/2020-09-30-minutes-of-the-s-mime-certificate-working-group/",
+		Source:        lint.CABFSMIMEBaselineRequirements,
+		EffectiveDate: min(time.Now(), util.CABSMIMEEffectiveDate), // work around to enable this lint with INFO before the Effective Date of the SMIME BRGs
+		Lint:          &subCertValidTimeLongerThan1827Days{},
 	})
 }
 
-func (l *subCertValidTimeLongerThan825Days) Initialize() error {
+func (l *subCertValidTimeLongerThan1827Days) Initialize() error {
 	return nil
 }
 
-func (l *subCertValidTimeLongerThan825Days) CheckApplies(c *x509.Certificate) bool {
+func (l *subCertValidTimeLongerThan1827Days) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeLongerThan825Days) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *subCertValidTimeLongerThan1827Days) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.NotBefore.AddDate(0, 0, 825).Before(c.NotAfter) {
 		return &lint.LintResult{Status: lint.Error}
 	}

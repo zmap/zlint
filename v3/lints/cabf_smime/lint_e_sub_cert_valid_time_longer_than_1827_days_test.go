@@ -1,4 +1,4 @@
-package cabf_br
+package cabf_smime
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubCertValidTimeLongerThan825Days(t *testing.T) {
+func TestSubCertValidTimeLongerThan1827Days(t *testing.T) {
 	inputPath := "subCertOver825DaysBad.pem"
 	expected := lint.Error
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_825_days", inputPath)
@@ -30,7 +30,7 @@ func TestSubCertValidTimeLongerThan825Days(t *testing.T) {
 	}
 }
 
-func TestSubCertValidTimeLongerThan825DaysBeforeCutoff(t *testing.T) {
+func TestSubCertValidTimeLongerThan1827DaysBeforeCutoff(t *testing.T) {
 	inputPath := "subCertOver825DaysOK.pem"
 	expected := lint.NE
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_825_days", inputPath)
@@ -39,7 +39,7 @@ func TestSubCertValidTimeLongerThan825DaysBeforeCutoff(t *testing.T) {
 	}
 }
 
-func TestSubCertValidTime825Days(t *testing.T) {
+func TestSubCertValidTime1827Days(t *testing.T) {
 	inputPath := "subCert825DaysOK.pem"
 	expected := lint.Pass
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_825_days", inputPath)
