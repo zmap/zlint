@@ -20,29 +20,29 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type subCertValidTimeLongerThan39Months struct{}
+type subCertValidTimeLongerThan825Days struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_valid_time_longer_than_39_months",
-		Description:   "Subscriber Certificates issued after 1 July 2016 but prior to 1 March 2018 MUST have a Validity Period no greater than 39 months.",
+		Name:          "e_sub_cert_valid_time_longer_than_825_days",
+		Description:   "Subscriber Certificates issued after 1 March 2018, but prior to 1 September 2020, MUST NOT have a Validity Period greater than 825 days.",
 		Citation:      "BRs: 6.3.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.SubCert39Month,
-		Lint:          &subCertValidTimeLongerThan39Months{},
+		EffectiveDate: util.SubCert825Days,
+		Lint:          &subCertValidTimeLongerThan825Days{},
 	})
 }
 
-func (l *subCertValidTimeLongerThan39Months) Initialize() error {
+func (l *subCertValidTimeLongerThan825Days) Initialize() error {
 	return nil
 }
 
-func (l *subCertValidTimeLongerThan39Months) CheckApplies(c *x509.Certificate) bool {
+func (l *subCertValidTimeLongerThan825Days) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *subCertValidTimeLongerThan39Months) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
+func (l *subCertValidTimeLongerThan825Days) Execute(c *x509.Certificate) *lint.LintResult {
+	if c.NotBefore.AddDate(0, 0, 825).Before(c.NotAfter) {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
