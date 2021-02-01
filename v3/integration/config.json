@@ -291,7 +291,10 @@
     "e_cert_policy_iv_requires_province_or_locality": {},
     "e_cert_policy_ov_requires_country": {},
     "e_cert_policy_ov_requires_province_or_locality": {
-      "ErrCount": 66
+      "ErrCount": 322
+    },
+    "e_cert_sig_alg_not_match_tbs_sig_alg": {
+      "ErrCount": 10
     },
     "e_cert_unique_identifier_version_not_2_or_3": {},
     "e_distribution_point_incomplete": {},
@@ -324,6 +327,7 @@
       "ErrCount": 2
     },
     "e_ev_country_name_missing": {},
+    "e_ev_organization_id_missing": {},
     "e_ev_organization_name_missing": {},
     "e_ev_serial_number_missing": {
       "ErrCount": 1
@@ -343,7 +347,7 @@
     "e_ext_cert_policy_duplicate": {},
     "e_ext_cert_policy_explicit_text_ia5_string": {},
     "e_ext_cert_policy_explicit_text_too_long": {
-      "ErrCount": 175
+      "ErrCount": 431
     },
     "e_ext_duplicate_extension": {},
     "e_ext_freshest_crl_marked_critical": {},
@@ -370,7 +374,7 @@
       "ErrCount": 1
     },
     "e_ext_san_directory_name_present": {
-      "ErrCount": 226
+      "ErrCount": 738
     },
     "e_ext_san_dns_name_too_long": {},
     "e_ext_san_dns_not_ia5_string": {
@@ -422,8 +426,11 @@
     "e_invalid_certificate_version": {},
     "e_issuer_dn_country_not_printable_string": {},
     "e_issuer_field_empty": {},
+    "e_key_usage_and_extended_key_usage_inconsistent": {
+      "ErrCount": 566924
+    },
     "e_mp_authority_key_identifier_correct": {
-      "ErrCount": 135
+      "ErrCount": 3463
     },
     "e_mp_ecdsa_pub_key_encoding_correct": {},
     "e_mp_ecdsa_signature_encoding_correct": {},
@@ -439,6 +446,10 @@
     "e_name_constraint_empty": {},
     "e_name_constraint_maximum_not_absent": {},
     "e_name_constraint_minimum_non_zero": {},
+    "e_name_constraint_not_fqdn": {},
+    "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth": {
+      "ErrCount": 78
+    },
     "e_old_root_ca_rsa_mod_less_than_2048_bits": {},
     "e_old_sub_ca_rsa_mod_less_than_1024_bits": {},
     "e_old_sub_cert_rsa_mod_less_than_1024_bits": {},
@@ -453,7 +464,7 @@
       "ErrCount": 234
     },
     "e_qcstatem_mandatory_etsi_statems": {
-      "ErrCount": 141
+      "ErrCount": 1677
     },
     "e_qcstatem_qccompliance_valid": {},
     "e_qcstatem_qclimitvalue_valid": {},
@@ -477,6 +488,7 @@
     "e_rsa_public_exponent_too_small": {},
     "e_san_bare_wildcard": {},
     "e_san_dns_name_includes_null_char": {},
+    "e_san_dns_name_onion_invalid": {},
     "e_san_dns_name_onion_not_ev_cert": {},
     "e_san_dns_name_starts_with_period": {},
     "e_san_wildcard_not_first": {
@@ -489,9 +501,6 @@
     "e_signature_algorithm_not_supported": {},
     "e_spki_rsa_encryption_parameter_not_null": {
       "ErrCount": 7
-    },
-    "e_sub_ca_aia_does_not_contain_ocsp_url": {
-      "ErrCount": 147
     },
     "e_sub_ca_aia_marked_critical": {},
     "e_sub_ca_aia_missing": {
@@ -537,7 +546,7 @@
     "e_sub_cert_key_usage_cert_sign_bit_set": {},
     "e_sub_cert_key_usage_crl_sign_bit_set": {},
     "e_sub_cert_locality_name_must_appear": {
-      "ErrCount": 95
+      "ErrCount": 607
     },
     "e_sub_cert_locality_name_must_not_appear": {
       "ErrCount": 13
@@ -550,14 +559,14 @@
     },
     "e_sub_cert_postal_code_must_not_appear": {},
     "e_sub_cert_province_must_appear": {
-      "ErrCount": 95
+      "ErrCount": 607
     },
     "e_sub_cert_province_must_not_appear": {
       "ErrCount": 8
     },
     "e_sub_cert_street_address_should_not_exist": {},
     "e_sub_cert_valid_time_longer_than_39_months": {
-      "ErrCount": 109
+      "ErrCount": 365
     },
     "e_sub_cert_valid_time_longer_than_825_days": {
       "ErrCount": 21
@@ -569,7 +578,7 @@
       "ErrCount": 229
     },
     "e_subject_contains_noninformational_value": {
-      "ErrCount": 69
+      "ErrCount": 325
     },
     "e_subject_contains_reserved_arpa_ip": {},
     "e_subject_contains_reserved_ip": {
@@ -622,10 +631,10 @@
       "ErrCount": 19
     },
     "n_ca_digital_signature_not_set": {
-      "NoticeCount": 212
+      "NoticeCount": 724
     },
     "n_contains_redacted_dnsname": {
-      "NoticeCount": 203
+      "NoticeCount": 459
     },
     "n_dnsname_wildcard_left_of_public_suffix": {
       "NoticeCount": 1
@@ -638,47 +647,47 @@
     },
     "n_multiple_subject_rdn": {},
     "n_san_dns_name_duplicate": {
-      "NoticeCount": 193
+      "NoticeCount": 705
     },
     "n_san_iana_pub_suffix_empty": {
       "NoticeCount": 34
     },
     "n_sub_ca_eku_missing": {
-      "NoticeCount": 166
+      "NoticeCount": 678
     },
     "n_sub_ca_eku_not_technically_constrained": {
       "NoticeCount": 10
     },
     "n_subject_common_name_included": {
-      "NoticeCount": 44
+      "NoticeCount": 593196
     },
     "w_ct_sct_policy_count_unsatisfied": {
-      "NoticeCount": 72
+      "NoticeCount": 4680
     },
     "w_distribution_point_missing_ldap_or_uri": {
       "WarnCount": 5
     },
     "w_dnsname_underscore_in_trd": {
-      "WarnCount": 83
+      "WarnCount": 339
     },
     "w_eku_critical_improperly": {},
     "w_ext_aia_access_location_missing": {
-      "WarnCount": 28
+      "WarnCount": 284
     },
     "w_ext_cert_policy_contains_noticeref": {
-      "WarnCount": 23
+      "WarnCount": 7191
     },
     "w_ext_cert_policy_explicit_text_includes_control": {
       "WarnCount": 1
     },
     "w_ext_cert_policy_explicit_text_not_nfc": {},
     "w_ext_cert_policy_explicit_text_not_utf8": {
-      "WarnCount": 144
+      "WarnCount": 9872
     },
     "w_ext_crl_distribution_marked_critical": {},
     "w_ext_ian_critical": {},
     "w_ext_key_usage_not_critical": {
-      "WarnCount": 115
+      "WarnCount": 16755
     },
     "w_ext_policy_map_not_critical": {
       "WarnCount": 3
@@ -690,7 +699,7 @@
       "WarnCount": 30
     },
     "w_ext_subject_key_identifier_missing_sub_cert": {
-      "WarnCount": 58
+      "WarnCount": 59194
     },
     "w_extra_subject_common_names": {
       "WarnCount": 16
@@ -703,7 +712,7 @@
     "w_name_constraint_on_registered_id": {},
     "w_name_constraint_on_x400": {},
     "w_qcstatem_qcpds_lang_case": {
-      "WarnCount": 48
+      "WarnCount": 816
     },
     "w_qcstatem_qctype_web": {
       "WarnCount": 25
@@ -718,7 +727,7 @@
       "WarnCount": 45
     },
     "w_sub_ca_aia_does_not_contain_issuing_ca_url": {
-      "WarnCount": 62
+      "WarnCount": 574
     },
     "w_sub_ca_certificate_policies_marked_critical": {},
     "w_sub_ca_eku_critical": {
@@ -728,11 +737,11 @@
       "WarnCount": 93
     },
     "w_sub_cert_aia_does_not_contain_issuing_ca_url": {
-      "WarnCount": 100
+      "WarnCount": 33636
     },
     "w_sub_cert_certificate_policies_marked_critical": {},
     "w_sub_cert_eku_extra_values": {
-      "WarnCount": 233
+      "WarnCount": 2025
     },
     "w_sub_cert_sha1_expiration_too_long": {
       "WarnCount": 10
@@ -746,6 +755,7 @@
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 64
     },
+    "w_tls_server_cert_valid_time_longer_than_397_days": {},
     "e_cert_sig_alg_not_match_tbs_sig_alg": {
       "ErrCount": 10
     },
