@@ -112,7 +112,7 @@ Testing Lints
 **Creating Unit Tests.** Every lint should also have corresponding unit
 tests (generally at least one for a success and one for a failure condition). We
 have typically generated test certificates using Go (see
-[documentation][CreateCertificates] for details and [example][certGenerator] as
+[documentation][x509.CreateCertificate] for details and [this example code][certGenerator] as
 reference), but OpenSSL could also be used. Test certificates should be placed in
 `testdata/` and called from the test file created by `newLint.sh`. You may want to
 prepend the PEM with the output of `openssl x509 -text`. You can run your lint
