@@ -109,18 +109,26 @@ func (l *caCRLSignNotSet) Execute(c *x509.Certificate) *lint.LintResult {
 Testing Lints
 -------------
 
-**Creating Unit Tests.** Every lint should also have corresponding unit
-tests (generally at least one for a success and one for a failure condition). We
-have typically generated test certificates using Go (see
-[documentation][x509.CreateCertificate] for details and [this example code][certGenerator] as
-reference), but OpenSSL could also be used. Test certificates should be placed in
-`testdata/` and called from the test file created by `newLint.sh`. All test certificates
-must have the textual description from openssl x509 -text added before the PEM header or CI
-will flag them as a build error. You can add the text decoding to all of the test certs missing
-it by running test/prepend_testcerts_openssl.sh.
+**Creating Unit Tests.** Every lint should also have corresponding unit tests
+(generally at least one for a success and one for a failure condition). There
+are various ways for generating test certificates. The following options have
+been used by contributers successfully:
+* Creating of new certificates using [Go][CreateCertificate] (compare [this
+  article on SO][certGenerator] as starting point)
+* Modifying existing certificates using [der-ascii][DERASCII] (compare [this
+  documentation][resign] how to re-sign the modified certificate)
+* Using OpenSSL
 
-[CreateCertificates]: https://golang.org/pkg/crypto/x509/#CreateCertificate
-[certGenerator]: ./certGenerator.go
+Test certificates should be placed in `testdata/` and called from the test file
+created by `newLint.sh`. All test certificates must have the textual description
+from `openssl x509 -text` added before the PEM header or CI will flag them as a
+build error. You can add the text decoding to all of the test certs missing it
+by running `test/prepend_testcerts_openssl.sh`.
+
+[CreateCertificate]: https://golang.org/pkg/crypto/x509/#CreateCertificate
+[certGenerator]: https://stackoverflow.com/q/26441547/1426535
+[DERASCII]:https://github.com/google/der-ascii
+[resign]:https://github.com/google/der-ascii/blob/master/samples/certificates.md
 
 If you only have one or two test cases separate unit test functions are
 acceptable, example:
