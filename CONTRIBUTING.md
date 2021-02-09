@@ -113,6 +113,7 @@ Testing Lints
 (generally at least one for a success and one for a failure condition). There
 are various ways for generating test certificates. The following options have
 been used by contributers successfully:
+
 * Creating of new certificates using [Go][CreateCertificate] (compare [this
   article on SO][certGenerator] as starting point)
 * Modifying existing certificates using [der-ascii][DERASCII] (compare [this
