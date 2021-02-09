@@ -1,4 +1,4 @@
-package maintestdata
+package testdata
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -14,4 +14,10 @@ package maintestdata
  * permissions and limitations under the License.
  */
 
-const initializeFirstString = "this is not the greatest song in the world"
+func init() {}
+
+type initializeFirstTest struct{}
+
+func (i *initializeFirstTest) Initialize() error {
+	return nil
+}

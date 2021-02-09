@@ -19,7 +19,7 @@ import "testing"
 // `main` has a runner function simply named `run` which takes in a string which is a directory that will be recursively
 // searched for Go files to lint. In this particular case, we have some sample Go files under `maintestdata`.
 func TestFullRun(t *testing.T) {
-	results, err := run("maintestdata")
+	results, err := run("testdata")
 	if err != nil {
 		t.Error(err)
 		return
