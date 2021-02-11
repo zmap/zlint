@@ -96,7 +96,7 @@ func (r *Result) AddCodeCitation(start, end token.Pos, file *File) *Result {
 //		https://golang.org/doc/effective_go.html#init
 //
 // The above links a GitHub issue that discuss the lint in question as well as a link
-// to Golang's magic `init` method (because the lint in question is ask the contributor
+// to Golang's magic `init` method (because the lint in question is asking the contributor
 // to implement `init` at a particular spot in the file).
 func (r *Result) SetCitations(citations ...string) *Result {
 	r.citations = citations
