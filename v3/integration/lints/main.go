@@ -1,4 +1,4 @@
-package main // import "github.com/zmap/zlint/v3/integration/lints"
+package main
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
