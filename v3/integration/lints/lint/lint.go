@@ -60,7 +60,7 @@ func NewResult(message string) *Result {
 	return &Result{message: message}
 }
 
-// AddCodeCitation takes the starting ending position of a block of code within a file.
+// AddCodeCitation takes the starting and ending position of a block of code within a file.
 // Upon calling the String method, every code citation will be printed alongside the
 // result. This code citation lists the file and line of the code in question
 // as well as the raw block of source code.
