@@ -34,7 +34,9 @@ integration:
 	$(INT_TEST)
 
 code-lint:
-	golangci-lint run
+	# Skip these two directories as they contain Go files that are tests for custom
+	# code linting framework and there is no expectation of those files conforming to anything.
+	golangci-lint run --skip-dirs lints/lints/testdata/,lints/testdata
 
 custom-code-lint:
 	(cd integration/lints/ && go run main.go ../../lints)
