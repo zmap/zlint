@@ -21,7 +21,6 @@ import (
 	"strings"
 
 	"github.com/zmap/zlint/v3/integration/lints/lint"
-
 	"github.com/zmap/zlint/v3/integration/lints/lints"
 )
 
