@@ -37,7 +37,7 @@ func Declarations(decls []ast.Decl, predicate func(decl ast.Decl) bool) (filtere
 //		return false
 //	}
 //
-// ...will return the hi and hello functions but on the inner lambda within hi.
+// ...will return the hi and hello functions but not the inner lambda within hi.
 func FunctionsOnly(decls []ast.Decl) []ast.Decl {
 	return Declarations(decls, func(decl ast.Decl) bool {
 		_, ok := decl.(*ast.FuncDecl)
