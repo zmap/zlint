@@ -114,7 +114,7 @@ Testing Lints
 are various ways for generating test certificates. The following options have
 been used by contributers successfully:
 
-* Creating of new certificates using [Go][CreateCertificate] (compare [this
+* Create new certificates using [Go][CreateCertificate] (compare [this
   article on SO][certGenerator] as starting point)
 * Modifying existing certificates using [der-ascii][DERASCII] (compare [this
   documentation][resign] how to re-sign the modified certificate)
