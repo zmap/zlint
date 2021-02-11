@@ -7033,6 +7033,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2014-11-17",
 		RemovalDate:    "",
 	},
+	"xn--4dbrk0ce": {
+		GTLD:           "xn--4dbrk0ce",
+		DelegationDate: "1985-01-01",
+		RemovalDate:    "",
+	},
 	"xn--4gbrim": {
 		GTLD:           "xn--4gbrim",
 		DelegationDate: "2014-05-28",
