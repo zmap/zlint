@@ -2,7 +2,7 @@ package filters
 
 import "go/ast"
 
-// Declarations takes in a list of a declarations and a predicate of that takes in one declaration
+// Declarations takes in a list of a declarations and a predicate that takes in one declaration
 // and returns a boolean. Only the declarations for which `predicate` returns true will be included in
 // the returned list of declarations.
 //
