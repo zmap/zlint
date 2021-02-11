@@ -116,7 +116,7 @@ been used by contributers successfully:
 
 * Create new certificates using [Go][CreateCertificate] (compare [this
   article on SO][certGenerator] as starting point)
-* Modifying existing certificates using [der-ascii][DERASCII] (compare [this
+* Modify existing certificates using [der-ascii][DERASCII] (compare [this
   documentation][resign] how to re-sign the modified certificate)
 * Using OpenSSL
 
