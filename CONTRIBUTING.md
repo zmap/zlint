@@ -30,11 +30,11 @@ fields filled out.
  * **Warning:** `Warn` can only be used for violations of `SHOULD` or `SHOULD
    NOT` requirements and again should include strong citations. Many
    certificate authorities block on both Error and Warning lints, and Warning
-   lints should not be used for non-deterministic errors (e.g., calculating 
+   lints should not be used for non-deterministic errors (e.g., calculating
    whether a serial number has sufficient entropy based on high-order bits.)
 
  * **Notice:** `Notice` should be used for more general "FYI" statements that
-   indicate there may be a problem. Non-deterministic lints are OK. 
+   indicate there may be a problem. Non-deterministic lints are OK.
 
 Lints only return one non-success or non-fatal status, which must also match
 their name prefix. For example, `e_ian_wildcard_not_first` can only return a
@@ -109,16 +109,27 @@ func (l *caCRLSignNotSet) Execute(c *x509.Certificate) *lint.LintResult {
 Testing Lints
 -------------
 
-**Creating Unit Tests.** Every lint should also have corresponding unit
-tests (generally at least one for a success and one for a failure condition). We
-have typically generated test certificates using Go (see
-[documentation][CreateCertificates] for details), but OpenSSL
-could also be used. Test certificates should be placed in `testdata/` and called
-from the test file created by `newLint.sh`. You may want to prepend the PEM with
-the output of `openssl x509 -text`. You can run your lint against a test
-certificate from a unit test using the `test.TestLint` helper function.
+**Creating Unit Tests.** Every lint should also have corresponding unit tests
+(generally at least one for a success and one for a failure condition). There
+are various ways for generating test certificates. The following options have
+been used by contributers successfully:
 
-[CreateCertificates]: https://golang.org/pkg/crypto/x509/#CreateCertificate
+* Create new certificates using [Go][CreateCertificate] (compare [this
+  article on SO][certGenerator] as starting point)
+* Modify existing certificates using [der-ascii][DERASCII] (compare [this
+  documentation][resign] how to re-sign the modified certificate)
+* Using OpenSSL
+
+Test certificates should be placed in `testdata/` and called from the test file
+created by `newLint.sh`. All test certificates must have the textual description
+from `openssl x509 -text` added before the PEM header or CI will flag them as a
+build error. You can add the text decoding to all of the test certs missing it
+by running `test/prepend_testcerts_openssl.sh`.
+
+[CreateCertificate]: https://golang.org/pkg/crypto/x509/#CreateCertificate
+[certGenerator]: https://stackoverflow.com/q/26441547/1426535
+[DERASCII]:https://github.com/google/der-ascii
+[resign]:https://github.com/google/der-ascii/blob/master/samples/certificates.md
 
 If you only have one or two test cases separate unit test functions are
 acceptable, example:
@@ -225,7 +236,7 @@ git tag -s -a v2.2.0-rc1
 git push origin v2.2.0-rc1
 ```
 
-After pushing a tag with the expected release format the deploy job 
+After pushing a tag with the expected release format the deploy job
 configured in the `.github/workflows/release.yml` workflow will kick in and
 invoke [Goreleaser](https://goreleaser.com/).
 
