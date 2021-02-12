@@ -48,7 +48,7 @@ type Lint interface {
 //	}
 //
 // The lint citations are additional information to help the contributor understand why their code failed
-// this lint and, if possible, some hints or resources on how to correct the issue. Every citation will listed on its
+// this lint and, if possible, some hints or resources on how to correct the issue. Every citation will be listed on its
 // own line.
 type Result struct {
 	message       string
