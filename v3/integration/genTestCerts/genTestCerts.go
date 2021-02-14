@@ -55,6 +55,7 @@ func main() {
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
 func NewTrustAnchor() (*x509.Certificate, error) {
+	// Edit this template to look like whatever trust anchor you need.
 	template := x509.Certificate{
 		Raw:                         nil,
 		RawTBSCertificate:           nil,
@@ -117,6 +118,7 @@ func NewTrustAnchor() (*x509.Certificate, error) {
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
 func NewIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
+	// Edit this template to look like whatever intermediate you need.
 	template := x509.Certificate{
 		Raw:                         nil,
 		RawTBSCertificate:           nil,
@@ -185,6 +187,7 @@ func NewLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 	} else {
 		parent = intermediates[len(intermediates)-1]
 	}
+	// Edit this template to look like whatever lead cert you need.
 	template := x509.Certificate{
 		Raw:                         nil,
 		RawTBSCertificate:           nil,
