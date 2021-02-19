@@ -1116,7 +1116,7 @@ var tldMap = map[string]GTLDPeriod{
 	"caseih": {
 		GTLD:           "caseih",
 		DelegationDate: "2016-10-30",
-		RemovalDate:    "",
+		RemovalDate:    "2021-02-19",
 	},
 	"cash": {
 		GTLD:           "cash",
@@ -4466,7 +4466,7 @@ var tldMap = map[string]GTLDPeriod{
 	"newholland": {
 		GTLD:           "newholland",
 		DelegationDate: "2016-10-30",
-		RemovalDate:    "",
+		RemovalDate:    "2021-02-19",
 	},
 	"news": {
 		GTLD:           "news",
