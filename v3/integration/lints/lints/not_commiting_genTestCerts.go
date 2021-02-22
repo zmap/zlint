@@ -38,7 +38,10 @@ func (i *NotCommitingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.R
 		return lint.NewResult(fmt.Sprintf("failed to open %s", file.Name))
 	}
 	hasher := sha256.New()
-	hasher.Write(contents)
+	_, err = hasher.Write(contents)
+	if err != nil {
+		return lint.NewResult(fmt.Sprintf("failed to hash the contents of %s", file.Name))
+	}
 	got := fmt.Sprintf("%x", hasher.Sum([]byte{}))
 	if got == want {
 		return nil
