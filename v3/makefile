@@ -8,7 +8,7 @@ PARALLELISM := 5
 #   make integration INT_FLAGS="-lintSummary -fingerprintSummary -lintFilter='^e_' -config small.config.json"
 #   make integration INT_FLAGS="-lintSummary -fingerprintSummary -excludeSources='Mozilla,ETSI_ESI' -config small.config.json"
 #   make integration INT_FLAGS="-includeSources='Mozilla,ETSI_ESI' -config small.config.json"
-INT_FLAGS :=
+	INT_FLAGS :=
 
 CMDS = zlint zlint-gtld-update
 CMD_PREFIX = ./cmd/
@@ -40,6 +40,7 @@ code-lint:
 
 custom-code-lint:
 	(cd integration/lints/ && go run main.go ../../lints)
+	(cd integration/lints/ && go run main.go ../../cmd/genTestCerts)
 
 testdata-lint:
 	./test/prepend_testcerts_openssl.sh && git diff --exit-code testdata/
