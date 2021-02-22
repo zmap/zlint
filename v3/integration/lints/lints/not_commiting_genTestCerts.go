@@ -54,5 +54,5 @@ If you intended to submit changes to this file, then please run the following...
 
 sha256sum v3/cmd/genTestCerts/genTestCerts.go
 
-...and update the "want" constant in v3/integration/lints/lints/not_commiting_genTestCerts.go`, file.Path))
+...and update the "want" constant in v3/integration/lints/lints/not_committing_genTestCerts.go`, file.Path))
 }
