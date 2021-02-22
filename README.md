@@ -19,7 +19,7 @@ software.
 Requirements
 ------------
 
-ZLint requires [Go 1.15.x or newer](https://golang.org/doc/install) be
+ZLint requires [Go 1.16.x or newer](https://golang.org/doc/install) be
 installed. The command line setup instructions assume the `go` command is in
 your `$PATH`.
 
