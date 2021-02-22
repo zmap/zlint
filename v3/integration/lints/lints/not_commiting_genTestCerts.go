@@ -24,7 +24,7 @@ import (
 	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
-const want = `b7225d4ff9798f43ca4a5130b6fa3f100dd765cf24e02c9f802fabb0632bf302`
+const want = `a132b2f256dd0b68bff043568f0e9bae69089082805da64720168294f835e197`
 
 type NotCommitingGenTestCerts struct{}
 
@@ -52,7 +52,7 @@ ask that these changed not be committed to the repo.
 
 If you intended to submit changes to this file, then please run the following...
 
-sha256sum v3/cmd/genTestCerts/genTestCerts.go
+sha256sum cmd/genTestCerts/genTestCerts.go
 
 ...and update the "want" constant in v3/integration/lints/lints/not_committing_genTestCerts.go`, file.Path))
 }
