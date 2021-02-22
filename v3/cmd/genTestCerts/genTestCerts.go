@@ -8,6 +8,7 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"fmt"
+	"math"
 	"math/big"
 	"os/exec"
 	"strings"
@@ -18,35 +19,29 @@ import (
 // Generates a CA, an intermediate, and a leaf certificate and prints their
 // OpenSSL textual output to stdout.
 func main() {
-	ca, err := NewTrustAnchor()
+	ca, err := newTrustAnchor()
 	if err != nil {
 		panic(err)
 	}
-	fmted, err := OpenSSLFormatCertificate(ca)
+	printCertificate(ca, "Trust Anchor")
+	intermediate, err := newIntermediate(ca)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("-------------Trust Anchor-------------")
-	fmt.Println(fmted)
-	intermediate, err := NewIntermediate(ca)
+	printCertificate(intermediate, "Intermediate")
+	leaf, err := newLeaf(ca, []*x509.Certificate{intermediate})
 	if err != nil {
 		panic(err)
 	}
-	fmted, err = OpenSSLFormatCertificate(intermediate)
+	printCertificate(leaf, "Leaf")
+}
+
+func printCertificate(certificate *x509.Certificate, header string) {
+	fmted, err := openSSLFormatCertificate(certificate)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("-------------Intermediate-------------")
-	fmt.Println(fmted)
-	leaf, err := NewLeaf(ca, []*x509.Certificate{intermediate})
-	if err != nil {
-		panic(err)
-	}
-	fmted, err = OpenSSLFormatCertificate(leaf)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("-------------Leaf-------------")
+	fmt.Printf("-------------%s-------------\n", header)
 	fmt.Println(fmted)
 }
 
@@ -54,7 +49,7 @@ func main() {
 // more than a self signed certificate with IsCA set to true. Not even any
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
-func NewTrustAnchor() (*x509.Certificate, error) {
+func newTrustAnchor() (*x509.Certificate, error) {
 	// Edit this template to look like whatever trust anchor you need.
 	template := x509.Certificate{
 		Raw:                         nil,
@@ -67,7 +62,7 @@ func NewTrustAnchor() (*x509.Certificate, error) {
 		PublicKeyAlgorithm:          0,
 		PublicKey:                   nil,
 		Version:                     0,
-		SerialNumber:                NextSerial(),
+		SerialNumber:                nextSerial(),
 		Issuer:                      pkix.Name{},
 		Subject:                     pkix.Name{},
 		NotBefore:                   time.Now(),
@@ -117,7 +112,7 @@ func NewTrustAnchor() (*x509.Certificate, error) {
 // more than a signed certificate with IsCA set to true. Not even any
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
-func NewIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
+func newIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
 	// Edit this template to look like whatever intermediate you need.
 	template := x509.Certificate{
 		Raw:                         nil,
@@ -130,7 +125,7 @@ func NewIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
 		PublicKeyAlgorithm:          0,
 		PublicKey:                   nil,
 		Version:                     0,
-		SerialNumber:                NextSerial(),
+		SerialNumber:                nextSerial(),
 		Issuer:                      pkix.Name{},
 		Subject:                     pkix.Name{},
 		NotBefore:                   time.Now(),
@@ -180,14 +175,14 @@ func NewIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
 // more than a self signed certificate with IsCA set to false. Not even any
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
-func NewLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (*x509.Certificate, error) {
+func newLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (*x509.Certificate, error) {
 	var parent *x509.Certificate
 	if len(intermediates) == 0 {
 		parent = trustAnchor
 	} else {
 		parent = intermediates[len(intermediates)-1]
 	}
-	// Edit this template to look like whatever lead cert you need.
+	// Edit this template to look like whatever leaf cert you need.
 	template := x509.Certificate{
 		Raw:                         nil,
 		RawTBSCertificate:           nil,
@@ -199,7 +194,7 @@ func NewLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 		PublicKeyAlgorithm:          0,
 		PublicKey:                   nil,
 		Version:                     0,
-		SerialNumber:                NextSerial(),
+		SerialNumber:                nextSerial(),
 		Issuer:                      pkix.Name{},
 		Subject:                     pkix.Name{},
 		NotBefore:                   time.Now(),
@@ -287,7 +282,7 @@ func NewLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 //
 // Requires a copy of openssl in $PATH as it is simply making a
 // subprocess call out to it.
-func OpenSSLFormatCertificate(cert *x509.Certificate) (string, error) {
+func openSSLFormatCertificate(cert *x509.Certificate) (string, error) {
 	block := pem.EncodeToMemory(&pem.Block{
 		Type:  "CERTIFICATE",
 		Bytes: cert.Raw,
@@ -301,8 +296,20 @@ func OpenSSLFormatCertificate(cert *x509.Certificate) (string, error) {
 	return string(output), nil
 }
 
-// Just a simple, sequential, serial number generator.
-var NextSerial = func() func() *big.Int {
+// nextRandomSerial randomly generates a single serial number. Serial
+// numbers generated by sequential calls to this function will be related
+// to each other in any way.
+func nextRandomSerial() *big.Int {
+	serial, err := rand.Int(rand.Reader, big.NewInt(int64(math.Pow(2, 160))))
+	if err != nil {
+		panic(err)
+	}
+	return serial
+}
+
+// nextSerial is a simple, thread safe, sequential serial number generator.
+// Serial numbers begin an 1 and monotonically increase with each call.
+var nextSerial = func() func() *big.Int {
 	l := sync.Mutex{}
 	var serial int64
 	return func() *big.Int {
