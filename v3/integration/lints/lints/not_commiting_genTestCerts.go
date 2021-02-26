@@ -26,13 +26,13 @@ import (
 
 const want = `a132b2f256dd0b68bff043568f0e9bae69089082805da64720168294f835e197`
 
-type NotCommitingGenTestCerts struct{}
+type NotCommittingGenTestCerts struct{}
 
-func (i *NotCommitingGenTestCerts) CheckApplies(tree *ast.File, file *lint.File) bool {
+func (i *NotCommittingGenTestCerts) CheckApplies(tree *ast.File, file *lint.File) bool {
 	return strings.HasSuffix(file.Name, "genTestCerts.go")
 }
 
-func (i *NotCommitingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.Result {
+func (i *NotCommittingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.Result {
 	contents, err := ioutil.ReadFile(file.Path)
 	if err != nil {
 		return lint.NewResult(fmt.Sprintf("failed to open %s", file.Name))
