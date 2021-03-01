@@ -37,13 +37,11 @@ func TestProhibitDSAUsage(t *testing.T) {
 			InputFilename:  "dsaCorrectOrderInSubgroup.pem",
 			ExpectedResult: lint.NE,
 		},
-		/*
-			{
-				Name:           "Certificate using DSA where lint applies",
-				InputFilename:  "dsaCert.pem",
-				ExpectedResult: lint.Fatal,
-			},
-		*/
+		{
+			Name:           "Certificate using DSA where lint applies",
+			InputFilename:  "dsaCert.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 
 	for _, tc := range testCases {

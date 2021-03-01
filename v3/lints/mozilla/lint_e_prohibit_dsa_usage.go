@@ -55,7 +55,7 @@ func (l *prohibitDSAUsage) CheckApplies(c *x509.Certificate) bool {
 
 func (l *prohibitDSAUsage) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.PublicKeyAlgorithm == x509.DSA {
-		return &lint.LintResult{Status: lint.Fatal}
+		return &lint.LintResult{Status: lint.Error}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
