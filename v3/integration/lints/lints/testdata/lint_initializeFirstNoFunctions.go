@@ -1,3 +1,5 @@
+package testdata
+
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
  *
@@ -12,34 +14,4 @@
  * permissions and limitations under the License.
  */
 
-package PACKAGE
-
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-)
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "SUBTEST",
-		Description:   "Fill this in...",
-		Citation:      "Fill this in...",
-		Source:        UnknownLintSource,
-		EffectiveDate: "Change this...",
-		Lint:          &SUBST{},
-	})
-}
-
-type SUBST struct{}
-
-func (l *SUBST) Initialize() error {
-	return nil
-}
-
-func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
-}
-
-func (l *SUBST) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
-}
+const initializeFirstString = "this is not the greatest song in the world"

@@ -1,3 +1,5 @@
+package main
+
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
  *
@@ -12,34 +14,17 @@
  * permissions and limitations under the License.
  */
 
-package PACKAGE
+import "testing"
 
-import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
-)
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "SUBTEST",
-		Description:   "Fill this in...",
-		Citation:      "Fill this in...",
-		Source:        UnknownLintSource,
-		EffectiveDate: "Change this...",
-		Lint:          &SUBST{},
-	})
-}
-
-type SUBST struct{}
-
-func (l *SUBST) Initialize() error {
-	return nil
-}
-
-func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
-}
-
-func (l *SUBST) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
+// `main` has a runner function simply named `run` which takes in a string which is a directory that will be recursively
+// searched for Go files to lint. In this particular case, we have some sample Go files under `maintestdata`.
+func TestFullRun(t *testing.T) {
+	results, err := run("testdata")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(results) != 1 {
+		t.Errorf("expected 1 error, got %d", len(results))
+	}
 }

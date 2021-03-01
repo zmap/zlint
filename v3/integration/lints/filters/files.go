@@ -1,3 +1,5 @@
+package filters
+
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
  *
@@ -12,34 +14,20 @@
  * permissions and limitations under the License.
  */
 
-package PACKAGE
-
 import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/lint"
+	"strings"
+
+	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "SUBTEST",
-		Description:   "Fill this in...",
-		Citation:      "Fill this in...",
-		Source:        UnknownLintSource,
-		EffectiveDate: "Change this...",
-		Lint:          &SUBST{},
-	})
+func IsALint(file *lint.File) bool {
+	return strings.HasPrefix(file.Name, "lint_") && IsAGoFile(file) && !IsATest(file)
 }
 
-type SUBST struct{}
-
-func (l *SUBST) Initialize() error {
-	return nil
+func IsAGoFile(file *lint.File) bool {
+	return strings.HasSuffix(file.Name, ".go")
 }
 
-func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
-}
-
-func (l *SUBST) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
+func IsATest(file *lint.File) bool {
+	return strings.HasSuffix(file.Name, "test.go")
 }
