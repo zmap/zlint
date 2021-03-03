@@ -40,6 +40,7 @@ code-lint:
 
 custom-code-lint:
 	(cd integration/lints/ && go run main.go ../../lints)
+	(cd integration/lints/ && go run main.go ../../cmd/genTestCerts)
 
 testdata-lint:
 	./test/prepend_testcerts_openssl.sh && git diff --exit-code testdata/

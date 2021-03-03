@@ -26,6 +26,7 @@ import (
 
 var linters = []lint.Lint{
 	&lints.InitFirst{},
+	&lints.NotCommittingGenTestCerts{},
 }
 
 func main() {
