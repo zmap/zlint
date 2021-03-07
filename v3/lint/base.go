@@ -80,12 +80,11 @@ type Lint struct {
 // if IneffectiveDate is zero then only EffectiveDate is checked. If both EffectiveDate
 // and IneffectiveDate are zero then CheckEffective always returns true.
 func (l *Lint) CheckEffective(c *x509.Certificate) bool {
-	// This lint is effective if either it has no efficacy date or if the certificate is valid
-	// on or after the efficacy date.
-	afterOrOnEffective := l.EffectiveDate.IsZero() || c.NotBefore.After(l.EffectiveDate) || c.NotBefore.Equal(l.EffectiveDate)
-	// This lint is effective if either it has inefficacy date or if the certificate is valid
-	// before (but not on) the inefficacy date.
-	beforeIneffective := l.IneffectiveDate.IsZero() || c.NotBefore.Before(l.IneffectiveDate)
+	afterOrOnEffective := l.EffectiveDate.IsZero() ||
+		c.NotBefore.After(l.EffectiveDate) ||
+		c.NotBefore.Equal(l.EffectiveDate)
+	beforeIneffective := l.IneffectiveDate.IsZero() ||
+		c.NotBefore.Before(l.IneffectiveDate)
 	return afterOrOnEffective && beforeIneffective
 }
 
