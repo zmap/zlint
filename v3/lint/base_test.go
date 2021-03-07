@@ -30,7 +30,7 @@ import (
 // If a lint is effective between 2 and 5, then the certs {2, 3, 4} return true.
 // If a lint is effective between 0 and 4, then the certs {0, 1, 2, 3} return true.
 // If a lint is effective between 2 and 0, then the certs {2, 3, 4, 5} return true.
-// if a lint is effective between 0 and 0, then the certs {0, 1, 2, 3, 4, 5} return true.
+// If a lint is effective between 0 and 0, then the certs {0, 1, 2, 3, 4, 5} return true.
 func TestLint_CheckEffective(t *testing.T) {
 	zero := time.Time{}
 	one := time.Unix(1, 0)
@@ -157,6 +157,7 @@ func TestLint_CheckEffective(t *testing.T) {
 			Want:        false,
 		},
 	}
+
 	for _, d := range data {
 		got := d.Lint.CheckEffective(d.Certificate.Certificate)
 		if got != d.Want {
