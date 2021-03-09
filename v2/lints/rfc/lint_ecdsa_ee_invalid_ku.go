@@ -136,7 +136,7 @@ func (l *ecdsaInvalidKU) Execute(c *x509.Certificate) *lint.LintResult {
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "n_ecdsa_ee_invalid_forbidden_ku",
+		Name:          "n_ecdsa_ee_invalid_ku",
 		Description:   "ECDSA end-entity certificates MAY have key usages: digitalSignature, nonRepudiation and keyAgreement",
 		Citation:      "RFC 5480 Section 3, RFC 8813 Section 3",
 		Source:        lint.RFC5480,
