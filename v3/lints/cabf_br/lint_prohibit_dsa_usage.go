@@ -22,23 +22,11 @@ import (
 
 type prohibitDSAUsage struct{}
 
-/************************************************
-https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/
-
-Subsection 5.1 Algorithms
-Root certificates in our root program, and any certificate which chains up to them, MUST use only algorithms and key sizes from the following set:
-
-- RSA keys whose modulus size in bits is divisible by 8, and is at least 2048.
-- ECDSA keys using one of the following curves:
-    + P-256
-    + P-384
-************************************************/
-
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_br_prohibit_dsa_usage",
-		Description:   "DSA is not an explicitly allowed signature algorithm, therefore it is forbidden.",
-		Citation:      "Mozilla Root Store Policy / Section 5.1",
+		Description:   "DSA was removed from the Baseline Requirements as a valid signature algorithm in 1.7.1.",
+		Citation:      "BRs: v1.7.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABFBRs_1_7_1_Date,
 		Lint:          &prohibitDSAUsage{},
