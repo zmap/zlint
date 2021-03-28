@@ -33,7 +33,6 @@ linters:
     - goconst
     - golint
     - godot
-    - staticcheck
 
 issues:
   exclude-rules:
