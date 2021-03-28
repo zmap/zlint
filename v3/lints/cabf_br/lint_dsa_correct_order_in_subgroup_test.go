@@ -15,9 +15,10 @@ package cabf_br
  */
 
 import (
-	"crypto/dsa"
 	"math/big"
 	"testing"
+
+	"github.com/zmap/zcrypto/dsa"
 
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"
