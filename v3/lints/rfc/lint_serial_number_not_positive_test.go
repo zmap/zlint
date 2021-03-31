@@ -21,20 +21,31 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSnNeagtive(t *testing.T) {
-	inputPath := "serialNumberNegative.pem"
-	expected := lint.Error
-	out := test.TestLint("e_serial_number_not_positive", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestSerialNumberNotPositive(t *testing.T) {
+	data := []struct {
+		inputPath string
+		expected  lint.LintStatus
+	}{
+		{
+			inputPath: "serialNumberNegative.pem",
+			expected:  lint.Error,
+		},
+		{
+			inputPath: "serialNumberValid.pem",
+			expected:  lint.Pass,
+		},
+		{
+			inputPath: "serialNumberZero.pem",
+			expected:  lint.Error,
+		},
 	}
-}
-
-func TestSnNotNeagtive(t *testing.T) {
-	inputPath := "serialNumberValid.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_serial_number_not_positive", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, d := range data {
+		captured := d
+		t.Run(d.inputPath, func(t *testing.T) {
+			out := test.TestLint("e_serial_number_not_positive", captured.inputPath)
+			if out.Status != captured.expected {
+				t.Errorf("%s: expected %s, got %s", captured.inputPath, captured.expected, out.Status)
+			}
+		})
 	}
 }
