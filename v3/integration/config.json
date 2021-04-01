@@ -497,7 +497,9 @@
     "e_serial_number_longer_than_20_octets": {
       "ErrCount": 190
     },
-    "e_serial_number_not_positive": {},
+    "e_serial_number_not_positive": {
+      "ErrCount": 6
+    },
     "e_signature_algorithm_not_supported": {},
     "e_spki_rsa_encryption_parameter_not_null": {
       "ErrCount": 7
