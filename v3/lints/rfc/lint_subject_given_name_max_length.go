@@ -15,6 +15,7 @@ package rfc
  */
 
 import (
+	"fmt"
 	"unicode/utf8"
 
 	"github.com/zmap/zcrypto/x509"
@@ -26,16 +27,33 @@ type subjectGivenNameMaxLength struct{}
 
 /************************************************
 RFC 5280: A.1
-	* In this Appendix, there is a list of upperbounds
-	for fields in a x509 Certificate. *
-	ub-given-name-length INTEGER ::= 16
+-- Naming attributes of type X520name
 
+id-at-givenName           AttributeType ::= { id-at 42 }
+
+-- Naming attributes of type X520Name:
+--   X520name ::= DirectoryString (SIZE (1..ub-name))
+--
+-- Expanded to avoid parameterized type:
+X520name ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-name)),
+      printableString   PrintableString (SIZE (1..ub-name)),
+      universalString   UniversalString (SIZE (1..ub-name)),
+      utf8String        UTF8String      (SIZE (1..ub-name)),
+      bmpString         BMPString       (SIZE (1..ub-name)) }
+
+--  specifications of Upper Bounds MUST be regarded as mandatory
+--  from Annex B of ITU-T X.411 Reference Definition of MTS Parameter
+--  Upper Bounds
+
+-- Upper Bounds
+ub-name INTEGER ::= 32768
 ************************************************/
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_given_name_max_length",
-		Description:   "The 'GivenName' field of the subject MUST be less than 17 characters",
+		Description:   "The 'GivenName' field of the subject MUST be less than 32768 characters",
 		Citation:      "RFC 5280: A.1",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC2459Date,
@@ -52,11 +70,20 @@ func (l *subjectGivenNameMaxLength) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectGivenNameMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
-	for _, j := range c.Subject.GivenName {
-		if utf8.RuneCountInString(j) > 16 {
+	for _, givenName := range c.Subject.GivenName {
+		characters := utf8.RuneCountInString(givenName)
+		if characters > 32768 {
 			return &lint.LintResult{Status: lint.Error}
+		} else if characters > 64 {
+			return &lint.LintResult{
+				Details: fmt.Sprintf("Although RFC 5280 prescribes a maximum "+
+					"length of 32768, the 1988 ITU-T for x.509 prescribes a maximum "+
+					"length of 64 characters. As such, your %d character long given "+
+					"name may encounter interoperability issues with systems that "+
+					"were built targeting x.509's 64 character limit.", characters),
+				Status: lint.Warn,
+			}
 		}
 	}
-
 	return &lint.LintResult{Status: lint.Pass}
 }

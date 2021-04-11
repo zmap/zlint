@@ -17,24 +17,28 @@ package rfc
 import (
 	"testing"
 
-	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"
+
+	"github.com/zmap/zlint/v3/lint"
 )
 
-func TestSubjectGivenNameLengthOK(t *testing.T) {
-	inputPath := "subjectGivenName.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_subject_given_name_max_length", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestSubjectGivenNameMaxLength(t *testing.T) {
+	data := []struct {
+		input string
+		want  lint.LintStatus
+	}{
+		{"givenNameUnder64.pem", lint.Pass},
+		{"givenNameOver64.pem", lint.Warn},
+		{"givenNameOver32768.pem", lint.Error},
 	}
-}
-
-func TestSubjectGivenNameTooLong(t *testing.T) {
-	inputPath := "subjectGivenNameToolLong.pem"
-	expected := lint.Error
-	out := test.TestLint("e_subject_given_name_max_length", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, d := range data {
+		input := d.input
+		want := d.want
+		t.Run(input, func(t *testing.T) {
+			got := test.TestLint("e_subject_given_name_max_length", input).Status
+			if want != got {
+				t.Errorf("%s: expected %s, got %s", input, want, got)
+			}
+		})
 	}
 }
