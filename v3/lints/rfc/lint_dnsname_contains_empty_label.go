@@ -28,7 +28,7 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_empty_label",
 		Description:   "DNSNames should not have an empty label.",
-		Citation:      "Section 4.2.1.6",
+		Citation:      "RFC5280: 4.2.1.6",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameEmptyLabel{},
