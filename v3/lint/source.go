@@ -26,6 +26,7 @@ type LintSource string
 
 const (
 	UnknownLintSource        LintSource = "Unknown"
+	RFC1035                  LintSource = "RFC1035"
 	RFC5280                  LintSource = "RFC5280"
 	RFC5480                  LintSource = "RFC5480"
 	RFC5891                  LintSource = "RFC5891"
