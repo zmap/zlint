@@ -15,7 +15,6 @@ package rfc
  */
 
 import (
-	"fmt"
 	"unicode/utf8"
 
 	"github.com/zmap/zcrypto/x509"
@@ -74,15 +73,6 @@ func (l *subjectSurnameMaxLength) Execute(c *x509.Certificate) *lint.LintResult 
 		characters := utf8.RuneCountInString(surname)
 		if characters > 32768 {
 			return &lint.LintResult{Status: lint.Error}
-		} else if characters > 64 {
-			return &lint.LintResult{
-				Details: fmt.Sprintf("Although RFC 5280 prescribes a maximum "+
-					"length of 32768, the 1988 ITU-T for x.509 prescribes a maximum "+
-					"length of 64 characters. As such, your %d character long surname "+
-					"may encounter interoperability issues with systems that "+
-					"were built targeting x.509's 64 character limit.", characters),
-				Status: lint.Warn,
-			}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}

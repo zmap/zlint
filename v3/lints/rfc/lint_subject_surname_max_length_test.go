@@ -27,7 +27,6 @@ func TestSubjectSurnameMaxLength(t *testing.T) {
 		want  lint.LintStatus
 	}{
 		{"surnameUnder64.pem", lint.Pass},
-		{"surnameOver64.pem", lint.Warn},
 		{"surnameOver32768.pem", lint.Error},
 	}
 	for _, d := range data {

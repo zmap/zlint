@@ -22,19 +22,19 @@ import (
 	"github.com/zmap/zlint/v3/lint"
 )
 
-func TestSubjectGivenNameMaxLength(t *testing.T) {
+func TestSubjectGivenNameRecommendedMaxLength(t *testing.T) {
 	data := []struct {
 		input string
 		want  lint.LintStatus
 	}{
 		{"givenNameUnder64.pem", lint.Pass},
-		{"givenNameOver32768.pem", lint.Error},
+		{"givenNameOver64.pem", lint.Warn},
 	}
 	for _, d := range data {
 		input := d.input
 		want := d.want
 		t.Run(input, func(t *testing.T) {
-			got := test.TestLint("e_subject_given_name_max_length", input).Status
+			got := test.TestLint("w_subject_given_name_recommended_max_length", input).Status
 			if want != got {
 				t.Errorf("%s: expected %s, got %s", input, want, got)
 			}
