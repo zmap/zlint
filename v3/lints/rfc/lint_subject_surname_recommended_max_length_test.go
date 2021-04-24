@@ -17,24 +17,23 @@ package rfc
 import (
 	"testing"
 
-	"github.com/zmap/zlint/v3/test"
-
 	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubjectGivenNameMaxLength(t *testing.T) {
+func TestSubjectSurnameRecommendedMaxLength(t *testing.T) {
 	data := []struct {
 		input string
 		want  lint.LintStatus
 	}{
-		{"givenNameUnder64.pem", lint.Pass},
-		{"givenNameOver32768.pem", lint.Error},
+		{"surnameUnder64.pem", lint.Pass},
+		{"surnameOver64.pem", lint.Warn},
 	}
 	for _, d := range data {
 		input := d.input
 		want := d.want
 		t.Run(input, func(t *testing.T) {
-			got := test.TestLint("e_subject_given_name_max_length", input).Status
+			got := test.TestLint("w_subject_surname_recommended_max_length", input).Status
 			if want != got {
 				t.Errorf("%s: expected %s, got %s", input, want, got)
 			}
