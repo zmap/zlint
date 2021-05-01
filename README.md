@@ -97,6 +97,9 @@ Example ZLint CLI usage:
 	echo "Lint mycert.pem with all of the lints except for ETSI ESI sourced lints"
 	zlint -excludeSources=ETSI_ESI mycert.pem
 
+	echo "List available lint profiles. A profile is a pre-defined collection of lints."
+	zlint -list-profiles
+
 See `zlint -h` for all available command line options.
 
 
