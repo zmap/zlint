@@ -168,6 +168,19 @@ Please see the [integration tests README] for more information.
 [integration tests README]: https://github.com/zmap/zlint/blob/master/v3/integration/README.md
 
 
+Adding New Profiles
+----------------
+**Generating Profile Scaffolding.** The scaffolding for a new profiles can be created
+by running `./newProfile.sh <profile_name>`.
+
+An example is:
+
+```bash
+$ ./newProfile.sh my_new_profile
+```
+
+This will generate a new file in the `profiles` directory by the name `profile_my_new_profile.go` for you.
+
 Updating the TLD Map
 --------------------
 
