@@ -29,6 +29,7 @@ const (
 	RFC5280                  LintSource = "RFC5280"
 	RFC5480                  LintSource = "RFC5480"
 	RFC5891                  LintSource = "RFC5891"
+	RFC8813                  LintSource = "RFC8813"
 	CABFBaselineRequirements LintSource = "CABF_BR"
 	CABFEVGuidelines         LintSource = "CABF_EV"
 	MozillaRootStorePolicy   LintSource = "Mozilla"
@@ -46,7 +47,7 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 	}
 
 	switch LintSource(throwAway) {
-	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi:
+	case RFC5280, RFC5480, RFC5891, RFC8813, CABFBaselineRequirements, CABFEVGuidelines, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi:
 		*s = LintSource(throwAway)
 		return nil
 	default:
@@ -70,6 +71,8 @@ func (s *LintSource) FromString(src string) {
 		*s = RFC5480
 	case RFC5891:
 		*s = RFC5891
+	case RFC8813:
+		*s = RFC8813
 	case CABFBaselineRequirements:
 		*s = CABFBaselineRequirements
 	case CABFEVGuidelines:

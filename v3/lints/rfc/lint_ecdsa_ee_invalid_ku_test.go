@@ -20,26 +20,42 @@ func TestECDSAInvalidKU(t *testing.T) {
 			expectedStatus: lint.NA,
 		},
 		{
-			name:           "ecdsa ee cert, valid key usage",
+			name:           "ecdsa ee cert, valid key usage, notBefore before RFC",
 			filename:       "ecdsaP256ValidKUs.pem",
+			expectedStatus: lint.NE,
+		},
+		{
+			name:			"ecdsa ee cert, key usage is absent",
+			filename:		"ecdsaP256AbsentKU.pem",
+			expectedStatus: lint.NA,
+		},
+		{
+			name:           "ecdsa ee cert, valid key usage",
+			filename:       "ecdsaP256KUIsDigitalSignatureValidKU.pem",
 			expectedStatus: lint.Pass,
 		},
 		{
 			name:            "ecdsa ee cert, invalid key usage",
-			filename:        "ecdsaP384InvalidKUs.pem",
-			expectedStatus:  lint.Notice,
-			expectedDetails: "Certificate had unexpected key usage(s): KeyUsageKeyEncipherment",
+			filename:        "ecdsaP256KUIsDataEnciphermentInvalidKU.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "Certificate had invalid key usage(s): KeyUsageDataEncipherment",
 		},
 		{
-			name:            "ecdsa ee cert, multiple invalid key usages",
-			filename:        "ecdsaP256.pem",
-			expectedStatus:  lint.Notice,
-			expectedDetails: "Certificate had unexpected key usage(s): KeyUsageCRLSign, KeyUsageCertSign",
+			name:            "ecdsa ee cert, invalid key usage",
+			filename:        "ecdsaP256KUIsKeyEnciphermentInvalidKU.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "Certificate had invalid key usage(s): KeyUsageKeyEncipherment",
+		},
+		{
+			name:            "ecdsa ee cert, invalid key usage",
+			filename:        "ecdsaP256KUIsKeyEnciphermentAndDataEnciphermentInvalidKU.pem",
+			expectedStatus:  lint.Error,
+			expectedDetails: "Certificate had invalid key usage(s): KeyUsageDataEncipherment, KeyUsageKeyEncipherment",
 		},
 	}
 
 	for _, tc := range testCases {
-		result := test.TestLint("n_ecdsa_ee_invalid_ku", tc.filename)
+		result := test.TestLint("e_ecdsa_ee_invalid_ku", tc.filename)
 		if result.Status != tc.expectedStatus {
 			t.Errorf("expected result %v. actual result was %v",
 				tc.expectedStatus, result.Status)
