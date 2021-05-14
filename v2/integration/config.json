@@ -448,19 +448,6 @@
     },
     "e_path_len_constraint_zero_or_less": {},
     "e_public_key_type_not_allowed": {},
-    "e_qcstatem_etsi_present_qcs_critical": {},
-    "e_qcstatem_etsi_type_as_statem": {
-      "ErrCount": 234
-    },
-    "e_qcstatem_mandatory_etsi_statems": {
-      "ErrCount": 141
-    },
-    "e_qcstatem_qccompliance_valid": {},
-    "e_qcstatem_qclimitvalue_valid": {},
-    "e_qcstatem_qcpds_valid": {},
-    "e_qcstatem_qcretentionperiod_valid": {},
-    "e_qcstatem_qcsscd_valid": {},
-    "e_qcstatem_qctype_valid": {},
     "e_root_ca_extended_key_usage_present": {},
     "e_root_ca_key_usage_must_be_critical": {
       "ErrCount": 14
@@ -697,12 +684,6 @@
     "w_name_constraint_on_edi_party_name": {},
     "w_name_constraint_on_registered_id": {},
     "w_name_constraint_on_x400": {},
-    "w_qcstatem_qcpds_lang_case": {
-      "WarnCount": 48
-    },
-    "w_qcstatem_qctype_web": {
-      "WarnCount": 25
-    },
     "w_root_ca_basic_constraints_path_len_constraint_field_present": {},
     "w_root_ca_contains_cert_policy": {
       "WarnCount": 3

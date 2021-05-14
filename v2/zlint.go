@@ -25,7 +25,6 @@ import (
 	_ "github.com/zmap/zlint/v2/lints/cabf_br"
 	_ "github.com/zmap/zlint/v2/lints/cabf_ev"
 	_ "github.com/zmap/zlint/v2/lints/community"
-	_ "github.com/zmap/zlint/v2/lints/etsi"
 	_ "github.com/zmap/zlint/v2/lints/mozilla"
 	_ "github.com/zmap/zlint/v2/lints/rfc"
 )
