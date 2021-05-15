@@ -49,6 +49,7 @@ func GetProfile(name string) (profile Profile, ok bool) {
 	return profile, ok
 }
 
+// AllProfiles returns a slice of all Profiles currently registered globally.
 func AllProfiles() []Profile {
 	p := make([]Profile, 0)
 	for _, profile := range profiles {
