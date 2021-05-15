@@ -16,7 +16,7 @@ package lint
 
 type Profile struct {
 	// Name is a lowercase underscore-separated string describing what a given
-	// lints a given profile aggregates.
+	// profile aggregates.
 	Name string `json:"name"`
 
 	// A human-readable description of what the Profile checks. Usually copied
