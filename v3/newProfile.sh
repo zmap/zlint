@@ -1,4 +1,4 @@
-# Script to create new lint from template
+# Script to create new profile from template
 
 USAGE="Usage: $0 <ARG1>
 
