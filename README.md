@@ -1,7 +1,9 @@
 ZLint
 =====
 
-[![Build Status](https://travis-ci.org/zmap/zlint.svg?branch=master)](https://travis-ci.org/zmap/zlint)
+[![CI Status](https://github.com/zmap/zlint/workflows/Go/badge.svg)](https://github.com/zmap/zlint/actions?query=workflow%3AGo)
+[![Integration Tests](https://github.com/zmap/zlint/workflows/integration-test/badge.svg)](https://github.com/zmap/zlint/actions?query=workflow%3Aintegration-test)
+[![Lint Status](https://github.com/zmap/zlint/workflows/golangci-lint/badge.svg)](https://github.com/zmap/zlint/actions?query=workflow%3Agolangci-lint)
 [![Go Report Card](https://goreportcard.com/badge/github.com/zmap/zlint)](https://goreportcard.com/report/github.com/zmap/zlint)
 
 ZLint is a X.509 certificate linter written in Go that checks for consistency
@@ -17,7 +19,7 @@ software.
 Requirements
 ------------
 
-ZLint requires [Go 1.13.x or newer](https://golang.org/doc/install) be
+ZLint requires [Go 1.16.x or newer](https://golang.org/doc/install) be
 installed. The command line setup instructions assume the `go` command is in
 your `$PATH`.
 
@@ -82,7 +84,7 @@ command-line certificate parser that links against ZLint.
 
 Example ZLint CLI usage:
 
-	go get github.com/zmap/zlint/v2/cmd/zlint
+	go get github.com/zmap/zlint/v3/cmd/zlint
 	echo "Lint mycert.pem with all applicable lints"
 	zlint mycert.pem
 
@@ -107,11 +109,16 @@ lints is as simple as using `zlint.LintCertificate` with a parsed certificate:
 ```go
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2"
+	"github.com/zmap/zlint/v3"
 )
 
 var certDER []byte = ...
-parsed, _ := x509.ParseCertificate(certDER)
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
 zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
@@ -121,22 +128,30 @@ name) filter the global lint registry and use it with `zlint.LintCertificateEx`:
 ```go
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v2"
-	"github.com/zmap/zlint/v2/lint"
+	"github.com/zmap/zlint/v3"
+	"github.com/zmap/zlint/v3/lint"
 )
 
 var certDER []byte = ...
-parsed, _ := x509.ParseCertificate(certDER)
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
 
-registry, _ := lint.GlobalRegistry().Filter(lint.FilterOptions{
+registry, err := lint.GlobalRegistry().Filter(lint.FilterOptions{
   ExcludeSources: []lint.LintSource{lint.EtsiEsi},
 })
+if err != nil {
+	log.Fatal("lint registry filter failed to apply:", err)
+}
 zlintResultSet := zlint.LintCertificateEx(parsed, registry)
 ```
 
 See [the `zlint` command][zlint cmd]'s source code for an example.
 
-[zlint cmd]: https://github.com/zmap/zlint/blob/master/v2/cmd/zlint/main.go
+[zlint cmd]: https://github.com/zmap/zlint/blob/master/v3/cmd/zlint/main.go
 
 
 Extending ZLint
@@ -159,13 +174,15 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
+* [Entrust Datacard](https://www.entrust.com/)
 * [Google Trust Services](https://pki.goog/)
 * [Government of Spain, FNMT](http://www.fnmt.es/)
 * [Globalsign](https://www.globalsign.com/en/)
 * [GoDaddy](https://www.godaddy.com)
 * [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
-* [Siemens](https://siemens.com)
+* [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
+* [Siemens](https://siemens.com/pki)
 * [QuoVadis](https://www.quovadisglobal.com/)
 
 Please submit a pull request to update the README if you are aware of
@@ -175,7 +192,7 @@ another CA/project that uses zlint.
 License and Copyright
 ---------------------
 
-ZMap Copyright 2020 Regents of the University of Michigan
+ZMap Copyright 2021 Regents of the University of Michigan
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the
