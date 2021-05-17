@@ -599,9 +599,7 @@
     },
     "e_subject_email_max_length": {},
     "e_subject_empty_without_san": {},
-    "e_subject_given_name_max_length": {
-      "ErrCount": 2
-    },
+    "e_subject_given_name_max_length": {},
     "e_subject_info_access_marked_critical": {},
     "e_subject_locality_name_max_length": {},
     "e_subject_not_dn": {},
