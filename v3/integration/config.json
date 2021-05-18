@@ -551,7 +551,7 @@
       "ErrCount": 607
     },
     "e_sub_cert_locality_name_must_not_appear": {
-      "ErrCount": 13
+      "ErrCount": 23
     },
     "e_sub_cert_not_is_ca": {
       "ErrCount": 1
@@ -559,14 +559,18 @@
     "e_sub_cert_or_sub_ca_using_sha1": {
       "ErrCount": 12
     },
-    "e_sub_cert_postal_code_must_not_appear": {},
+    "e_sub_cert_postal_code_must_not_appear": {
+      "ErrCount": 8
+    },
     "e_sub_cert_province_must_appear": {
       "ErrCount": 607
     },
     "e_sub_cert_province_must_not_appear": {
+      "ErrCount": 16
+    },
+    "e_sub_cert_street_address_should_not_exist": {
       "ErrCount": 8
     },
-    "e_sub_cert_street_address_should_not_exist": {},
     "e_sub_cert_valid_time_longer_than_39_months": {
       "ErrCount": 365
     },
@@ -630,6 +634,7 @@
     "e_wrong_time_format_pre2050": {
       "ErrCount": 19
     },
+    "e_ev_subject_organization_identifier_well_formed": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 724
     },

@@ -252,17 +252,25 @@
     "e_sub_cert_locality_name_must_appear": {
       "ErrCount": 15
     },
-    "e_sub_cert_locality_name_must_not_appear": {},
+    "e_sub_cert_locality_name_must_not_appear": {
+      "ErrCount": 1
+    },
     "e_sub_cert_not_is_ca": {},
     "e_sub_cert_or_sub_ca_using_sha1": {
       "ErrCount": 1
     },
-    "e_sub_cert_postal_code_must_not_appear": {},
+    "e_sub_cert_postal_code_must_not_appear": {
+      "ErrCount": 1
+    },
     "e_sub_cert_province_must_appear": {
       "ErrCount": 15
     },
-    "e_sub_cert_province_must_not_appear": {},
-    "e_sub_cert_street_address_should_not_exist": {},
+    "e_sub_cert_province_must_not_appear": {
+      "ErrCount": 1
+    },
+    "e_sub_cert_street_address_should_not_exist": {
+      "ErrCount": 1
+    },
     "e_sub_cert_valid_time_longer_than_39_months": {
       "ErrCount": 8
     },
@@ -289,9 +297,7 @@
     },
     "e_subject_email_max_length": {},
     "e_subject_empty_without_san": {},
-    "e_subject_given_name_max_length": {
-      "ErrCount": 1
-    },
+    "e_subject_given_name_max_length": {},
     "e_subject_info_access_marked_critical": {},
     "e_subject_locality_name_max_length": {},
     "e_subject_not_dn": {},
@@ -316,6 +322,7 @@
     "e_utc_time_not_in_zulu": {},
     "e_validity_time_not_positive": {},
     "e_wrong_time_format_pre2050": {},
+    "e_ev_subject_organization_identifier_well_formed": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
