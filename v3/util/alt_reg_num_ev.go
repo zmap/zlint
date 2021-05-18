@@ -73,7 +73,19 @@ func ParseCabfOrgIdExt(c *x509.Certificate) (string, ParsedEvOrgId) {
 	return "", result
 }
 
-func ParseCabfOrgId(oi string, isEtsi bool) (string, ParsedEvOrgId) {
+// Returns the parsed organization identifier with its components (registrationSchemeIdentifier,
+//registrationCountryPrintableString, registrationStateOrProvince, registrationReferenceUTF8String)
+// or an error if the value of the organization identifier does not have he following form:
+//
+//- 3 character Registration Scheme identifier;
+//- 2 character ISO 3166 country code for the nation in which the Registration Scheme is operated, or if the scheme is operated globally ISO 3166 code "XG" shall be used;
+//- For the NTR Registration Scheme identifier, if required under Section 9.2.4, a 2 character ISO 3166-2 identifier for the subdivision (state or province) of the nation in which the Registration Scheme is operated, preceded by plus "+" (0x2B (ASCII), U+002B (UTF-8));
+//- a hyphen-minus "-" (0x2D (ASCII), U+002D (UTF-8));
+//- Registration Reference allocated in accordance with the identified Registration Scheme
+//
+// ETSI specification allows LEI. This is also considered.
+//
+func ParseOrganizationIdentifier(oi string, isEtsi bool) (string, ParsedEvOrgId) {
 	var result ParsedEvOrgId
 	re_ntr := regexp.MustCompile(`^(NTR)([A-Z]{2})([+]([A-Z]{2}))?-(.+)$`)
 	re_vat_psd := regexp.MustCompile(`^(VAT|PSD)([A-Z]{2})(())-(.+)$`)
@@ -97,12 +109,12 @@ func ParseCabfOrgId(oi string, isEtsi bool) (string, ParsedEvOrgId) {
 	result.StateOrProvince = sm[3]
 	result.RegRef = sm[5]
 	return "", result
-
 }
 
 func GetSubjectOrgId(rawSubject []byte) parsedSubjectElement {
-	return GetSubjectElement(rawSubject, CabfSubjectOrganizationIdentifier)
+	return GetSubjectElement(rawSubject, OrganizationIdentifierOID)
 }
+
 func GetSubjectElement(rawSubject []byte, soughtOid asn1.ObjectIdentifier) parsedSubjectElement {
 	result := parsedSubjectElement{IsPresent: false, Value: "", ErrorString: ""}
 	var nl RDNSequence
