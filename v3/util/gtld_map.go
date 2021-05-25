@@ -3276,7 +3276,7 @@ var tldMap = map[string]GTLDPeriod{
 	"iveco": {
 		GTLD:           "iveco",
 		DelegationDate: "2016-10-30",
-		RemovalDate:    "",
+		RemovalDate:    "2021-04-21",
 	},
 	"iwc": {
 		GTLD:           "iwc",
@@ -4401,7 +4401,7 @@ var tldMap = map[string]GTLDPeriod{
 	"nationwide": {
 		GTLD:           "nationwide",
 		DelegationDate: "2016-07-15",
-		RemovalDate:    "",
+		RemovalDate:    "2021-04-16",
 	},
 	"natura": {
 		GTLD:           "natura",
@@ -4706,7 +4706,7 @@ var tldMap = map[string]GTLDPeriod{
 	"onyourside": {
 		GTLD:           "onyourside",
 		DelegationDate: "2016-07-15",
-		RemovalDate:    "",
+		RemovalDate:    "2021-04-16",
 	},
 	"ooo": {
 		GTLD:           "ooo",
@@ -5916,7 +5916,7 @@ var tldMap = map[string]GTLDPeriod{
 	"spreadbetting": {
 		GTLD:           "spreadbetting",
 		DelegationDate: "2015-03-13",
-		RemovalDate:    "",
+		RemovalDate:    "2021-04-21",
 	},
 	"sr": {
 		GTLD:           "sr",
