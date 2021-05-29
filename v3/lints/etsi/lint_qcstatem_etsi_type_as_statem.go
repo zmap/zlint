@@ -32,12 +32,12 @@ func init() {
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemEtsiTypeAsStatem{},
+		Lint:          NewQcStatemEtsiTypeAsStatem,
 	})
 }
 
-func (l *qcStatemEtsiTypeAsStatem) Initialize() error {
-	return nil
+func NewQcStatemEtsiTypeAsStatem() lint.LintInterface {
+	return &qcStatemEtsiTypeAsStatem{}
 }
 
 func (l *qcStatemEtsiTypeAsStatem) CheckApplies(c *x509.Certificate) bool {

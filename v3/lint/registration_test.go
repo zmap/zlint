@@ -15,7 +15,6 @@ package lint
  */
 
 import (
-	"errors"
 	"reflect"
 	"regexp"
 	"sort"
@@ -59,13 +58,7 @@ func TestFilterOptionsEmpty(t *testing.T) {
 	}
 }
 
-type mockLint struct {
-	initErr error
-}
-
-func (m mockLint) Initialize() error {
-	return m.initErr
-}
+type mockLint struct{}
 
 func (m mockLint) CheckApplies(c *x509.Certificate) bool {
 	return true
@@ -78,18 +71,11 @@ func (m mockLint) Execute(c *x509.Certificate) *LintResult {
 func TestRegister(t *testing.T) {
 	egLint := &Lint{
 		Name:   "mockLint",
-		Lint:   &mockLint{},
+		Lint:   func() LintInterface { return &mockLint{} },
 		Source: Community,
 	}
 	dupeReg := NewRegistry()
-	_ = dupeReg.register(egLint, true)
-
-	badInitErr := errors.New("mock init error")
-	badInitLint := &Lint{
-		Name:   "badInitLint",
-		Lint:   &mockLint{badInitErr},
-		Source: Community,
-	}
+	_ = dupeReg.register(egLint)
 
 	testCases := []struct {
 		name          string
@@ -113,7 +99,7 @@ func TestRegister(t *testing.T) {
 		{
 			name: "empty name",
 			lint: &Lint{
-				Lint: &mockLint{},
+				Lint: func() LintInterface { return &mockLint{} },
 			},
 			expectErr: errEmptyName,
 		},
@@ -124,23 +110,10 @@ func TestRegister(t *testing.T) {
 			expectErr: &errDuplicateName{egLint.Name},
 		},
 		{
-			name:      "bad init with initialize",
-			lint:      badInitLint,
-			init:      true,
-			expectErr: &errBadInit{badInitLint.Name, badInitErr},
-		},
-		{
-			name:          "bad init with no initialize",
-			lint:          badInitLint,
-			init:          false,
-			expectNames:   []string{badInitLint.Name},
-			expectSources: SourceList{badInitLint.Source},
-		},
-		{
 			name: "good lint register",
 			lint: &Lint{
 				Name:   "goodLint",
-				Lint:   &mockLint{},
+				Lint:   func() LintInterface { return &mockLint{} },
 				Source: MozillaRootStorePolicy,
 			},
 			registry:      dupeReg,
@@ -158,7 +131,7 @@ func TestRegister(t *testing.T) {
 				reg = tc.registry
 			}
 
-			err := reg.register(tc.lint, tc.init)
+			err := reg.register(tc.lint)
 			if err == nil && tc.expectErr != nil {
 				t.Errorf("expected err %v, got nil", tc.expectErr)
 			} else if err != nil && err.Error() != tc.expectErr.Error() {
@@ -182,11 +155,11 @@ func TestRegistryFilter(t *testing.T) {
 		return &Lint{
 			Name:   name,
 			Source: source,
-			Lint:   &mockLint{},
+			Lint:   func() LintInterface { return &mockLint{} },
 		}
 	}
 	mustRegister := func(r *registryImpl, l *Lint) {
-		if err := r.register(l, true); err != nil {
+		if err := r.register(l); err != nil {
 			t.Fatalf("failed to register %v", err)
 		}
 	}

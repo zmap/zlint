@@ -38,12 +38,12 @@ func init() {
 		Citation:      "RFC 5280: 4.2.1.9",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC3280Date,
-		Lint:          &pathLenIncluded{},
+		Lint:          NewPathLenIncluded,
 	})
 }
 
-func (l *pathLenIncluded) Initialize() error {
-	return nil
+func NewPathLenIncluded() lint.LintInterface {
+	return &pathLenIncluded{}
 }
 
 func (l *pathLenIncluded) CheckApplies(cert *x509.Certificate) bool {

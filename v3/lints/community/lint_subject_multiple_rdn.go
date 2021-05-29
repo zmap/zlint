@@ -32,12 +32,12 @@ func init() {
 		Citation:      "lint.AWSLabs certlint",
 		Source:        lint.Community,
 		EffectiveDate: util.ZeroDate,
-		Lint:          &SubjectRDNHasMultipleAttribute{},
+		Lint:          NewSubjectRDNHasMultipleAttribute,
 	})
 }
 
-func (l *SubjectRDNHasMultipleAttribute) Initialize() error {
-	return nil
+func NewSubjectRDNHasMultipleAttribute() lint.LintInterface {
+	return &SubjectRDNHasMultipleAttribute{}
 }
 
 func (l *SubjectRDNHasMultipleAttribute) CheckApplies(c *x509.Certificate) bool {

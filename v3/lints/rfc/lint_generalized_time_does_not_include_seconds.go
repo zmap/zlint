@@ -45,12 +45,12 @@ func init() {
 		Citation:      "RFC 5280: 4.1.2.5.2",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC2459Date,
-		Lint:          &generalizedNoSeconds{},
+		Lint:          NewGeneralizedNoSeconds,
 	})
 }
 
-func (l *generalizedNoSeconds) Initialize() error {
-	return nil
+func NewGeneralizedNoSeconds() lint.LintInterface {
+	return &generalizedNoSeconds{}
 }
 
 func (l *generalizedNoSeconds) CheckApplies(c *x509.Certificate) bool {

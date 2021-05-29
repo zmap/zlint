@@ -38,12 +38,12 @@ func init() {
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &subjectCommonNameNotFromSAN{},
+		Lint:          NewSubjectCommonNameNotFromSAN,
 	})
 }
 
-func (l *subjectCommonNameNotFromSAN) Initialize() error {
-	return nil
+func NewSubjectCommonNameNotFromSAN() lint.LintInterface {
+	return &subjectCommonNameNotFromSAN{}
 }
 
 func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
