@@ -316,6 +316,7 @@
     "e_utc_time_not_in_zulu": {},
     "e_validity_time_not_positive": {},
     "e_wrong_time_format_pre2050": {},
+    "e_ecdsa_ee_invalid_ku": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
@@ -323,9 +324,6 @@
       "NoticeCount": 8
     },
     "n_dnsname_wildcard_left_of_public_suffix": {},
-    "n_ecdsa_ee_invalid_ku": {
-      "NoticeCount": 3
-    },
     "n_mp_allowed_eku": {},
     "n_multiple_subject_rdn": {},
     "n_san_dns_name_duplicate": {

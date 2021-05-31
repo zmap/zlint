@@ -630,6 +630,7 @@
     "e_wrong_time_format_pre2050": {
       "ErrCount": 19
     },
+    "e_ecdsa_ee_invalid_ku": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 724
     },
@@ -638,9 +639,6 @@
     },
     "n_dnsname_wildcard_left_of_public_suffix": {
       "NoticeCount": 1
-    },
-    "n_ecdsa_ee_invalid_ku": {
-      "NoticeCount": 29
     },
     "n_mp_allowed_eku": {
       "NoticeCount": 14

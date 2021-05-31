@@ -28,11 +28,11 @@ type ecdsaInvalidKU struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "n_ecdsa_ee_invalid_ku",
-		Description:   "ECDSA end-entity certificates MAY have key usages: digitalSignature, nonRepudiation and keyAgreement",
-		Citation:      "RFC 5480 Section 3",
-		Source:        lint.RFC5480,
-		EffectiveDate: util.CABEffectiveDate,
+		Name:          "e_ecdsa_ee_invalid_ku",
+		Description:   "Key usage values keyEncipherment or dataEncipherment MUST NOT be present in certificates with ECDSA public keys",
+		Citation:      "RFC 8813 Section 3",
+		Source:        lint.RFC8813,
+		EffectiveDate: util.RFC8813Date,
 		Lint:          &ecdsaInvalidKU{},
 	})
 }
@@ -42,40 +42,31 @@ func (l *ecdsaInvalidKU) Initialize() error {
 	return nil
 }
 
-// CheckApplies returns true when the certificate is a subscriber cert using an
-// ECDSA public key algorithm.
+// CheckApplies returns true when the certificate has an ECDSA public key and a key usage extension.
 func (l *ecdsaInvalidKU) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && c.PublicKeyAlgorithm == x509.ECDSA
+	return c.PublicKeyAlgorithm == x509.ECDSA && util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-// Execute returns a Notice level lint.LintResult if the ECDSA end entity certificate
-// being linted has Key Usage bits set other than digitalSignature,
-// nonRepudiation/contentCommentment, and keyAgreement.
+// Execute returns an Error level lint.LintResult if the ECDSA certificate
+// being linted has the following Key Usage bits set: keyEncipherment or dataEncipherment.
 func (l *ecdsaInvalidKU) Execute(c *x509.Certificate) *lint.LintResult {
-	// RFC 5480, Section 3 "Key Usage Bits" says:
+	// RFC 8813, Section 3 "Updates to Section 3" reads:
 	//
-	//   If the keyUsage extension is present in an End Entity (EE)
-	//   certificate that indicates id-ecPublicKey in SubjectPublicKeyInfo,
-	//   then any combination of the following values MAY be present:
+	// If the keyUsage extension is present in a certificate that indicates
+	// id-ecPublicKey in SubjectPublicKeyInfo, then the following values
+	// MUST NOT be present:
 	//
-	//     digitalSignature;
-	//     nonRepudiation; and
-	//     keyAgreement.
-	//
-	// So we set up `allowedKUs` to match. Note that per RFC 5280: recent editions
-	// of X.509 renamed "nonRepudiation" to "contentCommitment", which is the name
-	// of the Go x509 constant we use here alongside the digitalSignature and
-	// keyAgreement constants.
-	allowedKUs := map[x509.KeyUsage]bool{
-		x509.KeyUsageDigitalSignature:  true,
-		x509.KeyUsageContentCommitment: true,
-		x509.KeyUsageKeyAgreement:      true,
+	//    keyEncipherment; and
+	//    dataEncipherment.
+	forbiddenKUs := map[x509.KeyUsage]bool{
+		x509.KeyUsageKeyEncipherment:  true,
+		x509.KeyUsageDataEncipherment: true,
 	}
 
 	var invalidKUs []string
 	for ku, kuName := range util.KeyUsageToString {
 		if c.KeyUsage&ku != 0 {
-			if !allowedKUs[ku] {
+			if forbiddenKUs[ku] {
 				invalidKUs = append(invalidKUs, kuName)
 			}
 		}
@@ -86,9 +77,9 @@ func (l *ecdsaInvalidKU) Execute(c *x509.Certificate) *lint.LintResult {
 		// unit testing
 		sort.Strings(invalidKUs)
 		return &lint.LintResult{
-			Status: lint.Notice,
+			Status: lint.Error,
 			Details: fmt.Sprintf(
-				"Certificate had unexpected key usage(s): %s",
+				"Certificate had invalid key usage(s): %s",
 				strings.Join(invalidKUs, ", ")),
 		}
 	}
