@@ -25,8 +25,8 @@ func TestECDSAInvalidKU(t *testing.T) {
 			expectedStatus: lint.NE,
 		},
 		{
-			name:			"ecdsa ee cert, key usage is absent",
-			filename:		"ecdsaP256AbsentKU.pem",
+			name:           "ecdsa ee cert, key usage is absent",
+			filename:       "ecdsaP256AbsentKU.pem",
 			expectedStatus: lint.NA,
 		},
 		{
