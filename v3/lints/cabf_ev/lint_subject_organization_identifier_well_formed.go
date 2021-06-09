@@ -16,6 +16,7 @@ package cabf_ev
 
 import (
 	"encoding/asn1"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/v3/lint"
@@ -54,7 +55,9 @@ func (l *evSubjectOrganizationIdentifierWellFormed) Execute(c *x509.Certificate)
 
 	var seq pkix.RDNSequence
 
-	asn1.Unmarshal(c.RawSubject, &seq)
+	if _, err := asn1.Unmarshal(c.RawSubject, &seq); err != nil {
+		return &lint.LintResult{Status: lint.Fatal}
+	}
 
 	for _, rdn := range seq {
 		for _, atv := range rdn {

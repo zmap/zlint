@@ -127,22 +127,36 @@ func ParseOrganizationIdentifier(oi string, isEtsi bool) (string, ParsedEvOrgId)
 	var sm []string
 	if re_ntr.MatchString(oi) {
 		sm = re_ntr.FindStringSubmatch(oi)
-	} else if re_vat_psd.MatchString(oi) {
+		result.Rsi = sm[1]
+		result.Country = sm[2]
+		result.StateOrProvince = sm[3]
+		result.RegRef = sm[5]
+		return "", result
+	}
+
+	if re_vat_psd.MatchString(oi) {
 		sm = re_vat_psd.FindStringSubmatch(oi)
-	} else if re_lei.MatchString(oi) {
+		result.Rsi = sm[1]
+		result.Country = sm[2]
+		result.StateOrProvince = sm[3]
+		result.RegRef = sm[5]
+		return "", result
+	}
+
+	if re_lei.MatchString(oi) {
 		if isEtsi {
 			sm = re_lei.FindStringSubmatch(oi)
+			result.Rsi = sm[1]
+			result.Country = sm[2]
+			result.StateOrProvince = sm[3]
+			result.RegRef = sm[5]
+			return "", result
 		} else {
 			return "CAB/F subject:organizationIdentifier does not allow LEI", result
 		}
-	} else {
-		return "CAB/F subject:organizationIdentifier has an invalid format", result
 	}
-	result.Rsi = sm[1]
-	result.Country = sm[2]
-	result.StateOrProvince = sm[3]
-	result.RegRef = sm[5]
-	return "", result
+
+	return "CAB/F subject:organizationIdentifier has an invalid format", result
 }
 
 func GetSubjectOrgId(rawSubject []byte) parsedSubjectElement {
