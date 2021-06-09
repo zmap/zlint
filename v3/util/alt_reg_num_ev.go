@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2020 Regents of the University of Michigan
+ * ZLint Copyright 2021 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -16,6 +16,7 @@ package util
 
 import (
 	"encoding/asn1"
+	"fmt"
 	"reflect"
 	"regexp"
 
@@ -49,6 +50,37 @@ type cabfOrgIdExt struct {
 	RegRef          string `asn1:"utf8"`
 }
 
+// Returns an error string if the components of the parsed cabfOrganizationIdentifier
+// do not comply with the naming schema allowed by CAB Forum.
+func CheckParsedEvOrgId(parsedEvOrgId ParsedEvOrgId) string {
+	if len(parsedEvOrgId.Rsi) != 3 {
+		return "registrationSchemeIdentifier has not length 3"
+	}
+	if len(parsedEvOrgId.Country) != 2 {
+		return "registrationCountry has not length 2"
+	}
+	if len(parsedEvOrgId.StateOrProvince) > 128 {
+		return "registrationStateOrProvince has length more than 128"
+	}
+
+	regExpCorrectRsi := regexp.MustCompile(`^(NTR|VAT|PSD)`)
+
+	if !regExpCorrectRsi.MatchString(parsedEvOrgId.Rsi) {
+		return fmt.Sprintf("registrationSchemeIdentifier has an invalid value: %v", parsedEvOrgId.Rsi)
+	}
+
+	regExpCorrectCountry := regexp.MustCompile(`^[A-Z]{2}`)
+
+	if !regExpCorrectCountry.MatchString(parsedEvOrgId.Country) {
+		return fmt.Sprintf("registrationCountry has an invalid value: %v", parsedEvOrgId.Country)
+	}
+
+	return ""
+}
+
+// Returns the parsed organization identifier with its components (registrationSchemeIdentifier,
+// registrationCountryPrintableString, registrationStateOrProvince, registrationReferenceUTF8String)
+// from the cabfOrganizationIdentifier extension or an error if the extension could not be parsed.
 func ParseCabfOrgIdExt(c *x509.Certificate) (string, ParsedEvOrgId) {
 	var result ParsedEvOrgId
 
@@ -64,12 +96,14 @@ func ParseCabfOrgIdExt(c *x509.Certificate) (string, ParsedEvOrgId) {
 	}
 	errStr := CheckAsn1Reencoding(reflect.ValueOf(parsedExt).Interface(), ext.Value, "invalid string type in extension")
 	if errStr != "" {
-		return "", result
+		return errStr, result
 	}
+
 	result.Country = parsedExt.Country
 	result.RegRef = parsedExt.RegRef
 	result.Rsi = parsedExt.Rsi
 	result.StateOrProvince = parsedExt.StateOrProvince
+
 	return "", result
 }
 

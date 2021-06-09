@@ -323,6 +323,7 @@
     "e_validity_time_not_positive": {},
     "e_wrong_time_format_pre2050": {},
     "e_ev_subject_organization_identifier_well_formed": {},
+    "e_ev_cabfOrganizationIdentifier_well_formed": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },

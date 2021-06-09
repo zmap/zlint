@@ -15,15 +15,13 @@ package cabf_ev
  */
 
 import (
-	"encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
 /************************************************
-CA/Browser Forum EV Guidelines v1.7.0, Section 9.2.8
+CA/Browser Forum EV Guidelines v1.7.0, Sections 9.2.8 and 9.8.2
 
 The Registration Scheme MUST be identified using the using the following structure in the presented order:
 
@@ -40,36 +38,28 @@ VATDE-123456789 (VAT Scheme, Germany, Unique Identifier at Country Level is 1234
 PSDBE-NBB-1234.567.890 (PSD Scheme, Belgium, NCA's identifier is NBB, Subject Unique Identifier as-signed by the NCA is 1234.567.890)
 ************************************************/
 
-type evSubjectOrganizationIdentifierWellFormed struct{}
+type evCabfOrganizationIdentifierWellFormed struct{}
 
-func (l *evSubjectOrganizationIdentifierWellFormed) Initialize() error {
+func (l *evCabfOrganizationIdentifierWellFormed) Initialize() error {
 	return nil
 }
 
-func (l *evSubjectOrganizationIdentifierWellFormed) CheckApplies(c *x509.Certificate) bool {
-	return util.IsEV(c.PolicyIdentifiers) && util.TypeInName(&c.Subject, util.OrganizationIdentifierOID)
+func (l *evCabfOrganizationIdentifierWellFormed) CheckApplies(c *x509.Certificate) bool {
+	return util.IsEV(c.PolicyIdentifiers) && util.IsExtInCert(c, util.CabfExtensionOrganizationIdentifier)
 }
 
-func (l *evSubjectOrganizationIdentifierWellFormed) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *evCabfOrganizationIdentifierWellFormed) Execute(c *x509.Certificate) *lint.LintResult {
 
-	var seq pkix.RDNSequence
+	parseErrorMessage, parsedExtension := util.ParseCabfOrgIdExt(c)
 
-	asn1.Unmarshal(c.RawSubject, &seq)
+	if parseErrorMessage != "" {
+		return &lint.LintResult{Status: lint.Error, Details: parseErrorMessage}
+	}
 
-	for _, rdn := range seq {
-		for _, atv := range rdn {
-			if atv.Type.Equal(util.OrganizationIdentifierOID) {
+	checkErrorMessage := util.CheckParsedEvOrgId(parsedExtension)
 
-				value, _ := atv.Value.(string)
-				errorMessage, _ := util.ParseOrganizationIdentifier(value, false)
-
-				if len(errorMessage) == 0 {
-					return &lint.LintResult{Status: lint.Pass}
-				} else {
-					return &lint.LintResult{Status: lint.Error, Details: errorMessage}
-				}
-			}
-		}
+	if checkErrorMessage != "" {
+		return &lint.LintResult{Status: lint.Error, Details: checkErrorMessage}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
@@ -77,11 +67,11 @@ func (l *evSubjectOrganizationIdentifierWellFormed) Execute(c *x509.Certificate)
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ev_subject_organization_identifier_well_formed",
-		Description:   "Checks that the content of subject:organizationIdentifier is well-formed and compliant to the specified format. The Registration Scheme MUST be identified using the using the following structure in the presented order.",
-		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Section 9.2.8",
+		Name:          "e_ev_cabfOrganizationIdentifier_well_formed",
+		Description:   "Checks that the content of the cabfOrganizationIdentifier extension is well-formed and compliant to the specified format and that it is encoded according to the defined ASN.1 module.",
+		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Section 9.8.2",
 		Source:        lint.CABFEVGuidelines,
 		EffectiveDate: util.CABFEV_1_7_0_Date,
-		Lint:          &evSubjectOrganizationIdentifierWellFormed{},
+		Lint:          &evCabfOrganizationIdentifierWellFormed{},
 	})
 }
