@@ -43,6 +43,17 @@ PSDBE-NBB-1234.567.890 (PSD Scheme, Belgium, NCA's identifier is NBB, Subject Un
 
 type evSubjectOrganizationIdentifierWellFormed struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ev_subject_organization_identifier_well_formed",
+		Description:   "Checks that the content of subject:organizationIdentifier is well-formed and compliant to the specified format. The Registration Scheme MUST be identified using the using the following structure in the presented order.",
+		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Section 9.2.8",
+		Source:        lint.CABFEVGuidelines,
+		EffectiveDate: util.CABFEV_1_7_0_Date,
+		Lint:          &evSubjectOrganizationIdentifierWellFormed{},
+	})
+}
+
 func (l *evSubjectOrganizationIdentifierWellFormed) Initialize() error {
 	return nil
 }
@@ -76,15 +87,4 @@ func (l *evSubjectOrganizationIdentifierWellFormed) Execute(c *x509.Certificate)
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ev_subject_organization_identifier_well_formed",
-		Description:   "Checks that the content of subject:organizationIdentifier is well-formed and compliant to the specified format. The Registration Scheme MUST be identified using the using the following structure in the presented order.",
-		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Section 9.2.8",
-		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.CABFEV_1_7_0_Date,
-		Lint:          &evSubjectOrganizationIdentifierWellFormed{},
-	})
 }

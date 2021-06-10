@@ -40,6 +40,17 @@ PSDBE-NBB-1234.567.890 (PSD Scheme, Belgium, NCA's identifier is NBB, Subject Un
 
 type evCabfOrganizationIdentifierWellFormed struct{}
 
+func init() {
+	lint.RegisterLint(&lint.Lint{
+		Name:          "e_ev_cabfOrganizationIdentifier_well_formed",
+		Description:   "Checks that the content of the cabfOrganizationIdentifier extension is well-formed and compliant to the specified format and that it is encoded according to the defined ASN.1 module.",
+		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Section 9.8.2",
+		Source:        lint.CABFEVGuidelines,
+		EffectiveDate: util.CABFEV_1_7_0_Date,
+		Lint:          &evCabfOrganizationIdentifierWellFormed{},
+	})
+}
+
 func (l *evCabfOrganizationIdentifierWellFormed) Initialize() error {
 	return nil
 }
@@ -63,15 +74,4 @@ func (l *evCabfOrganizationIdentifierWellFormed) Execute(c *x509.Certificate) *l
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
-}
-
-func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ev_cabfOrganizationIdentifier_well_formed",
-		Description:   "Checks that the content of the cabfOrganizationIdentifier extension is well-formed and compliant to the specified format and that it is encoded according to the defined ASN.1 module.",
-		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Section 9.8.2",
-		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.CABFEV_1_7_0_Date,
-		Lint:          &evCabfOrganizationIdentifierWellFormed{},
-	})
 }
