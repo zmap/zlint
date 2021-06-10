@@ -67,6 +67,7 @@ var (
 	BusinessOID               = asn1.ObjectIdentifier{2, 5, 4, 15}
 	PostalCodeOID             = asn1.ObjectIdentifier{2, 5, 4, 17}
 	GivenNameOID              = asn1.ObjectIdentifier{2, 5, 4, 42}
+	OrganizationIdentifierOID = asn1.ObjectIdentifier{2, 5, 4, 97}
 	// Hash algorithms - see https://golang.org/src/crypto/x509/x509.go
 	SHA256OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 1}
 	SHA384OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 2}
@@ -93,6 +94,18 @@ var (
 	IdEtsiQcsQctEsign          = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6, 1}
 	IdEtsiQcsQctEseal          = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6, 2}
 	IdEtsiQcsQctWeb            = asn1.ObjectIdentifier{0, 4, 0, 1862, 1, 6, 3}
+	IdEtsiPsd2Statem           = asn1.ObjectIdentifier{0, 4, 0, 19495, 2}
+	IdEtsiPsd2RolePspAs        = asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}
+	IdEtsiPsd2RolePspPi        = asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 2}
+	IdEtsiPsd2RolePspAi        = asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 3}
+	IdEtsiPsd2RolePspIc        = asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 4}
+	IdEtsiQcsSemanticsIdLegal  = asn1.ObjectIdentifier{0, 4, 0, 194121, 1, 2}
+	IdEtsiPolicyQcpNatural     = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 0}
+	IdEtsiPolicyQcpLegal       = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 1}
+	IdEtsiPolicyQcpNaturalQscd = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 2}
+	IdEtsiPolicyQcpLegalQscd   = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 3}
+	IdEtsiPolicyQcpWeb         = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 4}
+	IdQcsPkixQCSyntaxV2        = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 11, 2}
 )
 
 const (
