@@ -303,7 +303,7 @@
     },
     "e_dnsname_contains_bare_iana_suffix": {},
     "e_dnsname_empty_label": {
-      "ErrCount": 11
+      "ErrCount": 10
     },
     "e_dnsname_hyphen_in_sld": {},
     "e_dnsname_label_too_long": {},

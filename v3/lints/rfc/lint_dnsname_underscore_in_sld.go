@@ -1,4 +1,4 @@
-package cabf_br
+package rfc
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -22,44 +22,34 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type DNSNameHyphenInSLD struct{}
+type DNSNameUnderscoreInSLD struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_hyphen_in_sld",
-		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
-		Citation:      "BRs 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
+		Name:          "e_dnsname_underscore_in_sld",
+		Description:   "DNSName MUST NOT contain underscore characters",
+		Citation:      "RFC5280: 4.2.1.6",
+		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameHyphenInSLD{},
+		Lint:          &DNSNameUnderscoreInSLD{},
 	})
 }
 
-func (l *DNSNameHyphenInSLD) Initialize() error {
+func (l *DNSNameUnderscoreInSLD) Initialize() error {
 	return nil
 }
 
-func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {
+func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameHyphenInSLD) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
-		domainInfo := c.GetParsedSubjectCommonName(false)
-		if domainInfo.ParseError != nil {
-			return &lint.LintResult{Status: lint.NA}
-		}
-		if strings.HasPrefix(domainInfo.ParsedDomain.SLD, "-") || strings.HasSuffix(domainInfo.ParsedDomain.SLD, "-") {
-			return &lint.LintResult{Status: lint.Error}
-		}
-	}
+func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *lint.LintResult {
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			return &lint.LintResult{Status: lint.NA}
 		}
-		if strings.HasPrefix(parsedSANDNSNames[i].ParsedDomain.SLD, "-") ||
-			strings.HasSuffix(parsedSANDNSNames[i].ParsedDomain.SLD, "-") {
+		if strings.Contains(parsedSANDNSNames[i].ParsedDomain.SLD, "_") {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}

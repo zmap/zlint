@@ -1,4 +1,4 @@
-package cabf_br
+package rfc
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -22,45 +22,41 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type DNSNameEmptyLabel struct{}
+type DNSNameLabelLengthTooLong struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_empty_label",
-		Description:   "DNSNames should not have an empty label.",
-		Citation:      "BRs: 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &DNSNameEmptyLabel{},
+		Name:          "e_dnsname_label_too_long",
+		Description:   "DNSName labels MUST be less than or equal to 63 characters",
+		Citation:      "RFC 5280: 4.2.1.6, citing RFC 1035",
+		Source:        lint.RFC5280,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          &DNSNameLabelLengthTooLong{},
 	})
 }
 
-func (l *DNSNameEmptyLabel) Initialize() error {
+func (l *DNSNameLabelLengthTooLong) Initialize() error {
 	return nil
 }
 
-func (l *DNSNameEmptyLabel) CheckApplies(c *x509.Certificate) bool {
+func (l *DNSNameLabelLengthTooLong) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func domainHasEmptyLabel(domain string) bool {
+func labelLengthTooLong(domain string) bool {
 	labels := strings.Split(domain, ".")
-	for _, elem := range labels {
-		if elem == "" {
+	for _, label := range labels {
+		if len(label) > 63 {
 			return true
 		}
 	}
 	return false
 }
 
-func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
-		if domainHasEmptyLabel(c.Subject.CommonName) {
-			return &lint.LintResult{Status: lint.Error}
-		}
-	}
+func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
-		if domainHasEmptyLabel(dns) {
+		labelTooLong := labelLengthTooLong(dns)
+		if labelTooLong {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
