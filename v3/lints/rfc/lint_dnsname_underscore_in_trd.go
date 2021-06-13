@@ -26,7 +26,7 @@ type DNSNameUnderscoreInTRD struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "w_dnsname_underscore_in_trd",
+		Name:          "w_rfc_dnsname_underscore_in_trd",
 		Description:   "DNSName MUST NOT contain underscore characters",
 		Citation:      "RFC5280: 4.1.2.6",
 		Source:        lint.RFC5280,

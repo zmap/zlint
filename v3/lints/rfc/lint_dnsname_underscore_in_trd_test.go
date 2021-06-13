@@ -24,7 +24,7 @@ import (
 func TestDNSNameUnderscoreInTRD(t *testing.T) {
 	inputPath := "dnsNameUnderscoreInTRD.pem"
 	expected := lint.Warn
-	out := test.TestLint("w_dnsname_underscore_in_trd", inputPath)
+	out := test.TestLint("w_rfc_dnsname_underscore_in_trd", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -33,7 +33,7 @@ func TestDNSNameUnderscoreInTRD(t *testing.T) {
 func TestDNSNameNoUnderscoreInTRD(t *testing.T) {
 	inputPath := "dnsNameNoUnderscoreInTRD.pem"
 	expected := lint.Pass
-	out := test.TestLint("w_dnsname_underscore_in_trd", inputPath)
+	out := test.TestLint("w_rfc_dnsname_underscore_in_trd", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

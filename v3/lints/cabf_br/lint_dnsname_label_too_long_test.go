@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -21,19 +21,10 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestDNSNameEmptyLabel(t *testing.T) {
-	inputPath := "dnsNameEmptyLabel.pem"
+func TestDNSNameLabelTooLong(t *testing.T) {
+	inputPath := "dnsNameLabelTooLong.pem"
 	expected := lint.Error
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestDNSNameNotEmptyLabel(t *testing.T) {
-	inputPath := "dnsNameNotEmptyLabel.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_label_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

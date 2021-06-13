@@ -24,7 +24,7 @@ import (
 func TestDNSNameLabelTooLong(t *testing.T) {
 	inputPath := "dnsNameLabelTooLong.pem"
 	expected := lint.Error
-	out := test.TestLint("e_dnsname_label_too_long", inputPath)
+	out := test.TestLint("e_rfc_dnsname_label_too_long", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -21,19 +21,37 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestDNSNameEmptyLabel(t *testing.T) {
-	inputPath := "dnsNameEmptyLabel.pem"
+func TestDNSNameHyphenBeginningSLD(t *testing.T) {
+	inputPath := "dnsNameHyphenBeginningSLD.pem"
 	expected := lint.Error
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestDNSNameNotEmptyLabel(t *testing.T) {
-	inputPath := "dnsNameNotEmptyLabel.pem"
+func TestDNSNameHyphenEndingSLD(t *testing.T) {
+	inputPath := "dnsNameHyphenEndingSLD.pem"
+	expected := lint.Error
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestDNSNameNoHyphenInSLD(t *testing.T) {
+	inputPath := "dnsNameWildcardCorrect.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestDNSNamePrivatePublicSuffixNoHyphenInSLD(t *testing.T) {
+	inputPath := "dnsNamePrivatePublicSuffix.pem"
+	expected := lint.Pass
+	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

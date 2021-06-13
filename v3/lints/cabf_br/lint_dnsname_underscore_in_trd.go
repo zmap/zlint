@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -22,36 +22,47 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type DNSNameUnderscoreInSLD struct{}
+type DNSNameUnderscoreInTRD struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rfc_dnsname_underscore_in_sld",
+		Name:          "w_dnsname_underscore_in_trd",
 		Description:   "DNSName MUST NOT contain underscore characters",
-		Citation:      "RFC5280: 4.2.1.6",
-		Source:        lint.RFC5280,
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameUnderscoreInSLD{},
+		Lint:          &DNSNameUnderscoreInTRD{},
 	})
 }
 
-func (l *DNSNameUnderscoreInSLD) Initialize() error {
+func (l *DNSNameUnderscoreInTRD) Initialize() error {
 	return nil
 }
 
-func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
+func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) *lint.LintResult {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
+		domainInfo := c.GetParsedSubjectCommonName(false)
+		if domainInfo.ParseError != nil {
+			return &lint.LintResult{Status: lint.NA}
+		}
+		if strings.Contains(domainInfo.ParsedDomain.TRD, "_") {
+			return &lint.LintResult{Status: lint.Warn}
+		}
+	}
+
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
 			return &lint.LintResult{Status: lint.NA}
 		}
-		if strings.Contains(parsedSANDNSNames[i].ParsedDomain.SLD, "_") {
-			return &lint.LintResult{Status: lint.Error}
+		if strings.Contains(parsedSANDNSNames[i].ParsedDomain.TRD, "_") {
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
+
 	return &lint.LintResult{Status: lint.Pass}
 }

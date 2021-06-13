@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -21,19 +21,19 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestDNSNameEmptyLabel(t *testing.T) {
-	inputPath := "dnsNameEmptyLabel.pem"
+func TestDNSNameUnderscoreInSLD(t *testing.T) {
+	inputPath := "dnsNameUnderscoreInSLD.pem"
 	expected := lint.Error
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_underscore_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestDNSNameNotEmptyLabel(t *testing.T) {
-	inputPath := "dnsNameNotEmptyLabel.pem"
+func TestDNSNameNoUnderscoreInSLD(t *testing.T) {
+	inputPath := "dnsNameNoUnderscoreInSLD.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_underscore_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

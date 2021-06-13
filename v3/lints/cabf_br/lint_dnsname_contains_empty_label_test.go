@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -24,7 +24,7 @@ import (
 func TestDNSNameEmptyLabel(t *testing.T) {
 	inputPath := "dnsNameEmptyLabel.pem"
 	expected := lint.Error
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_empty_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -33,7 +33,7 @@ func TestDNSNameEmptyLabel(t *testing.T) {
 func TestDNSNameNotEmptyLabel(t *testing.T) {
 	inputPath := "dnsNameNotEmptyLabel.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
+	out := test.TestLint("e_dnsname_empty_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

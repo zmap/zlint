@@ -24,7 +24,7 @@ import (
 func TestDNSNameHyphenBeginningSLD(t *testing.T) {
 	inputPath := "dnsNameHyphenBeginningSLD.pem"
 	expected := lint.Error
-	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
+	out := test.TestLint("e_rfc_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -33,7 +33,7 @@ func TestDNSNameHyphenBeginningSLD(t *testing.T) {
 func TestDNSNameHyphenEndingSLD(t *testing.T) {
 	inputPath := "dnsNameHyphenEndingSLD.pem"
 	expected := lint.Error
-	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
+	out := test.TestLint("e_rfc_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -42,7 +42,7 @@ func TestDNSNameHyphenEndingSLD(t *testing.T) {
 func TestDNSNameNoHyphenInSLD(t *testing.T) {
 	inputPath := "dnsNameWildcardCorrect.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
+	out := test.TestLint("e_rfc_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
@@ -51,7 +51,7 @@ func TestDNSNameNoHyphenInSLD(t *testing.T) {
 func TestDNSNamePrivatePublicSuffixNoHyphenInSLD(t *testing.T) {
 	inputPath := "dnsNamePrivatePublicSuffix.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_dnsname_hyphen_in_sld", inputPath)
+	out := test.TestLint("e_rfc_dnsname_hyphen_in_sld", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

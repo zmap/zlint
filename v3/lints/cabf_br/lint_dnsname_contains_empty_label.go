@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -26,11 +26,11 @@ type DNSNameEmptyLabel struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rfc_dnsname_empty_label",
+		Name:          "e_dnsname_empty_label",
 		Description:   "DNSNames should not have an empty label.",
-		Citation:      "RFC5280: 4.2.1.6",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
+		Citation:      "BRs: 7.1.4.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
 		Lint:          &DNSNameEmptyLabel{},
 	})
 }
@@ -54,6 +54,11 @@ func domainHasEmptyLabel(domain string) bool {
 }
 
 func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *lint.LintResult {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
+		if domainHasEmptyLabel(c.Subject.CommonName) {
+			return &lint.LintResult{Status: lint.Error}
+		}
+	}
 	for _, dns := range c.DNSNames {
 		if domainHasEmptyLabel(dns) {
 			return &lint.LintResult{Status: lint.Error}

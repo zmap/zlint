@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -26,10 +26,10 @@ type DNSNameUnderscoreInSLD struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rfc_dnsname_underscore_in_sld",
+		Name:          "e_dnsname_underscore_in_sld",
 		Description:   "DNSName MUST NOT contain underscore characters",
-		Citation:      "RFC5280: 4.2.1.6",
-		Source:        lint.RFC5280,
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInSLD{},
 	})
@@ -44,6 +44,16 @@ func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *DNSNameUnderscoreInSLD) Execute(c *x509.Certificate) *lint.LintResult {
+	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
+		domainInfo := c.GetParsedSubjectCommonName(false)
+		if domainInfo.ParseError != nil {
+			return &lint.LintResult{Status: lint.NA}
+		}
+		if strings.Contains(domainInfo.ParsedDomain.SLD, "_") {
+			return &lint.LintResult{Status: lint.Error}
+		}
+	}
+
 	parsedSANDNSNames := c.GetParsedDNSNames(false)
 	for i := range c.GetParsedDNSNames(false) {
 		if parsedSANDNSNames[i].ParseError != nil {
