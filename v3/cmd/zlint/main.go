@@ -46,9 +46,12 @@ var ( // flags
 	excludeNames    string
 	includeSources  string
 	excludeSources  string
+	printVersion    bool
 
-	// version is replaced by GoReleaser using an LDFlags option at release time.
-	version = "dev"
+	// version is replaced by GoReleaser or `make` using an LDFlags option at
+	// build time. Here we supply a default value for folks that `go install` or
+	// `go build` directly from src.
+	version = "dev-unknown"
 )
 
 func init() {
@@ -62,6 +65,7 @@ func init() {
 	flag.StringVar(&excludeNames, "excludeNames", "", "Comma-separated list of lints to exclude by name")
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
+	flag.BoolVar(&printVersion, "version", false, "Print ZLint version and exit")
 
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
@@ -74,6 +78,11 @@ func init() {
 }
 
 func main() {
+	if printVersion {
+		fmt.Printf("ZLint version %s\n", version)
+		return
+	}
+
 	// Build a registry of lints using the include/exclude lint name and source
 	// flags.
 	registry, err := setLints()
