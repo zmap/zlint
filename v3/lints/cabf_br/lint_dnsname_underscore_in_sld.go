@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -28,8 +28,8 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_underscore_in_sld",
 		Description:   "DNSName MUST NOT contain underscore characters",
-		Citation:      "RFC5280: 4.2.1.6",
-		Source:        lint.RFC5280,
+		Citation:      "BRs: 7.1.4.2.1",
+		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameUnderscoreInSLD{},
 	})

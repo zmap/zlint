@@ -1,4 +1,4 @@
-package rfc
+package cabf_br
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -22,47 +22,45 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type DNSNameLabelLengthTooLong struct{}
+type DNSNameEmptyLabel struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_label_too_long",
-		Description:   "DNSName labels MUST be less than or equal to 63 characters",
-		Citation:      "RFC 5280: 4.2.1.6, citing RFC 1035",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameLabelLengthTooLong{},
+		Name:          "e_dnsname_empty_label",
+		Description:   "DNSNames should not have an empty label.",
+		Citation:      "BRs: 7.1.4.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABEffectiveDate,
+		Lint:          &DNSNameEmptyLabel{},
 	})
 }
 
-func (l *DNSNameLabelLengthTooLong) Initialize() error {
+func (l *DNSNameEmptyLabel) Initialize() error {
 	return nil
 }
 
-func (l *DNSNameLabelLengthTooLong) CheckApplies(c *x509.Certificate) bool {
+func (l *DNSNameEmptyLabel) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func labelLengthTooLong(domain string) bool {
+func domainHasEmptyLabel(domain string) bool {
 	labels := strings.Split(domain, ".")
-	for _, label := range labels {
-		if len(label) > 63 {
+	for _, elem := range labels {
+		if elem == "" {
 			return true
 		}
 	}
 	return false
 }
 
-func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.CommonName != "" && !util.CommonNameIsIP(c) {
-		labelTooLong := labelLengthTooLong(c.Subject.CommonName)
-		if labelTooLong {
+		if domainHasEmptyLabel(c.Subject.CommonName) {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	for _, dns := range c.DNSNames {
-		labelTooLong := labelLengthTooLong(dns)
-		if labelTooLong {
+		if domainHasEmptyLabel(dns) {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
