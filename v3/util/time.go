@@ -23,7 +23,6 @@ import (
 
 var (
 	ZeroDate                   = time.Date(0000, time.January, 1, 0, 0, 0, 0, time.UTC)
-	RFC1035Date                = time.Date(1987, time.January, 1, 0, 0, 0, 0, time.UTC)
 	RFC2459Date                = time.Date(1999, time.January, 1, 0, 0, 0, 0, time.UTC)
 	RFC3280Date                = time.Date(2002, time.April, 1, 0, 0, 0, 0, time.UTC)
 	RFC3490Date                = time.Date(2003, time.March, 1, 0, 0, 0, 0, time.UTC)

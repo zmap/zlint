@@ -1,4 +1,4 @@
-package cabf_br
+package rfc
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -28,8 +28,8 @@ func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_dnsname_hyphen_in_sld",
 		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
-		Citation:      "BRs 7.1.4.2",
-		Source:        lint.CABFBaselineRequirements,
+		Citation:      "RFC5280: 4.2.1.6",
+		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
 		Lint:          &DNSNameHyphenInSLD{},
 	})
