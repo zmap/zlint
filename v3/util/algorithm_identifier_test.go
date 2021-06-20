@@ -1,9 +1,10 @@
 package util
 
 import (
-	"encoding/asn1"
 	"encoding/base64"
 	"testing"
+
+	"github.com/zmap/zcrypto/encoding/asn1"
 )
 
 func TestCheckAlgorithmIDParamNotNULL(t *testing.T) {
