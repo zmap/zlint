@@ -32,16 +32,16 @@ func init() {
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
 		Source:        lint.EtsiEsi,
 		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          &qcStatemQcLimitValueValid{},
+		Lint:          NewQcStatemQcLimitValueValid,
 	})
+}
+
+func NewQcStatemQcLimitValueValid() lint.LintInterface {
+	return &qcStatemQcLimitValueValid{}
 }
 
 func (this *qcStatemQcLimitValueValid) getStatementOid() *asn1.ObjectIdentifier {
 	return &util.IdEtsiQcsQcLimitValue
-}
-
-func (l *qcStatemQcLimitValueValid) Initialize() error {
-	return nil
 }
 
 func (l *qcStatemQcLimitValueValid) CheckApplies(c *x509.Certificate) bool {

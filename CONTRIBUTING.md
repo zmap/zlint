@@ -80,7 +80,7 @@ func init() {
 		Citation:      "BRs: 7.1.2.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &caCountryNameMissing{},
+		Lint:          NewCaCountryNameMissing,
 	})
 }
 ```

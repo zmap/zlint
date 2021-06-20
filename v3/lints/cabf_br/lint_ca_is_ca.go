@@ -30,17 +30,17 @@ func init() {
 		Citation:      "BRs: 7.1.2.1, BRs: 7.1.2.2",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &caIsCA{},
+		Lint:          NewCaIsCA,
 	})
+}
+
+func NewCaIsCA() lint.LintInterface {
+	return &caIsCA{}
 }
 
 type basicConstraints struct {
 	IsCA       bool `asn1:"optional"`
 	MaxPathLen int  `asn1:"optional,default:-1"`
-}
-
-func (l *caIsCA) Initialize() error {
-	return nil
 }
 
 func (l *caIsCA) CheckApplies(c *x509.Certificate) bool {

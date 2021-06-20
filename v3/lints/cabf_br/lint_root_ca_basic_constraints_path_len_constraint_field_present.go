@@ -36,12 +36,12 @@ func init() {
 		Citation:      "BRs: 7.1.2.1",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABEffectiveDate,
-		Lint:          &rootCaPathLenPresent{},
+		Lint:          NewRootCaPathLenPresent,
 	})
 }
 
-func (l *rootCaPathLenPresent) Initialize() error {
-	return nil
+func NewRootCaPathLenPresent() lint.LintInterface {
+	return &rootCaPathLenPresent{}
 }
 
 func (l *rootCaPathLenPresent) CheckApplies(c *x509.Certificate) bool {

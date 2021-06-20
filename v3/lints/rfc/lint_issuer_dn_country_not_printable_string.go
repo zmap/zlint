@@ -30,12 +30,12 @@ func init() {
 		Citation:      "RFC 5280: Appendix A",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.ZeroDate,
-		Lint:          &IssuerDNCountryNotPrintableString{},
+		Lint:          NewIssuerDNCountryNotPrintableString,
 	})
 }
 
-func (l *IssuerDNCountryNotPrintableString) Initialize() error {
-	return nil
+func NewIssuerDNCountryNotPrintableString() lint.LintInterface {
+	return &IssuerDNCountryNotPrintableString{}
 }
 
 func (l *IssuerDNCountryNotPrintableString) CheckApplies(c *x509.Certificate) bool {
