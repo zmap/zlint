@@ -15,11 +15,11 @@
 package rfc
 
 import (
-	"encoding/asn1"
 	"errors"
 	"fmt"
 	"regexp"
 
+	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
