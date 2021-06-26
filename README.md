@@ -184,6 +184,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
 * [Siemens](https://siemens.com/pki)
 * [QuoVadis](https://www.quovadisglobal.com/)
+* [Actalis](https://www.actalis.it/en/home.aspx)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
