@@ -246,6 +246,7 @@
     "e_basic_constraints_not_critical": {
       "ErrCount": 11
     },
+    "e_br_prohibit_dsa_usage": {},
     "e_ca_common_name_missing": {},
     "e_ca_country_name_invalid": {
       "ErrCount": 5
@@ -426,9 +427,6 @@
     "e_invalid_certificate_version": {},
     "e_issuer_dn_country_not_printable_string": {},
     "e_issuer_field_empty": {},
-    "e_key_usage_and_extended_key_usage_inconsistent": {
-      "ErrCount": 566924
-    },
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 3463
     },
@@ -458,6 +456,7 @@
       "ErrCount": 4
     },
     "e_path_len_constraint_zero_or_less": {},
+    "e_prohibit_dsa_usage": {},
     "e_public_key_type_not_allowed": {},
     "e_qcstatem_etsi_present_qcs_critical": {},
     "e_qcstatem_etsi_type_as_statem": {
@@ -729,6 +728,7 @@
     "w_sub_ca_aia_does_not_contain_issuing_ca_url": {
       "WarnCount": 574
     },
+    "w_sub_ca_aia_missing": {},
     "w_sub_ca_certificate_policies_marked_critical": {},
     "w_sub_ca_eku_critical": {
       "WarnCount": 9
@@ -755,12 +755,8 @@
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 64
     },
-    "w_tls_server_cert_valid_time_longer_than_397_days": {},
-    "e_cert_sig_alg_not_match_tbs_sig_alg": {
-      "ErrCount": 10
-    },
-    "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth": {
-      "ErrCount": 78
-    }
+    "w_subject_given_name_recommended_max_length": {},
+    "w_subject_surname_recommended_max_length": {},
+    "w_tls_server_cert_valid_time_longer_than_397_days": {}
   }
 }
