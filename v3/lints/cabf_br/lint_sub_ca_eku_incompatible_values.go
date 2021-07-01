@@ -15,19 +15,19 @@
 /*
  * This lint contributed by Adriano Santoni <adriano.santoni@staff.aruba.it>
  * of ACTALIS S.p.A. (an ARUBA company). Last revised June 30, 2021.
- * 
- * Checks that the EKU extension in a Subordinate CA certificate meets the 
+ *
+ * Checks that the EKU extension in a Subordinate CA certificate meets the
  * "MUST NOT" requirement set out in the BRs 7.1.2.2, letter g):
- * 
- *     For Subordinate CA Certificates that will be used to issue 
- *     TLS certificates, the value id-kp-serverAuth[RFC5280] MUST be present. 
- *     The value id-kp-clientAuth[RFC5280] MAY be present. 
- *     The values id-kp-emailProtection[RFC5280], id-kp-codeSigning[RFC5280], 
- *     id-kp-timeStamping[RFC5280], and anyExtendedKeyUsage[RFC5280] MUST NOT 
- *     be present. Other values SHOULD NOT be present. 
- *     For Subordinate CA Certificates that are not used to issue TLS certificates, 
- *     then the value id-kp-serverAuth[RFC5280] MUST NOT be present. 
- *     Other values MAY be present, but SHOULD NOT combine multiple independent usages 
+ *
+ *     For Subordinate CA Certificates that will be used to issue
+ *     TLS certificates, the value id-kp-serverAuth[RFC5280] MUST be present.
+ *     The value id-kp-clientAuth[RFC5280] MAY be present.
+ *     The values id-kp-emailProtection[RFC5280], id-kp-codeSigning[RFC5280],
+ *     id-kp-timeStamping[RFC5280], and anyExtendedKeyUsage[RFC5280] MUST NOT
+ *     be present. Other values SHOULD NOT be present.
+ *     For Subordinate CA Certificates that are not used to issue TLS certificates,
+ *     then the value id-kp-serverAuth[RFC5280] MUST NOT be present.
+ *     Other values MAY be present, but SHOULD NOT combine multiple independent usages
  *     (e.g.including id-kp-timeStamping[RFC5280] with id-kp-codeSigning[RFC5280]).
  */
 
@@ -53,7 +53,7 @@ func init() {
 type subCAEkuIncompatibleValues struct{}
 
 func NewSubCAEkuIncompatibleValues() lint.LintInterface {
-    return &subCAEkuIncompatibleValues{}
+	return &subCAEkuIncompatibleValues{}
 }
 
 func (l *subCAEkuIncompatibleValues) CheckApplies(c *x509.Certificate) bool {
@@ -61,13 +61,13 @@ func (l *subCAEkuIncompatibleValues) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subCAEkuIncompatibleValues) Execute(c *x509.Certificate) *lint.LintResult {
-	
+
 	serverAuthPresent := false
 	emailProtectionPresent := false
 	codeSigningPresent := false
 	timeStampingPresent := false
 	anyEkuPresent := false
-	
+
 	for _, ekuValue := range c.ExtKeyUsage {
 		if ekuValue == x509.ExtKeyUsageServerAuth {
 			serverAuthPresent = true
@@ -85,11 +85,10 @@ func (l *subCAEkuIncompatibleValues) Execute(c *x509.Certificate) *lint.LintResu
 			anyEkuPresent = true
 		}
 	}
-	
+
 	if serverAuthPresent && (emailProtectionPresent || codeSigningPresent || timeStampingPresent || anyEkuPresent) {
 		return &lint.LintResult{Status: lint.Error}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
 }
-
