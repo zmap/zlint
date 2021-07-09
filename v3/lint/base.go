@@ -15,6 +15,7 @@ package lint
  */
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -32,6 +33,10 @@ type LintInterface interface {
 	// Execute() is the body of the lint. It is called for every certificate for
 	// which CheckApplies() returns true.
 	Execute(c *x509.Certificate) *LintResult
+}
+
+type Configurable interface {
+	Configure() interface{}
 }
 
 // A Lint struct represents a single lint, e.g.
@@ -90,11 +95,30 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // CheckApplies()
 // CheckEffective()
 // Execute()
-func (l *Lint) Execute(cert *x509.Certificate) *LintResult {
+func (l *Lint) Execute(cert *x509.Certificate, config Configuration) *LintResult {
 	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
 		return &LintResult{Status: NA}
 	}
 	lint := l.Lint()
+	switch configurable := lint.(type) {
+	case Configurable:
+		err := config.Configure(configurable.Configure(), l.Name)
+		if err != nil {
+			details := fmt.Sprintf(
+				"A fatal error occurred while attempting to configure %s. Please visit the [%s] section of "+
+					"your provided configuration and compare it with the output of `zlint -exampleConfig`. Error: %s",
+				l.Name,
+				l.Name,
+				err.Error())
+			return &LintResult{
+				Status:  Fatal,
+				Details: details}
+		}
+	}
+	return l.execute(lint, cert)
+}
+
+func (l *Lint) execute(lint LintInterface, cert *x509.Certificate) *LintResult {
 	if !lint.CheckApplies(cert) {
 		return &LintResult{Status: NA}
 	} else if !l.CheckEffective(cert) {

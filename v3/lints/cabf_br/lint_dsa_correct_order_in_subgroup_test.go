@@ -41,7 +41,7 @@ func TestDSANotCorrectOrderSubgroup(t *testing.T) {
 	pMinusOne.Sub(dsaKey.P, big.NewInt(1))
 	dsaKey.Y = pMinusOne
 	expected := lint.Error
-	out := test.TestLintCert("e_dsa_correct_order_in_subgroup", c)
+	out := test.TestLintCert("e_dsa_correct_order_in_subgroup", c, lint.NewEmptyConfig())
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

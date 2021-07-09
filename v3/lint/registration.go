@@ -15,6 +15,7 @@
 package lint
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -23,6 +24,8 @@ import (
 	"sort"
 	"strings"
 	"sync"
+
+	"github.com/pelletier/go-toml"
 )
 
 // FilterOptions is a struct used by Registry.Filter to create a sub registry
@@ -75,6 +78,8 @@ type Registry interface {
 	// Sources returns a SourceList of registered LintSources. The list is not
 	// sorted but can be sorted by the caller with sort.Sort() if required.
 	Sources() SourceList
+	// @TODO
+	DefaultConfiguration() ([]byte, error)
 	// ByName returns a pointer to the registered lint with the given name, or nil
 	// if there is no such lint registered in the registry.
 	ByName(name string) *Lint
@@ -87,6 +92,8 @@ type Registry interface {
 	// WriteJSON writes a description of each registered lint as
 	// a JSON object, one object per line, to the provided writer.
 	WriteJSON(w io.Writer)
+	SetContext(ctx Configuration)
+	GetContext() Configuration
 }
 
 // registryImpl implements the Registry interface to provide a global collection
@@ -102,6 +109,7 @@ type registryImpl struct {
 	// lintsBySource is a map of all registered lints by source category. Lints
 	// are added to the lintsBySource map by RegisterLint.
 	lintsBySource map[LintSource][]*Lint
+	configuration Configuration
 }
 
 var (
@@ -136,7 +144,7 @@ func (r *registryImpl) register(l *Lint) error {
 	if l == nil {
 		return errNilLint
 	}
-	if l.Lint == nil {
+	if l.Lint() == nil {
 		return errNilLintPtr
 	}
 	if l.Name == "" {
@@ -232,6 +240,7 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 	}
 
 	filteredRegistry := NewRegistry()
+	filteredRegistry.SetContext(r.configuration)
 
 	sourceExcludes := sourceListToMap(opts.ExcludeSources)
 	sourceIncludes := sourceListToMap(opts.IncludeSources)
@@ -290,6 +299,60 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 	}
 }
 
+func (r *registryImpl) SetContext(ctx Configuration) {
+	r.configuration = ctx
+}
+
+func (r *registryImpl) GetContext() Configuration {
+	return r.configuration
+}
+
+// DefaultConfiguration returns a serialized copy of the default configuration for ZLint.
+//
+// This is especially useful combined with the -exampleConfig CLI argument which prints this
+// to stdout. In this way, operators can quickly see what lints are configurable and what their
+// fields are without having to dig through documentation or, even worse, code.
+func (r *registryImpl) DefaultConfiguration() ([]byte, error) {
+	configurables := map[string]interface{}{}
+	for name, lint := range r.lintsByName {
+		switch configurable := lint.Lint().(type) {
+		case Configurable:
+			configurables[name] = stripGlobalsFromExample(configurable.Configure())
+		default:
+			// At this point, most lints are not configurable.
+		}
+	}
+	// We're just using stripGlobalsFromExample here as a convenient way to
+	// recursively turn the `Global` struct type into a map.
+	//
+	// We have to do this because if simply followed the pattern below and did...
+	//
+	//	configurables["Global"] = &Global{}
+	//
+	// ...then we would end up with a [Global] section in the resulting configuration,
+	// which is not what we are looking for (we simply want it to flattened out into
+	// the top most context of the configuration file).
+	for k, v := range stripGlobalsFromExample(&Global{}).(map[string]interface{}) {
+		configurables[k] = v
+	}
+	configurables[string(CABFBaselineRequirements)] = &CABFBaselineRequirementsConfig{}
+	configurables[string(RFC5280)] = &RFC5280Config{}
+	configurables[string(RFC5480)] = &RFC5480Config{}
+	configurables[string(RFC5891)] = &RFC5891Config{}
+	configurables[string(CABFBaselineRequirements)] = &CABFBaselineRequirementsConfig{}
+	configurables[string(CABFEVGuidelines)] = &CABFEVGuidelinesConfig{}
+	configurables[string(MozillaRootStorePolicy)] = &MozillaRootStorePolicyConfig{}
+	configurables[string(AppleRootStorePolicy)] = &AppleRootStorePolicyConfig{}
+	configurables[string(Community)] = &CommunityConfig{}
+	configurables[string(EtsiEsi)] = &EtsiEsiConfig{}
+	w := &bytes.Buffer{}
+	err := toml.NewEncoder(w).Indentation("").CompactComments(true).Encode(configurables)
+	if err != nil {
+		return nil, err
+	}
+	return w.Bytes(), nil
+}
+
 // NewRegistry constructs a Registry implementation that can be used to register
 // lints.
 func NewRegistry() *registryImpl {
@@ -310,7 +373,7 @@ var globalRegistry *registryImpl = NewRegistry()
 // registration process.
 //
 // IMPORTANT: RegisterLint will panic if given a nil lint, or a lint with a nil
-// Lint pointer, or if the lint's Initialize function errors, or if the lint
+// Lint pointer, or if the lint's Initialize function errors, or if the lint`
 // name matches a previously registered lint's name. These conditions all
 // indicate a bug that should be addressed by a developer.
 func RegisterLint(l *Lint) {
