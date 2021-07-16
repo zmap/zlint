@@ -58,8 +58,8 @@ func (l *rsaParsedTestsExpInRange) CheckApplies(c *x509.Certificate) bool {
 func (l *rsaParsedTestsExpInRange) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
 	exponent := key.E
-	const lowerBound = 65536 // 2^16 + 1
-	if exponent > lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
+	const lowerBound = 65537 // 2^16 + 1
+	if exponent >= lowerBound && l.upperBound.Cmp(big.NewInt(int64(exponent))) == 1 {
 		return &lint.LintResult{Status: lint.Pass}
 	}
 	return &lint.LintResult{Status: lint.Warn}
