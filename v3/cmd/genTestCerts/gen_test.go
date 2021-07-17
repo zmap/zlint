@@ -100,7 +100,7 @@ func TestChainVerifies(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertChains(current, expired, never, 1, 0, 0, t)
+	assertChains(current, expired, never, 1, t)
 }
 
 func TestChainNoIntermediatesVerifies(t *testing.T) {
@@ -121,7 +121,7 @@ func TestChainNoIntermediatesVerifies(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertChains(current, expired, never, 1, 0, 0, t)
+	assertChains(current, expired, never, 1, t)
 }
 
 func TestChainMultipleIntermediatesVerifies(t *testing.T) {
@@ -159,7 +159,7 @@ func TestChainMultipleIntermediatesVerifies(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assertChains(current, expired, never, 1, 0, 0, t)
+	assertChains(current, expired, never, 1, t)
 }
 
 func TestBadVerify(t *testing.T) {
@@ -204,10 +204,12 @@ wif20LYD26BzLZQTncXVx2jSzTxpQbMDgg==
 	if err == nil {
 		t.Fatal("generated certificate chain incorrectly verified with wrong root CA")
 	}
-	assertChains(current, expired, never, 0, 0, 0, t)
+	assertChains(current, expired, never, 0, t)
 }
 
-func assertChains(current, expired, never []x509.CertificateChain, currentWant, expiredWant, neverWant int, t *testing.T) {
+func assertChains(current, expired, never []x509.CertificateChain, currentWant int, t *testing.T) {
+	expiredWant := 0
+	neverWant := 0
 	if len(current) != currentWant {
 		b := strings.Builder{}
 
