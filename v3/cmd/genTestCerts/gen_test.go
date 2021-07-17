@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/base64"
 	"encoding/pem"
+	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -90,7 +92,7 @@ func TestChainVerifies(t *testing.T) {
 	roots.AddCert(ca.Certificate)
 	intermediates := x509.NewCertPool()
 	intermediates.AddCert(intermediate.Certificate)
-	_, _, _, err = leaf.Verify(x509.VerifyOptions{
+	current, expired, never, err := leaf.Verify(x509.VerifyOptions{
 		Intermediates: intermediates,
 		Roots:         roots,
 		CurrentTime:   time.Now(),
@@ -98,6 +100,7 @@ func TestChainVerifies(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	assertChains(current, expired, never, 1, 0, 0, t)
 }
 
 func TestChainNoIntermediatesVerifies(t *testing.T) {
@@ -111,13 +114,14 @@ func TestChainNoIntermediatesVerifies(t *testing.T) {
 	}
 	roots := x509.NewCertPool()
 	roots.AddCert(ca.Certificate)
-	_, _, _, err = leaf.Verify(x509.VerifyOptions{
+	current, expired, never, err := leaf.Verify(x509.VerifyOptions{
 		Roots:       roots,
 		CurrentTime: time.Now(),
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
+	assertChains(current, expired, never, 1, 0, 0, t)
 }
 
 func TestChainMultipleIntermediatesVerifies(t *testing.T) {
@@ -147,7 +151,7 @@ func TestChainMultipleIntermediatesVerifies(t *testing.T) {
 	intermediates.AddCert(intermediate1.Certificate)
 	intermediates.AddCert(intermediate2.Certificate)
 	intermediates.AddCert(intermediate3.Certificate)
-	_, _, _, err = leaf.Verify(x509.VerifyOptions{
+	current, expired, never, err := leaf.Verify(x509.VerifyOptions{
 		Intermediates: intermediates,
 		Roots:         roots,
 		CurrentTime:   time.Now(),
@@ -155,6 +159,7 @@ func TestChainMultipleIntermediatesVerifies(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	assertChains(current, expired, never, 1, 0, 0, t)
 }
 
 func TestBadVerify(t *testing.T) {
@@ -191,7 +196,7 @@ wif20LYD26BzLZQTncXVx2jSzTxpQbMDgg==
 	roots.AddCert(badRootCert)
 	intermediates := x509.NewCertPool()
 	intermediates.AddCert(intermediate.Certificate)
-	_, _, _, err = leaf.Verify(x509.VerifyOptions{
+	current, expired, never, err := leaf.Verify(x509.VerifyOptions{
 		Intermediates: intermediates,
 		Roots:         roots,
 		CurrentTime:   time.Now(),
@@ -199,12 +204,61 @@ wif20LYD26BzLZQTncXVx2jSzTxpQbMDgg==
 	if err == nil {
 		t.Fatal("generated certificate chain incorrectly verified with wrong root CA")
 	}
+	assertChains(current, expired, never, 0, 0, 0, t)
+}
+
+func assertChains(current, expired, never []x509.CertificateChain, currentWant, expiredWant, neverWant int, t *testing.T) {
+	if len(current) != currentWant {
+		b := strings.Builder{}
+
+		b.WriteString(fmt.Sprintf("got %d valid certificate chains, wanted %d\n", len(current), currentWant))
+		for i, chain := range current {
+			b.WriteString(fmt.Sprintf("chain #%d\n", i+1))
+			b.WriteString(encodeChain(chain))
+		}
+		t.Error(b.String())
+	}
+	if len(expired) != expiredWant {
+		b := strings.Builder{}
+		b.WriteString(fmt.Sprintf("got %d expired certificate chains, wanted %d\n", len(expired), expiredWant))
+		for i, chain := range expired {
+			b.WriteString(fmt.Sprintf("chain #%d\n", i+1))
+			b.WriteString(encodeChain(chain))
+		}
+		t.Error(b.String())
+	}
+	if len(never) != neverWant {
+		b := strings.Builder{}
+		b.WriteString(fmt.Sprintf("got %d 'never' certificate chains, wanted %d\n", len(never), neverWant))
+		for i, chain := range never {
+			b.WriteString(fmt.Sprintf("chain #%d\n", i+1))
+			b.WriteString(encodeChain(chain))
+		}
+		t.Error(b.String())
+	}
 }
 
 func encode(c *Certificate) string {
+	return encodeX509(c.Certificate)
+}
+
+func encodeX509(c *x509.Certificate) string {
 	return string(pem.EncodeToMemory(&pem.Block{
 		Type:    "CERTIFICATE",
 		Headers: nil,
-		Bytes:   []byte(base64.StdEncoding.EncodeToString(c.Certificate.Raw)),
+		Bytes:   []byte(base64.StdEncoding.EncodeToString(c.Raw)),
 	}))
+}
+
+func encodeChain(chain x509.CertificateChain) string {
+	b := strings.Builder{}
+	for _, cert := range chain {
+		s, err := openSSLFormatCertificate(&Certificate{Certificate: cert})
+		if err != nil {
+			panic(err)
+		}
+		b.WriteString(s)
+		b.WriteByte('\n')
+	}
+	return b.String()
 }
