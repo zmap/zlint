@@ -3,6 +3,7 @@
 package integration
 
 import (
+	"bytes"
 	"compress/bzip2"
 	"encoding/json"
 	"errors"
@@ -105,8 +106,42 @@ func loadConfig(file string) (*config, error) {
 	if err := json.Unmarshal(jsonBytes, &c); err != nil {
 		return nil, err
 	}
-
+	problems := findProblemsInTheConfig(jsonBytes, &c)
+	if len(problems) != 0 {
+		return nil, errors.New(strings.Join(problems, "\n"))
+	}
 	return &c, nil
+}
+
+// findProblemsInTheConfig tries keep the configuration honest with regard
+// to aspects such as duplicate entries with in the Expected field.
+func findProblemsInTheConfig(configBytes []byte, c *config) []string {
+	problems := make([]string, 0)
+	for lintName, _ := range c.Expected {
+		declarations := bytes.Count(configBytes, []byte(lintName))
+		if declarations > 1 {
+			linenos := findLineNumbers(configBytes, []byte(lintName))
+			duplicate := fmt.Sprintf(
+				"the lint '%s' was declared %d times and appeared on line numbers %v",
+				lintName, declarations, linenos)
+			problems = append(problems, duplicate)
+		}
+	}
+	return problems
+}
+
+// findLineNumbers is a convenience function to find the line numbers in
+// which `seq` appears in `document`. This is useful for compiler-like
+// error reporting.
+func findLineNumbers(document, seq []byte) []int {
+	linenos := make([]int, 0)
+	lines := bytes.Split(document, []byte{'\n'})
+	for lineno, line := range lines {
+		if bytes.Contains(line, seq) {
+			linenos = append(linenos, lineno+1) // line numbers or 1 indexed
+		}
+	}
+	return linenos
 }
 
 // Save persists a config in JSON form to the given file or returns an error.
