@@ -18,8 +18,6 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	"crypto/x509"
-	"crypto/x509/pkix"
 	"encoding/pem"
 	"fmt"
 	"math/big"
@@ -27,6 +25,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zcrypto/x509/pkix"
 )
 
 // Generates a CA, an intermediate, and a leaf certificate and prints their
@@ -42,14 +43,14 @@ func main() {
 		panic(err)
 	}
 	printCertificate(intermediate, "Intermediate")
-	leaf, err := newLeaf(ca, []*x509.Certificate{intermediate})
+	leaf, err := newLeaf(ca, []*Certificate{intermediate})
 	if err != nil {
 		panic(err)
 	}
 	printCertificate(leaf, "Leaf")
 }
 
-func printCertificate(certificate *x509.Certificate, header string) {
+func printCertificate(certificate *Certificate, header string) {
 	fmted, err := openSSLFormatCertificate(certificate)
 	if err != nil {
 		panic(err)
@@ -62,7 +63,7 @@ func printCertificate(certificate *x509.Certificate, header string) {
 // more than a self signed certificate with IsCA set to true. Not even any
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
-func newTrustAnchor() (*x509.Certificate, error) {
+func newTrustAnchor() (*Certificate, error) {
 	// Edit this template to look like whatever trust anchor you need.
 	template := x509.Certificate{
 		Raw:                         nil,
@@ -78,15 +79,15 @@ func newTrustAnchor() (*x509.Certificate, error) {
 		SerialNumber:                nextSerial(),
 		Issuer:                      pkix.Name{},
 		Subject:                     pkix.Name{},
-		NotBefore:                   time.Now(),
-		NotAfter:                    time.Now(),
+		NotBefore:                   time.Time{},
+		NotAfter:                    time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
 		KeyUsage:                    0,
 		Extensions:                  nil,
 		ExtraExtensions:             nil,
 		UnhandledCriticalExtensions: nil,
 		ExtKeyUsage:                 nil,
 		UnknownExtKeyUsage:          nil,
-		BasicConstraintsValid:       false,
+		BasicConstraintsValid:       true,
 		IsCA:                        true,
 		MaxPathLen:                  0,
 		MaxPathLenZero:              false,
@@ -98,15 +99,8 @@ func newTrustAnchor() (*x509.Certificate, error) {
 		EmailAddresses:              nil,
 		IPAddresses:                 nil,
 		URIs:                        nil,
-		PermittedDNSDomainsCritical: false,
-		PermittedDNSDomains:         nil,
-		ExcludedDNSDomains:          nil,
-		PermittedIPRanges:           nil,
-		ExcludedIPRanges:            nil,
 		PermittedEmailAddresses:     nil,
 		ExcludedEmailAddresses:      nil,
-		PermittedURIDomains:         nil,
-		ExcludedURIDomains:          nil,
 		CRLDistributionPoints:       nil,
 		PolicyIdentifiers:           nil,
 	}
@@ -118,14 +112,23 @@ func newTrustAnchor() (*x509.Certificate, error) {
 	if err != nil {
 		return nil, err
 	}
-	return x509.ParseCertificate(cert)
+	c, err := x509.ParseCertificate(cert)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(c.IsCA)
+	return &Certificate{
+		Certificate: c,
+		public:      key.Public(),
+		private:     key,
+	}, nil
 }
 
 // This is NOT a healthy example of an intermediate certificate, this is nothing
 // more than a signed certificate with IsCA set to true. Not even any
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
-func newIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
+func newIntermediate(parent *Certificate) (*Certificate, error) {
 	// Edit this template to look like whatever intermediate you need.
 	template := x509.Certificate{
 		Raw:                         nil,
@@ -141,15 +144,15 @@ func newIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
 		SerialNumber:                nextSerial(),
 		Issuer:                      pkix.Name{},
 		Subject:                     pkix.Name{},
-		NotBefore:                   time.Now(),
-		NotAfter:                    time.Now(),
+		NotBefore:                   time.Time{},
+		NotAfter:                    time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
 		KeyUsage:                    0,
 		Extensions:                  nil,
 		ExtraExtensions:             nil,
 		UnhandledCriticalExtensions: nil,
 		ExtKeyUsage:                 nil,
 		UnknownExtKeyUsage:          nil,
-		BasicConstraintsValid:       false,
+		BasicConstraintsValid:       true,
 		IsCA:                        true,
 		MaxPathLen:                  0,
 		MaxPathLenZero:              false,
@@ -161,15 +164,8 @@ func newIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
 		EmailAddresses:              nil,
 		IPAddresses:                 nil,
 		URIs:                        nil,
-		PermittedDNSDomainsCritical: false,
-		PermittedDNSDomains:         nil,
-		ExcludedDNSDomains:          nil,
-		PermittedIPRanges:           nil,
-		ExcludedIPRanges:            nil,
 		PermittedEmailAddresses:     nil,
 		ExcludedEmailAddresses:      nil,
-		PermittedURIDomains:         nil,
-		ExcludedURIDomains:          nil,
 		CRLDistributionPoints:       nil,
 		PolicyIdentifiers:           nil,
 	}
@@ -177,19 +173,27 @@ func newIntermediate(parent *x509.Certificate) (*x509.Certificate, error) {
 	if err != nil {
 		return nil, err
 	}
-	cert, err := x509.CreateCertificate(rand.Reader, &template, parent, key.Public(), key)
+	cert, err := x509.CreateCertificate(rand.Reader, &template, parent.Certificate, key.Public(), parent.private)
 	if err != nil {
 		return nil, err
 	}
-	return x509.ParseCertificate(cert)
+	c, err := x509.ParseCertificate(cert)
+	if err != nil {
+		return nil, err
+	}
+	return &Certificate{
+		Certificate: c,
+		public:      key.Public(),
+		private:     key,
+	}, nil
 }
 
 // This is NOT a healthy example of a leaf certificate, this is nothing
 // more than a self signed certificate with IsCA set to false. Not even any
 // basic constraints are defined. Please do not think that this will be
 // acceptable to any system, let alone lint particularly well.
-func newLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (*x509.Certificate, error) {
-	var parent *x509.Certificate
+func newLeaf(trustAnchor *Certificate, intermediates []*Certificate) (*Certificate, error) {
+	var parent *Certificate
 	if len(intermediates) == 0 {
 		parent = trustAnchor
 	} else {
@@ -210,8 +214,8 @@ func newLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 		SerialNumber:                nextSerial(),
 		Issuer:                      pkix.Name{},
 		Subject:                     pkix.Name{},
-		NotBefore:                   time.Now(),
-		NotAfter:                    time.Now(),
+		NotBefore:                   time.Time{},
+		NotAfter:                    time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
 		KeyUsage:                    0,
 		Extensions:                  nil,
 		ExtraExtensions:             nil,
@@ -230,15 +234,8 @@ func newLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 		EmailAddresses:              nil,
 		IPAddresses:                 nil,
 		URIs:                        nil,
-		PermittedDNSDomainsCritical: false,
-		PermittedDNSDomains:         nil,
-		ExcludedDNSDomains:          nil,
-		PermittedIPRanges:           nil,
-		ExcludedIPRanges:            nil,
 		PermittedEmailAddresses:     nil,
 		ExcludedEmailAddresses:      nil,
-		PermittedURIDomains:         nil,
-		ExcludedURIDomains:          nil,
 		CRLDistributionPoints:       nil,
 		PolicyIdentifiers:           nil,
 	}
@@ -246,11 +243,19 @@ func newLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 	if err != nil {
 		return nil, err
 	}
-	cert, err := x509.CreateCertificate(rand.Reader, &template, parent, key.Public(), key)
+	cert, err := x509.CreateCertificate(rand.Reader, &template, parent.Certificate, key.Public(), parent.private)
 	if err != nil {
 		return nil, err
 	}
-	return x509.ParseCertificate(cert)
+	c, err := x509.ParseCertificate(cert)
+	if err != nil {
+		return nil, err
+	}
+	return &Certificate{
+		Certificate: c,
+		public:      key.Public(),
+		private:     key,
+	}, nil
 }
 
 // Formats the given certificate into OpenSSL's textual output. For example:
@@ -295,7 +300,7 @@ func newLeaf(trustAnchor *x509.Certificate, intermediates []*x509.Certificate) (
 //
 // Requires a copy of openssl in $PATH as it is simply making a
 // subprocess call out to it.
-func openSSLFormatCertificate(cert *x509.Certificate) (string, error) {
+func openSSLFormatCertificate(cert *Certificate) (string, error) {
 	block := pem.EncodeToMemory(&pem.Block{
 		Type:  "CERTIFICATE",
 		Bytes: cert.Raw,
@@ -334,3 +339,9 @@ var nextSerial = func() func() *big.Int {
 //		}
 //		return serial
 //	}
+
+type Certificate struct {
+	*x509.Certificate
+	public  interface{}
+	private interface{}
+}
