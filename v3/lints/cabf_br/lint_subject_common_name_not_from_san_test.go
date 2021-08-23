@@ -30,7 +30,7 @@ func TestCnNotFromSAN(t *testing.T) {
 	}{
 		{
 			name:           "Pass - commonName in SAN.DNSNames",
-			inputFile:      "SANRegisteredIDBeginning.pem",
+			inputFile:      "SANRegisteredIdBeginning.pem",
 			expectedOutput: lint.Pass,
 		},
 		{
