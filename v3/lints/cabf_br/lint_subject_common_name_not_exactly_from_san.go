@@ -15,47 +15,46 @@ package cabf_br
  */
 
 import (
-	"strings"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-type subjectCommonNameNotFromSAN struct{}
+type subjectCommonNameNotExactlyFromSAN struct{}
 
 /************************************************
-BRs: 7.1.4.2.2
-If present, this field MUST contain a single IP address
-or Fully‐Qualified Domain Name that is one of the values
-contained in the Certificate’s subjectAltName extension (see Section 7.1.4.2.1).
+If present, this field MUST contain exactly one entry that is one of the values contained
+in the Certificate's `subjectAltName` extension
+
+If the [subject:commonName] is a Fully-Qualified Domain Name or Wildcard Domain Name, then
+the value MUST be encoded as a character-for-character copy of the dNSName entry value from
+the subjectAltName extension.
 ************************************************/
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:            "e_subject_common_name_not_from_san",
-		Description:     "The common name field in subscriber certificates must include only names from the SAN extension",
-		Citation:        "BRs: 7.1.4.2.2",
-		Source:          lint.CABFBaselineRequirements,
-		EffectiveDate:   util.CABEffectiveDate,
-		IneffectiveDate: util.CABFBRs_SC48_EffectiveDate,
-		Lint:            NewSubjectCommonNameNotFromSAN,
+		Name:          "e_subject_common_name_not_exactly_from_san",
+		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
+		Citation:      "BRs: 7.1.4.2.2",
+		Source:        lint.CABFBaselineRequirements,
+		EffectiveDate: util.CABFBRs_SC48_EffectiveDate,
+		Lint:          NewSubjectCommonNameNotExactlyFromSAN,
 	})
 }
 
-func NewSubjectCommonNameNotFromSAN() lint.LintInterface {
-	return &subjectCommonNameNotFromSAN{}
+func NewSubjectCommonNameNotExactlyFromSAN() lint.LintInterface {
+	return &subjectCommonNameNotExactlyFromSAN{}
 }
 
-func (l *subjectCommonNameNotFromSAN) CheckApplies(c *x509.Certificate) bool {
+func (l *subjectCommonNameNotExactlyFromSAN) CheckApplies(c *x509.Certificate) bool {
 	return c.Subject.CommonName != "" && !util.IsCACert(c)
 }
 
-func (l *subjectCommonNameNotFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *subjectCommonNameNotExactlyFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
 	cn := c.Subject.CommonName
 
 	for _, dn := range c.DNSNames {
-		if strings.EqualFold(cn, dn) {
+		if cn == dn {
 			return &lint.LintResult{Status: lint.Pass}
 		}
 	}

@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestCnNotFromSAN(t *testing.T) {
+func TestCnNotExactlyFromSAN(t *testing.T) {
 	var testCases = []struct {
 		name      string
 		inputFile string
@@ -30,29 +30,29 @@ func TestCnNotFromSAN(t *testing.T) {
 	}{
 		{
 			name:           "Pass - commonName in SAN.DNSNames",
-			inputFile:      "SANRegisteredIDBeginning.pem",
-			expectedOutput: lint.Pass,
-		},
-		{
-			name:           "Pass - common name in SAN.DNSNames but case mismatch",
-			inputFile:      "SANCaseNotMatchingCN.pem",
+			inputFile:      "SANWithCNSeptember2021.pem",
 			expectedOutput: lint.Pass,
 		},
 		{
 			name:           "Error - common name not in SAN.DNSNames",
-			inputFile:      "SANWithMissingCN.pem",
+			inputFile:      "SANWithoutCNSeptember2021.pem",
+			expectedOutput: lint.Error,
+		},
+		{
+			name:           "Error - common name in SAN.DNSNames but case mismatch",
+			inputFile:      "SANCaseNotMatchingCNSeptember2021.pem",
 			expectedOutput: lint.Error,
 		},
 		{
 			name:           "NE - certificate issued before 21 August 2021",
-			inputFile:      "SANWithCNSeptember2021.pem",
+			inputFile:      "SANWithMissingCN.pem",
 			expectedOutput: lint.NE,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			out := test.TestLint("e_subject_common_name_not_from_san", tc.inputFile)
+			out := test.TestLint("e_subject_common_name_not_exactly_from_san", tc.inputFile)
 			if out.Status != tc.expectedOutput {
 				t.Errorf("%s: expected %s, got %s", tc.inputFile, tc.expectedOutput, out.Status)
 			}
