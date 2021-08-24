@@ -38,7 +38,7 @@ func init() {
 		Citation:        "BRs: 7.1.4.2.2",
 		Source:          lint.CABFBaselineRequirements,
 		EffectiveDate:   util.CABEffectiveDate,
-		IneffectiveDate: util.CABFBRs_SC48_EffectiveDate,
+		IneffectiveDate: util.CABFBRs_1_8_0_Date,
 		Lint:            NewSubjectCommonNameNotFromSAN,
 	})
 }

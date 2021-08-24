@@ -37,7 +37,7 @@ func init() {
 		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABFBRs_SC48_EffectiveDate,
+		EffectiveDate: util.CABFBRs_1_8_0_Date,
 		Lint:          NewSubjectCommonNameNotExactlyFromSAN,
 	})
 }
