@@ -34,6 +34,16 @@ func TestCnNotExactlyFromSAN(t *testing.T) {
 			expectedOutput: lint.Pass,
 		},
 		{
+			name:           "Pass - common name and SAN.IPAddress, IPv4",
+			inputFile:      "SANIPv4Address.pem",
+			expectedOutput: lint.Pass,
+		},
+		{
+			name:           "Pass - common name and SAN.IPAddress, IPv6",
+			inputFile:      "SANIPv6Address.pem",
+			expectedOutput: lint.Pass,
+		},
+		{
 			name:           "Error - common name not in SAN.DNSNames",
 			inputFile:      "SANWithoutCNSeptember2021.pem",
 			expectedOutput: lint.Error,
@@ -41,6 +51,16 @@ func TestCnNotExactlyFromSAN(t *testing.T) {
 		{
 			name:           "Error - common name in SAN.DNSNames but case mismatch",
 			inputFile:      "SANCaseNotMatchingCNSeptember2021.pem",
+			expectedOutput: lint.Error,
+		},
+		{
+			name:           "Error - common name not in SAN.IPAddresses, IPv4",
+			inputFile:      "SANIPv4AddressNotMatchingCommonName.pem",
+			expectedOutput: lint.Error,
+		},
+		{
+			name:           "Error - common name not in SAN.IPAddresses, IPv6",
+			inputFile:      "SANIPv6AddressNotMatchingCommonName.pem",
 			expectedOutput: lint.Error,
 		},
 		{
