@@ -44,6 +44,16 @@ func TestCnNotExactlyFromSAN(t *testing.T) {
 			expectedOutput: lint.Pass,
 		},
 		{
+			name:           "Pass - IPv6 with a single 16-bit 0 field",
+			inputFile:      "SANIPv6AddressOne0Field.pem",
+			expectedOutput: lint.Pass,
+		},
+		{
+			name:           "Error - IPv6 choice in abbreviation",
+			inputFile:      "SANIPv6AddressChoiceInAbbreviation.pem",
+			expectedOutput: lint.Pass,
+		},
+		{
 			name:           "Error - common name not in SAN.DNSNames",
 			inputFile:      "SANWithoutCNSeptember2021.pem",
 			expectedOutput: lint.Error,
@@ -61,6 +71,12 @@ func TestCnNotExactlyFromSAN(t *testing.T) {
 		{
 			name:           "Error - common name not in SAN.IPAddresses, IPv6",
 			inputFile:      "SANIPv6AddressNotMatchingCommonName.pem",
+			expectedOutput: lint.Error,
+		},
+
+		{
+			name:           "Error - IPv6 choice in abbreviation, common name is invalid long form",
+			inputFile:      "SANIPv6AddressChoiceInAbbreviationInvalid.pem",
 			expectedOutput: lint.Error,
 		},
 		{
