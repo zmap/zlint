@@ -59,23 +59,11 @@ func (l *subjectCommonNameNotExactlyFromSAN) Execute(c *x509.Certificate) *lint.
 		}
 	}
 
-	/*
-		if cnIP := net.ParseIP(cn); cnIP != nil {
-			for _, ip := range c.IPAddresses {
-				if cnIP.Equal(ip) { //== ip.String() {
-					return &lint.LintResult{Status: lint.Pass}
-				}
-			}
-		}
-		//*/
-
-	//*
 	for _, ip := range c.IPAddresses {
 		if cn == ip.String() {
 			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
-	//*/
 
 	return &lint.LintResult{Status: lint.Error}
 }
