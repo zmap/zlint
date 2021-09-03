@@ -47,23 +47,34 @@ func NewSubjectCommonNameNotExactlyFromSAN() lint.LintInterface {
 }
 
 func (l *subjectCommonNameNotExactlyFromSAN) CheckApplies(c *x509.Certificate) bool {
-	return c.Subject.CommonName != "" && !util.IsCACert(c)
+	return len(c.Subject.CommonNames) > 0 && !util.IsCACert(c)
 }
 
 func (l *subjectCommonNameNotExactlyFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
-	cn := c.Subject.CommonName
-
-	for _, dn := range c.DNSNames {
-		if cn == dn {
-			return &lint.LintResult{Status: lint.Pass}
+	for _, cn := range c.Subject.CommonNames {
+		var cnFound = false
+		for _, dn := range c.DNSNames {
+			if cn == dn {
+				cnFound = true
+				break
+			}
 		}
+		if cnFound {
+			continue
+		}
+
+		for _, ip := range c.IPAddresses {
+			if cn == ip.String() {
+				cnFound = true
+				break
+			}
+		}
+		if cnFound {
+			continue
+		}
+
+		return &lint.LintResult{Status: lint.Error}
 	}
 
-	for _, ip := range c.IPAddresses {
-		if cn == ip.String() {
-			return &lint.LintResult{Status: lint.Pass}
-		}
-	}
-
-	return &lint.LintResult{Status: lint.Error}
+	return &lint.LintResult{Status: lint.Pass}
 }
