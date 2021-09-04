@@ -5,7 +5,7 @@ require (
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0 // indirect
-	github.com/zmap/zcrypto v0.0.0-20210617162039-12fab6686964
+	github.com/zmap/zcrypto v0.0.0-20210811211718-6f9bc4aff20f
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
 	golang.org/x/sys v0.0.0-20210228012217-479acdf4ea46 // indirect

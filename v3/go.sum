@@ -23,12 +23,12 @@ github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXf
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
-github.com/weppos/publicsuffix-go v0.15.1-0.20210607115855-ec3753e8c6e1 h1:1QMSsYHQs/tq8Z/GshPwJpEP7ddhjz3+B/LujFvkNpU=
-github.com/weppos/publicsuffix-go v0.15.1-0.20210607115855-ec3753e8c6e1/go.mod h1:HYux0V0Zi04bHNwOHy4cXJVz/TQjYonnF6aoYhj+3QE=
+github.com/weppos/publicsuffix-go v0.15.1-0.20210807195340-dc689ff0bb59 h1:AVtJaLXRE+TF52GI9c+vTzW677NEIwfHidI6hs61D/I=
+github.com/weppos/publicsuffix-go v0.15.1-0.20210807195340-dc689ff0bb59/go.mod h1:HYux0V0Zi04bHNwOHy4cXJVz/TQjYonnF6aoYhj+3QE=
 github.com/zmap/rc2 v0.0.0-20131011165748-24b9757f5521/go.mod h1:3YZ9o3WnatTIZhuOtot4IcUfzoKVjUHqu6WALIyI0nE=
 github.com/zmap/zcertificate v0.0.0-20180516150559-0e3d58b1bac4/go.mod h1:5iU54tB79AMBcySS0R2XIyZBAVmeHranShAFELYx7is=
-github.com/zmap/zcrypto v0.0.0-20210617162039-12fab6686964 h1:LUdaYSB3ey5sn6rlZS67QroJ44epujjnSKMhrCRYXMs=
-github.com/zmap/zcrypto v0.0.0-20210617162039-12fab6686964/go.mod h1:eZramRe7StLBURDZiUuLkCsxsSMTkIiomA6SCMokDOg=
+github.com/zmap/zcrypto v0.0.0-20210811211718-6f9bc4aff20f h1:MzfKzJlHUwLuo5aFqBY5PHBoJRdTCiUpyieQ2NC82kM=
+github.com/zmap/zcrypto v0.0.0-20210811211718-6f9bc4aff20f/go.mod h1:y/9hjFEub4DtQxTHp/pqticBgdYeCwL97vojV3lsvHY=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
