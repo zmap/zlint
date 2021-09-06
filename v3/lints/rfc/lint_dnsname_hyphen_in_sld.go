@@ -31,12 +31,12 @@ func init() {
 		Citation:      "RFC5280: 4.2.1.6",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameHyphenInSLD{},
+		Lint:          NewDNSNameHyphenInSLD,
 	})
 }
 
-func (l *DNSNameHyphenInSLD) Initialize() error {
-	return nil
+func NewDNSNameHyphenInSLD() lint.LintInterface {
+	return &DNSNameHyphenInSLD{}
 }
 
 func (l *DNSNameHyphenInSLD) CheckApplies(c *x509.Certificate) bool {

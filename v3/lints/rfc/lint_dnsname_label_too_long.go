@@ -31,12 +31,12 @@ func init() {
 		Citation:      "RFC 5280: 4.2.1.6, citing RFC 1035",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameLabelLengthTooLong{},
+		Lint:          NewDNSNameLabelLengthTooLong,
 	})
 }
 
-func (l *DNSNameLabelLengthTooLong) Initialize() error {
-	return nil
+func NewDNSNameLabelLengthTooLong() lint.LintInterface {
+	return &DNSNameLabelLengthTooLong{}
 }
 
 func (l *DNSNameLabelLengthTooLong) CheckApplies(c *x509.Certificate) bool {

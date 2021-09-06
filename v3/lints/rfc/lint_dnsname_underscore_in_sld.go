@@ -31,12 +31,12 @@ func init() {
 		Citation:      "RFC5280: 4.2.1.6",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
-		Lint:          &DNSNameUnderscoreInSLD{},
+		Lint:          NewDNSNameUnderscoreInSLD,
 	})
 }
 
-func (l *DNSNameUnderscoreInSLD) Initialize() error {
-	return nil
+func NewDNSNameUnderscoreInSLD() lint.LintInterface {
+	return &DNSNameUnderscoreInSLD{}
 }
 
 func (l *DNSNameUnderscoreInSLD) CheckApplies(c *x509.Certificate) bool {
