@@ -581,6 +581,7 @@
     "e_subject_common_name_max_length": {
       "ErrCount": 31
     },
+    "e_subject_common_name_not_exactly_from_san": {},
     "e_subject_common_name_not_from_san": {
       "ErrCount": 229
     },
