@@ -73,7 +73,7 @@ func (l *subjectCommonNameNotExactlyFromSAN) Execute(c *x509.Certificate) *lint.
 			continue
 		}
 
-		return &lint.LintResult{Status: lint.Error}
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Missing common name, '%s'", cn)}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
