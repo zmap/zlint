@@ -49,8 +49,12 @@ func (l *IDNNotNFC) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {
-			if strings.HasPrefix(label, "xn--") {
-				unicodeLabel, err := idna.ToUnicode(label)
+			labelLower := strings.ToLower((label))
+
+			if strings.HasPrefix(labelLower, "xn--") {
+				// We need to use the lowercase label due to a bug in idna
+				// See: https://github.com/golang/go/issues/48778
+				unicodeLabel, err := idna.ToUnicode(labelLower)
 				if err != nil {
 					return &lint.LintResult{Status: lint.NA}
 				}
