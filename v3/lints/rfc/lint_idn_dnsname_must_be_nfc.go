@@ -20,7 +20,6 @@ import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
-	"golang.org/x/net/idna"
 	"golang.org/x/text/unicode/norm"
 )
 
@@ -49,8 +48,8 @@ func (l *IDNNotNFC) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
 		labels := strings.Split(dns, ".")
 		for _, label := range labels {
-			if strings.HasPrefix(label, "xn--") {
-				unicodeLabel, err := idna.ToUnicode(label)
+			if util.IsACEPrefixed(label) {
+				unicodeLabel, err := util.IdnaToUnicode(label)
 				if err != nil {
 					return &lint.LintResult{Status: lint.NA}
 				}
