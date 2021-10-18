@@ -15,7 +15,6 @@
 package cabf_br
 
 import (
-	"regexp"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -34,14 +33,10 @@ func init() {
 	})
 }
 
-type DNSNameContainsProhibitedReservedLabel struct {
-	CompiledExpression *regexp.Regexp
-}
+type DNSNameContainsProhibitedReservedLabel struct{}
 
 func NewDNSNameContainsProhibitedReservedLabel() lint.LintInterface {
-	return &DNSNameContainsProhibitedReservedLabel{
-		CompiledExpression: regexp.MustCompile(`^(?P<AceId>.{2})--.*$`),
-	}
+	return &DNSNameContainsProhibitedReservedLabel{}
 }
 
 func (l *DNSNameContainsProhibitedReservedLabel) CheckApplies(c *x509.Certificate) bool {
@@ -53,14 +48,8 @@ func (l *DNSNameContainsProhibitedReservedLabel) Execute(c *x509.Certificate) *l
 		labels := strings.Split(dns, ".")
 
 		for _, label := range labels {
-			match := l.CompiledExpression.FindStringSubmatch(label)
-
-			if match != nil {
-				aceId := match[l.CompiledExpression.SubexpIndex("AceId")]
-
-				if strings.ToLower(aceId) != "xn" {
-					return &lint.LintResult{Status: lint.Error}
-				}
+			if util.HasReservedLabelPrefix(label) && !util.HasXNLabelPrefix(label) {
+				return &lint.LintResult{Status: lint.Error}
 			}
 		}
 	}

@@ -20,9 +20,20 @@ import (
 	"golang.org/x/net/idna"
 )
 
+var reservedLabelPrefix = regexp.MustCompile(`^..--`)
+
 var xnLabelPrefix = regexp.MustCompile(`(?i)^xn--`)
 
-// HasXNLabelPrefix checks whether-or-not the given string (presumably a
+// HasReservedLabelPrefix checks whether the given string (presumably
+// a domain label) has hyphens ("-") as the third and fourth characters. Domain
+// labels with hyphens in these positions are considered to be "Reserved Labels"
+// per RFC 5890, section 2.3.1.
+// (https://datatracker.ietf.org/doc/html/rfc5890#section-2.3.1)
+func HasReservedLabelPrefix(s string) bool {
+	return reservedLabelPrefix.MatchString(s)
+}
+
+// HasXNLabelPrefix checks whether the given string (presumably a
 // domain label) is prefixed with the case-insensitive string "xn--" (the
 // IDNA ACE prefix).
 //

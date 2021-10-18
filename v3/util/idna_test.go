@@ -20,7 +20,28 @@ import (
 	"golang.org/x/net/idna"
 )
 
-func TestIsIdnaACEPrefixed(t *testing.T) {
+func TestHasReservedLabelPrefix(t *testing.T) {
+	input := map[string]bool{
+		"ab--":       true,
+		"ab--foo":    true,
+		"a---foo":    true,
+		"A---foo":    true,
+		"XN--foo":    true,
+		"":           false,
+		"a-b":        false,
+		"a--":        false,
+		"foobar--aa": false,
+		"XNA--foo":   false,
+	}
+	for input, want := range input {
+		got := HasReservedLabelPrefix(input)
+		if got != want {
+			t.Errorf("got %v want %v for input '%s'", got, want, input)
+		}
+	}
+}
+
+func TestHasXNLabelPrefix(t *testing.T) {
 	input := map[string]bool{
 		"xn--zlint.org": true,
 		"Xn--zlint.org": true,
