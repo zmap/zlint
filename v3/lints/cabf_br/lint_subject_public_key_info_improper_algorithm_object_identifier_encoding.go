@@ -45,7 +45,7 @@ For P‐521 keys: 301006072a8648ce3d020106052b81040023
 ************************************************/
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name: "algorithm_identifier_improper_encoding",
+		Name: "e_algorithm_identifier_improper_encoding",
 		Description: "Encoded AlgorithmObjectIdentifier objects inside a SubjectPublicKeyInfo field " +
 			"MUST comply with specified byte sequences.",
 		Citation:      "BRs: 7.1.3.1",

@@ -63,7 +63,7 @@ func TestWrongSubjectPublicKeyAlgorithmIdentifierObjectEncoding(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("algorithm_identifier_improper_encoding", tc.InputFilename)
+			result := test.TestLint("e_algorithm_identifier_improper_encoding", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
