@@ -22,28 +22,40 @@ import (
 )
 
 func TestCnNotFromSAN(t *testing.T) {
-	inputPath := "SANWithMissingCN.pem"
-	expected := lint.Error
-	out := test.TestLint("e_subject_common_name_not_from_san", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
+	var testCases = []struct {
+		name      string
+		inputFile string
 
-func TestCnFromSAN(t *testing.T) {
-	inputPath := "SANRegisteredIdBeginning.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_subject_common_name_not_from_san", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+		expectedOutput lint.LintStatus
+	}{
+		{
+			name:           "Pass - commonName in SAN.DNSNames",
+			inputFile:      "SANRegisteredIdBeginning.pem",
+			expectedOutput: lint.Pass,
+		},
+		{
+			name:           "Pass - common name in SAN.DNSNames but case mismatch",
+			inputFile:      "SANCaseNotMatchingCN.pem",
+			expectedOutput: lint.Pass,
+		},
+		{
+			name:           "Error - common name not in SAN.DNSNames",
+			inputFile:      "SANWithMissingCN.pem",
+			expectedOutput: lint.Error,
+		},
+		{
+			name:           "NE - certificate issued before 21 August 2021",
+			inputFile:      "SANWithCNSeptember2021.pem",
+			expectedOutput: lint.NE,
+		},
 	}
-}
 
-func TestSANCaseNotMatchingCN(t *testing.T) {
-	inputPath := "SANCaseNotMatchingCN.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_subject_common_name_not_from_san", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			out := test.TestLint("e_subject_common_name_not_from_san", tc.inputFile)
+			if out.Status != tc.expectedOutput {
+				t.Errorf("%s: expected %s, got %s", tc.inputFile, tc.expectedOutput, out.Status)
+			}
+		})
 	}
 }

@@ -22,37 +22,41 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type IDNMalformedUnicode struct{}
+type DNSNameEmptyLabel struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_international_dns_name_not_unicode",
-		Description:   "Internationalized DNSNames punycode not valid Unicode",
-		Citation:      "RFC 3490",
-		EffectiveDate: util.RFC3490Date,
+		Name:          "e_rfc_dnsname_empty_label",
+		Description:   "DNSNames should not have an empty label.",
+		Citation:      "RFC5280: 4.2.1.6",
 		Source:        lint.RFC5280,
-		Lint:          NewIDNMalformedUnicode,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          NewDNSNameEmptyLabel,
 	})
 }
 
-func NewIDNMalformedUnicode() lint.LintInterface {
-	return &IDNMalformedUnicode{}
+func NewDNSNameEmptyLabel() lint.LintInterface {
+	return &DNSNameEmptyLabel{}
 }
 
-func (l *IDNMalformedUnicode) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
+func (l *DNSNameEmptyLabel) CheckApplies(c *x509.Certificate) bool {
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) *lint.LintResult {
+func domainHasEmptyLabel(domain string) bool {
+	labels := strings.Split(domain, ".")
+	for _, elem := range labels {
+		if elem == "" {
+			return true
+		}
+	}
+	return false
+}
+
+func (l *DNSNameEmptyLabel) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
-		labels := strings.Split(dns, ".")
-		for _, label := range labels {
-			if util.HasXNLabelPrefix(label) {
-				_, err := util.IdnaToUnicode(label)
-				if err != nil {
-					return &lint.LintResult{Status: lint.Error}
-				}
-			}
+		if domainHasEmptyLabel(dns) {
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}

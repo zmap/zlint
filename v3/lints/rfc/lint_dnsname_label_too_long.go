@@ -22,37 +22,42 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type IDNMalformedUnicode struct{}
+type DNSNameLabelLengthTooLong struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_international_dns_name_not_unicode",
-		Description:   "Internationalized DNSNames punycode not valid Unicode",
-		Citation:      "RFC 3490",
-		EffectiveDate: util.RFC3490Date,
+		Name:          "e_rfc_dnsname_label_too_long",
+		Description:   "DNSName labels MUST be less than or equal to 63 characters",
+		Citation:      "RFC 5280: 4.2.1.6, citing RFC 1035",
 		Source:        lint.RFC5280,
-		Lint:          NewIDNMalformedUnicode,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          NewDNSNameLabelLengthTooLong,
 	})
 }
 
-func NewIDNMalformedUnicode() lint.LintInterface {
-	return &IDNMalformedUnicode{}
+func NewDNSNameLabelLengthTooLong() lint.LintInterface {
+	return &DNSNameLabelLengthTooLong{}
 }
 
-func (l *IDNMalformedUnicode) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
+func (l *DNSNameLabelLengthTooLong) CheckApplies(c *x509.Certificate) bool {
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) *lint.LintResult {
+func labelLengthTooLong(domain string) bool {
+	labels := strings.Split(domain, ".")
+	for _, label := range labels {
+		if len(label) > 63 {
+			return true
+		}
+	}
+	return false
+}
+
+func (l *DNSNameLabelLengthTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, dns := range c.DNSNames {
-		labels := strings.Split(dns, ".")
-		for _, label := range labels {
-			if util.HasXNLabelPrefix(label) {
-				_, err := util.IdnaToUnicode(label)
-				if err != nil {
-					return &lint.LintResult{Status: lint.Error}
-				}
-			}
+		labelTooLong := labelLengthTooLong(dns)
+		if labelTooLong {
+			return &lint.LintResult{Status: lint.Error}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}

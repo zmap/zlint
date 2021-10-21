@@ -22,38 +22,37 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type IDNMalformedUnicode struct{}
+type DNSNameUnderscoreInTRD struct{}
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_international_dns_name_not_unicode",
-		Description:   "Internationalized DNSNames punycode not valid Unicode",
-		Citation:      "RFC 3490",
-		EffectiveDate: util.RFC3490Date,
+		Name:          "w_rfc_dnsname_underscore_in_trd",
+		Description:   "DNSName MUST NOT contain underscore characters",
+		Citation:      "RFC5280: 4.1.2.6",
 		Source:        lint.RFC5280,
-		Lint:          NewIDNMalformedUnicode,
+		EffectiveDate: util.RFC5280Date,
+		Lint:          NewDNSNameUnderscoreInTRD,
 	})
 }
 
-func NewIDNMalformedUnicode() lint.LintInterface {
-	return &IDNMalformedUnicode{}
+func NewDNSNameUnderscoreInTRD() lint.LintInterface {
+	return &DNSNameUnderscoreInTRD{}
 }
 
-func (l *IDNMalformedUnicode) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.SubjectAlternateNameOID)
+func (l *DNSNameUnderscoreInTRD) CheckApplies(c *x509.Certificate) bool {
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
 }
 
-func (l *IDNMalformedUnicode) Execute(c *x509.Certificate) *lint.LintResult {
-	for _, dns := range c.DNSNames {
-		labels := strings.Split(dns, ".")
-		for _, label := range labels {
-			if util.HasXNLabelPrefix(label) {
-				_, err := util.IdnaToUnicode(label)
-				if err != nil {
-					return &lint.LintResult{Status: lint.Error}
-				}
-			}
+func (l *DNSNameUnderscoreInTRD) Execute(c *x509.Certificate) *lint.LintResult {
+	parsedSANDNSNames := c.GetParsedDNSNames(false)
+	for i := range c.GetParsedDNSNames(false) {
+		if parsedSANDNSNames[i].ParseError != nil {
+			return &lint.LintResult{Status: lint.NA}
+		}
+		if strings.Contains(parsedSANDNSNames[i].ParsedDomain.TRD, "_") {
+			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
+
 	return &lint.LintResult{Status: lint.Pass}
 }
