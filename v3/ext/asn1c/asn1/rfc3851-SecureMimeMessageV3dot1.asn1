@@ -1,0 +1,86 @@
+
+-- 
+-- ASN.1 module found by ../../asn1c/examples/crfc2asn1.pl in rfc3851.txt at line 1693
+-- 
+
+SecureMimeMessageV3dot1
+  { iso(1) member-body(2) us(840) rsadsi(113549)
+         pkcs(1) pkcs-9(9) smime(16) modules(0) msg-v3dot1(21) }
+
+DEFINITIONS IMPLICIT TAGS ::=
+BEGIN
+
+IMPORTS
+-- Cryptographic Message Syntax
+    SubjectKeyIdentifier, IssuerAndSerialNumber,
+    RecipientKeyIdentifier
+        FROM    CryptographicMessageSyntax
+               { iso(1) member-body(2) us(840) rsadsi(113549)
+                 pkcs(1) pkcs-9(9) smime(16) modules(0) cms-2001(14) };
+
+
+--  id-aa is the arc with all new authenticated and unauthenticated
+--  attributes produced the by S/MIME Working Group
+
+id-aa OBJECT IDENTIFIER ::= {iso(1) member-body(2) usa(840)
+        rsadsi(113549) pkcs(1) pkcs-9(9) smime(16) attributes(2)}
+
+-- S/MIME Capabilities provides a method of broadcasting the symmetric
+-- capabilities understood.  Algorithms SHOULD be ordered by
+-- preference and grouped by type
+
+smimeCapabilities OBJECT IDENTIFIER ::=
+   {iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs-9(9) 15}
+
+SMIMECapability ::= SEQUENCE {
+   capabilityID OBJECT IDENTIFIER,
+   parameters ANY DEFINED BY capabilityID OPTIONAL }
+
+SMIMECapabilities ::= SEQUENCE OF SMIMECapability
+
+-- Encryption Key Preference provides a method of broadcasting the
+-- preferred encryption certificate.
+
+id-aa-encrypKeyPref OBJECT IDENTIFIER ::= {id-aa 11}
+
+SMIMEEncryptionKeyPreference ::= CHOICE {
+   issuerAndSerialNumber   [0] IssuerAndSerialNumber,
+   receipentKeyId          [1] RecipientKeyIdentifier,
+   subjectAltKeyIdentifier [2] SubjectKeyIdentifier
+}
+
+
+
+
+
+
+id-smime OBJECT IDENTIFIER ::= { iso(1) member-body(2)
+   us(840) rsadsi(113549) pkcs(1) pkcs9(9) 16 }
+
+id-cap  OBJECT IDENTIFIER ::= { id-smime 11 }
+
+-- The preferBinaryInside indicates an ability to receive messages
+-- with binary encoding inside the CMS wrapper
+
+id-cap-preferBinaryInside  OBJECT IDENTIFIER ::= { id-cap 1 }
+
+--  The following list the OIDs to be used with S/MIME V3
+
+-- Signature Algorithms Not Found in [CMSALG]
+--
+-- md2WithRSAEncryption OBJECT IDENTIFIER ::=
+--    {iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs-1(1)
+--     2}
+--
+-- Other Signed Attributes
+--
+-- signingTime OBJECT IDENTIFIER ::=
+--    {iso(1) member-body(2) us(840) rsadsi(113549) pkcs(1) pkcs-9(9)
+--     5}
+--    See [CMS] for a description of how to encode the attribute
+--    value.
+
+SMIMECapabilitiesParametersForRC2CBC ::= INTEGER
+--        (RC2 Key Length (number of bits))
+
+END

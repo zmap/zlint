@@ -1,0 +1,98 @@
+-- 
+-- ASN.1 module for various attributes.
+-- For use with syntactic linter.
+-- Fotis Loukos
+-- 
+
+OtherAttributesModule DEFINITIONS ::=
+
+BEGIN
+
+-- EXPORTS ALL
+
+IMPORTS
+          DirectoryName
+             FROM PKIX1Explicit88 {iso(1) identified-organization(3)
+                  dod(6) internet(1) security(5) mechanisms(5) pkix(7)
+                  id-mod(0) id-pkix1-explicit-88(18)};
+
+StreetAddress ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-street-address)),
+      printableString   PrintableString (SIZE (1..ub-street-address)),
+      universalString   UniversalString (SIZE (1..ub-street-address)),
+      utf8String        UTF8String      (SIZE (1..ub-street-address)),
+      bmpString         BMPString       (SIZE (1..ub-street-address)) }
+
+BusinessCategory ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-business-category)),
+      printableString   PrintableString (SIZE (1..ub-business-category)),
+      universalString   UniversalString (SIZE (1..ub-business-category)),
+      utf8String        UTF8String      (SIZE (1..ub-business-category)),
+      bmpString         BMPString       (SIZE (1..ub-business-category)) }
+
+Description ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-description)),
+      printableString   PrintableString (SIZE (1..ub-description)),
+      universalString   UniversalString (SIZE (1..ub-description)),
+      utf8String        UTF8String      (SIZE (1..ub-description)),
+      bmpString         BMPString       (SIZE (1..ub-description)) }
+
+PostalString ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-postal-string)),
+      printableString   PrintableString (SIZE (1..ub-postal-string)),
+      universalString   UniversalString (SIZE (1..ub-postal-string)),
+      utf8String        UTF8String      (SIZE (1..ub-postal-string)),
+      bmpString         BMPString       (SIZE (1..ub-postal-string)) }
+
+PostalAddress ::= SEQUENCE SIZE (1..ub-postal-line) OF PostalString
+
+PostalCode ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-postal-code)),
+      printableString   PrintableString (SIZE (1..ub-postal-code)),
+      universalString   UniversalString (SIZE (1..ub-postal-code)),
+      utf8String        UTF8String      (SIZE (1..ub-postal-code)),
+      bmpString         BMPString       (SIZE (1..ub-postal-code)) }
+
+PostOfficeBox ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-post-office-box)),
+      printableString   PrintableString (SIZE (1..ub-post-office-box)),
+      universalString   UniversalString (SIZE (1..ub-post-office-box)),
+      utf8String        UTF8String      (SIZE (1..ub-post-office-box)),
+      bmpString         BMPString       (SIZE (1..ub-post-office-box)) }
+
+OrganizationIdentifier ::= CHOICE {
+      teletexString     TeletexString,
+      printableString   PrintableString,
+      universalString   UniversalString,
+      utf8String        UTF8String,
+      bmpString         BMPString }
+
+UserId ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..256)),
+      printableString   PrintableString (SIZE (1..256)),
+      universalString   UniversalString (SIZE (1..256)),
+      utf8String        UTF8String      (SIZE (1..256)),
+      bmpString         BMPString       (SIZE (1..256)) }
+
+UnstructuredName ::= CHOICE {
+      ia5String         IA5String       (SIZE (1..pkcs-9-ub-unstructuredName)),
+      directoryString   UnstructuredNameDirectoryString }
+
+UnstructuredNameDirectoryString ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..pkcs-9-ub-unstructuredName)),
+      printableString   PrintableString (SIZE (1..pkcs-9-ub-unstructuredName)),
+      universalString   UniversalString (SIZE (1..pkcs-9-ub-unstructuredName)),
+      utf8String        UTF8String      (SIZE (1..pkcs-9-ub-unstructuredName)),
+      bmpString         BMPString       (SIZE (1..pkcs-9-ub-unstructuredName)) }
+
+ub-business-category INTEGER ::= 128
+ub-description INTEGER ::= 1024
+ub-post-office-box INTEGER ::= 40
+ub-postal-code INTEGER ::= 40
+ub-postal-line INTEGER ::= 6
+ub-postal-string INTEGER ::= 30
+ub-street-address INTEGER ::= 128
+pkcs-9-ub-unstructuredName INTEGER ::= 255
+
+END
+

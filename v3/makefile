@@ -18,7 +18,7 @@ BUILD = $(GO_ENV) go build --ldflags="-X 'main.version=$(GIT_VERSION)'"
 TEST = $(GO_ENV) GORACE=halt_on_error=1 go test -race
 INT_TEST = $(GO_ENV) go test -v -tags integration -timeout 20m ./integration/. -parallelism $(PARALLELISM) $(INT_FLAGS)
 
-all: $(CMDS)
+all: ext $(CMDS)
 
 zlint:
 	$(BUILD) $(CMD_PREFIX)$(@)
@@ -26,7 +26,11 @@ zlint:
 zlint-gtld-update:
 	$(BUILD) $(CMD_PREFIX)$(@)
 
+ext:
+	cd ext/asn1c && make
+
 clean:
+	cd ext/asn1c && make clean
 	rm -f $(CMDS)
 
 test:
@@ -47,4 +51,4 @@ custom-code-lint:
 testdata-lint:
 	./test/prepend_testcerts_openssl.sh && git diff --exit-code testdata/
 
-.PHONY: clean zlint zlint-gtld-update test integration code-lint testdata-lint custom-code-lint
+.PHONY: clean zlint zlint-gtld-update ext test integration code-lint testdata-lint custom-code-lint

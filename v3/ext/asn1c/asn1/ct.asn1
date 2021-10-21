@@ -1,0 +1,22 @@
+-- 
+-- ASN.1 module for RFC6962 CT
+-- For use with syntactic linter.
+-- Fotis Loukos
+-- 
+
+CertificateTransparencyModule DEFINITIONS ::=
+
+BEGIN
+
+-- EXPORTS ALL
+
+id-google OBJECT IDENTIFIER ::= { iso(1) identified-organization(3) dod(6) internet(1)
+  private(4) enterprise(1) google(11129) }
+
+id-google-signedCertificateTimestampList OBJECT IDENTIFIER ::=  { id-ce 2 4 2 }
+id-google-certificateTransparencyPoison OBJECT IDENTIFIER ::= { id-google 2 4 3 }
+
+SignedCertificateTimestampList ::= OCTET STRING
+CertificateTransparencyPoison ::= NULL
+
+END

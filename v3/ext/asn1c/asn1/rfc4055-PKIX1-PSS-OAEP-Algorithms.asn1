@@ -1,0 +1,327 @@
+
+-- 
+-- ASN.1 module found by ../../asn1c/examples/crfc2asn1.pl in rfc4055.txt at line 769
+-- Minor edits by Fotis Loukos to compile with asn1c.
+-- 
+
+   PKIX1-PSS-OAEP-Algorithms
+        { iso(1) identified-organization(3) dod(6)
+          internet(1) security(5) mechanisms(5) pkix(7) id-mod(0)
+          id-mod-pkix1-rsa-pkalgs(33) }
+
+      DEFINITIONS EXPLICIT TAGS ::= BEGIN
+
+      -- EXPORTS All;
+
+      IMPORTS
+
+        AlgorithmIdentifier
+            FROM PKIX1Explicit88 -- Found in [PROFILE]
+            { iso(1) identified-organization(3) dod(6) internet(1)
+              security(5) mechanisms(5) pkix(7) id-mod(0)
+              id-pkix1-explicit(18) } ;
+
+
+
+
+
+
+
+
+      -- ============================
+      --   Basic object identifiers
+      -- ============================
+
+      pkcs-1  OBJECT IDENTIFIER  ::=  { iso(1) member-body(2)
+                              us(840) rsadsi(113549) pkcs(1) 1 }
+
+      -- When rsaEncryption is used in an AlgorithmIdentifier the
+      -- parameters MUST be present and MUST be NULL.
+
+      -- Collides with RFC5480.
+      -- rsaEncryption  OBJECT IDENTIFIER  ::=  { pkcs-1 1 }
+
+      -- When id-RSAES-OAEP is used in an AlgorithmIdentifier,
+      -- and the parameters field is present, it MUST be
+      -- RSAES-OAEP-params
+
+      id-RSAES-OAEP  OBJECT IDENTIFIER  ::=  { pkcs-1 7 }
+
+      -- When id-pSpecified is used in an AlgorithmIdentifier the
+      -- parameters MUST be an OCTET STRING.
+
+      id-pSpecified  OBJECT IDENTIFIER  ::=  { pkcs-1 9 }
+
+      -- When id-RSASSA-PSS is used in an AlgorithmIdentifier, and the
+      -- parameters field is present, it MUST be RSASSA-PSS-params.
+
+      id-RSASSA-PSS  OBJECT IDENTIFIER  ::=  { pkcs-1 10 }
+
+      -- When id-mgf1 is used in an AlgorithmIdentifier the parameters
+      -- MUST be present and MUST be a HashAlgorithm.
+
+      id-mgf1  OBJECT IDENTIFIER  ::=  { pkcs-1 8 }
+
+      -- When the following OIDs are used in an AlgorithmIdentifier, the
+      -- parameters MUST be present and MUST be NULL.
+
+      sha224WithRSAEncryption  OBJECT IDENTIFIER  ::=  { pkcs-1 14 }
+
+      sha256WithRSAEncryption  OBJECT IDENTIFIER  ::=  { pkcs-1 11 }
+
+      sha384WithRSAEncryption  OBJECT IDENTIFIER  ::=  { pkcs-1 12 }
+
+      sha512WithRSAEncryption  OBJECT IDENTIFIER  ::=  { pkcs-1 13 }
+
+
+
+
+
+
+
+
+
+
+      -- When the following OIDs are used in an AlgorithmIdentifier the
+      -- parameters SHOULD be absent, but if the parameters are present,
+      -- they MUST be NULL.
+
+      -- Collides with RFC5480.
+      -- id-sha1  OBJECT IDENTIFIER  ::=  { iso(1)
+      --                      identified-organization(3) oiw(14)
+      --                      secsig(3) algorithms(2) 26 }
+
+      id-sha224  OBJECT IDENTIFIER  ::=  { joint-iso-itu-t(2)
+                           country(16) us(840) organization(1) gov(101)
+                           csor(3) nistalgorithm(4) hashalgs(2) 4 }
+
+      id-sha256  OBJECT IDENTIFIER  ::=  { joint-iso-itu-t(2)
+                           country(16) us(840) organization(1) gov(101)
+                           csor(3) nistalgorithm(4) hashalgs(2) 1 }
+
+      id-sha384  OBJECT IDENTIFIER  ::=  { joint-iso-itu-t(2)
+                           country(16) us(840) organization(1) gov(101)
+                           csor(3) nistalgorithm(4) hashalgs(2) 2 }
+
+      id-sha512  OBJECT IDENTIFIER  ::=  { joint-iso-itu-t(2)
+                           country(16) us(840) organization(1) gov(101)
+                           csor(3) nistalgorithm(4) hashalgs(2) 3 }
+
+      -- =============
+      --   Constants
+      -- =============
+
+      OctetStringParameters ::= OCTET STRING
+      NullOctetString ::=  OCTET STRING (SIZE (0))
+
+      NullParameters ::= NULL
+      nullParameters NULL  ::=  NULL
+
+      -- =========================
+      --   Algorithm Identifiers
+      -- =========================
+
+      sha1Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-sha1,
+                              parameters nullParameters  }
+
+      sha224Identifier    AlgorithmIdentifier  ::=  {
+                              algorithm id-sha224,
+                              parameters nullParameters  }
+
+      sha256Identifier    AlgorithmIdentifier  ::=  {
+                              algorithm id-sha256,
+                              parameters nullParameters  }
+
+
+
+
+
+
+      sha384Identifier    AlgorithmIdentifier  ::=  {
+                              algorithm id-sha384,
+                              parameters nullParameters  }
+
+      sha512Identifier    AlgorithmIdentifier  ::=  {
+                              algorithm id-sha512,
+                              parameters nullParameters  }
+
+      mgf1SHA1Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-mgf1,
+                              parameters sha1Identifier }
+
+      mgf1SHA224Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-mgf1,
+                              parameters sha224Identifier }
+
+      mgf1SHA256Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-mgf1,
+                              parameters sha256Identifier }
+
+      mgf1SHA384Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-mgf1,
+                              parameters sha384Identifier }
+
+      mgf1SHA512Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-mgf1,
+                              parameters sha512Identifier }
+
+      pSpecifiedEmptyIdentifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-pSpecified,
+                              parameters NullOctetString: ''H }
+
+      rSASSA-PSS-Default-Params RSASSA-PSS-params ::=  {
+                              hashAlgorithm sha1Identifier,
+                              maskGenAlgorithm mgf1SHA1Identifier,
+                              saltLength 20,
+                              trailerField 1  }
+
+      rSASSA-PSS-Default-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSASSA-PSS,
+                              parameters rSASSA-PSS-Default-Params }
+
+      rSASSA-PSS-SHA224-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSASSA-PSS,
+                              parameters rSASSA-PSS-SHA224-Params }
+
+
+
+
+
+
+
+
+      rSASSA-PSS-SHA224-Params RSASSA-PSS-params ::= {
+                              hashAlgorithm sha224Identifier,
+                              maskGenAlgorithm mgf1SHA224Identifier,
+                              saltLength 20,
+                              trailerField 1  }
+
+      rSASSA-PSS-SHA256-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSASSA-PSS,
+                              parameters rSASSA-PSS-SHA256-Params }
+
+      rSASSA-PSS-SHA256-Params RSASSA-PSS-params ::=  {
+                              hashAlgorithm sha256Identifier,
+                              maskGenAlgorithm mgf1SHA256Identifier,
+                              saltLength 20,
+                              trailerField 1  }
+
+      rSASSA-PSS-SHA384-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSASSA-PSS,
+                              parameters rSASSA-PSS-SHA384-Params }
+
+      rSASSA-PSS-SHA384-Params RSASSA-PSS-params ::= {
+                              hashAlgorithm sha384Identifier,
+                              maskGenAlgorithm mgf1SHA384Identifier,
+                              saltLength 20,
+                              trailerField 1  }
+
+      rSASSA-PSS-SHA512-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSASSA-PSS,
+                              parameters rSSASSA-PSS-SHA512-params }
+
+      rSSASSA-PSS-SHA512-params RSASSA-PSS-params ::= {
+                              hashAlgorithm sha512Identifier,
+                              maskGenAlgorithm mgf1SHA512Identifier,
+                              saltLength 20,
+                              trailerField 1  }
+
+      rSAES-OAEP-Default-Params RSAES-OAEP-params ::=  {
+                              hashFunc sha1Identifier,
+                              maskGenFunc mgf1SHA1Identifier,
+                              pSourceFunc pSpecifiedEmptyIdentifier  }
+
+      rSAES-OAEP-Default-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSAES-OAEP,
+                              parameters rSAES-OAEP-Default-Params }
+
+      rSAES-OAEP-SHA224-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSAES-OAEP,
+                              parameters rSAES-OAEP-SHA224-Params }
+
+
+
+
+
+
+      rSAES-OAEP-SHA224-Params RSAES-OAEP-params ::=   {
+                              hashFunc sha224Identifier,
+                              maskGenFunc mgf1SHA224Identifier,
+                              pSourceFunc pSpecifiedEmptyIdentifier  }
+
+      rSAES-OAEP-SHA256-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSAES-OAEP,
+                              parameters rSAES-OAEP-SHA256-Params }
+
+      rSAES-OAEP-SHA256-Params RSAES-OAEP-params ::=  {
+                              hashFunc sha256Identifier,
+                              maskGenFunc mgf1SHA256Identifier,
+                              pSourceFunc pSpecifiedEmptyIdentifier  }
+
+      rSAES-OAEP-SHA384-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSAES-OAEP,
+                              parameters rSAES-OAEP-SHA384-Params }
+
+      rSAES-OAEP-SHA384-Params RSAES-OAEP-params ::=  {
+                              hashFunc sha384Identifier,
+                              maskGenFunc mgf1SHA384Identifier,
+                              pSourceFunc pSpecifiedEmptyIdentifier  }
+
+      rSAES-OAEP-SHA512-Identifier  AlgorithmIdentifier  ::=  {
+                              algorithm id-RSAES-OAEP,
+                              parameters rSAES-OAEP-SHA512-Params }
+
+      rSAES-OAEP-SHA512-Params RSAES-OAEP-params ::=  {
+                              hashFunc sha512Identifier,
+                              maskGenFunc mgf1SHA512Identifier,
+                              pSourceFunc pSpecifiedEmptyIdentifier  }
+
+      -- ===================
+      --   Main structures
+      -- ===================
+
+      -- Used in SubjectPublicKeyInfo of X.509 Certificate.
+
+      -- Collides with RFC5480.
+      -- RSAPublicKey  ::=  SEQUENCE  {
+      --    modulus           INTEGER,    - n
+      --    publicExponent    INTEGER  }  - e
+
+
+
+
+
+
+
+
+
+
+
+      -- AlgorithmIdentifier parameters for id-RSASSA-PSS.
+      -- Note that the tags in this Sequence are explicit.
+
+      RSASSA-PSS-params  ::=  SEQUENCE  {
+         hashAlgorithm     [0] HashAlgorithm DEFAULT
+                                  sha1Identifier,
+         maskGenAlgorithm  [1] MaskGenAlgorithm DEFAULT
+                                  mgf1SHA1Identifier,
+         saltLength        [2] INTEGER DEFAULT 20,
+         trailerField      [3] INTEGER DEFAULT 1  }
+
+      HashAlgorithm  ::=  AlgorithmIdentifier
+
+      MaskGenAlgorithm  ::=  AlgorithmIdentifier
+
+      -- AlgorithmIdentifier parameters for id-RSAES-OAEP.
+      -- Note that the tags in this Sequence are explicit.
+
+      RSAES-OAEP-params  ::=  SEQUENCE  {
+         hashFunc          [0] AlgorithmIdentifier DEFAULT
+                                  sha1Identifier,
+         maskGenFunc       [1] AlgorithmIdentifier DEFAULT
+                                  mgf1SHA1Identifier,
+         pSourceFunc       [2] AlgorithmIdentifier DEFAULT
+                                  pSpecifiedEmptyIdentifier  }
+
+      END

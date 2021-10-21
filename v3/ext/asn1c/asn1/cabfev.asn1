@@ -1,0 +1,59 @@
+-- 
+-- ASN.1 module for CA/B Forum EV Certificates
+-- For use with syntactic linter. Official module uses the 2008 syntax which is incompatible with asn1c.
+-- Fotis Loukos
+-- 
+
+CABFSelectedAttributeTypes DEFINITIONS ::=
+
+BEGIN
+
+-- EXPORTS ALL
+
+IMPORTS
+      ub-locality-name, ub-state-name
+      FROM PKIX1Explicit88 { iso(1) identified-organization(3)
+            dod(6) internet(1) security(5) mechanisms(5) pkix(7)
+            id-mod(0) id-pkix1-explicit(18) };
+
+id-evat-jurisdiction OBJECT IDENTIFIER ::= { iso(1) identified-organization(3) dod(6) internet(1)
+  private(4) enterprise(1) 311 ev(60) 2 1 }
+
+id-evat-jurisdiction-localityName OBJECT IDENTIFIER ::= { id-evat-jurisdiction 1 }
+id-evat-jurisdiction-stateOrProvinceName OBJECT IDENTIFIER ::= { id-evat-jurisdiction 2 }
+id-evat-jurisdiction-countryName OBJECT IDENTIFIER ::= { id-evat-jurisdiction 3 }
+
+cabf-TorServiceDescriptor OBJECT IDENTIFIER ::= { 2 23 140 1 31 }
+id-CABFOrganizationIdentifier OBJECT IDENTIFIER ::= { 2 23 140 3 1 }
+
+JurisdictionLocalityName ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-locality-name)),
+      printableString   PrintableString (SIZE (1..ub-locality-name)),
+      universalString   UniversalString (SIZE (1..ub-locality-name)),
+      utf8String        UTF8String      (SIZE (1..ub-locality-name)),
+      bmpString         BMPString       (SIZE (1..ub-locality-name)) }
+
+JurisdictionStateOrProvinceName ::= CHOICE {
+      teletexString     TeletexString   (SIZE (1..ub-state-name)),
+      printableString   PrintableString (SIZE (1..ub-state-name)),
+      universalString   UniversalString (SIZE (1..ub-state-name)),
+      utf8String        UTF8String      (SIZE (1..ub-state-name)),
+      bmpString         BMPString       (SIZE (1..ub-state-name)) }
+
+JurisdictionCountryName ::=     PrintableString (SIZE (2))
+
+TorServiceDescriptorSyntax ::= SEQUENCE SIZE (1..MAX) OF TorServiceDescriptorHash
+
+TorServiceDescriptorHash ::= SEQUENCE {
+    onionURI UTF8String,
+    algorithm AlgorithmIdentifier,
+    subjectPublicKeyHash BIT STRING }
+
+CABFOrganizationIdentifier ::= SEQUENCE {
+    registrationSchemeIdentifier   PrintableString (SIZE(3)),
+    registrationCountry            PrintableString (SIZE(2)),
+    registrationStateOrProvince    [0] IMPLICIT PrintableString (SIZE(0..128)) OPTIONAL,
+    registrationReference          UTF8String }
+
+END
+
