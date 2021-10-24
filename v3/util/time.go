@@ -60,6 +60,7 @@ var (
 	MozillaPolicy24Date         = time.Date(2017, time.February, 28, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy241Date        = time.Date(2017, time.March, 31, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy27Date         = time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)
+	CABFBRs_1_2_1_Date          = time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_6_9_Date          = time.Date(2020, time.March, 27, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_7_1_Date          = time.Date(2020, time.August, 20, 0, 0, 0, 0, time.UTC)
 	AppleReducedLifetimeDate    = time.Date(2020, time.September, 1, 0, 0, 0, 0, time.UTC)
@@ -119,4 +120,14 @@ func GetTimes(cert *x509.Certificate) (asn1.RawValue, asn1.RawValue) {
 		return asn1.RawValue{}, asn1.RawValue{}
 	}
 	return firstDate, secondDate
+}
+
+// BeforeOrOn returns whether left is before or strictly equal to right.
+func BeforeOrOn(left, right time.Time) bool {
+	return !left.After(right)
+}
+
+// OnOrAfter returns whether left is after or strictly equal to right.
+func OnOrAfter(left, right time.Time) bool {
+	return !left.Before(right)
 }
