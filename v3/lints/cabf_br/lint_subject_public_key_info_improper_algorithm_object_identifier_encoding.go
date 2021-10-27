@@ -16,7 +16,6 @@ package cabf_br
 
 import (
 	"bytes"
-	"crypto/ecdsa"
 	"encoding/hex"
 	"fmt"
 
@@ -25,10 +24,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type AlgorithmObjectIdentifierEncoding struct {
-	// Contains all specified byte sequences depending on the public key algorithm/type
-	expectedRawAlgorithmIdentifiers map[string][]byte
-}
+type algorithmObjectIdentifierEncoding struct{}
 
 /************************************************
 This lint refers to CAB Baseline Requirements (Version 1.7.4) chapter 7.1.3.1, which defines the
@@ -56,80 +52,37 @@ func init() {
 }
 
 func NewAlgorithmObjectIdentifierEncoding() lint.LintInterface {
-	expectedRawAlgorithmIdentifiers := make(map[string][]byte)
-	expectedRawAlgorithmIdentifiers["RSA"] = []byte{0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86,
-		0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00}
-	expectedRawAlgorithmIdentifiers["P-256"] = []byte{0x30, 0x13, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce,
-		0x3d, 0x02, 0x01, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07}
-	expectedRawAlgorithmIdentifiers["P-384"] = []byte{0x30, 0x10, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce,
-		0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x22}
-	expectedRawAlgorithmIdentifiers["P-521"] = []byte{0x30, 0x10, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce,
-		0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x23}
-
-	return &AlgorithmObjectIdentifierEncoding{
-		expectedRawAlgorithmIdentifiers: expectedRawAlgorithmIdentifiers,
-	}
+	return &algorithmObjectIdentifierEncoding{}
 }
 
-func (l *AlgorithmObjectIdentifierEncoding) CheckApplies(c *x509.Certificate) bool {
-	// the requirement is only specified for RSA and ECDSA (P-256, P-384, P-521)
-	if c.PublicKeyAlgorithm == x509.RSA {
-		return true
-	}
-	if c.PublicKeyAlgorithm == x509.ECDSA {
-		curveName := l.determinePublicKeyType(c)
-		return curveName == "P-256" || curveName == "P-384" || curveName == "P-521"
-	}
-	return false
+var allowedPublicKeyEncodings = [4][]byte{
+	// encoded AlgorithmIdentifier for an RSA key
+	{0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00},
+	// encoded AlgorithmIdentifier for a P-256 key
+	{0x30, 0x13, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07},
+	// encoded AlgorithmIdentifier for a P-384 key
+	{0x30, 0x10, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x22},
+	// encoded AlgorithmIdentifier for a P-521 key
+	{0x30, 0x10, 0x06, 0x07, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x02, 0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x23},
 }
 
-func (l *AlgorithmObjectIdentifierEncoding) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *algorithmObjectIdentifierEncoding) CheckApplies(c *x509.Certificate) bool {
+	// always check if the public key is one of the four explicitly specified encodings
+	return true
+}
 
-	resolvedPublicKeyAlgorithm := l.determinePublicKeyType(c)
+func (l *algorithmObjectIdentifierEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 
 	rawAlgorithmIdentifier, err := util.GetPublicKeyAidEncoded(c)
 	if err != nil {
 		return &lint.LintResult{Status: lint.Fatal, Details: "error parsing SubjectPublicKeyInfo"}
 	}
 
-	expectedRawAlgorithmIdentifier, found := l.expectedRawAlgorithmIdentifiers[resolvedPublicKeyAlgorithm]
-	if !found {
-		return &lint.LintResult{Status: lint.Fatal, Details: "unexpected public key type"}
-	}
-
-	if !bytes.Equal(rawAlgorithmIdentifier, expectedRawAlgorithmIdentifier) {
-		return &lint.LintResult{
-			Status: lint.Error,
-			Details: fmt.Sprintf(
-				"The encoded AlgorithmObjectIdentifier for %s inside the the SubjectPublicKeyInfo field is %q but the expected one is %q.",
-				resolvedPublicKeyAlgorithm,
-				hex.EncodeToString(rawAlgorithmIdentifier), hex.EncodeToString(expectedRawAlgorithmIdentifier)),
+	for _, encoding := range allowedPublicKeyEncodings {
+		if bytes.Equal(rawAlgorithmIdentifier, encoding) {
+			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
-	return &lint.LintResult{Status: lint.Pass}
-}
 
-func (l *AlgorithmObjectIdentifierEncoding) determinePublicKeyType(c *x509.Certificate) string {
-
-	switch c.PublicKeyAlgorithm {
-	case x509.RSA:
-		return "RSA"
-	case x509.ECDSA:
-		return l.determineCurveName(c.PublicKey)
-	default:
-		return ""
-	}
-}
-
-func (l *AlgorithmObjectIdentifierEncoding) determineCurveName(pubKey interface{}) string {
-
-	var ecPubKey *ecdsa.PublicKey
-	switch keyType := pubKey.(type) {
-	case *x509.AugmentedECDSA:
-		ecPubKey = keyType.Pub
-	case *ecdsa.PublicKey:
-		ecPubKey = keyType
-	}
-
-	return ecPubKey.Curve.Params().Name
+	return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("The encoded AlgorithmObjectIdentifier %q inside the SubjectPublicKeyInfo field is not allowed", hex.EncodeToString(rawAlgorithmIdentifier))}
 }

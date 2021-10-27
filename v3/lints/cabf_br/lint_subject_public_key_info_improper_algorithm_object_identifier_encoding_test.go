@@ -29,9 +29,10 @@ func TestWrongSubjectPublicKeyAlgorithmIdentifierObjectEncoding(t *testing.T) {
 		ExpectedDetails string
 	}{
 		{
-			Name:           "Wrong subject public key algorithm identifier object algorithm",
-			InputFilename:  "dsaCert.pem",
-			ExpectedResult: lint.NA,
+			Name:            "Wrong subject public key algorithm identifier object algorithm",
+			InputFilename:   "dsaCert.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "The encoded AlgorithmObjectIdentifier \"3082012b06072a8648ce3804013082011e02818100931d0880233aece9e2b816fb0e2daecc2b044e6131f401d784266b16fdf12992bb098f19f108ce4395f323859e7dfd19c88c2e75c976ca76c4ec61ec39efe745124683b726436926b79a36acac5ed9a02cd55bed1653912e10b5422823cf6d6b80057c88fe2da1fba521642142303a9f76c5cfcdf6d79dc4da1a6678f7d8cde3021500d13f595a85e4b55fe6f4c4b58090a979c03f212d02818029cc9723232468277f26e5148324661b0d2f54099cda8bbdd455f3f6faf33e72b99ed49b04358d82213d6ef4c3a70ed4f604d04814d60ff69c8307edaf3d49c596bebb0198797469d15422efcdb68a028c8aba632539576e9d5d077bd61b4abb6496cb58ea18e998c5123e551dc78a7c1bdd064dec12ef138be63a98159fa898\" inside the SubjectPublicKeyInfo field is not allowed",
 		},
 		{
 			Name:           "Correct subject public key algorithm identifier for RSA",
@@ -57,7 +58,7 @@ func TestWrongSubjectPublicKeyAlgorithmIdentifierObjectEncoding(t *testing.T) {
 			Name:            "Public Key is RSA but the explicit NULL is missing from the parameters",
 			InputFilename:   "publicKeyIsRSAExplicitNullMissing.pem",
 			ExpectedResult:  lint.Error,
-			ExpectedDetails: "The encoded AlgorithmObjectIdentifier for RSA inside the the SubjectPublicKeyInfo field is \"300b06092a864886f70d010101\" but the expected one is \"300d06092a864886f70d0101010500\".",
+			ExpectedDetails: "The encoded AlgorithmObjectIdentifier \"300b06092a864886f70d010101\" inside the SubjectPublicKeyInfo field is not allowed",
 		},
 	}
 
