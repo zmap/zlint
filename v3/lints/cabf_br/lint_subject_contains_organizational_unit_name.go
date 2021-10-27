@@ -35,7 +35,7 @@ September 1, 2022.
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_contains_organizational_unit_name",
-		Description:   "If a subject organization name is absent or the certificate is issued on or after 1. September 2022, an organizational unit name MUST NOT be included in subject",
+		Description:   "If a subject organization name is absent or the certificate is issued on or after September 1, 2022, an organizational unit name MUST NOT be included in subject",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABFBRs_1_7_9_Date,
