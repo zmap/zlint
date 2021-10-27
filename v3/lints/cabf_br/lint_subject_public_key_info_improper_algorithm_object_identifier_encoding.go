@@ -97,9 +97,7 @@ func (l *AlgorithmObjectIdentifierEncoding) Execute(c *x509.Certificate) *lint.L
 		return &lint.LintResult{Status: lint.Fatal, Details: "unexpected public key type"}
 	}
 
-	if bytes.Equal(rawAlgorithmIdentifier, expectedRawAlgorithmIdentifier) {
-		return &lint.LintResult{Status: lint.Pass}
-	} else {
+	if !bytes.Equal(rawAlgorithmIdentifier, expectedRawAlgorithmIdentifier) {
 		return &lint.LintResult{
 			Status: lint.Error,
 			Details: fmt.Sprintf(
@@ -108,6 +106,7 @@ func (l *AlgorithmObjectIdentifierEncoding) Execute(c *x509.Certificate) *lint.L
 				hex.EncodeToString(rawAlgorithmIdentifier), hex.EncodeToString(expectedRawAlgorithmIdentifier)),
 		}
 	}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func (l *AlgorithmObjectIdentifierEncoding) determinePublicKeyType(c *x509.Certificate) string {
