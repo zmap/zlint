@@ -36,7 +36,7 @@ clean:
 test:
 	$(TEST) ./...
 
-integration:
+integration: ext
 	$(INT_TEST)
 
 code-lint:
