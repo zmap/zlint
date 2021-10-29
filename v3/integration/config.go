@@ -117,7 +117,7 @@ func loadConfig(file string) (*config, error) {
 // to aspects such as duplicate entries with in the Expected field.
 func findProblemsInTheConfig(configBytes []byte, c *config) []string {
 	problems := make([]string, 0)
-	for lintName := range c.Expected {
+	for lintName, _ := range c.Expected {
 		declarations := bytes.Count(configBytes, []byte(lintName))
 		if declarations > 1 {
 			linenos := findLineNumbers(configBytes, []byte(lintName))
