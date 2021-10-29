@@ -26,10 +26,10 @@ import (
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_fqdn_contains_non_ldh_label",
-		Description:   "The FQDN contained in the dNSName MUST be composed entirely of LDH Labels.",
+		Description:   "The Fully‐Qualified Domain Name or the FQDN portion of the Wildcard Domain Name contained in the entry MUST be composed entirely of LDH Labels",
 		Citation:      "BR 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
+		EffectiveDate: util.CABFBRs_1_8_0_Date,
 		Lint:          NewFQDNContainsNonLDHLabel,
 	})
 }

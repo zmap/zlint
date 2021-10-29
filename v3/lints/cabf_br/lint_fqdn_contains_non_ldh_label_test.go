@@ -27,7 +27,7 @@ func TestFQDNContainsNonLDHLabel(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			InputFilename:  `dnsNameWildcardLeftOfPublicSuffix.pem`,
+			InputFilename:  `dnsNameValidWildcard.pem`,
 			ExpectedResult: lint.Pass,
 		},
 		{
@@ -35,23 +35,23 @@ func TestFQDNContainsNonLDHLabel(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			InputFilename:  `dnsNameEmptyLabel.pem`,
+			InputFilename:  `dnsNameNonLDHEmptyLabel.pem`,
 			ExpectedResult: lint.Error,
 		},
 		{
-			InputFilename:  `dnsNameBadCharacterInLabel.pem`,
+			InputFilename:  `dnsNameNonLDHInvalidCharacter.pem`,
 			ExpectedResult: lint.Error,
 		},
 		{
-			InputFilename:  `dnsNameLabelTooLong.pem`,
+			InputFilename:  `dnsNameNonLDHTooLongLabel.pem`,
 			ExpectedResult: lint.Error,
 		},
 		{
-			InputFilename:  `dnsNameLabelStartsWithHyphen.pem`,
+			InputFilename:  `dnsNameNonLDHStartsWithHyphen.pem`,
 			ExpectedResult: lint.Error,
 		},
 		{
-			InputFilename:  `dnsNameLabelEndsWithHyphen.pem`,
+			InputFilename:  `dnsNameNonLDHEndsWithHyphen.pem`,
 			ExpectedResult: lint.Error,
 		},
 	}
