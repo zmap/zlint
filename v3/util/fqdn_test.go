@@ -1012,3 +1012,25 @@ func TestGetHostWithUserinfoWithPortWithAbsolutePathWithQueryWithFragment(t *tes
 		)
 	}
 }
+
+func IsLabelFoo(label string) bool {
+	return label == "foo"
+}
+
+func TestAllLabelsSatisfyPredicate(t *testing.T) {
+	input := map[string]bool{
+		"foo":     true,
+		"foo.foo": true,
+		"":        false,
+		".foo":    false,
+		"foo.":    false,
+		".foo.":   false,
+	}
+
+	for input, want := range input {
+		got := AllLabelsSatisfyPredicate(input, IsLabelFoo)
+		if got != want {
+			t.Errorf("got %v want %v for input '%s'", got, want, input)
+		}
+	}
+}
