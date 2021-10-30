@@ -4338,6 +4338,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2001-11-01",
 		RemovalDate:    "",
 	},
+	"music": {
+		GTLD:           "music",
+		DelegationDate: "2021-10-29",
+		RemovalDate:    "",
+	},
 	"mutual": {
 		GTLD:           "mutual",
 		DelegationDate: "2016-04-05",
@@ -5161,7 +5166,7 @@ var tldMap = map[string]GTLDPeriod{
 	"qvc": {
 		GTLD:           "qvc",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2021-10-07",
 	},
 	"racing": {
 		GTLD:           "racing",
@@ -7006,7 +7011,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--3oq18vl8pn36a": {
 		GTLD:           "xn--3oq18vl8pn36a",
 		DelegationDate: "2016-08-16",
-		RemovalDate:    "",
+		RemovalDate:    "2021-10-27",
 	},
 	"xn--3pxu8k": {
 		GTLD:           "xn--3pxu8k",
