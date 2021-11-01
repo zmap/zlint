@@ -48,8 +48,10 @@ func NewSubjectContainsOrganizationalUnitName() lint.LintInterface {
 	return &SubjectContainsOrganizationalUnitName{}
 }
 
+var subjectOUSunsetDate = time.Date(2022, time.September, 1, 0, 0, 0, 0, time.UTC)
+
 func (l *SubjectContainsOrganizationalUnitName) CheckApplies(cert *x509.Certificate) bool {
-	return !cert.NotBefore.Before(time.Date(2022, time.September, 1, 0, 0, 0, 0, time.UTC))
+	return !cert.NotBefore.Before(subjectOUSunsetDate)
 }
 
 func (l *SubjectContainsOrganizationalUnitName) Execute(cert *x509.Certificate) *lint.LintResult {
