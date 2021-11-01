@@ -15,14 +15,12 @@ package cabf_br
  */
 
 import (
-	"time"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-type SubjectContainsOrganizationalUnitName struct{}
+type SubjectContainsOrganizationalUnitNameButNoOrganizationName struct{}
 
 /************************************************
 BRs: 7.1.4.2.2
@@ -30,32 +28,32 @@ Certificate Field: subject:organizationalUnitName (OID: 2.5.4.11)
 Required/Optional: Deprecated. Prohibited if the
 subject:organizationName is absent or the certificate is issued on or after
 September 1, 2022.
-This lint check the second requirement, i.e.: Prohibited if the certificate is issued on or after September 1, 2022.
+This lint check the first requirement, i.e.: Prohibited if the subject:organizationName is absent.
 ************************************************/
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_contains_organizational_unit_name",
-		Description:   "If the certificate is issued on or after 1. September 2022, an organizational unit name MUST NOT be included in subject",
+		Name:          "e_subject_contains_organizational_unit_name_and_no_organization_name",
+		Description:   "If a subject organization name is absent then an organizational unit name MUST NOT be included in subject",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABFBRs_1_7_9_Date,
-		Lint:          NewSubjectContainsOrganizationalUnitName,
+		Lint:          NewSubjectContainsOrganizationalUnitNameButNoOrganizationName,
 	})
 }
 
-func NewSubjectContainsOrganizationalUnitName() lint.LintInterface {
-	return &SubjectContainsOrganizationalUnitName{}
+func NewSubjectContainsOrganizationalUnitNameButNoOrganizationName() lint.LintInterface {
+	return &SubjectContainsOrganizationalUnitNameButNoOrganizationName{}
 }
 
-func (l *SubjectContainsOrganizationalUnitName) CheckApplies(cert *x509.Certificate) bool {
-	return !cert.NotBefore.Before(time.Date(2022, time.September, 1, 0, 0, 0, 0, time.UTC))
+func (l *SubjectContainsOrganizationalUnitNameButNoOrganizationName) CheckApplies(cert *x509.Certificate) bool {
+	return util.TypeInName(&cert.Subject, util.OrganizationalUnitNameOID)
 }
 
-func (l *SubjectContainsOrganizationalUnitName) Execute(cert *x509.Certificate) *lint.LintResult {
+func (l *SubjectContainsOrganizationalUnitNameButNoOrganizationName) Execute(cert *x509.Certificate) *lint.LintResult {
 
-	if util.TypeInName(&cert.Subject, util.OrganizationalUnitNameOID) {
-		return &lint.LintResult{Status: lint.Error, Details: "subject:organizationalUnitName is prohibited for certificates issued on or after September 1, 2022"}
+	if !util.TypeInName(&cert.Subject, util.OrganizationNameOID) {
+		return &lint.LintResult{Status: lint.Error, Details: "subject:organizationalUnitName is prohibited if subject:organizationName is absent"}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}

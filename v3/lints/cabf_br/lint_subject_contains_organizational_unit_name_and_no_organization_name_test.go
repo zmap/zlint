@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubjectContainsOrganizationalUnitName(t *testing.T) {
+func TestSubjectContainsOrganizationalUnitNameButNoOrganizationName(t *testing.T) {
 	testCases := []struct {
 		Name            string
 		InputFilename   string
@@ -29,26 +29,31 @@ func TestSubjectContainsOrganizationalUnitName(t *testing.T) {
 		ExpectedDetails string
 	}{
 		{
-			Name:           "Certificate is issued before authoritative date",
-			InputFilename:  "subjectDnWithOuBeforeAuthoritativeDate.pem",
+			Name:           "Subject does not contain organizational unit name",
+			InputFilename:  "subjectDnWithoutOuEntry.pem",
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:           "Certificate is issued after authoritative date and subject does not contain organizational unit name",
-			InputFilename:  "subjectDnWithoutOuEntry.pem",
-			ExpectedResult: lint.Pass,
+			Name:            "Subject contains organizational unit name but no organization name",
+			InputFilename:   "subjectDnWithOuEntryButWithoutOEntry.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "subject:organizationalUnitName is prohibited if subject:organizationName is absent",
 		},
 		{
-			Name:            "Certificate is issued after authoritative date and subject contains organizational unit name",
-			InputFilename:   "subjectDnWithProhibitedOuEntry.pem",
-			ExpectedResult:  lint.Error,
-			ExpectedDetails: `subject:organizationalUnitName is prohibited for certificates issued on or after September 1, 2022`,
+			Name:           "Subject contains organizational unit and organization name but is issued before the effective date",
+			InputFilename:  "subjectWithOandOUBeforeEffectiveDate.pem",
+			ExpectedResult: lint.NE,
+		},
+		{
+			Name:           "Subject contains organizational unit and organization name and is issued after the effective date",
+			InputFilename:  "subjectWithOandOUAfterEffectiveDate.pem",
+			ExpectedResult: lint.Pass,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_subject_contains_organizational_unit_name", tc.InputFilename)
+			result := test.TestLint("e_subject_contains_organizational_unit_name_and_no_organization_name", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
