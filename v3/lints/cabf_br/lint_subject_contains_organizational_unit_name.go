@@ -36,7 +36,7 @@ This lint check the second requirement, i.e.: Prohibited if the certificate is i
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subject_contains_organizational_unit_name",
-		Description:   "If the certificate is issued on or after 1. September 2022, an organizational unit name MUST NOT be included in subject",
+		Description:   "If the certificate is issued on or after September 1, 2022, an organizational unit name MUST NOT be included in subject",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
 		EffectiveDate: util.CABFBRs_1_7_9_Date,
