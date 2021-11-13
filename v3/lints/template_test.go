@@ -3,7 +3,6 @@ package lints
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -32,7 +31,7 @@ func checkForLeftovers(filename string) error {
 		"Change this to match source TEXT",
 	}
 
-	src, err := ioutil.ReadFile(filename)
+	src, err := os.ReadFile(filename)
 	if err != nil {
 		return err
 	}
