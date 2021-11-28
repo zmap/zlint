@@ -214,11 +214,11 @@ func trimmedList(raw string) []string {
 // includeNames, excludeNames, includeSources, and excludeSources flag values in
 // use.
 func setLints() (lint.Registry, error) {
-	ctx, err := lint.NewConfigFromFile(config)
+	config, err := lint.NewConfigFromFile(config)
 	if err != nil {
 		return nil, err
 	}
-	lint.GlobalRegistry().SetContext(ctx)
+	lint.GlobalRegistry().SetConfiguration(config)
 	// If there's no filter options set, use the global registry as-is
 	if nameFilter == "" && includeNames == "" && excludeNames == "" && includeSources == "" && excludeSources == "" {
 		return lint.GlobalRegistry(), nil

@@ -92,8 +92,8 @@ type Registry interface {
 	// WriteJSON writes a description of each registered lint as
 	// a JSON object, one object per line, to the provided writer.
 	WriteJSON(w io.Writer)
-	SetContext(ctx Configuration)
-	GetContext() Configuration
+	SetConfiguration(config Configuration)
+	GetConfiguration() Configuration
 }
 
 // registryImpl implements the Registry interface to provide a global collection
@@ -240,7 +240,7 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 	}
 
 	filteredRegistry := NewRegistry()
-	filteredRegistry.SetContext(r.configuration)
+	filteredRegistry.SetConfiguration(r.configuration)
 
 	sourceExcludes := sourceListToMap(opts.ExcludeSources)
 	sourceIncludes := sourceListToMap(opts.IncludeSources)
@@ -299,11 +299,11 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 	}
 }
 
-func (r *registryImpl) SetContext(ctx Configuration) {
+func (r *registryImpl) SetConfiguration(ctx Configuration) {
 	r.configuration = ctx
 }
 
-func (r *registryImpl) GetContext() Configuration {
+func (r *registryImpl) GetConfiguration() Configuration {
 	return r.configuration
 }
 
