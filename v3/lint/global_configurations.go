@@ -74,11 +74,3 @@ type CommunityConfig struct{}
 // ...
 // ...
 type EtsiEsiConfig struct{}
-
-func (e *EtsiEsiConfig) namespace() string {
-	return string(EtsiEsi)
-}
-
-type namespacer interface {
-	namespace() string
-}
