@@ -21,9 +21,18 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestEvSanContainsIp(t *testing.T) {
+func TestEvSanIpAddressPresent(t *testing.T) {
 	inputPath := "evSanIpAddressPresent.pem"
 	expected := lint.Error
+	out := test.TestLint("e_ev_san_ip_address_present", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestEvSanIpAddressNotPresent(t *testing.T) {
+	inputPath := "evAllGood.pem"
+	expected := lint.Pass
 	out := test.TestLint("e_ev_san_ip_address_present", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
