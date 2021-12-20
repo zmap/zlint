@@ -35,6 +35,7 @@ type LintInterface interface {
 	Execute(c *x509.Certificate) *LintResult
 }
 
+// Configurable lints return a pointer into a struct that they wish to receive their configuration into.
 type Configurable interface {
 	Configure() interface{}
 }

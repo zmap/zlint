@@ -10,10 +10,37 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
+// Configuration is a ZLint configuration which serves as a target
+// to hold the full TOML tree that is a physical ZLint configuration./
 type Configuration struct {
 	tree *toml.Tree
 }
 
+// Configure attempts to deserialize the provided namespace into the provided empty interface
+//
+// For example, let's say that the name if your lint is MyLint, then the configuration
+// file might looks something like the following.
+//
+// ```
+//	[MyLint]
+//	A = 1
+//	B = 2
+// ```
+//
+// Given this, our target struct may look like the following.
+//
+// ```
+//	type MytLint struct {
+//		A int
+//		B uint
+//	}
+// ```
+//
+// So deserializing into this struct would look like,
+//
+// ```
+// configuration.Configure(&myLint, myLint.Name())
+// ```
 func (c Configuration) Configure(lint interface{}, namespace string) error {
 	return c.deserializeConfigInto(lint, namespace)
 }
@@ -110,15 +137,6 @@ func (c Configuration) deserializeConfigInto(target interface{}, namespace strin
 // into the value held by the provided interface{}.
 //
 // This procedure is recursive.
-//
-// gocyclo is disabled because the relatively tall switch gives this function an outsized
-// cyclomatic complexity rating despite it being relatively simple to understand (if not redundant).
-// This redundancy is largely because Go neither has templating nor types as values.
-//
-// This procedure is certainly subject to compression if there is a more clever way to do this, although
-// the Golang reflect package is rather unwieldy to being with, so it may be tricky.
-//
-//nolint:gocyclo
 func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 	value := reflect.Indirect(reflect.ValueOf(i))
 	if value.Kind() != reflect.Struct {
@@ -142,159 +160,16 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 		if !field.CanInterface() {
 			continue
 		}
-		var val reflect.Value
-		switch t := field.Interface().(type) {
-		case Global:
-			err := c.deserializeConfigInto(&t, "")
+		if config, ok := field.Interface().(GlobalConfiguration); ok {
+			if field.Kind() == reflect.Ptr && field.IsZero() {
+				config = reflect.New(field.Type().Elem()).Interface().(GlobalConfiguration)
+			}
+			err := c.deserializeConfigInto(config, config.namespace())
 			if err != nil {
 				return err
 			}
-			val = reflect.ValueOf(t)
-		case *Global:
-			if t == nil {
-				t = &Global{}
-			}
-			err := c.deserializeConfigInto(t, "")
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case RFC5280Config:
-			err := c.deserializeConfigInto(&t, string(RFC5280))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *RFC5280Config:
-			if t == nil {
-				t = &RFC5280Config{}
-			}
-			err := c.deserializeConfigInto(t, string(RFC5280))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case RFC5480Config:
-			err := c.deserializeConfigInto(&t, string(RFC5480))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *RFC5480Config:
-			if t == nil {
-				t = &RFC5480Config{}
-			}
-			err := c.deserializeConfigInto(t, string(RFC5480))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case RFC5891Config:
-			err := c.deserializeConfigInto(&t, string(RFC5891))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *RFC5891Config:
-			if t == nil {
-				t = &RFC5891Config{}
-			}
-			err := c.deserializeConfigInto(t, string(RFC5891))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case CABFBaselineRequirementsConfig:
-			err := c.deserializeConfigInto(&t, string(CABFBaselineRequirements))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *CABFBaselineRequirementsConfig:
-			if t == nil {
-				t = &CABFBaselineRequirementsConfig{}
-			}
-			err := c.deserializeConfigInto(t, string(CABFBaselineRequirements))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case CABFEVGuidelinesConfig:
-			err := c.deserializeConfigInto(&t, string(CABFEVGuidelines))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *CABFEVGuidelinesConfig:
-			if t == nil {
-				t = &CABFEVGuidelinesConfig{}
-			}
-			err := c.deserializeConfigInto(t, string(CABFEVGuidelines))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case MozillaRootStorePolicyConfig:
-			err := c.deserializeConfigInto(&t, string(MozillaRootStorePolicy))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *MozillaRootStorePolicyConfig:
-			if t == nil {
-				t = &MozillaRootStorePolicyConfig{}
-			}
-			err := c.deserializeConfigInto(t, string(MozillaRootStorePolicy))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case AppleRootStorePolicyConfig:
-			err := c.deserializeConfigInto(&t, string(AppleRootStorePolicy))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *AppleRootStorePolicyConfig:
-			if t == nil {
-				t = &AppleRootStorePolicyConfig{}
-			}
-			err := c.deserializeConfigInto(t, string(AppleRootStorePolicy))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case CommunityConfig:
-			err := c.deserializeConfigInto(&t, string(Community))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *CommunityConfig:
-			if t == nil {
-				t = &CommunityConfig{}
-			}
-			err := c.deserializeConfigInto(t, string(Community))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case EtsiEsiConfig:
-			err := c.deserializeConfigInto(&t, string(EtsiEsi))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		case *EtsiEsiConfig:
-			if t == nil {
-				t = &EtsiEsiConfig{}
-			}
-			err := c.deserializeConfigInto(t, string(EtsiEsi))
-			if err != nil {
-				return err
-			}
-			val = reflect.ValueOf(t)
-		default:
+			field.Set(reflect.ValueOf(config))
+		} else {
 			// In order to deserialize into a field it does indeed need to be addressable.
 			if !field.CanAddr() {
 				continue
@@ -305,7 +180,6 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 			}
 			continue
 		}
-		field.Set(val)
 	}
 	return nil
 }
@@ -314,7 +188,7 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 // the provided struct but with all references to higher scoped configurations scrubbed.
 //
 // This is intended only for use when constructing an example configuration file via the
-// `-exampleConfig` flag. This is to avoid visually redundant, and possibliy incorrect,
+// `-exampleConfig` flag. This is to avoid visually redundant, and possibly incorrect,
 // examples such as the following...
 //
 // ```
@@ -326,12 +200,7 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 // my_data = 0
 // my_flag = false
 // globals = { something = false, something_else = "" }
-// ```
-//
-// gocyclo is disabled because the relatively tall switch gives this function an outsized
-// cyclomatic complexity rating despite it being relatively simple to understand.
-//
-//nolint:gocyclo
+// ``` o
 func stripGlobalsFromExample(i interface{}) interface{} {
 	value := reflect.Indirect(reflect.ValueOf(i))
 	if value.Kind() != reflect.Struct {
@@ -341,36 +210,16 @@ func stripGlobalsFromExample(i interface{}) interface{} {
 	for field := 0; field < value.NumField(); field++ {
 		name := value.Type().Field(field).Name
 		field := value.Field(field)
-		if field.Kind() == reflect.Ptr {
-			field = reflect.Zero(field.Type().Elem())
-		}
 		if !field.CanInterface() {
 			continue
 		}
-		switch t := field.Interface().(type) {
-		case Global:
-		case *Global:
-		case RFC5280Config:
-		case *RFC5280Config:
-		case RFC5480Config:
-		case *RFC5480Config:
-		case RFC5891Config:
-		case *RFC5891Config:
-		case CABFBaselineRequirementsConfig:
-		case *CABFBaselineRequirementsConfig:
-		case CABFEVGuidelinesConfig:
-		case *CABFEVGuidelinesConfig:
-		case MozillaRootStorePolicyConfig:
-		case *MozillaRootStorePolicyConfig:
-		case AppleRootStorePolicyConfig:
-		case *AppleRootStorePolicyConfig:
-		case CommunityConfig:
-		case *CommunityConfig:
-		case EtsiEsiConfig:
-		case *EtsiEsiConfig:
-		default:
-			m[name] = stripGlobalsFromExample(t)
+		if _, ok := field.Interface().(GlobalConfiguration); ok {
+			continue
 		}
+		if field.Kind() == reflect.Ptr && field.IsZero() {
+			field = reflect.New(field.Type().Elem())
+		}
+		m[name] = stripGlobalsFromExample(field.Interface())
 	}
 	return m
 }
