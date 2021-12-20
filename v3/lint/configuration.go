@@ -160,6 +160,8 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 		if !field.CanInterface() {
 			continue
 		}
+		// The linter doesn't like there is an if-statement inside a for-loop, which is frankly a bogus and useless lint.
+		//nolint:nestif
 		if config, ok := field.Interface().(GlobalConfiguration); ok {
 			if field.Kind() == reflect.Ptr && field.IsZero() {
 				config = reflect.New(field.Type().Elem()).Interface().(GlobalConfiguration)
