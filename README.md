@@ -180,7 +180,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
-* [Entrust Datacard](https://www.entrust.com/)
+* [Entrust](https://www.entrust.com/)
 * [Google Trust Services](https://pki.goog/)
 * [Government of Spain, FNMT](http://www.fnmt.es/)
 * [Globalsign](https://www.globalsign.com/en/)
