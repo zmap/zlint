@@ -93,6 +93,7 @@ func (l *Lint) CheckEffective(c *x509.Certificate) bool {
 // if they are within the purview of the BRs. See LintInterface for details
 // about the other methods called. The ordering is as follows:
 //
+// Configure() ----> only if the lint implements Configurable
 // CheckApplies()
 // CheckEffective()
 // Execute()
@@ -100,7 +101,10 @@ func (l *Lint) Execute(cert *x509.Certificate, config Configuration) *LintResult
 	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
 		return &LintResult{Status: NA}
 	}
-	lint := l.Lint()
+	return l.execute(l.Lint(), cert, config)
+}
+
+func (l *Lint) execute(lint LintInterface, cert *x509.Certificate, config Configuration) *LintResult {
 	switch configurable := lint.(type) {
 	case Configurable:
 		err := config.Configure(configurable.Configure(), l.Name)
@@ -116,10 +120,6 @@ func (l *Lint) Execute(cert *x509.Certificate, config Configuration) *LintResult
 				Details: details}
 		}
 	}
-	return l.execute(lint, cert)
-}
-
-func (l *Lint) execute(lint LintInterface, cert *x509.Certificate) *LintResult {
 	if !lint.CheckApplies(cert) {
 		return &LintResult{Status: NA}
 	} else if !l.CheckEffective(cert) {

@@ -880,3 +880,34 @@ func TestGlobalStripper(t *testing.T) {
 		t.Fatalf("wanted  Test{EtsiEsiConfig: &EtsiEsiConfig{}, SomethingElse: \"cool\"}} got %v", test)
 	}
 }
+
+func TestPrintConfiguration(t *testing.T) {
+	gotBytes, err := NewRegistry().DefaultConfiguration()
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := string(gotBytes)
+	// I'm not a huge fan of this sort of test since it will have to be updated
+	// on the slightest change, but it's better than not have a test for printing
+	// out the configuration file.
+	want := `
+[AppleRootStorePolicyConfig]
+
+[CABFBaselineRequirementsConfig]
+
+[CABFEVGuidelinesConfig]
+
+[CommunityConfig]
+
+[MozillaRootStorePolicyConfig]
+
+[RFC5280Config]
+
+[RFC5480Config]
+
+[RFC5891Config]
+`
+	if got != want {
+		t.Fatalf("wanted '%s' but got '%s'", want, got)
+	}
+}

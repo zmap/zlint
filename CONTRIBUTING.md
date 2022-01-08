@@ -247,8 +247,8 @@ Please see the [integration tests README] for more information.
 
 ### Testing Configurable Lints
 
-Testing a lint that is configurable is much the same as testing on that is not. However, if you wish exercise
-various configurations then you may do by utilizing the `test.TestLintWithConfig` function which takes in an extra
+Testing a lint that is configurable is much the same as testing one that is not. However, if you wish to exercise
+various configurations then you may do so by utilizing the `test.TestLintWithConfig` function which takes in an extra
 string which is the raw TOML of your target test configuration.
 
 ```go
@@ -260,9 +260,6 @@ func TestCaCommonNameNotMissing2(t *testing.T) {
             BeerHall = "liedershousen"
         `
 	out := test.TestLintWithConfig("e_ca_common_name_missing2", inputPath, config)
-	if out.Details != "liedershousen" {
-		panic("noooooooooooo")
-	}
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

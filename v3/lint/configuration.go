@@ -16,10 +16,10 @@ type Configuration struct {
 	tree *toml.Tree
 }
 
-// Configure attempts to deserialize the provided namespace into the provided empty interface
+// Configure attempts to deserialize the provided namespace into the provided empty interface.
 //
-// For example, let's say that the name if your lint is MyLint, then the configuration
-// file might looks something like the following.
+// For example, let's say that the name of your lint is MyLint, then the configuration
+// file might look something like the following...
 //
 // ```
 //	[MyLint]
@@ -27,7 +27,7 @@ type Configuration struct {
 //	B = 2
 // ```
 //
-// Given this, our target struct may look like the following.
+// Given this, our target struct may look like the following...
 //
 // ```
 //	type MytLint struct {
@@ -36,7 +36,7 @@ type Configuration struct {
 //	}
 // ```
 //
-// So deserializing into this struct would look like,
+// So deserializing into this struct would look like...
 //
 // ```
 // configuration.Configure(&myLint, myLint.Name())
@@ -59,7 +59,8 @@ func NewConfig(r io.Reader) (Configuration, error) {
 
 // NewConfigFromFile attempts to instantiate a configuration from the provided filesystem path.
 //
-// The file pointed to by `path` MUST be valid TOML file.
+// The file pointed to by `path` MUST be valid TOML file. If `path` is the empty string then
+// an empty configuration is returned.
 func NewConfigFromFile(path string) (Configuration, error) {
 	if path == "" {
 		return NewEmptyConfig(), nil
@@ -81,7 +82,7 @@ func NewConfigFromString(config string) (Configuration, error) {
 
 // NewEmptyConfig returns a configuration that is backed by an entirely empty TOML tree.
 //
-// This is useful of no particular configuration is set at all by the user of ZLint as
+// This is useful if no particular configuration is set at all by the user of ZLint as
 // any attempt to resolve a namespace in `deserializeConfigInto` fails and thus results
 // in all defaults for all lints being maintained.
 func NewEmptyConfig() Configuration {
@@ -111,7 +112,7 @@ func NewEmptyConfig() Configuration {
 // }
 // ```
 //
-// Then the invocation of this function should be
+// Then the invocation of this function should be...
 //
 // ```
 // lint := &SomeOtherLink{}
@@ -133,21 +134,20 @@ func (c Configuration) deserializeConfigInto(target interface{}, namespace strin
 // resolveHigherScopeReferences takes in an interface{} value and attempts to
 // find any field within its inner value that is either a struct or a pointer
 // to a struct that is one of our global configurable types. If such a field
-// exists then that higher scoped configuration will be deserialized, in-place,
-// into the value held by the provided interface{}.
+// exists then that higher scoped configuration will be copied into the value
+// held by the provided interface{}.
 //
 // This procedure is recursive.
 func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 	value := reflect.Indirect(reflect.ValueOf(i))
 	if value.Kind() != reflect.Struct {
 		// Our target higher scoped configurations are either structs
-		// or are fields of structs. Any other Kind is simply cannot
+		// or are fields of structs. Any other Kind simply cannot
 		// be a target for deserialization here. For example, an interface
 		// does not make sense since an interface cannot have fields nor
 		// are any of our higher scoped configurations interfaces themselves.
 		//
-		// For a comprehensive list of Kinds you may review type.go in the
-		// `reflect` package.
+		// For a comprehensive list of Kinds, please see `type.go` in the `reflect` package.
 		return nil
 	}
 	// Iterate through every field within the struct held by the provided interface{}.
@@ -160,19 +160,23 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 		if !field.CanInterface() {
 			continue
 		}
-		// The linter doesn't like there is an if-statement inside a for-loop, which is frankly a bogus and useless lint.
+		// The linter doesn't like that there is an if-statement inside a for-loop,
+		// which is frankly kind of a bogus and useless lint.
+		//
 		//nolint:nestif
 		if config, ok := field.Interface().(GlobalConfiguration); ok {
-			if field.Kind() == reflect.Ptr && field.IsZero() {
-				config = reflect.New(field.Type().Elem()).Interface().(GlobalConfiguration)
-			}
+			// It's one of our higher level configurations.
+			config = initializePtr(field).Interface().(GlobalConfiguration)
 			err := c.deserializeConfigInto(config, config.namespace())
 			if err != nil {
 				return err
 			}
 			field.Set(reflect.ValueOf(config))
 		} else {
-			// In order to deserialize into a field it does indeed need to be addressable.
+			// This is just another member of some kind that is not one of our higher level configurations.
+			//
+			// In order to deserialize into a field it does indeed need to be addressable, otherwise
+			// boxing it into an interface{} fails fantastically.
 			if !field.CanAddr() {
 				continue
 			}
@@ -180,7 +184,6 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 			if err != nil {
 				return err
 			}
-			continue
 		}
 	}
 	return nil
@@ -202,7 +205,10 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 // my_data = 0
 // my_flag = false
 // globals = { something = false, something_else = "" }
-// ``` o
+// ```
+//
+// Notice how the above has Global effectively listed twice - once externally and once internally, which
+// defeats the whole point of having globals to begin with.
 func stripGlobalsFromExample(i interface{}) interface{} {
 	value := reflect.Indirect(reflect.ValueOf(i))
 	if value.Kind() != reflect.Struct {
@@ -218,10 +224,19 @@ func stripGlobalsFromExample(i interface{}) interface{} {
 		if _, ok := field.Interface().(GlobalConfiguration); ok {
 			continue
 		}
-		if field.Kind() == reflect.Ptr && field.IsZero() {
-			field = reflect.New(field.Type().Elem())
-		}
+		field = initializePtr(field)
 		m[name] = stripGlobalsFromExample(field.Interface())
 	}
 	return m
+}
+
+// initializePtr checks whether the provided reflect.Value is a pointer type and is nil. If so, it returns
+// a new reflect.Value that has an initialized pointer.
+//
+// If the provided reflect.Value is not a nil pointer, then the original reflect.Value is returned.
+func initializePtr(value reflect.Value) reflect.Value {
+	if value.Kind() == reflect.Ptr && value.IsZero() {
+		return reflect.New(value.Type().Elem())
+	}
+	return value
 }

@@ -115,6 +115,11 @@ func (e EtsiEsiConfig) namespace() string {
 	return "EtsiEsiConfig"
 }
 
+// GlobalConfiguration acts both as an interface that can be used to obtain the TOML namespace of configuration
+// as well as a way to mark a fielf in a struct as one of our own, higher scoped, configurations.
+//
+// the interface itself is public, however the singular `namespace` method is package private, meaning that
+// normal lint struct cannot accidentally implement this.
 type GlobalConfiguration interface {
 	namespace() string
 }

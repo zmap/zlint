@@ -135,7 +135,7 @@ func (e errDuplicateName) Error() string {
 		e.lintName)
 }
 
-// register adds the provided lint to the Registry. If initialize is true then
+// register adds the provided lint to the Registry. If initializePtr is true then
 // the lint's Initialize() function will be called before registering the lint.
 //
 // An error is returned if the lint or lint's Lint pointer is nil, if the Lint
@@ -280,7 +280,7 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 		}
 
 		// when adding lints to a filtered registry we do not want Initialize() to
-		// be called a second time, so provide false as the initialize argument.
+		// be called a second time, so provide false as the initializePtr argument.
 		if err := filteredRegistry.register(l); err != nil {
 			return nil, err
 		}
@@ -322,29 +322,33 @@ func (r *registryImpl) DefaultConfiguration() ([]byte, error) {
 			// At this point, most lints are not configurable.
 		}
 	}
+	higherScopedConfigs := []GlobalConfiguration{
+		&CABFBaselineRequirementsConfig{},
+		&RFC5280Config{},
+		&RFC5480Config{},
+		&RFC5891Config{},
+		&CABFBaselineRequirementsConfig{},
+		&CABFEVGuidelinesConfig{},
+		&MozillaRootStorePolicyConfig{},
+		&AppleRootStorePolicyConfig{},
+		&CommunityConfig{},
+	}
+	for _, config := range higherScopedConfigs {
+		configurables[config.namespace()] = config
+	}
 	// We're just using stripGlobalsFromExample here as a convenient way to
 	// recursively turn the `Global` struct type into a map.
 	//
-	// We have to do this because if simply followed the pattern below and did...
+	// We have to do this because if we simply followed the pattern above and did...
 	//
 	//	configurables["Global"] = &Global{}
 	//
 	// ...then we would end up with a [Global] section in the resulting configuration,
-	// which is not what we are looking for (we simply want it to flattened out into
+	// which is not what we are looking for (we simply want it to be flattened out into
 	// the top most context of the configuration file).
 	for k, v := range stripGlobalsFromExample(&Global{}).(map[string]interface{}) {
 		configurables[k] = v
 	}
-	configurables[string(CABFBaselineRequirements)] = &CABFBaselineRequirementsConfig{}
-	configurables[string(RFC5280)] = &RFC5280Config{}
-	configurables[string(RFC5480)] = &RFC5480Config{}
-	configurables[string(RFC5891)] = &RFC5891Config{}
-	configurables[string(CABFBaselineRequirements)] = &CABFBaselineRequirementsConfig{}
-	configurables[string(CABFEVGuidelines)] = &CABFEVGuidelinesConfig{}
-	configurables[string(MozillaRootStorePolicy)] = &MozillaRootStorePolicyConfig{}
-	configurables[string(AppleRootStorePolicy)] = &AppleRootStorePolicyConfig{}
-	configurables[string(Community)] = &CommunityConfig{}
-	configurables[string(EtsiEsi)] = &EtsiEsiConfig{}
 	w := &bytes.Buffer{}
 	err := toml.NewEncoder(w).Indentation("").CompactComments(true).Encode(configurables)
 	if err != nil {
@@ -377,7 +381,7 @@ var globalRegistry *registryImpl = NewRegistry()
 // name matches a previously registered lint's name. These conditions all
 // indicate a bug that should be addressed by a developer.
 func RegisterLint(l *Lint) {
-	// RegisterLint always sets initialize to true. It's assumed this is called by
+	// RegisterLint always sets initializePtr to true. It's assumed this is called by
 	// the package init() functions and therefore must be doing the first
 	// initialization of a lint.
 	if err := globalRegistry.register(l); err != nil {
