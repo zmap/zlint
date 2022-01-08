@@ -164,9 +164,9 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 		// which is frankly kind of a bogus and useless lint.
 		//
 		//nolint:nestif
-		if config, ok := field.Interface().(GlobalConfiguration); ok {
+		if _, ok := field.Interface().(GlobalConfiguration); ok {
 			// It's one of our higher level configurations.
-			config = initializePtr(field).Interface().(GlobalConfiguration)
+			config := initializePtr(field).Interface().(GlobalConfiguration)
 			err := c.deserializeConfigInto(config, config.namespace())
 			if err != nil {
 				return err
