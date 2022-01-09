@@ -135,7 +135,7 @@ func (e errDuplicateName) Error() string {
 		e.lintName)
 }
 
-// register adds the provided lint to the Registry. If initializePtr is true then
+// register adds the provided lint to the Registry. If initialize is true then
 // the lint's Initialize() function will be called before registering the lint.
 //
 // An error is returned if the lint or lint's Lint pointer is nil, if the Lint
@@ -280,7 +280,7 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 		}
 
 		// when adding lints to a filtered registry we do not want Initialize() to
-		// be called a second time, so provide false as the initializePtr argument.
+		// be called a second time, so provide false as the initialize argument.
 		if err := filteredRegistry.register(l); err != nil {
 			return nil, err
 		}
@@ -381,7 +381,7 @@ var globalRegistry *registryImpl = NewRegistry()
 // name matches a previously registered lint's name. These conditions all
 // indicate a bug that should be addressed by a developer.
 func RegisterLint(l *Lint) {
-	// RegisterLint always sets initializePtr to true. It's assumed this is called by
+	// RegisterLint always sets initialize to true. It's assumed this is called by
 	// the package init() functions and therefore must be doing the first
 	// initialization of a lint.
 	if err := globalRegistry.register(l); err != nil {
