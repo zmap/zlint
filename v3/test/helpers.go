@@ -19,7 +19,7 @@ package test
 import (
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -70,7 +70,7 @@ func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
 func ReadTestCert(inPath string) *x509.Certificate {
 	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
 
-	data, err := ioutil.ReadFile(fullPath)
+	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		panic(fmt.Sprintf(
 			"Unable to read test certificate from %q - %q "+

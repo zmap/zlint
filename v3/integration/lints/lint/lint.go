@@ -19,7 +19,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -161,7 +161,7 @@ func Parse(path string) (*ast.File, *File, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	b, err := ioutil.ReadFile(path)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		return nil, nil, err
 	}

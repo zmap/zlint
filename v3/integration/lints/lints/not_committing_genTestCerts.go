@@ -18,7 +18,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"go/ast"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/zmap/zlint/v3/integration/lints/lint"
@@ -33,7 +33,7 @@ func (i *NotCommittingGenTestCerts) CheckApplies(tree *ast.File, file *lint.File
 }
 
 func (i *NotCommittingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.Result {
-	contents, err := ioutil.ReadFile(file.Path)
+	contents, err := os.ReadFile(file.Path)
 	if err != nil {
 		return lint.NewResult(fmt.Sprintf("failed to open %s", file.Name))
 	}

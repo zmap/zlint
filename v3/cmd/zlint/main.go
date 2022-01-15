@@ -21,7 +21,7 @@ import (
 	"encoding/pem"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"regexp"
 	"sort"
@@ -130,7 +130,7 @@ func main() {
 }
 
 func doLint(inputFile *os.File, inform string, registry lint.Registry) {
-	fileBytes, err := ioutil.ReadAll(inputFile)
+	fileBytes, err := io.ReadAll(inputFile)
 	if err != nil {
 		log.Fatalf("unable to read file %s: %s", inputFile.Name(), err)
 	}

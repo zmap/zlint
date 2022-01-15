@@ -23,7 +23,6 @@ import (
 	"go/format"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -138,7 +137,7 @@ func getData(url string) ([]byte, error) {
 			url, http.StatusOK, resp.StatusCode)
 	}
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("unexpected error reading response "+
 			"body from %q : %s",
