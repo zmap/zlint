@@ -1074,6 +1074,7 @@ something_else = "fills our hallowed halls"
 }
 
 func TestStripGlobalsFromStructWithPrivates(t *testing.T) {
+	//nolint:staticheck
 	type Test struct {
 		A string
 		B Global

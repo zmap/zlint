@@ -175,10 +175,6 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 			// This skips fields that are either not addressable or are private data members.
 			continue
 		}
-		// The linter doesn't like that there is an if-statement inside a for-loop,
-		// which is frankly kind of a bogus and useless lint.
-		//
-		//nolint:nestif
 		if _, ok := field.Interface().(GlobalConfiguration); ok {
 			// It's one of our higher level configurations, so we need to pull out a different
 			// subtree from our TOML document and inject it int othis struct.
