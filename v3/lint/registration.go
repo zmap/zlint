@@ -313,41 +313,40 @@ func (r *registryImpl) GetConfiguration() Configuration {
 // to stdout. In this way, operators can quickly see what lints are configurable and what their
 // fields are without having to dig through documentation or, even worse, code.
 func (r *registryImpl) DefaultConfiguration() ([]byte, error) {
+	return r.defaultConfiguration(defaultGlobals)
+}
+
+// defaultConfiguration is abstracted out to a private function that takes in a slice of globals
+// for the sake of making unit testing easier.
+func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]byte, error) {
 	configurables := map[string]interface{}{}
 	for name, lint := range r.lintsByName {
 		switch configurable := lint.Lint().(type) {
 		case Configurable:
 			configurables[name] = stripGlobalsFromExample(configurable.Configure())
 		default:
-			// At this point, most lints are not configurable.
 		}
 	}
-	higherScopedConfigs := []GlobalConfiguration{
-		&CABFBaselineRequirementsConfig{},
-		&RFC5280Config{},
-		&RFC5480Config{},
-		&RFC5891Config{},
-		&CABFBaselineRequirementsConfig{},
-		&CABFEVGuidelinesConfig{},
-		&MozillaRootStorePolicyConfig{},
-		&AppleRootStorePolicyConfig{},
-		&CommunityConfig{},
-	}
-	for _, config := range higherScopedConfigs {
-		configurables[config.namespace()] = config
-	}
-	// We're just using stripGlobalsFromExample here as a convenient way to
-	// recursively turn the `Global` struct type into a map.
-	//
-	// We have to do this because if we simply followed the pattern above and did...
-	//
-	//	configurables["Global"] = &Global{}
-	//
-	// ...then we would end up with a [Global] section in the resulting configuration,
-	// which is not what we are looking for (we simply want it to be flattened out into
-	// the top most context of the configuration file).
-	for k, v := range stripGlobalsFromExample(&Global{}).(map[string]interface{}) {
-		configurables[k] = v
+	for _, config := range globals {
+		switch config.(type) {
+		case *Global:
+			// We're just using stripGlobalsFromExample here as a convenient way to
+			// recursively turn the `Global` struct type into a map.
+			//
+			// We have to do this because if we simply followed the pattern above and did...
+			//
+			//	configurables["Global"] = &Global{}
+			//
+			// ...then we would end up with a [Global] section in the resulting configuration,
+			// which is not what we are looking for (we simply want it to be flattened out into
+			// the top most context of the configuration file).
+			for k, v := range stripGlobalsFromExample(config).(map[string]interface{}) {
+				configurables[k] = v
+			}
+		default:
+			configurables[config.namespace()] = config
+		}
+
 	}
 	w := &bytes.Buffer{}
 	err := toml.NewEncoder(w).Indentation("").CompactComments(true).Encode(configurables)

@@ -1,8 +1,23 @@
+/*
+ * ZLint Copyright 2021 Regents of the University of Michigan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package lint
 
 import (
 	"io"
 	"io/ioutil"
+	"os"
 	"reflect"
 	"sync"
 	"testing"
@@ -416,6 +431,32 @@ func TestBadToml(t *testing.T) {
 	_, err := NewConfigFromString(`(┛ಠ_ಠ)┛彡┻━┻`)
 	if err == nil {
 		t.Fatal("expected a parsing, however received a nil error")
+	}
+}
+
+func TestPrivateMembers(t *testing.T) {
+	type Test struct {
+		private    string
+		NotPrivate string
+	}
+	c, err := NewConfigFromString(`
+[Test]
+private = "this still should not show up"
+NotPrivate = "just a string"
+`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	test := Test{}
+	err = c.Configure(&test, "Test")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if test.private != "" {
+		t.Errorf("wanted '' got '%s'", test.private)
+	}
+	if test.NotPrivate != "just a string" {
+		t.Errorf("wanted 'just a string' got '%s'", test.NotPrivate)
 	}
 }
 
@@ -909,5 +950,238 @@ func TestPrintConfiguration(t *testing.T) {
 `
 	if got != want {
 		t.Fatalf("wanted '%s' but got '%s'", want, got)
+	}
+}
+
+type TestGlobalConfigurable struct {
+	A int
+	B string
+}
+
+func (t *TestGlobalConfigurable) namespace() string {
+	return "this_is_a_test"
+}
+
+func TestNewGlobal(t *testing.T) {
+	type test struct {
+		SomethingElse string `toml:"something_else"`
+		T             *TestGlobalConfigurable
+	}
+	c, err := NewConfigFromString(`
+[this_is_a_test]
+A = 1
+B = "the temples of syrinx"
+
+[Test]
+something_else = "fills our hallowed halls"
+`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := test{}
+	err = c.Configure(&got, "Test")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.SomethingElse != "fills our hallowed halls" {
+		t.Errorf("got '%s' want 'fills our hallowed halls", got.SomethingElse)
+	}
+	if got.T.A != 1 {
+		t.Errorf("got %d want 1", got.T.A)
+	}
+	if got.T.B != "the temples of syrinx" {
+		t.Errorf("got '%s' want 'the temples of syrinx", got.T.B)
+	}
+}
+
+type TestGlobalConfigurableWithPrivates struct {
+	A int
+	B string
+	c string
+}
+
+func (t *TestGlobalConfigurableWithPrivates) namespace() string {
+	return "this_is_a_test"
+}
+
+func TestNewGlobalWithPrivateMembersDontGetPrinted(t *testing.T) {
+	gotBytes, err := NewRegistry().defaultConfiguration([]GlobalConfiguration{&TestGlobalConfigurableWithPrivates{
+		1, "2", "3",
+	}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := string(gotBytes)
+	// I'm not a huge fan of this sort of test since it will have to be updated
+	// on the slightest change, but it's better than not have a test for printing
+	// out the configuration file.
+	want := `
+[this_is_a_test]
+A = 1
+B = "2"
+`
+	if got != want {
+		t.Fatalf("wanted '%s' but got '%s'", want, got)
+	}
+}
+
+func TestFailedGlobalDeser(t *testing.T) {
+	type test struct {
+		SomethingElse string `toml:"something_else"`
+		T             *TestGlobalConfigurable
+	}
+	c, err := NewConfigFromString(`
+[this_is_a_test]
+A = "1" # It should be an int, not a string
+B = "the temples of syrinx"
+
+[Test]
+something_else = "fills our hallowed halls"
+`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := test{}
+	err = c.Configure(&got, "Test")
+	if err == nil {
+		t.Fatalf("expected error, but got %v", got)
+	}
+}
+
+func TestFailedNestedGlobalDeser(t *testing.T) {
+	type test struct {
+		SomethingElse string `toml:"something_else"`
+		Inner         struct {
+			T *TestGlobalConfigurable
+		}
+	}
+	c, err := NewConfigFromString(`
+[this_is_a_test]
+A = "1" # It should be an int, not a string
+B = "the temples of syrinx"
+
+[Test]
+something_else = "fills our hallowed halls"
+`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := test{}
+	err = c.Configure(&got, "Test")
+	if err == nil {
+		t.Fatalf("expected error, but got %v", got)
+	}
+}
+
+func TestStripGlobalsFromStructWithPrivates(t *testing.T) {
+	type Test struct {
+		A string
+		B Global
+		C int
+		d int
+	}
+	test := Test{}
+	got := stripGlobalsFromExample(&test).(map[string]interface{})
+	want := map[string]interface{}{
+		"A": "",
+		"C": 0,
+	}
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("wanted map[A: C:0], got %v", got)
+	}
+}
+
+func TestNewEmptyConfig(t *testing.T) {
+	c := NewEmptyConfig()
+	got, err := c.tree.Marshal()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != nil {
+		t.Fatalf("wanted nil byte slice, got %s", string(got))
+	}
+}
+
+func TestConfigFromFile(t *testing.T) {
+	type Test struct {
+		A *Test
+		B bool
+	}
+	f, err := os.CreateTemp("", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(f.Name())
+	_, err = f.WriteString(`
+[Test]
+A = { B = true }
+B = true
+`)
+	if err != nil {
+		f.Close()
+		t.Fatal(err)
+	}
+	err = f.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+	c, err := NewConfigFromFile(f.Name())
+	if err != nil {
+		t.Fatal(err)
+	}
+	test := Test{}
+	err = c.Configure(&test, "Test")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(test, Test{&Test{nil, true}, true}) {
+		t.Fatalf("wanted Test{&Test{nil, true}, true} got %v", test)
+	}
+}
+
+func TestBadConfigFromFile(t *testing.T) {
+	f, err := os.CreateTemp("", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(f.Name())
+	_, err = f.WriteString(`
+nope not gonna work
+[Test]
+A = { B = true }
+B = true
+`)
+	if err != nil {
+		f.Close()
+		t.Fatal(err)
+	}
+	err = f.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+	c, err := NewConfigFromFile(f.Name())
+	if err == nil {
+		t.Fatalf("expected error, got %v", c)
+	}
+}
+
+func TestEmptyConfigFromEmptyPath(t *testing.T) {
+	c, err := NewConfigFromFile("")
+	if err != nil {
+		t.Fatal(err)
+	}
+	got, err := c.tree.Marshal()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != nil {
+		t.Fatalf("wanted nil byte slice, got %s", string(got))
+	}
+}
+
+func TestFailedToOpenConfigFile(t *testing.T) {
+	c, err := NewConfigFromFile("lol no not likely")
+	if err == nil {
+		t.Fatalf("expected an error got %v", c)
 	}
 }

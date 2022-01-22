@@ -1,3 +1,17 @@
+/*
+ * ZLint Copyright 2021 Regents of the University of Michigan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package lint
 
 // Global is what one would intuitive think of as being the global context of the configuration file.
@@ -122,4 +136,20 @@ func (e EtsiEsiConfig) namespace() string {
 // normal lint struct cannot accidentally implement this.
 type GlobalConfiguration interface {
 	namespace() string
+}
+
+// defaultGlobals are used by other locations in the codebase that may want to iterate over all currently know
+// global configuration types. Most notably, Registry.DefaultConfiguration uses it because it wants to print
+// out a TOML document that is the full default configuration for ZLint.
+var defaultGlobals = []GlobalConfiguration{
+	&Global{},
+	&CABFBaselineRequirementsConfig{},
+	&RFC5280Config{},
+	&RFC5480Config{},
+	&RFC5891Config{},
+	&CABFBaselineRequirementsConfig{},
+	&CABFEVGuidelinesConfig{},
+	&MozillaRootStorePolicyConfig{},
+	&AppleRootStorePolicyConfig{},
+	&CommunityConfig{},
 }

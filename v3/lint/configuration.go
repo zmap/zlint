@@ -1,3 +1,17 @@
+/*
+ * ZLint Copyright 2021 Regents of the University of Michigan
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package lint
 
 import (
@@ -157,7 +171,8 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 	// in an attempt to resolve it.
 	for field := 0; field < value.NumField(); field++ {
 		field := value.Field(field)
-		if !field.CanInterface() {
+		if !field.CanSet() {
+			// This skips fields that are either not addressable or are private data members.
 			continue
 		}
 		// The linter doesn't like that there is an if-statement inside a for-loop,
@@ -165,7 +180,8 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 		//
 		//nolint:nestif
 		if _, ok := field.Interface().(GlobalConfiguration); ok {
-			// It's one of our higher level configurations.
+			// It's one of our higher level configurations, so we need to pull out a different
+			// subtree from our TOML document and inject it int othis struct.
 			config := initializePtr(field).Interface().(GlobalConfiguration)
 			err := c.deserializeConfigInto(config, config.namespace())
 			if err != nil {
@@ -174,12 +190,6 @@ func (c Configuration) resolveHigherScopedReferences(i interface{}) error {
 			field.Set(reflect.ValueOf(config))
 		} else {
 			// This is just another member of some kind that is not one of our higher level configurations.
-			//
-			// In order to deserialize into a field it does indeed need to be addressable, otherwise
-			// boxing it into an interface{} fails fantastically.
-			if !field.CanAddr() {
-				continue
-			}
 			err := c.resolveHigherScopedReferences(field.Addr().Interface())
 			if err != nil {
 				return err
