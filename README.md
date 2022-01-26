@@ -182,6 +182,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
 * [Microsec](https://www.microsec.com/)
+* [Microsoft](https://www.microsoft.com)
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
 * [QuoVadis](https://www.quovadisglobal.com/)
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
