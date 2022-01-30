@@ -1012,3 +1012,27 @@ func TestGetHostWithUserinfoWithPortWithAbsolutePathWithQueryWithFragment(t *tes
 		)
 	}
 }
+
+func TestIsLDHLabel(t *testing.T) {
+	data := map[string]bool{
+		"": false,
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": false,
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa":  true,
+		"9":   true,
+		"9a":  true,
+		"a9":  true,
+		"a":   true,
+		".":   false,
+		"a-b": true,
+		"-a":  false,
+		"a-":  false,
+		"-":   false,
+		"%":   false,
+	}
+	for input, want := range data {
+		got := IsLDHLabel(input)
+		if got != want {
+			t.Errorf("expected %v got %v for '%s'", want, got, input)
+		}
+	}
+}
