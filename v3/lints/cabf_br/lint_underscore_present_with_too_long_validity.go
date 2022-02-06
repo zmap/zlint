@@ -26,7 +26,7 @@ import (
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:            "underscore_present_with_too_long_validity",
+		Name:            "e_underscore_present_with_too_long_validity",
 		Description:     "From December 10th 2018 to April 1st 2019 DNSNames may contain underscores if-and-only-if the certificate is valid for less than thirty days.",
 		Citation:        "Prior to April 1 2019, certificates containing underscore characters (“_”) in domain labels in dNSName entries MAY be issued as follows...Such certificates MUST NOT be valid for longer than 30 days.",
 		Source:          lint.CABFBaselineRequirements,

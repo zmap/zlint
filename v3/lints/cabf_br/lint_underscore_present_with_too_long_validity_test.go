@@ -45,7 +45,7 @@ func TestNoUnderscoreBefore1_6_2(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("underscore_present_with_too_long_validity", tc.InputFilename)
+			result := test.TestLint("e_underscore_present_with_too_long_validity", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
