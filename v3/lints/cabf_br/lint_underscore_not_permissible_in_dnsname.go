@@ -17,7 +17,6 @@ package cabf_br
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/zmap/zlint/v3/util"
 
@@ -31,7 +30,7 @@ func init() {
 		Description:   "DNSNames MUST NOT contain underscore characters",
 		Citation:      "BR 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: time.Date(2019, time.April, 1, 0, 0, 0, 0, time.UTC),
+		EffectiveDate: util.BALLOT_SC_12_Ineffective,
 		Lint:          func() lint.LintInterface { return &UnderscoreNotPermissibleInDNSName{} },
 	})
 }
