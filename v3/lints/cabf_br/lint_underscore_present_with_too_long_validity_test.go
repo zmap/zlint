@@ -33,9 +33,14 @@ func TestNoUnderscoreBefore1_6_2(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "An underscores",
+			Name:           "Underscores with too long validity",
 			InputFilename:  "dNSUnderscoresLongValidity.pem",
 			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "No underscores",
+			InputFilename:  "dNSNoUnderscoresLongValidity.pem",
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name:           "Not effective",
