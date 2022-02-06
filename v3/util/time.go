@@ -61,6 +61,7 @@ var (
 	MozillaPolicy241Date        = time.Date(2017, time.March, 31, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy27Date         = time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_2_1_Date          = time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC)
+	CABFBRs_1_6_2_Date          = time.Date(2018, time.December, 10, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_6_9_Date          = time.Date(2020, time.March, 27, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_7_1_Date          = time.Date(2020, time.August, 20, 0, 0, 0, 0, time.UTC)
 	AppleReducedLifetimeDate    = time.Date(2020, time.September, 1, 0, 0, 0, 0, time.UTC)
