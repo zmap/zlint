@@ -26,8 +26,8 @@ import (
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:            "e_no_underscores_before_1_6_2",
-		Description:     "Fill this in...",
-		Citation:        "Fill this in...",
+		Description:     "Before explicitly stating as such in CABF 1.6.2, the stance of RFC5280 is adopted that DNSNames MUST NOT contain an underscore character.",
+		Citation:        "DNSNames MUST NOT contain an underscore character.",
 		Source:          lint.CABFBaselineRequirements,
 		EffectiveDate:   util.ZeroDate,
 		IneffectiveDate: util.CABFBRs_1_6_2_Date,
