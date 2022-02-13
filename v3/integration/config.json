@@ -770,6 +770,9 @@
     },
     "w_subject_given_name_recommended_max_length": {},
     "w_subject_surname_recommended_max_length": {},
-    "w_tls_server_cert_valid_time_longer_than_397_days": {}
+    "w_tls_server_cert_valid_time_longer_than_397_days": {},
+    "e_underscore_not_permitted_in_dnsname": {
+      "ErrCount": 340
+    }
   }
 }
