@@ -38,7 +38,7 @@ func TestNoUnderscoreBefore1_6_2(t *testing.T) {
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "Not effective",
+			Name:           "After ineffective date / after Ballot 1.6.2",
 			InputFilename:  "dNSNoUnderscoresNotEffectiveForCABF_1_6_2.pem",
 			ExpectedResult: lint.NE,
 		},
