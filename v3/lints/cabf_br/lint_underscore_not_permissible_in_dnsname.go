@@ -30,7 +30,7 @@ func init() {
 		Description:   "DNSNames MUST NOT contain underscore characters",
 		Citation:      "BR 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.BALLOT_SC_12_Ineffective,
+		EffectiveDate: util.CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate,
 		Lint:          func() lint.LintInterface { return &UnderscoreNotPermissibleInDNSName{} },
 	})
 }
