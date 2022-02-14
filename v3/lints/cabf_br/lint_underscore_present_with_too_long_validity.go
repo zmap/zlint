@@ -31,7 +31,7 @@ func init() {
 		Citation:        "BR 7.1.4.2.1",
 		Source:          lint.CABFBaselineRequirements,
 		EffectiveDate:   util.CABFBRs_1_6_2_Date,
-		IneffectiveDate: util.BALLOT_SC_12_Ineffective,
+		IneffectiveDate: util.BallotSC12Ineffective,
 		Lint:            func() lint.LintInterface { return &UnderscorePresentWithTooLongValidity{} },
 	})
 }
