@@ -936,7 +936,7 @@ var tldMap = map[string]GTLDPeriod{
 	"budapest": {
 		GTLD:           "budapest",
 		DelegationDate: "2014-09-23",
-		RemovalDate:    "",
+		RemovalDate:    "2022-02-17",
 	},
 	"bugatti": {
 		GTLD:           "bugatti",
@@ -1581,7 +1581,7 @@ var tldMap = map[string]GTLDPeriod{
 	"csc": {
 		GTLD:           "csc",
 		DelegationDate: "2015-09-01",
-		RemovalDate:    "",
+		RemovalDate:    "2022-02-01",
 	},
 	"cu": {
 		GTLD:           "cu",
