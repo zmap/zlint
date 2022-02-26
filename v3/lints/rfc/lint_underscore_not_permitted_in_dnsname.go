@@ -23,6 +23,35 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
+/*
+RFC 5280
+4.2.1.6.  Subject Alternative Name
+...
+When the subjectAltName extension contains a domain name system
+label, the domain name MUST be stored in the dNSName (an IA5String).
+The name MUST be in the "preferred name syntax", as specified by
+Section 3.5 of [RFC1034] and as modified by Section 2.1 of
+[RFC1123].
+...
+RFC 1034
+3.5. Preferred name syntax
+...
+<domain> ::= <subdomain> | " "
+<subdomain> ::= <label> | <subdomain> "." <label>
+<label> ::= <letter> [ [ <ldh-str> ] <let-dig> ]
+<ldh-str> ::= <let-dig-hyp> | <let-dig-hyp> <ldh-str>
+<let-dig-hyp> ::= <let-dig> | "-"
+<let-dig> ::= <letter> | <digit>
+<letter> ::= any one of the 52 alphabetic characters A through Z in upper case and a through z in lower case
+<digit> ::= any one of the ten digits 0 through 9
+...
+RFC 1123
+2.1  Host Names and Numbers
+... One aspect of host name syntax is hereby changed: the
+restriction on the first character is relaxed to allow either a
+letter or a digit. ...
+*/
+
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_underscore_not_permitted_in_dnsname",
