@@ -17,7 +17,6 @@ package cabf_br
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -43,8 +42,8 @@ func (l *UnderscorePresentWithTooLongValidity) CheckApplies(c *x509.Certificate)
 }
 
 func (l *UnderscorePresentWithTooLongValidity) Execute(c *x509.Certificate) *lint.LintResult {
-	validity := c.NotAfter.Sub(c.NotBefore)
-	if validity <= time.Hour*24*30 {
+	longValidity := util.BeforeOrOn(c.NotBefore.AddDate(0, 0, 30), c.NotAfter)
+	if !longValidity {
 		// Underscores are permissible if the cert is valid for less than thirty days
 		return &lint.LintResult{Status: lint.Pass}
 	}
@@ -52,7 +51,7 @@ func (l *UnderscorePresentWithTooLongValidity) Execute(c *x509.Certificate) *lin
 		if strings.Contains(dns, "_") {
 			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("The DNSName '%s' contains an "+
 				"underscore character which is only permissible if the certiticate is valid for less than 30 days "+
-				"(this certificate is valid for %d days)", dns, validity)}
+				"(this certificate is valid for %d days)", dns, c.NotAfter.Sub(c.NotBefore))}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
