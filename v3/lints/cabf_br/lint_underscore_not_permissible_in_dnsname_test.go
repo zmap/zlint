@@ -21,36 +21,31 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestNoUnderscoreBefore1_6_2WithLongValidity(t *testing.T) {
+func TestNoUnderscoreAfterGracePeriod(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "Underscores but 30 day validity",
-			InputFilename:  "dNSUnderscoresShortValidity.pem",
+			Name:           "No underscores",
+			InputFilename:  "dNSNameNoUnderscoresHardEnforcementPeriod.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Underscores with too long validity",
-			InputFilename:  "dNSUnderscoresLongValidity.pem",
+			Name:           "An underscore",
+			InputFilename:  "dNSNameWithUnderscoresHardEnforcementPeriod.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "No underscores",
-			InputFilename:  "dNSNoUnderscoresLongValidity.pem",
-			ExpectedResult: lint.Pass,
-		},
-		{
 			Name:           "Not effective",
-			InputFilename:  "dNSUnderscoresPermissibleOutOfDateRange.pem",
+			InputFilename:  "dNSNoUnderscoresBeforeHardEnforcementPeriod.pem",
 			ExpectedResult: lint.NE,
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_underscore_present_with_too_long_validity", tc.InputFilename)
+			result := test.TestLint("e_underscore_not_permissible_in_dnsname", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
