@@ -170,6 +170,7 @@ program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issua
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
 * [Actalis](https://www.actalis.it/en/home.aspx)
+* [ANF AC](https://www.anf.es/)
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
 * [Digicert](https://www.digicert.com/)
