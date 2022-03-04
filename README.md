@@ -169,7 +169,7 @@ Pre-issuance linting is **strongly recommended** by the [Mozilla root
 program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issuance_Linting).
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
-* [Actalis](https://www.actalis.it/en/home.aspx
+* [Actalis](https://www.actalis.it/en/home.aspx)
 * [ANF AC](https://www.anf.es/)
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
