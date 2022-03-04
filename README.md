@@ -169,7 +169,8 @@ Pre-issuance linting is **strongly recommended** by the [Mozilla root
 program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issuance_Linting).
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
-* [Actalis](https://www.actalis.it/en/home.aspx)
+* [Actalis](https://www.actalis.it/en/home.aspx
+* [ANF AC](https://www.anf.es/)
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
 * [Digicert](https://www.digicert.com/)
@@ -188,7 +189,6 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Siemens](https://siemens.com/pki)
 * [SSL.com](https://www.ssl.com/)
-* [ANF AC](https://www.anf.es/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
