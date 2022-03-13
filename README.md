@@ -176,6 +176,7 @@ program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issua
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
 * [Actalis](https://www.actalis.it/en/home.aspx)
+* [ANF AC](https://www.anf.es/)
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
 * [Digicert](https://www.digicert.com/)
@@ -188,6 +189,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
 * [Microsec](https://www.microsec.com/)
+* [Microsoft](https://www.microsoft.com)
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
 * [QuoVadis](https://www.quovadisglobal.com/)
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
