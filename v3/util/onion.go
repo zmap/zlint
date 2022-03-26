@@ -16,7 +16,7 @@ var onionV3Base32Encoding = base32.NewEncoding("abcdefghijklmnopqrstuvwxyz234567
 
 // IsOnionV3 returns whether or not the provided DNS name is an Onion V3 encoded address.
 //
-// In order to be an Onion V3 encoded address, the DNS name must satisy the following:
+// In order to be an Onion V3 encoded address, the DNS name must satisfy the following:
 //  1. Contain at least two labels.
 //  2. The right most label MUST be "onion".
 //  3. The second to the right most label MUST be exactly 56 characters long.
