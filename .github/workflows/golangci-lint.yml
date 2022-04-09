@@ -23,6 +23,5 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.29
+          version: v1.45.2
           working-directory: v3
-          skip-go-installation: true
