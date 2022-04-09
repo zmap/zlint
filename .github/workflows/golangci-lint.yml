@@ -21,7 +21,7 @@ jobs:
           go-version: ^1.18
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v2
+        uses: golangci/golangci-lint-action@v3
         with:
           version: v1.29
           working-directory: v3
