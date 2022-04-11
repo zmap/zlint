@@ -33,6 +33,7 @@ linters:
     - goconst
     - golint
     - godot
+    - forbidigo
 
 issues:
   exclude-rules:
