@@ -60,6 +60,11 @@ func TestTorDescHashInvalid(t *testing.T) {
 			InputFilename:  "onionSANGoodServDesc.pem",
 			ExpectedResult: lint.Pass,
 		},
+		{
+			Name:           "V3 address does not require TorServiceDescriptorHash",
+			InputFilename:  "facebookOnionV3Address.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {
