@@ -22,7 +22,7 @@ import (
 )
 
 // LintInterface is implemented by each Lint.
-type LintInterface interface {
+type LintInterface interface { //nolint:revive
 	// CheckApplies runs once per certificate. It returns true if the Lint should
 	// run on the given certificate. If CheckApplies returns false, the Lint
 	// result is automatically set to NA without calling CheckEffective() or

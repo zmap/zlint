@@ -113,6 +113,7 @@ func lintOnionURL(onion string) *lint.LintResult {
 //      an onion subject in the cert.
 //   6) There is an onion subject in the cert that doesn't correspond to
 //      a TorServiceDescriptorHash, if required.
+//nolint:cyclop
 func (l *torServiceDescHashInvalid) Execute(c *x509.Certificate) *lint.LintResult {
 	// If the certificate is EV, the BRTorServiceDescriptor extension is required.
 	// We know that `CheckApplies` will only apply if the certificate has the
