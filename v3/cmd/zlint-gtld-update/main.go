@@ -33,6 +33,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
+//nolint:revive
 const (
 	// ICANN_GTLD_JSON is the URL for the ICANN gTLD JSON registry (version 2).
 	// This registry does not contain ccTLDs but does carry full gTLD information
@@ -109,7 +110,7 @@ var tldMap = map[string]GTLDPeriod{
 }
 `))
 
-	printVersion bool = false
+	printVersion = false
 )
 
 // getData fetches the response body bytes from an HTTP get to the provider url,
