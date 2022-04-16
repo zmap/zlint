@@ -45,6 +45,10 @@ linters:
     - cyclop
     - errorlint
     - revive
+    - errname
+    - forcetypeassert
+    - tagliatelle
+    - nilnil
 
 issues:
   exclude-rules:
