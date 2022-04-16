@@ -287,6 +287,7 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
 	for _, name := range r.Names() {
+		//nolint:errchkjson
 		_ = enc.Encode(r.ByName(name))
 	}
 }
