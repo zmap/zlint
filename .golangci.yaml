@@ -34,6 +34,17 @@ linters:
     - golint
     - godot
     - forbidigo
+    - nlreturn
+    - ireturn
+    - paralleltest
+    - varnamelen
+    - wrapcheck
+    - ifshort
+    - gci
+    - exhaustivestruct
+    - cyclop
+    - errorlint
+    - revive
 
 issues:
   exclude-rules:
