@@ -20,11 +20,15 @@ import (
 	"crypto/rand"
 	"encoding/pem"
 	"fmt"
+	"io/ioutil"
 	"math/big"
 	"os/exec"
+	"path"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/zmap/zlint/v3/util"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
@@ -48,15 +52,93 @@ func main() {
 		panic(err)
 	}
 	printCertificate(leaf, "Leaf")
+	// The following snippets will automatically save the generated certificates to
+	// v3/testdata under the provided filename. As that directory is rather large
+	// and somewhat unwieldy to navigate, this greatly helps accelerate testdata
+	// generation and eliminates common errors
+	//
+	//err = saveCertificateToTestdata(ca, "PLACEHOLDER.pem")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = saveCertificateToTestdata(intermediate, "PLACEHOLDER.pem")
+	//if err != nil {
+	//	panic(err)
+	//}
+	//err = saveCertificateToTestdata(leaf, "PLACEHOLDER.pem")
+	//if err != nil {
+	//	panic(err)
+	//}
 }
 
-func printCertificate(certificate *Certificate, header string) {
-	fmted, err := openSSLFormatCertificate(certificate)
-	if err != nil {
-		panic(err)
+// This is NOT a healthy example of a leaf certificate, this is nothing
+// more than a self signed certificate with IsCA set to false. Not even any
+// basic constraints are defined. Please do not think that this will be
+// acceptable to any system, let alone lint particularly well.
+func newLeaf(trustAnchor *Certificate, intermediates []*Certificate) (*Certificate, error) {
+	var parent *Certificate
+	if len(intermediates) == 0 {
+		parent = trustAnchor
+	} else {
+		parent = intermediates[len(intermediates)-1]
 	}
-	fmt.Printf("-------------%s-------------\n", header)
-	fmt.Println(fmted)
+	// Edit this template to look like whatever leaf cert you need.
+	template := x509.Certificate{
+		Raw:                         nil,
+		RawTBSCertificate:           nil,
+		RawSubjectPublicKeyInfo:     nil,
+		RawSubject:                  nil,
+		RawIssuer:                   nil,
+		Signature:                   nil,
+		SignatureAlgorithm:          0,
+		PublicKeyAlgorithm:          0,
+		PublicKey:                   nil,
+		Version:                     0,
+		SerialNumber:                nextSerial(),
+		Issuer:                      pkix.Name{},
+		Subject:                     pkix.Name{},
+		NotBefore:                   util.RFC5280Date,
+		NotAfter:                    time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
+		KeyUsage:                    0,
+		Extensions:                  nil,
+		ExtraExtensions:             nil,
+		UnhandledCriticalExtensions: nil,
+		ExtKeyUsage:                 nil,
+		UnknownExtKeyUsage:          nil,
+		BasicConstraintsValid:       false,
+		IsCA:                        false,
+		MaxPathLen:                  0,
+		MaxPathLenZero:              false,
+		SubjectKeyId:                nil,
+		AuthorityKeyId:              nil,
+		OCSPServer:                  nil,
+		IssuingCertificateURL:       nil,
+		DNSNames:                    nil,
+		EmailAddresses:              nil,
+		IPAddresses:                 nil,
+		URIs:                        nil,
+		PermittedEmailAddresses:     nil,
+		ExcludedEmailAddresses:      nil,
+		CRLDistributionPoints:       nil,
+		PolicyIdentifiers:           nil,
+	}
+	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		return nil, err
+	}
+	cert, err := x509.CreateCertificate(rand.Reader, &template, parent.Certificate, key.Public(), parent.private)
+	if err != nil {
+		return nil, err
+	}
+	c, err := x509.ParseCertificate(cert)
+	if err != nil {
+		return nil, err
+	}
+	return &Certificate{
+		Certificate: c,
+		public:      key.Public(),
+		private:     key,
+	}, nil
 }
 
 // This is NOT a healthy example of a CA certificate, this is nothing
@@ -116,7 +198,6 @@ func newTrustAnchor() (*Certificate, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(c.IsCA)
 	return &Certificate{
 		Certificate: c,
 		public:      key.Public(),
@@ -154,76 +235,6 @@ func newIntermediate(parent *Certificate) (*Certificate, error) {
 		UnknownExtKeyUsage:          nil,
 		BasicConstraintsValid:       true,
 		IsCA:                        true,
-		MaxPathLen:                  0,
-		MaxPathLenZero:              false,
-		SubjectKeyId:                nil,
-		AuthorityKeyId:              nil,
-		OCSPServer:                  nil,
-		IssuingCertificateURL:       nil,
-		DNSNames:                    nil,
-		EmailAddresses:              nil,
-		IPAddresses:                 nil,
-		URIs:                        nil,
-		PermittedEmailAddresses:     nil,
-		ExcludedEmailAddresses:      nil,
-		CRLDistributionPoints:       nil,
-		PolicyIdentifiers:           nil,
-	}
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		return nil, err
-	}
-	cert, err := x509.CreateCertificate(rand.Reader, &template, parent.Certificate, key.Public(), parent.private)
-	if err != nil {
-		return nil, err
-	}
-	c, err := x509.ParseCertificate(cert)
-	if err != nil {
-		return nil, err
-	}
-	return &Certificate{
-		Certificate: c,
-		public:      key.Public(),
-		private:     key,
-	}, nil
-}
-
-// This is NOT a healthy example of a leaf certificate, this is nothing
-// more than a self signed certificate with IsCA set to false. Not even any
-// basic constraints are defined. Please do not think that this will be
-// acceptable to any system, let alone lint particularly well.
-func newLeaf(trustAnchor *Certificate, intermediates []*Certificate) (*Certificate, error) {
-	var parent *Certificate
-	if len(intermediates) == 0 {
-		parent = trustAnchor
-	} else {
-		parent = intermediates[len(intermediates)-1]
-	}
-	// Edit this template to look like whatever leaf cert you need.
-	template := x509.Certificate{
-		Raw:                         nil,
-		RawTBSCertificate:           nil,
-		RawSubjectPublicKeyInfo:     nil,
-		RawSubject:                  nil,
-		RawIssuer:                   nil,
-		Signature:                   nil,
-		SignatureAlgorithm:          0,
-		PublicKeyAlgorithm:          0,
-		PublicKey:                   nil,
-		Version:                     0,
-		SerialNumber:                nextSerial(),
-		Issuer:                      pkix.Name{},
-		Subject:                     pkix.Name{},
-		NotBefore:                   time.Time{},
-		NotAfter:                    time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
-		KeyUsage:                    0,
-		Extensions:                  nil,
-		ExtraExtensions:             nil,
-		UnhandledCriticalExtensions: nil,
-		ExtKeyUsage:                 nil,
-		UnknownExtKeyUsage:          nil,
-		BasicConstraintsValid:       false,
-		IsCA:                        false,
 		MaxPathLen:                  0,
 		MaxPathLenZero:              false,
 		SubjectKeyId:                nil,
@@ -344,4 +355,36 @@ type Certificate struct {
 	*x509.Certificate
 	public  interface{}
 	private interface{}
+}
+
+func getGitRoot() (string, error) {
+	root, err := exec.Command("git", "rev-parse", "--show-toplevel").CombinedOutput()
+	return strings.Trim(string(root), " \n"), err
+}
+
+func getTestDataDir() (string, error) {
+	root, err := getGitRoot()
+	return path.Join(root, "v3", "testdata"), err
+}
+
+func printCertificate(certificate *Certificate, header string) {
+	fmted, err := openSSLFormatCertificate(certificate)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("-------------%s-------------\n", header)
+	fmt.Println(fmted)
+}
+
+func saveCertificateToTestdata(certificate *Certificate, name string) (string, error) {
+	testData, err := getTestDataDir()
+	if err != nil {
+		return "", err
+	}
+	certData, err := openSSLFormatCertificate(certificate)
+	if err != nil {
+		return "", err
+	}
+	fname := path.Join(testData, name)
+	return fname, ioutil.WriteFile(fname, []byte(certData), 0664)
 }
