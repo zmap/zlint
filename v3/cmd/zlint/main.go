@@ -102,7 +102,7 @@ func main() {
 	if exampleConfig {
 		b, err := registry.DefaultConfiguration()
 		if err != nil {
-			fmt.Println(err)
+			log.Fatalf("a critical error occurred while generating a configuration file, %s", err)
 			os.Exit(1)
 		}
 		fmt.Printf("%s\n", string(b))
