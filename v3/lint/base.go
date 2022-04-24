@@ -105,8 +105,8 @@ func (l *Lint) Execute(cert *x509.Certificate, config Configuration) *LintResult
 }
 
 func (l *Lint) execute(lint LintInterface, cert *x509.Certificate, config Configuration) *LintResult {
-	switch configurable := lint.(type) {
-	case Configurable:
+	configurable, ok := lint.(Configurable)
+	if ok {
 		err := config.Configure(configurable.Configure(), l.Name)
 		if err != nil {
 			details := fmt.Sprintf(
