@@ -233,6 +233,7 @@ func sourceListToMap(sources SourceList) map[LintSource]bool {
 //
 // FilterOptions are applied in the following order of precedence:
 //   ExcludeSources > IncludeSources > NameFilter > ExcludeNames > IncludeNames
+//nolint:cyclop
 func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 	// If there's no filtering to be done, return the existing Registry.
 	if opts.Empty() {
@@ -295,6 +296,7 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false)
 	for _, name := range r.Names() {
+		//nolint:errchkjson
 		_ = enc.Encode(r.ByName(name))
 	}
 }
@@ -358,6 +360,7 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 
 // NewRegistry constructs a Registry implementation that can be used to register
 // lints.
+//nolint:revive
 func NewRegistry() *registryImpl {
 	return &registryImpl{
 		lintsByName:   make(map[string]*Lint),
@@ -367,7 +370,7 @@ func NewRegistry() *registryImpl {
 
 // globalRegistry is the Registry used by all loaded lints that call
 // RegisterLint().
-var globalRegistry *registryImpl = NewRegistry()
+var globalRegistry = NewRegistry()
 
 // RegisterLint must be called once for each lint to be executed. Normally,
 // RegisterLint is called from the Go init() function of a lint implementation.

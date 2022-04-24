@@ -92,6 +92,7 @@ psw2SW2R/SwSnkgvaLM/o0tw77aapxlaAs29Y4SE/RvRR2CJ0V/gvq9GUorY4OF2
 -----END CERTIFICATE-----
 `
 
+//nolint:cyclop
 func BenchmarkZlint(b *testing.B) {
 	certDerBlock, _ := pem.Decode([]byte(bigCertificatePem))
 	x509Cert, err := x509.ParseCertificate(certDerBlock.Bytes)

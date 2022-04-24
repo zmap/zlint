@@ -37,6 +37,7 @@ import (
 // Important: TestLint is only appropriate for unit tests. It will panic if the
 // lintName is not known or if the testCertFilename can not be loaded, or if the
 // lint result is nil.
+//nolint:revive
 func TestLint(lintName string, testCertFilename string) *lint.LintResult {
 	return TestLintWithConfig(lintName, testCertFilename, "")
 }
@@ -55,6 +56,7 @@ func TestLintWithConfig(lintName string, testCertFilename string, context string
 //
 // Important: TestLintCert is only appropriate for unit tests. It will panic if
 // the lintName is not known or if the lint result is nil.
+//nolint:revive
 func TestLintCert(lintName string, cert *x509.Certificate, ctx lint.Configuration) *lint.LintResult {
 	l := lint.GlobalRegistry().ByName(lintName)
 	if l == nil {

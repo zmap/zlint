@@ -81,6 +81,7 @@ func init() {
 	log.SetLevel(log.InfoLevel)
 }
 
+//nolint:cyclop
 func main() {
 	if printVersion {
 		fmt.Printf("ZLint version %s\n", version)
@@ -142,6 +143,7 @@ func main() {
 	}
 }
 
+//nolint:cyclop
 func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 	fileBytes, err := io.ReadAll(inputFile)
 	if err != nil {
@@ -212,6 +214,7 @@ func trimmedList(raw string) []string {
 // setLints returns a filtered registry to use based on the nameFilter,
 // includeNames, excludeNames, includeSources, and excludeSources flag values in
 // use.
+//nolint:cyclop
 func setLints() (lint.Registry, error) {
 	config, err := lint.NewConfigFromFile(config)
 	if err != nil {
