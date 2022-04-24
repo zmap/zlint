@@ -98,7 +98,7 @@ Example ZLint CLI usage:
 	zlint -excludeSources=ETSI_ESI mycert.pem
     
     echo "Receive a copy of the full (default) configuration for all configurable lints"
-    zlint -exampleConfing
+    zlint -exampleConfig
 
     echo "Lint mycert.pem using a custom configuration for any configurable lints"
     zlint -config configFile.toml mycert.pem
