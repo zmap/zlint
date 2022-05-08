@@ -48,9 +48,8 @@ func NewFermatFactorization() lint.LintInterface {
 }
 
 func (l *fermatFactorization) CheckApplies(c *x509.Certificate) bool {
-	return false
-	//_, ok := c.PublicKey.(*rsa.PublicKey)
-	//return ok && c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*rsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.RSA
 }
 
 func (l *fermatFactorization) Execute(c *x509.Certificate) *lint.LintResult {
