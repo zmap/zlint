@@ -68,6 +68,7 @@ var (
 	AppleReducedLifetimeDate                         = time.Date(2020, time.September, 1, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_8_0_Date                               = time.Date(2021, time.August, 21, 0, 0, 0, 0, time.UTC)
 	NoReservedDomainLabelsDate                       = time.Date(2021, time.October, 1, 0, 0, 0, 0, time.UTC)
+	CABFBRs_1_8_1_Date                               = time.Date(2022, time.September, 1, 0, 0, 0, 0, time.UTC)
 )
 
 var (
