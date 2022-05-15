@@ -9,7 +9,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -74,12 +73,12 @@ func (f dataFile) DownloadTo(dir string) error {
 		reader = bzip2.NewReader(reader)
 	}
 
-	dataBytes, err := ioutil.ReadAll(reader)
+	dataBytes, err := io.ReadAll(reader)
 	if err != nil {
 		return err
 	}
 
-	if err := ioutil.WriteFile(p, dataBytes, 0644); err != nil {
+	if err := os.WriteFile(p, dataBytes, 0644); err != nil {
 		return err
 	}
 
@@ -97,7 +96,7 @@ type config struct {
 // the given file or returns an error if reading or unmarshaling the config file
 // fails.
 func loadConfig(file string) (*config, error) {
-	jsonBytes, err := ioutil.ReadFile(file)
+	jsonBytes, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +150,7 @@ func (c *config) Save(file string) error {
 		return err
 	}
 
-	return ioutil.WriteFile(file, jsonBytes, 0644)
+	return os.WriteFile(file, jsonBytes, 0644)
 }
 
 // Valid returns an error if the config has an empty CacheDir, no Files, or if
