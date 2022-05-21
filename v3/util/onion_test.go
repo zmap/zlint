@@ -117,3 +117,69 @@ func TestAllAreOnionV3(t *testing.T) {
 		})
 	}
 }
+
+func TestAtLeastOneIsOnionV2(t *testing.T) {
+	data := []struct {
+		in   []string
+		want bool
+	}{
+		{
+			[]string{"*.facebookwkhpilnemxj7asaniu7vnjjbiltxjqhye3mhbshg7kx5tfyd.onion"},
+			false,
+		},
+		{
+			[]string{},
+			false,
+		},
+		{
+			[]string{
+				"u6nubxndf4pscryd.onion",
+				"sp3k262uwy4r2k3ycr5awluarykdpag6a7y33jxop4cs2lu5uz5sseqd.onion",
+				"xa4r2iadxm55fbnqgwwi5mymqdcofiu3w6rpbtqn7b2dyn7mgwj64jyd.onion",
+			},
+			true,
+		},
+		{
+			[]string{
+				"pg6mmjiyjmcrsslvykfwnntlaru7p5svn6y2ymmju6nubxndf4pscryd.onion",
+				"u6nubxndf4pscryd.onion",
+				"xa4r2iadxm55fbnqgwwi5mymqdcofiu3w6rpbtqn7b2dyn7mgwj64jyd.onion",
+			},
+			true,
+		},
+		{
+			[]string{
+				"facebook.com",
+				"pg6mmjiyjmcrsslvykfwnntlaru7p5svn6y2ymmju6nubxndf4pscryd.onion",
+				"u6nubxndf4pscryd.onion",
+			},
+			true,
+		},
+		{
+			[]string{
+				"pg6mmjiyjmcrsslvykfwnntlaru7p5svn6y2ymmju6nubxndf4pscryd.onion",
+				"xa4r2iadxm55fbnqgwwi5mymqdcofiu3w6rpbtqn7b2dyn7mgwj64jyd.onion",
+				"facebook.com",
+			},
+			false,
+		},
+		{
+			[]string{"barelabelonion"}, false,
+		},
+	}
+	for _, test := range data {
+		test := test
+		var name string
+		if len(test.in) == 0 {
+			name = "empty"
+		} else {
+			name = test.in[0]
+		}
+		t.Run(name, func(t *testing.T) {
+			got := AtLeastOneIsOnionV2(test.in)
+			if got != test.want {
+				t.Errorf("expected %v got %v", test.want, got)
+			}
+		})
+	}
+}

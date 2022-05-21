@@ -52,3 +52,27 @@ func AllAreOnionV3(names []string) bool {
 func IsOnionV3Cert(c *x509.Certificate) bool {
 	return AllAreOnionV3(append(c.DNSNames, c.Subject.CommonName))
 }
+
+// AtLeastOneIsOnionV2 returns whether-or-not at least one of the provided names is
+// a version 2 Onion address.
+func AtLeastOneIsOnionV2(names []string) bool {
+	for _, name := range names {
+		if !strings.HasSuffix(name, "onion") {
+			continue
+		}
+		labels := strings.Split(name, ".")
+		if len(labels) < 2 {
+			continue
+		}
+		if len(labels[0]) == 16 {
+			return true
+		}
+	}
+	return false
+}
+
+// IsOnionV2Cert returns whether-or-not at least one of the provided certificates subject common name,
+// or any of its DNS names, are version 2 Onion addresses.
+func IsOnionV2Cert(c *x509.Certificate) bool {
+	return AtLeastOneIsOnionV2(append(c.DNSNames, c.Subject.CommonName))
+}
