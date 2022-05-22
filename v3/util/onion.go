@@ -62,10 +62,10 @@ func IsOnionV2Address(dnsName string) bool {
 	return true
 }
 
-// IsOnionV3Cert returns whether-or-not the provided certificates' subject common name and
-// ALL subject alternative DNS names are version 3 Onion addresses.
+// IsOnionV3Cert returns whether-or-not at least one of the provided certificates subject common name,
+// or any of its DNS names, are version 3 Onion addresses.
 func IsOnionV3Cert(c *x509.Certificate) bool {
-	return All(append(c.DNSNames, c.Subject.CommonName), IsOnionV3Address)
+	return Any(append(c.DNSNames, c.Subject.CommonName), IsOnionV3Address)
 }
 
 // IsOnionV2Cert returns whether-or-not at least one of the provided certificates subject common name,
