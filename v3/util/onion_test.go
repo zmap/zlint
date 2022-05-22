@@ -47,7 +47,7 @@ func TestIsOnionV3(t *testing.T) {
 	for _, test := range data {
 		test := test
 		t.Run(test.in, func(t *testing.T) {
-			got := IsOnionV3(test.in)
+			got := IsOnionV3Address(test.in)
 			if got != test.want {
 				t.Errorf("expected %v got %v", test.want, got)
 			}
@@ -66,7 +66,7 @@ func TestAllAreOnionV3(t *testing.T) {
 		},
 		{
 			[]string{},
-			false,
+			true,
 		},
 		{
 			[]string{
@@ -110,7 +110,7 @@ func TestAllAreOnionV3(t *testing.T) {
 			name = test.in[0]
 		}
 		t.Run(name, func(t *testing.T) {
-			got := AllAreOnionV3(test.in)
+			got := All(test.in, IsOnionV3Address)
 			if got != test.want {
 				t.Errorf("expected %v got %v", test.want, got)
 			}
@@ -166,6 +166,10 @@ func TestAtLeastOneIsOnionV2(t *testing.T) {
 		{
 			[]string{"barelabelonion"}, false,
 		},
+		{
+			[]string{"zmap.io", "of3wk4tupf2ws33q.onion"},
+			true,
+		},
 	}
 	for _, test := range data {
 		test := test
@@ -176,7 +180,7 @@ func TestAtLeastOneIsOnionV2(t *testing.T) {
 			name = test.in[0]
 		}
 		t.Run(name, func(t *testing.T) {
-			got := AtLeastOneIsOnionV2(test.in)
+			got := Any(test.in, IsOnionV2Address)
 			if got != test.want {
 				t.Errorf("expected %v got %v", test.want, got)
 			}
