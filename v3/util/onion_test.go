@@ -110,7 +110,7 @@ func TestAllAreOnionV3(t *testing.T) {
 			name = test.in[0]
 		}
 		t.Run(name, func(t *testing.T) {
-			got := All(test.in, IsOnionV3Address)
+			got := allAreOnionVX(test.in, IsOnionV3Address)
 			if got != test.want {
 				t.Errorf("expected %v got %v", test.want, got)
 			}
@@ -180,7 +180,7 @@ func TestAtLeastOneIsOnionV2(t *testing.T) {
 			name = test.in[0]
 		}
 		t.Run(name, func(t *testing.T) {
-			got := Any(test.in, IsOnionV2Address)
+			got := anyAreOnionVX(test.in, IsOnionV2Address)
 			if got != test.want {
 				t.Errorf("expected %v got %v", test.want, got)
 			}

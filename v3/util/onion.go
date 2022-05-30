@@ -65,11 +65,40 @@ func IsOnionV2Address(dnsName string) bool {
 // IsOnionV3Cert returns whether-or-not at least one of the provided certificates subject common name,
 // or any of its DNS names, are version 3 Onion addresses.
 func IsOnionV3Cert(c *x509.Certificate) bool {
-	return Any(append(c.DNSNames, c.Subject.CommonName), IsOnionV3Address)
+	return anyAreOnionVX(append(c.DNSNames, c.Subject.CommonName), IsOnionV3Address)
 }
 
 // IsOnionV2Cert returns whether-or-not at least one of the provided certificates subject common name,
 // or any of its DNS names, are version 2 Onion addresses.
 func IsOnionV2Cert(c *x509.Certificate) bool {
-	return Any(append(c.DNSNames, c.Subject.CommonName), IsOnionV2Address)
+	return anyAreOnionVX(append(c.DNSNames, c.Subject.CommonName), IsOnionV2Address)
+}
+
+// anyAreOnionVX returns whether-or-not there is at least one item
+// within the given slice that satisfies the given predicate.
+//
+// An empty slice always returns `false`.
+//
+// @TODO once we commit to forcing the libary users onto Go 1.18 this should migrate to a generic function.
+func anyAreOnionVX(slice []string, predicate func(string) bool) bool {
+	for _, item := range slice {
+		if predicate(item) {
+			return true
+		}
+	}
+	return false
+}
+
+// allAreOnionVX returns whether-or-not all items within the given slice
+// satisfy the given predicate.
+//
+// An empty slice always returns `true`. This may seem counterintuitive,
+// however it is due to being what is called a "vacuous truth". For
+// more information, please see https://en.wikipedia.org/wiki/Vacuous_truth.
+//
+// @TODO once we commit to forcing the libary users onto Go 1.18 this should migrate to a generic function.
+func allAreOnionVX(slice []string, predicate func(string) bool) bool {
+	return !anyAreOnionVX(slice, func(item string) bool {
+		return !predicate(item)
+	})
 }
