@@ -79,7 +79,7 @@ func IsOnionV2Cert(c *x509.Certificate) bool {
 //
 // An empty slice always returns `false`.
 //
-// @TODO once we commit to forcing the libary users onto Go 1.18 this should migrate to a generic function.
+// @TODO once we commit to forcing the library users onto Go 1.18 this should migrate to a generic function.
 func anyAreOnionVX(slice []string, predicate func(string) bool) bool {
 	for _, item := range slice {
 		if predicate(item) {
@@ -96,7 +96,7 @@ func anyAreOnionVX(slice []string, predicate func(string) bool) bool {
 // however it is due to being what is called a "vacuous truth". For
 // more information, please see https://en.wikipedia.org/wiki/Vacuous_truth.
 //
-// @TODO once we commit to forcing the libary users onto Go 1.18 this should migrate to a generic function.
+// @TODO once we commit to forcing the library users onto Go 1.18 this should migrate to a generic function.
 func allAreOnionVX(slice []string, predicate func(string) bool) bool {
 	return !anyAreOnionVX(slice, func(item string) bool {
 		return !predicate(item)
