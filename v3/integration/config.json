@@ -780,6 +780,9 @@
     },
     "w_rsa_allowed_ku_ee": {
       "WarnCount": 181
+    },
+    "e_no_underscores_before_1_6_2": {
+      "ErrCount": 340
     }
   }
 }
