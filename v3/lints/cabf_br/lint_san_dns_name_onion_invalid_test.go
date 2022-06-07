@@ -27,7 +27,7 @@ func TestOnionNotInvalid(t *testing.T) {
 		},
 		{
 			Name:            "non-V2/V3 onion subject, EV cert",
-			InputFilename:   "onionSANEV.pem",
+			InputFilename:   "invalidOnionAddress.pem",
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: `"zmap.onion" is not a v2 or v3 Tor address`,
 		},
