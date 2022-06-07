@@ -56,7 +56,7 @@ func TestRsaAllowedKUCaNoEncipherment(t *testing.T) {
 			name:            "CA certificate with RSA key and key usages certificateSign and keyEncipherment",
 			filename:        "caWithRSAAndEnciphermentKeyUsage.pem",
 			expectedStatus:  lint.Warn,
-			expectedDetails: "CA certificate with an RSA and key usage keyCertSign and/or cRLSign has additionally keyEncipherment and/or dataEncipherment key usage",
+			expectedDetails: "CA certificate with an RSA key and key usage keyCertSign and/or cRLSign has additionally keyEncipherment and/or dataEncipherment key usage",
 		},
 	}
 

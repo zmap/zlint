@@ -56,7 +56,7 @@ func TestNewRsaAllowedKUEe(t *testing.T) {
 			name:            "Subscriber certificate with RSA key and key usage keyAgreement",
 			filename:        "eeWithRSADisallowedKeyUsage.pem",
 			expectedStatus:  lint.Warn,
-			expectedDetails: "Subscriber certificate with an RSA key contains invalid key usage(s): keyAgreement",
+			expectedDetails: "Subscriber certificate with an RSA key contains invalid key usage(s): KeyUsageKeyAgreement",
 		},
 	}
 

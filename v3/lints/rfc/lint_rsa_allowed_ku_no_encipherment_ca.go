@@ -56,15 +56,16 @@ func NewRsaAllowedKUCaNoEncipherment() lint.LintInterface {
 }
 
 func (l *rsaAllowedKUCaNoEncipherment) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA && util.IsExtInCert(c, util.KeyUsageOID) && util.IsCACert(c)
+	return c.PublicKeyAlgorithm == x509.RSA && util.HasKeyUsageOID(c) && util.IsCACert(c)
 }
 
 func (l *rsaAllowedKUCaNoEncipherment) Execute(c *x509.Certificate) *lint.LintResult {
 
-	if c.KeyUsage&x509.KeyUsageCertSign != 0 || c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		if c.KeyUsage&x509.KeyUsageKeyEncipherment != 0 || c.KeyUsage&x509.KeyUsageDataEncipherment != 0 {
-			return &lint.LintResult{Status: lint.Warn, Details: "CA certificate with an RSA and key usage keyCertSign and/or cRLSign has additionally keyEncipherment and/or dataEncipherment key usage"}
+	if util.HasKeyUsage(c, x509.KeyUsageCertSign) || util.HasKeyUsage(c, x509.KeyUsageCRLSign) {
+		if util.HasKeyUsage(c, x509.KeyUsageKeyEncipherment) || util.HasKeyUsage(c, x509.KeyUsageDataEncipherment) {
+			return &lint.LintResult{Status: lint.Warn, Details: "CA certificate with an RSA key and key usage keyCertSign and/or cRLSign has additionally keyEncipherment and/or dataEncipherment key usage"}
 		}
 	}
+
 	return &lint.LintResult{Status: lint.Pass}
 }

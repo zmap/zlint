@@ -54,7 +54,7 @@ func NewRsaAllowedKUEe() lint.LintInterface {
 }
 
 func (l *rsaAllowedKUEe) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA && util.IsExtInCert(c, util.KeyUsageOID) && util.IsSubscriberCert(c)
+	return c.PublicKeyAlgorithm == x509.RSA && util.HasKeyUsageOID(c) && util.IsSubscriberCert(c)
 }
 
 func (l *rsaAllowedKUEe) Execute(c *x509.Certificate) *lint.LintResult {
@@ -71,24 +71,12 @@ func (l *rsaAllowedKUEe) Execute(c *x509.Certificate) *lint.LintResult {
 
 	var invalidKUs []string
 
-	if c.KeyUsage&x509.KeyUsageKeyAgreement != 0 {
-		invalidKUs = append(invalidKUs, "keyAgreement")
-	}
+	disallowedKUs := [5]x509.KeyUsage{x509.KeyUsageKeyAgreement, x509.KeyUsageCertSign, x509.KeyUsageCRLSign, x509.KeyUsageEncipherOnly, x509.KeyUsageDecipherOnly}
 
-	if c.KeyUsage&x509.KeyUsageCertSign != 0 {
-		invalidKUs = append(invalidKUs, "keyCertSign")
-	}
-
-	if c.KeyUsage&x509.KeyUsageCRLSign != 0 {
-		invalidKUs = append(invalidKUs, "cRLSign")
-	}
-
-	if c.KeyUsage&x509.KeyUsageEncipherOnly != 0 {
-		invalidKUs = append(invalidKUs, "encipherOnly")
-	}
-
-	if c.KeyUsage&x509.KeyUsageDecipherOnly != 0 {
-		invalidKUs = append(invalidKUs, "decipherOnly")
+	for _, disallowedKU := range disallowedKUs {
+		if util.HasKeyUsage(c, disallowedKU) {
+			invalidKUs = append(invalidKUs, util.KeyUsageToString[disallowedKU])
+		}
 	}
 
 	if len(invalidKUs) > 0 {

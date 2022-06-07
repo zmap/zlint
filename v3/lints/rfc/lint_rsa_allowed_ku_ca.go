@@ -38,10 +38,6 @@ RFC 3279: 2.3.1  RSA Keys
       dataEncipherment;
       keyCertSign; and
       cRLSign.
-
-   However, this specification RECOMMENDS that if keyCertSign or cRLSign
-   is present, both keyEncipherment and dataEncipherment SHOULD NOT be
-   present.
 ************************************************/
 
 func init() {
@@ -60,7 +56,7 @@ func NewRsaAllowedKUCa() lint.LintInterface {
 }
 
 func (l *rsaAllowedKUCa) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.RSA && util.IsExtInCert(c, util.KeyUsageOID) && util.IsCACert(c)
+	return c.PublicKeyAlgorithm == x509.RSA && util.HasKeyUsageOID(c) && util.IsCACert(c)
 }
 
 func (l *rsaAllowedKUCa) Execute(c *x509.Certificate) *lint.LintResult {
@@ -77,16 +73,12 @@ func (l *rsaAllowedKUCa) Execute(c *x509.Certificate) *lint.LintResult {
 
 	var invalidKUs []string
 
-	if c.KeyUsage&x509.KeyUsageKeyAgreement != 0 {
-		invalidKUs = append(invalidKUs, "keyAgreement")
-	}
+	disallowedKUs := [3]x509.KeyUsage{x509.KeyUsageKeyAgreement, x509.KeyUsageEncipherOnly, x509.KeyUsageDecipherOnly}
 
-	if c.KeyUsage&x509.KeyUsageEncipherOnly != 0 {
-		invalidKUs = append(invalidKUs, "encipherOnly")
-	}
-
-	if c.KeyUsage&x509.KeyUsageDecipherOnly != 0 {
-		invalidKUs = append(invalidKUs, "decipherOnly")
+	for _, disallowedKU := range disallowedKUs {
+		if util.HasKeyUsage(c, disallowedKU) {
+			invalidKUs = append(invalidKUs, util.KeyUsageToString[disallowedKU])
+		}
 	}
 
 	if len(invalidKUs) > 0 {

@@ -52,7 +52,7 @@ func NewEcdsaAllowedKU() lint.LintInterface {
 
 // CheckApplies returns true when the certificate has an ECDSA public key and a key usage extension.
 func (l *ecdsaAllowedKU) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.ECDSA && util.IsExtInCert(c, util.KeyUsageOID)
+	return c.PublicKeyAlgorithm == x509.ECDSA && util.HasKeyUsageOID(c)
 }
 
 // Execute returns an Error level lint.LintResult if the ECDSA certificate
@@ -66,18 +66,15 @@ func (l *ecdsaAllowedKU) Execute(c *x509.Certificate) *lint.LintResult {
 	//
 	//    keyEncipherment; and
 	//    dataEncipherment.
-	forbiddenKUs := map[x509.KeyUsage]bool{
-		x509.KeyUsageKeyEncipherment:  true,
-		x509.KeyUsageDataEncipherment: true,
-	}
 
 	var invalidKUs []string
-	for ku, kuName := range util.KeyUsageToString {
-		if c.KeyUsage&ku != 0 {
-			if forbiddenKUs[ku] {
-				invalidKUs = append(invalidKUs, kuName)
-			}
-		}
+
+	if util.HasKeyUsage(c, x509.KeyUsageKeyEncipherment) {
+		invalidKUs = append(invalidKUs, util.KeyUsageToString[x509.KeyUsageKeyEncipherment])
+	}
+
+	if util.HasKeyUsage(c, x509.KeyUsageDataEncipherment) {
+		invalidKUs = append(invalidKUs, util.KeyUsageToString[x509.KeyUsageDataEncipherment])
 	}
 
 	if len(invalidKUs) > 0 {

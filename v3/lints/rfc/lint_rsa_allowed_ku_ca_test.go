@@ -56,7 +56,7 @@ func TestRsaAllowedKUCa(t *testing.T) {
 			name:            "CA certificate with RSA key and key usages certificateSign and keyAgreement",
 			filename:        "caWithRSADisallowedKeyUsage.pem",
 			expectedStatus:  lint.Warn,
-			expectedDetails: "CA certificate with an RSA key contains invalid key usage(s): keyAgreement",
+			expectedDetails: "CA certificate with an RSA key contains invalid key usage(s): KeyUsageKeyAgreement",
 		},
 		{
 			name:            "CA certificate with RSA key and key usages certificateSign and keyEncipherment",
