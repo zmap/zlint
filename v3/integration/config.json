@@ -641,13 +641,13 @@
     },
     "e_ecdsa_allowed_ku": {},
     "e_rsa_allowed_ku_ca": {
-      "WarnCount": 1
+      "ErrCount": 1
     },
     "e_rsa_allowed_ku_no_encipherment_ca": {
-      "WarnCount": 12
+      "ErrCount": 12
     },
     "e_rsa_allowed_ku_ee": {
-      "WarnCount": 181
+      "ErrCount": 181
     },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 724

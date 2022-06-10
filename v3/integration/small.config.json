@@ -320,7 +320,7 @@
     "e_rsa_allowed_ku_ca": {},
     "e_rsa_allowed_ku_no_encipherment_ca": {},
     "e_rsa_allowed_ku_ee": {
-      "WarnCount": 11
+      "ErrCount": 11
     },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
