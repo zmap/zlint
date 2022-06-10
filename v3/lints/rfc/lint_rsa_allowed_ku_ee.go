@@ -40,7 +40,7 @@ RFC 3279: 2.3.1  RSA Keys
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "w_rsa_allowed_ku_ee",
+		Name:          "e_rsa_allowed_ku_ee",
 		Description:   "Key usage values digitalSignature, nonRepudiation, keyEncipherment, and dataEncipherment may only be present in an end entity certificate with an RSA key",
 		Citation:      "RFC 3279: 2.3.1",
 		Source:        lint.RFC3279,
@@ -83,7 +83,7 @@ func (l *rsaAllowedKUEe) Execute(c *x509.Certificate) *lint.LintResult {
 		// Sort the invalid KUs to allow consistent ordering of Details messages for unit testing
 		sort.Strings(invalidKUs)
 		return &lint.LintResult{
-			Status:  lint.Warn,
+			Status:  lint.Error,
 			Details: fmt.Sprintf("Subscriber certificate with an RSA key contains invalid key usage(s): %s", strings.Join(invalidKUs, ", ")),
 		}
 	}

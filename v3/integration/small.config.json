@@ -317,6 +317,11 @@
     "e_validity_time_not_positive": {},
     "e_wrong_time_format_pre2050": {},
     "e_ecdsa_allowed_ku": {},
+    "e_rsa_allowed_ku_ca": {},
+    "e_rsa_allowed_ku_no_encipherment_ca": {},
+    "e_rsa_allowed_ku_ee": {
+      "WarnCount": 11
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
@@ -418,11 +423,6 @@
     "w_subject_dn_trailing_whitespace": {
       "WarnCount": 4
     },
-    "w_tls_server_cert_valid_time_longer_than_397_days": {},
-    "w_rsa_allowed_ku_ca": {},
-    "w_rsa_allowed_ku_no_encipherment_ca": {},
-    "w_rsa_allowed_ku_ee": {
-      "WarnCount": 11
-    }
+    "w_tls_server_cert_valid_time_longer_than_397_days": {}
   }
 }

@@ -640,6 +640,15 @@
       "ErrCount": 1
     },
     "e_ecdsa_allowed_ku": {},
+    "e_rsa_allowed_ku_ca": {
+      "WarnCount": 1
+    },
+    "e_rsa_allowed_ku_no_encipherment_ca": {
+      "WarnCount": 12
+    },
+    "e_rsa_allowed_ku_ee": {
+      "WarnCount": 181
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 724
     },
@@ -772,15 +781,6 @@
     "w_subject_given_name_recommended_max_length": {},
     "w_subject_surname_recommended_max_length": {},
     "w_tls_server_cert_valid_time_longer_than_397_days": {},
-    "w_rsa_allowed_ku_ca": {
-      "WarnCount": 1
-    },
-    "w_rsa_allowed_ku_no_encipherment_ca": {
-      "WarnCount": 12
-    },
-    "w_rsa_allowed_ku_ee": {
-      "WarnCount": 181
-    },
     "e_no_underscores_before_1_6_2": {
       "ErrCount": 340
     }

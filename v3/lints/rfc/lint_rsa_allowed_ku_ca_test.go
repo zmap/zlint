@@ -55,7 +55,7 @@ func TestRsaAllowedKUCa(t *testing.T) {
 		{
 			name:            "CA certificate with RSA key and key usages certificateSign and keyAgreement",
 			filename:        "caWithRSADisallowedKeyUsage.pem",
-			expectedStatus:  lint.Warn,
+			expectedStatus:  lint.Error,
 			expectedDetails: "CA certificate with an RSA key contains invalid key usage(s): KeyUsageKeyAgreement",
 		},
 		{
@@ -67,7 +67,7 @@ func TestRsaAllowedKUCa(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		result := test.TestLint("w_rsa_allowed_ku_ca", tc.filename)
+		result := test.TestLint("e_rsa_allowed_ku_ca", tc.filename)
 		if result.Status != tc.expectedStatus {
 			t.Errorf("expected result %v. actual result was %v",
 				tc.expectedStatus, result.Status)

@@ -55,13 +55,13 @@ func TestRsaAllowedKUCaNoEncipherment(t *testing.T) {
 		{
 			name:            "CA certificate with RSA key and key usages certificateSign and keyEncipherment",
 			filename:        "caWithRSAAndEnciphermentKeyUsage.pem",
-			expectedStatus:  lint.Warn,
+			expectedStatus:  lint.Error,
 			expectedDetails: "CA certificate with an RSA key and key usage keyCertSign and/or cRLSign has additionally keyEncipherment and/or dataEncipherment key usage",
 		},
 	}
 
 	for _, tc := range testCases {
-		result := test.TestLint("w_rsa_allowed_ku_no_encipherment_ca", tc.filename)
+		result := test.TestLint("e_rsa_allowed_ku_no_encipherment_ca", tc.filename)
 		if result.Status != tc.expectedStatus {
 			t.Errorf("expected result %v. actual result was %v",
 				tc.expectedStatus, result.Status)

@@ -55,13 +55,13 @@ func TestNewRsaAllowedKUEe(t *testing.T) {
 		{
 			name:            "Subscriber certificate with RSA key and key usage keyAgreement",
 			filename:        "eeWithRSADisallowedKeyUsage.pem",
-			expectedStatus:  lint.Warn,
+			expectedStatus:  lint.Error,
 			expectedDetails: "Subscriber certificate with an RSA key contains invalid key usage(s): KeyUsageKeyAgreement",
 		},
 	}
 
 	for _, tc := range testCases {
-		result := test.TestLint("w_rsa_allowed_ku_ee", tc.filename)
+		result := test.TestLint("e_rsa_allowed_ku_ee", tc.filename)
 		if result.Status != tc.expectedStatus {
 			t.Errorf("expected result %v. actual result was %v",
 				tc.expectedStatus, result.Status)
