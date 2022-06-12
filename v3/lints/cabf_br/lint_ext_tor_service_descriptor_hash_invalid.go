@@ -54,7 +54,7 @@ func (l *torServiceDescHashInvalid) CheckApplies(c *x509.Certificate) bool {
 	return ext != nil || (util.IsSubscriberCert(c) &&
 		util.CertificateSubjInTLD(c, util.OnionTLD) &&
 		util.IsEV(c.PolicyIdentifiers)) &&
-		!util.IsOnionV3Cert(c)
+		util.IsOnionV2Cert(c)
 }
 
 // failResult is a small utility function for creating a failed lint result.

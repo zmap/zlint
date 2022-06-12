@@ -65,6 +65,11 @@ func TestTorDescHashInvalid(t *testing.T) {
 			InputFilename:  "facebookOnionV3Address.pem",
 			ExpectedResult: lint.NA,
 		},
+		{
+			Name:           "V3 address with also a regular DNS name",
+			InputFilename:  "onionV3AndDNS.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {
