@@ -22,6 +22,7 @@ import (
 
 // LintSource is a type representing a known lint source that lints cite
 // requirements from.
+//nolint:revive
 type LintSource string
 
 const (

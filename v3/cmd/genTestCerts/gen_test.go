@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/pem"
 	"fmt"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -205,6 +206,40 @@ wif20LYD26BzLZQTncXVx2jSzTxpQbMDgg==
 		t.Fatal("generated certificate chain incorrectly verified with wrong root CA")
 	}
 	assertChains(current, expired, never, 0, t)
+}
+
+func TestGetTestData(t *testing.T) {
+	got, err := getTestDataDir()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.HasSuffix(got, "zlint/v3/testdata") {
+		t.Fatalf("wanted path ending in 'zlint/v3/testdata' got '%s'", got)
+	}
+}
+
+func TestSaveCert(t *testing.T) {
+	ca, err := newTrustAnchor()
+	if err != nil {
+		t.Fatal(err)
+	}
+	intermediate, err := newIntermediate(ca)
+	if err != nil {
+		t.Fatal(err)
+	}
+	leaf, err := newLeaf(ca, []*Certificate{intermediate})
+	if err != nil {
+		t.Fatal(err)
+	}
+	fname, err := saveCertificateToTestdata(leaf, "UNIT_TEST.pem")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(fname)
+	_, err = os.Stat(fname)
+	if err != nil {
+		t.Fatal(err)
+	}
 }
 
 func assertChains(current, expired, never []x509.CertificateChain, currentWant int, t *testing.T) {

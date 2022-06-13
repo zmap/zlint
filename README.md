@@ -169,23 +169,26 @@ Pre-issuance linting is **strongly recommended** by the [Mozilla root
 program](https://wiki.allizom.org/CA/Required_or_Recommended_Practices#Pre-Issuance_Linting).
 Here are some projects/CAs known to integrate with ZLint in some fashion:
 
+* [Actalis](https://www.actalis.it/en/home.aspx)
+* [ANF AC](https://www.anf.es/)
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
-* [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
-* [Entrust Datacard](https://www.entrust.com/)
-* [Google Trust Services](https://pki.goog/)
-* [Government of Spain, FNMT](http://www.fnmt.es/)
+* [Entrust](https://www.entrust.com/)
 * [Globalsign](https://www.globalsign.com/en/)
 * [GoDaddy](https://www.godaddy.com)
+* [Google Trust Services](https://pki.goog/)
+* [Government of Spain, FNMT](http://www.fnmt.es/)
 * [Izenpe](https://www.izenpe.eus/)
 * [Let's Encrypt](https://letsencrypt.org) and [Boulder](https://github.com/letsencrypt/boulder)
 * [Microsec](https://www.microsec.com/)
+* [Microsoft](https://www.microsoft.com)
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
-* [Siemens](https://siemens.com/pki)
 * [QuoVadis](https://www.quovadisglobal.com/)
-* [Actalis](https://www.actalis.it/en/home.aspx)
+* [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
+* [Siemens](https://siemens.com/pki)
+* [SSL.com](https://www.ssl.com/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
