@@ -187,7 +187,10 @@ configuration, err := lint.NewConfigFromString(`
         something = "else"
         anything = "at all"
 `)
-lint.GlobalRegistry().SetConfigutration()
+if err != nil {
+	log.Fatal("unable to parse configuration:", err)
+}
+lint.GlobalRegistry().SetConfigutration(configuration)
 zlintResultSet := zlint.LintCertificate(parsed)
 ```
 
