@@ -155,6 +155,42 @@ if err != nil {
 zlintResultSet := zlint.LintCertificateEx(parsed, registry)
 ```
 
+To lint a certificate in the presence of a particular configuration file, you must first construct the configuration and then make a call to `SetConfiguration` in the `Registry` interface.
+
+A `Configuration` may be constructed using any of the following functions:
+
+* `lint.NewConfig(r io.Reader) (Configuration, error)`
+* `lint.NewConfigFromFile(config string) (Configuration, error)`
+* `lint.NewConfigFromString(config string) (Configuration, error)`
+
+The contents of the input to all three constructors must be a valid TOML document.
+
+```go
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3"
+)
+
+var certDER []byte = ...
+parsed, err := x509.ParseCertificate(certDER)
+if err != nil {
+	// If x509.ParseCertificate fails, the certificate is too broken to lint.
+	// This should be treated as ZLint rejecting the certificate
+	log.Fatal("unable to parse certificate:", err)
+}
+configuration, err := lint.NewConfigFromString(`
+        [some_configurable_lint]
+        IsWebPki = true
+        NumIterations = 42
+        
+        [some_configurable_lint.AnySubMapping]
+        something = "else"
+        anything = "at all"
+`)
+lint.GlobalRegistry().SetConfigutration()
+zlintResultSet := zlint.LintCertificate(parsed)
+```
+
 See [the `zlint` command][zlint cmd]'s source code for an example.
 
 [zlint cmd]: https://github.com/zmap/zlint/blob/master/v3/cmd/zlint/main.go

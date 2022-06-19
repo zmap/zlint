@@ -362,10 +362,12 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 // lints.
 //nolint:revive
 func NewRegistry() *registryImpl {
-	return &registryImpl{
+	registry := &registryImpl{
 		lintsByName:   make(map[string]*Lint),
 		lintsBySource: make(map[LintSource][]*Lint),
 	}
+	registry.SetConfiguration(NewEmptyConfig())
+	return registry
 }
 
 // globalRegistry is the Registry used by all loaded lints that call
