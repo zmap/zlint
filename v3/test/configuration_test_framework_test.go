@@ -90,7 +90,7 @@ BeerHall = "liedershousen"
 `
 	out := TestLintWithConfig("e_ca_common_name_missing2", inputPath, config)
 	if out.Details != "liedershousen" {
-		panic("noooooooooooo")
+		t.Fatalf("unexpected output details, got '%s' want %s", out.Details, "liedershousen")
 	}
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -106,7 +106,7 @@ BeerHall = "liedershousenssss"
 `
 	out := TestLintWithConfig("e_ca_common_name_missing2", inputPath, config)
 	if out.Details != "liedershousenssss" {
-		panic("noooooooooooo")
+		t.Fatalf("unexpected output details, got '%s' want %s", out.Details, "liedershousenssss")
 	}
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
@@ -156,7 +156,7 @@ BeerHall = "liedershousenssss"
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 	if out.Details != "liedershousenssss" {
-		panic("noooooooooooo")
+		t.Fatalf("unexpected output details, got '%s' want %s", out.Details, "liedershousenssss")
 	}
 }
 

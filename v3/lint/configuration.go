@@ -100,8 +100,8 @@ func NewConfigFromString(config string) (Configuration, error) {
 // any attempt to resolve a namespace in `deserializeConfigInto` fails and thus results
 // in all defaults for all lints being maintained.
 func NewEmptyConfig() Configuration {
-	ctx, _ := NewConfigFromString("")
-	return ctx
+	cfg, _ := NewConfigFromString("")
+	return cfg
 }
 
 // deserializeConfigInto deserializes the section labeled by the provided `namespace`
@@ -129,8 +129,8 @@ func NewEmptyConfig() Configuration {
 // Then the invocation of this function should be...
 //
 // ```
-// lint := &SomeOtherLink{}
-// deserializeConfigInto(link, "w_some_other_lint")
+// lint := &SomeOtherLint{}
+// deserializeConfigInto(lint, "w_some_other_lint")
 // ```
 //
 // If there is no such namespace found in this configuration then provided the namespace specific data encoded

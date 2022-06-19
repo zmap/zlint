@@ -301,8 +301,8 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 	}
 }
 
-func (r *registryImpl) SetConfiguration(ctx Configuration) {
-	r.configuration = ctx
+func (r *registryImpl) SetConfiguration(cfg Configuration) {
+	r.configuration = cfg
 }
 
 func (r *registryImpl) GetConfiguration() Configuration {
@@ -381,7 +381,7 @@ var globalRegistry = NewRegistry()
 // registration process.
 //
 // IMPORTANT: RegisterLint will panic if given a nil lint, or a lint with a nil
-// Lint pointer, or if the lint's Initialize function errors, or if the lint`
+// Lint pointer, or if the lint's Initialize function errors, or if the lint
 // name matches a previously registered lint's name. These conditions all
 // indicate a bug that should be addressed by a developer.
 func RegisterLint(l *Lint) {
