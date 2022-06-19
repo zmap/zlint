@@ -639,6 +639,16 @@
     "e_ev_not_wildcard": {
       "ErrCount": 1
     },
+    "e_ecdsa_allowed_ku": {},
+    "e_rsa_allowed_ku_ca": {
+      "ErrCount": 1
+    },
+    "e_rsa_allowed_ku_no_encipherment_ca": {
+      "ErrCount": 12
+    },
+    "e_rsa_allowed_ku_ee": {
+      "ErrCount": 181
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 724
     },
