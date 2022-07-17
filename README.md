@@ -160,7 +160,7 @@ To lint a certificate in the presence of a particular configuration file, you mu
 A `Configuration` may be constructed using any of the following functions:
 
 * `lint.NewConfig(r io.Reader) (Configuration, error)`
-* `lint.NewConfigFromFile(config string) (Configuration, error)`
+* `lint.NewConfigFromFile(path string) (Configuration, error)`
 * `lint.NewConfigFromString(config string) (Configuration, error)`
 
 The contents of the input to all three constructors must be a valid TOML document.

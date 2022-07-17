@@ -42,12 +42,12 @@ func TestLint(lintName string, testCertFilename string) *lint.LintResult {
 	return TestLintWithConfig(lintName, testCertFilename, "")
 }
 
-func TestLintWithConfig(lintName string, testCertFilename string, context string) *lint.LintResult {
-	ctx, err := lint.NewConfigFromString(context)
+func TestLintWithConfig(lintName string, testCertFilename string, configuration string) *lint.LintResult {
+	config, err := lint.NewConfigFromString(configuration)
 	if err != nil {
 		panic(err)
 	}
-	return TestLintCert(lintName, ReadTestCert(testCertFilename), ctx)
+	return TestLintCert(lintName, ReadTestCert(testCertFilename), config)
 }
 
 // TestLintCert executes a lint with the given name against an already parsed

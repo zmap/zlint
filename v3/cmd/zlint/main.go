@@ -105,7 +105,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("a critical error occurred while generating a configuration file, %s", err)
 		}
-		fmt.Printf("%s\n", string(b))
+		fmt.Println(string(b))
 		return
 	}
 
@@ -216,11 +216,11 @@ func trimmedList(raw string) []string {
 // use.
 //nolint:cyclop
 func setLints() (lint.Registry, error) {
-	config, err := lint.NewConfigFromFile(config)
+	configuration, err := lint.NewConfigFromFile(config)
 	if err != nil {
 		return nil, err
 	}
-	lint.GlobalRegistry().SetConfiguration(config)
+	lint.GlobalRegistry().SetConfiguration(configuration)
 	// If there's no filter options set, use the global registry as-is
 	if nameFilter == "" && includeNames == "" && excludeNames == "" && includeSources == "" && excludeSources == "" {
 		return lint.GlobalRegistry(), nil
