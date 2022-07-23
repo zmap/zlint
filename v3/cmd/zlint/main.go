@@ -47,6 +47,8 @@ var ( // flags
 	includeSources  string
 	excludeSources  string
 	printVersion    bool
+	config          string
+	exampleConfig   bool
 
 	// version is replaced by GoReleaser or `make` using an LDFlags option at
 	// build time. Here we supply a default value for folks that `go install` or
@@ -66,6 +68,8 @@ func init() {
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
 	flag.BoolVar(&printVersion, "version", false, "Print ZLint version and exit")
+	flag.StringVar(&config, "config", "", "A path to valid a TOML file that is to service as the configuration for a single run of ZLint")
+	flag.BoolVar(&exampleConfig, "exampleConfig", false, "Print a complete example of a configuration that is usable via the '-config' flag and exit. All values listed in this example will be set to their default.")
 
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
@@ -93,6 +97,15 @@ func main() {
 
 	if listLintsJSON {
 		registry.WriteJSON(os.Stdout)
+		return
+	}
+
+	if exampleConfig {
+		b, err := registry.DefaultConfiguration()
+		if err != nil {
+			log.Fatalf("a critical error occurred while generating a configuration file, %s", err)
+		}
+		fmt.Println(string(b))
 		return
 	}
 
@@ -203,6 +216,11 @@ func trimmedList(raw string) []string {
 // use.
 //nolint:cyclop
 func setLints() (lint.Registry, error) {
+	configuration, err := lint.NewConfigFromFile(config)
+	if err != nil {
+		return nil, err
+	}
+	lint.GlobalRegistry().SetConfiguration(configuration)
 	// If there's no filter options set, use the global registry as-is
 	if nameFilter == "" && includeNames == "" && excludeNames == "" && includeSources == "" && excludeSources == "" {
 		return lint.GlobalRegistry(), nil
