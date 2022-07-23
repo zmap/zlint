@@ -92,8 +92,10 @@ func TestRegister(t *testing.T) {
 			expectErr: errNilLint,
 		},
 		{
-			name:      "nil lint ptr",
-			lint:      &Lint{},
+			name: "nil lint ptr",
+			lint: &Lint{
+				Lint: func() LintInterface { return nil },
+			},
 			expectErr: errNilLintPtr,
 		},
 		{
