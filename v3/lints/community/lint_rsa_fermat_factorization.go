@@ -24,10 +24,8 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-// @TODO this lint would benefit from https://github.com/zmap/zlint/pull/648 so that we can set custom rounds
-
 type fermatFactorization struct {
-	rounds int
+	Rounds int `comment:"The number of iterations to attempt Fermat factorization. Note that when executing this lint against many (tens of thousands of certificates) that this configuration may have a profound affect on performance. For more information, please see https://fermatattack.secvuln.info/"`
 }
 
 func init() {
@@ -44,7 +42,11 @@ func init() {
 }
 
 func NewFermatFactorization() lint.LintInterface {
-	return &fermatFactorization{rounds: 100}
+	return &fermatFactorization{}
+}
+
+func (l *fermatFactorization) Configure() interface{} {
+	return l
 }
 
 func (l *fermatFactorization) CheckApplies(c *x509.Certificate) bool {
@@ -53,7 +55,7 @@ func (l *fermatFactorization) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *fermatFactorization) Execute(c *x509.Certificate) *lint.LintResult {
-	err := checkPrimeFactorsTooClose(c.PublicKey.(*rsa.PublicKey).N, l.rounds)
+	err := checkPrimeFactorsTooClose(c.PublicKey.(*rsa.PublicKey).N, l.Rounds)
 	if err != nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
