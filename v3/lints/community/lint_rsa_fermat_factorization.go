@@ -42,7 +42,7 @@ func init() {
 }
 
 func NewFermatFactorization() lint.LintInterface {
-	return &fermatFactorization{}
+	return &fermatFactorization{Rounds: 100}
 }
 
 func (l *fermatFactorization) Configure() interface{} {

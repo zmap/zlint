@@ -3,6 +3,7 @@ package community
 import (
 	"fmt"
 	"math/big"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -95,5 +96,25 @@ func TestPassFermatFactorizationWithCert(t *testing.T) {
 	out := test.TestLint("e_rsa_fermat_factorization", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func BenchmarkFermatFactorization_Execute(b *testing.B) {
+	//	cpu: Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz
+	//	BenchmarkFermatFactorization_Execute
+	//	BenchmarkFermatFactorization_Execute/0
+	//	BenchmarkFermatFactorization_Execute/0-8 	1000000000	         0.0005302 ns/o
+	cert := test.ReadTestCert("rsassapssWithSHA512.pem")
+	config, err := lint.NewConfigFromString(`
+[e_rsa_fermat_factorization]
+Rounds = 100
+`)
+	if err != nil {
+		b.Fatal(err)
+	}
+	for i := 0; i < b.N; i++ {
+		b.Run(strconv.FormatInt(int64(i), 10), func(b *testing.B) {
+			test.TestLintCert("e_rsa_fermat_factorization", cert, config)
+		})
 	}
 }
