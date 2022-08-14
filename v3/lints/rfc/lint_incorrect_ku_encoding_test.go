@@ -15,31 +15,41 @@
 package rfc
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestKuIncorrectEndoding(t *testing.T) {
+func TestKuIncorrectEncoding(t *testing.T) {
 	data := []struct {
-		file string
-		want lint.LintStatus
+		file    string
+		want    lint.LintStatus
+		details string
 	}{
 		{
-			"incorrect_unused_bits_in_ku_encoding.pem", lint.Error,
+			"incorrect_unused_bits_in_ku_encoding.pem",
+			lint.Error,
+			"declared to be 5, but it should be 7",
 		},
 		{
-			"keyUsageCertSignEndEntity.pem", lint.Pass,
+			"keyUsageCertSignEndEntity.pem",
+			lint.Pass,
+			"",
 		},
 	}
 	for _, d := range data {
 		file := d.file
 		want := d.want
+		details := d.details
 		t.Run(file, func(t *testing.T) {
 			got := test.TestLint("e_incorrect_ku_encoding", file)
 			if got.Status != want {
 				t.Errorf("expected %v got %v", want, got)
+			}
+			if !strings.Contains(got.Details, details) {
+				t.Errorf("expected the returned details to contain '%s' but got %s", details, got.Details)
 			}
 		})
 	}
