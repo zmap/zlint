@@ -24,8 +24,6 @@ import (
 
 type keyUsageIncorrectLength struct{}
 
-// "When present, conforming CAs SHOULD mark this extension as critical."
-
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_key_usage_incorrect_length",
