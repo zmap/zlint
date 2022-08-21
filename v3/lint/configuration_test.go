@@ -25,6 +25,46 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
+func TestComments(t *testing.T) {
+	type Wat struct {
+		Please int
+	}
+	type Test struct {
+		A int `comment:"hi"`
+		B int64
+		C RFC5280Config `omitempty,comment:"can we not?"`
+		D Wat
+	}
+	//toml.Unmarshal()
+	//got, err := toml.Marshal(Test{})
+	//if err != nil {
+	//	panic(err)
+	//}
+	//t.Log(string(got))
+
+	//tree, err := toml.TreeFromMap(make(map[string]interface{}, 0))
+	//if err != nil {
+	//	panic(err)
+	//}
+	//var x int64 = 0
+	//tree.SetWithComment("ohwhatever", "asdasd", false, x)
+	//got, err := toml.Marshal(tree)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//t.Log(string(got))
+
+	g := stripGlobalsFromExample2(Test{})
+	b, err := toml.Marshal(map[string]interface{}{
+		"hello": g,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(string(b))
+
+}
+
 func TestInt(t *testing.T) {
 	type Test struct {
 		A int

@@ -36,18 +36,22 @@ type Configuration struct {
 // file might look something like the following...
 //
 // ```
+//
 //	[MyLint]
 //	A = 1
 //	B = 2
+//
 // ```
 //
 // Given this, our target struct may look like the following...
 //
 // ```
+//
 //	type MytLint struct {
 //		A int
 //		B uint
 //	}
+//
 // ```
 //
 // So deserializing into this struct would look like...
@@ -121,9 +125,11 @@ func NewEmptyConfig() Configuration {
 // And the following struct definition...
 //
 // ```
-// type SomeOtherLint {
-//		IsWebPKI bool `toml:"is_web_pki"`
-// }
+//
+//	type SomeOtherLint {
+//			IsWebPKI bool `toml:"is_web_pki"`
+//	}
+//
 // ```
 //
 // Then the invocation of this function should be...
@@ -234,6 +240,53 @@ func stripGlobalsFromExample(i interface{}) interface{} {
 		m[name] = stripGlobalsFromExample(field.Interface())
 	}
 	return m
+}
+
+func stripGlobalsFromExample2(i interface{}) interface{} {
+	value := reflect.Indirect(reflect.ValueOf(i))
+	if value.Kind() != reflect.Struct {
+		return i
+	}
+	globals := make([]string, 0)
+	tree, err := toml.TreeFromMap(make(map[string]interface{}, 0))
+	if err != nil {
+		panic(err)
+	}
+	for field := 0; field < value.NumField(); field++ {
+		tag := value.Type().Field(field).Tag
+		name := value.Type().Field(field).Name
+		field := value.Field(field)
+		if !field.CanInterface() {
+			continue
+		}
+
+		if _, ok := field.Interface().(GlobalConfiguration); ok {
+			globals = append(globals, name)
+			continue
+		}
+		v := initializePtr(field).Interface()
+		// The toml library sucks
+		switch actually := v.(type) {
+		case int:
+			v = int64(actually)
+		case int8:
+			v = int64(actually)
+		case int16:
+			v = int64(actually)
+		case int32:
+			v = int64(actually)
+		case float32:
+			v = float64(actually)
+		}
+		comment, hasComment := tag.Lookup("comment")
+
+		if hasComment {
+			tree.SetWithComment(name, comment, false, v)
+		} else {
+			tree.Set(name, v)
+		}
+	}
+	return tree
 }
 
 // initializePtr checks whether the provided reflect.Value is a pointer type and is nil. If so, it returns
