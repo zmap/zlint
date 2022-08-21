@@ -16,6 +16,7 @@ package rfc
 
 import (
 	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -46,9 +47,10 @@ func (l *keyUsageIncorrectLength) CheckApplies(c *x509.Certificate) bool {
 
 func (l *keyUsageIncorrectLength) Execute(c *x509.Certificate) *lint.LintResult {
 	keyUsage := util.GetExtFromCert(c, util.KeyUsageOID).Value
-	_ = keyUsage[0]
-	_ = keyUsage[1]
-	_ = keyUsage[2]
+	// Tag: keyUsage[0]
+	// Length: keyUsage[1]
+	// Unused: keyUsage[2]
+	// The actual key usage...
 	content := keyUsage[3:]
 	if len(content) != 1 {
 		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("key usage is %d bytes long (should be exactly one)", len(content))}
