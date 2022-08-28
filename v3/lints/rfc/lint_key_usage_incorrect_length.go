@@ -50,14 +50,14 @@ func (l *keyUsageIncorrectLength) Execute(c *x509.Certificate) *lint.LintResult 
 	// Length: keyUsage[1]
 	// Unused: keyUsage[2]
 	// The actual key usage...
-	content := keyUsage[3:]
+	ku := keyUsage[3:]
 	// Any combination of the nine bit flags is legal from perspective
 	// of this lint (although requirements elsewhere may limit the combinations).
 	//
-	// As such, any value greater than 512 (2**9) is out of range of the possible
+	// As such, any value greater-than-or-equal-to 512 (2**9) is out of range of the possible
 	// values for a key usage bit string.
-	if big.NewInt(0).SetBytes(content).Int64() > 0b111111111 {
-		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) contains a value that is out of bounds of the range of possible KU values.", content)}
+	if big.NewInt(0).SetBytes(ku).Int64() > 0b111111111 {
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) contains a value that is out of bounds of the range of possible KU values.", ku)}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
