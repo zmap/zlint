@@ -16,6 +16,7 @@ package rfc
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -27,7 +28,7 @@ type keyUsageIncorrectLength struct{}
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_key_usage_incorrect_length",
-		Description:   "The key usage is a bit string with exactly eight bits",
+		Description:   "The key usage is a bit string with exactly nine possible flags",
 		Citation:      "RFC 5280: 4.2.1.3",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC5280Date,
@@ -50,8 +51,13 @@ func (l *keyUsageIncorrectLength) Execute(c *x509.Certificate) *lint.LintResult 
 	// Unused: keyUsage[2]
 	// The actual key usage...
 	content := keyUsage[3:]
-	if len(content) != 1 {
-		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("key usage is %d bytes long (should be exactly one)", len(content))}
+	// Any combination of the nine bit flags is legal from perspective
+	// of this lint (although requirements elsewhere may limit the combinations).
+	//
+	// As such, any value greater than 512 (2**9) is out of range of the possible
+	// values for a key usage bit string.
+	if big.NewInt(0).SetBytes(content).Int64() > 0b111111111 {
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) contains a value that is out of bounds of the range of possible KU values.", content)}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
