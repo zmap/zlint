@@ -783,6 +783,9 @@
     "w_tls_server_cert_valid_time_longer_than_397_days": {},
     "e_no_underscores_before_1_6_2": {
       "ErrCount": 340
+    },
+    "e_incorrect_ku_encoding": {
+      "ErrCount": 6586
     }
   }
 }
