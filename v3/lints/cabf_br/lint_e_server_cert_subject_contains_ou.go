@@ -36,10 +36,11 @@ package cabf_br
 import (
 	"crypto/x509/pkix"
 	"encoding/asn1"
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
-	"time"
 )
 
 type serverCertSubjectContainsOU struct{}
