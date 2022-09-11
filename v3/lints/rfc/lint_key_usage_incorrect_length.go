@@ -15,8 +15,11 @@ package rfc
  */
 
 import (
+	"encoding/asn1"
 	"fmt"
 	"math/big"
+
+	"golang.org/x/crypto/cryptobyte"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -44,21 +47,20 @@ func (l *keyUsageIncorrectLength) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.KeyUsageOID)
 }
 
-func (l *keyUsageIncorrectLength) Execute(c *x509.Certificate) *lint.LintResult {
-	keyUsage := util.GetExtFromCert(c, util.KeyUsageOID).Value
-	// Tag: keyUsage[0]
-	// Length: keyUsage[1]
-	// Unused: keyUsage[2]
-	// The actual key usage...
-	ku := keyUsage[3:]
-	// Any combination of the nine bit flags is legal from perspective
-	// of this lint (although requirements elsewhere may limit the combinations).
-	//
-	// As such, any value greater-than-or-equal-to 512 (2**9) is out of range of the possible
-	// values for a key usage bit string.
-	if big.NewInt(0).SetBytes(ku).Int64() > 0b111111111 {
-		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) contains a value that is out of bounds of the range of possible KU values.", ku)}
-	} else {
-		return &lint.LintResult{Status: lint.Pass}
+func keyUsageIncorrectLengthBytes(kuBytes []byte) *lint.LintResult {
+	keyUsageExt := cryptobyte.String(kuBytes)
+	var keyUsageVal asn1.BitString
+	ok := keyUsageExt.ReadASN1BitString(&keyUsageVal)
+	if !ok {
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) extension is not parseable.", kuBytes)}
 	}
+	unused := kuBytes[2]
+	if big.NewInt(0).SetBytes(keyUsageVal.Bytes).Int64()>>unused >= 512 {
+		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) contains a value that is out of bounds of the range of possible KU values. (raw ASN: %v)", keyUsageVal.Bytes, kuBytes)}
+	}
+	return &lint.LintResult{Status: lint.Pass}
+}
+
+func (l *keyUsageIncorrectLength) Execute(c *x509.Certificate) *lint.LintResult {
+	return keyUsageIncorrectLengthBytes(util.GetExtFromCert(c, util.KeyUsageOID).Value)
 }
