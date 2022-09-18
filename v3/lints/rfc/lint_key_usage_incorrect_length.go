@@ -55,7 +55,8 @@ func keyUsageIncorrectLengthBytes(kuBytes []byte) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) extension is not parseable.", kuBytes)}
 	}
 	unused := kuBytes[2]
-	if big.NewInt(0).SetBytes(keyUsageVal.Bytes).Int64()>>unused >= 512 {
+	kuBig := big.NewInt(0).SetBytes(keyUsageVal.Bytes)
+	if !kuBig.IsInt64() || kuBig.Int64()>>unused >= 512 {
 		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("the key usage (%v) contains a value that is out of bounds of the range of possible KU values. (raw ASN: %v)", keyUsageVal.Bytes, kuBytes)}
 	}
 	return &lint.LintResult{Status: lint.Pass}
