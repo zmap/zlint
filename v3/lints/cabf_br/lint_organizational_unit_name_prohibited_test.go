@@ -38,6 +38,11 @@ func TestOrganizationalUnitNameProhibited(t *testing.T) {
 			ExpectedResult: lint.NE,
 		},
 		{
+			Name:           "CA Certificate issued after rule comes into effect",
+			InputFilename:  "ouPresentCATrueAfterSep22.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
 			Name:           "Certificate issued after rule applies that contains an OU",
 			InputFilename:  "ouPresentAfterSep22.pem",
 			ExpectedResult: lint.Error,
