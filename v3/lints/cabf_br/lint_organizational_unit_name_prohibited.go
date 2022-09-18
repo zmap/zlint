@@ -38,7 +38,7 @@ func NewOrganizationalUnitNameProhibited() lint.LintInterface {
 }
 
 func (l *OrganizationalUnitNameProhibited) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return !c.IsCA
 }
 
 func (l *OrganizationalUnitNameProhibited) Execute(c *x509.Certificate) *lint.LintResult {
