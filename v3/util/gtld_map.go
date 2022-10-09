@@ -1041,7 +1041,7 @@ var tldMap = map[string]GTLDPeriod{
 	"cancerresearch": {
 		GTLD:           "cancerresearch",
 		DelegationDate: "2014-07-03",
-		RemovalDate:    "",
+		RemovalDate:    "2022-10-05",
 	},
 	"canon": {
 		GTLD:           "canon",
