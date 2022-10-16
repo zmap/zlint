@@ -1,0 +1,19 @@
+
+[AppleRootStorePolicyConfig]
+
+[CABFBaselineRequirementsConfig]
+
+[CABFEVGuidelinesConfig]
+
+[CommunityConfig]
+
+[MozillaRootStorePolicyConfig]
+
+[RFC5280Config]
+
+[RFC5480Config]
+
+[RFC5891Config]
+
+[e_rsa_fermat_factorization]
+Rounds = 0

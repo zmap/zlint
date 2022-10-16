@@ -56,12 +56,21 @@ type FilterOptions struct {
 
 // Empty returns true if the FilterOptions is empty and does not specify any
 // elements to filter by.
-func (opts FilterOptions) Empty() bool {
-	return opts.NameFilter == nil &&
-		len(opts.IncludeNames) == 0 &&
-		len(opts.ExcludeNames) == 0 &&
-		len(opts.IncludeSources) == 0 &&
-		len(opts.ExcludeSources) == 0
+func (f FilterOptions) Empty() bool {
+	return f.NameFilter == nil &&
+		len(f.IncludeNames) == 0 &&
+		len(f.ExcludeNames) == 0 &&
+		len(f.IncludeSources) == 0 &&
+		len(f.ExcludeSources) == 0
+}
+
+// AddProfile takes in a Profile and appends all Profile.LintNames
+// into FilterOptions.IncludeNames.
+func (f *FilterOptions) AddProfile(profile Profile) {
+	if f.IncludeNames == nil {
+		f.IncludeNames = make([]string, 0)
+	}
+	f.IncludeNames = append(f.IncludeNames, profile.LintNames...)
 }
 
 // Registry is an interface describing a collection of registered lints.
