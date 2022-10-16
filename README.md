@@ -101,7 +101,10 @@ Example ZLint CLI usage:
 	zlint -exampleConfig
 
 	echo "Lint mycert.pem using a custom configuration for any configurable lints"
-	zlint -config configFile.toml mycert.pem
+	zlint -config configFile.toml mycert.pemr
+
+	echo "List available lint profiles. A profile is a pre-defined collection of lints."
+	zlint -list-profiles
 
 See `zlint -h` for all available command line options.
 

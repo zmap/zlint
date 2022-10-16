@@ -32,11 +32,14 @@ import (
 	"github.com/zmap/zlint/v3"
 	"github.com/zmap/zlint/v3/formattedoutput"
 	"github.com/zmap/zlint/v3/lint"
+
+	_ "github.com/zmap/zlint/v3/profiles"
 )
 
 var ( // flags
 	listLintsJSON   bool
 	listLintSources bool
+	listProfiles    bool
 	summary         bool
 	longSummary     bool
 	prettyprint     bool
@@ -46,6 +49,7 @@ var ( // flags
 	excludeNames    string
 	includeSources  string
 	excludeSources  string
+	profile         string
 	printVersion    bool
 	config          string
 	exampleConfig   bool
@@ -59,6 +63,7 @@ var ( // flags
 func init() {
 	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
 	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
+	flag.BoolVar(&listProfiles, "list-profiles", false, "Print profiles in JSON format, one per line")
 	flag.BoolVar(&summary, "summary", false, "Prints a short human-readable summary report")
 	flag.BoolVar(&longSummary, "longSummary", false, "Prints a human-readable summary report with details")
 	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
@@ -67,6 +72,7 @@ func init() {
 	flag.StringVar(&excludeNames, "excludeNames", "", "Comma-separated list of lints to exclude by name")
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
+	flag.StringVar(&profile, "profile", "", "Name of the linting profile to use. Equivalent to enumerating all of the lints in a given profile using includeNames")
 	flag.BoolVar(&printVersion, "version", false, "Print ZLint version and exit")
 	flag.StringVar(&config, "config", "", "A path to valid a TOML file that is to service as the configuration for a single run of ZLint")
 	flag.BoolVar(&exampleConfig, "exampleConfig", false, "Print a complete example of a configuration that is usable via the '-config' flag and exit. All values listed in this example will be set to their default.")
@@ -114,6 +120,18 @@ func main() {
 		sort.Sort(sources)
 		for _, source := range sources {
 			fmt.Printf("    %s\n", source)
+		}
+		return
+	}
+
+	if listProfiles {
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetEscapeHTML(false)
+		for _, profile := range lint.AllProfiles() {
+			err = enc.Encode(profile)
+			if err != nil {
+				log.Fatalf("a critical error occurred while JSON encoding a profile, %s", err)
+			}
 		}
 		return
 	}
@@ -214,6 +232,7 @@ func trimmedList(raw string) []string {
 // setLints returns a filtered registry to use based on the nameFilter,
 // includeNames, excludeNames, includeSources, and excludeSources flag values in
 // use.
+//
 //nolint:cyclop
 func setLints() (lint.Registry, error) {
 	configuration, err := lint.NewConfigFromFile(config)
@@ -222,10 +241,17 @@ func setLints() (lint.Registry, error) {
 	}
 	lint.GlobalRegistry().SetConfiguration(configuration)
 	// If there's no filter options set, use the global registry as-is
-	if nameFilter == "" && includeNames == "" && excludeNames == "" && includeSources == "" && excludeSources == "" {
+	anyFilters := func(args ...string) bool {
+		for _, arg := range args {
+			if arg != "" {
+				return true
+			}
+		}
+		return false
+	}
+	if !anyFilters(nameFilter, includeNames, excludeNames, includeSources, excludeSources, profile) {
 		return lint.GlobalRegistry(), nil
 	}
-
 	filterOpts := lint.FilterOptions{}
 	if nameFilter != "" {
 		r, err := regexp.Compile(nameFilter)
@@ -249,6 +275,13 @@ func setLints() (lint.Registry, error) {
 	}
 	if includeNames != "" {
 		filterOpts.IncludeNames = trimmedList(includeNames)
+	}
+	if profile != "" {
+		p, ok := lint.GetProfile(profile)
+		if !ok {
+			return nil, fmt.Errorf("lint profile name does not exist: %v", profile)
+		}
+		filterOpts.AddProfile(p)
 	}
 
 	return lint.GlobalRegistry().Filter(filterOpts)
