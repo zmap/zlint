@@ -10,9 +10,11 @@ PARALLELISM := 5
 #   make integration INT_FLAGS="-includeSources='Mozilla,ETSI_ESI' -config small.config.json"
 INT_FLAGS :=
 
+GIT_VERSION := "$(shell git describe --abbrev=8)"
+
 CMDS = zlint zlint-gtld-update
 CMD_PREFIX = ./cmd/
-BUILD = $(GO_ENV) go build
+BUILD = $(GO_ENV) go build --ldflags="-X 'main.version=$(GIT_VERSION)'"
 TEST = $(GO_ENV) GORACE=halt_on_error=1 go test -race
 INT_TEST = $(GO_ENV) go test -v -tags integration -timeout 20m ./integration/. -parallelism $(PARALLELISM) $(INT_FLAGS)
 

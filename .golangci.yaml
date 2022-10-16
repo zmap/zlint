@@ -33,6 +33,22 @@ linters:
     - goconst
     - golint
     - godot
+    - forbidigo
+    - nlreturn
+    - ireturn
+    - paralleltest
+    - varnamelen
+    - wrapcheck
+    - ifshort
+    - gci
+    - exhaustivestruct
+    - cyclop
+    - errorlint
+    - revive
+    - errname
+    - forcetypeassert
+    - tagliatelle
+    - nilnil
 
 issues:
   exclude-rules:

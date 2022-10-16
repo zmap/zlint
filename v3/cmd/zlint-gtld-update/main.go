@@ -23,7 +23,6 @@ import (
 	"go/format"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -34,6 +33,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
+//nolint:revive
 const (
 	// ICANN_GTLD_JSON is the URL for the ICANN gTLD JSON registry (version 2).
 	// This registry does not contain ccTLDs but does carry full gTLD information
@@ -50,6 +50,11 @@ const (
 )
 
 var (
+	// version is replaced by GoReleaser or `make` using an LDFlags option at
+	// build time. Here we supply a default value for folks that `go install` or
+	// `go build` directly from src.
+	version = "dev-unknown"
+
 	// httpClient is a http.Client instance configured with timeouts.
 	httpClient = &http.Client{
 		Transport: &http.Transport{
@@ -104,6 +109,8 @@ var tldMap = map[string]GTLDPeriod{
 	},
 }
 `))
+
+	printVersion = false
 )
 
 // getData fetches the response body bytes from an HTTP get to the provider url,
@@ -131,7 +138,7 @@ func getData(url string) ([]byte, error) {
 			url, http.StatusOK, resp.StatusCode)
 	}
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("unexpected error reading response "+
 			"body from %q : %s",
@@ -297,9 +304,11 @@ func renderGTLDMap(writer io.Writer) error {
 // init sets up command line flags
 func init() {
 	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "ZLint version %s\n\n", version)
 		fmt.Fprintf(os.Stderr, "Usage: %s [flags]\n", os.Args[0])
 		flag.PrintDefaults()
 	}
+	flag.BoolVar(&printVersion, "version", false, "Print ZLint version and exit")
 	flag.Parse()
 	log.SetLevel(log.InfoLevel)
 }
@@ -311,6 +320,11 @@ func main() {
 	errQuit := func(err error) {
 		fmt.Fprintf(os.Stderr, "error updating gTLD map: %s\n", err)
 		os.Exit(1)
+	}
+
+	if printVersion {
+		fmt.Printf("ZLint version %s\n", version)
+		return
 	}
 
 	// Default to writing to standard out

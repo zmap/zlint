@@ -3,12 +3,12 @@
 package integration
 
 import (
+	"bytes"
 	"compress/bzip2"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -73,12 +73,12 @@ func (f dataFile) DownloadTo(dir string) error {
 		reader = bzip2.NewReader(reader)
 	}
 
-	dataBytes, err := ioutil.ReadAll(reader)
+	dataBytes, err := io.ReadAll(reader)
 	if err != nil {
 		return err
 	}
 
-	if err := ioutil.WriteFile(p, dataBytes, 0644); err != nil {
+	if err := os.WriteFile(p, dataBytes, 0644); err != nil {
 		return err
 	}
 
@@ -96,7 +96,7 @@ type config struct {
 // the given file or returns an error if reading or unmarshaling the config file
 // fails.
 func loadConfig(file string) (*config, error) {
-	jsonBytes, err := ioutil.ReadFile(file)
+	jsonBytes, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
@@ -105,8 +105,42 @@ func loadConfig(file string) (*config, error) {
 	if err := json.Unmarshal(jsonBytes, &c); err != nil {
 		return nil, err
 	}
-
+	problems := findProblemsInTheConfig(jsonBytes, &c)
+	if len(problems) != 0 {
+		return nil, errors.New(strings.Join(problems, "\n"))
+	}
 	return &c, nil
+}
+
+// findProblemsInTheConfig tries keep the configuration honest with regard
+// to aspects such as duplicate entries with in the Expected field.
+func findProblemsInTheConfig(configBytes []byte, c *config) []string {
+	problems := make([]string, 0)
+	for lintName, _ := range c.Expected {
+		declarations := bytes.Count(configBytes, []byte(lintName))
+		if declarations > 1 {
+			linenos := findLineNumbers(configBytes, []byte(lintName))
+			duplicate := fmt.Sprintf(
+				"the lint '%s' was declared %d times and appeared on line numbers %v",
+				lintName, declarations, linenos)
+			problems = append(problems, duplicate)
+		}
+	}
+	return problems
+}
+
+// findLineNumbers is a convenience function to find the line numbers in
+// which `seq` appears in `document`. This is useful for compiler-like
+// error reporting.
+func findLineNumbers(document, seq []byte) []int {
+	linenos := make([]int, 0)
+	lines := bytes.Split(document, []byte{'\n'})
+	for lineno, line := range lines {
+		if bytes.Contains(line, seq) {
+			linenos = append(linenos, lineno+1) // line numbers or 1 indexed
+		}
+	}
+	return linenos
 }
 
 // Save persists a config in JSON form to the given file or returns an error.
@@ -116,7 +150,7 @@ func (c *config) Save(file string) error {
 		return err
 	}
 
-	return ioutil.WriteFile(file, jsonBytes, 0644)
+	return os.WriteFile(file, jsonBytes, 0644)
 }
 
 // Valid returns an error if the config has an empty CacheDir, no Files, or if

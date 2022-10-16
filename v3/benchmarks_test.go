@@ -92,6 +92,7 @@ psw2SW2R/SwSnkgvaLM/o0tw77aapxlaAs29Y4SE/RvRR2CJ0V/gvq9GUorY4OF2
 -----END CERTIFICATE-----
 `
 
+//nolint:cyclop
 func BenchmarkZlint(b *testing.B) {
 	certDerBlock, _ := pem.Decode([]byte(bigCertificatePem))
 	x509Cert, err := x509.ParseCertificate(certDerBlock.Bytes)
@@ -123,10 +124,11 @@ func BenchmarkZlint(b *testing.B) {
 					continue
 				}
 				value := lint.GlobalRegistry().ByName(key)
-				if !value.Lint.CheckApplies(x509Cert) {
+				lint := value.Lint()
+				if !lint.CheckApplies(x509Cert) {
 					continue
 				}
-				globalLintResult.Results[key] = value.Lint.Execute(x509Cert)
+				globalLintResult.Results[key] = lint.Execute(x509Cert)
 			}
 		}
 	})
@@ -151,10 +153,11 @@ func BenchmarkZlint(b *testing.B) {
 					continue
 				}
 				value := lint.GlobalRegistry().ByName(key)
-				if !value.Lint.CheckApplies(x509Cert) {
+				lint := value.Lint()
+				if !lint.CheckApplies(x509Cert) {
 					continue
 				}
-				globalLintResult.Results[key] = value.Lint.Execute(x509Cert)
+				globalLintResult.Results[key] = lint.Execute(x509Cert)
 			}
 		}
 	})
@@ -162,13 +165,14 @@ func BenchmarkZlint(b *testing.B) {
 	for _, key := range names {
 		b.Run(key, func(b *testing.B) {
 			value := lint.GlobalRegistry().ByName(key)
-			if !value.Lint.CheckApplies(x509Cert) {
+			l := value.Lint()
+			if l.CheckApplies(x509Cert) {
 				b.Skip("Check doesn't apply")
 			}
 
 			var result *lint.LintResult
 			for i := 0; i < b.N; i++ {
-				result = value.Lint.Execute(x509Cert)
+				result = l.Execute(x509Cert)
 			}
 
 			globalSingleLintResult = result

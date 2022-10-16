@@ -1,4 +1,4 @@
-package cabf_br
+package rfc
 
 /*
  * ZLint Copyright 2021 Regents of the University of Michigan
@@ -21,19 +21,19 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubCaAiaMissing(t *testing.T) {
-	inputPath := "subCAAIAMissing.pem"
+func TestDNSNameEmptyLabel(t *testing.T) {
+	inputPath := "dnsNameEmptyLabel.pem"
 	expected := lint.Error
-	out := test.TestLint("e_sub_ca_aia_missing", inputPath)
+	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestSubCaAiaPresent(t *testing.T) {
-	inputPath := "subCAAIAValid.pem"
+func TestDNSNameNotEmptyLabel(t *testing.T) {
+	inputPath := "dnsNameNotEmptyLabel.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_sub_ca_aia_missing", inputPath)
+	out := test.TestLint("e_rfc_dnsname_empty_label", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

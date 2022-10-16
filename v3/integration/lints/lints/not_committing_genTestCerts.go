@@ -18,13 +18,13 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"go/ast"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
-const want = `a132b2f256dd0b68bff043568f0e9bae69089082805da64720168294f835e197`
+const want = `aa8663b8cf8dffa06495878e2a5467786071e61ef260a7dec78738aff8ab7bb6`
 
 type NotCommittingGenTestCerts struct{}
 
@@ -33,7 +33,7 @@ func (i *NotCommittingGenTestCerts) CheckApplies(tree *ast.File, file *lint.File
 }
 
 func (i *NotCommittingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.Result {
-	contents, err := ioutil.ReadFile(file.Path)
+	contents, err := os.ReadFile(file.Path)
 	if err != nil {
 		return lint.NewResult(fmt.Sprintf("failed to open %s", file.Name))
 	}

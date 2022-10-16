@@ -21,7 +21,7 @@ import (
 	"encoding/pem"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"regexp"
 	"sort"
@@ -50,9 +50,14 @@ var ( // flags
 	includeSources  string
 	excludeSources  string
 	profile         string
+	printVersion    bool
+	config          string
+	exampleConfig   bool
 
-	// version is replaced by GoReleaser using an LDFlags option at release time.
-	version = "dev"
+	// version is replaced by GoReleaser or `make` using an LDFlags option at
+	// build time. Here we supply a default value for folks that `go install` or
+	// `go build` directly from src.
+	version = "dev-unknown"
 )
 
 func init() {
@@ -68,6 +73,9 @@ func init() {
 	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
 	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
 	flag.StringVar(&profile, "profile", "", "Name of the linting profile to use. Equivalent to enumerating all of the lints in a given profile using includeNames")
+	flag.BoolVar(&printVersion, "version", false, "Print ZLint version and exit")
+	flag.StringVar(&config, "config", "", "A path to valid a TOML file that is to service as the configuration for a single run of ZLint")
+	flag.BoolVar(&exampleConfig, "exampleConfig", false, "Print a complete example of a configuration that is usable via the '-config' flag and exit. All values listed in this example will be set to their default.")
 
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
@@ -79,7 +87,13 @@ func init() {
 	log.SetLevel(log.InfoLevel)
 }
 
+//nolint:cyclop
 func main() {
+	if printVersion {
+		fmt.Printf("ZLint version %s\n", version)
+		return
+	}
+
 	// Build a registry of lints using the include/exclude lint name and source
 	// flags.
 	registry, err := setLints()
@@ -89,6 +103,15 @@ func main() {
 
 	if listLintsJSON {
 		registry.WriteJSON(os.Stdout)
+		return
+	}
+
+	if exampleConfig {
+		b, err := registry.DefaultConfiguration()
+		if err != nil {
+			log.Fatalf("a critical error occurred while generating a configuration file, %s", err)
+		}
+		fmt.Println(string(b))
 		return
 	}
 
@@ -135,8 +158,9 @@ func main() {
 	}
 }
 
+//nolint:cyclop
 func doLint(inputFile *os.File, inform string, registry lint.Registry) {
-	fileBytes, err := ioutil.ReadAll(inputFile)
+	fileBytes, err := io.ReadAll(inputFile)
 	if err != nil {
 		log.Fatalf("unable to read file %s: %s", inputFile.Name(), err)
 	}
@@ -205,7 +229,14 @@ func trimmedList(raw string) []string {
 // setLints returns a filtered registry to use based on the nameFilter,
 // includeNames, excludeNames, includeSources, and excludeSources flag values in
 // use.
+//
+//nolint:cyclop
 func setLints() (lint.Registry, error) {
+	configuration, err := lint.NewConfigFromFile(config)
+	if err != nil {
+		return nil, err
+	}
+	lint.GlobalRegistry().SetConfiguration(configuration)
 	// If there's no filter options set, use the global registry as-is
 	any := func(args ...string) bool {
 		for _, arg := range args {

@@ -45,7 +45,7 @@ func TestDSANotUniqueCorrectRepresentation(t *testing.T) {
 
 	// Expect failure
 	expected := lint.Error
-	out := test.TestLintCert("e_dsa_unique_correct_representation", c)
+	out := test.TestLintCert("e_dsa_unique_correct_representation", c, lint.NewEmptyConfig())
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
