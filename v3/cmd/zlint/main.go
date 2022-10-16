@@ -128,7 +128,10 @@ func main() {
 		enc := json.NewEncoder(os.Stdout)
 		enc.SetEscapeHTML(false)
 		for _, profile := range lint.AllProfiles() {
-			_ = enc.Encode(profile)
+			err = enc.Encode(profile)
+			if err != nil {
+				log.Fatalf("a critical error occurred while JSON encoding a profile, %s", err)
+			}
 		}
 		return
 	}
@@ -238,7 +241,7 @@ func setLints() (lint.Registry, error) {
 	}
 	lint.GlobalRegistry().SetConfiguration(configuration)
 	// If there's no filter options set, use the global registry as-is
-	any := func(args ...string) bool {
+	anyFilters := func(args ...string) bool {
 		for _, arg := range args {
 			if arg != "" {
 				return true
@@ -246,7 +249,7 @@ func setLints() (lint.Registry, error) {
 		}
 		return false
 	}
-	if !any(nameFilter, includeNames, excludeNames, includeSources, excludeSources, profile) {
+	if !anyFilters(nameFilter, includeNames, excludeNames, includeSources, excludeSources, profile) {
 		return lint.GlobalRegistry(), nil
 	}
 	filterOpts := lint.FilterOptions{}
