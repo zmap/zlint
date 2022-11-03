@@ -106,6 +106,84 @@ func (l *caCRLSignNotSet) Execute(c *x509.Certificate) *lint.LintResult {
 }
 ```
 
+Making your Lint Configurable
+-------------
+Lints may implement an optional interface - `Configurable`...
+
+```go
+type Configurable interface {
+    Configure() interface{}
+}
+```
+
+...where the returned `interface{}` is a pointer to the target struct to deserialize your configuration into.
+
+This struct may encode any arbitrary data that may be deserialized from [TOML](https://toml.io/en/). Examples may include:
+
+* PEM encoded certificates or certificate chains
+* File paths
+* Resolvable DNS entries or URIs
+* Dates or Unix timestamps
+
+...and so on. How stable and/or appropriate a given configuration field is is left as a code review exercise on a per-lint basis.
+
+If a lint is `Configurable` then a new step is injected at the beginning of its lifecycle.
+
+---
+##### Non-Configurable Lifecycle
+> * CheckApplies
+> * CheckEffective
+> * Execute
+
+##### Configurable Lifecycle
+> * Configure
+> * CheckApplies
+> * CheckEffective
+> * Execute
+
+### Higher Scoped Configurations
+
+Lints may embed within theselves either pointers or structs to the following definitions within the `lint` package.
+
+```go
+type Global struct {}
+type RFC5280Config struct{}
+type RFC5480Config struct{}
+type RFC5891Config struct{}
+type CABFBaselineRequirementsConfig struct {}
+type CABFEVGuidelinesConfig struct{}
+type MozillaRootStorePolicyConfig struct{}
+type AppleRootStorePolicyConfig struct{}
+type CommunityConfig struct{}
+type EtsiEsiConfig struct{}
+```
+
+Doing so will enable receiving a _copy_ of any such defintions from a higher scope within the configuration.
+
+```toml
+# Top level (non-scoped) fields will be copied into any Global struct that you declare within your lint.
+something_global = 5
+something_else_global = "The funniest joke in the world."
+
+[RFC5280]
+# Top level (non-scoped) fields will be copied into any RFC5280Config struct that you declare within your lint.
+wildcard_allowed = true
+
+[MyLint]
+# You can also embed comments!
+my_config = "Some arbitrary data."
+```
+
+An example of the above might be...
+
+```go
+type MyLint struct {
+	Global      lint.Global
+	RFC         lint.RFC5280Config
+	MyConfig    string `toml:"my_config",comment:"You can also embed comments!"`
+}
+```
+
 Testing Lints
 -------------
 
@@ -167,6 +245,39 @@ Please see the [integration tests README] for more information.
 [CI]: https://travis-ci.org/zmap/zlint
 [integration tests README]: https://github.com/zmap/zlint/blob/master/v3/integration/README.md
 
+### Testing Configurable Lints
+
+Testing a lint that is configurable is much the same as testing one that is not. However, if you wish to exercise
+various configurations then you may do so by utilizing the `test.TestLintWithConfig` function which takes in an extra
+string which is the raw TOML of your target test configuration.
+
+```go
+func TestCaCommonNameNotMissing2(t *testing.T) {
+	inputPath := "caCommonNameNotMissing.pem"
+	expected := lint.Pass
+	config := `
+            [e_ca_common_name_missing2]
+            BeerHall = "liedershousen"
+        `
+	out := test.TestLintWithConfig("e_ca_common_name_missing2", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+```
+
+Adding New Profiles
+----------------
+**Generating Profile Scaffolding.** The scaffolding for a new profiles can be created
+by running `./newProfile.sh <profile_name>`.
+
+An example is:
+
+```bash
+$ ./newProfile.sh my_new_profile
+```
+
+This will generate a new file in the `profiles` directory by the name `profile_my_new_profile.go` for you.
 
 Updating the TLD Map
 --------------------

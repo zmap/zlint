@@ -20,6 +20,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"os"
+
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -33,8 +34,18 @@ import (
 // Important: TestLint is only appropriate for unit tests. It will panic if the
 // lintName is not known or if the testCertFilename can not be loaded, or if the
 // lint result is nil.
+//
+//nolint:revive
 func TestLint(lintName string, testCertFilename string) *lint.LintResult {
-	return TestLintCert(lintName, ReadTestCert(testCertFilename))
+	return TestLintWithConfig(lintName, testCertFilename, "")
+}
+
+func TestLintWithConfig(lintName string, testCertFilename string, configuration string) *lint.LintResult {
+	config, err := lint.NewConfigFromString(configuration)
+	if err != nil {
+		panic(err)
+	}
+	return TestLintCert(lintName, ReadTestCert(testCertFilename), config)
 }
 
 // TestLintCert executes a lint with the given name against an already parsed
@@ -43,7 +54,9 @@ func TestLint(lintName string, testCertFilename string) *lint.LintResult {
 //
 // Important: TestLintCert is only appropriate for unit tests. It will panic if
 // the lintName is not known or if the lint result is nil.
-func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
+//
+//nolint:revive
+func TestLintCert(lintName string, cert *x509.Certificate, ctx lint.Configuration) *lint.LintResult {
 	l := lint.GlobalRegistry().ByName(lintName)
 	if l == nil {
 		panic(fmt.Sprintf(
@@ -51,8 +64,7 @@ func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
 				"Did you forget to RegisterLint?\n",
 			lintName))
 	}
-
-	res := l.Execute(cert)
+	res := l.Execute(cert, ctx)
 	// We never expect a lint to return a nil LintResult
 	if res == nil {
 		panic(fmt.Sprintf(
@@ -69,7 +81,6 @@ func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
 // the inPath file can not be loaded.
 func ReadTestCert(inPath string) *x509.Certificate {
 	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
-
 	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		panic(fmt.Sprintf(
