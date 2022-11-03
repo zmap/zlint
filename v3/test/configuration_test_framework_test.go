@@ -17,6 +17,7 @@ package test
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"sync"
 	"testing"
@@ -26,6 +27,22 @@ import (
 
 	"github.com/zmap/zlint/v3/lint"
 )
+
+func init() {
+	// This is a complication caused https://github.com/zmap/zlint/issues/696
+	//
+	// This test package required access to the test certificate directory, however
+	// the ReadTestCert testing helper function assumes that your PWD is one of the
+	// lint genre directories.
+	//
+	// ReadTestCert was changed to operate from the root of the repo to accommodate this
+	// test package, however that broke downstream consumers who were dependent on the
+	// relative path building behavior.
+	err := os.Chdir("../lints/rfc")
+	if err != nil {
+		panic(err)
+	}
+}
 
 type caCommonNameMissing struct {
 	BeerHall string
