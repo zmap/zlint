@@ -15,6 +15,7 @@ package lint
  */
 
 import (
+	ox509 "crypto/x509"
 	"reflect"
 	"regexp"
 	"sort"
@@ -23,27 +24,26 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
-func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
-	for _, name := range GlobalRegistry().Names() {
-		lint := GlobalRegistry().ByName(name)
-		if lint.Name == "" {
-			t.Errorf("lint %s has empty name", name)
+func TestAllLintsHaveValidMeta(t *testing.T) {
+	checkMeta := func(meta LintMeta) {
+		if meta.Name == "" {
+			t.Errorf("lint %s has empty name", meta.Name)
 		}
-		if lint.Description == "" {
-			t.Errorf("lint %s has empty description", name)
+		if meta.Description == "" {
+			t.Errorf("lint %s has empty description", meta.Name)
 		}
-		if lint.Citation == "" {
-			t.Errorf("lint %s has empty citation", name)
+		if meta.Citation == "" {
+			t.Errorf("lint %s has empty citation", meta.Name)
+		}
+		if meta.Source == UnknownLintSource {
+			t.Errorf("lint %s has unknown source", meta.Name)
 		}
 	}
-}
-
-func TestAllLintsHaveSource(t *testing.T) {
-	for _, name := range globalRegistry.Names() {
-		lint := GlobalRegistry().ByName(name)
-		if lint.Source == UnknownLintSource {
-			t.Errorf("lint %s has unknown source", name)
-		}
+	for _, lint := range globalRegistry.certificateLints.lints {
+		checkMeta(lint.LintMeta)
+	}
+	for _, lint := range globalRegistry.revocationListLints.lints {
+		checkMeta(lint.LintMeta)
 	}
 }
 
@@ -65,6 +65,16 @@ func (m mockLint) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (m mockLint) Execute(c *x509.Certificate) *LintResult {
+	return nil
+}
+
+type mockRevocationListLint struct{}
+
+func (m mockRevocationListLint) CheckApplies(c *ox509.RevocationList) bool {
+	return true
+}
+
+func (m mockRevocationListLint) Execute(c *ox509.RevocationList) *LintResult {
 	return nil
 }
 
@@ -150,6 +160,116 @@ func TestRegister(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestRegistryWithRevocationListLitns(t *testing.T) {
+	expectedNames := []string{
+		"A-mockCertificateLint",
+		"B-mockLint",
+		"C-mockRevocationListLint",
+	}
+
+	expectedSources := []LintSource{
+		Community,
+		RFC3279,
+		RFC8813,
+	}
+
+	egCertificateLint := &CertificateLint{
+		LintMeta: LintMeta{
+			Name:   "A-mockCertificateLint",
+			Source: Community,
+		},
+		Lint: func() CertificateLintInterface { return &mockLint{} },
+	}
+
+	egLint := &Lint{
+		Name:   "B-mockLint",
+		Lint:   func() LintInterface { return &mockLint{} },
+		Source: RFC8813, // arbitrary value for testing
+	}
+
+	egRevocationListLint := &RevocationListLint{
+		LintMeta: LintMeta{
+			Name:   "C-mockRevocationListLint",
+			Source: RFC3279, // arbitrary value for testing
+		},
+		Lint: func() RevocationListLintInterface { return &mockRevocationListLint{} },
+	}
+
+	registry := NewRegistry()
+	if err := registry.register(egLint); err != nil {
+		t.Fatal("registry.register failed")
+	}
+	if err := registry.registerCertificateLint(egCertificateLint); err != nil {
+		t.Fatal("registry.registerCertificateLint failed")
+	}
+	if err := registry.registerRevocationlistLint(egRevocationListLint); err != nil {
+		t.Fatal("registry.registerRevocationlistLint failed")
+	}
+	t.Run("check metadata", func(t *testing.T) {
+		if !reflect.DeepEqual(registry.Names(), expectedNames) {
+			t.Fatalf("expected lint names: %v, got: %v", registry.Names(), expectedNames)
+		}
+
+		sources := registry.Sources()
+		sort.Sort(sources)
+		for i, source := range sources {
+			if source != expectedSources[i] {
+				t.Fatalf("expected source names: %v, got: %v", sources, expectedSources)
+			}
+		}
+	})
+
+
+	t.Run("check proper stores", func(t *testing.T) {
+		testCases := []struct {
+			name                string
+			deprecatedStore     bool
+			certificateStore    bool
+			revocationListStore bool
+		}{
+			{
+				name:                "A-mockCertificateLint",
+				deprecatedStore:     true,
+				certificateStore:    true,
+				revocationListStore: false,
+			},
+			{
+				name:                "B-mockLint",
+				deprecatedStore:     true,
+				certificateStore:    true,
+				revocationListStore: false,
+			},
+			{
+				name:                "C-mockRevocationListLint",
+				deprecatedStore:     false,
+				certificateStore:    false,
+				revocationListStore: true,
+			},
+		}
+
+		for _, tc := range testCases {
+			{
+				lint := registry.ByName(tc.name)
+				if (lint != nil) != tc.deprecatedStore {
+					t.Fatalf("expected lint %s to be %t (true = present, false = absent) in deprecated store", tc.name, tc.deprecatedStore)
+				}
+			}
+			{
+				lint := registry.CertificateLints().ByName(tc.name)
+				if (lint != nil) != tc.certificateStore {
+					t.Fatalf("expected lint %s to be %t (true = present, false = absent) in certificate store", tc.name, tc.certificateStore)
+				}
+			}
+			{
+				lint := registry.RevocationListLints().ByName(tc.name)
+				if (lint != nil) != tc.revocationListStore {
+					t.Fatalf("expected lint %s to be %t (true = present, false = absent) in revocationList store", tc.name, tc.revocationListStore)
+				}
+			}
+		}
+	})
 }
 
 func TestRegistryFilter(t *testing.T) {

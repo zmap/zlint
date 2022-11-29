@@ -15,6 +15,7 @@ package lint
  */
 
 import (
+	ox509 "crypto/x509"
 	"testing"
 	"time"
 
@@ -163,6 +164,152 @@ func TestLint_CheckEffective(t *testing.T) {
 		if got != d.Want {
 			t.Errorf("Lint %s, cert %s, got %v want %v",
 				d.Lint.Description, d.Certificate.Description, got, d.Want)
+		}
+	}
+}
+
+// This test attempts to simplify the truth table by assigning dates to the
+// single digit values 1 through 5, inclusive. As per the standard library,
+// 0 is taken to be the null value.
+//
+// E.G.
+//
+// If a lint is effective between 2 and 5, then the certs {2, 3, 4} return true.
+// If a lint is effective between 0 and 4, then the certs {0, 1, 2, 3} return true.
+// If a lint is effective between 2 and 0, then the certs {2, 3, 4, 5} return true.
+// If a lint is effective between 0 and 0, then the certs {0, 1, 2, 3, 4, 5} return true.
+func TestLint_RevocationListLint_CheckEffective(t *testing.T) {
+	zero := time.Time{}
+	one := time.Unix(1, 0)
+	two := time.Unix(2, 0)
+	three := time.Unix(3, 0)
+	four := time.Unix(4, 0)
+	five := time.Unix(5, 0)
+	lZeroZero := RevocationListLint{LintMeta: LintMeta{
+		Description:   "ZeroZero",
+		EffectiveDate: zero, IneffectiveDate: zero},
+	}
+	lTwoZero := RevocationListLint{LintMeta: LintMeta{
+		Description:   "TwoZero",
+		EffectiveDate: two, IneffectiveDate: zero}}
+	lZeroFour := RevocationListLint{LintMeta: LintMeta{
+		Description:   "ZeroFour",
+		EffectiveDate: zero, IneffectiveDate: four}}
+	lTwoFour := RevocationListLint{LintMeta: LintMeta{
+		Description:   "TwoFour",
+		EffectiveDate: two, IneffectiveDate: four}}
+
+	type revocationList struct {
+		Description    string
+		RevocationList *ox509.RevocationList
+	}
+
+	cZero := revocationList{
+		Description:    "cZero",
+		RevocationList: &ox509.RevocationList{ThisUpdate: zero},
+	}
+	cOne := revocationList{
+		Description:    "cOne",
+		RevocationList: &ox509.RevocationList{ThisUpdate: one},
+	}
+	cTwo := revocationList{
+		Description:    "cTwo",
+		RevocationList: &ox509.RevocationList{ThisUpdate: two},
+	}
+	cThree := revocationList{
+		Description:    "cThree",
+		RevocationList: &ox509.RevocationList{ThisUpdate: three},
+	}
+	cFour := revocationList{
+		Description:    "cFour",
+		RevocationList: &ox509.RevocationList{ThisUpdate: four},
+	}
+	cFive := revocationList{
+		Description:    "cFive",
+		RevocationList: &ox509.RevocationList{ThisUpdate: five},
+	}
+
+	data := []struct {
+		Lint           RevocationListLint
+		RevocationList revocationList
+		Want           bool
+	}{
+		///////////////
+		{
+			Lint:           lZeroZero,
+			RevocationList: cZero,
+			Want:           true,
+		},
+		{
+			Lint:           lZeroZero,
+			RevocationList: cOne,
+			Want:           true,
+		},
+		//////////
+		{
+			Lint:           lTwoZero,
+			RevocationList: cOne,
+			Want:           false,
+		},
+		{
+			Lint:           lTwoZero,
+			RevocationList: cTwo,
+			Want:           true,
+		},
+		{
+			Lint:           lTwoZero,
+			RevocationList: cThree,
+			Want:           true,
+		},
+		///////////////
+		{
+			Lint:           lZeroFour,
+			RevocationList: cTwo,
+			Want:           true,
+		},
+		{
+			Lint:           lZeroFour,
+			RevocationList: cFour,
+			Want:           false,
+		},
+		{
+			Lint:           lZeroFour,
+			RevocationList: cFive,
+			Want:           false,
+		},
+		////////////
+		{
+			Lint:           lTwoFour,
+			RevocationList: cOne,
+			Want:           false,
+		},
+		{
+			Lint:           lTwoFour,
+			RevocationList: cTwo,
+			Want:           true,
+		},
+		{
+			Lint:           lTwoFour,
+			RevocationList: cThree,
+			Want:           true,
+		},
+		{
+			Lint:           lTwoFour,
+			RevocationList: cFour,
+			Want:           false,
+		},
+		{
+			Lint:           lTwoFour,
+			RevocationList: cFive,
+			Want:           false,
+		},
+	}
+
+	for _, d := range data {
+		got := d.Lint.CheckEffective(d.RevocationList.RevocationList)
+		if got != d.Want {
+			t.Errorf("Lint %s, cert %s, got %v want %v",
+				d.Lint.Description, d.RevocationList.Description, got, d.Want)
 		}
 	}
 }
