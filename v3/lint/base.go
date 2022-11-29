@@ -207,8 +207,9 @@ func (l *CertificateLint) CheckEffective(c *x509.Certificate) bool {
 
 // Execute runs the lint against a certificate. For lints that are
 // sourced from the CA/B Forum Baseline Requirements, we first determine
-// if they are within the purview of the BRs. See LintInterface for details
-// about the other methods called. The ordering is as follows:
+// if they are within the purview of the BRs. See CertificateLintInterface
+// for details about the other methods called.
+// The ordering is as follows:
 //
 // Configure() ----> only if the lint implements Configurable
 // CheckApplies()
@@ -268,10 +269,8 @@ func (l *RevocationListLint) CheckEffective(r *ox509.RevocationList) bool {
 	return onOrAfterEffective && strictlyBeforeIneffective
 }
 
-// Execute runs the lint against a revocation list. For lints that are
-// sourced from the CA/B Forum Baseline Requirements, we first determine
-// if they are within the purview of the BRs. See LintInterface for details
-// about the other methods called. The ordering is as follows:
+// Execute runs the lint against a revocation list.
+// The ordering is as follows:
 //
 // Configure() ----> only if the lint implements Configurable
 // CheckApplies()

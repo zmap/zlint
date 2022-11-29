@@ -572,7 +572,7 @@ var globalRegistry = NewRegistry()
 // name matches a previously registered lint's name. These conditions all
 // indicate a bug that should be addressed by a developer.
 //
-// @deprecated - use RegisterCertificateLint or RegisterRevocationList instead.
+// @deprecated - use RegisterCertificateLint instead.
 func RegisterLint(l *Lint) {
 	RegisterCertificateLint(l.toCertificateLint())
 }

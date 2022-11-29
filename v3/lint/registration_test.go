@@ -162,7 +162,7 @@ func TestRegister(t *testing.T) {
 	}
 }
 
-func TestRegistryWithRevocationListLitns(t *testing.T) {
+func TestRegistryLookupEngine(t *testing.T) {
 	expectedNames := []string{
 		"A-mockCertificateLint",
 		"B-mockLint",
@@ -199,19 +199,21 @@ func TestRegistryWithRevocationListLitns(t *testing.T) {
 
 	registry := NewRegistry()
 	if err := registry.register(egLint); err != nil {
-		t.Fatal("registry.register failed")
+		t.Fatalf("registry.register failed: %v", err)
 	}
 	if err := registry.registerCertificateLint(egCertificateLint); err != nil {
-		t.Fatal("registry.registerCertificateLint failed")
+		t.Fatalf("registry.registerCertificateLint failed: %v", err)
 	}
 	if err := registry.registerRevocationlistLint(egRevocationListLint); err != nil {
-		t.Fatal("registry.registerRevocationlistLint failed")
+		t.Fatalf("registry.registerRevocationlistLint failed: %v", err)
 	}
-	t.Run("check metadata", func(t *testing.T) {
+	t.Run("lint names are correct and sorted", func(t *testing.T) {
 		if !reflect.DeepEqual(registry.Names(), expectedNames) {
 			t.Fatalf("expected lint names: %v, got: %v", registry.Names(), expectedNames)
 		}
+	})
 
+	t.Run("sources are valid", func(t *testing.T) {
 		sources := registry.Sources()
 		sort.Sort(sources)
 		for i, source := range sources {
@@ -221,8 +223,7 @@ func TestRegistryWithRevocationListLitns(t *testing.T) {
 		}
 	})
 
-
-	t.Run("check proper stores", func(t *testing.T) {
+	t.Run("stores contain correct lints", func(t *testing.T) {
 		testCases := []struct {
 			name                string
 			deprecatedStore     bool

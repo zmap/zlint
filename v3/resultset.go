@@ -38,7 +38,7 @@ type ResultSet struct {
 // linting the certificate.
 func (z *ResultSet) executeCertificate(o *x509.Certificate, registry lint.Registry) {
 	z.Results = make(map[string]*lint.LintResult, len(registry.Names()))
-	// Run each lints from the registry.
+	// Run each lint from the registry.
 	for _, lint := range registry.CertificateLints().Lints() {
 		res := lint.Execute(o, registry.GetConfiguration())
 		z.Results[lint.Name] = res
