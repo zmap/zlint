@@ -185,17 +185,17 @@ func TestLint_RevocationListLint_CheckEffective(t *testing.T) {
 	three := time.Unix(3, 0)
 	four := time.Unix(4, 0)
 	five := time.Unix(5, 0)
-	lZeroZero := RevocationListLint{LintMeta: LintMeta{
+	lZeroZero := RevocationListLint{LintMetadata: LintMetadata{
 		Description:   "ZeroZero",
 		EffectiveDate: zero, IneffectiveDate: zero},
 	}
-	lTwoZero := RevocationListLint{LintMeta: LintMeta{
+	lTwoZero := RevocationListLint{LintMetadata: LintMetadata{
 		Description:   "TwoZero",
 		EffectiveDate: two, IneffectiveDate: zero}}
-	lZeroFour := RevocationListLint{LintMeta: LintMeta{
+	lZeroFour := RevocationListLint{LintMetadata: LintMetadata{
 		Description:   "ZeroFour",
 		EffectiveDate: zero, IneffectiveDate: four}}
-	lTwoFour := RevocationListLint{LintMeta: LintMeta{
+	lTwoFour := RevocationListLint{LintMetadata: LintMetadata{
 		Description:   "TwoFour",
 		EffectiveDate: two, IneffectiveDate: four}}
 

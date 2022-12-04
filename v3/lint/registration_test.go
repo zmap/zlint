@@ -25,7 +25,7 @@ import (
 )
 
 func TestAllLintsHaveValidMeta(t *testing.T) {
-	checkMeta := func(meta LintMeta) {
+	checkMeta := func(meta LintMetadata) {
 		if meta.Name == "" {
 			t.Errorf("lint %s has empty name", meta.Name)
 		}
@@ -40,10 +40,10 @@ func TestAllLintsHaveValidMeta(t *testing.T) {
 		}
 	}
 	for _, lint := range globalRegistry.certificateLints.lints {
-		checkMeta(lint.LintMeta)
+		checkMeta(lint.LintMetadata)
 	}
 	for _, lint := range globalRegistry.revocationListLints.lints {
-		checkMeta(lint.LintMeta)
+		checkMeta(lint.LintMetadata)
 	}
 }
 
@@ -176,7 +176,7 @@ func TestRegistryLookupEngine(t *testing.T) {
 	}
 
 	egCertificateLint := &CertificateLint{
-		LintMeta: LintMeta{
+		LintMetadata: LintMetadata{
 			Name:   "A-mockCertificateLint",
 			Source: Community,
 		},
@@ -190,7 +190,7 @@ func TestRegistryLookupEngine(t *testing.T) {
 	}
 
 	egRevocationListLint := &RevocationListLint{
-		LintMeta: LintMeta{
+		LintMetadata: LintMetadata{
 			Name:   "C-mockRevocationListLint",
 			Source: RFC3279, // arbitrary value for testing
 		},
@@ -204,8 +204,8 @@ func TestRegistryLookupEngine(t *testing.T) {
 	if err := registry.registerCertificateLint(egCertificateLint); err != nil {
 		t.Fatalf("registry.registerCertificateLint failed: %v", err)
 	}
-	if err := registry.registerRevocationlistLint(egRevocationListLint); err != nil {
-		t.Fatalf("registry.registerRevocationlistLint failed: %v", err)
+	if err := registry.registerRevocationListLint(egRevocationListLint); err != nil {
+		t.Fatalf("registry.registerRevocationListLint failed: %v", err)
 	}
 	t.Run("lint names are correct and sorted", func(t *testing.T) {
 		if !reflect.DeepEqual(registry.Names(), expectedNames) {

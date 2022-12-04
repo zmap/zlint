@@ -118,12 +118,11 @@ func (lookup *lookupImpl[T]) register(lint *T, name string, source LintSource) e
 	if name == "" {
 		return errEmptyName
 	}
-	if existing := lookup.ByName(name); existing != nil {
-		return &errDuplicateName{name}
-	}
-
 	lookup.Lock()
 	defer lookup.Unlock()
+	if existing := lookup.lintsByName[name]; existing != nil {
+		return &errDuplicateName{name}
+	}
 	lookup.lints = append(lookup.lints, lint)
 	lookup.lintNames = append(lookup.lintNames, name)
 	lookup.lintsByName[name] = lint
@@ -285,7 +284,7 @@ func (r *registryImpl) registerCertificateLint(l *CertificateLint) error {
 //
 // An error is returned if the lint or lint's Lint pointer is nil, if the Lint
 // has an empty Name or if the Name was previously registered.
-func (r *registryImpl) registerRevocationlistLint(l *RevocationListLint) error {
+func (r *registryImpl) registerRevocationListLint(l *RevocationListLint) error {
 	if l == nil {
 		return errNilLint
 	}
@@ -426,18 +425,18 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 	}
 
 	for _, name := range r.Names() {
-		var meta LintMeta
+		var meta LintMetadata
 		var registerFunc func() error
 
 		if l := r.certificateLints.ByName(name); l != nil {
-			meta = l.LintMeta
+			meta = l.LintMetadata
 			registerFunc = func() error {
 				return filteredRegistry.registerCertificateLint(l)
 			}
 		} else if l := r.revocationListLints.ByName(name); l != nil {
-			meta = l.LintMeta
+			meta = l.LintMetadata
 			registerFunc = func() error {
-				return filteredRegistry.registerRevocationlistLint(l)
+				return filteredRegistry.registerRevocationListLint(l)
 			}
 		}
 
@@ -601,7 +600,7 @@ func RegisterRevocationListLint(l *RevocationListLint) {
 	// RegisterLint always sets initialize to true. It's assumed this is called by
 	// the package init() functions and therefore must be doing the first
 	// initialization of a lint.
-	if err := globalRegistry.registerRevocationlistLint(l); err != nil {
+	if err := globalRegistry.registerRevocationListLint(l); err != nil {
 		panic(fmt.Sprintf("RegisterLint error: %v\n", err.Error()))
 	}
 }
