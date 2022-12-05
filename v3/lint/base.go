@@ -16,7 +16,6 @@ package lint
 
 import (
 	ox509 "crypto/x509"
-	"fmt"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -36,8 +35,8 @@ type RevocationListLintInterface interface {
 	// CheckEffective() or Run().
 	CheckApplies(r *ox509.RevocationList) bool
 
-	// Execute() is the body of the lint. It is called for every revocation list
-	// for which CheckApplies() returns true.
+	// Execute is the body of the lint. It is called for every revocation list
+	// for which CheckApplies returns true.
 	Execute(r *ox509.RevocationList) *LintResult
 }
 
@@ -49,8 +48,8 @@ type CertificateLintInterface interface {
 	// Run().
 	CheckApplies(c *x509.Certificate) bool
 
-	// Execute() is the body of the lint. It is called for every certificate for
-	// which CheckApplies() returns true.
+	// Execute is the body of the lint. It is called for every certificate for
+	// which CheckApplies returns true.
 	Execute(c *x509.Certificate) *LintResult
 }
 
@@ -59,8 +58,14 @@ type Configurable interface {
 	Configure() interface{}
 }
 
-// LintMeta struct represents the metadata associated with a single lint.
-type LintMeta struct {
+// LintMetadata represents the metadata that are broadly associated across all types of lints.
+//
+// That is, all lints (irrespective of being a certificate lint, a CRL lint, and OCSP, etc.)
+// have a Name, a Description, a Citation, and so on.
+//
+// In this way, this struct may be embedded in any linting type in order to maintain this
+// data, while each individual linting type provides the behavior over this data.
+type LintMetadata struct {
 	// Name is a lowercase underscore-separated string describing what a given
 	// Lint checks. If Name beings with "w", the lint MUST NOT return Error, only
 	// Warn. If Name beings with "e", the Lint MUST NOT return Warn, only Error.
@@ -125,7 +130,7 @@ type Lint struct {
 // @deprecated - Use CertificateLint directly.
 func (l *Lint) toCertificateLint() *CertificateLint {
 	return &CertificateLint{
-		LintMeta: LintMeta{
+		LintMetadata: LintMetadata{
 			Name:            l.Name,
 			Description:     l.Description,
 			Citation:        l.Citation,
@@ -170,7 +175,7 @@ func (l *Lint) Execute(cert *x509.Certificate, config Configuration) *LintResult
 // CertificateLint represents a single x509 certificate linter.
 type CertificateLint struct {
 	// Metadata associated with the linter.
-	LintMeta
+	LintMetadata
 	// A constructor which returns the implementation of the linter.
 	Lint func() CertificateLintInterface `json:"-"`
 }
@@ -200,9 +205,7 @@ func (l *CertificateLint) toLint() *Lint {
 // if IneffectiveDate is zero then only EffectiveDate is checked. If both EffectiveDate
 // and IneffectiveDate are zero then CheckEffective always returns true.
 func (l *CertificateLint) CheckEffective(c *x509.Certificate) bool {
-	onOrAfterEffective := l.EffectiveDate.IsZero() || util.OnOrAfter(c.NotBefore, l.EffectiveDate)
-	strictlyBeforeIneffective := l.IneffectiveDate.IsZero() || c.NotBefore.Before(l.IneffectiveDate)
-	return onOrAfterEffective && strictlyBeforeIneffective
+	return checkEffective(l.EffectiveDate, l.IneffectiveDate, c.NotBefore)
 }
 
 // Execute runs the lint against a certificate. For lints that are
@@ -219,24 +222,12 @@ func (l *CertificateLint) Execute(cert *x509.Certificate, config Configuration) 
 	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
 		return &LintResult{Status: NA}
 	}
-	return l.execute(l.Lint(), cert, config)
-}
-
-func (l *CertificateLint) execute(lint LintInterface, cert *x509.Certificate, config Configuration) *LintResult {
-	configurable, ok := lint.(Configurable)
-	if ok {
-		err := config.Configure(configurable.Configure(), l.Name)
-		if err != nil {
-			details := fmt.Sprintf(
-				"A fatal error occurred while attempting to configure %s. Please visit the [%s] section of "+
-					"your provided configuration and compare it with the output of `zlint -exampleConfig`. Error: %s",
-				l.Name,
-				l.Name,
-				err.Error())
-			return &LintResult{
-				Status:  Fatal,
-				Details: details}
-		}
+	lint := l.Lint()
+	err := config.MaybeConfigure(lint, l.Name)
+	if err != nil {
+		return &LintResult{
+			Status:  Fatal,
+			Details: err.Error()}
 	}
 	if !lint.CheckApplies(cert) {
 		return &LintResult{Status: NA}
@@ -249,7 +240,7 @@ func (l *CertificateLint) execute(lint LintInterface, cert *x509.Certificate, co
 // RevocationListLint represents a single x509 CRL linter.
 type RevocationListLint struct {
 	// Metadata associated with the linter.
-	LintMeta
+	LintMetadata
 	// A constructor which returns the implementation of the linter.
 	Lint func() RevocationListLintInterface `json:"-"`
 }
@@ -264,9 +255,7 @@ type RevocationListLint struct {
 // if IneffectiveDate is zero then only EffectiveDate is checked. If both EffectiveDate
 // and IneffectiveDate are zero then CheckEffective always returns true.
 func (l *RevocationListLint) CheckEffective(r *ox509.RevocationList) bool {
-	onOrAfterEffective := l.EffectiveDate.IsZero() || util.OnOrAfter(r.ThisUpdate, l.EffectiveDate)
-	strictlyBeforeIneffective := l.IneffectiveDate.IsZero() || r.ThisUpdate.Before(l.IneffectiveDate)
-	return onOrAfterEffective && strictlyBeforeIneffective
+	return checkEffective(l.EffectiveDate, l.IneffectiveDate, r.ThisUpdate)
 }
 
 // Execute runs the lint against a revocation list.
@@ -278,20 +267,11 @@ func (l *RevocationListLint) CheckEffective(r *ox509.RevocationList) bool {
 // Execute()
 func (l *RevocationListLint) Execute(r *ox509.RevocationList, config Configuration) *LintResult {
 	lint := l.Lint()
-	configurable, ok := lint.(Configurable)
-	if ok {
-		err := config.Configure(configurable.Configure(), l.Name)
-		if err != nil {
-			details := fmt.Sprintf(
-				"A fatal error occurred while attempting to configure %s. Please visit the [%s] section of "+
-					"your provided configuration and compare it with the output of `zlint -exampleConfig`. Error: %s",
-				l.Name,
-				l.Name,
-				err.Error())
-			return &LintResult{
-				Status:  Fatal,
-				Details: details}
-		}
+	err := config.MaybeConfigure(lint, l.Name)
+	if err != nil {
+		return &LintResult{
+			Status:  Fatal,
+			Details: err.Error()}
 	}
 	if !lint.CheckApplies(r) {
 		return &LintResult{Status: NA}
@@ -299,4 +279,19 @@ func (l *RevocationListLint) Execute(r *ox509.RevocationList, config Configurati
 		return &LintResult{Status: NE}
 	}
 	return lint.Execute(r)
+}
+
+// checkEffective returns true if target was generated on or after the EffectiveDate
+// AND before (but not on) the Ineffective date. That is, CheckEffective
+// returns true if...
+//
+//	target in [effective, ineffective)
+//
+// If effective is zero, then only ineffective is checked. Conversely,
+// if ineffective is zero then only effect is checked. If both effective
+// and ineffective are zero then checkEffective always returns true.
+func checkEffective(effective, ineffective, target time.Time) bool {
+	onOrAfterEffective := effective.IsZero() || util.OnOrAfter(target, effective)
+	strictlyBeforeIneffective := ineffective.IsZero() || target.Before(ineffective)
+	return onOrAfterEffective && strictlyBeforeIneffective
 }
