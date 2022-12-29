@@ -1,6 +1,7 @@
 package util
 
 import (
+	"sort"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -47,5 +48,6 @@ func GetKeyUsageStrings(keyUsages x509.KeyUsage) []string {
 			keyUsageStrings = append(keyUsageStrings, strings.TrimPrefix(name, "KeyUsage"))
 		}
 	}
+	sort.Strings(keyUsageStrings)
 	return keyUsageStrings
 }
