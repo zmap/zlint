@@ -23,7 +23,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-	"sync"
 
 	"github.com/pelletier/go-toml"
 )
@@ -73,114 +72,6 @@ func (f *FilterOptions) AddProfile(profile Profile) {
 	f.IncludeNames = append(f.IncludeNames, profile.LintNames...)
 }
 
-// Lints is a generic type constraint on what could be considered a "Lint"
-type Lints interface {
-	RevocationListLint | CertificateLint
-}
-
-// LinterLookup is an interface describing how registered lints can be looked up.
-type LinterLookup[T Lints] interface {
-	// Names returns a list of all of the lint names that have been registered
-	// in string sorted order.
-	Names() []string
-	// ByName returns a pointer to the registered lint with the given name, or nil
-	// if there is no such lint registered in the registry.
-	ByName(name string) *T
-	// Sources returns a SourceList of registered LintSources. The list is not
-	// sorted but can be sorted by the caller with sort.Sort() if required.
-	Sources() SourceList
-	// BySource returns a list of registered lints that have the same LintSource as
-	// provided (or nil if there were no such lints in the registry).
-	BySource(s LintSource) []*T
-	// Lints returns a list of all the lints registered.
-	Lints() []*T
-}
-
-type lookupImpl[T Lints] struct {
-	sync.RWMutex
-	lints []*T
-	// lintsByName is a map of all registered lints by name.
-	lintsByName map[string]*T
-	// lintNames is a sorted list of all of the registered lint names. It is
-	// equivalent to collecting the keys from lintsByName into a slice and sorting
-	// them lexicographically.
-	lintNames []string
-	// lintsBySource is a map of all registered lints by source category. Lints
-	// are added to the lintsBySource map by RegisterLint.
-	lintsBySource map[LintSource][]*T
-}
-
-// register adds the provided lint to the Registry.
-//
-// An error is returned if the Lint has an empty Name
-// or if the Name was previously registered.
-func (lookup *lookupImpl[T]) register(lint *T, name string, source LintSource) error {
-	if name == "" {
-		return errEmptyName
-	}
-	lookup.Lock()
-	defer lookup.Unlock()
-	if existing := lookup.lintsByName[name]; existing != nil {
-		return &errDuplicateName{name}
-	}
-	lookup.lints = append(lookup.lints, lint)
-	lookup.lintNames = append(lookup.lintNames, name)
-	lookup.lintsByName[name] = lint
-	lookup.lintsBySource[source] = append(lookup.lintsBySource[source], lint)
-	sort.Strings(lookup.lintNames)
-	return nil
-}
-
-// ByName returns the Lint previously registered under the given name with
-// Register, or nil if no matching lint name has been registered.
-func (lookup *lookupImpl[T]) ByName(name string) *T {
-	lookup.RLock()
-	defer lookup.RUnlock()
-	return lookup.lintsByName[name]
-}
-
-// Names returns the list of lint names registered for the lint type T.
-func (lookup *lookupImpl[T]) Names() []string {
-	lookup.RLock()
-	defer lookup.RUnlock()
-	return lookup.lintNames
-}
-
-// BySource returns a list of registered lints that have the same LintSource as
-// provided (or nil if there were no such lints).
-func (lookup *lookupImpl[T]) BySource(s LintSource) []*T {
-	lookup.RLock()
-	defer lookup.RUnlock()
-	return lookup.lintsBySource[s]
-}
-
-// Sources returns a SourceList of registered LintSources. The list is not
-// sorted but can be sorted by the caller with sort.Sort() if required.
-func (lookup *lookupImpl[T]) Sources() SourceList {
-	lookup.RLock()
-	defer lookup.RUnlock()
-	var results SourceList
-	for k := range lookup.lintsBySource {
-		results = append(results, k)
-	}
-	return results
-}
-
-// Lints returns a list of all the lints registered.
-func (lookup *lookupImpl[T]) Lints() []*T {
-	lookup.RLock()
-	defer lookup.RUnlock()
-	return lookup.lints
-}
-
-// Creates a new LintLookup struct.
-func newLintLookup[T Lints]() lookupImpl[T] {
-	return lookupImpl[T]{
-		lintsByName:   make(map[string]*T),
-		lintsBySource: make(map[LintSource][]*T),
-	}
-}
-
 // Registry is an interface describing a collection of registered lints.
 // A Registry instance can be given to zlint.LintCertificateEx() to control what
 // lints are run for a given certificate.
@@ -216,16 +107,16 @@ type Registry interface {
 	SetConfiguration(config Configuration)
 	GetConfiguration() Configuration
 	// CertificateLints returns an interface used to lookup CertificateLints.
-	CertificateLints() LinterLookup[CertificateLint]
+	CertificateLints() CertificateLinterLookup
 	// RevocationListLitns returns an interface used to lookup RevocationListLints.
-	RevocationListLints() LinterLookup[RevocationListLint]
+	RevocationListLints() RevocationListLinterLookup
 }
 
 // registryImpl implements the Registry interface to provide a global collection
 // of Lints that have been registered.
 type registryImpl struct {
-	certificateLints    lookupImpl[CertificateLint]
-	revocationListLints lookupImpl[RevocationListLint]
+	certificateLints    certificateLinterLookupImpl
+	revocationListLints revocationListLinterLookupImpl
 	configuration       Configuration
 }
 
@@ -346,11 +237,11 @@ func (r *registryImpl) Sources() SourceList {
 	return sources
 }
 
-func (r *registryImpl) CertificateLints() LinterLookup[CertificateLint] {
+func (r *registryImpl) CertificateLints() CertificateLinterLookup {
 	return &r.certificateLints
 }
 
-func (r *registryImpl) RevocationListLints() LinterLookup[RevocationListLint] {
+func (r *registryImpl) RevocationListLints() RevocationListLinterLookup {
 	return &r.revocationListLints
 }
 
@@ -552,8 +443,8 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 //nolint:revive
 func NewRegistry() *registryImpl {
 	registry := &registryImpl{
-		certificateLints:    newLintLookup[CertificateLint](),
-		revocationListLints: newLintLookup[RevocationListLint](),
+		certificateLints:    newCertificateLintLookup(),
+		revocationListLints: newRevocationListLintLookup(),
 	}
 	registry.SetConfiguration(NewEmptyConfig())
 	return registry
