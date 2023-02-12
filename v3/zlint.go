@@ -17,7 +17,6 @@
 package zlint
 
 import (
-	ox509 "crypto/x509"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -65,8 +64,8 @@ func LintCertificateEx(c *x509.Certificate, registry lint.Registry) *ResultSet {
 // LintRevocationList runs all registered lints on r using default options,
 // producing a ResultSet.
 //
-// Using LintRevocationList(r) is equivalent to calling LintRevocationList(r, nil).
-func LintRevocationList(r *ox509.RevocationList) *ResultSet {
+// Using LintRevocationList(r) is equivalent to calling LintRevocationListEx(r, nil).
+func LintRevocationList(r *x509.RevocationList) *ResultSet {
 	return LintRevocationListEx(r, nil)
 }
 
@@ -76,7 +75,7 @@ func LintRevocationList(r *ox509.RevocationList) *ResultSet {
 //
 // If registry is nil then the global registry of all lints is used and this
 // function is equivalent to calling LintRevocationListEx(r).
-func LintRevocationListEx(r *ox509.RevocationList, registry lint.Registry) *ResultSet {
+func LintRevocationListEx(r *x509.RevocationList, registry lint.Registry) *ResultSet {
 	if r == nil {
 		return nil
 	}

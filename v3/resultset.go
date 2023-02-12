@@ -15,8 +15,6 @@
 package zlint
 
 import (
-	ox509 "crypto/x509"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 )
@@ -49,7 +47,7 @@ func (z *ResultSet) executeCertificate(o *x509.Certificate, registry lint.Regist
 // Execute lints on the given CRL with all of the lints in the provided
 // registry. The ResultSet is mutated to trace the lint results obtained from
 // linting the CRL.
-func (z *ResultSet) executeRevocationList(o *ox509.RevocationList, registry lint.Registry) {
+func (z *ResultSet) executeRevocationList(o *x509.RevocationList, registry lint.Registry) {
 	z.Results = make(map[string]*lint.LintResult, len(registry.Names()))
 	// Run each lints from the registry.
 	for _, lint := range registry.RevocationListLints().Lints() {

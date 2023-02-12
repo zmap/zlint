@@ -27,8 +27,8 @@ var (
 )
 
 type linterLookup interface {
-	// Names returns a list of all of the lint names that have been registered
-	// in string sorted order.
+	// Names returns a list of all lint names that have been registered.
+	// The returned list is sorted by lexicographical ordering.
 	Names() []string
 	// Sources returns a SourceList of registered LintSources. The list is not
 	// sorted but can be sorted by the caller with sort.Sort() if required.
@@ -37,7 +37,7 @@ type linterLookup interface {
 
 type linterLookupImpl struct {
 	sync.RWMutex
-	// lintNames is a sorted list of all of the registered lint names. It is
+	// lintNames is a sorted list of all registered lint names. It is
 	// equivalent to collecting the keys from lintsByName into a slice and sorting
 	// them lexicographically.
 	lintNames []string

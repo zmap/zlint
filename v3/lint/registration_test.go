@@ -15,7 +15,6 @@ package lint
  */
 
 import (
-	ox509 "crypto/x509"
 	"reflect"
 	"regexp"
 	"sort"
@@ -70,11 +69,11 @@ func (m mockLint) Execute(c *x509.Certificate) *LintResult {
 
 type mockRevocationListLint struct{}
 
-func (m mockRevocationListLint) CheckApplies(c *ox509.RevocationList) bool {
+func (m mockRevocationListLint) CheckApplies(c *x509.RevocationList) bool {
 	return true
 }
 
-func (m mockRevocationListLint) Execute(c *ox509.RevocationList) *LintResult {
+func (m mockRevocationListLint) Execute(c *x509.RevocationList) *LintResult {
 	return nil
 }
 

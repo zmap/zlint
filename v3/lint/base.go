@@ -15,7 +15,6 @@ package lint
  */
 
 import (
-	ox509 "crypto/x509"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -33,11 +32,11 @@ type RevocationListLintInterface interface {
 	// Lint should run on the given certificate. If CheckApplies returns
 	// false, the Lint result is automatically set to NA without calling
 	// CheckEffective() or Run().
-	CheckApplies(r *ox509.RevocationList) bool
+	CheckApplies(r *x509.RevocationList) bool
 
 	// Execute is the body of the lint. It is called for every revocation list
 	// for which CheckApplies returns true.
-	Execute(r *ox509.RevocationList) *LintResult
+	Execute(r *x509.RevocationList) *LintResult
 }
 
 // CertificateLintInterface is implemented by each certificate linter.
@@ -254,7 +253,7 @@ type RevocationListLint struct {
 // If EffectiveDate is zero, then only IneffectiveDate is checked. Conversely,
 // if IneffectiveDate is zero then only EffectiveDate is checked. If both EffectiveDate
 // and IneffectiveDate are zero then CheckEffective always returns true.
-func (l *RevocationListLint) CheckEffective(r *ox509.RevocationList) bool {
+func (l *RevocationListLint) CheckEffective(r *x509.RevocationList) bool {
 	return checkEffective(l.EffectiveDate, l.IneffectiveDate, r.ThisUpdate)
 }
 
@@ -265,7 +264,7 @@ func (l *RevocationListLint) CheckEffective(r *ox509.RevocationList) bool {
 // CheckApplies()
 // CheckEffective()
 // Execute()
-func (l *RevocationListLint) Execute(r *ox509.RevocationList, config Configuration) *LintResult {
+func (l *RevocationListLint) Execute(r *x509.RevocationList, config Configuration) *LintResult {
 	lint := l.Lint()
 	err := config.MaybeConfigure(lint, l.Name)
 	if err != nil {

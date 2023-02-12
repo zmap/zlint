@@ -15,7 +15,6 @@ package lint
  */
 
 import (
-	ox509 "crypto/x509"
 	"testing"
 	"time"
 
@@ -201,32 +200,32 @@ func TestLint_RevocationListLint_CheckEffective(t *testing.T) {
 
 	type revocationList struct {
 		Description    string
-		RevocationList *ox509.RevocationList
+		RevocationList *x509.RevocationList
 	}
 
 	cZero := revocationList{
 		Description:    "cZero",
-		RevocationList: &ox509.RevocationList{ThisUpdate: zero},
+		RevocationList: &x509.RevocationList{ThisUpdate: zero},
 	}
 	cOne := revocationList{
 		Description:    "cOne",
-		RevocationList: &ox509.RevocationList{ThisUpdate: one},
+		RevocationList: &x509.RevocationList{ThisUpdate: one},
 	}
 	cTwo := revocationList{
 		Description:    "cTwo",
-		RevocationList: &ox509.RevocationList{ThisUpdate: two},
+		RevocationList: &x509.RevocationList{ThisUpdate: two},
 	}
 	cThree := revocationList{
 		Description:    "cThree",
-		RevocationList: &ox509.RevocationList{ThisUpdate: three},
+		RevocationList: &x509.RevocationList{ThisUpdate: three},
 	}
 	cFour := revocationList{
 		Description:    "cFour",
-		RevocationList: &ox509.RevocationList{ThisUpdate: four},
+		RevocationList: &x509.RevocationList{ThisUpdate: four},
 	}
 	cFive := revocationList{
 		Description:    "cFive",
-		RevocationList: &ox509.RevocationList{ThisUpdate: five},
+		RevocationList: &x509.RevocationList{ThisUpdate: five},
 	}
 
 	data := []struct {
