@@ -8,10 +8,10 @@ import "go/ast"
 //
 // For example, the following returns a list of only function declarations.
 //
-//		filters.Declarations(tree.Decls, func(decl ast.Decl) bool {
-//			_, ok := decl.(*ast.FuncDecl)
-//			return ok
-//		})
+//	filters.Declarations(tree.Decls, func(decl ast.Decl) bool {
+//		_, ok := decl.(*ast.FuncDecl)
+//		return ok
+//	})
 //
 // The order of declarations is maintained.
 func Declarations(decls []ast.Decl, predicate func(decl ast.Decl) bool) (filtered []ast.Decl) {
