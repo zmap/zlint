@@ -26,15 +26,19 @@ import (
 
 type ecdsaAllowedKU struct{}
 
-/************************************************
+/*
+***********************************************
 RFC 8813: 3.  Updates to Section 3
 If the keyUsage extension is present in a certificate that indicates
-   id-ecPublicKey in SubjectPublicKeyInfo, then the following values
-   MUST NOT be present:
 
-      keyEncipherment; and
-      dataEncipherment.
-************************************************/
+	id-ecPublicKey in SubjectPublicKeyInfo, then the following values
+	MUST NOT be present:
+
+	   keyEncipherment; and
+	   dataEncipherment.
+
+***********************************************
+*/
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ecdsa_allowed_ku",
