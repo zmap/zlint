@@ -9,6 +9,11 @@ linters-settings:
 linters:
   enable-all: true
   disable:
+    - interfacer
+    - nosnakecase
+    - tparallel
+    - nonamedreturns
+    - exhaustruct
     - stylecheck
     - gosec
     - dupl

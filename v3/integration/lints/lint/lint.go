@@ -35,7 +35,7 @@ type Lint interface {
 // The message should be succinct and descriptive of the core issue. This message can only be set in the constructor,
 // NewResult. For example...
 //
-//		"Go style guides suggest not using bare returns in complex functions"
+//	"Go style guides suggest not using bare returns in complex functions"
 //
 // Code citations are the locations within the file that did not meet your expectations. Please see AddCodeCitations
 // for information on how to add these to the Result type. Adding a code citation will result in the file, line number
@@ -72,8 +72,6 @@ func NewResult(message string) *Result {
 //	func (l *certPolicyConflictsWithLocality) Initialize() error {
 //		return nil
 //	}
-//
-//
 func (r *Result) AddCodeCitation(start, end token.Pos, file *File) *Result {
 	srcCode := make([]byte, end-start)
 	reader := strings.NewReader(file.Src)
@@ -133,9 +131,9 @@ type File struct {
 // LineOf computes which line a particular position within a file lands on.
 //
 //	This is not the greatest song in the world.
-// 	No, this is just a tribute.
+//	No, this is just a tribute.
 //	Couldn't remember the greatest song in the world.
-// 	No, this is just a tribute!
+//	No, this is just a tribute!
 //
 // The word "remember" begins at position 81 within this text, therefor LineOf(81) should return line 3.
 func (f *File) LineOf(pos token.Pos) int {
