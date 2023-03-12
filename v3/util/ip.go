@@ -53,12 +53,13 @@ const (
 var reservedNetworks []*net.IPNet
 
 // IsIANAReserved checks IP validity as per IANA reserved IPs
-//      IPv4
-//      https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
-//      https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xml
-//      IPv6
-//      https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml
-//      https://www.iana.org/assignments/ipv6-address-space/ipv6-address-space.xhtml
+//
+//	IPv4
+//	https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry.xhtml
+//	https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xml
+//	IPv6
+//	https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry.xhtml
+//	https://www.iana.org/assignments/ipv6-address-space/ipv6-address-space.xhtml
 func IsIANAReserved(ip net.IP) bool {
 	if !ip.IsGlobalUnicast() {
 		return true

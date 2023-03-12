@@ -241,7 +241,9 @@ func sourceListToMap(sources SourceList) map[LintSource]bool {
 // criteria included.
 //
 // FilterOptions are applied in the following order of precedence:
-//   ExcludeSources > IncludeSources > NameFilter > ExcludeNames > IncludeNames
+//
+//	ExcludeSources > IncludeSources > NameFilter > ExcludeNames > IncludeNames
+//
 //nolint:cyclop
 func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 	// If there's no filtering to be done, return the existing Registry.
@@ -369,6 +371,7 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 
 // NewRegistry constructs a Registry implementation that can be used to register
 // lints.
+//
 //nolint:revive
 func NewRegistry() *registryImpl {
 	registry := &registryImpl{

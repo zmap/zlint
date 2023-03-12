@@ -36,18 +36,22 @@ type Configuration struct {
 // file might look something like the following...
 //
 // ```
+//
 //	[MyLint]
 //	A = 1
 //	B = 2
+//
 // ```
 //
 // Given this, our target struct may look like the following...
 //
 // ```
+//
 //	type MytLint struct {
 //		A int
 //		B uint
 //	}
+//
 // ```
 //
 // So deserializing into this struct would look like...
@@ -121,9 +125,11 @@ func NewEmptyConfig() Configuration {
 // And the following struct definition...
 //
 // ```
-// type SomeOtherLint {
-//		IsWebPKI bool `toml:"is_web_pki"`
-// }
+//
+//	type SomeOtherLint {
+//			IsWebPKI bool `toml:"is_web_pki"`
+//	}
+//
 // ```
 //
 // Then the invocation of this function should be...
