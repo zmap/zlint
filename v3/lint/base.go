@@ -77,7 +77,7 @@ type Lint struct {
 // AND before (but not on) the Ineffective date. That is, CheckEffective
 // returns true if...
 //
-// 	c.NotBefore in [EffectiveDate, IneffectiveDate)
+//	c.NotBefore in [EffectiveDate, IneffectiveDate)
 //
 // If EffectiveDate is zero, then only IneffectiveDate is checked. Conversely,
 // if IneffectiveDate is zero then only EffectiveDate is checked. If both EffectiveDate

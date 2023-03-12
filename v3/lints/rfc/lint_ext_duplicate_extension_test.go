@@ -47,7 +47,8 @@ func TestDuplicateExtensions(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
+	for _, testCase := range testCases {
+		tc := testCase
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 			actual := test.TestLint("e_ext_duplicate_extension", tc.path)
