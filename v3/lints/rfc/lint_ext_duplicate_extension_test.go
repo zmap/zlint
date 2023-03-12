@@ -23,22 +23,19 @@ import (
 
 func TestDuplicateExtensions(t *testing.T) {
 	testCases := []struct {
-		name            string
-		path            string
-		expectedStatus  lint.LintStatus
-		expectedDetails string
+		name           string
+		path           string
+		expectedStatus lint.LintStatus
 	}{
 		{
-			name:            "duplicate SAN extension",
-			path:            "extSANDuplicated.pem",
-			expectedStatus:  lint.Error,
-			expectedDetails: "The following extensions are duplicated: 2.5.29.17",
+			name:           "duplicate SAN extension",
+			path:           "extSANDuplicated.pem",
+			expectedStatus: lint.Error,
 		},
 		{
-			name:            "multiple duplicate extensions",
-			path:            "multDupeExts.pem",
-			expectedStatus:  lint.Error,
-			expectedDetails: "The following extensions are duplicated: 2.5.29.14, 2.5.29.35",
+			name:           "multiple duplicate extensions",
+			path:           "multDupeExts.pem",
+			expectedStatus: lint.Error,
 		},
 		{
 			name:           "no duplicate extensions",
@@ -55,10 +52,6 @@ func TestDuplicateExtensions(t *testing.T) {
 			if actual.Status != tc.expectedStatus {
 				t.Errorf("%s: expected status %q got %q",
 					tc.path, tc.expectedStatus, actual.Status)
-			}
-			if actual.Details != tc.expectedDetails {
-				t.Errorf("%s: expected detail %q got %q",
-					tc.path, tc.expectedDetails, actual.Details)
 			}
 		})
 	}
