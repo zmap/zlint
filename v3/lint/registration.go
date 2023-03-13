@@ -79,7 +79,7 @@ func (f *FilterOptions) AddProfile(profile Profile) {
 // Typically users will interact with the global Registry returned by
 // GlobalRegistry(), or a filtered Registry created by applying FilterOptions to
 // the GlobalRegistry()'s Filter function.
-type Registry interface {
+type Registry interface { //nolint: interfacebloat // Somewhat unavoidable here.
 	// Names returns a list of all of the lint names that have been registered
 	// in string sorted order.
 	Names() []string
