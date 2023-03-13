@@ -30,11 +30,13 @@ func TestOrganizationIDMissing(t *testing.T) {
 		"evOrgIdExtMissing_Valid.pem":                                     lint.Pass,
 	}
 	for file, want := range tests {
-		t.Run(file, func(t *testing.T) {
+		f := file
+		w := want
+		t.Run(f, func(t *testing.T) {
 			t.Parallel()
-			got := test.TestLint("e_ev_organization_id_missing", file).Status
-			if got != want {
-				t.Errorf("want %s, got %s", want, got)
+			got := test.TestLint("e_ev_organization_id_missing", f).Status
+			if got != w {
+				t.Errorf("want %s, got %s", w, got)
 			}
 		})
 	}

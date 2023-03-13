@@ -8,11 +8,11 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/zmap/zcrypto v0.0.0-20230205235340-d51ce4775101
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
-	golang.org/x/net v0.0.0-20220412020605-290c469a71a5
-	golang.org/x/text v0.3.7
+	golang.org/x/net v0.7.0
+	golang.org/x/text v0.7.0
 )
 
 require (
-	github.com/weppos/publicsuffix-go v0.15.1-0.20220724114530-e087fba66a37 // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	github.com/weppos/publicsuffix-go v0.15.1-0.20220329081811-9a40b608a236 // indirect
+	golang.org/x/sys v0.5.0 // indirect
 )

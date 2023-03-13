@@ -185,6 +185,7 @@ func getGTLDData() ([]util.GTLDPeriod, error) {
 		return nil, fmt.Errorf("error getting ICANN gTLD JSON : %s", err)
 	}
 
+	//nolint:musttag
 	var results struct {
 		GTLDs []util.GTLDPeriod
 	}
