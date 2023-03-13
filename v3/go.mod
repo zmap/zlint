@@ -13,6 +13,6 @@ require (
 )
 
 require (
-	github.com/weppos/publicsuffix-go v0.15.1-0.20220329081811-9a40b608a236 // indirect
+	github.com/weppos/publicsuffix-go v0.15.1-0.20220724114530-e087fba66a37 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 )
