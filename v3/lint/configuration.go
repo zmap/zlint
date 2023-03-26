@@ -15,6 +15,7 @@
 package lint
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -28,6 +29,20 @@ import (
 // to hold the full TOML tree that is a physical ZLint configuration./
 type Configuration struct {
 	tree *toml.Tree
+}
+
+// MaybeConfigure is a thin wrapper over Configure.
+//
+// If the provided lint object does not implement the Configurable interface
+// then this function is a noop and nil is always returned.
+//
+// Otherwise, configuration of the provided lint is attempted.
+func (c Configuration) MaybeConfigure(lint interface{}, namespace string) error {
+	configurable, ok := lint.(Configurable)
+	if !ok {
+		return nil
+	}
+	return c.Configure(configurable.Configure(), namespace)
 }
 
 // Configure attempts to deserialize the provided namespace into the provided empty interface.
@@ -60,7 +75,17 @@ type Configuration struct {
 // configuration.Configure(&myLint, myLint.Name())
 // ```
 func (c Configuration) Configure(lint interface{}, namespace string) error {
-	return c.deserializeConfigInto(lint, namespace)
+	err := c.deserializeConfigInto(lint, namespace)
+	if err != nil {
+		details := fmt.Sprintf(
+			"A fatal error occurred while attempting to configure %s. Please visit the [%s] section of "+
+				"your provided configuration and compare it with the output of `zlint -exampleConfig`. Error: %s",
+			namespace,
+			namespace,
+			err.Error())
+		err = errors.New(details)
+	}
+	return err
 }
 
 // NewConfig attempts to instantiate a configuration by consuming the contents of the provided reader.

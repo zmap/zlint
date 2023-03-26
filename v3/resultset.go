@@ -31,15 +31,28 @@ type ResultSet struct {
 	FatalsPresent   bool                        `json:"fatals_present"`
 }
 
-// Execute lints the given certificate with all of the lints in the provided
+// Execute lints on the given certificate with all of the lints in the provided
 // registry. The ResultSet is mutated to trace the lint results obtained from
 // linting the certificate.
-func (z *ResultSet) execute(cert *x509.Certificate, registry lint.Registry) {
+func (z *ResultSet) executeCertificate(o *x509.Certificate, registry lint.Registry) {
+	z.Results = make(map[string]*lint.LintResult, len(registry.Names()))
+	// Run each lint from the registry.
+	for _, lint := range registry.CertificateLints().Lints() {
+		res := lint.Execute(o, registry.GetConfiguration())
+		z.Results[lint.Name] = res
+		z.updateErrorStatePresent(res)
+	}
+}
+
+// Execute lints on the given CRL with all of the lints in the provided
+// registry. The ResultSet is mutated to trace the lint results obtained from
+// linting the CRL.
+func (z *ResultSet) executeRevocationList(o *x509.RevocationList, registry lint.Registry) {
 	z.Results = make(map[string]*lint.LintResult, len(registry.Names()))
 	// Run each lints from the registry.
-	for _, name := range registry.Names() {
-		res := registry.ByName(name).Execute(cert, registry.GetConfiguration())
-		z.Results[name] = res
+	for _, lint := range registry.RevocationListLints().Lints() {
+		res := lint.Execute(o, registry.GetConfiguration())
+		z.Results[lint.Name] = res
 		z.updateErrorStatePresent(res)
 	}
 }
