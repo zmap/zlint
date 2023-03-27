@@ -59,8 +59,9 @@ func (l *KUAndEKUInconsistent) Execute(c *x509.Certificate) *lint.LintResult {
 }
 
 // RFC 5280 4.2.1.12 on multiple purposes:
-//  If multiple purposes are indicated the application need not recognize all purposes
-//  indicated, as long as the intended purpose is present.
+//
+//	If multiple purposes are indicated the application need not recognize all purposes
+//	indicated, as long as the intended purpose is present.
 func (l *KUAndEKUInconsistent) multiPurpose(c *x509.Certificate) *lint.LintResult {
 	var mp = map[x509.KeyUsage]bool{}
 	for _, extKeyUsage := range c.ExtKeyUsage {
