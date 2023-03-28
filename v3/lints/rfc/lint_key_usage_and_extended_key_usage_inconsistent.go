@@ -66,6 +66,9 @@ func (l *KUAndEKUInconsistent) multiPurpose(c *x509.Certificate) *lint.LintResul
 	var mp = map[x509.KeyUsage]bool{}
 	for _, extKeyUsage := range c.ExtKeyUsage {
 		var i int
+		if _, ok := eku[extKeyUsage]; !ok {
+			return &lint.LintResult{Status: lint.Pass}
+		}
 		for ku := range eku[extKeyUsage] {
 			if i > 0 {
 				for mpku := range mp {
