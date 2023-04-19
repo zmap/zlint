@@ -170,9 +170,9 @@ func reversedLabelsToIPv6(labels []string) net.IP {
 // address under the respective ARPA zone based on the address class. An error
 // is returned if:
 //
-// 1. The IP address labels parse as an IP of the wrong address class for the
-//    arpa suffix the name is using.
-// 2. The IP address is within an IANA reserved range.
+//  1. The IP address labels parse as an IP of the wrong address class for the
+//     arpa suffix the name is using.
+//  2. The IP address is within an IANA reserved range.
 func lintReversedIPAddress(name string, ipv6 bool) error {
 	numRequiredLabels := rdnsIPv4Labels
 	zoneSuffix := rdnsIPv4Suffix

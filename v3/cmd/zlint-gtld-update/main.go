@@ -23,7 +23,6 @@ import (
 	"go/format"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -34,6 +33,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
+//nolint:revive
 const (
 	// ICANN_GTLD_JSON is the URL for the ICANN gTLD JSON registry (version 2).
 	// This registry does not contain ccTLDs but does carry full gTLD information
@@ -110,7 +110,7 @@ var tldMap = map[string]GTLDPeriod{
 }
 `))
 
-	printVersion bool = false
+	printVersion = false
 )
 
 // getData fetches the response body bytes from an HTTP get to the provider url,
@@ -138,7 +138,7 @@ func getData(url string) ([]byte, error) {
 			url, http.StatusOK, resp.StatusCode)
 	}
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("unexpected error reading response "+
 			"body from %q : %s",
@@ -185,6 +185,7 @@ func getGTLDData() ([]util.GTLDPeriod, error) {
 		return nil, fmt.Errorf("error getting ICANN gTLD JSON : %s", err)
 	}
 
+	//nolint:musttag
 	var results struct {
 		GTLDs []util.GTLDPeriod
 	}

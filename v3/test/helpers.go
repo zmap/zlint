@@ -19,7 +19,9 @@ package test
 import (
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
+	"os"
+	"testing"
+
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -33,8 +35,37 @@ import (
 // Important: TestLint is only appropriate for unit tests. It will panic if the
 // lintName is not known or if the testCertFilename can not be loaded, or if the
 // lint result is nil.
+//
+//nolint:revive
 func TestLint(lintName string, testCertFilename string) *lint.LintResult {
-	return TestLintCert(lintName, ReadTestCert(testCertFilename))
+	return TestLintWithConfig(lintName, testCertFilename, "")
+}
+
+func TestLintWithConfig(lintName string, testCertFilename string, configuration string) *lint.LintResult {
+	config, err := lint.NewConfigFromString(configuration)
+	if err != nil {
+		panic(err)
+	}
+	return TestLintCert(lintName, ReadTestCert(testCertFilename), config)
+}
+
+// TestRevocationListLint executes the given lintName against a CRL read from
+// a testcrl data file with the given filename. Filenames should be relative to
+// `testdata/` and not absolute file paths.
+//
+//nolint:revive
+func TestRevocationListLint(tb testing.TB, lintName string, testCRLFilename string) *lint.LintResult {
+	tb.Helper()
+	return TestRevocationListLintWithConfig(tb, lintName, testCRLFilename, "")
+}
+
+func TestRevocationListLintWithConfig(tb testing.TB, lintName string, testCRLFilename string, configuration string) *lint.LintResult {
+	tb.Helper()
+	config, err := lint.NewConfigFromString(configuration)
+	if err != nil {
+		tb.Fatal(err)
+	}
+	return TestLintRevocationList(tb, lintName, ReadTestRevocationList(tb, testCRLFilename), config)
 }
 
 // TestLintCert executes a lint with the given name against an already parsed
@@ -43,21 +74,46 @@ func TestLint(lintName string, testCertFilename string) *lint.LintResult {
 //
 // Important: TestLintCert is only appropriate for unit tests. It will panic if
 // the lintName is not known or if the lint result is nil.
-func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
-	l := lint.GlobalRegistry().ByName(lintName)
+//
+//nolint:revive
+func TestLintCert(lintName string, cert *x509.Certificate, ctx lint.Configuration) *lint.LintResult {
+	l := lint.GlobalRegistry().CertificateLints().ByName(lintName)
 	if l == nil {
 		panic(fmt.Sprintf(
 			"Lint name %q does not exist in lint.Lints. "+
 				"Did you forget to RegisterLint?\n",
 			lintName))
 	}
-
-	res := l.Execute(cert)
+	res := l.Execute(cert, ctx)
 	// We never expect a lint to return a nil LintResult
 	if res == nil {
 		panic(fmt.Sprintf(
 			"Running lint %q on test certificate generated a nil LintResult.\n",
 			lintName))
+	}
+	return res
+}
+
+// TestLintRevocationList executes a lint with the given name against an already parsed
+// revocation list. This is useful when a unit test reads a revocation list from disk
+// and then mutates it in some way before trying to lint it.
+//
+//nolint:revive
+func TestLintRevocationList(tb testing.TB, lintName string, crl *x509.RevocationList, ctx lint.Configuration) *lint.LintResult {
+	tb.Helper()
+	l := lint.GlobalRegistry().RevocationListLints().ByName(lintName)
+	if l == nil {
+		tb.Fatalf(
+			"Lint name %q does not exist in lint.Lints. "+
+				"Did you forget to RegisterLint?\n",
+			lintName)
+	}
+	res := l.Execute(crl, ctx)
+	// We never expect a lint to return a nil LintResult
+	if res == nil {
+		tb.Fatalf(
+			"Running lint %q on test revocation list generated a nil LintResult.\n",
+			lintName)
 	}
 	return res
 }
@@ -69,8 +125,7 @@ func TestLintCert(lintName string, cert *x509.Certificate) *lint.LintResult {
 // the inPath file can not be loaded.
 func ReadTestCert(inPath string) *x509.Certificate {
 	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
-
-	data, err := ioutil.ReadFile(fullPath)
+	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		panic(fmt.Sprintf(
 			"Unable to read test certificate from %q - %q "+
@@ -98,4 +153,42 @@ func ReadTestCert(inPath string) *x509.Certificate {
 	}
 
 	return theCert
+}
+
+// ReadTestRevocationList loads a x509.RevocationList from the given inPath which is assumed
+// to be relative to `testdata/`.
+//
+// Important: ReadTestRevocationList is only appropriate for unit tests. It will panic if
+// the inPath file can not be loaded.
+func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
+	tb.Helper()
+	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
+	data, err := os.ReadFile(fullPath)
+	if err != nil {
+		tb.Fatalf(
+			"Unable to read test revocation list from %q - %q "+
+				"Does a unit test have an incorrect test file name?\n",
+			fullPath, err)
+	}
+
+	if strings.Contains(string(data), "-BEGIN X509 CRL-") {
+		block, _ := pem.Decode(data)
+		if block == nil { //nolint: staticcheck // tb.Fatalf exits
+			tb.Fatalf(
+				"Failed to PEM decode test revocation list from %q - "+
+					"Does a unit test have a buggy test cert file?\n",
+				fullPath)
+		}
+		data = block.Bytes //nolint: staticcheck // tb.Fatalf exits
+	}
+
+	theCrl, err := x509.ParseRevocationList(data)
+	if err != nil {
+		tb.Fatalf(
+			"Failed to parse x509 test certificate from %q - %q "+
+				"Does a unit test have a buggy test cert file?\n",
+			fullPath, err)
+	}
+
+	return theCrl
 }

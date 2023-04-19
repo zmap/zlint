@@ -1,4 +1,4 @@
-// +build integration
+//go:build integration
 
 package integration
 
@@ -45,7 +45,8 @@ type workItem struct {
 // directory, writing work items to the workChannel as they are available.
 //
 // Expected CSV format:
-//   subject_dn, issuer_dn, raw, fingerprint_sha256
+//
+//	subject_dn, issuer_dn, raw, fingerprint_sha256
 func loadCSV(workChannel chan<- workItem, directory string) {
 	log.Printf("Reading data from %d CSV files", len(conf.Files))
 	for i, dataFile := range conf.Files {

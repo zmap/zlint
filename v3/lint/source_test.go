@@ -24,6 +24,7 @@ import (
 // TestLintSourceMarshal tests that a LintSource can be correctly marshaled and
 // unmarshalled.
 func TestLintSourceMarshal(t *testing.T) {
+	//nolint:musttag
 	throwAway := struct {
 		Source LintSource
 	}{

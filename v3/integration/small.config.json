@@ -316,6 +316,12 @@
     "e_utc_time_not_in_zulu": {},
     "e_validity_time_not_positive": {},
     "e_wrong_time_format_pre2050": {},
+    "e_ecdsa_allowed_ku": {},
+    "e_rsa_allowed_ku_ca": {},
+    "e_rsa_allowed_ku_no_encipherment_ca": {},
+    "e_rsa_allowed_ku_ee": {
+      "ErrCount": 11
+    },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },

@@ -15,8 +15,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
         with:
-          version: v1.29
-          working-directory: v3
+          go-version: ^1.20
+      - name: Install golangci-lint
+        run: |
+          wget https://github.com/golangci/golangci-lint/releases/download/v1.51.2/golangci-lint-1.51.2-linux-amd64.deb
+          sudo apt install -y ./golangci-lint-1.51.2-linux-amd64.deb\
+      - name: Run golangci-lint
+        run: |
+          cd v3
+          golangci-lint run
