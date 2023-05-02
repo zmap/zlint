@@ -62,3 +62,15 @@ func IsServerAuthCert(cert *x509.Certificate) bool {
 	}
 	return false
 }
+
+func IsEmailProtectionCert(cert *x509.Certificate) bool {
+	if len(cert.ExtKeyUsage) == 0 {
+		return true
+	}
+	for _, eku := range cert.ExtKeyUsage {
+		if eku == x509.ExtKeyUsageAny || eku == x509.ExtKeyUsageEmailProtection {
+			return true
+		}
+	}
+	return false
+}
