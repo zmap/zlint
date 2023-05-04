@@ -23,31 +23,9 @@ import (
 )
 
 // MailboxValidatedEnforceSubjectFieldRestrictions - linter to enforce MAY/SHALL NOT requirements for mailbox validated SMIME certificates
-type MailboxValidatedEnforceSubjectFieldRestrictions struct{}
-
-var forbiddenSubjectFields = map[string]string{
-	"0.9.2342.19200300.100.1.25": "subject:domainComponent",
-	"1.3.6.1.4.1.311.60.2.1.1":   "subject:jurisdictionLocality",
-	"1.3.6.1.4.1.311.60.2.1.2":   "subject:jurisdictionProvince",
-	"1.3.6.1.4.1.311.60.2.1.3":   "subject:jurisdictionCountry",
-	"2.5.4.4":                    "subject:surname",
-	"2.5.4.6":                    "subject:countryName",
-	"2.5.4.7":                    "subject:localityName",
-	"2.5.4.8":                    "subject:stateOrProvinceName",
-	"2.5.4.9":                    "subject:streetAddress",
-	"2.5.4.10":                   "subject:organizationName",
-	"2.5.4.11":                   "subject:organizationalUnitName",
-	"2.5.4.12":                   "subject:title",
-	"2.5.4.17":                   "subject:postalCode",
-	"2.5.4.42":                   "subject:givenName",
-	"2.5.4.65":                   "subject:pseudonym",
-	"2.5.4.97":                   "subject:organizationIdentifier",
-}
-
-var acceptableSubjectFields = map[string]string{
-	"1.2.840.113549.1.9.1": "subject:emailAddress",
-	"2.5.4.3":              "subject:commonName",
-	"2.5.4.5":              "subject:serialNumber",
+type MailboxValidatedEnforceSubjectFieldRestrictions struct {
+	forbiddenSubjectFields map[string]string
+	allowedSubjectFields   map[string]string
 }
 
 func init() {
@@ -58,14 +36,38 @@ func init() {
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		Lint: func() lint.LintInterface {
-			return &MailboxValidatedEnforceSubjectFieldRestrictions{}
+			return NewMailboxValidatedEnforceSubjectFieldRestrictions()
 		},
 	})
 }
 
 // NewMailboxValidatedEnforceSubjectFieldRestrictions creates a new linter to enforce MAY/SHALL NOT field requirements for mailbox validated SMIME certs
 func NewMailboxValidatedEnforceSubjectFieldRestrictions() lint.LintInterface {
-	return &MailboxValidatedEnforceSubjectFieldRestrictions{}
+	return &MailboxValidatedEnforceSubjectFieldRestrictions{
+		forbiddenSubjectFields: map[string]string{
+			"0.9.2342.19200300.100.1.25": "subject:domainComponent",
+			"1.3.6.1.4.1.311.60.2.1.1":   "subject:jurisdictionLocality",
+			"1.3.6.1.4.1.311.60.2.1.2":   "subject:jurisdictionProvince",
+			"1.3.6.1.4.1.311.60.2.1.3":   "subject:jurisdictionCountry",
+			"2.5.4.4":                    "subject:surname",
+			"2.5.4.6":                    "subject:countryName",
+			"2.5.4.7":                    "subject:localityName",
+			"2.5.4.8":                    "subject:stateOrProvinceName",
+			"2.5.4.9":                    "subject:streetAddress",
+			"2.5.4.10":                   "subject:organizationName",
+			"2.5.4.11":                   "subject:organizationalUnitName",
+			"2.5.4.12":                   "subject:title",
+			"2.5.4.17":                   "subject:postalCode",
+			"2.5.4.42":                   "subject:givenName",
+			"2.5.4.65":                   "subject:pseudonym",
+			"2.5.4.97":                   "subject:organizationIdentifier",
+		},
+		allowedSubjectFields: map[string]string{
+			"1.2.840.113549.1.9.1": "subject:emailAddress",
+			"2.5.4.3":              "subject:commonName",
+			"2.5.4.5":              "subject:serialNumber",
+		},
+	}
 }
 
 // CheckApplies is returns true if the certificate's policies assert that it conforms to the mailbox validated SMIME BRs
@@ -79,8 +81,8 @@ func (l *MailboxValidatedEnforceSubjectFieldRestrictions) Execute(c *x509.Certif
 		for _, field := range rdnSeq {
 			oidStr := field.Type.String()
 
-			if _, ok := acceptableSubjectFields[oidStr]; !ok {
-				if fieldName, knownField := forbiddenSubjectFields[oidStr]; knownField {
+			if _, ok := l.allowedSubjectFields[oidStr]; !ok {
+				if fieldName, knownField := l.forbiddenSubjectFields[oidStr]; knownField {
 					return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("subject DN contains forbidden field: %s (%s)", fieldName, oidStr)}
 				}
 				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("subject DN contains forbidden field: %s", oidStr)}

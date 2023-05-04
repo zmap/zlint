@@ -62,7 +62,7 @@ func TestMailboxValidatedEnforceSubjectFieldRestrictions(t *testing.T) {
 		t.Run(tc.Name, func(t *testing.T) {
 			result := test.TestLint("e_mailbox_validated_enforce_subject_field_restrictions", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
-				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+				t.Errorf("expected result %v was %v - details: %v", tc.ExpectedResult, result.Status, result.Details)
 			}
 
 			if tc.ExpectedDetails != "" && tc.ExpectedDetails != result.Details {
