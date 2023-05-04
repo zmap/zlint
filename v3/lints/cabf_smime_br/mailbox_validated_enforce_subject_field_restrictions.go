@@ -22,8 +22,8 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-// MailboxValidatedEnforceSubjectFieldRestrictions - linter to enforce MAY/SHALL NOT requirements for mailbox validated SMIME certificates
-type MailboxValidatedEnforceSubjectFieldRestrictions struct {
+// mailboxValidatedEnforceSubjectFieldRestrictions - linter to enforce MAY/SHALL NOT requirements for mailbox validated SMIME certificates
+type mailboxValidatedEnforceSubjectFieldRestrictions struct {
 	forbiddenSubjectFields map[string]string
 	allowedSubjectFields   map[string]string
 }
@@ -43,7 +43,7 @@ func init() {
 
 // NewMailboxValidatedEnforceSubjectFieldRestrictions creates a new linter to enforce MAY/SHALL NOT field requirements for mailbox validated SMIME certs
 func NewMailboxValidatedEnforceSubjectFieldRestrictions() lint.LintInterface {
-	return &MailboxValidatedEnforceSubjectFieldRestrictions{
+	return &mailboxValidatedEnforceSubjectFieldRestrictions{
 		forbiddenSubjectFields: map[string]string{
 			"0.9.2342.19200300.100.1.25": "subject:domainComponent",
 			"1.3.6.1.4.1.311.60.2.1.1":   "subject:jurisdictionLocality",
@@ -71,12 +71,12 @@ func NewMailboxValidatedEnforceSubjectFieldRestrictions() lint.LintInterface {
 }
 
 // CheckApplies is returns true if the certificate's policies assert that it conforms to the mailbox validated SMIME BRs
-func (l *MailboxValidatedEnforceSubjectFieldRestrictions) CheckApplies(c *x509.Certificate) bool {
+func (l *mailboxValidatedEnforceSubjectFieldRestrictions) CheckApplies(c *x509.Certificate) bool {
 	return util.IsMailboxValidatedCertificate(c)
 }
 
 // Execute applies the requirements on what fields are allowed for mailbox validated SMIME certificates
-func (l *MailboxValidatedEnforceSubjectFieldRestrictions) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *mailboxValidatedEnforceSubjectFieldRestrictions) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, rdnSeq := range c.Subject.OriginalRDNS {
 		for _, field := range rdnSeq {
 			oidStr := field.Type.String()
