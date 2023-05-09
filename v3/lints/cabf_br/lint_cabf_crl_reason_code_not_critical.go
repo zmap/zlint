@@ -40,12 +40,7 @@ func NewCrlReasonCodeNotCritical() lint.RevocationListLintInterface {
 }
 
 func (l *crlReasonCodeNotCritical) CheckApplies(c *x509.RevocationList) bool {
-	for _, c := range c.RevokedCertificates {
-		if c.ReasonCode != nil {
-			return true
-		}
-	}
-	return false
+	return len(c.RevokedCertificates) > 0
 }
 
 func (l *crlReasonCodeNotCritical) Execute(c *x509.RevocationList) *lint.LintResult {

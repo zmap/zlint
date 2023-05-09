@@ -73,7 +73,7 @@ var (
 	NoReservedDomainLabelsDate                       = time.Date(2021, time.October, 1, 0, 0, 0, 0, time.UTC)
 	CABFBRs_OU_Prohibited_Date                       = time.Date(2022, time.September, 1, 0, 0, 0, 0, time.UTC)
 	// Enforcement date of CRL reason codes from Ballot SC 061
-	CABFBRs_SC61_CRL_Date = time.Date(2023, time.July, 15, 0, 0, 0, 0, time.UTC)
+	CABFBRs_1_8_7_Date = time.Date(2023, time.July, 15, 0, 0, 0, 0, time.UTC)
 )
 
 var (

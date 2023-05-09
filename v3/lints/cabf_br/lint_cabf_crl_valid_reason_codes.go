@@ -29,7 +29,7 @@ func init() {
 			Description:   "Only the following CRLReasons MAY be present: 1, 3, 4, 5, 9.",
 			Citation:      "BRs: 7.2.2",
 			Source:        lint.CABFBaselineRequirements,
-			EffectiveDate: util.CABFBRs_SC61_CRL_Date,
+			EffectiveDate: util.CABFBRs_1_8_7_Date,
 		},
 		Lint: NewCrlHasValidReasonCode,
 	})
@@ -40,12 +40,7 @@ func NewCrlHasValidReasonCode() lint.RevocationListLintInterface {
 }
 
 func (l *crlHasValidReasonCodes) CheckApplies(c *x509.RevocationList) bool {
-	for _, c := range c.RevokedCertificates {
-		if c.ReasonCode != nil {
-			return true
-		}
-	}
-	return false
+	return len(c.RevokedCertificates) > 0
 }
 
 var validReasons = map[int]bool{

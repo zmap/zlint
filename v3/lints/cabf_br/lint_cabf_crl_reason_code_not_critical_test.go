@@ -41,6 +41,11 @@ func TestCrlReasonCodeNotCritical(t *testing.T) {
 			path: "crlWithReasonCode5.pem",
 			want: lint.Pass,
 		},
+		{
+			name: "CRL no revoked certificates",
+			path: "crlEmpty.pem",
+			want: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {

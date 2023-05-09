@@ -33,7 +33,7 @@ func TestCrlValidReasonCodes(t *testing.T) {
 		{
 			name:       "CRL with reason code 0",
 			path:       "crlWithReasonCode0.pem",
-			want:       lint.Error,
+			want:       lint.Warn,
 			wantSubStr: "SHOULD be absent instead of using the unspecified",
 		},
 		{

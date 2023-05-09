@@ -51,12 +51,7 @@ func NewCrlHasValidReasonCode() lint.RevocationListLintInterface {
 }
 
 func (l *crlHasValidReasonCode) CheckApplies(c *x509.RevocationList) bool {
-	for _, c := range c.RevokedCertificates {
-		if c.ReasonCode != nil {
-			return true
-		}
-	}
-	return false
+	return len(c.RevokedCertificates) > 0
 }
 
 func (l *crlHasValidReasonCode) Execute(c *x509.RevocationList) *lint.LintResult {
@@ -66,7 +61,7 @@ func (l *crlHasValidReasonCode) Execute(c *x509.RevocationList) *lint.LintResult
 		}
 		code := *c.ReasonCode
 		if code == 0 {
-			return &lint.LintResult{Status: lint.Error, Details: "The reason code CRL entry extension SHOULD be absent instead of using the unspecified (0) reasonCode value."}
+			return &lint.LintResult{Status: lint.Warn, Details: "The reason code CRL entry extension SHOULD be absent instead of using the unspecified (0) reasonCode value."}
 		}
 		if code == 7 || code > 10 {
 			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Reason code, %v, not included in RFC 5280 section 5.3.1", code)}
