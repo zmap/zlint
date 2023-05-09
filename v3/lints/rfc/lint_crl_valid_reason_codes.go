@@ -37,7 +37,7 @@ func init() {
 	lint.RegisterRevocationListLint(&lint.RevocationListLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_crl_has_valid_reason_code",
-			Description:   "If CRL has a reason code, it must be in 5.3.1 and not be 0.",
+			Description:   "If a CRL entry has a reason code, it MUST be in RFC5280 section 5.3.1 and SHOULD be absent instead of using unspecified (0)",
 			Citation:      "RFC 5280: 5.3.1",
 			Source:        lint.RFC5280,
 			EffectiveDate: util.RFC5280Date,
@@ -69,7 +69,7 @@ func (l *crlHasValidReasonCode) Execute(c *x509.RevocationList) *lint.LintResult
 			return &lint.LintResult{Status: lint.Error, Details: "The reason code CRL entry extension SHOULD be absent instead of using the unspecified (0) reasonCode value."}
 		}
 		if code == 7 || code > 10 {
-			return &lint.LintResult{Status: lint.Error, Details: "Reason code not included in RFC 5280: 5.3.1"}
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Reason code, %v, not included in RFC 5280 section 5.3.1", code)}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}

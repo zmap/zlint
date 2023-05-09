@@ -26,7 +26,7 @@ func init() {
 	lint.RegisterRevocationListLint(&lint.RevocationListLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_cab_crl_has_valid_reason_code",
-			Description:   "CRL Reason codes 1, 3, 4, 5, 9.",
+			Description:   "Only the following CRLReasons MAY be present: 1, 3, 4, 5, 9.",
 			Citation:      "BRs: 7.2.2",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.CABFBRs_SC61_CRL_Date,

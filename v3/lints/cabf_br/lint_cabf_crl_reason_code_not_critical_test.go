@@ -22,7 +22,7 @@ import (
  * permissions and limitations under the License.
  */
 
-func TestCrlReasonCodeNotCrit(t *testing.T) {
+func TestCrlReasonCodeNotCritical(t *testing.T) {
 	t.Parallel()
 	testCases := []struct {
 		name       string
