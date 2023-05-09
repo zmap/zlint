@@ -51,7 +51,7 @@ func TestCrlValidReasonCodes(t *testing.T) {
 			name:       "CRL with reason code 7",
 			path:       "crlWithReasonCode7.pem",
 			want:       lint.Error,
-			wantSubStr: "Reason code not included in RFC 5280",
+			wantSubStr: "Reason code, 7, not included in RFC 5280 section 5.3.1",
 		},
 	}
 
