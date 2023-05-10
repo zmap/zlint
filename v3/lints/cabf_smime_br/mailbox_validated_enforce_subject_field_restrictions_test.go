@@ -30,29 +30,39 @@ func TestMailboxValidatedEnforceSubjectFieldRestrictions(t *testing.T) {
 		ExpectedDetails string
 	}{
 		{
-			Name:           "ok - certificate with commonName",
-			InputFilename:  "mailboxValidatedLegacyWithCommonName.pem",
+			Name:           "pass - mailbox validated, legacy with commonName",
+			InputFilename:  "smime/mailboxValidatedLegacyWithCommonName.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "ok - certificate without mailbox validated policy",
-			InputFilename:  "domainValidatedWithEmailCommonName.pem",
+			Name:           "pass - mailbox validated, multipurpose with commonName",
+			InputFilename:  "smime/mailboxValidatedMultipurposeWithCommonName.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "pass - mailbox validated, strict with commonName",
+			InputFilename:  "smime/mailboxValidatedStrictWithCommonName.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "na - certificate without mailbox validated policy",
+			InputFilename:  "smime/domainValidatedWithEmailCommonName.pem",
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:           "ok - certificate with NotBefore before effective date of lint",
-			InputFilename:  "mailboxValidatedLegacyWithCommonNameMay2023.pem",
+			Name:           "ne - certificate with NotBefore before effective date of lint",
+			InputFilename:  "smime/mailboxValidatedLegacyWithCommonNameMay2023.pem",
 			ExpectedResult: lint.NE,
 		},
 		{
 			Name:            "error - certificate with countryName",
-			InputFilename:   "mailboxValidatedLegacyWithCountryName.pem",
+			InputFilename:   "smime/mailboxValidatedLegacyWithCountryName.pem",
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "subject DN contains forbidden field: subject:countryName (2.5.4.6)",
 		},
 		{
 			Name:            "error - certificate containing nonsense subject field (1.2.3.4.5.6.7.8.9.0)",
-			InputFilename:   "mailboxValidatedMultipurposeWithNonsenseSubjectField.pem",
+			InputFilename:   "smime/mailboxValidatedMultipurposeWithNonsenseSubjectField.pem",
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "subject DN contains forbidden field: 1.2.3.4.5.6.7.8.9.0",
 		},
