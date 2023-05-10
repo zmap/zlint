@@ -29,13 +29,15 @@ type mailboxValidatedEnforceSubjectFieldRestrictions struct {
 }
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_mailbox_validated_enforce_subject_field_restrictions",
-		Description:   "SMIME certificates complying to mailbox validated profiles MAY only contain commonName, serialNumber or emailAddress attributes in the Subject DN",
-		Citation:      "SMIME BRs: 7.1.4.2.3",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint: func() lint.LintInterface {
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_mailbox_validated_enforce_subject_field_restrictions",
+			Description:   "SMIME certificates complying to mailbox validated profiles MAY only contain commonName, serialNumber or emailAddress attributes in the Subject DN",
+			Citation:      "SMIME BRs: 7.1.4.2.3",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: func() lint.CertificateLintInterface {
 			return NewMailboxValidatedEnforceSubjectFieldRestrictions()
 		},
 	})
