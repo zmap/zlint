@@ -24,7 +24,7 @@ import (
 	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
-const want = `aa8663b8cf8dffa06495878e2a5467786071e61ef260a7dec78738aff8ab7bb6`
+const want = `6247a4fbe902f83e571ee5ff2e7d8443ac198db70318bbc9f6ee62f893e88a55`
 
 type NotCommittingGenTestCerts struct{}
 
