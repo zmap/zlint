@@ -52,11 +52,11 @@ func NewCertUniqueIdVersion() lint.LintInterface {
 }
 
 func (l *certUniqueIdVersion) CheckApplies(c *x509.Certificate) bool {
-	return c.IssuerUniqueId.Bytes != nil || c.SubjectUniqueId.Bytes != nil
+	return true
 }
 
 func (l *certUniqueIdVersion) Execute(c *x509.Certificate) *lint.LintResult {
-	if (c.Version) != 2 && (c.Version) != 3 {
+	if (c.IssuerUniqueId.Bytes != nil || c.SubjectUniqueId.Bytes != nil) && (c.Version) != 2 && (c.Version) != 3 {
 		return &lint.LintResult{Status: lint.Error}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
