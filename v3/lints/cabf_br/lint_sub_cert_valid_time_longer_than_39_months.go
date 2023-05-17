@@ -42,7 +42,7 @@ func (l *subCertValidTimeLongerThan39Months) CheckApplies(c *x509.Certificate) b
 }
 
 func (l *subCertValidTimeLongerThan39Months) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.NotBefore.AddDate(0, 39, 0).Before(c.NotAfter) {
+	if util.BeforeOrOn(c.NotBefore.AddDate(0, 39, 0), c.NotAfter) {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}
