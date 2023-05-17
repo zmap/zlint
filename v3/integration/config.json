@@ -340,7 +340,7 @@
       "ErrCount": 1
     },
     "e_ev_valid_time_too_long": {
-      "ErrCount": 151
+      "ErrCount": 195
     },
     "e_ext_aia_marked_critical": {},
     "e_ext_authority_key_identifier_critical": {},
@@ -573,7 +573,7 @@
     },
     "e_sub_cert_street_address_should_not_exist": {},
     "e_sub_cert_valid_time_longer_than_39_months": {
-      "ErrCount": 365
+      "ErrCount": 650
     },
     "e_sub_cert_valid_time_longer_than_825_days": {
       "ErrCount": 21
