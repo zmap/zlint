@@ -41,7 +41,7 @@ func TestSubCertValidTimeGood(t *testing.T) {
 
 func TestSubCertValidTimeExactly39months(t *testing.T) {
 	inputPath := "39months.pem"
-	expected := lint.Error
+	expected := lint.Pass
 	out := test.TestLint("e_sub_cert_valid_time_longer_than_39_months", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

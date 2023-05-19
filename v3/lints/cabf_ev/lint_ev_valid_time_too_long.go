@@ -47,7 +47,7 @@ func (l *evValidTooLong) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *evValidTooLong) Execute(c *x509.Certificate) *lint.LintResult {
-	if util.BeforeOrOn(c.NotBefore.AddDate(0, 27, 0), c.NotAfter) {
+	if c.NotBefore.AddDate(0, 27, 0).Before(c.NotAfter) {
 		return &lint.LintResult{Status: lint.Error}
 	}
 	return &lint.LintResult{Status: lint.Pass}

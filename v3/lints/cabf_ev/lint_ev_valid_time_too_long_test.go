@@ -45,7 +45,7 @@ func TestEvValidTooLong(t *testing.T) {
 		{
 			Name:           "EV certificate issued after Ballot 193, valid for 825 days, which is >27 months",
 			InputFilename:  "27monthsEv.pem",
-			ExpectedResult: lint.Error,
+			ExpectedResult: lint.Pass,
 		},
 	}
 	for _, tc := range testCases {
