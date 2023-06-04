@@ -254,6 +254,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Siemens](https://siemens.com/pki)
 * [SSL.com](https://www.ssl.com/)
+* [PKI Insights](https://www.codegic.com/pki-insights-health-monitoring-for-microsoft-ca/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
