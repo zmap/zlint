@@ -109,7 +109,7 @@ Example ZLint CLI usage:
 See `zlint -h` for all available command line options.
 
 ### Linting Certificate Revocation Lists
-No special flags are necessary when running lints against a certificate revocation list. However, the CRL in question MUST a PEM encoded ASN.1 with the `X509 CRL` PEM armor.
+No special flags are necessary when running lints against a certificate revocation list. However, the CRL in question MUST be a PEM encoded ASN.1 with the `X509 CRL` PEM armor.
 
 The following is an example of a parseable CRL PEM file.
 ```
