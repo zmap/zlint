@@ -31,7 +31,7 @@ var tldMap = map[string]GTLDPeriod{
 	"abarth": {
 		GTLD:           "abarth",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-05",
 	},
 	"abb": {
 		GTLD:           "abb",
@@ -116,7 +116,7 @@ var tldMap = map[string]GTLDPeriod{
 	"adac": {
 		GTLD:           "adac",
 		DelegationDate: "2016-01-26",
-		RemovalDate:    "",
+		RemovalDate:    "2022-11-26",
 	},
 	"ads": {
 		GTLD:           "ads",
@@ -226,7 +226,7 @@ var tldMap = map[string]GTLDPeriod{
 	"alfaromeo": {
 		GTLD:           "alfaromeo",
 		DelegationDate: "2016-08-02",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-05",
 	},
 	"alibaba": {
 		GTLD:           "alibaba",
@@ -2196,7 +2196,7 @@ var tldMap = map[string]GTLDPeriod{
 	"fiat": {
 		GTLD:           "fiat",
 		DelegationDate: "2016-08-02",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-05",
 	},
 	"fidelity": {
 		GTLD:           "fidelity",
@@ -3601,7 +3601,7 @@ var tldMap = map[string]GTLDPeriod{
 	"lancia": {
 		GTLD:           "lancia",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-05",
 	},
 	"lancome": {
 		GTLD:           "lancome",
@@ -3766,7 +3766,7 @@ var tldMap = map[string]GTLDPeriod{
 	"linde": {
 		GTLD:           "linde",
 		DelegationDate: "2015-09-16",
-		RemovalDate:    "",
+		RemovalDate:    "2023-03-17",
 	},
 	"link": {
 		GTLD:           "link",
@@ -3831,7 +3831,7 @@ var tldMap = map[string]GTLDPeriod{
 	"loft": {
 		GTLD:           "loft",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2022-12-17",
 	},
 	"lol": {
 		GTLD:           "lol",
@@ -3936,7 +3936,7 @@ var tldMap = map[string]GTLDPeriod{
 	"macys": {
 		GTLD:           "macys",
 		DelegationDate: "2016-07-12",
-		RemovalDate:    "",
+		RemovalDate:    "2023-03-07",
 	},
 	"madrid": {
 		GTLD:           "madrid",
@@ -4006,7 +4006,7 @@ var tldMap = map[string]GTLDPeriod{
 	"maserati": {
 		GTLD:           "maserati",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-05",
 	},
 	"mattel": {
 		GTLD:           "mattel",
@@ -5651,7 +5651,7 @@ var tldMap = map[string]GTLDPeriod{
 	"ses": {
 		GTLD:           "ses",
 		DelegationDate: "2016-07-09",
-		RemovalDate:    "",
+		RemovalDate:    "2022-12-16",
 	},
 	"seven": {
 		GTLD:           "seven",
@@ -7366,7 +7366,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--jlq61u9w7b": {
 		GTLD:           "xn--jlq61u9w7b",
 		DelegationDate: "2015-12-18",
-		RemovalDate:    "",
+		RemovalDate:    "2022-12-06",
 	},
 	"xn--jvr189m": {
 		GTLD:           "xn--jvr189m",
