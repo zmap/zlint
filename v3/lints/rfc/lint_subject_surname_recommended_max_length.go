@@ -48,7 +48,7 @@ func NewSubjectSurnameRecommendedMaxLength() lint.LintInterface {
 type SubjectSurnameRecommendedMaxLength struct{}
 
 func (l *SubjectSurnameRecommendedMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.Surname) > 0
 }
 
 func (l *SubjectSurnameRecommendedMaxLength) Execute(c *x509.Certificate) *lint.LintResult {

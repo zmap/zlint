@@ -46,7 +46,7 @@ func NewSubjectStreetAddressMaxLength() lint.LintInterface {
 }
 
 func (l *subjectStreetAddressMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.StreetAddress) > 0
 }
 
 func (l *subjectStreetAddressMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
