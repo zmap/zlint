@@ -15,6 +15,7 @@ package rfc
  */
 
 import (
+	"bytes"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -57,7 +58,24 @@ func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by default if not found in x509.parseCert
+	if util.IsCACert(c) && util.IsSelfSigned(c) {
+		if c.AuthorityKeyId == nil {
+			// There is one exception; where a CA distributes its public key in the form of a "self-signed"
+			// certificate, the authority key identifier MAY be omitted.
+			return &lint.LintResult{Status: lint.Pass}
+		} else if !bytes.Equal(c.AuthorityKeyId, c.SubjectKeyId) {
+			// In this case, the subject and authority key identifiers would be
+			// identical, but only the subject key identifier is needed for
+			// certification path building.
+			return &lint.LintResult{
+				Status: lint.Error,
+				Details: "self signed CA certificate has an authority key id that does " +
+					"not match the certificate's subject key id"}
+		} else {
+			return &lint.LintResult{Status: lint.Pass}
+		}
+	}
+	if c.AuthorityKeyId == nil { //will be nil by default if not found in x509.parseCert
 		return &lint.LintResult{Status: lint.Error}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
