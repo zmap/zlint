@@ -54,7 +54,7 @@ func NewSubjectEmailMaxLength() lint.LintInterface {
 }
 
 func (l *subjectEmailMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.EmailAddress) > 0
 }
 
 func (l *subjectEmailMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
