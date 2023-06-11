@@ -47,7 +47,7 @@ func NewSubjectLocalityNameMaxLength() lint.LintInterface {
 }
 
 func (l *subjectLocalityNameMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.Locality) > 0
 }
 
 func (l *subjectLocalityNameMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
