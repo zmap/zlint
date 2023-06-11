@@ -48,7 +48,7 @@ func NewSubjectPostalCodeMaxLength() lint.LintInterface {
 }
 
 func (l *subjectPostalCodeMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.PostalCode) > 0
 }
 
 func (l *subjectPostalCodeMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
