@@ -65,14 +65,13 @@ func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) *lint.LintResu
 			// certificate, the authority key identifier MAY be omitted.
 			return &lint.LintResult{Status: lint.Pass}
 		} else if !bytes.Equal(c.AuthorityKeyId, c.SubjectKeyId) {
-			// In this case, the subject and authority key identifiers would be
-			// identical, but only the subject key identifier is needed for
-			// certification path building.
+			// In this case, the subject and authority key identifiers would be identical...
 			return &lint.LintResult{
 				Status: lint.Error,
 				Details: "self signed CA certificate has an authority key id that does " +
 					"not match the certificate's subject key id"}
 		} else {
+			// ..., but only the subject key identifier is needed for certification path building.
 			return &lint.LintResult{Status: lint.Pass}
 		}
 	}
