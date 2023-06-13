@@ -61,5 +61,5 @@ func (l *basicConstCrit) Execute(c *x509.Certificate) *lint.LintResult {
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
-	return &lint.LintResult{Status: lint.Fatal}
+	return &lint.LintResult{Status: lint.Error}
 }
