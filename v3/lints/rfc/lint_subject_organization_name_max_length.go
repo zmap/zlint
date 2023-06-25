@@ -47,7 +47,7 @@ func NewSubjectOrganizationNameMaxLength() lint.LintInterface {
 }
 
 func (l *subjectOrganizationNameMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.Organization) > 0
 }
 
 func (l *subjectOrganizationNameMaxLength) Execute(c *x509.Certificate) *lint.LintResult {
