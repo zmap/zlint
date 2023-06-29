@@ -1491,7 +1491,7 @@ var tldMap = map[string]GTLDPeriod{
 	"cookingchannel": {
 		GTLD:           "cookingchannel",
 		DelegationDate: "2016-06-23",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-14",
 	},
 	"cool": {
 		GTLD:           "cool",
@@ -2331,7 +2331,7 @@ var tldMap = map[string]GTLDPeriod{
 	"foodnetwork": {
 		GTLD:           "foodnetwork",
 		DelegationDate: "2016-06-23",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-14",
 	},
 	"football": {
 		GTLD:           "football",
@@ -2876,7 +2876,7 @@ var tldMap = map[string]GTLDPeriod{
 	"hgtv": {
 		GTLD:           "hgtv",
 		DelegationDate: "2016-06-23",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-14",
 	},
 	"hiphop": {
 		GTLD:           "hiphop",
@@ -6436,7 +6436,7 @@ var tldMap = map[string]GTLDPeriod{
 	"travelchannel": {
 		GTLD:           "travelchannel",
 		DelegationDate: "2016-06-23",
-		RemovalDate:    "",
+		RemovalDate:    "2023-06-14",
 	},
 	"travelers": {
 		GTLD:           "travelers",
