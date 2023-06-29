@@ -145,4 +145,7 @@ anything = "at all"
 	if result.Status != lint.Pass {
 		t.Fatalf("expected lint to pass, got %v (%s)", result.Status, result.Details)
 	}
+	if result.LintMetadata.Name == "" {
+		t.Fatal("expected lint metadata to have a name, got empty")
+	}
 }
