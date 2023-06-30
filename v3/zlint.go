@@ -74,7 +74,7 @@ func LintRevocationList(r *x509.RevocationList) *ResultSet {
 // lints that will be run. (See lint.Registry.Filter())
 //
 // If registry is nil then the global registry of all lints is used and this
-// function is equivalent to calling LintRevocationListEx(r).
+// function is equivalent to calling LintRevocationList(r).
 func LintRevocationListEx(r *x509.RevocationList, registry lint.Registry) *ResultSet {
 	if r == nil {
 		return nil
