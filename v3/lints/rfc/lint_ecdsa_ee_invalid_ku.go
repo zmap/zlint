@@ -46,7 +46,7 @@ func NewEcdsaInvalidKU() lint.LintInterface {
 // CheckApplies returns true when the certificate is a subscriber cert using an
 // ECDSA public key algorithm.
 func (l *ecdsaInvalidKU) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && c.PublicKeyAlgorithm == x509.ECDSA
+	return util.IsSubscriberCert(c) && c.PublicKeyAlgorithm == x509.ECDSA && util.HasKeyUsageOID(c)
 }
 
 // Execute returns a Notice level lint.LintResult if the ECDSA end entity certificate
