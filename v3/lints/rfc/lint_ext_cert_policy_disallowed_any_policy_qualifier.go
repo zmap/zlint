@@ -24,12 +24,15 @@ import (
 
 type unrecommendedQualifier struct{}
 
-// Holds a certificate policy:
-//
-//PolicyInformation ::= SEQUENCE {
-//	policyIdentifier   CertPolicyId,
-//	policyQualifiers   SEQUENCE SIZE (1..MAX) OF
-//	PolicyQualifierInfo OPTIONAL }
+/*
+
+Holds a certificate policy:
+
+PolicyInformation ::= SEQUENCE {
+	policyIdentifier   CertPolicyId,
+	policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
+
+*/
 type policyInformation struct {
 	policyIdentifier      asn1.ObjectIdentifier
 	policyQualifiersBytes asn1.RawValue
