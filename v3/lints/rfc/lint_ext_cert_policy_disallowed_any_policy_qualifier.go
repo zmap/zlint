@@ -15,6 +15,7 @@ package rfc
  */
 
 import (
+	"errors"
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -22,6 +23,17 @@ import (
 )
 
 type unrecommendedQualifier struct{}
+
+// Holds a certificate policy:
+//
+//PolicyInformation ::= SEQUENCE {
+//	policyIdentifier   CertPolicyId,
+//	policyQualifiers   SEQUENCE SIZE (1..MAX) OF
+//	PolicyQualifierInfo OPTIONAL }
+type policyInformation struct {
+	policyIdentifier      asn1.ObjectIdentifier
+	policyQualifiersBytes asn1.RawValue
+}
 
 /*******************************************************************
 RFC 5280: 4.2.1.4
@@ -66,54 +78,27 @@ func (l *unrecommendedQualifier) CheckApplies(c *x509.Certificate) bool {
 
 func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *lint.LintResult {
 
-	extVal := util.GetExtFromCert(c, util.CertPolicyOID).Value
+	var err, certificatePolicies = getCertificatePolicies(c)
 
-	// adjusted code taken from v3/util/oid.go GetMappedPolicies, see comments there
-	var certificatePoliciesSeq, policyInformationSeq asn1.RawValue
-
-	empty, err := asn1.Unmarshal(extVal, &certificatePoliciesSeq)
-
-	if err != nil || len(empty) != 0 || certificatePoliciesSeq.Class != 0 || certificatePoliciesSeq.Tag != 16 || !certificatePoliciesSeq.IsCompound {
-		return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal certificatePolicies sequence."}
+	if err != nil {
+		return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
 	}
 
-	// iterate over  certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation
-	for policyInformationSeqProcessed := false; !policyInformationSeqProcessed; {
+	for _, policyInformation := range certificatePolicies {
 
-		// these bytes belong to the next PolicyInformation
-		certificatePoliciesSeq.Bytes, err = asn1.Unmarshal(certificatePoliciesSeq.Bytes, &policyInformationSeq)
-		if err != nil || policyInformationSeq.Class != 0 || policyInformationSeq.Tag != 16 || !policyInformationSeq.IsCompound {
-			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policyInformation sequence."}
-		}
-
-		if len(certificatePoliciesSeq.Bytes) == 0 { // no further PolicyInformation exists
-			policyInformationSeqProcessed = true
-		}
-
-		//PolicyInformation ::= SEQUENCE {
-		//	policyIdentifier   CertPolicyId,
-		//	policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
-
-		var certPolicyId asn1.ObjectIdentifier
-		var policyQualifiersBytes asn1.RawContent
-		policyQualifiersBytes, err = asn1.Unmarshal(policyInformationSeq.Bytes, &certPolicyId)
-		if err != nil {
-			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal certPolicyId."}
-		}
-
-		if !certPolicyId.Equal(util.AnyPolicyOID) { // if the policyIdentifier is not anyPolicy do not examine further
+		if !policyInformation.policyIdentifier.Equal(util.AnyPolicyOID) { // if the policyIdentifier is not anyPolicy do not examine further
 			continue
 		}
 
-		if len(policyQualifiersBytes) == 0 { // this policy information does not have any policyQualifiers
+		if len(policyInformation.policyQualifiersBytes.Bytes) == 0 { // this policy information does not have any policyQualifiers
 			continue
 		}
 
 		var policyQualifiersSeq, policyQualifierInfoSeq asn1.RawValue
 
-		empty, err := asn1.Unmarshal(policyQualifiersBytes, &policyQualifiersSeq)
+		empty, err := asn1.Unmarshal(policyInformation.policyQualifiersBytes.Bytes, &policyQualifiersSeq)
 
-		if err != nil || len(empty) != 0 || policyQualifiersSeq.Class != 0 || policyQualifiersSeq.Tag != 16 || !certificatePoliciesSeq.IsCompound {
+		if err != nil || len(empty) != 0 || policyQualifiersSeq.Class != 0 || policyQualifiersSeq.Tag != 16 || !policyQualifiersSeq.IsCompound {
 			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policyQualifiers sequence."}
 		}
 
@@ -139,5 +124,51 @@ func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *lint.LintResult {
 			}
 		}
 	}
+
 	return &lint.LintResult{Status: lint.Pass}
+}
+
+func getCertificatePolicies(c *x509.Certificate) (error, []policyInformation) {
+
+	extVal := util.GetExtFromCert(c, util.CertPolicyOID).Value
+
+	// adjusted code taken from v3/util/oid.go GetMappedPolicies, see comments there
+	var certificatePoliciesSeq, policyInformationSeq asn1.RawValue
+
+	empty, err := asn1.Unmarshal(extVal, &certificatePoliciesSeq)
+
+	if err != nil || len(empty) != 0 || certificatePoliciesSeq.Class != 0 || certificatePoliciesSeq.Tag != 16 || !certificatePoliciesSeq.IsCompound {
+		return errors.New("policyExtensions: Could not unmarshal certificatePolicies sequence."), nil
+	}
+
+	var certificatePolicies []policyInformation
+
+	// iterate over  certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation
+	for policyInformationSeqProcessed := false; !policyInformationSeqProcessed; {
+
+		// these bytes belong to the next PolicyInformation
+		certificatePoliciesSeq.Bytes, err = asn1.Unmarshal(certificatePoliciesSeq.Bytes, &policyInformationSeq)
+		if err != nil || policyInformationSeq.Class != 0 || policyInformationSeq.Tag != 16 || !policyInformationSeq.IsCompound {
+			return errors.New("policyExtensions: Could not unmarshal policyInformation sequence."), nil
+		}
+
+		if len(certificatePoliciesSeq.Bytes) == 0 { // no further PolicyInformation exists
+			policyInformationSeqProcessed = true
+		}
+
+		//PolicyInformation ::= SEQUENCE {
+		//	policyIdentifier   CertPolicyId,
+		//	policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
+
+		var certPolicyId asn1.ObjectIdentifier
+		var policyQualifiers asn1.RawValue
+		policyQualifiers.Bytes, err = asn1.Unmarshal(policyInformationSeq.Bytes, &certPolicyId)
+		if err != nil {
+			return errors.New("policyExtensions: Could not unmarshal certPolicyId."), nil
+		}
+
+		information := policyInformation{certPolicyId, policyQualifiers}
+		certificatePolicies = append(certificatePolicies, information)
+	}
+	return nil, certificatePolicies
 }
