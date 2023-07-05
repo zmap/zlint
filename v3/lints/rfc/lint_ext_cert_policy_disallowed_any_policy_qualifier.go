@@ -16,6 +16,7 @@ package rfc
 
 import (
 	"errors"
+
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -24,15 +25,6 @@ import (
 
 type unrecommendedQualifier struct{}
 
-/*
-
-Holds a certificate policy:
-
-PolicyInformation ::= SEQUENCE {
-	policyIdentifier   CertPolicyId,
-	policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
-
-*/
 type policyInformation struct {
 	policyIdentifier      asn1.ObjectIdentifier
 	policyQualifiersBytes asn1.RawValue
