@@ -15,6 +15,7 @@ package rfc
  */
 
 import (
+	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -49,13 +50,91 @@ func NewUnrecommendedQualifier() lint.LintInterface {
 }
 
 func (l *unrecommendedQualifier) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.CertPolicyOID)
+
+	// TODO? extract to util method: HasAnyPolicyOID(c)
+	if !util.IsExtInCert(c, util.CertPolicyOID) {
+		return false
+	}
+
+	for _, policyIds := range c.PolicyIdentifiers {
+		if policyIds.Equal(util.AnyPolicyOID) {
+			return true
+		}
+	}
+	return false
 }
 
 func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *lint.LintResult {
-	for _, firstLvl := range c.QualifierId {
-		for _, qualifierId := range firstLvl {
-			if !qualifierId.Equal(util.CpsOID) && !qualifierId.Equal(util.UserNoticeOID) {
+
+	extVal := util.GetExtFromCert(c, util.CertPolicyOID).Value
+
+	// adjusted code taken from v3/util/oid.go GetMappedPolicies, see comments there
+	var certificatePoliciesSeq, policyInformationSeq asn1.RawValue
+
+	empty, err := asn1.Unmarshal(extVal, &certificatePoliciesSeq)
+
+	if err != nil || len(empty) != 0 || certificatePoliciesSeq.Class != 0 || certificatePoliciesSeq.Tag != 16 || !certificatePoliciesSeq.IsCompound {
+		return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal certificatePolicies sequence."}
+	}
+
+	// iterate over  certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation
+	for policyInformationSeqProcessed := false; !policyInformationSeqProcessed; {
+
+		// these bytes belong to the next PolicyInformation
+		certificatePoliciesSeq.Bytes, err = asn1.Unmarshal(certificatePoliciesSeq.Bytes, &policyInformationSeq)
+		if err != nil || policyInformationSeq.Class != 0 || policyInformationSeq.Tag != 16 || !policyInformationSeq.IsCompound {
+			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policyInformation sequence."}
+		}
+
+		if len(certificatePoliciesSeq.Bytes) == 0 { // no further PolicyInformation exists
+			policyInformationSeqProcessed = true
+		}
+
+		//PolicyInformation ::= SEQUENCE {
+		//	policyIdentifier   CertPolicyId,
+		//	policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
+
+		var certPolicyId asn1.ObjectIdentifier
+		var policyQualifiersBytes asn1.RawContent
+		policyQualifiersBytes, err = asn1.Unmarshal(policyInformationSeq.Bytes, &certPolicyId)
+		if err != nil {
+			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal certPolicyId."}
+		}
+
+		if !certPolicyId.Equal(util.AnyPolicyOID) { // if the policyIdentifier is not anyPolicy do not examine further
+			continue
+		}
+
+		if len(policyQualifiersBytes) == 0 { // this policy information does not have any policyQualifiers
+			continue
+		}
+
+		var policyQualifiersSeq, policyQualifierInfoSeq asn1.RawValue
+
+		empty, err := asn1.Unmarshal(policyQualifiersBytes, &policyQualifiersSeq)
+
+		if err != nil || len(empty) != 0 || policyQualifiersSeq.Class != 0 || policyQualifiersSeq.Tag != 16 || !certificatePoliciesSeq.IsCompound {
+			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policyQualifiers sequence."}
+		}
+
+		//iterate over policyQualifiers ... SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
+		for policyQualifierInfoSeqProcessed := false; !policyQualifierInfoSeqProcessed; {
+			// these bytes belong to the next PolicyQualifierInfo
+			policyQualifiersSeq.Bytes, err = asn1.Unmarshal(policyQualifiersSeq.Bytes, &policyQualifierInfoSeq)
+			if err != nil || policyQualifierInfoSeq.Class != 0 || policyQualifierInfoSeq.Tag != 16 || !policyQualifierInfoSeq.IsCompound {
+				return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policy qualifiers"}
+			}
+			if len(policyQualifiersSeq.Bytes) == 0 { // no further PolicyQualifierInfo exists
+				policyQualifierInfoSeqProcessed = true
+			}
+
+			var policyQualifierId asn1.ObjectIdentifier
+			_, err = asn1.Unmarshal(policyQualifierInfoSeq.Bytes, &policyQualifierId)
+			if err != nil {
+				return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policyQualifierId."}
+			}
+
+			if !policyQualifierId.Equal(util.CpsOID) && !policyQualifierId.Equal(util.UserNoticeOID) {
 				return &lint.LintResult{Status: lint.Error}
 			}
 		}
