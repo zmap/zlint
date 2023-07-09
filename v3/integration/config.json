@@ -348,7 +348,7 @@
       "ErrCount": 37
     },
     "e_ext_authority_key_identifier_no_key_identifier": {
-      "ErrCount": 65
+      "ErrCount": 66
     },
     "e_ext_cert_policy_disallowed_any_policy_qualifier": {},
     "e_ext_cert_policy_duplicate": {},
