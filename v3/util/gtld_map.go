@@ -2991,7 +2991,7 @@ var tldMap = map[string]GTLDPeriod{
 	"hoteles": {
 		GTLD:           "hoteles",
 		DelegationDate: "2015-06-26",
-		RemovalDate:    "",
+		RemovalDate:    "2023-07-07",
 	},
 	"hotels": {
 		GTLD:           "hotels",
@@ -4831,7 +4831,7 @@ var tldMap = map[string]GTLDPeriod{
 	"passagens": {
 		GTLD:           "passagens",
 		DelegationDate: "2016-03-02",
-		RemovalDate:    "",
+		RemovalDate:    "2023-07-07",
 	},
 	"pay": {
 		GTLD:           "pay",
@@ -6286,7 +6286,7 @@ var tldMap = map[string]GTLDPeriod{
 	"tiffany": {
 		GTLD:           "tiffany",
 		DelegationDate: "2016-01-21",
-		RemovalDate:    "",
+		RemovalDate:    "2023-07-25",
 	},
 	"tips": {
 		GTLD:           "tips",
@@ -6761,7 +6761,7 @@ var tldMap = map[string]GTLDPeriod{
 	"vuelos": {
 		GTLD:           "vuelos",
 		DelegationDate: "2016-03-02",
-		RemovalDate:    "",
+		RemovalDate:    "2023-07-07",
 	},
 	"wales": {
 		GTLD:           "wales",
