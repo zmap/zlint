@@ -64,7 +64,7 @@ var (
 type LintResult struct {
 	Status       LintStatus   `json:"result"`
 	Details      string       `json:"details,omitempty"`
-	LintMetadata LintMetadata `json:"metadata"`
+	LintMetadata LintMetadata `json:"-"`
 }
 
 // MarshalJSON implements the json.Marshaler interface.
