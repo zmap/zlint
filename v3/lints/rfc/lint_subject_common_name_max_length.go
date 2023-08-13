@@ -47,7 +47,7 @@ func NewSubjectCommonNameMaxLength() lint.LintInterface {
 }
 
 func (l *subjectCommonNameMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.CommonName) > 0
 }
 
 func (l *subjectCommonNameMaxLength) Execute(c *x509.Certificate) *lint.LintResult {

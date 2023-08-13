@@ -47,7 +47,7 @@ func NewSubjectStateNameMaxLength() lint.LintInterface {
 }
 
 func (l *subjectStateNameMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.Province) > 0
 }
 
 func (l *subjectStateNameMaxLength) Execute(c *x509.Certificate) *lint.LintResult {

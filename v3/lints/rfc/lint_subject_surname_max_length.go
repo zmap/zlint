@@ -65,7 +65,7 @@ func NewSubjectSurnameMaxLength() lint.LintInterface {
 }
 
 func (l *subjectSurnameMaxLength) CheckApplies(c *x509.Certificate) bool {
-	return true
+	return len(c.Subject.Surname) > 0
 }
 
 func (l *subjectSurnameMaxLength) Execute(c *x509.Certificate) *lint.LintResult {

@@ -36,6 +36,11 @@ func TestECDSAInvalidKU(t *testing.T) {
 			expectedStatus:  lint.Notice,
 			expectedDetails: "Certificate had unexpected key usage(s): KeyUsageCRLSign, KeyUsageCertSign",
 		},
+		{
+			name:           "ecdsa ee cert, without key usage",
+			filename:       "CNWithoutSANSeptember2021.pem",
+			expectedStatus: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {
