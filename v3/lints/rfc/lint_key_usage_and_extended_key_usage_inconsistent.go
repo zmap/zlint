@@ -64,6 +64,8 @@ func (l *KUAndEKUInconsistent) Execute(c *x509.Certificate) *lint.LintResult {
 //	If multiple purposes are indicated the application need not recognize all purposes
 //	indicated, as long as the intended purpose is present.
 func (l *KUAndEKUInconsistent) multiPurpose(c *x509.Certificate) *lint.LintResult {
+	// Create a map with each KeyUsage combination that is authorized for the
+	// included extKeyUsage(es).
 	var mp = map[x509.KeyUsage]bool{}
 	for _, extKeyUsage := range c.ExtKeyUsage {
 		var i int
@@ -71,7 +73,10 @@ func (l *KUAndEKUInconsistent) multiPurpose(c *x509.Certificate) *lint.LintResul
 			return &lint.LintResult{Status: lint.Pass}
 		}
 		for ku := range eku[extKeyUsage] {
+			// There is nothing to merge for the first EKU.
 			if i > 0 {
+				// We could see this EKU combined with any other EKU so
+				// create that possibility.
 				for mpku := range mp {
 					mp[mpku|ku] = true
 				}
