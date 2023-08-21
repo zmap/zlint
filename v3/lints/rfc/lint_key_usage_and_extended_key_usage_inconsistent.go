@@ -16,6 +16,7 @@ package rfc
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -81,9 +82,15 @@ func (l *KUAndEKUInconsistent) multiPurpose(c *x509.Certificate) *lint.LintResul
 		}
 	}
 	if !mp[c.KeyUsage] {
+		// Sort the included KeyUsage strings for consistent error messages
+		// The order does not matter for this lint, but the consistency makes
+		// it easier to identify common errors.
+		keyUsage := util.GetKeyUsageStrings(c.KeyUsage)
+		sort.Strings(keyUsage)
+
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: fmt.Sprintf("KeyUsage %v (%08b) inconsistent with multiple purpose ExtKeyUsage %v", util.GetKeyUsageStrings(c.KeyUsage), c.KeyUsage, util.GetEKUStrings(c.ExtKeyUsage)),
+			Details: fmt.Sprintf("KeyUsage %v (%08b) inconsistent with multiple purpose ExtKeyUsage %v", keyUsage, c.KeyUsage, util.GetEKUStrings(c.ExtKeyUsage)),
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
