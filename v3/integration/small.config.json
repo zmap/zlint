@@ -153,7 +153,7 @@
     "e_issuer_dn_country_not_printable_string": {},
     "e_issuer_field_empty": {},
     "e_key_usage_and_extended_key_usage_inconsistent": {
-      "ErrCount": 18858
+      "ErrCount": 1020
     },
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 125
