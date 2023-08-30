@@ -57,9 +57,9 @@ func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by default if not found in x509.parseCert
-		return &lint.LintResult{Status: lint.Error}
-	} else {
+	if c.AuthorityKeyId != nil || util.IsCACert(c) && util.IsSelfSigned(c) {
 		return &lint.LintResult{Status: lint.Pass}
+	} else {
+		return &lint.LintResult{Status: lint.Error}
 	}
 }
