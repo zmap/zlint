@@ -46,7 +46,7 @@ func NewSubCertBasicConstCrit() lint.LintInterface {
 }
 
 func (l *subCertBasicConstCrit) CheckApplies(c *x509.Certificate) bool {
-	return !c.IsCA && util.IsExtInCert(c, util.BasicConstOID)
+	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.BasicConstOID)
 }
 
 func (l *subCertBasicConstCrit) Execute(c *x509.Certificate) *lint.LintResult {
