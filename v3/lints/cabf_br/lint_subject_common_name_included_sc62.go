@@ -43,7 +43,7 @@ func NewCommonNamesSC62() lint.LintInterface {
 }
 
 func (l *commonNamesSC62) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCACert(c)
+	return util.IsSubscriberCert(c)
 }
 
 func (l *commonNamesSC62) Execute(c *x509.Certificate) *lint.LintResult {
