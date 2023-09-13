@@ -22,7 +22,7 @@ import (
 )
 
 func TestCNSC62(t *testing.T) {
-	inputPath := "commonNamesURL.pem"
+	inputPath := "commonNameExistsSC62.pem"
 	expected := lint.Warn
 	out := test.TestLint("w_subject_common_name_included", inputPath)
 	if out.Status != expected {
@@ -31,7 +31,7 @@ func TestCNSC62(t *testing.T) {
 }
 
 func TestNoCNSC62(t *testing.T) {
-	inputPath := "commonNamesGood.pem"
+	inputPath := "commonNameGoodSC62.pem"
 	expected := lint.Pass
 	out := test.TestLint("w_subject_common_name_included", inputPath)
 	if out.Status != expected {

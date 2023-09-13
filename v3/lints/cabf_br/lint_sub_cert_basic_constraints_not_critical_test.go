@@ -22,7 +22,7 @@ import (
 )
 
 func TestBasicConstNotCrit(t *testing.T) {
-	inputPath := "dnsNamesNFKC.pem"
+	inputPath := "basicConstraintsNotCriticalSC62.pem"
 	expected := lint.Error
 	out := test.TestLint("e_sub_cert_basic_constraints_not_critical", inputPath)
 	if out.Status != expected {
@@ -31,7 +31,7 @@ func TestBasicConstNotCrit(t *testing.T) {
 }
 
 func TestBasicConstCrit(t *testing.T) {
-	inputPath := "dnsNamesNotNFKC.pem"
+	inputPath := "basicConstraintsCriticalSC62.pem"
 	expected := lint.Pass
 	out := test.TestLint("e_sub_cert_basic_constraints_not_critical", inputPath)
 	if out.Status != expected {
