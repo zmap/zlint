@@ -54,7 +54,7 @@ func (l *subCertBasicConstCrit) Execute(c *x509.Certificate) *lint.LintResult {
 		if e.Critical {
 			return &lint.LintResult{Status: lint.Pass}
 		} else {
-			return &lint.LintResult{Status: lint.Error, Details: "Basic Constraints extension is present and marked as non-critical"}
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Basic Constraints extension is present (%v) and marked as non-critical", e.Id)}
 		}
 	}
 	return &lint.LintResult{Status: lint.Fatal, Details: "Error processing Basic Constraints extension"}
