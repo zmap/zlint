@@ -117,3 +117,15 @@ func CommonNameIsIP(cert *x509.Certificate) bool {
 		return true
 	}
 }
+
+func AllLabelsSatisfyPredicate(dns string, labelPredicate func(string) bool) bool {
+	labels := strings.Split(dns, ".")
+
+	for _, label := range labels {
+		if !labelPredicate(label) {
+			return false
+		}
+	}
+
+	return true
+}
