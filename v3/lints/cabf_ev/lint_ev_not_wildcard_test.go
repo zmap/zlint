@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -28,11 +28,13 @@ func TestSmoke(t *testing.T) {
 		"evSubscriberWildcardOnion.pem": lint.Pass,
 	}
 	for file, want := range tests {
-		t.Run(file, func(t *testing.T) {
+		f := file
+		w := want
+		t.Run(f, func(t *testing.T) {
 			t.Parallel()
-			got := test.TestLint("e_ev_not_wildcard", file).Status
-			if got != want {
-				t.Errorf("want %s, got %s", want, got)
+			got := test.TestLint("e_ev_not_wildcard", f).Status
+			if got != w {
+				t.Errorf("want %s, got %s", w, got)
 			}
 		})
 	}

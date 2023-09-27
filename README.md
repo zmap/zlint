@@ -101,13 +101,30 @@ Example ZLint CLI usage:
 	zlint -exampleConfig
 
 	echo "Lint mycert.pem using a custom configuration for any configurable lints"
-	zlint -config configFile.toml mycert.pemr
+	zlint -config configFile.toml mycert.pem
 
 	echo "List available lint profiles. A profile is a pre-defined collection of lints."
 	zlint -list-profiles
 
 See `zlint -h` for all available command line options.
 
+### Linting Certificate Revocation Lists
+No special flags are necessary when running lints against a certificate revocation list. However, the CRL in question MUST be a PEM encoded ASN.1 with the `X509 CRL` PEM armor.
+
+The following is an example of a parseable CRL PEM file.
+```
+-----BEGIN X509 CRL-----
+MIIBnjCBhwIBATANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDEw1BbWlyIHdhcyBI
+ZXJlFw0yMzAzMTMwNTUyNTVaFw0yMzAzMTQwNTUyNTVaoDswOTArBgNVHSMEJDAi
+gCAywvCJz28KsE/6Wf9E1nuiihBFWlUyq7X/RDgn5SllIDAKBgNVHRQEAwIBATAN
+BgkqhkiG9w0BAQsFAAOCAQEAakioBhLs31svWHGmolDhUg6O1daN6zXSAz/avgzl
+38aTKfRSNQ+vM7qgrvCoRojnamziJgXe1hz+/dc8H0/+WEBwVgp1rBzr8f25dSZC
+lXBHT1cNI5RL+wU0pFMouUiwWqwUg8o9iGYkqvhuko4AQIcpAoBuf0OggjCuj48r
+FX7UN7Kz4pc/4ufengKGkf7EeEQffY3zlS0DAtWv+exoQ6Dt+otDr0PbINJZg+46
+TJ/+0w6RsLGoe4Sh/PYPfaCngMyezENUgJgR1+vF6hbVUweeOB+4nFRNxvHMup0G
+GEA4yfzQtHWL8rizWUCyuqXEMPZLzyJT0rv5cLgoOvs+8Q==
+-----END X509 CRL-----
+```
 
 Library Usage
 -------------
@@ -237,6 +254,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
 * [Siemens](https://siemens.com/pki)
 * [SSL.com](https://www.ssl.com/)
+* [PKI Insights](https://www.codegic.com/pki-insights-health-monitoring-for-microsoft-ca/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.

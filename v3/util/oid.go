@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -48,12 +48,16 @@ var (
 	SubjectDirAttrOID       = asn1.ObjectIdentifier{2, 5, 29, 9}                      // Subject Directory Attributes
 	SubjectInfoAccessOID    = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}       // Subject Info Access Syntax
 	SubjectKeyIdentityOID   = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
+	ReasonCodeOID           = asn1.ObjectIdentifier{2, 5, 29, 21}                     // CRL Reason Code
 	// CA/B reserved policies
-	BRDomainValidatedOID                = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1} // CA/B BR Domain-Validated
-	BROrganizationValidatedOID          = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2} // CA/B BR Organization-Validated
-	BRIndividualValidatedOID            = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3} // CA/B BR Individual-Validated
-	BRTorServiceDescriptor              = asn1.ObjectIdentifier{2, 23, 140, 1, 31}   // CA/B BR Tor Service Descriptor
-	CabfExtensionOrganizationIdentifier = asn1.ObjectIdentifier{2, 23, 140, 3, 1}    // CA/B EV 9.8.2 cabfOrganizationIdentifier
+	BRDomainValidatedOID                   = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1}    // CA/B BR Domain-Validated
+	BROrganizationValidatedOID             = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2}    // CA/B BR Organization-Validated
+	BRIndividualValidatedOID               = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3}    // CA/B BR Individual-Validated
+	BRTorServiceDescriptor                 = asn1.ObjectIdentifier{2, 23, 140, 1, 31}      // CA/B BR Tor Service Descriptor
+	CabfExtensionOrganizationIdentifier    = asn1.ObjectIdentifier{2, 23, 140, 3, 1}       // CA/B EV 9.8.2 cabfOrganizationIdentifier
+	SMIMEBRMailboxValidatedLegacyOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 1} // CA/B SMIME BR Mailbox Validated, Legacy
+	SMIMEBRMailboxValidatedMultipurposeOID = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 2} // CA/B SMIME BR Mailbox Validated, Multipurpose
+	SMIMEBRMailboxValidatedStrictOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 3} // CA/B SMIME BR Mailbox Validated, Strict
 	//X.500 attribute types
 	CommonNameOID             = asn1.ObjectIdentifier{2, 5, 4, 3}
 	SurnameOID                = asn1.ObjectIdentifier{2, 5, 4, 4}
@@ -141,7 +145,7 @@ func TypeInName(name *pkix.Name, oid asn1.ObjectIdentifier) bool {
 	return false
 }
 
-//helper function to parse policyMapping extensions, returns slices of CertPolicyIds separated by domain
+// helper function to parse policyMapping extensions, returns slices of CertPolicyIds separated by domain
 func GetMappedPolicies(polMap *pkix.Extension) ([][2]asn1.ObjectIdentifier, error) {
 	if polMap == nil {
 		return nil, errors.New("policyMap: null pointer")

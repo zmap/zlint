@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -22,6 +22,7 @@ import (
 	_ "github.com/zmap/zlint/v3/lints/apple"
 	_ "github.com/zmap/zlint/v3/lints/cabf_br"
 	_ "github.com/zmap/zlint/v3/lints/cabf_ev"
+	_ "github.com/zmap/zlint/v3/lints/cabf_smime_br"
 	_ "github.com/zmap/zlint/v3/lints/community"
 	_ "github.com/zmap/zlint/v3/lints/etsi"
 	_ "github.com/zmap/zlint/v3/lints/mozilla"
@@ -45,13 +46,14 @@ func TestLintsInAllProfilesExist(t *testing.T) {
 // lint source in the future that we don't miss importing it into this test file.
 func TestNotMissingAnyLintSources(t *testing.T) {
 	expected := map[string]bool{
-		"apple":     true,
-		"cabf_br":   true,
-		"cabf_ev":   true,
-		"community": true,
-		"etsi":      true,
-		"mozilla":   true,
-		"rfc":       true,
+		"apple":         true,
+		"cabf_br":       true,
+		"cabf_ev":       true,
+		"cabf_smime_br": true,
+		"community":     true,
+		"etsi":          true,
+		"mozilla":       true,
+		"rfc":           true,
 	}
 	dir, err := ioutil.ReadDir("../lints")
 	if err != nil {

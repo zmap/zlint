@@ -1,7 +1,7 @@
 package rfc
 
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -57,9 +57,9 @@ func (l *authorityKeyIdNoKeyIdField) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *authorityKeyIdNoKeyIdField) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.AuthorityKeyId == nil && !util.IsSelfSigned(c) { //will be nil by default if not found in x509.parseCert
-		return &lint.LintResult{Status: lint.Error}
-	} else {
+	if c.AuthorityKeyId != nil || util.IsCACert(c) && util.IsSelfSigned(c) {
 		return &lint.LintResult{Status: lint.Pass}
+	} else {
+		return &lint.LintResult{Status: lint.Error}
 	}
 }

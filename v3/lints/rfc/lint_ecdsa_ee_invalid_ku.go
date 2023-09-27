@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -46,7 +46,7 @@ func NewEcdsaInvalidKU() lint.LintInterface {
 // CheckApplies returns true when the certificate is a subscriber cert using an
 // ECDSA public key algorithm.
 func (l *ecdsaInvalidKU) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && c.PublicKeyAlgorithm == x509.ECDSA
+	return util.IsSubscriberCert(c) && c.PublicKeyAlgorithm == x509.ECDSA && util.HasKeyUsageOID(c)
 }
 
 // Execute returns a Notice level lint.LintResult if the ECDSA end entity certificate

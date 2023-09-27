@@ -1,7 +1,7 @@
 package rfc
 
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -37,7 +37,7 @@ The subject field identifies the entity associated with the public
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_ca_subject_field_empty",
-		Description:   "CA Certificates subject field MUST not be empty and MUST have a non-empty distinguished name",
+		Description:   "The subject field of a CA certificate MUST have a non-empty distinguished name",
 		Citation:      "RFC 5280: 4.1.2.6",
 		Source:        lint.RFC5280,
 		EffectiveDate: util.RFC2459Date,

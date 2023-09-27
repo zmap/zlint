@@ -1,7 +1,7 @@
 package lint
 
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -23,27 +23,26 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
-func TestAllLintsHaveNameDescriptionSource(t *testing.T) {
-	for _, name := range GlobalRegistry().Names() {
-		lint := GlobalRegistry().ByName(name)
-		if lint.Name == "" {
-			t.Errorf("lint %s has empty name", name)
+func TestAllLintsHaveValidMeta(t *testing.T) {
+	checkMeta := func(meta LintMetadata) {
+		if meta.Name == "" {
+			t.Errorf("lint %s has empty name", meta.Name)
 		}
-		if lint.Description == "" {
-			t.Errorf("lint %s has empty description", name)
+		if meta.Description == "" {
+			t.Errorf("lint %s has empty description", meta.Name)
 		}
-		if lint.Citation == "" {
-			t.Errorf("lint %s has empty citation", name)
+		if meta.Citation == "" {
+			t.Errorf("lint %s has empty citation", meta.Name)
+		}
+		if meta.Source == UnknownLintSource {
+			t.Errorf("lint %s has unknown source", meta.Name)
 		}
 	}
-}
-
-func TestAllLintsHaveSource(t *testing.T) {
-	for _, name := range globalRegistry.Names() {
-		lint := GlobalRegistry().ByName(name)
-		if lint.Source == UnknownLintSource {
-			t.Errorf("lint %s has unknown source", name)
-		}
+	for _, lint := range globalRegistry.certificateLints.lints {
+		checkMeta(lint.LintMetadata)
+	}
+	for _, lint := range globalRegistry.revocationListLints.lints {
+		checkMeta(lint.LintMetadata)
 	}
 }
 
@@ -65,6 +64,16 @@ func (m mockLint) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (m mockLint) Execute(c *x509.Certificate) *LintResult {
+	return nil
+}
+
+type mockRevocationListLint struct{}
+
+func (m mockRevocationListLint) CheckApplies(c *x509.RevocationList) bool {
+	return true
+}
+
+func (m mockRevocationListLint) Execute(c *x509.RevocationList) *LintResult {
 	return nil
 }
 
@@ -150,6 +159,117 @@ func TestRegister(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestRegistryLookupEngine(t *testing.T) {
+	expectedNames := []string{
+		"A-mockCertificateLint",
+		"B-mockLint",
+		"C-mockRevocationListLint",
+	}
+
+	expectedSources := []LintSource{
+		Community,
+		RFC3279,
+		RFC8813,
+	}
+
+	egCertificateLint := &CertificateLint{
+		LintMetadata: LintMetadata{
+			Name:   "A-mockCertificateLint",
+			Source: Community,
+		},
+		Lint: func() CertificateLintInterface { return &mockLint{} },
+	}
+
+	egLint := &Lint{
+		Name:   "B-mockLint",
+		Lint:   func() LintInterface { return &mockLint{} },
+		Source: RFC8813, // arbitrary value for testing
+	}
+
+	egRevocationListLint := &RevocationListLint{
+		LintMetadata: LintMetadata{
+			Name:   "C-mockRevocationListLint",
+			Source: RFC3279, // arbitrary value for testing
+		},
+		Lint: func() RevocationListLintInterface { return &mockRevocationListLint{} },
+	}
+
+	registry := NewRegistry()
+	if err := registry.register(egLint); err != nil {
+		t.Fatalf("registry.register failed: %v", err)
+	}
+	if err := registry.registerCertificateLint(egCertificateLint); err != nil {
+		t.Fatalf("registry.registerCertificateLint failed: %v", err)
+	}
+	if err := registry.registerRevocationListLint(egRevocationListLint); err != nil {
+		t.Fatalf("registry.registerRevocationListLint failed: %v", err)
+	}
+	t.Run("lint names are correct and sorted", func(t *testing.T) {
+		if !reflect.DeepEqual(registry.Names(), expectedNames) {
+			t.Fatalf("expected lint names: %v, got: %v", registry.Names(), expectedNames)
+		}
+	})
+
+	t.Run("sources are valid", func(t *testing.T) {
+		sources := registry.Sources()
+		sort.Sort(sources)
+		for i, source := range sources {
+			if source != expectedSources[i] {
+				t.Fatalf("expected source names: %v, got: %v", sources, expectedSources)
+			}
+		}
+	})
+
+	t.Run("stores contain correct lints", func(t *testing.T) {
+		testCases := []struct {
+			name                string
+			deprecatedStore     bool
+			certificateStore    bool
+			revocationListStore bool
+		}{
+			{
+				name:                "A-mockCertificateLint",
+				deprecatedStore:     true,
+				certificateStore:    true,
+				revocationListStore: false,
+			},
+			{
+				name:                "B-mockLint",
+				deprecatedStore:     true,
+				certificateStore:    true,
+				revocationListStore: false,
+			},
+			{
+				name:                "C-mockRevocationListLint",
+				deprecatedStore:     false,
+				certificateStore:    false,
+				revocationListStore: true,
+			},
+		}
+
+		for _, tc := range testCases {
+			{
+				lint := registry.ByName(tc.name)
+				if (lint != nil) != tc.deprecatedStore {
+					t.Fatalf("expected lint %s to be %t (true = present, false = absent) in deprecated store", tc.name, tc.deprecatedStore)
+				}
+			}
+			{
+				lint := registry.CertificateLints().ByName(tc.name)
+				if (lint != nil) != tc.certificateStore {
+					t.Fatalf("expected lint %s to be %t (true = present, false = absent) in certificate store", tc.name, tc.certificateStore)
+				}
+			}
+			{
+				lint := registry.RevocationListLints().ByName(tc.name)
+				if (lint != nil) != tc.revocationListStore {
+					t.Fatalf("expected lint %s to be %t (true = present, false = absent) in revocationList store", tc.name, tc.revocationListStore)
+				}
+			}
+		}
+	})
 }
 
 func TestRegistryFilter(t *testing.T) {

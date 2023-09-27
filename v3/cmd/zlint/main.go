@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -169,11 +169,19 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 	}
 
 	var asn1Data []byte
+	var isCRL bool
 	switch inform {
 	case "pem":
 		p, _ := pem.Decode(fileBytes)
-		if p == nil || p.Type != "CERTIFICATE" {
+		if p == nil {
 			log.Fatal("unable to parse PEM")
+		}
+		switch p.Type {
+		case "CERTIFICATE":
+		case "X509 CRL":
+			isCRL = true
+		default:
+			log.Fatalf("unknown PEM type (%s)", p.Type)
 		}
 		asn1Data = p.Bytes
 	case "der":
@@ -186,13 +194,20 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 	default:
 		log.Fatalf("unknown input format %s", format)
 	}
-
-	c, err := x509.ParseCertificate(asn1Data)
-	if err != nil {
-		log.Fatalf("unable to parse certificate: %s", err)
+	var zlintResult *zlint.ResultSet
+	if isCRL {
+		crl, err := x509.ParseRevocationList(asn1Data)
+		if err != nil {
+			log.Fatalf("unable to parse certificate revocation list: %s", err)
+		}
+		zlintResult = zlint.LintRevocationList(crl)
+	} else {
+		c, err := x509.ParseCertificate(asn1Data)
+		if err != nil {
+			log.Fatalf("unable to parse certificate: %s", err)
+		}
+		zlintResult = zlint.LintCertificateEx(c, registry)
 	}
-
-	zlintResult := zlint.LintCertificateEx(c, registry)
 	jsonBytes, err := json.Marshal(zlintResult.Results)
 	if err != nil {
 		log.Fatalf("unable to encode lints JSON: %s", err)

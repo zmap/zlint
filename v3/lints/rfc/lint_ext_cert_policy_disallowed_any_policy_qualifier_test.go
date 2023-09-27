@@ -1,7 +1,7 @@
 package rfc
 
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,29 +21,55 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestNoticeRef(t *testing.T) {
-	inputPath := "userNoticePres.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestUnrecommendedQualifier(t *testing.T) {
+	testCases := []struct {
+		Name           string
+		InputFilename  string
+		ExpectedResult lint.LintStatus
+	}{
+		{
+			Name:           "Certificate with certificate policies extension and without the anyPolicy policyIdentifier present",
+			InputFilename:  "withoutAnyPolicy.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "Certificate without certificate policies extension",
+			InputFilename:  "CNWithoutSANSeptember2021.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "Certificate with certificate policies extension, with anyPolicy policyIdentifier present, without policyQualifiers",
+			InputFilename:  "withAnyPolicyAndNoPolicyQualifiers.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Certificate with certificate policies extension, with anyPolicy policyIdentifier present and a CPS qualifier present",
+			InputFilename:  "withAnyPolicyAndCPSQualifier.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Certificate with certificate policies extension, with anyPolicy policyIdentifier present and a UserNotice qualifier present",
+			InputFilename:  "withAnyPolicyAndUserNoticeQualifier.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Certificate with certificate policies extension, with anyPolicy policyIdentifier present and neither CPS nor UserNotice qualifier present",
+			InputFilename:  "withAnyPolicyWithoutCPSOrUserNoticeQualifier.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "Certificate with certificate policies extension and many combinations of policies and qualifiers",
+			InputFilename:  "withValidPoliciesRegardingAnyPolicy.pem",
+			ExpectedResult: lint.Pass,
+		},
 	}
-}
 
-func TestCps(t *testing.T) {
-	inputPath := "userNoticeMissing.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestNoticeRefUnknown(t *testing.T) {
-	inputPath := "userNoticeUnrecommended.pem"
-	expected := lint.Error
-	out := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_ext_cert_policy_disallowed_any_policy_qualifier", tc.InputFilename)
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+		})
 	}
 }

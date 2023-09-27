@@ -1,7 +1,7 @@
-package rfc
+package cabf_br
 
 /*
- * ZLint Copyright 2021 Regents of the University of Michigan
+ * ZLint Copyright 2023 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,19 +21,19 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestAKIMissing(t *testing.T) {
-	inputPath := "akiMissing.pem"
-	expected := lint.Error
-	out := test.TestLint("e_ext_authority_key_identifier_missing", inputPath)
+func TestCNSC62(t *testing.T) {
+	inputPath := "commonNameExistsSC62.pem"
+	expected := lint.Warn
+	out := test.TestLint("w_subject_common_name_included", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestAKIPresent(t *testing.T) {
-	inputPath := "orgValGoodAllFields.pem"
+func TestNoCNSC62(t *testing.T) {
+	inputPath := "commonNameGoodSC62.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_ext_authority_key_identifier_missing", inputPath)
+	out := test.TestLint("w_subject_common_name_included", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
