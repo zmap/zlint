@@ -21,6 +21,10 @@ import (
 	"github.com/zmap/zcrypto/x509"
 )
 
+const (
+	DurationDay = 24 * time.Hour
+)
+
 var (
 	ZeroDate                   = time.Date(0000, time.January, 1, 0, 0, 0, 0, time.UTC)
 	RFC1035Date                = time.Date(1987, time.January, 1, 0, 0, 0, 0, time.UTC)

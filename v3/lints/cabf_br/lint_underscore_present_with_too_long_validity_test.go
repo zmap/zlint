@@ -30,7 +30,7 @@ func TestNoUnderscoreBefore1_6_2WithLongValidity(t *testing.T) {
 		{
 			Name:           "Underscores but 30 day validity",
 			InputFilename:  "dNSUnderscoresShortValidity.pem",
-			ExpectedResult: lint.Pass,
+			ExpectedResult: lint.NA,
 		},
 		{
 			Name:           "Underscores with too long validity",

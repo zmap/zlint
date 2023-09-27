@@ -26,7 +26,7 @@ import (
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:            "e_underscore_present_with_too_long_validity",
-		Description:     "From 20128-12-10 to 2019-04-01, DNSNames may contain underscores if-and-only-if the certificate is valid for less than thirty days.",
+		Description:     "From 2018-12-10 to 2019-04-01, DNSNames may contain underscores if-and-only-if the certificate is valid for less than thirty days.",
 		Citation:        "BR 7.1.4.2.1",
 		Source:          lint.CABFBaselineRequirements,
 		EffectiveDate:   util.CABFBRs_1_6_2_Date,
@@ -38,20 +38,21 @@ func init() {
 type UnderscorePresentWithTooLongValidity struct{}
 
 func (l *UnderscorePresentWithTooLongValidity) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.DNSNamesExist(c)
+	longValidity := util.BeforeOrOn(c.NotBefore.AddDate(0, 0, 30), c.NotAfter)
+	return util.IsSubscriberCert(c) && util.DNSNamesExist(c) && longValidity
 }
 
 func (l *UnderscorePresentWithTooLongValidity) Execute(c *x509.Certificate) *lint.LintResult {
-	longValidity := util.BeforeOrOn(c.NotBefore.AddDate(0, 0, 30), c.NotAfter)
-	if !longValidity {
-		// Underscores are permissible if the cert is valid for less than thirty days
-		return &lint.LintResult{Status: lint.Pass}
-	}
 	for _, dns := range c.DNSNames {
 		if strings.Contains(dns, "_") {
-			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("The DNSName '%s' contains an "+
-				"underscore character which is only permissible if the certiticate is valid for less than 30 days "+
-				"(this certificate is valid for %d days)", dns, c.NotAfter.Sub(c.NotBefore))}
+			return &lint.LintResult{
+				Status: lint.Error,
+				Details: fmt.Sprintf(
+					"The DNSName '%s' contains an underscore character which is only permissible if the certiticate is valid for less than 30 days (this certificate is valid for %d days)",
+					dns,
+					c.NotAfter.Sub(c.NotBefore)/util.DurationDay,
+				),
+			}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
