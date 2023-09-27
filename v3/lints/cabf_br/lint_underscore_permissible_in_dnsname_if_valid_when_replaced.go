@@ -49,7 +49,7 @@ func (l *UnderscorePermissibleInDNSNameIfValidWhenReplaced) Execute(c *x509.Cert
 			}
 			replaced := strings.ReplaceAll(label, "_", "-")
 			if !util.IsLDHLabel(replaced) {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("When all underscores (_) in '%s' are replaced with hypens (-) the result is '%s' which not a valid LDH label", label, replaced)}
+				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("When all underscores (_) in %q are replaced with hypens (-) the result is %q which not a valid LDH label", label, replaced)}
 			}
 		}
 	}
