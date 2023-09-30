@@ -14,12 +14,12 @@ func TestSubscriberCrlDistributionPoints(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "pass - mailbox validated, legacy with commonName",
+			Name:           "pass - cert with a CRL distribution point",
 			InputFilename:  "smime/subscriber_with_crl_distribution_points.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "pass - mailbox validated, multipurpose with commonName",
+			Name:           "error - cert without a CRL distribution point",
 			InputFilename:  "smime/subscriber_no_crl_distribution_points.pem",
 			ExpectedResult: lint.Error,
 		},
