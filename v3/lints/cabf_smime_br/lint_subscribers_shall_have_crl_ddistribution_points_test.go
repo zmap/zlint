@@ -1,9 +1,10 @@
 package cabf_smime_br
 
 import (
+	"testing"
+
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/test"
-	"testing"
 )
 
 func TestSubscriberCrlDistributionPoints(t *testing.T) {
