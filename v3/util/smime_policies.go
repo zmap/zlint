@@ -14,7 +14,10 @@ package util
  * permissions and limitations under the License.
  */
 
-import "github.com/zmap/zcrypto/x509"
+import (
+	"github.com/zmap/zcrypto/encoding/asn1"
+	"github.com/zmap/zcrypto/x509"
+)
 
 func IsMailboxValidatedCertificate(c *x509.Certificate) bool {
 	for _, oid := range c.PolicyIdentifiers {
@@ -24,4 +27,60 @@ func IsMailboxValidatedCertificate(c *x509.Certificate) bool {
 	}
 
 	return false
+}
+
+func IsLegacySMIMECertificate(c *x509.Certificate) bool {
+	for _, oid := range c.PolicyIdentifiers {
+		if oid.Equal(SMIMEBRMailboxValidatedLegacyOID) || oid.Equal(SMIMEBROrganizationValidatedLegacyOID) || oid.Equal(SMIMEBRSponsorValidatedLegacyOID) || oid.Equal(SMIMEBRIndividualValidatedLegacyOID) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func IsMultipurposeSMIMECertificate(c *x509.Certificate) bool {
+	for _, oid := range c.PolicyIdentifiers {
+		if oid.Equal(SMIMEBRMailboxValidatedMultipurposeOID) || oid.Equal(SMIMEBROrganizationValidatedMultipurposeOID) || oid.Equal(SMIMEBRSponsorValidatedMultipurposeOID) || oid.Equal(SMIMEBRIndividualValidatedMultipurposeOID) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func IsStrictSMIMECertificate(c *x509.Certificate) bool {
+	for _, oid := range c.PolicyIdentifiers {
+		if oid.Equal(SMIMEBRMailboxValidatedStrictOID) || oid.Equal(SMIMEBROrganizationValidatedStrictOID) || oid.Equal(SMIMEBRSponsorValidatedStrictOID) || oid.Equal(SMIMEBRIndividualValidatedStrictOID) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func HasSMIMEPolicyOID(c *x509.Certificate) bool {
+	for _, policy := range c.PolicyIdentifiers {
+		if isSMIMEOID(policy) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func isSMIMEOID(oid asn1.ObjectIdentifier) bool {
+	smimeOID := asn1.ObjectIdentifier{2, 23, 140, 1, 5}
+
+	if len(oid) < len(smimeOID) {
+		return false
+	}
+
+	for index, val := range smimeOID {
+		if val != oid[index] {
+			return false
+		}
+	}
+
+	return true
 }
