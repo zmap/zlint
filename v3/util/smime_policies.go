@@ -15,7 +15,6 @@ package util
  */
 
 import (
-	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 )
 
@@ -57,30 +56,4 @@ func IsStrictSMIMECertificate(c *x509.Certificate) bool {
 	}
 
 	return false
-}
-
-func HasSMIMEPolicyOID(c *x509.Certificate) bool {
-	for _, policy := range c.PolicyIdentifiers {
-		if isSMIMEOID(policy) {
-			return true
-		}
-	}
-
-	return false
-}
-
-func isSMIMEOID(oid asn1.ObjectIdentifier) bool {
-	smimeOID := asn1.ObjectIdentifier{2, 23, 140, 1, 5}
-
-	if len(oid) < len(smimeOID) {
-		return false
-	}
-
-	for index, val := range smimeOID {
-		if val != oid[index] {
-			return false
-		}
-	}
-
-	return true
 }
