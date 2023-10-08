@@ -31,17 +31,17 @@ func init() {
 	})
 }
 
-type SubjectAlternativeNameShallBePresent struct{}
+type subjectAlternativeNameShallBePresent struct{}
 
 func NewSubjectAlternativeNameShallBePresent() lint.LintInterface {
-	return &SubjectAlternativeNameShallBePresent{}
+	return &subjectAlternativeNameShallBePresent{}
 }
 
-func (l *SubjectAlternativeNameShallBePresent) CheckApplies(c *x509.Certificate) bool {
+func (l *subjectAlternativeNameShallBePresent) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c)
 }
 
-func (l *SubjectAlternativeNameShallBePresent) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *subjectAlternativeNameShallBePresent) Execute(c *x509.Certificate) *lint.LintResult {
 	if !util.IsExtInCert(c, util.SubjectAlternateNameOID) {
 		return &lint.LintResult{
 			Status:  lint.Error,
