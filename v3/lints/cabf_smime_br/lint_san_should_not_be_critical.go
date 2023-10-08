@@ -25,7 +25,7 @@ import (
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_san_should_not_be_critical",
+		Name:          "w_san_should_not_be_critical",
 		Description:   "subjectAlternativeName SHOULD NOT be marked critical unless the subject field is an empty sequence.",
 		Citation:      "7.1.2.3.h",
 		Source:        lint.CABFSMIMEBaselineRequirements,
@@ -53,20 +53,6 @@ func (l *SubjectAlternativeNameNotCritical) Execute(c *x509.Certificate) *lint.L
 		return &lint.LintResult{Status: lint.Pass}
 	} else if isCritical && !emptySubject {
 		// Critical, but there's a non-empty SAN.
-		return &lint.LintResult{
-			Status:  lint.Warn,
-			Details: "subject is not empty, but subjectAlternativeName is marked critical",
-		}
-	} else if !isCritical && emptySubject {
-		// Not critical, but there's an empty SAN.
-		//
-		// Is this a warning? That is, does the clause...
-		//
-		//     ...SHOULD NOT be marked critical unless the subject field is an empty sequence.
-		//
-		// ..also imply the inverse? That is...
-		//
-		//    ...SHOULD be marked critical if the subject field is an empty sequence.
 		return &lint.LintResult{
 			Status:  lint.Warn,
 			Details: "subject is not empty, but subjectAlternativeName is marked critical",
