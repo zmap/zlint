@@ -48,7 +48,7 @@ func NewStrictEKUCheck() lint.CertificateLintInterface {
 //   - Sponsor Validated Strict
 //   - Individual Validated Strict
 func (l *strictEKUCheck) CheckApplies(c *x509.Certificate) bool {
-	return util.IsStrictSMIMECertificate(c)
+	return util.IsStrictSMIMECertificate(c) && util.IsSubscriberCert(c)
 }
 
 // Execute applies the requirements on what fields are allowed for mailbox validated SMIME certificates

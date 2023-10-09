@@ -52,7 +52,7 @@ func NewLegacyMultipurposeEKUCheck() lint.CertificateLintInterface {
 //   - Individual Validated Legacy
 //   - Individual Validated Multipurpose
 func (l *legacyMultipurposeEKUCheck) CheckApplies(c *x509.Certificate) bool {
-	return util.IsLegacySMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c)
+	return (util.IsLegacySMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c)) && util.IsSubscriberCert(c)
 }
 
 // Execute applies the requirements on what fields are allowed for mailbox validated SMIME certificates
