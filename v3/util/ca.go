@@ -63,11 +63,20 @@ func IsServerAuthCert(cert *x509.Certificate) bool {
 	return false
 }
 
+// An S/MIME Certificate for the purposes of this document can be identified by the existence of an
+// Extended Key Usage (EKU) for id-kp-emailProtection (OID: 1.3.6.1.5.5.7.3.4) and the inclusion
+// of a rfc822Name or an otherName of type id-on-SmtpUTF8Mailbox in the subjectAltName
+// extension.
+func CABF_SMIME_applies(cert *x509.Certificate) bool {
+	return IsEmailProtectionCert(cert)
+}
+
 // IsEmailProtectionCert returns true if the certificate presented is for use protecting emails.
 // A certificate is for use protecting emails if it contains the Any Purpose or emailProtection
 // EKUs or if the certificate contains no EKUs.  This last point is a way of being overly cautious
 // and choosing to prefer false positives over false negatives.
 func IsEmailProtectionCert(cert *x509.Certificate) bool {
+	Or(cert)
 	if len(cert.ExtKeyUsage) == 0 {
 		return true
 	}
@@ -75,6 +84,14 @@ func IsEmailProtectionCert(cert *x509.Certificate) bool {
 		if eku == x509.ExtKeyUsageAny || eku == x509.ExtKeyUsageEmailProtection {
 			return true
 		}
+	}
+	return false
+}
+
+func Or(cert *x509.Certificate) bool {
+	sans := GetExtFromCert(cert, SubjectAlternateNameOID)
+	if sans == nil {
+		return false
 	}
 	return false
 }

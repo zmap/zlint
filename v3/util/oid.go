@@ -50,14 +50,15 @@ var (
 	SubjectKeyIdentityOID   = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
 	ReasonCodeOID           = asn1.ObjectIdentifier{2, 5, 29, 21}                     // CRL Reason Code
 	// CA/B reserved policies
-	BRDomainValidatedOID                   = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1}    // CA/B BR Domain-Validated
-	BROrganizationValidatedOID             = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2}    // CA/B BR Organization-Validated
-	BRIndividualValidatedOID               = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3}    // CA/B BR Individual-Validated
-	BRTorServiceDescriptor                 = asn1.ObjectIdentifier{2, 23, 140, 1, 31}      // CA/B BR Tor Service Descriptor
-	CabfExtensionOrganizationIdentifier    = asn1.ObjectIdentifier{2, 23, 140, 3, 1}       // CA/B EV 9.8.2 cabfOrganizationIdentifier
-	SMIMEBRMailboxValidatedLegacyOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 1} // CA/B SMIME BR Mailbox Validated, Legacy
-	SMIMEBRMailboxValidatedMultipurposeOID = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 2} // CA/B SMIME BR Mailbox Validated, Multipurpose
-	SMIMEBRMailboxValidatedStrictOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 3} // CA/B SMIME BR Mailbox Validated, Strict
+	BRDomainValidatedOID                   = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1}       // CA/B BR Domain-Validated
+	BROrganizationValidatedOID             = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2}       // CA/B BR Organization-Validated
+	BRIndividualValidatedOID               = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3}       // CA/B BR Individual-Validated
+	BRTorServiceDescriptor                 = asn1.ObjectIdentifier{2, 23, 140, 1, 31}         // CA/B BR Tor Service Descriptor
+	CabfExtensionOrganizationIdentifier    = asn1.ObjectIdentifier{2, 23, 140, 3, 1}          // CA/B EV 9.8.2 cabfOrganizationIdentifier
+	SMIMEBRMailboxValidatedLegacyOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 1}    // CA/B SMIME BR Mailbox Validated, Legacy
+	SMIMEBRMailboxValidatedMultipurposeOID = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 2}    // CA/B SMIME BR Mailbox Validated, Multipurpose
+	SMIMEBRMailboxValidatedStrictOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 3}    // CA/B SMIME BR Mailbox Validated, Strict
+	SmtpUTF8Mailbox                        = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 8, 9} // id-on-SmtpUTF8Mailbox
 	//X.500 attribute types
 	CommonNameOID             = asn1.ObjectIdentifier{2, 5, 4, 3}
 	SurnameOID                = asn1.ObjectIdentifier{2, 5, 4, 4}

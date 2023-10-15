@@ -218,6 +218,7 @@ func (l *CertificateLint) CheckEffective(c *x509.Certificate) bool {
 // CheckEffective()
 // Execute()
 func (l *CertificateLint) Execute(cert *x509.Certificate, config Configuration) *LintResult {
+	util.Or(cert)
 	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
 		return &LintResult{Status: NA}
 	}
