@@ -1321,7 +1321,7 @@ var tldMap = map[string]GTLDPeriod{
 	"cityeats": {
 		GTLD:           "cityeats",
 		DelegationDate: "2015-11-10",
-		RemovalDate:    "",
+		RemovalDate:    "2023-10-18",
 	},
 	"ck": {
 		GTLD:           "ck",
@@ -2396,7 +2396,7 @@ var tldMap = map[string]GTLDPeriod{
 	"frontdoor": {
 		GTLD:           "frontdoor",
 		DelegationDate: "2016-06-23",
-		RemovalDate:    "",
+		RemovalDate:    "2023-10-18",
 	},
 	"frontier": {
 		GTLD:           "frontier",
