@@ -50,14 +50,23 @@ var (
 	SubjectKeyIdentityOID   = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
 	ReasonCodeOID           = asn1.ObjectIdentifier{2, 5, 29, 21}                     // CRL Reason Code
 	// CA/B reserved policies
-	BRDomainValidatedOID                   = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1}    // CA/B BR Domain-Validated
-	BROrganizationValidatedOID             = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2}    // CA/B BR Organization-Validated
-	BRIndividualValidatedOID               = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3}    // CA/B BR Individual-Validated
-	BRTorServiceDescriptor                 = asn1.ObjectIdentifier{2, 23, 140, 1, 31}      // CA/B BR Tor Service Descriptor
-	CabfExtensionOrganizationIdentifier    = asn1.ObjectIdentifier{2, 23, 140, 3, 1}       // CA/B EV 9.8.2 cabfOrganizationIdentifier
-	SMIMEBRMailboxValidatedLegacyOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 1} // CA/B SMIME BR Mailbox Validated, Legacy
-	SMIMEBRMailboxValidatedMultipurposeOID = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 2} // CA/B SMIME BR Mailbox Validated, Multipurpose
-	SMIMEBRMailboxValidatedStrictOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 3} // CA/B SMIME BR Mailbox Validated, Strict
+	BRDomainValidatedOID                        = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1}    // CA/B BR Domain-Validated
+	BROrganizationValidatedOID                  = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2}    // CA/B BR Organization-Validated
+	BRIndividualValidatedOID                    = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 3}    // CA/B BR Individual-Validated
+	BRTorServiceDescriptor                      = asn1.ObjectIdentifier{2, 23, 140, 1, 31}      // CA/B BR Tor Service Descriptor
+	CabfExtensionOrganizationIdentifier         = asn1.ObjectIdentifier{2, 23, 140, 3, 1}       // CA/B EV 9.8.2 cabfOrganizationIdentifier
+	SMIMEBRMailboxValidatedLegacyOID            = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 1} // CA/B SMIME BR Mailbox Validated, Legacy
+	SMIMEBRMailboxValidatedMultipurposeOID      = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 2} // CA/B SMIME BR Mailbox Validated, Multipurpose
+	SMIMEBRMailboxValidatedStrictOID            = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 1, 3} // CA/B SMIME BR Mailbox Validated, Strict
+	SMIMEBROrganizationValidatedLegacyOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 2, 1} // CA/B SMIME BR Organization Validated, Legacy
+	SMIMEBROrganizationValidatedMultipurposeOID = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 2, 2} // CA/B SMIME BR Organization Validated, Multipurpose
+	SMIMEBROrganizationValidatedStrictOID       = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 2, 3} // CA/B SMIME BR Organization Validated, Strict
+	SMIMEBRSponsorValidatedLegacyOID            = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 3, 1} // CA/B SMIME BR Sponsor Validated, Legacy
+	SMIMEBRSponsorValidatedMultipurposeOID      = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 3, 2} // CA/B SMIME BR Sponsor Validated, Multipurpose
+	SMIMEBRSponsorValidatedStrictOID            = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 3, 3} // CA/B SMIME BR Sponsor Validated, Strict
+	SMIMEBRIndividualValidatedLegacyOID         = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 4, 1} // CA/B SMIME BR Individual Validated, Legacy
+	SMIMEBRIndividualValidatedMultipurposeOID   = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 4, 2} // CA/B SMIME BR Individual Validated, Multipurpose
+	SMIMEBRIndividualValidatedStrictOID         = asn1.ObjectIdentifier{2, 23, 140, 1, 5, 4, 3} // CA/B SMIME BR Individual Validated, Strict
 	//X.500 attribute types
 	CommonNameOID             = asn1.ObjectIdentifier{2, 5, 4, 3}
 	SurnameOID                = asn1.ObjectIdentifier{2, 5, 4, 4}

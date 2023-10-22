@@ -72,12 +72,13 @@ func NewMailboxValidatedEnforceSubjectFieldRestrictions() lint.LintInterface {
 	}
 }
 
-// CheckApplies returns true if the provided certificate contains one-or-more of the following SMIME BR policy identifiers:
+// CheckApplies returns true if the provided certificate is a subscriber certificate and contains one-or-more of the following
+// SMIME BR policy identifiers:
 //   - Mailbox Validated Legacy
 //   - Mailbox Validated Multipurpose
 //   - Mailbox Validated Strict
 func (l *mailboxValidatedEnforceSubjectFieldRestrictions) CheckApplies(c *x509.Certificate) bool {
-	return util.IsMailboxValidatedCertificate(c)
+	return util.IsMailboxValidatedCertificate(c) && util.IsSubscriberCert(c)
 }
 
 // Execute applies the requirements on what fields are allowed for mailbox validated SMIME certificates
