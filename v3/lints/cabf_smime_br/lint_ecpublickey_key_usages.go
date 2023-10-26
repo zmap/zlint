@@ -15,7 +15,7 @@
 package cabf_smime_br
 
 import (
-	"crypto/rsa"
+	"crypto/ecdsa"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -24,31 +24,31 @@ import (
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ec_key_usages",
+		Name:          "e_ecpublickey_key_usages",
 		Description:   "For signing only, bit positions SHALL be set for digitalSignature and MAY be set for nonRepudiation. For key management only, bit positions SHALL be set for keyEncipherment.For dual use, bit positions SHALL be set for digitalSignature and keyEncipherment and MAY be set for nonRepudiation.",
 		Citation:      "7.1.2.3.e",
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewECKeyUsages,
+		Lint:          NewECPublicKeyKeyUsages,
 	})
 }
 
-type ecKeyUsages struct{}
+type ecPublicKeyKeyUsages struct{}
 
-func NewECKeyUsages() lint.LintInterface {
-	return &ecKeyUsages{}
+func NewECPublicKeyKeyUsages() lint.LintInterface {
+	return &ecPublicKeyKeyUsages{}
 }
 
-func (l *ecKeyUsages) CheckApplies(c *x509.Certificate) bool {
+func (l *ecPublicKeyKeyUsages) CheckApplies(c *x509.Certificate) bool {
 	if !(util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c) && util.IsExtInCert(c, util.KeyUsageOID)) {
 		return false
 	}
 
-	_, ok := c.PublicKey.(*rsa.PublicKey)
-	return ok && c.PublicKeyAlgorithm == x509.RSA
+	_, ok := c.PublicKey.(*ecdsa.PublicKey)
+	return ok && c.PublicKeyAlgorithm == x509.ECDSA
 }
 
-func (l *ecKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *ecPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
 	certType := 0
 	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
 		certType |= 1
