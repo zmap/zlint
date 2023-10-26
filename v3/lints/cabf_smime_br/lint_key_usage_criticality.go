@@ -22,27 +22,27 @@ import (
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "w_key_usage_critical",
+		Name:          "w_key_usage_criticality",
 		Description:   "keyUsage... This extension SHOULD be marked critical",
 		Citation:      "7.1.2.3.e",
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewKeyUsagePresent,
+		Lint:          NewKeyUsageCriticality,
 	})
 }
 
-type keyUsageCritical struct{}
+type keyUsageCriticality struct{}
 
-func NewKeyUsageCritical() lint.LintInterface {
-	return &keyUsageCritical{}
+func NewKeyUsageCriticality() lint.LintInterface {
+	return &keyUsageCriticality{}
 }
 
-func (l *keyUsageCritical) CheckApplies(c *x509.Certificate) bool {
+func (l *keyUsageCriticality) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c) && util.IsExtInCert(c, util.KeyUsageOID)
 
 }
 
-func (l *keyUsageCritical) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *keyUsageCriticality) Execute(c *x509.Certificate) *lint.LintResult {
 	kuExt := util.GetExtFromCert(c, util.KeyUsageOID)
 	if !kuExt.Critical {
 		return &lint.LintResult{Status: lint.Warn}
