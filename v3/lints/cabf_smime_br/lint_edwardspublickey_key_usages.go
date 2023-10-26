@@ -15,8 +15,6 @@
 package cabf_smime_br
 
 import (
-	"crypto/ed25519"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -40,17 +38,11 @@ func NewEdwardsPublicKeyKeyUsages() lint.LintInterface {
 }
 
 func (l *edwardsPublicKeyKeyUsages) CheckApplies(c *x509.Certificate) bool {
-	if !(util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c) && util.IsExtInCert(c, util.KeyUsageOID)) {
-		return false
-	}
-
-	// TODO, expand this to include operations on curve 448
-	_, ok := c.PublicKey.(*ed25519.PublicKey)
-	return ok && c.PublicKeyAlgorithm == x509.Ed25519
+	// TODO add support for curve448 certificate linting
+	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c) && util.IsExtInCert(c, util.KeyUsageOID) && c.PublicKeyAlgorithm == x509.Ed25519
 }
 
 func (l *edwardsPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
-
 	if c.KeyUsage&x509.KeyUsageDigitalSignature == 0 {
 		return &lint.LintResult{Status: lint.Error}
 	}
