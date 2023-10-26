@@ -30,7 +30,7 @@ func TestRSAKeyUsageLegacyMultipurpose(t *testing.T) {
 		},
 		{
 			Name:           "pass - cert with keyEncipherment and dataEncipherment KU",
-			InputFilename:  "smime/rsa_multipurpose_legacy_key_encipherment_data_encipherment_ku.pem",
+			InputFilename:  "smime/rsa_multipurpose_key_encipherment_data_encipherment_ku.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{

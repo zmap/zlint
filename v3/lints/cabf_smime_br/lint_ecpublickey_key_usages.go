@@ -15,8 +15,6 @@
 package cabf_smime_br
 
 import (
-	"crypto/ecdsa"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -40,12 +38,7 @@ func NewECPublicKeyKeyUsages() lint.LintInterface {
 }
 
 func (l *ecPublicKeyKeyUsages) CheckApplies(c *x509.Certificate) bool {
-	if !(util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c) && util.IsExtInCert(c, util.KeyUsageOID)) {
-		return false
-	}
-
-	_, ok := c.PublicKey.(*ecdsa.PublicKey)
-	return ok && c.PublicKeyAlgorithm == x509.ECDSA
+	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c) && util.IsExtInCert(c, util.KeyUsageOID) && c.PublicKeyAlgorithm == x509.ECDSA
 }
 
 func (l *ecPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
