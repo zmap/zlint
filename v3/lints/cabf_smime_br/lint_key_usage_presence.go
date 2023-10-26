@@ -22,27 +22,26 @@ import (
 
 func init() {
 	lint.RegisterLint(&lint.Lint{
-		Name:          "e_key_usage_present",
+		Name:          "e_key_usage_presence",
 		Description:   "keyUsage (SHALL be present)",
 		Citation:      "7.1.2.3.e",
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewKeyUsagePresent,
+		Lint:          NewKeyUsagePresence,
 	})
 }
 
-type keyUsagePresent struct{}
+type keyUsagePresence struct{}
 
-func NewKeyUsagePresent() lint.LintInterface {
-	return &keyUsagePresent{}
+func NewKeyUsagePresence() lint.LintInterface {
+	return &keyUsagePresence{}
 }
 
-func (l *keyUsagePresent) CheckApplies(c *x509.Certificate) bool {
+func (l *keyUsagePresence) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
-
 }
 
-func (l *keyUsagePresent) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *keyUsagePresence) Execute(c *x509.Certificate) *lint.LintResult {
 	if util.HasKeyUsageOID(c) {
 		return &lint.LintResult{Status: lint.Pass}
 	}
