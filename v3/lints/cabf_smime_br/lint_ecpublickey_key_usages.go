@@ -42,33 +42,39 @@ func (l *ecPublicKeyKeyUsages) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *ecPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
+	const (
+		signing = iota + 1
+		keyManagement
+		dualUsage
+	)
+
 	certType := 0
 	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
-		certType |= 1
+		certType |= signing
 	}
 	if c.KeyUsage&x509.KeyUsageKeyAgreement != 0 {
-		certType |= 2
+		certType |= keyManagement
 	}
 
 	switch certType {
-	case 1:
-		// signing only
+	case signing:
 		mask := 0x1FF ^ (x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment)
 		if c.KeyUsage&mask != 0 {
 			return &lint.LintResult{Status: lint.Error}
 		}
-	case 2:
-		// key management only
+
+	case keyManagement:
 		mask := 0x1FF ^ (x509.KeyUsageKeyAgreement | x509.KeyUsageEncipherOnly | x509.KeyUsageDecipherOnly)
 		if c.KeyUsage&mask != 0 {
 			return &lint.LintResult{Status: lint.Error}
 		}
-	case 3:
-		// dual use
+
+	case dualUsage:
 		mask := 0x1FF ^ (x509.KeyUsageDigitalSignature | x509.KeyUsageContentCommitment | x509.KeyUsageKeyAgreement | x509.KeyUsageEncipherOnly | x509.KeyUsageDecipherOnly)
 		if c.KeyUsage&mask != 0 {
 			return &lint.LintResult{Status: lint.Error}
 		}
+
 	default:
 		return &lint.LintResult{Status: lint.Error}
 	}
