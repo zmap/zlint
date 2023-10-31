@@ -49,10 +49,10 @@ func (l *ecPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
 	)
 
 	certType := 0
-	if c.KeyUsage&x509.KeyUsageDigitalSignature != 0 {
+	if util.HasKeyUsage(c, x509.KeyUsageDigitalSignature) {
 		certType |= signing
 	}
-	if c.KeyUsage&x509.KeyUsageKeyAgreement != 0 {
+	if util.HasKeyUsage(c, x509.KeyUsageKeyAgreement) {
 		certType |= keyManagement
 	}
 

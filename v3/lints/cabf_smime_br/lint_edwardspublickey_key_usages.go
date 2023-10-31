@@ -43,7 +43,7 @@ func (l *edwardsPublicKeyKeyUsages) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *edwardsPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.KeyUsage&x509.KeyUsageDigitalSignature == 0 {
+	if !util.HasKeyUsage(c, x509.KeyUsageDigitalSignature) {
 		return &lint.LintResult{Status: lint.Error}
 	}
 
