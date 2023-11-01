@@ -13,11 +13,11 @@ func TestSMIMELegacyAIAInternalName(t *testing.T) {
 		InputFilename  string
 		ExpectedResult lint.LintStatus
 	}{
-		// {
-		// 	Name:           "pass - cert with SAN",
-		// 	InputFilename:  "smime/with_subject_alternative_name.pem",
-		// 	ExpectedResult: lint.Pass,
-		// },
+		{
+			Name:           "pass - cert with SAN",
+			InputFilename:  "smime/aiaWithValidNamesLegacy.pem",
+			ExpectedResult: lint.Pass,
+		},
 		{
 			Name:           "error - cert without SAN",
 			InputFilename:  "smime/aiaWithInternalNamesLegacy.pem",
