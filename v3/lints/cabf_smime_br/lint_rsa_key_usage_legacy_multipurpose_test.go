@@ -44,6 +44,11 @@ func TestRSAKeyUsageLegacyMultipurpose(t *testing.T) {
 			ExpectedResult: lint.NA,
 		},
 		{
+			Name:           "NA - certificate without digitalSignature or keyEncipherment KUs",
+			InputFilename:  "smime/rsa_multipurpose_cert_sign_ku.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
 			Name:           "NE - certificate with valid KUs dated before 2020-09-01",
 			InputFilename:  "smime/rsa_multipurpose_valid_ku_august_2023.pem",
 			ExpectedResult: lint.NE,
@@ -61,11 +66,6 @@ func TestRSAKeyUsageLegacyMultipurpose(t *testing.T) {
 		{
 			Name:           "Error - Dual Use Certificate with unexpected KU",
 			InputFilename:  "smime/rsa_legacy_digital_signature_key_encipherment_cert_sign_ku.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "Error - Certificate without digitalSignature or keyEncipherment KUs",
-			InputFilename:  "smime/rsa_multipurpose_cert_sign_ku.pem",
 			ExpectedResult: lint.Error,
 		},
 	}

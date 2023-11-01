@@ -53,6 +53,11 @@ func TestECPublicKeyKeyUsage(t *testing.T) {
 			ExpectedResult: lint.NA,
 		},
 		{
+			Name:           "NA - Certificate without digitalSignature or keyAgreement KUs",
+			InputFilename:  "smime/ec_strict_cert_sign_ku.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
 			Name:           "NE - certificate with valid KUs dated before 2020-09-01",
 			InputFilename:  "smime/ec_multipurpose_valid_ku_august_2023.pem",
 			ExpectedResult: lint.NE,
@@ -70,11 +75,6 @@ func TestECPublicKeyKeyUsage(t *testing.T) {
 		{
 			Name:           "Error - Dual Use Certificate with unexpected KU",
 			InputFilename:  "smime/ec_multipurpose_digital_signature_key_agreement_cert_sign_ku.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "Error - Certificate without digitalSignature or keyAgreement KUs",
-			InputFilename:  "smime/ec_strict_cert_sign_ku.pem",
 			ExpectedResult: lint.Error,
 		},
 	}

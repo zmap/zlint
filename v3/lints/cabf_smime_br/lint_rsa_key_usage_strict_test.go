@@ -39,6 +39,11 @@ func TestRSAKeyUsageStrict(t *testing.T) {
 			ExpectedResult: lint.NA,
 		},
 		{
+			Name:           "NA - Certificate without digitalSignature or keyEncipherment KUs",
+			InputFilename:  "smime/rsa_strict_cert_sign_ku.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
 			Name:           "NE - certificate with valid KUs dated before 2020-09-01",
 			InputFilename:  "smime/rsa_strict_valid_ku_august_2023.pem",
 			ExpectedResult: lint.NE,
@@ -56,11 +61,6 @@ func TestRSAKeyUsageStrict(t *testing.T) {
 		{
 			Name:           "Error - Dual Use Certificate with unexpected KU",
 			InputFilename:  "smime/rsa_strict_digital_signature_key_encipherment_cert_sign_ku.pem",
-			ExpectedResult: lint.Error,
-		},
-		{
-			Name:           "Error - Certificate without digitalSignature or keyEncipherment KUs",
-			InputFilename:  "smime/rsa_strict_cert_sign_ku.pem",
 			ExpectedResult: lint.Error,
 		},
 	}

@@ -83,7 +83,7 @@ func (l *rsaKeyUsageLegacyMultipurpose) Execute(c *x509.Certificate) *lint.LintR
 		}
 
 	default:
-		return &lint.LintResult{Status: lint.Error}
+		return &lint.LintResult{Status: lint.NA}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}

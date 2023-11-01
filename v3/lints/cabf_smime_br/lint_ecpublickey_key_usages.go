@@ -76,7 +76,7 @@ func (l *ecPublicKeyKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 
 	default:
-		return &lint.LintResult{Status: lint.Error}
+		return &lint.LintResult{Status: lint.NA}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
