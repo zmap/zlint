@@ -60,7 +60,7 @@ func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
 		if err != nil {
 			return &lint.LintResult{Status: lint.Fatal}
 		}
-		if !util.HasValidTLD(purl.Host, time.Now()) {
+		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
@@ -69,7 +69,7 @@ func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
 		if err != nil {
 			return &lint.LintResult{Status: lint.Fatal}
 		}
-		if !util.HasValidTLD(purl.Host, time.Now()) {
+		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
