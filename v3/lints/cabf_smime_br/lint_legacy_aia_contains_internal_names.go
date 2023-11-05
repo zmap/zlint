@@ -57,6 +57,7 @@ func (l *smimeLegacyAIAContainsInternalNames) CheckApplies(c *x509.Certificate) 
 }
 
 func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {
+	atLeastOneHttp := false
 	for _, u := range c.OCSPServer {
 		purl, err := url.Parse(u)
 		if err != nil {
@@ -65,7 +66,15 @@ func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
+		if purl.Scheme == "http" {
+			atLeastOneHttp = true
+		}
 	}
+	if !atLeastOneHttp {
+		return &lint.LintResult{Status: lint.Error, Details: "at least one accessMethod MUST have the URI scheme HTTP"}
+	}
+
+	atLeastOneHttp = false
 	for _, u := range c.IssuingCertificateURL {
 		purl, err := url.Parse(u)
 		if err != nil {
@@ -74,6 +83,13 @@ func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
+		if purl.Scheme == "http" {
+			atLeastOneHttp = true
+		}
 	}
+	if !atLeastOneHttp {
+		return &lint.LintResult{Status: lint.Error, Details: "at least one accessMethod MUST have the URI scheme HTTP"}
+	}
+
 	return &lint.LintResult{Status: lint.Pass}
 }

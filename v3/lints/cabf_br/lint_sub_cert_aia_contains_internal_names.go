@@ -58,7 +58,7 @@ func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, u := range c.OCSPServer {
 		purl, err := url.Parse(u)
 		if err != nil {
-			return &lint.LintResult{Status: lint.Fatal}
+			return &lint.LintResult{Status: lint.Error}
 		}
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
@@ -67,7 +67,7 @@ func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, u := range c.IssuingCertificateURL {
 		purl, err := url.Parse(u)
 		if err != nil {
-			return &lint.LintResult{Status: lint.Fatal}
+			return &lint.LintResult{Status: lint.Error}
 		}
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
