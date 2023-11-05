@@ -66,7 +66,7 @@ func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
-		if purl.Scheme == "http" {
+		if purl.Scheme == "http" || purl.Scheme == "https" {
 			atLeastOneHttp = true
 		}
 	}
@@ -83,7 +83,7 @@ func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
-		if purl.Scheme == "http" {
+		if purl.Scheme == "http" || purl.Scheme == "https" {
 			atLeastOneHttp = true
 		}
 	}
