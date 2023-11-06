@@ -24,6 +24,7 @@ import (
 	_ "github.com/zmap/zlint/v3/lints/apple"
 	_ "github.com/zmap/zlint/v3/lints/cabf_br"
 	_ "github.com/zmap/zlint/v3/lints/cabf_ev"
+	_ "github.com/zmap/zlint/v3/lints/cabf_smime_br"
 	_ "github.com/zmap/zlint/v3/lints/community"
 	_ "github.com/zmap/zlint/v3/lints/etsi"
 	_ "github.com/zmap/zlint/v3/lints/mozilla"

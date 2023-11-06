@@ -28,6 +28,10 @@ func IsMailboxValidatedCertificate(c *x509.Certificate) bool {
 	return false
 }
 
+func IsSMIMEBRCertificate(c *x509.Certificate) bool {
+	return IsLegacySMIMECertificate(c) || IsMultipurposeSMIMECertificate(c) || IsStrictSMIMECertificate(c)
+}
+
 func IsLegacySMIMECertificate(c *x509.Certificate) bool {
 	for _, oid := range c.PolicyIdentifiers {
 		if oid.Equal(SMIMEBRMailboxValidatedLegacyOID) || oid.Equal(SMIMEBROrganizationValidatedLegacyOID) || oid.Equal(SMIMEBRSponsorValidatedLegacyOID) || oid.Equal(SMIMEBRIndividualValidatedLegacyOID) {
