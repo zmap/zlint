@@ -70,7 +70,7 @@ func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 			atLeastOneHttp = true
 		}
 	}
-	if !atLeastOneHttp {
+	if !atLeastOneHttp && len(c.OCSPServer) != 0 {
 		return &lint.LintResult{Status: lint.Error, Details: "at least one accessMethod MUST have the URI scheme HTTP"}
 	}
 
