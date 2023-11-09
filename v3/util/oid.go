@@ -24,6 +24,8 @@ import (
 
 var (
 	//extension OIDs
+	AdobeTimestampOID       = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 1}    // Adobe Timestamp x509 extension
+	AdobeArchiveRevInfoOID  = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 2}    // Adobe Archive Revocation Info x509 extension
 	AiaOID                  = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}        // Authority Information Access
 	AuthkeyOID              = asn1.ObjectIdentifier{2, 5, 29, 35}                     // Authority Key Identifier
 	BasicConstOID           = asn1.ObjectIdentifier{2, 5, 29, 19}                     // Basic Constraints
@@ -49,8 +51,6 @@ var (
 	SubjectInfoAccessOID    = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}       // Subject Info Access Syntax
 	SubjectKeyIdentityOID   = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
 	ReasonCodeOID           = asn1.ObjectIdentifier{2, 5, 29, 21}                     // CRL Reason Code
-	AdobeTimestampOID       = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 1}    // Adobe Timestamp x509 extension
-	AdobeArchiveRevInfoOID  = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 2}    // Adobe Archive Revocation Info x509 extension
 	// CA/B reserved policies
 	BRDomainValidatedOID                        = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 1}    // CA/B BR Domain-Validated
 	BROrganizationValidatedOID                  = asn1.ObjectIdentifier{2, 23, 140, 1, 2, 2}    // CA/B BR Organization-Validated
