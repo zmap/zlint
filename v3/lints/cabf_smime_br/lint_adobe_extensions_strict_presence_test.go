@@ -48,8 +48,8 @@ func TestAdobeExtensionsStrictPresence(t *testing.T) {
 			ExpectedResult: lint.NE,
 		},
 		{
-			Name:           "Error - certificate with adobe timestamp extension",
-			InputFilename:  "smime/organizationValidatedStrictWithAdobeTimestampExtension.pem",
+			Name:           "Error - certificate with adobe time-stamp extension",
+			InputFilename:  "smime/organizationValidatedStrictWithAdobeTimeStampExtension.pem",
 			ExpectedResult: lint.Error,
 		},
 		{

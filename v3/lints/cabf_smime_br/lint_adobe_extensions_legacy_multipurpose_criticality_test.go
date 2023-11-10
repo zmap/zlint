@@ -14,8 +14,8 @@ func TestAdobeExtensionsLegacyMultipurposeCriticality(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "pass - mailbox legacy cert with non critical adobe timestamp extension",
-			InputFilename:  "smime/mailboxValidatedLegacyWithNonCriticalAdobeTimestampExtension.pem",
+			Name:           "pass - mailbox legacy cert with non critical adobe time-stamp extension",
+			InputFilename:  "smime/mailboxValidatedLegacyWithNonCriticalAdobeTimeStampExtension.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
@@ -30,17 +30,17 @@ func TestAdobeExtensionsLegacyMultipurposeCriticality(t *testing.T) {
 		},
 		{
 			Name:           "NA - non-legacy/multipurpose SMIME BR cert",
-			InputFilename:  "smime/organizationValidatedStrictWithAdobeTimestampExtension.pem",
+			InputFilename:  "smime/organizationValidatedStrictWithAdobeTimeStampExtension.pem",
 			ExpectedResult: lint.NA,
 		},
 		{
 			Name:           "NE - certificate dated before effective date",
-			InputFilename:  "smime/organizationValidatedLegacyWithAdobeTimestampExtensionMay2023.pem",
+			InputFilename:  "smime/organizationValidatedLegacyWithAdobeTimeStampExtensionMay2023.pem",
 			ExpectedResult: lint.NE,
 		},
 		{
-			Name:           "Error - sponsor multipurpose certificate with adobe timestamp extension marked as critical",
-			InputFilename:  "smime/sponsorValidatedMultipurposeWithCriticalAdobeTimestampExtension.pem",
+			Name:           "Error - sponsor multipurpose certificate with adobe time-stamp extension marked as critical",
+			InputFilename:  "smime/sponsorValidatedMultipurposeWithCriticalAdobeTimeStampExtension.pem",
 			ExpectedResult: lint.Error,
 		},
 		{

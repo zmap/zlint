@@ -22,13 +22,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_adobe_extensions_legacy_multipurpose_criticality",
-		Description:   "If present, Adobe Time‐stamp X509 extension (1.2.840.113583.1.1.9.1) or the Adobe ArchiveRevInfo extension (1.2.840.113583.1.1.9.2) SHALL NOT be marked as critical for multipurpose/legacy SMIME certificates",
-		Citation:      "7.1.2.3.m",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewAdobeExtensionsLegacyMultipurposeCriticality,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_adobe_extensions_legacy_multipurpose_criticality",
+			Description:   "If present, Adobe Time‐stamp X509 extension (1.2.840.113583.1.1.9.1) or the Adobe ArchiveRevInfo extension (1.2.840.113583.1.1.9.2) SHALL NOT be marked as critical for multipurpose/legacy SMIME certificates",
+			Citation:      "7.1.2.3.m",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewAdobeExtensionsLegacyMultipurposeCriticality,
 	})
 }
 
@@ -47,8 +49,8 @@ func (l *adobeExtensionsLegacyMultipurposeCriticality) CheckApplies(c *x509.Cert
 
 // Execute applies the requirements of adobe x509 extensions not being marked as critical, if present for multipurpose or legacy SMIME certificates
 func (l *adobeExtensionsLegacyMultipurposeCriticality) Execute(c *x509.Certificate) *lint.LintResult {
-	adobeTimestampExt := util.GetExtFromCert(c, util.AdobeTimestampOID)
-	if adobeTimestampExt != nil && adobeTimestampExt.Critical {
+	adobeTimeStampExt := util.GetExtFromCert(c, util.AdobeTimeStampOID)
+	if adobeTimeStampExt != nil && adobeTimeStampExt.Critical {
 		return &lint.LintResult{Status: lint.Error}
 	}
 

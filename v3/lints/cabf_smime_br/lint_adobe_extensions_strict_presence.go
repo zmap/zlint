@@ -22,13 +22,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_adobe_extensions_strict_presence",
-		Description:   "Adobe Time‐stamp X509 extension (1.2.840.113583.1.1.9.1) and the Adobe ArchiveRevInfo extension (1.2.840.113583.1.1.9.2) are prohibited for strict SMIME certificates",
-		Citation:      "7.1.2.3.m",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewAdobeExtensionsStrictPresence,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_adobe_extensions_strict_presence",
+			Description:   "Adobe Time‐stamp X509 extension (1.2.840.113583.1.1.9.1) and the Adobe ArchiveRevInfo extension (1.2.840.113583.1.1.9.2) are prohibited for strict SMIME certificates",
+			Citation:      "7.1.2.3.m",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewAdobeExtensionsStrictPresence,
 	})
 }
 
@@ -54,5 +56,5 @@ func (l *adobeExtensionsStrictPresence) Execute(c *x509.Certificate) *lint.LintR
 }
 
 func hasAdobeX509Extensions(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.AdobeTimestampOID) || util.IsExtInCert(c, util.AdobeArchiveRevInfoOID)
+	return util.IsExtInCert(c, util.AdobeTimeStampOID) || util.IsExtInCert(c, util.AdobeArchiveRevInfoOID)
 }
