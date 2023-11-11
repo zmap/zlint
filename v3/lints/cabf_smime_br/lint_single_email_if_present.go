@@ -23,14 +23,12 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_single_email_if_present",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_single_email_if_present",
 		Description:   "If present, the subject:emailAddress SHALL contain a single Mailbox Address",
 		Citation:      "7.1.4.2.h",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          func() lint.LintInterface { return &singleEmailIfPresent{} },
-	})
+		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date}, Lint: func() lint.LintInterface { return &singleEmailIfPresent{} }})
+
 }
 
 type singleEmailIfPresent struct{}

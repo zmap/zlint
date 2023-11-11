@@ -55,14 +55,12 @@ const (
 type arpaReservedIP struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_contains_reserved_arpa_ip",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_contains_reserved_arpa_ip",
 		Description:   "Checks no subject domain name contains a rDNS entry in an .arpa zone specifying a reserved IP address",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          NewArpaReservedIP,
-	})
+		EffectiveDate: util.CABEffectiveDate}, Lint: NewArpaReservedIP})
+
 }
 
 func NewArpaReservedIP() lint.LintInterface {

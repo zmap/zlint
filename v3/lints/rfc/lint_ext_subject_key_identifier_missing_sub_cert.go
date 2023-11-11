@@ -43,14 +43,12 @@ type subjectKeyIdMissingSubscriber struct{}
 **********************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_ext_subject_key_identifier_missing_sub_cert",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_ext_subject_key_identifier_missing_sub_cert",
 		Description:   "Sub certificates SHOULD include Subject Key Identifier in end entity certs",
 		Citation:      "RFC 5280: 4.2 & 4.2.1.2",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewSubjectKeyIdMissingSubscriber,
-	})
+		EffectiveDate: util.RFC2459Date}, Lint: NewSubjectKeyIdMissingSubscriber})
+
 }
 
 func NewSubjectKeyIdMissingSubscriber() lint.LintInterface {

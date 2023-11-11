@@ -25,14 +25,12 @@ import (
 type IssuerRDNHasMultipleAttribute struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_multiple_issuer_rdn",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_multiple_issuer_rdn",
 		Description:   "Certificates should not have multiple attributes in a single RDN (issuer)",
 		Citation:      "awslabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          NewIssuerRDNHasMultipleAttribute,
-	})
+		EffectiveDate: util.ZeroDate}, Lint: NewIssuerRDNHasMultipleAttribute})
+
 }
 
 func NewIssuerRDNHasMultipleAttribute() lint.LintInterface {

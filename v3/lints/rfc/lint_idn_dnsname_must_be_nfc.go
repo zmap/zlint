@@ -26,14 +26,12 @@ import (
 type IDNNotNFC struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_international_dns_name_not_nfc",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_international_dns_name_not_nfc",
 		Description:   "Internationalized DNSNames must be normalized by Unicode normalization form C",
 		Citation:      "RFC 8399",
 		Source:        lint.RFC5891,
-		EffectiveDate: util.RFC8399Date,
-		Lint:          NewIDNNotNFC,
-	})
+		EffectiveDate: util.RFC8399Date}, Lint: NewIDNNotNFC})
+
 }
 
 func NewIDNNotNFC() lint.LintInterface {

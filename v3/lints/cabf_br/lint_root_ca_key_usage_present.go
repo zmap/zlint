@@ -23,14 +23,12 @@ import (
 type rootCAKeyUsagePresent struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_root_ca_key_usage_present",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_root_ca_key_usage_present",
 		Description:   "Root CA certificates MUST have Key Usage Extension Present",
 		Citation:      "BRs: 7.1.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewRootCAKeyUsagePresent,
-	})
+		EffectiveDate: util.RFC2459Date}, Lint: NewRootCAKeyUsagePresent})
+
 }
 
 func NewRootCAKeyUsagePresent() lint.LintInterface {

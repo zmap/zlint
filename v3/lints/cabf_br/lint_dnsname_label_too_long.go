@@ -25,14 +25,12 @@ import (
 type DNSNameLabelLengthTooLong struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_label_too_long",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_dnsname_label_too_long",
 		Description:   "DNSName labels MUST be less than or equal to 63 characters",
 		Citation:      "RFC 1035",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          NewDNSNameLabelLengthTooLong,
-	})
+		EffectiveDate: util.CABEffectiveDate}, Lint: NewDNSNameLabelLengthTooLong})
+
 }
 
 func NewDNSNameLabelLengthTooLong() lint.LintInterface {

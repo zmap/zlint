@@ -35,14 +35,12 @@ type subjectDN struct{}
 *************************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_not_dn",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_not_dn",
 		Description:   "When not empty, the subject field MUST be a distinguished name",
 		Citation:      "RFC 5280: 4.1.2.6",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewSubjectDN,
-	})
+		EffectiveDate: util.RFC2459Date}, Lint: NewSubjectDN})
+
 }
 
 func NewSubjectDN() lint.LintInterface {

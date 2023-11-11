@@ -36,14 +36,12 @@ path is not defined by this profile.
 ******************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_ian_empty_name",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_ian_empty_name",
 		Description:   "General name fields must not be empty in IAN",
 		Citation:      "RFC 5280: 4.2.1.7",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewIANEmptyName,
-	})
+		EffectiveDate: util.RFC2459Date}, Lint: NewIANEmptyName})
+
 }
 
 func NewIANEmptyName() lint.LintInterface {

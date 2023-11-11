@@ -31,14 +31,12 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 *******************************************************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_rsa_mod_not_odd",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_rsa_mod_not_odd",
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: an odd number",
 		Citation:      "BRs: 6.1.6",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV113Date,
-		Lint:          NewRsaParsedTestsKeyModOdd,
-	})
+		EffectiveDate: util.CABV113Date}, Lint: NewRsaParsedTestsKeyModOdd})
+
 }
 
 func NewRsaParsedTestsKeyModOdd() lint.LintInterface {

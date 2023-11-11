@@ -34,14 +34,12 @@ Further, if the only subject identity included in the certificate is an
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_ext_san_critical_with_subject_dn",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_ext_san_critical_with_subject_dn",
 		Description:   "If the subject contains a distinguished name, subjectAlternateName SHOULD be non-critical",
 		Citation:      "RFC 5280: 4.2.1.6",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.RFC5280Date,
-		Lint:          NewExtSANCriticalWithSubjectDN,
-	})
+		EffectiveDate: util.RFC5280Date}, Lint: NewExtSANCriticalWithSubjectDN})
+
 }
 
 func NewExtSANCriticalWithSubjectDN() lint.LintInterface {

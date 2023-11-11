@@ -25,14 +25,12 @@ import (
 type SubjectRDNHasMultipleAttribute struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_multiple_subject_rdn",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "n_multiple_subject_rdn",
 		Description:   "Certificates typically do not have multiple attributes in a single RDN (subject). This may be an error.",
 		Citation:      "lint.AWSLabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          NewSubjectRDNHasMultipleAttribute,
-	})
+		EffectiveDate: util.ZeroDate}, Lint: NewSubjectRDNHasMultipleAttribute})
+
 }
 
 func NewSubjectRDNHasMultipleAttribute() lint.LintInterface {

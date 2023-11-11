@@ -23,14 +23,12 @@ import (
 type evOrgMissing struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ev_organization_name_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ev_organization_name_missing",
 		Description:   "EV certificates must include organizationName in subject",
 		Citation:      "EVGs: 9.2.1",
 		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.ZeroDate,
-		Lint:          NewEvOrgMissing,
-	})
+		EffectiveDate: util.ZeroDate}, Lint: NewEvOrgMissing})
+
 }
 
 func NewEvOrgMissing() lint.LintInterface {

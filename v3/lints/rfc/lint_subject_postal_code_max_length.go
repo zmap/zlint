@@ -33,14 +33,12 @@ RFC 5280: A.1
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_postal_code_max_length",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_postal_code_max_length",
 		Description:   "The 'PostalCode' field of the subject MUST be less than 17 characters",
 		Citation:      "RFC 5280: A.1",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewSubjectPostalCodeMaxLength,
-	})
+		EffectiveDate: util.RFC2459Date}, Lint: NewSubjectPostalCodeMaxLength})
+
 }
 
 func NewSubjectPostalCodeMaxLength() lint.LintInterface {

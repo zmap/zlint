@@ -44,14 +44,12 @@ type utcTimeGMT struct{}
 ***********************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_utc_time_not_in_zulu",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_utc_time_not_in_zulu",
 		Description:   "UTCTime values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Citation:      "RFC 5280: 4.1.2.5.1",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewUtcTimeGMT,
-	})
+		EffectiveDate: util.RFC2459Date}, Lint: NewUtcTimeGMT})
+
 }
 
 func NewUtcTimeGMT() lint.LintInterface {

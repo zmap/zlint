@@ -25,14 +25,12 @@ import (
 type DNSNameLeftLabelWildcardCheck struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_dnsname_left_label_wildcard_correct",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_dnsname_left_label_wildcard_correct",
 		Description:   "Wildcards in the left label of DNSName should only be *",
 		Citation:      "BRs: 1.6.1, Wildcard Certificate and Wildcard Domain Name",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          NewDNSNameLeftLabelWildcardCheck,
-	})
+		EffectiveDate: util.CABEffectiveDate}, Lint: NewDNSNameLeftLabelWildcardCheck})
+
 }
 
 func NewDNSNameLeftLabelWildcardCheck() lint.LintInterface {

@@ -26,14 +26,12 @@ import (
 type pubSuffix struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "n_san_iana_pub_suffix_empty",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "n_san_iana_pub_suffix_empty",
 		Description:   "The domain SHOULD NOT have a bare public suffix",
 		Citation:      "awslabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate,
-		Lint:          NewPubSuffix,
-	})
+		EffectiveDate: util.ZeroDate}, Lint: NewPubSuffix})
+
 }
 
 func NewPubSuffix() lint.LintInterface {

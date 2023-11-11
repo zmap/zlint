@@ -35,14 +35,12 @@ Note: 7.1.4.2.2 applies only to subscriber certificates.
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_cert_policy_ov_requires_province_or_locality",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_cert_policy_ov_requires_province_or_locality",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, localityName or stateOrProvinceName MUST be included in subject",
 		Citation:      "BRs: 7.1.6.4",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          NewCertPolicyOVRequiresProvinceOrLocal,
-	})
+		EffectiveDate: util.CABEffectiveDate}, Lint: NewCertPolicyOVRequiresProvinceOrLocal})
+
 }
 
 func NewCertPolicyOVRequiresProvinceOrLocal() lint.LintInterface {

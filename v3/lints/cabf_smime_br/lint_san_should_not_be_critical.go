@@ -24,14 +24,12 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_san_should_not_be_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_san_should_not_be_critical",
 		Description:   "subjectAlternativeName SHOULD NOT be marked critical unless the subject field is an empty sequence.",
 		Citation:      "7.1.2.3.h",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewSubjectAlternativeNameNotCritical,
-	})
+		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date}, Lint: NewSubjectAlternativeNameNotCritical})
+
 }
 
 type SubjectAlternativeNameNotCritical struct{}

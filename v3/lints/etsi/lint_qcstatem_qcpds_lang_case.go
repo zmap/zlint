@@ -27,14 +27,12 @@ import (
 type qcStatemQcPdsLangCase struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_qcstatem_qcpds_lang_case",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_qcstatem_qcpds_lang_case",
 		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcPDS features a language code comprised of only lower case letters",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.4",
 		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
-		Lint:          NewQcStatemQcPdsLangCase,
-	})
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date}, Lint: NewQcStatemQcPdsLangCase})
+
 }
 
 func NewQcStatemQcPdsLangCase() lint.LintInterface {

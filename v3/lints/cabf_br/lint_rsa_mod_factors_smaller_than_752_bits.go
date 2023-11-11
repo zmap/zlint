@@ -30,14 +30,12 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 **************************************************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_rsa_mod_factors_smaller_than_752",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_rsa_mod_factors_smaller_than_752",
 		Description:   "RSA: Modulus SHOULD also have the following characteristics: no factors smaller than 752",
 		Citation:      "BRs: 6.1.6",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV113Date,
-		Lint:          NewRsaModSmallFactor,
-	})
+		EffectiveDate: util.CABV113Date}, Lint: NewRsaModSmallFactor})
+
 }
 
 func NewRsaModSmallFactor() lint.LintInterface {

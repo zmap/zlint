@@ -24,14 +24,12 @@ import (
 type SubjectDNSerialNumberNotPrintableString struct{}
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_dn_serial_number_not_printable_string",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_dn_serial_number_not_printable_string",
 		Description:   "X520 Distinguished Name SerialNumber MUST be encoded as PrintableString",
 		Citation:      "RFC 5280: Appendix A",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate,
-		Lint:          NewSubjectDNSerialNumberNotPrintableString,
-	})
+		EffectiveDate: util.ZeroDate}, Lint: NewSubjectDNSerialNumberNotPrintableString})
+
 }
 
 func NewSubjectDNSerialNumberNotPrintableString() lint.LintInterface {

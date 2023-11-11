@@ -27,14 +27,12 @@ The subject information access extension indicates how to access information and
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_info_access_marked_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_info_access_marked_critical",
 		Description:   "Conforming CAs MUST mark the Subject Info Access extension as non-critical",
 		Citation:      "RFC 5280: 4.2.2.2",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          NewSiaCrit,
-	})
+		EffectiveDate: util.RFC3280Date}, Lint: NewSiaCrit})
+
 }
 
 func NewSiaCrit() lint.LintInterface {
