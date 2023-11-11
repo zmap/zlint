@@ -29,6 +29,7 @@ func TestCertPolicyDuplicated(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
 func TestCertPolicyDuplicatedAssertion(t *testing.T) {
 	inputPath := "certPolicyAssertionDuplicated.pem"
 	expected := lint.Error

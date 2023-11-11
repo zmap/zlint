@@ -23,12 +23,13 @@ import (
 type rootCAKeyUsageMustBeCritical struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_root_ca_key_usage_must_be_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_root_ca_key_usage_must_be_critical",
 		Description:   "Root CA certificates MUST have Key Usage Extension marked critical",
 		Citation:      "BRs: 7.1.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.RFC2459Date}, Lint: NewRootCAKeyUsageMustBeCritical})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewRootCAKeyUsageMustBeCritical})
 }
 
 func NewRootCAKeyUsageMustBeCritical() lint.LintInterface {

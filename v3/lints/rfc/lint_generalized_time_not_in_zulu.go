@@ -20,8 +20,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type generalizedNotZulu struct {
-}
+type generalizedNotZulu struct{}
 
 /********************************************************************
 4.1.2.5.2.  GeneralizedTime
@@ -37,12 +36,13 @@ is zero.  GeneralizedTime values MUST NOT include fractional seconds.
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_generalized_time_not_in_zulu",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_generalized_time_not_in_zulu",
 		Description:   "Generalized time values MUST be expressed in Greenwich Mean Time (Zulu)",
 		Citation:      "RFC 5280: 4.1.2.5.2",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewGeneralizedNotZulu})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewGeneralizedNotZulu})
 }
 
 func NewGeneralizedNotZulu() lint.LintInterface {

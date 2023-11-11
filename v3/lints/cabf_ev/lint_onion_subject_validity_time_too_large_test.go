@@ -38,5 +38,4 @@ func TestTorValidityTooLarge(t *testing.T) {
 			}
 		})
 	}
-
 }

@@ -37,12 +37,13 @@ type nameConstraintNotFQDN struct{}
 ************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_name_constraint_not_fqdn",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_name_constraint_not_fqdn",
 		Description:   "For URIs, the constraint MUST be specified as a fully qualified domain name [...] When the constraint begins with a period, it MAY be expanded with one or more labels.",
 		Citation:      "RFC 5280: 4.2.1.10",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewNameConstraintNotFQDN})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewNameConstraintNotFQDN})
 }
 
 func NewNameConstraintNotFQDN() lint.LintInterface {
@@ -54,7 +55,6 @@ func (l *nameConstraintNotFQDN) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *nameConstraintNotFQDN) Execute(c *x509.Certificate) *lint.LintResult {
-
 	var incorrectPermittedHosts []string
 	var incorrectExcludedHosts []string
 	var errString string
@@ -99,7 +99,6 @@ func collectNotFQDNEntries(hosts []x509.GeneralSubtreeString) []string {
 }
 
 func buildErrorString(incorrectHosts []string, isInclusion bool) string {
-
 	errString := "certificate contained "
 
 	if len(incorrectHosts) > 1 {
@@ -126,5 +125,4 @@ func buildErrorString(incorrectHosts []string, isInclusion bool) string {
 
 	errString += "name constraint that is not a fully qualified domain name: " + incorrectHosts[0]
 	return errString
-
 }

@@ -36,12 +36,13 @@ to Unicode normalization form C (NFC) [NFC].
 *******************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_cert_policy_explicit_text_too_long",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_cert_policy_explicit_text_too_long",
 		Description:   "Explicit text has a maximum size of 200 characters",
 		Citation:      "RFC 6818: 3",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC6818Date}, Lint: NewExplicitTextTooLong})
-
+		EffectiveDate: util.RFC6818Date,
+	}, Lint: NewExplicitTextTooLong})
 }
 
 func NewExplicitTextTooLong() lint.LintInterface {

@@ -26,12 +26,13 @@ import (
 type qcStatemQcLimitValueValid struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_qcstatem_qclimitvalue_valid",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_qcstatem_qclimitvalue_valid",
 		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcLimitValue has the correct form",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.2",
 		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date}, Lint: NewQcStatemQcLimitValueValid})
-
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+	}, Lint: NewQcStatemQcLimitValueValid})
 }
 
 func NewQcStatemQcLimitValueValid() lint.LintInterface {
@@ -62,7 +63,6 @@ func isOnlyLetters(s string) bool {
 }
 
 func (l *qcStatemQcLimitValueValid) Execute(c *x509.Certificate) *lint.LintResult {
-
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())

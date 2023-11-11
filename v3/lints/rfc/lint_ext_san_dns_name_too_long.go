@@ -23,12 +23,13 @@ import (
 type SANDNSTooLong struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_dns_name_too_long",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_dns_name_too_long",
 		Description:   "DNSName must be less than or equal to 253 bytes",
 		Citation:      "RFC 5280",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewSANDNSTooLong})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewSANDNSTooLong})
 }
 
 func NewSANDNSTooLong() lint.LintInterface {

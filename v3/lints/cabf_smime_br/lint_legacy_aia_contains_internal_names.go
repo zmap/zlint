@@ -38,12 +38,13 @@ For Legacy: When provided, at least one accessMethod SHALL have the URI scheme H
 *************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_smime_legacy_aia_contains_internal_names",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_smime_legacy_aia_contains_internal_names",
 		Description:   "SMIME Legacy certificates authorityInformationAccess When provided, at least one accessMethod SHALL have the URI scheme HTTP. Other schemes (LDAP, FTP, ...) MAY be present.",
 		Citation:      "BRs: 7.1.2.3c",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSMIMELegacyAIAInternalName})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSMIMELegacyAIAInternalName})
 }
 
 func NewSMIMELegacyAIAInternalName() lint.LintInterface {

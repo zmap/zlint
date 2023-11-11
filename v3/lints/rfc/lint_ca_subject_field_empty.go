@@ -35,12 +35,13 @@ The subject field identifies the entity associated with the public
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ca_subject_field_empty",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ca_subject_field_empty",
 		Description:   "The subject field of a CA certificate MUST have a non-empty distinguished name",
 		Citation:      "RFC 5280: 4.1.2.6",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewCaSubjectEmpty})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewCaSubjectEmpty})
 }
 
 func NewCaSubjectEmpty() lint.LintInterface {

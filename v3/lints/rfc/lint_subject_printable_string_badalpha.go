@@ -26,26 +26,26 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_printable_string_badalpha",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_subject_printable_string_badalpha",
 		Description:   "PrintableString type's alphabet only includes a-z, A-Z, 0-9, and 11 special characters",
 		Citation:      "RFC 5280: Appendix B. ASN.1 Notes",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewSubjectPrintableStringBadAlpha})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewSubjectPrintableStringBadAlpha})
 }
 
 func NewSubjectPrintableStringBadAlpha() lint.LintInterface {
 	return &subjectPrintableStringBadAlpha{}
 }
 
-var (
-	// Per RFC 5280, Appendix B. ASN.1 Notes:
-	//   The character string type PrintableString supports a very basic Latin
-	//   character set: the lowercase letters 'a' through 'z', uppercase
-	//   letters 'A' through 'Z', the digits '0' through '9', eleven special
-	//   characters ' = ( ) + , - . / : ? and space.
-	printableStringRegex = regexp.MustCompile(`^[a-zA-Z0-9\=\(\)\+,\-.\/:\? ']+$`)
-)
+// Per RFC 5280, Appendix B. ASN.1 Notes:
+//
+//	The character string type PrintableString supports a very basic Latin
+//	character set: the lowercase letters 'a' through 'z', uppercase
+//	letters 'A' through 'Z', the digits '0' through '9', eleven special
+//	characters ' = ( ) + , - . / : ? and space.
+var printableStringRegex = regexp.MustCompile(`^[a-zA-Z0-9\=\(\)\+,\-.\/:\? ']+$`)
 
 // validatePrintableString returns an error if the provided encoded printable
 // string doesn't adhere to the character set defined in RFC 5280.
@@ -56,8 +56,7 @@ func validatePrintableString(rawPS []byte) error {
 	return nil
 }
 
-type subjectPrintableStringBadAlpha struct {
-}
+type subjectPrintableStringBadAlpha struct{}
 
 // CheckApplies returns true for any certificate with a non-empty RawSubject.
 func (l *subjectPrintableStringBadAlpha) CheckApplies(c *x509.Certificate) bool {

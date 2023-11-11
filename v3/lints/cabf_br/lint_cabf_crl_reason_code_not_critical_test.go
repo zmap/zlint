@@ -60,5 +60,4 @@ func TestCrlReasonCodeNotCritical(t *testing.T) {
 			}
 		})
 	}
-
 }

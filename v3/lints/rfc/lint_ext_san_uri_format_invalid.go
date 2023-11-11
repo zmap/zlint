@@ -30,12 +30,13 @@ scheme (e.g., "http" or "ftp") and a scheme-specific-part.
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_uri_format_invalid",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_uri_format_invalid",
 		Description:   "URIs in SAN extension must have a scheme and scheme specific part",
 		Citation:      "RFC5280: 4.2.1.6",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewExtSANURIFormatInvalid})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewExtSANURIFormatInvalid})
 }
 
 func NewExtSANURIFormatInvalid() lint.LintInterface {
@@ -49,17 +50,16 @@ func (l *extSANURIFormatInvalid) CheckApplies(c *x509.Certificate) bool {
 func (l *extSANURIFormatInvalid) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, uri := range c.URIs {
 		parsed_uri, err := url.Parse(uri)
-
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
 
-		//scheme
+		// scheme
 		if parsed_uri.Scheme == "" {
 			return &lint.LintResult{Status: lint.Error}
 		}
 
-		//scheme-specific part
+		// scheme-specific part
 		if parsed_uri.Host == "" && parsed_uri.User == nil && parsed_uri.Opaque == "" && parsed_uri.Path == "" {
 			return &lint.LintResult{Status: lint.Error}
 		}

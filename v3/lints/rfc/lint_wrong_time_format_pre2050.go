@@ -34,12 +34,13 @@ are encoded in either UTCTime or GeneralizedTime.
 *********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_wrong_time_format_pre2050",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_wrong_time_format_pre2050",
 		Description:   "Certificates valid through the year 2049 MUST be encoded in UTC time",
 		Citation:      "RFC 5280: 4.1.2.5",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewGeneralizedPre2050})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewGeneralizedPre2050})
 }
 
 func NewGeneralizedPre2050() lint.LintInterface {

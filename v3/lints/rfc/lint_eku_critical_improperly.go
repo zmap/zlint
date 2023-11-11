@@ -36,12 +36,13 @@ If a CA includes extended key usages to satisfy such applications,
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_eku_critical_improperly",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_eku_critical_improperly",
 		Description:   "Conforming CAs SHOULD NOT mark extended key usage extension as critical if the anyExtendedKeyUsage KeyPurposedID is present",
 		Citation:      "RFC 5280: 4.2.1.12",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date}, Lint: NewEkuBadCritical})
-
+		EffectiveDate: util.RFC3280Date,
+	}, Lint: NewEkuBadCritical})
 }
 
 func NewEkuBadCritical() lint.LintInterface {

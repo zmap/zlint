@@ -24,13 +24,14 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_underscore_permissible_in_dnsname_if_valid_when_replaced",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:            "e_underscore_permissible_in_dnsname_if_valid_when_replaced",
 		Description:     "From December 10th 2018 to April 1st 2019 DNSNames may contain underscores if-and-only-if every label within each DNS name is a valid LDH label after replacing all underscores with hyphens",
 		Citation:        "BR 7.1.4.2.1",
 		Source:          lint.CABFBaselineRequirements,
 		EffectiveDate:   util.CABFBRs_1_6_2_Date,
-		IneffectiveDate: util.CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate}, Lint: func() lint.LintInterface { return &UnderscorePermissibleInDNSNameIfValidWhenReplaced{} }})
-
+		IneffectiveDate: util.CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate,
+	}, Lint: func() lint.LintInterface { return &UnderscorePermissibleInDNSNameIfValidWhenReplaced{} }})
 }
 
 type UnderscorePermissibleInDNSNameIfValidWhenReplaced struct{}

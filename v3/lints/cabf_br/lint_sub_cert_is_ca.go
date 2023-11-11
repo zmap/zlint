@@ -24,12 +24,13 @@ import (
 type subCertNotCA struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_sub_cert_not_is_ca",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_sub_cert_not_is_ca",
 		Description:   "Subscriber Certificate: basicContrainsts cA field MUST NOT be true.",
 		Citation:      "BRs: 7.1.2.3",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSubCertNotCA})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSubCertNotCA})
 }
 
 func NewSubCertNotCA() lint.LintInterface {

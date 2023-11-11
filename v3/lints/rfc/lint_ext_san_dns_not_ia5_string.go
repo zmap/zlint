@@ -39,12 +39,13 @@ encoding internationalized domain names are specified in Section 7.2.
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_dns_not_ia5_string",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_dns_not_ia5_string",
 		Description:   "dNSNames MUST be IA5 strings",
 		Citation:      "RFC 5280: 4.2.1.6",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewSANDNSNotIA5String})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewSANDNSNotIA5String})
 }
 
 func NewSANDNSNotIA5String() lint.LintInterface {

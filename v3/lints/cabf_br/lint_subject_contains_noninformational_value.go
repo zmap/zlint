@@ -34,12 +34,13 @@ be used.
 **********************************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_contains_noninformational_value",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_subject_contains_noninformational_value",
 		Description:   "Subject name fields must not contain '.','-',' ' or any other indication that the field has been omitted",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewIllegalChar})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewIllegalChar})
 }
 
 func NewIllegalChar() lint.LintInterface {

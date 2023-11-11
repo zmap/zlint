@@ -27,12 +27,13 @@ The CRL distribution points extension identifies how CRL information is obtained
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_ext_crl_distribution_marked_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_ext_crl_distribution_marked_critical",
 		Description:   "If included, the CRL Distribution Points extension SHOULD NOT be marked critical",
 		Citation:      "RFC 5280: 4.2.1.13",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewExtCrlDistributionMarkedCritical})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewExtCrlDistributionMarkedCritical})
 }
 
 func NewExtCrlDistributionMarkedCritical() lint.LintInterface {

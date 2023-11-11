@@ -25,12 +25,13 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_incorrect_ku_encoding",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_incorrect_ku_encoding",
 		Description:   "RFC 5280 Section 4.2.1.3 describes the value of a KeyUsage to be a DER encoded BitString, which itself defines that all trailing 0 bits be counted as being \"unused\".",
 		Citation:      "Where ITU-T Rec. X.680 | ISO/IEC 8824-1, 21.7, applies, the bitstring shall have all trailing 0 bits removed before it is encoded.",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate}, Lint: func() lint.LintInterface { return &incorrectKuEncoding{} }})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: func() lint.LintInterface { return &incorrectKuEncoding{} }})
 }
 
 type incorrectKuEncoding struct{}
@@ -74,5 +75,6 @@ func (l *incorrectKuEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 			"KeyUsage contains an inefficient encoding wherein the number of 'unused bits' is declared to be "+
 				"%d, but it should be %d. Raw Bytes: %v, Raw Binary: [%s]",
 			declaredUnused, actualUnused, ku, strings.Join(binary, " "),
-		)}
+		),
+	}
 }

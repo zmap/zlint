@@ -23,12 +23,13 @@ import (
 type SANDNSNull struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_san_dns_name_includes_null_char",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_san_dns_name_includes_null_char",
 		Description:   "DNSName MUST NOT include a null character",
 		Citation:      "awslabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate}, Lint: NewSANDNSNull})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewSANDNSNull})
 }
 
 func NewSANDNSNull() lint.LintInterface {

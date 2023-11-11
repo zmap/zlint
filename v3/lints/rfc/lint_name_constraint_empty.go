@@ -36,12 +36,13 @@ type nameConstraintEmpty struct{}
 ************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_name_constraint_empty",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_name_constraint_empty",
 		Description:   "Conforming CAs MUST NOT issue certificates where name constraints is an empty sequence. That is, either the permittedSubtree or excludedSubtree fields must be present",
 		Citation:      "RFC 5280: 4.2.1.10",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewNameConstraintEmpty})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewNameConstraintEmpty})
 }
 
 func NewNameConstraintEmpty() lint.LintInterface {
@@ -54,7 +55,7 @@ func (l *nameConstraintEmpty) CheckApplies(c *x509.Certificate) bool {
 	}
 	nc := util.GetExtFromCert(c, util.NameConstOID)
 	var seq asn1.RawValue
-	rest, err := asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty
+	rest, err := asn1.Unmarshal(nc.Value, &seq) // only one sequence, so rest should be empty
 	if err != nil || len(rest) != 0 || seq.Tag != 16 || seq.Class != 0 || !seq.IsCompound {
 		return false
 	}
@@ -64,7 +65,7 @@ func (l *nameConstraintEmpty) CheckApplies(c *x509.Certificate) bool {
 func (l *nameConstraintEmpty) Execute(c *x509.Certificate) *lint.LintResult {
 	nc := util.GetExtFromCert(c, util.NameConstOID)
 	var seq asn1.RawValue
-	_, err := asn1.Unmarshal(nc.Value, &seq) //only one sequence, so rest should be empty
+	_, err := asn1.Unmarshal(nc.Value, &seq) // only one sequence, so rest should be empty
 	if err != nil {
 		return &lint.LintResult{Status: lint.Fatal}
 	}

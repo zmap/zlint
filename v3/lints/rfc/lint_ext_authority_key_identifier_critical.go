@@ -28,12 +28,13 @@ Conforming CAs MUST mark this extension as non-critical.
 **********************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_authority_key_identifier_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_authority_key_identifier_critical",
 		Description:   "The authority key identifier extension must be non-critical",
 		Citation:      "RFC 5280: 4.2.1.1",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewAuthorityKeyIdCritical})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewAuthorityKeyIdCritical})
 }
 
 func NewAuthorityKeyIdCritical() lint.LintInterface {
@@ -45,10 +46,10 @@ func (l *authorityKeyIdCritical) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *authorityKeyIdCritical) Execute(c *x509.Certificate) *lint.LintResult {
-	aki := util.GetExtFromCert(c, util.AuthkeyOID) //pointer to the extension
+	aki := util.GetExtFromCert(c, util.AuthkeyOID) // pointer to the extension
 	if aki.Critical {
 		return &lint.LintResult{Status: lint.Error}
-	} else { //implies !aki.Critical
+	} else { // implies !aki.Critical
 		return &lint.LintResult{Status: lint.Pass}
 	}
 }

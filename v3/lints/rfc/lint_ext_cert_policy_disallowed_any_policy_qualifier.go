@@ -42,12 +42,13 @@ qualifiers returned as a result of path validation are considered.
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_cert_policy_disallowed_any_policy_qualifier",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_cert_policy_disallowed_any_policy_qualifier",
 		Description:   "When qualifiers are used with the special policy anyPolicy, they must be limited to qualifiers identified in this section: (4.2.1.4)",
 		Citation:      "RFC 5280: 4.2.1.4",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date}, Lint: NewUnrecommendedQualifier})
-
+		EffectiveDate: util.RFC3280Date,
+	}, Lint: NewUnrecommendedQualifier})
 }
 
 func NewUnrecommendedQualifier() lint.LintInterface {
@@ -55,7 +56,6 @@ func NewUnrecommendedQualifier() lint.LintInterface {
 }
 
 func (l *unrecommendedQualifier) CheckApplies(c *x509.Certificate) bool {
-
 	// TODO? extract to util method: HasAnyPolicyOID(c)
 	if !util.IsExtInCert(c, util.CertPolicyOID) {
 		return false
@@ -70,8 +70,7 @@ func (l *unrecommendedQualifier) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *lint.LintResult {
-
-	var err, certificatePolicies = getCertificatePolicies(c)
+	err, certificatePolicies := getCertificatePolicies(c)
 
 	if err != nil {
 		return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
@@ -95,7 +94,7 @@ func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *lint.LintResult {
 			return &lint.LintResult{Status: lint.Fatal, Details: "policyExtensions: Could not unmarshal policyQualifiers sequence."}
 		}
 
-		//iterate over policyQualifiers ... SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
+		// iterate over policyQualifiers ... SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
 		for policyQualifierInfoSeqProcessed := false; !policyQualifierInfoSeqProcessed; {
 			// these bytes belong to the next PolicyQualifierInfo
 			policyQualifiersSeq.Bytes, err = asn1.Unmarshal(policyQualifiersSeq.Bytes, &policyQualifierInfoSeq)
@@ -122,7 +121,6 @@ func (l *unrecommendedQualifier) Execute(c *x509.Certificate) *lint.LintResult {
 }
 
 func getCertificatePolicies(c *x509.Certificate) (error, []policyInformation) {
-
 	extVal := util.GetExtFromCert(c, util.CertPolicyOID).Value
 
 	// adjusted code taken from v3/util/oid.go GetMappedPolicies, see comments there
@@ -149,7 +147,7 @@ func getCertificatePolicies(c *x509.Certificate) (error, []policyInformation) {
 			policyInformationSeqProcessed = true
 		}
 
-		//PolicyInformation ::= SEQUENCE {
+		// PolicyInformation ::= SEQUENCE {
 		//	policyIdentifier   CertPolicyId,
 		//	policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
 

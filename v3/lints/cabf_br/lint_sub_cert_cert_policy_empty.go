@@ -23,12 +23,13 @@ import (
 type subCertPolicyEmpty struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_sub_cert_cert_policy_empty",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_sub_cert_cert_policy_empty",
 		Description:   "Subscriber certificates must contain at least one policy identifier that indicates adherence to CAB standards",
 		Citation:      "BRs: 7.1.2.3",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSubCertPolicyEmpty})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSubCertPolicyEmpty})
 }
 
 func NewSubCertPolicyEmpty() lint.LintInterface {

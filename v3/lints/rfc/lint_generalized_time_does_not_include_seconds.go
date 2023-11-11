@@ -21,8 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type generalizedNoSeconds struct {
-}
+type generalizedNoSeconds struct{}
 
 /********************************************************************
 4.1.2.5.2.  GeneralizedTime
@@ -38,12 +37,13 @@ is zero.  GeneralizedTime values MUST NOT include fractional seconds.
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_generalized_time_does_not_include_seconds",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_generalized_time_does_not_include_seconds",
 		Description:   "Generalized time values MUST include seconds",
 		Citation:      "RFC 5280: 4.1.2.5.2",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewGeneralizedNoSeconds})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewGeneralizedNoSeconds})
 }
 
 func NewGeneralizedNoSeconds() lint.LintInterface {

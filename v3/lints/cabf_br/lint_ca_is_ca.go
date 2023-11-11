@@ -24,12 +24,13 @@ import (
 type caIsCA struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ca_is_ca",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ca_is_ca",
 		Description:   "Root and Sub CA Certificate: The CA field MUST be set to true.",
 		Citation:      "BRs: 7.1.2.1, BRs: 7.1.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewCaIsCA})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewCaIsCA})
 }
 
 func NewCaIsCA() lint.LintInterface {

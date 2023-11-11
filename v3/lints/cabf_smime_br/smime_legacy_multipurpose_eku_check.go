@@ -21,8 +21,7 @@ import (
 )
 
 // shallHaveCrlDistributionPoints - linter to enforce requirement that SMIME certificates SHALL contain emailProtecton EKU
-type legacyMultipurposeEKUCheck struct {
-}
+type legacyMultipurposeEKUCheck struct{}
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{

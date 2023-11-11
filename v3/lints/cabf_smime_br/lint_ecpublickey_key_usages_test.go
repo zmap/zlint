@@ -47,7 +47,8 @@ func TestECPublicKeyKeyUsage(t *testing.T) {
 			Name:           "pass - cert with digitalSignature, keyAgreement, contentCommitment, and decipherOnly KUs",
 			InputFilename:  "smime/ec_legacy_digital_signature_key_agreement_content_commitment_decipher_only_ku.pem",
 			ExpectedResult: lint.Pass,
-		}, {
+		},
+		{
 			Name:           "NA - cert without KUs",
 			InputFilename:  "smime/without_subject_alternative_name.pem",
 			ExpectedResult: lint.NA,

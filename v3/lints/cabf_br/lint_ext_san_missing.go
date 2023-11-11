@@ -30,12 +30,13 @@ Required/Optional: Required
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_missing",
 		Description:   "Subscriber certificates MUST contain the Subject Alternate Name extension",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSANMissing})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSANMissing})
 }
 
 func NewSANMissing() lint.LintInterface {

@@ -28,12 +28,13 @@ SHA‐1 MAY be used with RSA keys in accordance with the criteria defined in Sec
 **************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_sub_cert_or_sub_ca_using_sha1",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_sub_cert_or_sub_ca_using_sha1",
 		Description:   "CAs MUST NOT issue any new Subscriber certificates or Subordinate CA certificates using SHA-1 after 1 January 2016",
 		Citation:      "BRs: 7.1.3",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.NO_SHA1}, Lint: NewSigAlgTestsSHA1})
-
+		EffectiveDate: util.NO_SHA1,
+	}, Lint: NewSigAlgTestsSHA1})
 }
 
 func NewSigAlgTestsSHA1() lint.LintInterface {

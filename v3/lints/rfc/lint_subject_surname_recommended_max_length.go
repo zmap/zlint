@@ -30,13 +30,14 @@ RFC 5280: A.1
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_subject_surname_recommended_max_length",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name: "w_subject_surname_recommended_max_length",
 		Description: "X.411 (1988) describes ub-common-name-length to be 64 bytes long. As systems may have " +
 			"targeted this length, for compatibility purposes it may be prudent to limit surnames to this length.",
 		Citation:      "ITU-T Rec. X.411 (11/1988), Annex B Reference Definition of MTS Parameter Upper Bounds",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewSubjectSurnameRecommendedMaxLength})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewSubjectSurnameRecommendedMaxLength})
 }
 
 func NewSubjectSurnameRecommendedMaxLength() lint.LintInterface {

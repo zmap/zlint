@@ -31,12 +31,13 @@ CAs MUST NOT issue certificates that have:
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_mp_exponent_cannot_be_one",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_mp_exponent_cannot_be_one",
 		Description:   "CAs MUST NOT issue certificates that have invalid public keys (e.g., RSA certificates with public exponent equal to 1)",
 		Citation:      "Mozilla Root Store Policy / Section 5.2",
 		Source:        lint.MozillaRootStorePolicy,
-		EffectiveDate: util.MozillaPolicy24Date}, Lint: NewExponentCannotBeOne})
-
+		EffectiveDate: util.MozillaPolicy24Date,
+	}, Lint: NewExponentCannotBeOne})
 }
 
 func NewExponentCannotBeOne() lint.LintInterface {

@@ -27,12 +27,13 @@ import (
 type qcStatemQcPdsValid struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_qcstatem_qcpds_valid",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_qcstatem_qcpds_valid",
 		Description:   "Checks that a QC Statement of the type id-etsi-qcs-QcPDS has the correct form",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.3.4",
 		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date}, Lint: NewQcStatemQcPdsValid})
-
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+	}, Lint: NewQcStatemQcPdsValid})
 }
 
 func NewQcStatemQcPdsValid() lint.LintInterface {

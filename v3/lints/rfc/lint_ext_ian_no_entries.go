@@ -35,12 +35,13 @@ If the issuerAltName extension is present, the sequence MUST contain
 ***********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_ian_no_entries",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_ian_no_entries",
 		Description:   "If present, the IAN extension must contain at least one entry",
 		Citation:      "RFC 5280: 4.2.1.7",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewIANNoEntry})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewIANNoEntry})
 }
 
 func NewIANNoEntry() lint.LintInterface {

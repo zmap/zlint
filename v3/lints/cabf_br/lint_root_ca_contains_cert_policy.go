@@ -28,12 +28,13 @@ This extension SHOULD NOT be present.
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_root_ca_contains_cert_policy",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_root_ca_contains_cert_policy",
 		Description:   "Root CA Certificate: certificatePolicies SHOULD NOT be present.",
 		Citation:      "BRs: 7.1.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewRootCAContainsCertPolicy})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewRootCAContainsCertPolicy})
 }
 
 func NewRootCAContainsCertPolicy() lint.LintInterface {

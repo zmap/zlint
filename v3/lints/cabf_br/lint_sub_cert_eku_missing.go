@@ -31,12 +31,13 @@ present.
 *******************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_sub_cert_eku_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_sub_cert_eku_missing",
 		Description:   "Subscriber certificates MUST have the extended key usage extension present",
 		Citation:      "BRs: 7.1.2.3",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSubExtKeyUsage})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSubExtKeyUsage})
 }
 
 func NewSubExtKeyUsage() lint.LintInterface {

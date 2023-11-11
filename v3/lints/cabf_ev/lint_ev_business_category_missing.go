@@ -23,12 +23,13 @@ import (
 type evNoBiz struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ev_business_category_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ev_business_category_missing",
 		Description:   "EV certificates must include businessCategory in subject",
 		Citation:      "EVGs: 9.2.3",
 		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.ZeroDate}, Lint: NewEvNoBiz})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewEvNoBiz})
 }
 
 func NewEvNoBiz() lint.LintInterface {

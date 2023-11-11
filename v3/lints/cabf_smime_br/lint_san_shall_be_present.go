@@ -21,12 +21,13 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_san_shall_be_present",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_san_shall_be_present",
 		Description:   "Subject alternative name SHALL be present",
 		Citation:      "7.1.2.3.h",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date}, Lint: NewSubjectAlternativeNameShallBePresent})
-
+		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+	}, Lint: NewSubjectAlternativeNameShallBePresent})
 }
 
 type subjectAlternativeNameShallBePresent struct{}

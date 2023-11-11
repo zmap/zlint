@@ -26,12 +26,13 @@ import (
 type qcStatemQctypeWeb struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_qcstatem_qctype_web",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_qcstatem_qctype_web",
 		Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features at least the type IdEtsiQcsQctWeb",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date}, Lint: NewQcStatemQctypeWeb})
-
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+	}, Lint: NewQcStatemQctypeWeb})
 }
 
 func NewQcStatemQctypeWeb() lint.LintInterface {
@@ -53,7 +54,6 @@ func (l *qcStatemQctypeWeb) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *lint.LintResult {
-
 	errString := ""
 	wrnString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
@@ -66,7 +66,6 @@ func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 		found := false
 		for _, t := range qcType.TypeOids {
-
 			if t.Equal(util.IdEtsiQcsQctWeb) {
 				found = true
 			}

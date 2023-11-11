@@ -37,12 +37,13 @@ Section 7.4.
 *************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_ian_uri_relative",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_ian_uri_relative",
 		Description:   "When issuerAltName extension is present and the URI is used, the name MUST NOT be a relative URI",
 		Citation:      "RFC 5280: 4.2.1.7",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewUriRelative})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewUriRelative})
 }
 
 func NewUriRelative() lint.LintInterface {
@@ -56,7 +57,6 @@ func (l *uriRelative) CheckApplies(c *x509.Certificate) bool {
 func (l *uriRelative) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, uri := range c.IANURIs {
 		parsed_uri, err := url.Parse(uri)
-
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}

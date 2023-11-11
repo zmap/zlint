@@ -22,8 +22,7 @@ import (
 )
 
 func Test_SubCaAiaMissing(t *testing.T) {
-
-	var tests = []struct {
+	tests := []struct {
 		name      string
 		inputPath string
 

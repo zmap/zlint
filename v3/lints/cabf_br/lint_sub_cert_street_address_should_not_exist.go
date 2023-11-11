@@ -23,12 +23,13 @@ import (
 type subCertStreetAddressShouldNotExist struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_sub_cert_street_address_should_not_exist",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_sub_cert_street_address_should_not_exist",
 		Description:   "Subscriber Certificate: subject:streetAddress MUST NOT appear if subject:organizationName, subject:givenName, and subject:surname fields are absent.",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABGivenNameDate}, Lint: NewSubCertStreetAddressShouldNotExist})
-
+		EffectiveDate: util.CABGivenNameDate,
+	}, Lint: NewSubCertStreetAddressShouldNotExist})
 }
 
 func NewSubCertStreetAddressShouldNotExist() lint.LintInterface {
@@ -40,7 +41,7 @@ func (l *subCertStreetAddressShouldNotExist) CheckApplies(c *x509.Certificate) b
 }
 
 func (l *subCertStreetAddressShouldNotExist) Execute(c *x509.Certificate) *lint.LintResult {
-	//If all fields are absent
+	// If all fields are absent
 	if len(c.Subject.Organization) == 0 && len(c.Subject.GivenName) == 0 && len(c.Subject.Surname) == 0 {
 		if len(c.Subject.StreetAddress) > 0 {
 			return &lint.LintResult{Status: lint.Error}

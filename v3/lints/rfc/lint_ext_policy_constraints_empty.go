@@ -33,12 +33,13 @@ Conforming CAs MUST NOT issue certificates where policy constraints
 *************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_policy_constraints_empty",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_policy_constraints_empty",
 		Description:   "Conforming CAs MUST NOT issue certificates where policy constraints is an empty sequence. That is, either the inhibitPolicyMapping field or the requireExplicityPolicy field MUST be present",
 		Citation:      "RFC 5280: 4.2.1.11",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewPolicyConstraintsContents})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewPolicyConstraintsContents})
 }
 
 func NewPolicyConstraintsContents() lint.LintInterface {
@@ -51,7 +52,7 @@ func (l *policyConstraintsContents) CheckApplies(c *x509.Certificate) bool {
 	}
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	var seq asn1.RawValue
-	rest, err := asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
+	rest, err := asn1.Unmarshal(pc.Value, &seq) // only one sequence, so rest should be empty
 	if err != nil || len(rest) != 0 || seq.Tag != 16 || seq.Class != 0 || !seq.IsCompound {
 		return false
 	}
@@ -61,7 +62,7 @@ func (l *policyConstraintsContents) CheckApplies(c *x509.Certificate) bool {
 func (l *policyConstraintsContents) Execute(c *x509.Certificate) *lint.LintResult {
 	pc := util.GetExtFromCert(c, util.PolicyConstOID)
 	var seq asn1.RawValue
-	_, err := asn1.Unmarshal(pc.Value, &seq) //only one sequence, so rest should be empty
+	_, err := asn1.Unmarshal(pc.Value, &seq) // only one sequence, so rest should be empty
 	if err != nil {
 		return &lint.LintResult{Status: lint.Fatal}
 	}

@@ -23,12 +23,13 @@ import (
 type DNSNameValidTLD struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_dnsname_not_valid_tld",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_dnsname_not_valid_tld",
 		Description:   "DNSNames must have a valid TLD.",
 		Citation:      "BRs: 3.2.2.4",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewDNSNameValidTLD})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewDNSNameValidTLD})
 }
 
 func NewDNSNameValidTLD() lint.LintInterface {

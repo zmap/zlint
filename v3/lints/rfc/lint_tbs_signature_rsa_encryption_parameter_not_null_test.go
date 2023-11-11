@@ -8,7 +8,6 @@ import (
 )
 
 func TestSigRSAAlgIDNullParams(t *testing.T) {
-
 	testCases := []struct {
 		name           string
 		filepath       string

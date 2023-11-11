@@ -21,12 +21,13 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_key_usage_presence",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_key_usage_presence",
 		Description:   "keyUsage (SHALL be present)",
 		Citation:      "7.1.2.3.e",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date}, Lint: NewKeyUsagePresence})
-
+		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+	}, Lint: NewKeyUsagePresence})
 }
 
 type keyUsagePresence struct{}

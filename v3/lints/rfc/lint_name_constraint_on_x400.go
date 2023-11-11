@@ -36,12 +36,13 @@ be present.
 *******************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_name_constraint_on_x400",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_name_constraint_on_x400",
 		Description:   "The name constraints extension SHOULD NOT impose constraints on the x400Address name form",
 		Citation:      "RFC 5280: 4.2.1.10",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewNameConstraintOnX400})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewNameConstraintOnX400})
 }
 
 func NewNameConstraintOnX400() lint.LintInterface {

@@ -25,12 +25,13 @@ import (
 type SubjectDNSerialNumberMaxLength struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_dn_serial_number_max_length",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_subject_dn_serial_number_max_length",
 		Description:   "The 'Serial Number' field of the subject MUST be less than 65 characters",
 		Citation:      "RFC 5280: Appendix A",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate}, Lint: NewSubjectDNSerialNumberMaxLength})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewSubjectDNSerialNumberMaxLength})
 }
 
 func NewSubjectDNSerialNumberMaxLength() lint.LintInterface {

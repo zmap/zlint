@@ -29,14 +29,15 @@ type fermatFactorization struct {
 }
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_rsa_fermat_factorization",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name: "e_rsa_fermat_factorization",
 		Description: "RSA key pairs that are too close to each other are susceptible to the Fermat Factorization " +
 			"Method (for more information please see https://en.wikipedia.org/wiki/Fermat%27s_factorization_method " +
 			"and https://fermatattack.secvuln.info/)",
 		Citation:      "Pierre de Fermat",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate}, Lint: NewFermatFactorization})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewFermatFactorization})
 }
 
 func NewFermatFactorization() lint.LintInterface {
@@ -57,7 +58,8 @@ func (l *fermatFactorization) Execute(c *x509.Certificate) *lint.LintResult {
 	if err != nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: fmt.Sprintf("this certificate's RSA key pair is susceptible to Fermat factorization, %s", err.Error())}
+			Details: fmt.Sprintf("this certificate's RSA key pair is susceptible to Fermat factorization, %s", err.Error()),
+		}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}

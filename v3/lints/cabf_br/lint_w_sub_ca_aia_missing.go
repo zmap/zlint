@@ -31,12 +31,13 @@ It SHOULD contain the HTTP URL of the Issuing CA’s certificate (accessMethod =
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_sub_ca_aia_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_sub_ca_aia_missing",
 		Description:   "Subordinate CA Certificate: authorityInformationAccess SHOULD be present.",
 		Citation:      "BRs: 7.1.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABFBRs_1_7_1_Date}, Lint: NewCaAiaShouldNotBeMissing})
-
+		EffectiveDate: util.CABFBRs_1_7_1_Date,
+	}, Lint: NewCaAiaShouldNotBeMissing})
 }
 
 func NewCaAiaShouldNotBeMissing() lint.LintInterface {

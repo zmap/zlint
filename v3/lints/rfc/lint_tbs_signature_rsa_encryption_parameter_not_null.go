@@ -32,12 +32,13 @@ RSA: Encoded algorithm identifier MUST have NULL parameters.
 *******************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_tbs_signature_rsa_encryption_parameter_not_null",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_tbs_signature_rsa_encryption_parameter_not_null",
 		Description:   "RSA: Encoded signature algorithm identifier MUST have NULL parameters",
 		Citation:      "RFC 4055, Section 5",
-		Source:        lint.RFC5280,            // RFC4055 is referenced in RFC5280, Section 1
-		EffectiveDate: util.RFC5280Date}, Lint: NewRsaTBSSignatureEncryptionParamNotNULL})
-
+		Source:        lint.RFC5280, // RFC4055 is referenced in RFC5280, Section 1
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewRsaTBSSignatureEncryptionParamNotNULL})
 }
 
 func NewRsaTBSSignatureEncryptionParamNotNULL() lint.LintInterface {

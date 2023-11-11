@@ -23,12 +23,13 @@ import (
 type publicKeyAllowed struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_public_key_type_not_allowed",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_public_key_type_not_allowed",
 		Description:   "Certificates MUST have RSA, DSA, or ECDSA public key type",
 		Citation:      "BRs: 6.1.5",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewPublicKeyAllowed})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewPublicKeyAllowed})
 }
 
 func NewPublicKeyAllowed() lint.LintInterface {

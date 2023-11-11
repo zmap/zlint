@@ -34,12 +34,13 @@ The name constraints extension, which MUST be used only in a CA
 ***********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_name_constraints_not_in_ca",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_name_constraints_not_in_ca",
 		Description:   "The name constraints extension MUST only be used in CA certificates",
 		Citation:      "RFC 5280: 4.2.1.10",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewNameConstraintNotCa})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewNameConstraintNotCa})
 }
 
 func NewNameConstraintNotCa() lint.LintInterface {

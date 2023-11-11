@@ -39,12 +39,13 @@ RFC 3279: 2.3.1  RSA Keys
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_rsa_allowed_ku_ee",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_rsa_allowed_ku_ee",
 		Description:   "Key usage values digitalSignature, nonRepudiation, keyEncipherment, and dataEncipherment may only be present in an end entity certificate with an RSA key",
 		Citation:      "RFC 3279: 2.3.1",
 		Source:        lint.RFC3279,
-		EffectiveDate: util.RFC3279Date}, Lint: NewRsaAllowedKUEe})
-
+		EffectiveDate: util.RFC3279Date,
+	}, Lint: NewRsaAllowedKUEe})
 }
 
 func NewRsaAllowedKUEe() lint.LintInterface {
@@ -56,16 +57,15 @@ func (l *rsaAllowedKUEe) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaAllowedKUEe) Execute(c *x509.Certificate) *lint.LintResult {
-
-	//KeyUsageDigitalSignature: allowed
-	//KeyUsageContentCommitment: allowed
-	//KeyUsageKeyEncipherment: allowed
-	//KeyUsageDataEncipherment: allowed
-	//KeyUsageKeyAgreement: not allowed
-	//KeyUsageCertSign: not allowed
-	//KeyUsageCRLSign: not allowed
-	//KeyUsageEncipherOnly: not allowed
-	//KeyUsageDecipherOnly: not allowed
+	// KeyUsageDigitalSignature: allowed
+	// KeyUsageContentCommitment: allowed
+	// KeyUsageKeyEncipherment: allowed
+	// KeyUsageDataEncipherment: allowed
+	// KeyUsageKeyAgreement: not allowed
+	// KeyUsageCertSign: not allowed
+	// KeyUsageCRLSign: not allowed
+	// KeyUsageEncipherOnly: not allowed
+	// KeyUsageDecipherOnly: not allowed
 
 	var invalidKUs []string
 

@@ -34,12 +34,13 @@ Wildcard FQDNs are permitted.
 *************************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_uniform_resource_identifier_present",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_uniform_resource_identifier_present",
 		Description:   "The Subject Alternate Name extension MUST contain only 'dnsName' and 'ipaddress' name types",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSANURI})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSANURI})
 }
 
 func NewSANURI() lint.LintInterface {

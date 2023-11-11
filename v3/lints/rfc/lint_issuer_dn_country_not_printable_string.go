@@ -24,12 +24,13 @@ import (
 type IssuerDNCountryNotPrintableString struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_issuer_dn_country_not_printable_string",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_issuer_dn_country_not_printable_string",
 		Description:   "X520 Distinguished Name Country MUST BE encoded as PrintableString",
 		Citation:      "RFC 5280: Appendix A",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate}, Lint: NewIssuerDNCountryNotPrintableString})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewIssuerDNCountryNotPrintableString})
 }
 
 func NewIssuerDNCountryNotPrintableString() lint.LintInterface {

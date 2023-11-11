@@ -41,12 +41,13 @@ RFC 3279: 2.3.1  RSA Keys
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_rsa_allowed_ku_no_encipherment_ca",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_rsa_allowed_ku_no_encipherment_ca",
 		Description:   "If Key usage value keyCertSign or cRLSign is present in a CA certificate both keyEncipherment and dataEncipherment SHOULD NOT be present",
 		Citation:      "RFC 3279: 2.3.1",
 		Source:        lint.RFC3279,
-		EffectiveDate: util.RFC3279Date}, Lint: NewRsaAllowedKUCaNoEncipherment})
-
+		EffectiveDate: util.RFC3279Date,
+	}, Lint: NewRsaAllowedKUCaNoEncipherment})
 }
 
 func NewRsaAllowedKUCaNoEncipherment() lint.LintInterface {
@@ -58,7 +59,6 @@ func (l *rsaAllowedKUCaNoEncipherment) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *rsaAllowedKUCaNoEncipherment) Execute(c *x509.Certificate) *lint.LintResult {
-
 	if util.HasKeyUsage(c, x509.KeyUsageCertSign) || util.HasKeyUsage(c, x509.KeyUsageCRLSign) {
 		if util.HasKeyUsage(c, x509.KeyUsageKeyEncipherment) || util.HasKeyUsage(c, x509.KeyUsageDataEncipherment) {
 			return &lint.LintResult{Status: lint.Error, Details: "CA certificate with an RSA key and key usage keyCertSign and/or cRLSign has additionally keyEncipherment and/or dataEncipherment key usage"}

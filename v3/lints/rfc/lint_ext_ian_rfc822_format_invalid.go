@@ -37,12 +37,13 @@ RFC 5280: 4.2.1.6
 ************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_ian_rfc822_format_invalid",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_ian_rfc822_format_invalid",
 		Description:   "Email must not be surrounded with `<>`, and there MUST NOT be trailing comments in `()`",
 		Citation:      "RFC 5280: 4.2.1.7",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewIANEmail})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewIANEmail})
 }
 
 func NewIANEmail() lint.LintInterface {

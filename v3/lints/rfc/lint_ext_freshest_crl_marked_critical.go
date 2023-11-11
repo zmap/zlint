@@ -28,12 +28,13 @@ The freshest CRL extension identifies how delta CRL information is obtained. The
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_freshest_crl_marked_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_freshest_crl_marked_critical",
 		Description:   "Freshest CRL MUST be marked as non-critical by conforming CAs",
 		Citation:      "RFC 5280: 4.2.1.15",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date}, Lint: NewExtFreshestCrlMarkedCritical})
-
+		EffectiveDate: util.RFC3280Date,
+	}, Lint: NewExtFreshestCrlMarkedCritical})
 }
 
 func NewExtFreshestCrlMarkedCritical() lint.LintInterface {
@@ -51,5 +52,5 @@ func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) *lint.Lin
 	} else if fCRL != nil && !fCRL.Critical {
 		return &lint.LintResult{Status: lint.Pass}
 	}
-	return &lint.LintResult{Status: lint.NA} //shouldn't happen
+	return &lint.LintResult{Status: lint.NA} // shouldn't happen
 }

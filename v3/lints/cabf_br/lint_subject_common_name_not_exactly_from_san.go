@@ -34,12 +34,13 @@ the subjectAltName extension.
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_common_name_not_exactly_from_san",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_subject_common_name_not_exactly_from_san",
 		Description:   "The common name field in subscriber certificates must include only names from the SAN extension",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABFBRs_1_8_0_Date}, Lint: NewSubjectCommonNameNotExactlyFromSAN})
-
+		EffectiveDate: util.CABFBRs_1_8_0_Date,
+	}, Lint: NewSubjectCommonNameNotExactlyFromSAN})
 }
 
 func NewSubjectCommonNameNotExactlyFromSAN() lint.LintInterface {
@@ -52,7 +53,7 @@ func (l *subjectCommonNameNotExactlyFromSAN) CheckApplies(c *x509.Certificate) b
 
 func (l *subjectCommonNameNotExactlyFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, cn := range c.Subject.CommonNames {
-		var cnFound = false
+		cnFound := false
 		for _, dn := range c.DNSNames {
 			if cn == dn {
 				cnFound = true

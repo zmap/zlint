@@ -23,12 +23,13 @@ import (
 type validityNegative struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_validity_time_not_positive",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_validity_time_not_positive",
 		Description:   "Certificates MUST have a positive time for which they are valid",
 		Citation:      "lint.AWSLabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate}, Lint: NewValidityNegative})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewValidityNegative})
 }
 
 func NewValidityNegative() lint.LintInterface {

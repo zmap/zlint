@@ -23,12 +23,13 @@ import (
 type SubjectDNLeadingSpace struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_subject_dn_leading_whitespace",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_subject_dn_leading_whitespace",
 		Description:   "AttributeValue in subject RelativeDistinguishedName sequence SHOULD NOT have leading whitespace",
 		Citation:      "lint.AWSLabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate}, Lint: NewSubjectDNLeadingSpace})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewSubjectDNLeadingSpace})
 }
 
 func NewSubjectDNLeadingSpace() lint.LintInterface {

@@ -29,12 +29,13 @@ If the Root CA Private Key is used for signing OCSP responses, then the digitalS
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ca_key_usage_not_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ca_key_usage_not_critical",
 		Description:   "Root and Subordinate CA certificate keyUsage extension MUST be marked as critical",
 		Citation:      "BRs: 7.1.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewCaKeyUsageNotCrit})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewCaKeyUsageNotCrit})
 }
 
 func NewCaKeyUsageNotCrit() lint.LintInterface {

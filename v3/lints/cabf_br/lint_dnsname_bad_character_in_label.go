@@ -27,12 +27,13 @@ type DNSNameProperCharacters struct {
 }
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_dnsname_bad_character_in_label",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_dnsname_bad_character_in_label",
 		Description:   "Characters in labels of DNSNames MUST be alphanumeric, - , _ or *",
 		Citation:      "BRs: 7.1.4.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewDNSNameProperCharacters})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewDNSNameProperCharacters})
 }
 
 func NewDNSNameProperCharacters() lint.LintInterface {

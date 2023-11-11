@@ -25,12 +25,13 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_underscore_not_permissible_in_dnsname",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_underscore_not_permissible_in_dnsname",
 		Description:   "DNSNames MUST NOT contain underscore characters",
 		Citation:      "BR 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate}, Lint: func() lint.LintInterface { return &UnderscoreNotPermissibleInDNSName{} }})
-
+		EffectiveDate: util.CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate,
+	}, Lint: func() lint.LintInterface { return &UnderscoreNotPermissibleInDNSName{} }})
 }
 
 type UnderscoreNotPermissibleInDNSName struct{}

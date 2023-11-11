@@ -26,12 +26,13 @@ import (
 type qcStatemQctypeValid struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_qcstatem_qctype_valid",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_qcstatem_qctype_valid",
 		Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features a non-empty list of only the allowed QcType OIDs",
 		Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 		Source:        lint.EtsiEsi,
-		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date}, Lint: NewQcStatemQctypeValid})
-
+		EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
+	}, Lint: NewQcStatemQctypeValid})
 }
 
 func NewQcStatemQctypeValid() lint.LintInterface {
@@ -53,7 +54,6 @@ func (l *qcStatemQctypeValid) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *qcStatemQctypeValid) Execute(c *x509.Certificate) *lint.LintResult {
-
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
@@ -64,7 +64,6 @@ func (l *qcStatemQctypeValid) Execute(c *x509.Certificate) *lint.LintResult {
 			errString += "no QcType present, sequence of OIDs is empty"
 		}
 		for _, t := range qcType.TypeOids {
-
 			if !t.Equal(util.IdEtsiQcsQctEsign) && !t.Equal(util.IdEtsiQcsQctEseal) && !t.Equal(util.IdEtsiQcsQctWeb) {
 				if len(errString) > 0 {
 					errString += "; "

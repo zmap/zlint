@@ -9,11 +9,9 @@ import (
 	"testing"
 )
 
-var (
-	// filesChecked is a global counter of the number of files tested by
-	// checkForLeftovers.
-	filesChecked int
-)
+// filesChecked is a global counter of the number of files tested by
+// checkForLeftovers.
+var filesChecked int
 
 // checkForLeftovers checks the given filename (assumed to be a .go src file)
 // contains none of the template leftovers. An error is returned if there is

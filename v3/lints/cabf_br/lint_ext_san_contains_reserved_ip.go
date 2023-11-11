@@ -23,12 +23,13 @@ import (
 type SANReservedIP struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_contains_reserved_ip",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_contains_reserved_ip",
 		Description:   "CAs SHALL NOT issue certificates with a subjectAltName extension or subject:commonName field containing a Reserved IP Address or Internal Name.",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSANReservedIP})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSANReservedIP})
 }
 
 func NewSANReservedIP() lint.LintInterface {

@@ -21,8 +21,7 @@ import (
 )
 
 // strictEKUCheck - linter to enforce requirement that SMIME certificates SHALL contain emailProtecton EKU
-type strictEKUCheck struct {
-}
+type strictEKUCheck struct{}
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{

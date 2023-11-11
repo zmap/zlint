@@ -23,13 +23,14 @@ import (
 type evOrgIdExtMissing struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ev_organization_id_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name: "e_ev_organization_id_missing",
 		Description: "Effective January 31, 2020, if the subject:organizationIdentifier field is " +
 			"present, this [cabfOrganizationIdentifier] field MUST be present.",
 		Citation:      "CA/Browser Forum EV Guidelines v1.7.0, Sec. 9.8.2",
 		Source:        lint.CABFEVGuidelines,
-		EffectiveDate: util.CABFEV_9_8_2}, Lint: NewEvOrgIdExtMissing})
-
+		EffectiveDate: util.CABFEV_9_8_2,
+	}, Lint: NewEvOrgIdExtMissing})
 }
 
 func NewEvOrgIdExtMissing() lint.LintInterface {
@@ -45,7 +46,8 @@ func (l *evOrgIdExtMissing) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{
 			Status: lint.Error,
 			Details: "subject:organizationIdentifier field is present in an EV certificate " +
-				"but the CA/Browser Forum Organization Identifier Field Extension is missing"}
+				"but the CA/Browser Forum Organization Identifier Field Extension is missing",
+		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
 }

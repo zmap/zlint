@@ -23,12 +23,13 @@ import (
 type caCommonNameMissing struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ca_common_name_missing",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ca_common_name_missing",
 		Description:   "CA Certificates common name MUST be included.",
 		Citation:      "BRs: 7.1.4.3.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV148Date}, Lint: NewCaCommonNameMissing})
-
+		EffectiveDate: util.CABV148Date,
+	}, Lint: NewCaCommonNameMissing})
 }
 
 func NewCaCommonNameMissing() lint.LintInterface {

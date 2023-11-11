@@ -32,7 +32,8 @@ import (
 type arpaMalformedIP struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_subject_contains_malformed_arpa_ip",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name: "w_subject_contains_malformed_arpa_ip",
 		Description: "Checks no subject domain name contains a rDNS entry in the " +
 			"registry-controlled .arpa zone with the wrong number of labels, or " +
 			"an invalid IP address (RFC 3596, BCP49)",
@@ -46,8 +47,8 @@ func init() {
 		// [0]: https://github.com/cabforum/documents/issues/153
 		Citation:      "BRs: 3.2.2.6",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewArpaMalformedIP})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewArpaMalformedIP})
 }
 
 func NewArpaMalformedIP() lint.LintInterface {

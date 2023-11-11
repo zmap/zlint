@@ -28,12 +28,13 @@ RFC 5280: 4.2.1.2
 **********************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_subject_key_identifier_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_subject_key_identifier_critical",
 		Description:   "The subject key identifier extension MUST be non-critical",
 		Citation:      "RFC 5280: 4.2.1.2",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewSubjectKeyIdCritical})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewSubjectKeyIdCritical})
 }
 
 func NewSubjectKeyIdCritical() lint.LintInterface {
@@ -45,10 +46,10 @@ func (l *subjectKeyIdCritical) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *subjectKeyIdCritical) Execute(c *x509.Certificate) *lint.LintResult {
-	ski := util.GetExtFromCert(c, util.SubjectKeyIdentityOID) //pointer to the extension
+	ski := util.GetExtFromCert(c, util.SubjectKeyIdentityOID) // pointer to the extension
 	if ski.Critical {
 		return &lint.LintResult{Status: lint.Error}
-	} else { //implies !ski.Critical
+	} else { // implies !ski.Critical
 		return &lint.LintResult{Status: lint.Pass}
 	}
 }

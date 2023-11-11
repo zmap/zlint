@@ -33,12 +33,13 @@ required under Section 7.1.4.2.2), and countryName in the Subject field.
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_cert_policy_ov_requires_country",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_cert_policy_ov_requires_country",
 		Description:   "If certificate policy 2.23.140.1.2.2 is included, countryName MUST be included in subject",
 		Citation:      "BRs: 7.1.6.4",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewCertPolicyOVRequiresCountry})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewCertPolicyOVRequiresCountry})
 }
 
 func NewCertPolicyOVRequiresCountry() lint.LintInterface {

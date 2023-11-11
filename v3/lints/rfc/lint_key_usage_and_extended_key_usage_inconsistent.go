@@ -26,12 +26,13 @@ import (
 type KUAndEKUInconsistent struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_key_usage_and_extended_key_usage_inconsistent",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_key_usage_and_extended_key_usage_inconsistent",
 		Description:   "The certificate MUST only be used for a purpose consistent with both key usage extension and extended key usage extension.",
 		Citation:      "RFC 5280, Section 4.2.1.12.",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewKUAndEKUInconsistent})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewKUAndEKUInconsistent})
 }
 
 func NewKUAndEKUInconsistent() lint.LintInterface {
@@ -64,7 +65,7 @@ func (l *KUAndEKUInconsistent) Execute(c *x509.Certificate) *lint.LintResult {
 func (l *KUAndEKUInconsistent) multiPurpose(c *x509.Certificate) *lint.LintResult {
 	// Create a map with each KeyUsage combination that is authorized for the
 	// included extKeyUsage(es).
-	var mp = map[x509.KeyUsage]bool{}
+	mp := map[x509.KeyUsage]bool{}
 	for _, extKeyUsage := range c.ExtKeyUsage {
 		var i int
 		if _, ok := eku[extKeyUsage]; !ok {
@@ -117,7 +118,6 @@ func (l *KUAndEKUInconsistent) strictPurpose(c *x509.Certificate) *lint.LintResu
 }
 
 var eku = map[x509.ExtKeyUsage]map[x509.KeyUsage]bool{
-
 	// KU combinations with Server Authentication EKU:
 	//  RFC 5280 4.2.1.12 on KU consistency with Server Authentication EKU:
 	//    -- TLS WWW server authentication

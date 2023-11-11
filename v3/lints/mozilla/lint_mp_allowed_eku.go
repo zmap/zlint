@@ -37,12 +37,13 @@ intermediates.
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "n_mp_allowed_eku",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "n_mp_allowed_eku",
 		Description:   "A SubCA certificate must not have key usage that allows for both server auth and email protection, and must not use anyExtendedKeyUsage",
 		Citation:      "Mozilla Root Store Policy / Section 5.3",
 		Source:        lint.MozillaRootStorePolicy,
-		EffectiveDate: time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC)}, Lint: NewAllowedEKU})
-
+		EffectiveDate: time.Date(2019, time.January, 1, 0, 0, 0, 0, time.UTC),
+	}, Lint: NewAllowedEKU})
 }
 
 func NewAllowedEKU() lint.LintInterface {
@@ -59,9 +60,8 @@ func (l *allowedEKU) CheckApplies(c *x509.Certificate) bool {
 func (l *allowedEKU) Execute(c *x509.Certificate) *lint.LintResult {
 	noEKU := len(c.ExtKeyUsage) == 0
 	anyEKU := util.HasEKU(c, x509.ExtKeyUsageAny)
-	emailAndServerAuthEKU :=
-		util.HasEKU(c, x509.ExtKeyUsageEmailProtection) &&
-			util.HasEKU(c, x509.ExtKeyUsageServerAuth)
+	emailAndServerAuthEKU := util.HasEKU(c, x509.ExtKeyUsageEmailProtection) &&
+		util.HasEKU(c, x509.ExtKeyUsageServerAuth)
 
 	if noEKU || anyEKU || emailAndServerAuthEKU {
 		// NOTE(@cpu): When this lint's scope is improved (see CheckApplies TODO)

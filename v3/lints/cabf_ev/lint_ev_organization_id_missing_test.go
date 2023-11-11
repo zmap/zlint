@@ -22,7 +22,7 @@ import (
 )
 
 func TestOrganizationIDMissing(t *testing.T) {
-	var tests = map[string]lint.LintStatus{
+	tests := map[string]lint.LintStatus{
 		"evOrgIdExtMissing_NoOrgId.pem":                                   lint.NA,
 		"evOrgIdExtMissing_CABFOrgIdExtMissingButBeforeEffectiveDate.pem": lint.NE,
 		"evOrgIdExtMissing_ValidButBeforeEffectiveDate.pem":               lint.NE,

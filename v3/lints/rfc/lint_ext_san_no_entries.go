@@ -35,12 +35,13 @@ If the subjectAltName extension is present, the sequence MUST contain
 ***********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_no_entries",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_no_entries",
 		Description:   "If present, the SAN extension MUST contain at least one entry",
 		Citation:      "RFC 5280: 4.2.1.6",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewSANNoEntry})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewSANNoEntry})
 }
 
 func NewSANNoEntry() lint.LintInterface {

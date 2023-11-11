@@ -31,12 +31,13 @@ type ExtCertPolicyDuplicate struct{}
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_cert_policy_duplicate",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_cert_policy_duplicate",
 		Description:   "A certificate policy OID must not appear more than once in the extension",
 		Citation:      "RFC 5280: 4.2.1.4",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC5280Date}, Lint: NewExtCertPolicyDuplicate})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewExtCertPolicyDuplicate})
 }
 
 func NewExtCertPolicyDuplicate() lint.LintInterface {

@@ -22,7 +22,7 @@ import (
 )
 
 func TestCnNotExactlyFromSAN(t *testing.T) {
-	var testCases = []struct {
+	testCases := []struct {
 		name      string
 		inputFile string
 

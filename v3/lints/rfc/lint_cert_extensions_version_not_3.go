@@ -42,12 +42,13 @@ type CertExtensionsVersonNot3 struct{}
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_cert_extensions_version_not_3",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_cert_extensions_version_not_3",
 		Description:   "The extensions field MUST only appear in version 3 certificates",
 		Citation:      "RFC 5280: 4.1.2.9",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewCertExtensionsVersonNot3})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewCertExtensionsVersonNot3})
 }
 
 func NewCertExtensionsVersonNot3() lint.LintInterface {

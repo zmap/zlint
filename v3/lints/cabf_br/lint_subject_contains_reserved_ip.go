@@ -34,12 +34,13 @@ Address or Internal Name.
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_contains_reserved_ip",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_subject_contains_reserved_ip",
 		Description:   "Certificates expiring later than 11 Jan 2015 MUST NOT contain a reserved IP address in the common name field",
 		Citation:      "BRs: 7.1.4.2.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewSubjectReservedIP})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewSubjectReservedIP})
 }
 
 func NewSubjectReservedIP() lint.LintInterface {

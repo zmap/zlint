@@ -25,12 +25,13 @@ import (
 type SANDNSDuplicate struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "n_san_dns_name_duplicate",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "n_san_dns_name_duplicate",
 		Description:   "SAN DNSName contains duplicate values",
 		Citation:      "awslabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate}, Lint: NewSANDNSDuplicate})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewSANDNSDuplicate})
 }
 
 func NewSANDNSDuplicate() lint.LintInterface {

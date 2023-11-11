@@ -38,12 +38,13 @@ type InhibitAnyPolicyNotCritical struct{}
 ************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_inhibit_any_policy_not_critical",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_inhibit_any_policy_not_critical",
 		Description:   "CAs MUST mark the inhibitAnyPolicy extension as critical",
 		Citation:      "RFC 5280: 4.2.1.14",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date}, Lint: NewInhibitAnyPolicyNotCritical})
-
+		EffectiveDate: util.RFC3280Date,
+	}, Lint: NewInhibitAnyPolicyNotCritical})
 }
 
 func NewInhibitAnyPolicyNotCritical() lint.LintInterface {

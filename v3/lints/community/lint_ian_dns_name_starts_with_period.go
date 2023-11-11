@@ -25,12 +25,13 @@ import (
 type IANDNSPeriod struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ian_dns_name_starts_with_period",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ian_dns_name_starts_with_period",
 		Description:   "DNSName MUST NOT start with a period",
 		Citation:      "awslabs certlint",
 		Source:        lint.Community,
-		EffectiveDate: util.ZeroDate}, Lint: NewIANDNSPeriod})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewIANDNSPeriod})
 }
 
 func NewIANDNSPeriod() lint.LintInterface {

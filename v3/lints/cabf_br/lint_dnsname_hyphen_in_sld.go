@@ -25,12 +25,13 @@ import (
 type DNSNameHyphenInSLD struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_dnsname_hyphen_in_sld",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_dnsname_hyphen_in_sld",
 		Description:   "DNSName should not have a hyphen beginning or ending the SLD",
 		Citation:      "BRs 7.1.4.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.RFC5280Date}, Lint: NewDNSNameHyphenInSLD})
-
+		EffectiveDate: util.RFC5280Date,
+	}, Lint: NewDNSNameHyphenInSLD})
 }
 
 func NewDNSNameHyphenInSLD() lint.LintInterface {

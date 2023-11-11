@@ -22,7 +22,7 @@ import (
 )
 
 func TestSmoke(t *testing.T) {
-	var tests = map[string]lint.LintStatus{
+	tests := map[string]lint.LintStatus{
 		"evWildcard.pem":                lint.Error,
 		"evSubscriberNotWildCard.pem":   lint.Pass,
 		"evSubscriberWildcardOnion.pem": lint.Pass,

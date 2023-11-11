@@ -39,12 +39,13 @@ When the subjectAltName extension contains a domain name system
 ************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ext_san_space_dns_name",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ext_san_space_dns_name",
 		Description:   "The dNSName ` ` MUST NOT be used",
 		Citation:      "RFC 5280: 4.2.1.6",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewSANIsSpaceDNS})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewSANIsSpaceDNS})
 }
 
 func NewSANIsSpaceDNS() lint.LintInterface {

@@ -23,12 +23,13 @@ import (
 type extraSubjectCommonNames struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_extra_subject_common_names",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_extra_subject_common_names",
 		Description:   "if present the subject commonName field MUST contain a single IP address or Fully-Qualified Domain Name",
 		Citation:      "BRs: 7.1.4.2.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewExtraSubjectCommonNames})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewExtraSubjectCommonNames})
 }
 
 func NewExtraSubjectCommonNames() lint.LintInterface {

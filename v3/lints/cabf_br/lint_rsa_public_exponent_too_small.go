@@ -30,12 +30,13 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 *******************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_rsa_public_exponent_too_small",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_rsa_public_exponent_too_small",
 		Description:   "RSA: Value of public exponent is an odd number equal to 3 or more.",
 		Citation:      "BRs: 6.1.6",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV113Date}, Lint: NewRsaParsedTestsExpBounds})
-
+		EffectiveDate: util.CABV113Date,
+	}, Lint: NewRsaParsedTestsExpBounds})
 }
 
 func NewRsaParsedTestsExpBounds() lint.LintInterface {
@@ -49,7 +50,7 @@ func (l *rsaParsedTestsExpBounds) CheckApplies(c *x509.Certificate) bool {
 
 func (l *rsaParsedTestsExpBounds) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
-	if key.E >= 3 { //If Cmp returns 1, means N > E
+	if key.E >= 3 { // If Cmp returns 1, means N > E
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
 		return &lint.LintResult{Status: lint.Error}

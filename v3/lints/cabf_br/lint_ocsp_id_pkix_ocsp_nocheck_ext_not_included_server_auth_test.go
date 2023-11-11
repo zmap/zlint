@@ -27,7 +27,6 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 		Filename       string
 		ExpectedResult lint.LintStatus
 	}{
-
 		// Legend for the nameing:
 		// o1 --> EKU OCSPSigning set; o0 not set
 		// s1 --> EKU serverAuth set, s0 not set
@@ -54,7 +53,8 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 			Name:           "o0s0ep0a1nc1",
 			Filename:       "o0s0ep0a1nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o0s1ep0a0nc0",
 			Filename:       "o0s1ep0a0nc0.pem",
 			ExpectedResult: lint.NA,
@@ -63,47 +63,58 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 			Name:           "o0s1ep0a0nc1",
 			Filename:       "o0s1ep0a0nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o0s1ep0a1nc0",
 			Filename:       "o0s1ep0a1nc0.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o0s1ep0a1nc1",
 			Filename:       "o0s1ep0a1nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o1s0ep0a0nc0",
 			Filename:       "o1s0ep0a0nc0.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o1s0ep0a0nc1",
 			Filename:       "o1s0ep0a0nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o1s0ep0a1nc0",
 			Filename:       "o1s0ep0a1nc0.pem",
 			ExpectedResult: lint.Error,
-		}, {
+		},
+		{
 			Name:           "o1s0ep0a1nc1",
 			Filename:       "o1s0ep0a1nc1.pem",
 			ExpectedResult: lint.Pass,
-		}, {
+		},
+		{
 			Name:           "o1s1ep0a0nc0",
 			Filename:       "o1s1ep0a0nc0.pem",
 			ExpectedResult: lint.Error,
-		}, {
+		},
+		{
 			Name:           "o1s1ep0a0nc1",
 			Filename:       "o1s1ep0a0nc1.pem",
 			ExpectedResult: lint.Pass,
-		}, {
+		},
+		{
 			Name:           "o1s1ep0a1nc0",
 			Filename:       "o1s1ep0a1nc0.pem",
 			ExpectedResult: lint.Error,
-		}, {
+		},
+		{
 			Name:           "o1s1ep0a1nc1",
 			Filename:       "o1s1ep0a1nc1.pem",
 			ExpectedResult: lint.Pass,
-		}, {
+		},
+		{
 			Name:           "o0s0ep1a0nc0",
 			Filename:       "o0s0ep1a0nc0.pem",
 			ExpectedResult: lint.NA,
@@ -122,7 +133,8 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 			Name:           "o0s0ep1a1nc1",
 			Filename:       "o0s0ep1a1nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o0s1ep1a0nc0",
 			Filename:       "o0s1ep1a0nc0.pem",
 			ExpectedResult: lint.NA,
@@ -131,43 +143,53 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 			Name:           "o0s1ep1a0nc1",
 			Filename:       "o0s1ep1a0nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o0s1ep1a1nc0",
 			Filename:       "o0s1ep1a1nc0.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o0s1ep1a1nc1",
 			Filename:       "o0s1ep1a1nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o1s0ep1a0nc0",
 			Filename:       "o1s0ep1a0nc0.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o1s0ep1a0nc1",
 			Filename:       "o1s0ep1a0nc1.pem",
 			ExpectedResult: lint.NA,
-		}, {
+		},
+		{
 			Name:           "o1s0ep1a1nc0",
 			Filename:       "o1s0ep1a1nc0.pem",
 			ExpectedResult: lint.Error,
-		}, {
+		},
+		{
 			Name:           "o1s0ep1a1nc1",
 			Filename:       "o1s0ep1a1nc1.pem",
 			ExpectedResult: lint.Pass,
-		}, {
+		},
+		{
 			Name:           "o1s1ep1a0nc0",
 			Filename:       "o1s1ep1a0nc0.pem",
 			ExpectedResult: lint.Error,
-		}, {
+		},
+		{
 			Name:           "o1s1ep1a0nc1",
 			Filename:       "o1s1ep1a0nc1.pem",
 			ExpectedResult: lint.Pass,
-		}, {
+		},
+		{
 			Name:           "o1s1ep1a1nc0",
 			Filename:       "o1s1ep1a1nc0.pem",
 			ExpectedResult: lint.Error,
-		}, {
+		},
+		{
 			Name:           "o1s1ep1a1nc1",
 			Filename:       "o1s1ep1a1nc1.pem",
 			ExpectedResult: lint.Pass,

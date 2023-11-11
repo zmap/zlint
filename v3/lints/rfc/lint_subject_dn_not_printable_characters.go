@@ -26,12 +26,13 @@ import (
 type subjectDNNotPrintableCharacters struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_subject_dn_not_printable_characters",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_subject_dn_not_printable_characters",
 		Description:   "X520 Subject fields MUST only contain printable control characters",
 		Citation:      "RFC 5280: Appendix A",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.ZeroDate}, Lint: NewSubjectDNNotPrintableCharacters})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewSubjectDNNotPrintableCharacters})
 }
 
 func NewSubjectDNNotPrintableCharacters() lint.LintInterface {

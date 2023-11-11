@@ -31,12 +31,13 @@ Each issuerDomainPolicy named in the policy mapping extension SHOULD
 *********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_ext_policy_map_not_in_cert_policy",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_ext_policy_map_not_in_cert_policy",
 		Description:   "Each issuerDomainPolicy named in the policy mappings extension should also be asserted in a certificate policies extension",
 		Citation:      "RFC 5280: 4.2.1.5",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date}, Lint: NewPolicyMapMatchesCertPolicy})
-
+		EffectiveDate: util.RFC3280Date,
+	}, Lint: NewPolicyMapMatchesCertPolicy})
 }
 
 func NewPolicyMapMatchesCertPolicy() lint.LintInterface {

@@ -25,12 +25,13 @@ import (
 type DNSNameEmptyLabel struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_dnsname_empty_label",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_dnsname_empty_label",
 		Description:   "DNSNames should not have an empty label.",
 		Citation:      "BRs: 7.1.4.2",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate}, Lint: NewDNSNameEmptyLabel})
-
+		EffectiveDate: util.CABEffectiveDate,
+	}, Lint: NewDNSNameEmptyLabel})
 }
 
 func NewDNSNameEmptyLabel() lint.LintInterface {

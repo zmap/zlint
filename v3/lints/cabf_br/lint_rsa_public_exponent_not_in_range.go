@@ -33,12 +33,13 @@ RSA: The CA SHALL confirm that the value of the public exponent is an odd number
 *******************************************************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "w_rsa_public_exponent_not_in_range",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "w_rsa_public_exponent_not_in_range",
 		Description:   "RSA: Public exponent SHOULD be in the range between 2^16 + 1 and 2^256 - 1",
 		Citation:      "BRs: 6.1.6",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABV113Date}, Lint: NewRsaParsedTestsExpInRange})
-
+		EffectiveDate: util.CABV113Date,
+	}, Lint: NewRsaParsedTestsExpInRange})
 }
 
 func NewRsaParsedTestsExpInRange() lint.LintInterface {

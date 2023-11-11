@@ -14,7 +14,7 @@ package rfc
  * permissions and limitations under the License.
  */
 
-//lint_ext_ian_uri_format_invalid_invalid
+// lint_ext_ian_uri_format_invalid_invalid
 
 import (
 	"testing"

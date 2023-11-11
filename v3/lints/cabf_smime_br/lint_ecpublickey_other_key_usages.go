@@ -21,12 +21,13 @@ import (
 )
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_ec_other_key_usages",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_ec_other_key_usages",
 		Description:   "Other bit positions SHALL NOT be set.",
 		Citation:      "7.1.2.3.e",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date}, Lint: NewECOtherKeyUsages})
-
+		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+	}, Lint: NewECOtherKeyUsages})
 }
 
 type ecOtherKeyUsages struct{}

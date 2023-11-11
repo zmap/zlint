@@ -42,13 +42,14 @@ For P‐521 keys: 301006072a8648ce3d020106052b81040023
 ***********************************************
 */
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_algorithm_identifier_improper_encoding",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name: "e_algorithm_identifier_improper_encoding",
 		Description: "Encoded AlgorithmObjectIdentifier objects inside a SubjectPublicKeyInfo field " +
 			"MUST comply with specified byte sequences.",
 		Citation:      "BRs: 7.1.3.1",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABFBRs_1_7_1_Date}, Lint: NewAlgorithmObjectIdentifierEncoding})
-
+		EffectiveDate: util.CABFBRs_1_7_1_Date,
+	}, Lint: NewAlgorithmObjectIdentifierEncoding})
 }
 
 func NewAlgorithmObjectIdentifierEncoding() lint.LintInterface {
@@ -72,7 +73,6 @@ func (l *algorithmObjectIdentifierEncoding) CheckApplies(c *x509.Certificate) bo
 }
 
 func (l *algorithmObjectIdentifierEncoding) Execute(c *x509.Certificate) *lint.LintResult {
-
 	rawAlgorithmIdentifier, err := util.GetPublicKeyAidEncoded(c)
 	if err != nil {
 		return &lint.LintResult{Status: lint.Fatal, Details: "error parsing SubjectPublicKeyInfo"}

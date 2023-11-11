@@ -25,12 +25,13 @@ import (
 type IDNMalformedUnicode struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_international_dns_name_not_unicode",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_international_dns_name_not_unicode",
 		Description:   "Internationalized DNSNames punycode not valid Unicode",
 		Citation:      "RFC 3490",
 		EffectiveDate: util.RFC3490Date,
-		Source:        lint.RFC5280}, Lint: NewIDNMalformedUnicode})
-
+		Source:        lint.RFC5280,
+	}, Lint: NewIDNMalformedUnicode})
 }
 
 func NewIDNMalformedUnicode() lint.LintInterface {

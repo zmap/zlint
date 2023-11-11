@@ -25,12 +25,13 @@ import (
 type rootCaModSize struct{}
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_old_root_ca_rsa_mod_less_than_2048_bits",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_old_root_ca_rsa_mod_less_than_2048_bits",
 		Description:   "In a validity period beginning on or before 31 Dec 2010, root CA certificates using RSA public key algorithm MUST use a 2048 bit modulus",
 		Citation:      "BRs: 6.1.5",
 		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.ZeroDate}, Lint: NewRootCaModSize})
-
+		EffectiveDate: util.ZeroDate,
+	}, Lint: NewRootCaModSize})
 }
 
 func NewRootCaModSize() lint.LintInterface {

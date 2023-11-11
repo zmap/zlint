@@ -26,8 +26,7 @@ type basicConst struct {
 	PathLenConstraint int  `asn1:"optional"`
 }
 
-type pathLenNonPositive struct {
-}
+type pathLenNonPositive struct{}
 
 /********************************************************************
 The pathLenConstraint field is meaningful only if the cA boolean is
@@ -46,12 +45,13 @@ not appear, no limit is imposed.
 ********************************************************************/
 
 func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{Name: "e_path_len_constraint_zero_or_less",
+	lint.RegisterCertificateLint(&lint.CertificateLint{LintMetadata: lint.LintMetadata{
+		Name:          "e_path_len_constraint_zero_or_less",
 		Description:   "Where it appears, the pathLenConstraint field MUST be greater than or equal to zero",
 		Citation:      "RFC 5280: 4.2.1.9",
 		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date}, Lint: NewPathLenNonPositive})
-
+		EffectiveDate: util.RFC2459Date,
+	}, Lint: NewPathLenNonPositive})
 }
 
 func NewPathLenNonPositive() lint.LintInterface {
