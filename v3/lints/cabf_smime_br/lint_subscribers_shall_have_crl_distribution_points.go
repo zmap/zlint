@@ -21,13 +21,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subscribers_shall_have_crl_distribution_points",
-		Description:   "cRLDistributionPoints SHALL be present.",
-		Citation:      "7.1.2.3.b",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewSubscriberCrlDistributionPoints,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_subscribers_shall_have_crl_distribution_points",
+			Description:   "cRLDistributionPoints SHALL be present.",
+			Citation:      "7.1.2.3.b",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewSubscriberCrlDistributionPoints,
 	})
 }
 
