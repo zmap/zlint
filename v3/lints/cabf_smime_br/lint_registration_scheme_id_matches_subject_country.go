@@ -48,8 +48,8 @@ func NewRegistrationSchemeIDMatchesSubjectCountry() lint.LintInterface {
 
 // CheckApplies returns true if the provided certificate contains subject:countryName and one-or-more of the following SMIME BR policy identifiers:
 //   - Organization Validated Strict
-// 	 - Organization Validated Multipurpose
-// 	 - Organization Validated Legacy
+//   - Organization Validated Multipurpose
+//   - Organization Validated Legacy
 //   - Sponsor Validated Strict
 //   - Sponsor Validated Multipurpose
 //   - Sponsor Validated Legacy
