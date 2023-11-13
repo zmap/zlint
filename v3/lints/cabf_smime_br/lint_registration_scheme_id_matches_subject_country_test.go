@@ -36,16 +36,15 @@ func TestRegistrationSchemeIDMatchesSubjectNameCountry(t *testing.T) {
 			ExpectedResult:  lint.NA,
 		},
 		{
+			Name:            "error - organization validated certificate with subject:organizationIdentifier in incorrect format",
+			InputFilename:   "smime/organization_validated_with_incorrect_format_identifier.pem",
+			ExpectedResult:  lint.NA,
+			},
+		{
 			Name:            "error - organization validated certificate with subject:Name:Country not matching subject:organizationIdentifier",
 			InputFilename:   "smime/organization_validated_with_non_matching_country.pem",
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "the country code used in the Registration Scheme identifier SHALL match that of the subject:countryName",
-		},
-		{
-			Name:            "error - organization validated certificate with subject:organizationIdentifier in incorrect format",
-			InputFilename:   "smime/organization_validated_with_incorrect_format_identifier.pem",
-			ExpectedResult:  lint.Error,
-			ExpectedDetails: "subject:organizationIdentifier field SHALL contain a Registration Reference for a Legal Entity assigned in accordance to the identified Registration Scheme",
 		},
 	}
 
@@ -56,7 +55,7 @@ func TestRegistrationSchemeIDMatchesSubjectNameCountry(t *testing.T) {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
 
-			if tc.ExpectedDetails != "" && tc.ExpectedDetails != result.Details {
+			if tc.ExpectedDetails != result.Details {
 				t.Errorf("expected details: %q, was %q", tc.ExpectedDetails, result.Details)
 			}
 		})

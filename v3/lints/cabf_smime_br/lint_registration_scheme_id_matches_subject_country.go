@@ -23,6 +23,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )	
 
+// Regex to match the start of an organization identifier: 3 character registration scheme identifier and 2 character ISO 3166 country code
 var countryRegex = regexp.MustCompile(`^([A-Z]{3})([A-Z]{2})`)
 
 func init() {
@@ -56,6 +57,14 @@ func (l *registrationSchemeIDMatchesSubjectCountry) CheckApplies(c *x509.Certifi
 	if c.Subject.Country == nil {
 		return false
 	}
+
+	for _, id := range c.Subject.OrganizationIDs {
+		submatches := countryRegex.FindStringSubmatch(id)
+		if len(submatches) < 3 {
+			return false
+		}
+	}
+
 	return util.IsOrganizationValidatedCertificate(c) || util.IsSponsorValidatedCertificate(c)
 }
 
@@ -71,13 +80,10 @@ func (l *registrationSchemeIDMatchesSubjectCountry) Execute(c *x509.Certificate)
 	return &lint.LintResult{Status: lint.Pass}
 }
 
-// verifySMIMEOrganizationIdentifierContainSubjectNameCountry verifies that the country code used in the subject:organizationIdentifier matches subject:Name:Country
+// verifySMIMEOrganizationIdentifierContainSubjectNameCountry verifies that the country code used in the subject:organizationIdentifier matches subject:countryName
 func verifySMIMEOrganizationIdentifierContainsSubjectNameCountry(id string, country string) error {
 	submatches := countryRegex.FindStringSubmatch(id)
-	if len(submatches) < 3 {
-		return fmt.Errorf("subject:organizationIdentifier field SHALL contain a Registration Reference for a Legal Entity assigned in accordance to the identified Registration Scheme")
-	}
-
+	// Captures the country code from the organization identifier
 	identifierCountry := submatches[2]
 
 	if identifierCountry != country {
