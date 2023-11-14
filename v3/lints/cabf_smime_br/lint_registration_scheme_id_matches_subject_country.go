@@ -31,7 +31,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_registration_scheme_id_matches_subject_country",
 			Description:   "The country code used in the Registration Scheme identifier SHALL match that of the subject:countryName in the Certificate as specified in Section 7.1.4.2.2",
-			Citation:      "Appendix A A.1",
+			Citation:      "Appendix A.1",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
@@ -42,19 +42,17 @@ func init() {
 type registrationSchemeIDMatchesSubjectCountry struct{}
 
 // NewRegistrationSchemeIDMatchesSubjectCountry creates a new linter to enforce SHALL requirements for registration scheme identifiers matching subject:countryName
-func NewRegistrationSchemeIDMatchesSubjectCountry() lint.LintInterface {
+func NewRegistrationSchemeIDMatchesSubjectCountry() lint.CertificateLintInterface {
     return &registrationSchemeIDMatchesSubjectCountry{}
 }
 
-// CheckApplies returns true if the provided certificate contains subject:countryName and one-or-more of the following SMIME BR policy identifiers:
-//   - Organization Validated Strict
-//   - Organization Validated Multipurpose
-//   - Organization Validated Legacy
-//   - Sponsor Validated Strict
-//   - Sponsor Validated Multipurpose
-//   - Sponsor Validated Legacy
+// CheckApplies returns true if the provided certificate contains subject:countryName 2 characters in length, a partially valid subject.organizationID and an Organization or Sponsor Validated policy OID
 func (l *registrationSchemeIDMatchesSubjectCountry) CheckApplies(c *x509.Certificate) bool {
 	if c.Subject.Country == nil {
+		return false
+	}
+
+	if len(c.Subject.Country[0]) != 2 {
 		return false
 	}
 
