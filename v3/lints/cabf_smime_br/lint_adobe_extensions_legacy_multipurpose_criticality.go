@@ -37,7 +37,7 @@ func init() {
 type adobeExtensionsLegacyMultipurposeCriticality struct{}
 
 // NewAdobeExtensionsLegacyMultipurposeCriticality creates a new linter to enforce adobe x509 extensions requirements for multipurpose or legacy SMIME certs
-func NewAdobeExtensionsLegacyMultipurposeCriticality() lint.LintInterface {
+func NewAdobeExtensionsLegacyMultipurposeCriticality() lint.CertificateLintInterface {
 	return &adobeExtensionsLegacyMultipurposeCriticality{}
 }
 
