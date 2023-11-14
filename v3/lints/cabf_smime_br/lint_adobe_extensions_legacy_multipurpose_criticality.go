@@ -47,7 +47,7 @@ func (l *adobeExtensionsLegacyMultipurposeCriticality) CheckApplies(c *x509.Cert
 	return util.IsSubscriberCert(c) && (util.IsLegacySMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c)) && hasAdobeX509Extensions(c)
 }
 
-// Execute applies the requirements of adobe x509 extensions not being marked as critical, if present for multipurpose or legacy SMIME certificates
+// Execute applies the requirements of adobe x509 extensions not being marked as critical, if present, for multipurpose or legacy SMIME certificates
 func (l *adobeExtensionsLegacyMultipurposeCriticality) Execute(c *x509.Certificate) *lint.LintResult {
 	adobeTimeStampExt := util.GetExtFromCert(c, util.AdobeTimeStampOID)
 	if adobeTimeStampExt != nil && adobeTimeStampExt.Critical {
