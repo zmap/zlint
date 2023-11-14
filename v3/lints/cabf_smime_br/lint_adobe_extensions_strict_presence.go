@@ -37,7 +37,7 @@ func init() {
 type adobeExtensionsStrictPresence struct{}
 
 // NewAdobeExtensionsStrictPresence creates a new linter to enforce adobe x509 extensions requirements for strict SMIME certs
-func NewAdobeExtensionsStrictPresence() lint.LintInterface {
+func NewAdobeExtensionsStrictPresence() lint.CertificateLintInterface {
 	return &adobeExtensionsStrictPresence{}
 }
 
