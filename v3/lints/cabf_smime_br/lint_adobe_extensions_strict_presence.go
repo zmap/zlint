@@ -41,7 +41,7 @@ func NewAdobeExtensionsStrictPresence() lint.CertificateLintInterface {
 	return &adobeExtensionsStrictPresence{}
 }
 
-// CheckApplies returns true if the certificate's policies assert that it conforms to the strict policy requirements defined in the SMIME BRs
+// CheckApplies returns true if for any subscriber certificate the certificate's policies assert that it conforms to the strict policy requirements defined in the SMIME BRs
 func (l *adobeExtensionsStrictPresence) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && util.IsStrictSMIMECertificate(c)
 }

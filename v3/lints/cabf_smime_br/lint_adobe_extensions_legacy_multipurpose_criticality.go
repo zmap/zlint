@@ -41,7 +41,7 @@ func NewAdobeExtensionsLegacyMultipurposeCriticality() lint.CertificateLintInter
 	return &adobeExtensionsLegacyMultipurposeCriticality{}
 }
 
-// CheckApplies returns true if the certificate's policies assert that it conforms to the multipurpose or legacy policy requirements defined in the SMIME BRs
+// CheckApplies returns true if for any subscriber certificate the certificate's policies assert that it conforms to the multipurpose or legacy policy requirements defined in the SMIME BRs
 // and the certificate contains one of the adobe x509 extensions
 func (l *adobeExtensionsLegacyMultipurposeCriticality) CheckApplies(c *x509.Certificate) bool {
 	return util.IsSubscriberCert(c) && (util.IsLegacySMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c)) && hasAdobeX509Extensions(c)
