@@ -527,11 +527,14 @@ func registerLintNotUsed(tb testing.TB, filePath string) error {
 
 	fset := token.NewFileSet()
 	file, err := parser.ParseFile(fset, filePath, src, parser.AllErrors)
+	if err != nil {
+		return fmt.Errorf("error parsing file: %v", err)
+	}
 
 	visitor := &lintVisitor{}
 	ast.Walk(visitor, file)
 	if visitor.err != nil {
-		return fmt.Errorf("error parsing file %v: %v", filePath, visitor.err)
+		return fmt.Errorf("error walking through AST of file %v: %v", filePath, visitor.err)
 	}
 
 	return nil
