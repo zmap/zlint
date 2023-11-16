@@ -15,8 +15,18 @@ package lint
  */
 
 import (
+	"errors"
+	"fmt"
+	"go/ast"
+	"go/parser"
+	"go/token"
+	"io/fs"
+	"os"
+	"path"
+	"path/filepath"
 	"reflect"
 	"regexp"
+	"runtime"
 	"sort"
 	"testing"
 
@@ -483,4 +493,62 @@ func TestRegistryFilter(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestEnsureDeprecatedRegisterLintIsNotUsed(t *testing.T) {
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		t.Fatalf("runtime.Caller(0) did not find info")
+	}
+
+	lintPath := path.Join(path.Dir(filename), "..", "lints")
+	if err := filepath.WalkDir(lintPath, func(path string, d fs.DirEntry, err error) error {
+		// Skip directories
+		if d.IsDir() {
+			return nil
+		}
+		// Skip files that do not end with .go
+		if filepath.Ext(path) != ".go" {
+			return nil
+		}
+		return registerLintNotUsed(t, path)
+	}); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func registerLintNotUsed(tb testing.TB, filePath string) error {
+	tb.Helper()
+
+	src, err := os.ReadFile(filePath)
+	if err != nil {
+		return err
+	}
+
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, filePath, src, parser.AllErrors)
+
+	visitor := &lintVisitor{}
+	ast.Walk(visitor, file)
+	if visitor.err != nil {
+		return fmt.Errorf("error parsing file %v: %v", filePath, visitor.err)
+	}
+
+	return nil
+}
+
+type lintVisitor struct {
+	err error // Used to pass error back to the caller.
+}
+
+func (v *lintVisitor) Visit(node ast.Node) ast.Visitor {
+	functionCall, ok := node.(*ast.SelectorExpr)
+	if !ok {
+		return v
+	}
+	if functionCall.Sel.Name == "RegisterLint" {
+		v.err = errors.New("RegisterLint is deprecated and should not be used")
+		return nil
+	}
+	return v
 }
