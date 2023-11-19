@@ -43,13 +43,15 @@ RFC 5280: 4.1.2.2.  Serial Number
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_serial_number_longer_than_20_octets",
-		Description:   "Certificates must not have a DER encoded serial number longer than 20 octets",
-		Citation:      "RFC 5280: 4.1.2.2",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          NewSerialNumberTooLong,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_serial_number_longer_than_20_octets",
+			Description:   "Certificates must not have a DER encoded serial number longer than 20 octets",
+			Citation:      "RFC 5280: 4.1.2.2",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC3280Date,
+		},
+		Lint: NewSerialNumberTooLong,
 	})
 }
 
