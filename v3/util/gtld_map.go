@@ -2061,7 +2061,7 @@ var tldMap = map[string]GTLDPeriod{
 	"etisalat": {
 		GTLD:           "etisalat",
 		DelegationDate: "2017-06-01",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-17",
 	},
 	"eu": {
 		GTLD:           "eu",
@@ -7431,7 +7431,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--mgbaakc7dvf": {
 		GTLD:           "xn--mgbaakc7dvf",
 		DelegationDate: "2017-06-10",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-17",
 	},
 	"xn--mgbaam7a8h": {
 		GTLD:           "xn--mgbaam7a8h",
