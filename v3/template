@@ -22,11 +22,11 @@ import (
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-            Name:          "SUBTEST",
-            Description:   "Fill this in...",
-            Citation:      "Fill this in...",
-            Source:        UnknownLintSource,
-            EffectiveDate: "Change this...",
+			Name:          "SUBTEST",
+			Description:   "Fill this in...",
+			Citation:      "Fill this in...",
+			Source:        UnknownLintSource,
+			EffectiveDate: "Change this...",
 		},
 		Lint: NewPASCAL_CASE_SUBST,
 	})
