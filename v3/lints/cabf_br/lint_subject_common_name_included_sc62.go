@@ -28,13 +28,15 @@ Required/Optional: NOT RECOMMENDED
 ***************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_subject_common_name_included",
-		Description:   "Subscriber Certificate: commonName is NOT RECOMMENDED.",
-		Citation:      "BRs: 7.1.2.7.1",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.SC62EffectiveDate,
-		Lint:          NewCommonNamesSC62,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "w_subject_common_name_included",
+			Description:   "Subscriber Certificate: commonName is NOT RECOMMENDED.",
+			Citation:      "BRs: 7.1.2.7.1",
+			Source:        lint.CABFBaselineRequirements,
+			EffectiveDate: util.SC62EffectiveDate,
+		},
+		Lint: NewCommonNamesSC62,
 	})
 }
 

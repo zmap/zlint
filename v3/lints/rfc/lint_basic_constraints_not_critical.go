@@ -35,13 +35,15 @@ management public keys used with certificate.
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_basic_constraints_not_critical",
-		Description:   "basicConstraints MUST appear as a critical extension",
-		Citation:      "RFC 5280: 4.2.1.9",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewBasicConstCrit,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_basic_constraints_not_critical",
+			Description:   "basicConstraints MUST appear as a critical extension",
+			Citation:      "RFC 5280: 4.2.1.9",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC2459Date,
+		},
+		Lint: NewBasicConstCrit,
 	})
 }
 

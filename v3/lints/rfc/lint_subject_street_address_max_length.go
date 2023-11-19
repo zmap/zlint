@@ -31,13 +31,15 @@ ub-street-address INTEGER ::= 128
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_street_address_max_length",
-		Description:   "The 'StreetAddress' field of the subject MUST be less than 129 characters",
-		Citation:      "ITU-T X.520 (02/2001) UpperBounds",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewSubjectStreetAddressMaxLength,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_subject_street_address_max_length",
+			Description:   "The 'StreetAddress' field of the subject MUST be less than 129 characters",
+			Citation:      "ITU-T X.520 (02/2001) UpperBounds",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC2459Date,
+		},
+		Lint: NewSubjectStreetAddressMaxLength,
 	})
 }
 

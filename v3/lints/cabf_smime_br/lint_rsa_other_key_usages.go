@@ -23,13 +23,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_rsa_other_key_usages",
-		Description:   "Other bit positions SHALL NOT be set.",
-		Citation:      "7.1.2.3.e",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewRSAOtherKeyUsages,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_rsa_other_key_usages",
+			Description:   "Other bit positions SHALL NOT be set.",
+			Citation:      "7.1.2.3.e",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewRSAOtherKeyUsages,
 	})
 }
 
