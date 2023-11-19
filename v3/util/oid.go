@@ -24,6 +24,8 @@ import (
 
 var (
 	//extension OIDs
+	AdobeTimeStampOID       = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 1}    // Adobe Time-stamp x509 extension
+	AdobeArchiveRevInfoOID  = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 2}    // Adobe Archive Revocation Info x509 extension
 	AiaOID                  = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}        // Authority Information Access
 	AuthkeyOID              = asn1.ObjectIdentifier{2, 5, 29, 35}                     // Authority Key Identifier
 	BasicConstOID           = asn1.ObjectIdentifier{2, 5, 29, 19}                     // Basic Constraints
