@@ -38,13 +38,15 @@ The keyIdentifier field of the authorityKeyIdentifier extension MUST
 ***********************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_authority_key_identifier_no_key_identifier",
-		Description:   "CAs must include keyIdentifer field of AKI in all non-self-issued certificates",
-		Citation:      "RFC 5280: 4.2.1.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewAuthorityKeyIdNoKeyIdField,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_ext_authority_key_identifier_no_key_identifier",
+			Description:   "CAs must include keyIdentifer field of AKI in all non-self-issued certificates",
+			Citation:      "RFC 5280: 4.2.1.1",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC2459Date,
+		},
+		Lint: NewAuthorityKeyIdNoKeyIdField,
 	})
 }
 

@@ -21,13 +21,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_edwardspublickey_key_usages",
-		Description:   "Bit positions SHALL be set for digitalSignature and MAY be set for nonRepudiation.",
-		Citation:      "7.1.2.3.e",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewEdwardsPublicKeyKeyUsages,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_edwardspublickey_key_usages",
+			Description:   "Bit positions SHALL be set for digitalSignature and MAY be set for nonRepudiation.",
+			Citation:      "7.1.2.3.e",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewEdwardsPublicKeyKeyUsages,
 	})
 }
 

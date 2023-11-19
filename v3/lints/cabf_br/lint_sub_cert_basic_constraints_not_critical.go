@@ -33,13 +33,15 @@ CA/Browser Forum BRs: 7.1.2.7.6 Subscriber Certificate Extensions
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_sub_cert_basic_constraints_not_critical",
-		Description:   "basicConstraints MAY appear in the certificate, and when it is included MUST be marked as critical",
-		Citation:      "CA/Browser Forum BRs: 7.1.2.7.6",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.SC62EffectiveDate,
-		Lint:          NewSubCertBasicConstCrit,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_sub_cert_basic_constraints_not_critical",
+			Description:   "basicConstraints MAY appear in the certificate, and when it is included MUST be marked as critical",
+			Citation:      "CA/Browser Forum BRs: 7.1.2.7.6",
+			Source:        lint.CABFBaselineRequirements,
+			EffectiveDate: util.SC62EffectiveDate,
+		},
+		Lint: NewSubCertBasicConstCrit,
 	})
 }
 

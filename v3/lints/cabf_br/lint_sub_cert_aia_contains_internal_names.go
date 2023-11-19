@@ -36,13 +36,15 @@ id-ad-caIssuers   A HTTP URL of the Issuing CA's Certificate.
 *************************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_sub_cert_aia_contains_internal_names",
-		Description:   "Subscriber certificates authorityInformationAccess extension should contain the HTTP URL of the issuing CA’s certificate, for public certificates this should not be an internal name",
-		Citation:      "BRs: 7.1.2.10.3",
-		Source:        lint.CABFBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          NewSubCertAIAInternalName,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "w_sub_cert_aia_contains_internal_names",
+			Description:   "Subscriber certificates authorityInformationAccess extension should contain the HTTP URL of the issuing CA’s certificate, for public certificates this should not be an internal name",
+			Citation:      "BRs: 7.1.2.10.3",
+			Source:        lint.CABFBaselineRequirements,
+			EffectiveDate: util.CABEffectiveDate,
+		},
+		Lint: NewSubCertAIAInternalName,
 	})
 }
 

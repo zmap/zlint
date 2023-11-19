@@ -42,13 +42,15 @@ qualifiers returned as a result of path validation are considered.
 ********************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_ext_cert_policy_disallowed_any_policy_qualifier",
-		Description:   "When qualifiers are used with the special policy anyPolicy, they must be limited to qualifiers identified in this section: (4.2.1.4)",
-		Citation:      "RFC 5280: 4.2.1.4",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC3280Date,
-		Lint:          NewUnrecommendedQualifier,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_ext_cert_policy_disallowed_any_policy_qualifier",
+			Description:   "When qualifiers are used with the special policy anyPolicy, they must be limited to qualifiers identified in this section: (4.2.1.4)",
+			Citation:      "RFC 5280: 4.2.1.4",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC3280Date,
+		},
+		Lint: NewUnrecommendedQualifier,
 	})
 }
 

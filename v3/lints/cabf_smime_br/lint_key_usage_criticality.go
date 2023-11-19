@@ -21,13 +21,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_key_usage_criticality",
-		Description:   "keyUsage... This extension SHOULD be marked critical",
-		Citation:      "7.1.2.3.e",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewKeyUsageCriticality,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "w_key_usage_criticality",
+			Description:   "keyUsage... This extension SHOULD be marked critical",
+			Citation:      "7.1.2.3.e",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewKeyUsageCriticality,
 	})
 }
 
