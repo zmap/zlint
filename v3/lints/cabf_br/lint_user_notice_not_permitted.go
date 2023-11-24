@@ -24,7 +24,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_user_notice_not_permitted",
-			Description:   "User Notice MUST NOT be present for certificates issued on or after September 15, 2023",
+			Description:   "Policy Qualifiers other than id-qt-cps MUST NOT be present for certificates issued on or after September 15, 2023",
 			Citation:      "BRs: 7.1.2.7.9",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.SC62EffectiveDate,
