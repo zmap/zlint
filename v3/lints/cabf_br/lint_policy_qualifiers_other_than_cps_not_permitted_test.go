@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestUserNoticeNotPermitted(t *testing.T) {
+func TestPolicyQualifiersOtherThanCpsNotPermitted(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
@@ -29,23 +29,23 @@ func TestUserNoticeNotPermitted(t *testing.T) {
 	}{
 		{
 			Name:           "Valid",
-			InputFilename:  "UserNoticeNotPermittedValid.pem",
+			InputFilename:  "policyQualifiersOtherThanCpsNotPermittedValid.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
 			Name:           "Error",
-			InputFilename:  "UserNoticeNotPermittedError.pem",
+			InputFilename:  "policyQualifiersOtherThanCpsNotPermittedError.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
 			Name:           "Not Applicable",
-			InputFilename:  "UserNoticeNotPermittedNotApplicable.pem",
+			InputFilename:  "policyQualifiersOtherThanCpsNotPermittedNotApplicable.pem",
 			ExpectedResult: lint.NA,
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_user_notice_not_permitted", tc.InputFilename)
+			result := test.TestLint("e_policy_qualifiers_other_than_cps_not_permitted", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}

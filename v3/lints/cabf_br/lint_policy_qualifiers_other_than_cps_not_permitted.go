@@ -23,29 +23,29 @@ import (
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_user_notice_not_permitted",
+			Name:          "e_policy_qualifiers_other_than_cps_not_permitted",
 			Description:   "Policy Qualifiers other than id-qt-cps MUST NOT be present for certificates issued on or after September 15, 2023",
 			Citation:      "BRs: 7.1.2.7.9",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.SC62EffectiveDate,
 		},
-		Lint: NewUserNoticeNotPermitted,
+		Lint: NewPolicyQualifiersOtherThanCpsNotPermitted,
 	})
 }
 
-type UserNoticeNotPermitted struct{}
+type PolicyQualifiersOtherThanCpsNotPermitted struct{}
 
-func NewUserNoticeNotPermitted() lint.LintInterface {
-	return &UserNoticeNotPermitted{}
+func NewPolicyQualifiersOtherThanCpsNotPermitted() lint.LintInterface {
+	return &PolicyQualifiersOtherThanCpsNotPermitted{}
 }
 
-func (l *UserNoticeNotPermitted) CheckApplies(c *x509.Certificate) bool {
+func (l *PolicyQualifiersOtherThanCpsNotPermitted) CheckApplies(c *x509.Certificate) bool {
 
 	return util.IsExtInCert(c, util.CertPolicyOID)
 
 }
 
-func (l *UserNoticeNotPermitted) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *PolicyQualifiersOtherThanCpsNotPermitted) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, qualifiers := range c.QualifierId {
 		for _, qt := range qualifiers {
 			if !qt.Equal(util.CpsOID) {
