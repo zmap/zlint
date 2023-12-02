@@ -38,13 +38,15 @@ For Strict and Multipurpose: When provided, every accessMethod SHALL have the UR
 *************************************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "w_smime_strict_aia_contains_internal_names",
-		Description:   "SMIME Strict certificates authorityInformationAccess When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.",
-		Citation:      "BRs: 7.1.2.3c",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABEffectiveDate,
-		Lint:          NewSMIMEStrictAIAInternalName,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "w_smime_strict_aia_contains_internal_names",
+			Description:   "SMIME Strict certificates authorityInformationAccess When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.",
+			Citation:      "BRs: 7.1.2.3c",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABEffectiveDate,
+		},
+		Lint: NewSMIMEStrictAIAInternalName,
 	})
 }
 

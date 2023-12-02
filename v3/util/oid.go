@@ -24,6 +24,8 @@ import (
 
 var (
 	//extension OIDs
+	AdobeTimeStampOID       = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 1}    // Adobe Time-stamp x509 extension
+	AdobeArchiveRevInfoOID  = asn1.ObjectIdentifier{1, 2, 840, 113583, 1, 1, 9, 2}    // Adobe Archive Revocation Info x509 extension
 	AiaOID                  = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}        // Authority Information Access
 	AuthkeyOID              = asn1.ObjectIdentifier{2, 5, 29, 35}                     // Authority Key Identifier
 	BasicConstOID           = asn1.ObjectIdentifier{2, 5, 29, 19}                     // Basic Constraints
@@ -80,6 +82,8 @@ var (
 	BusinessOID               = asn1.ObjectIdentifier{2, 5, 4, 15}
 	PostalCodeOID             = asn1.ObjectIdentifier{2, 5, 4, 17}
 	GivenNameOID              = asn1.ObjectIdentifier{2, 5, 4, 42}
+	// SAN otherNames
+	OidIdOnSmtpUtf8Mailbox = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 8, 9}
 	// Hash algorithms - see https://golang.org/src/crypto/x509/x509.go
 	SHA256OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 1}
 	SHA384OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 2}

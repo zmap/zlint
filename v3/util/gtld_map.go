@@ -1161,7 +1161,7 @@ var tldMap = map[string]GTLDPeriod{
 	"cbs": {
 		GTLD:           "cbs",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2023-10-25",
 	},
 	"cc": {
 		GTLD:           "cc",
@@ -2061,7 +2061,7 @@ var tldMap = map[string]GTLDPeriod{
 	"etisalat": {
 		GTLD:           "etisalat",
 		DelegationDate: "2017-06-01",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-17",
 	},
 	"eu": {
 		GTLD:           "eu",
@@ -3471,7 +3471,7 @@ var tldMap = map[string]GTLDPeriod{
 	"kinder": {
 		GTLD:           "kinder",
 		DelegationDate: "2015-10-09",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-02",
 	},
 	"kindle": {
 		GTLD:           "kindle",
@@ -5361,7 +5361,7 @@ var tldMap = map[string]GTLDPeriod{
 	"rocher": {
 		GTLD:           "rocher",
 		DelegationDate: "2015-11-07",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-02",
 	},
 	"rocks": {
 		GTLD:           "rocks",
@@ -5746,7 +5746,7 @@ var tldMap = map[string]GTLDPeriod{
 	"showtime": {
 		GTLD:           "showtime",
 		DelegationDate: "2016-08-04",
-		RemovalDate:    "",
+		RemovalDate:    "2023-10-25",
 	},
 	"shriram": {
 		GTLD:           "shriram",
@@ -7431,7 +7431,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xn--mgbaakc7dvf": {
 		GTLD:           "xn--mgbaakc7dvf",
 		DelegationDate: "2017-06-10",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-17",
 	},
 	"xn--mgbaam7a8h": {
 		GTLD:           "xn--mgbaam7a8h",

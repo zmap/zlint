@@ -39,13 +39,15 @@ ub-emailaddress-length INTEGER ::= 255
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_email_max_length",
-		Description:   "The 'Email' field of the subject MUST be less than 256 characters",
-		Citation:      "RFC 5280: A.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewSubjectEmailMaxLength,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_subject_email_max_length",
+			Description:   "The 'Email' field of the subject MUST be less than 256 characters",
+			Citation:      "RFC 5280: A.1",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC2459Date,
+		},
+		Lint: NewSubjectEmailMaxLength,
 	})
 }
 
