@@ -15,9 +15,10 @@ package lints
  */
 
 import (
+	"go/ast"
+
 	"github.com/zmap/zlint/v3/integration/lints/filters"
 	"github.com/zmap/zlint/v3/integration/lints/lint"
-	"go/ast"
 )
 
 type RegisterLintDeprecated struct{}

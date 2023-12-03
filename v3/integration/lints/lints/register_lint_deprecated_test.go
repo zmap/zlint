@@ -1,8 +1,9 @@
 package lints
 
 import (
-	"github.com/zmap/zlint/v3/integration/lints/lint"
 	"testing"
+
+	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
 func TestRegisterLintDeprecated_Lint(t *testing.T) {
