@@ -5,13 +5,13 @@ go 1.18
 replace github.com/zmap/zlint/v3 => ../../
 
 require (
-	github.com/zmap/zcrypto v0.0.0-20220402174210-599ec18ecbac
-	github.com/zmap/zlint/v3 v3.0.0-00010101000000-000000000000
+	github.com/zmap/zcrypto v0.0.0-20230310154051-c8b263fd8300
+	github.com/zmap/zlint/v3 v3.0.0
 )
 
 require (
-	github.com/weppos/publicsuffix-go v0.15.1-0.20220329081811-9a40b608a236 // indirect
-	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
-	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	github.com/weppos/publicsuffix-go v0.30.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 )

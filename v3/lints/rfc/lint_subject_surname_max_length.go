@@ -50,13 +50,15 @@ ub-name INTEGER ::= 32768
 ************************************************/
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subject_surname_max_length",
-		Description:   "The 'Surname' field of the subject MUST be less than 32769 characters",
-		Citation:      "RFC 5280: A.1",
-		Source:        lint.RFC5280,
-		EffectiveDate: util.RFC2459Date,
-		Lint:          NewSubjectSurnameMaxLength,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_subject_surname_max_length",
+			Description:   "The 'Surname' field of the subject MUST be less than 32769 characters",
+			Citation:      "RFC 5280: A.1",
+			Source:        lint.RFC5280,
+			EffectiveDate: util.RFC2459Date,
+		},
+		Lint: NewSubjectSurnameMaxLength,
 	})
 }
 
