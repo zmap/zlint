@@ -6726,7 +6726,7 @@ var tldMap = map[string]GTLDPeriod{
 	"volkswagen": {
 		GTLD:           "volkswagen",
 		DelegationDate: "2016-01-09",
-		RemovalDate:    "",
+		RemovalDate:    "2023-11-20",
 	},
 	"volvo": {
 		GTLD:           "volvo",
