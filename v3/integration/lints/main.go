@@ -27,6 +27,7 @@ import (
 var linters = []lint.Lint{
 	&lints.InitFirst{},
 	&lints.NotCommittingGenTestCerts{},
+	&lints.RegisterLintDeprecated{},
 }
 
 func main() {
