@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
-)	
+)
 
 // Regex to match the start of an organization identifier: 3 character registration scheme identifier and 2 character ISO 3166 country code
 var countryRegex = regexp.MustCompile(`^([A-Z]{3})([A-Z]{2})`)
@@ -43,7 +43,7 @@ type registrationSchemeIDMatchesSubjectCountry struct{}
 
 // NewRegistrationSchemeIDMatchesSubjectCountry creates a new linter to enforce SHALL requirements for registration scheme identifiers matching subject:countryName
 func NewRegistrationSchemeIDMatchesSubjectCountry() lint.CertificateLintInterface {
-    return &registrationSchemeIDMatchesSubjectCountry{}
+	return &registrationSchemeIDMatchesSubjectCountry{}
 }
 
 // CheckApplies returns true if the provided certificate contains subject:countryName 2 characters in length, a partially valid subject.organizationID and an Organization or Sponsor Validated policy OID
@@ -69,7 +69,7 @@ func (l *registrationSchemeIDMatchesSubjectCountry) CheckApplies(c *x509.Certifi
 // Execute applies the requirements on matching subject:countryName with registration scheme identifiers
 func (l *registrationSchemeIDMatchesSubjectCountry) Execute(c *x509.Certificate) *lint.LintResult {
 	country := c.Subject.Country[0]
-	
+
 	for _, id := range c.Subject.OrganizationIDs {
 		if err := verifySMIMEOrganizationIdentifierContainsSubjectNameCountry(id, country); err != nil {
 			return &lint.LintResult{Status: lint.Error, Details: err.Error()}
@@ -82,6 +82,8 @@ func (l *registrationSchemeIDMatchesSubjectCountry) Execute(c *x509.Certificate)
 func verifySMIMEOrganizationIdentifierContainsSubjectNameCountry(id string, country string) error {
 	submatches := countryRegex.FindStringSubmatch(id)
 	// Captures the country code from the organization identifier
+	// Note that this raw indexing into the second position is only safe
+	// due to a length check done in CheckApplies
 	identifierCountry := submatches[2]
 
 	if identifierCountry != country {
