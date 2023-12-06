@@ -41,10 +41,10 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "w_smime_strict_aia_contains_internal_names",
-			Description:   "SMIME Strict certificates authorityInformationAccess When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.",
+			Description:   "SMIME Strict certificates authorityInformationAccess. When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.",
 			Citation:      "BRs: 7.1.2.3c",
 			Source:        lint.CABFSMIMEBaselineRequirements,
-			EffectiveDate: util.CABEffectiveDate,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
 		Lint: NewSMIMEStrictAIAInternalName,
 	})
@@ -55,7 +55,7 @@ func NewSMIMEStrictAIAInternalName() lint.LintInterface {
 }
 
 func (l *smimeStrictAIAContainsInternalNames) CheckApplies(c *x509.Certificate) bool {
-	return util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c)
+	return util.IsExtInCert(c, util.AiaOID) && (util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c))
 }
 
 func (l *smimeStrictAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {

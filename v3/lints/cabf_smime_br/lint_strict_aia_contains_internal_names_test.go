@@ -21,7 +21,12 @@ func TestSMIMEStrictAIAInternalName(t *testing.T) {
 		{
 			Name:           "warn - aia with internal names",
 			InputFilename:  "smime/aiaWithInternalNamesStrict.pem",
-			ExpectedResult: lint.Warn,
+			ExpectedResult: lint.NE,
+		},
+		{
+			Name:           "warn - aia with internal names",
+			InputFilename:  "smime/aiaWithLDAPOCSPStrict.pem",
+			ExpectedResult: lint.Error,
 		},
 	}
 	for _, tc := range testCases {
