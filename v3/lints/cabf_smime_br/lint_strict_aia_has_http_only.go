@@ -16,14 +16,13 @@ package cabf_smime_br
 
 import (
 	"net/url"
-	"time"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-type smimeStrictAIAContainsInternalNames struct{}
+type smimeStrictAIAHasHTTPOnly struct{}
 
 /************************************************************************
 BRs: 7.1.2.3c
@@ -40,25 +39,25 @@ For Strict and Multipurpose: When provided, every accessMethod SHALL have the UR
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "w_smime_strict_aia_contains_internal_names",
+			Name:          "e_smime_strict_aia_shall_have_http_only",
 			Description:   "SMIME Strict certificates authorityInformationAccess. When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.",
 			Citation:      "BRs: 7.1.2.3c",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
-		Lint: NewSMIMEStrictAIAInternalName,
+		Lint: NewSMIMEStrictAIAHasHTTPOnly,
 	})
 }
 
-func NewSMIMEStrictAIAInternalName() lint.LintInterface {
-	return &smimeStrictAIAContainsInternalNames{}
+func NewSMIMEStrictAIAHasHTTPOnly() lint.LintInterface {
+	return &smimeStrictAIAHasHTTPOnly{}
 }
 
-func (l *smimeStrictAIAContainsInternalNames) CheckApplies(c *x509.Certificate) bool {
+func (l *smimeStrictAIAHasHTTPOnly) CheckApplies(c *x509.Certificate) bool {
 	return util.IsExtInCert(c, util.AiaOID) && (util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c))
 }
 
-func (l *smimeStrictAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *smimeStrictAIAHasHTTPOnly) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, u := range c.OCSPServer {
 		purl, err := url.Parse(u)
 		if err != nil {
@@ -66,9 +65,6 @@ func (l *smimeStrictAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		}
 		if purl.Scheme != "http" {
 			return &lint.LintResult{Status: lint.Error}
-		}
-		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
-			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
 	for _, u := range c.IssuingCertificateURL {
@@ -78,9 +74,6 @@ func (l *smimeStrictAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		}
 		if purl.Scheme != "http" {
 			return &lint.LintResult{Status: lint.Error}
-		}
-		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
-			return &lint.LintResult{Status: lint.Warn}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
