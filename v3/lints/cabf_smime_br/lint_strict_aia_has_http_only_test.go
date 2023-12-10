@@ -21,7 +21,7 @@ func TestSMIMEStrictAIAHasHTTPOnly(t *testing.T) {
 		{
 			Name:           "warn - aia with internal names",
 			InputFilename:  "smime/aiaWithInternalNamesStrict.pem",
-			ExpectedResult: lint.NE,
+			ExpectedResult: lint.Pass,
 		},
 		{
 			Name:           "warn - aia with internal names",
