@@ -42,6 +42,26 @@ func IsLegacySMIMECertificate(c *x509.Certificate) bool {
 	return false
 }
 
+func IsOrganizationValidatedCertificate(c *x509.Certificate) bool {
+	for _, oid := range c.PolicyIdentifiers {
+		if oid.Equal(SMIMEBROrganizationValidatedLegacyOID) || oid.Equal(SMIMEBROrganizationValidatedMultipurposeOID) || oid.Equal(SMIMEBROrganizationValidatedStrictOID) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func IsSponsorValidatedCertificate(c *x509.Certificate) bool {
+	for _, oid := range c.PolicyIdentifiers {
+		if oid.Equal(SMIMEBRSponsorValidatedLegacyOID) || oid.Equal(SMIMEBRSponsorValidatedMultipurposeOID) || oid.Equal(SMIMEBRSponsorValidatedStrictOID) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func IsMultipurposeSMIMECertificate(c *x509.Certificate) bool {
 	for _, oid := range c.PolicyIdentifiers {
 		if oid.Equal(SMIMEBRMailboxValidatedMultipurposeOID) || oid.Equal(SMIMEBROrganizationValidatedMultipurposeOID) || oid.Equal(SMIMEBRSponsorValidatedMultipurposeOID) || oid.Equal(SMIMEBRIndividualValidatedMultipurposeOID) {
