@@ -16,14 +16,13 @@ package cabf_smime_br
 
 import (
 	"net/url"
-	"time"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-type smimeLegacyAIAContainsInternalNames struct{}
+type smimeLegacyAIAHasOneHTTP struct{}
 
 /************************************************************************
 BRs: 7.1.2.3c
@@ -40,40 +39,37 @@ For Legacy: When provided, at least one accessMethod SHALL have the URI scheme H
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "w_smime_legacy_aia_contains_internal_names",
+			Name:          "e_smime_legacy_aia_shall_have_one_http",
 			Description:   "SMIME Legacy certificates authorityInformationAccess When provided, at least one accessMethod SHALL have the URI scheme HTTP. Other schemes (LDAP, FTP, ...) MAY be present.",
 			Citation:      "BRs: 7.1.2.3c",
 			Source:        lint.CABFSMIMEBaselineRequirements,
-			EffectiveDate: util.CABEffectiveDate,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
-		Lint: NewSMIMELegacyAIAInternalName,
+		Lint: NewSMIMELegacyAIAHasOneHTTP,
 	})
 }
 
-func NewSMIMELegacyAIAInternalName() lint.LintInterface {
-	return &smimeLegacyAIAContainsInternalNames{}
+func NewSMIMELegacyAIAHasOneHTTP() lint.LintInterface {
+	return &smimeLegacyAIAHasOneHTTP{}
 }
 
-func (l *smimeLegacyAIAContainsInternalNames) CheckApplies(c *x509.Certificate) bool {
-	return util.IsLegacySMIMECertificate(c)
+func (l *smimeLegacyAIAHasOneHTTP) CheckApplies(c *x509.Certificate) bool {
+	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.AiaOID) && util.IsLegacySMIMECertificate(c)
 }
 
-func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *smimeLegacyAIAHasOneHTTP) Execute(c *x509.Certificate) *lint.LintResult {
 	atLeastOneHttp := false
 	for _, u := range c.OCSPServer {
 		purl, err := url.Parse(u)
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
-		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
-			return &lint.LintResult{Status: lint.Warn}
-		}
 		if purl.Scheme == "http" {
 			atLeastOneHttp = true
 		}
 	}
 	if !atLeastOneHttp && len(c.OCSPServer) != 0 {
-		return &lint.LintResult{Status: lint.Error, Details: "at least one accessMethod MUST have the URI scheme HTTP"}
+		return &lint.LintResult{Status: lint.Error, Details: "at least one id-ad-ocsp accessMethod MUST have the URI scheme HTTP"}
 	}
 
 	atLeastOneHttp = false
@@ -82,15 +78,12 @@ func (l *smimeLegacyAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
-		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
-			return &lint.LintResult{Status: lint.Warn}
-		}
 		if purl.Scheme == "http" {
 			atLeastOneHttp = true
 		}
 	}
 	if !atLeastOneHttp && len(c.IssuingCertificateURL) != 0 {
-		return &lint.LintResult{Status: lint.Error, Details: "at least one accessMethod MUST have the URI scheme HTTP"}
+		return &lint.LintResult{Status: lint.Error, Details: "at least one id-ad-caIssuers accessMethod MUST have the URI scheme HTTP"}
 	}
 
 	return &lint.LintResult{Status: lint.Pass}

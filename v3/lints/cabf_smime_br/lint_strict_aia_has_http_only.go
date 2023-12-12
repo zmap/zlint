@@ -54,7 +54,7 @@ func NewSMIMEStrictAIAHasHTTPOnly() lint.LintInterface {
 }
 
 func (l *smimeStrictAIAHasHTTPOnly) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.AiaOID) && (util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c))
+	return util.IsExtInCert(c, util.AiaOID) && util.IsSubscriberCert(c) && (util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c))
 }
 
 func (l *smimeStrictAIAHasHTTPOnly) Execute(c *x509.Certificate) *lint.LintResult {

@@ -7,26 +7,26 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSMIMELegacyAIAInternalName(t *testing.T) {
+func TestSMIMELegacyAIAHasOneHTTP(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "pass - cert with SAN",
-			InputFilename:  "smime/aiaWithValidNamesLegacy.pem",
+			Name:           "pass - aia with one ldap URI and one HTTP in each method",
+			InputFilename:  "smime/legacyAiaOneHTTPOneLdap.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "error - cert without SAN",
-			InputFilename:  "smime/aiaWithInternalNamesLegacy.pem",
-			ExpectedResult: lint.Warn,
+			Name:           "error - aia with only ldap URIs HTTP in each method",
+			InputFilename:  "smime/legacyAiaLdapOnly.pem",
+			ExpectedResult: lint.Error,
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("w_smime_legacy_aia_contains_internal_names", tc.InputFilename)
+			result := test.TestLint("e_smime_legacy_aia_shall_have_one_http", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v - details: %v", tc.ExpectedResult, result.Status, result.Details)
 			}

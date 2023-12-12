@@ -55,7 +55,7 @@ func NewSMIMEAIAInternalName() lint.LintInterface {
 }
 
 func (l *smimeAIAContainsInternalNames) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.AiaOID) && util.IsSMIMEBRCertificate(c)
+	return util.IsExtInCert(c, util.AiaOID) && util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *smimeAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {
