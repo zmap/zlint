@@ -15,7 +15,6 @@
 package cabf_smime_br
 
 import (
-	"fmt"
 	"net/url"
 
 	"github.com/zmap/zcrypto/x509"
@@ -41,22 +40,11 @@ func NewSubscriberCrlDistributionPointsHTTP() lint.LintInterface {
 }
 
 func (l *subscriberCrlDistributionPointsHTTP) CheckApplies(c *x509.Certificate) bool {
-	fmt.Println(util.IsSubscriberCert(c))
-	fmt.Println(util.IsMultipurposeSMIMECertificate(c))
-	fmt.Println(util.IsStrictSMIMECertificate(c))
-
-	b := util.IsSubscriberCert(c) && (util.IsMultipurposeSMIMECertificate(c) || util.IsStrictSMIMECertificate(c))
-
-	fmt.Printf("b = %t\n", b)
-	return b
-
+	return util.IsSubscriberCert(c) && (util.IsMultipurposeSMIMECertificate(c) || util.IsStrictSMIMECertificate(c))
 }
 
 func (l *subscriberCrlDistributionPointsHTTP) Execute(c *x509.Certificate) *lint.LintResult {
-	fmt.Println("exeucintg")
 	for _, dp := range c.CRLDistributionPoints {
-		fmt.Println(dp)
-
 		parsed, err := url.Parse(dp)
 		if err != nil {
 			return &lint.LintResult{
@@ -64,9 +52,6 @@ func (l *subscriberCrlDistributionPointsHTTP) Execute(c *x509.Certificate) *lint
 				Details: "SMIME certificate contains invalid CRL distribution point",
 			}
 		}
-
-		fmt.Printf("%+v\n", parsed.Scheme)
-
 		if parsed.Scheme != "http" {
 			return &lint.LintResult{
 				Status:  lint.Error,
