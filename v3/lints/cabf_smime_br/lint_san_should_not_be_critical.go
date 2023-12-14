@@ -43,7 +43,7 @@ func NewSubjectAlternativeNameNotCritical() lint.LintInterface {
 }
 
 func (l *SubjectAlternativeNameNotCritical) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.SubjectAlternateNameOID)
+	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.SubjectAlternateNameOID) && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *SubjectAlternativeNameNotCritical) Execute(c *x509.Certificate) *lint.LintResult {
