@@ -26,19 +26,35 @@ func TestRegistrationSchemeIDMatchesSubjectNameCountry(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "error - individual validated certificate",
+			Name:           "NA - individual validated certificate",
 			InputFilename:  "smime/individual_validated_with_matching_country.pem",
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:           "error - no country specified in certificate",
+			Name:           "NA - no country specified in certificate",
 			InputFilename:  "smime/organization_validatged_with_no_country_specified.pem",
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:           "error - organization validated certificate with subject:organizationIdentifier in incorrect format",
+			Name:           "NA - certificate with LEI organization identifier",
+			InputFilename:  "smime/with_single_lei_organizationidentifier.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "NA - certificate with INT organization identifier",
+			InputFilename:  "smime/with_single_int_organizationidentifier.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "NA - organization validated certificate with subject:organizationIdentifier in incorrect format",
 			InputFilename:  "smime/organization_validated_with_incorrect_format_identifier.pem",
 			ExpectedResult: lint.NA,
+		},
+		{
+			Name:            "error - certificate with one LEI and one GOV organization identifier",
+			InputFilename:   "smime/with_lei_and_gov_organizationidentifier.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "the country code used in the Registration Scheme identifier SHALL match that of the subject:countryName",
 		},
 		{
 			Name:            "error - organization validated certificate with subject:Name:Country not matching subject:organizationIdentifier",

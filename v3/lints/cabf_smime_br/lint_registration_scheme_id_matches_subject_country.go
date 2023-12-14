@@ -56,11 +56,18 @@ func (l *registrationSchemeIDMatchesSubjectCountry) CheckApplies(c *x509.Certifi
 		return false
 	}
 
+	orgIDsAreInternational := true
 	for _, id := range c.Subject.OrganizationIDs {
 		submatches := countryRegex.FindStringSubmatch(id)
 		if len(submatches) < 3 {
 			return false
 		}
+
+		orgIDsAreInternational = orgIDsAreInternational && (submatches[1] == "INT" || submatches[1] == "LEI")
+	}
+
+	if orgIDsAreInternational {
+		return false
 	}
 
 	return util.IsOrganizationValidatedCertificate(c) || util.IsSponsorValidatedCertificate(c)
