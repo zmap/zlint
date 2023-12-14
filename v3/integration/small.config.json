@@ -289,9 +289,7 @@
     },
     "e_subject_email_max_length": {},
     "e_subject_empty_without_san": {},
-    "e_subject_given_name_max_length": {
-      "ErrCount": 1
-    },
+    "e_subject_given_name_max_length": {},
     "e_subject_info_access_marked_critical": {},
     "e_subject_locality_name_max_length": {},
     "e_subject_not_dn": {},
@@ -432,6 +430,12 @@
     "w_tls_server_cert_valid_time_longer_than_397_days": {},
     "w_rfc_dnsname_underscore_in_trd": {
       "WarnCount": 13
+<<<<<<< HEAD
+=======
+    },
+    "w_sub_cert_aia_contains_internal_names": {
+      "WarnCount": 7
+>>>>>>> 45de88040a22e2db4d962de9ec3847dcac59be92
     }
   }
 }

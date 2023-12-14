@@ -15,6 +15,7 @@ package cabf_smime_br
  */
 
 import (
+	"net"
 	"net/url"
 	"time"
 
@@ -23,7 +24,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type smimeStrictAIAContainsInternalNames struct{}
+type smimeAIAContainsInternalNames struct{}
 
 /************************************************************************
 BRs: 7.1.2.3c
@@ -34,39 +35,40 @@ values for each of the following types:
 id-ad-ocsp        specifies the URI of the Issuing CA's OCSP responder.
 id-ad-caIssuers   specifies the URI of the Issuing CA's Certificate.
 
-For Strict and Multipurpose: When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.
 *************************************************************************/
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "w_smime_strict_aia_contains_internal_names",
-			Description:   "SMIME Strict certificates authorityInformationAccess When provided, every accessMethod SHALL have the URI scheme HTTP. Other schemes SHALL NOT be present.",
+			Name:          "w_smime_aia_contains_internal_names",
+			Description:   "SMIME certificates authorityInformationAccess. Internal domain names should not be included.",
 			Citation:      "BRs: 7.1.2.3c",
 			Source:        lint.CABFSMIMEBaselineRequirements,
-			EffectiveDate: util.CABEffectiveDate,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
-		Lint: NewSMIMEStrictAIAInternalName,
+		Lint: NewSMIMEAIAInternalName,
 	})
 }
 
-func NewSMIMEStrictAIAInternalName() lint.LintInterface {
-	return &smimeStrictAIAContainsInternalNames{}
+func NewSMIMEAIAInternalName() lint.LintInterface {
+	return &smimeAIAContainsInternalNames{}
 }
 
-func (l *smimeStrictAIAContainsInternalNames) CheckApplies(c *x509.Certificate) bool {
-	return util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c)
+func (l *smimeAIAContainsInternalNames) CheckApplies(c *x509.Certificate) bool {
+	return util.IsExtInCert(c, util.AiaOID) && util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
 }
 
-func (l *smimeStrictAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *smimeAIAContainsInternalNames) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, u := range c.OCSPServer {
 		purl, err := url.Parse(u)
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
-		if purl.Scheme != "http" {
-			return &lint.LintResult{Status: lint.Error}
+
+		if net.ParseIP(purl.Host) != nil {
+			continue
 		}
+
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
@@ -76,9 +78,11 @@ func (l *smimeStrictAIAContainsInternalNames) Execute(c *x509.Certificate) *lint
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
-		if purl.Scheme != "http" {
-			return &lint.LintResult{Status: lint.Error}
+
+		if net.ParseIP(purl.Host) != nil {
+			continue
 		}
+
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
