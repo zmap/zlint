@@ -26,6 +26,11 @@ func TestRegistrationSchemeIDMatchesSubjectNameCountry(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
+			Name:           "pass - certificate with one LEI and one GOV organization identifier",
+			InputFilename:  "smime/with_lei_and_gov_organizationidentifier.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
 			Name:           "NA - individual validated certificate",
 			InputFilename:  "smime/individual_validated_with_matching_country.pem",
 			ExpectedResult: lint.NA,
@@ -49,12 +54,6 @@ func TestRegistrationSchemeIDMatchesSubjectNameCountry(t *testing.T) {
 			Name:           "NA - organization validated certificate with subject:organizationIdentifier in incorrect format",
 			InputFilename:  "smime/organization_validated_with_incorrect_format_identifier.pem",
 			ExpectedResult: lint.NA,
-		},
-		{
-			Name:            "error - certificate with one LEI and one GOV organization identifier",
-			InputFilename:   "smime/with_lei_and_gov_organizationidentifier.pem",
-			ExpectedResult:  lint.Error,
-			ExpectedDetails: "the country code used in the Registration Scheme identifier SHALL match that of the subject:countryName",
 		},
 		{
 			Name:            "error - organization validated certificate with subject:Name:Country not matching subject:organizationIdentifier",
