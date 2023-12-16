@@ -75,8 +75,8 @@ func OutputSummary(zlintResult *zlint.ResultSet, longSummary bool) {
 			"                      Details                      ",
 		}
 		lines := [][]string{}
-		lsl := ""
-		rescount := ""
+		var lsl string
+		var rescount string
 
 		hlengths := printTableHeadings(headings)
 		// Construct the table lines, but don't repeat
