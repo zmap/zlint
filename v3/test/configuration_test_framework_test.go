@@ -183,7 +183,7 @@ type LintEmbedsAConfiguration struct {
 }
 
 type embeddedConfiguration struct {
-	IsWebPKI bool `toml:"is_web_pki" comment:"Indicates that the certificate is intended for the Web PKI."`
+	IsWebPKI bool `comment:"Indicates that the certificate is intended for the Web PKI." toml:"is_web_pki"`
 }
 
 func init() {

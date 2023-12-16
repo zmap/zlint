@@ -137,7 +137,7 @@ type File struct {
 //
 // The word "remember" begins at position 81 within this text, therefor LineOf(81) should return line 3.
 func (f *File) LineOf(pos token.Pos) int {
-	start := 0
+	var start int
 	end := 0
 	for lineno, line := range f.Lines {
 		start = end

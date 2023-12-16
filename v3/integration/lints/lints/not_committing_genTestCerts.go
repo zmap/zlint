@@ -16,6 +16,7 @@ package lints
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"go/ast"
 	"os"
@@ -42,7 +43,7 @@ func (i *NotCommittingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.
 	if err != nil {
 		return lint.NewResult(fmt.Sprintf("failed to hash the contents of %s", file.Name))
 	}
-	got := fmt.Sprintf("%x", hasher.Sum([]byte{}))
+	got := hex.EncodeToString(hasher.Sum([]byte{}))
 	if got == want {
 		return nil
 	}

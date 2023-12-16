@@ -1079,7 +1079,7 @@ func TestStripGlobalsFromStructWithPrivates(t *testing.T) {
 		A string
 		B Global
 		C int
-		//nolint:unused
+		//nolint:unused,structcheck
 		d int
 	}
 	test := Test{}
