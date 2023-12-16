@@ -40,7 +40,7 @@ func NewSubjectAlternativeNameShallBePresent() lint.LintInterface {
 }
 
 func (l *subjectAlternativeNameShallBePresent) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *subjectAlternativeNameShallBePresent) Execute(c *x509.Certificate) *lint.LintResult {
