@@ -40,7 +40,7 @@ func NewSubscriberCrlDistributionPoints() lint.LintInterface {
 }
 
 func (l *SubscriberCrlDistributionPoints) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *SubscriberCrlDistributionPoints) Execute(c *x509.Certificate) *lint.LintResult {
