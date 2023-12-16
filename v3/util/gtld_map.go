@@ -5541,7 +5541,7 @@ var tldMap = map[string]GTLDPeriod{
 	"sca": {
 		GTLD:           "sca",
 		DelegationDate: "2014-08-14",
-		RemovalDate:    "",
+		RemovalDate:    "2023-12-11",
 	},
 	"scb": {
 		GTLD:           "scb",
