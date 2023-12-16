@@ -75,7 +75,7 @@ func (l *serialNumberTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	serial := new(asn1.RawValue)
 	_, err = asn1.Unmarshal(encoding, serial)
 	if err != nil {
-		return &lint.LintResult{Status: lint.Fatal, Details: fmt.Sprint(err)}
+		return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
 	}
 	length := len(serial.Bytes)
 	if length > 20 {
