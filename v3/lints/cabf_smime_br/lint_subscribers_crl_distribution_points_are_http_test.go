@@ -23,6 +23,11 @@ func TestSubscriberCrlDistributionPointsAreHTTP(t *testing.T) {
 			InputFilename:  "smime/subscriber_with_non_http_crl_distribution_point.pem",
 			ExpectedResult: lint.Error,
 		},
+		{
+			Name:           "error - cert without no HTTP CRL distribution points",
+			InputFilename:  "smime/legacy_subscriber_with_non_http_crl_distribution_point.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {

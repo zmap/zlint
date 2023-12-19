@@ -67,7 +67,7 @@ func (l *subscriberCrlDistributionPointsHTTP) Execute(c *x509.Certificate) *lint
 	if util.IsLegacySMIMECertificate(c) && httpCount == 0 {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "SMIME certificate contains no HTTP URL schemes in CRL distribution points",
+			Details: "SMIME certificate contains no HTTP URL schemes as CRL distribution points",
 		}
 	}
 
