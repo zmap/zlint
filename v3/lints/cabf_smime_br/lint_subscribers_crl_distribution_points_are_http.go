@@ -40,10 +40,11 @@ func NewSubscriberCrlDistributionPointsHTTP() lint.LintInterface {
 }
 
 func (l *subscriberCrlDistributionPointsHTTP) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && (util.IsMultipurposeSMIMECertificate(c) || util.IsStrictSMIMECertificate(c))
+	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *subscriberCrlDistributionPointsHTTP) Execute(c *x509.Certificate) *lint.LintResult {
+	httpCount := 0
 	for _, dp := range c.CRLDistributionPoints {
 		parsed, err := url.Parse(dp)
 		if err != nil {
@@ -52,12 +53,23 @@ func (l *subscriberCrlDistributionPointsHTTP) Execute(c *x509.Certificate) *lint
 				Details: "SMIME certificate contains invalid CRL distribution point",
 			}
 		}
-		if parsed.Scheme != "http" {
-			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: "SMIME certificate contains invalid URL scheme in CRL distribution point",
-			}
+		if parsed.Scheme == "http" {
+			httpCount++
 		}
 	}
+
+	if (util.IsMultipurposeSMIMECertificate(c) || util.IsStrictSMIMECertificate(c)) && httpCount != len(c.CRLDistributionPoints) {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "SMIME certificate contains invalid URL scheme in CRL distribution point",
+		}
+	}
+	if util.IsLegacySMIMECertificate(c) && httpCount == 0 {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "SMIME certificate contains no HTTP URL schemes in CRL distribution points",
+		}
+	}
+
 	return &lint.LintResult{Status: lint.Pass}
 }
