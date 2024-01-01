@@ -56,11 +56,18 @@ func (l *registrationSchemeIDMatchesSubjectCountry) CheckApplies(c *x509.Certifi
 		return false
 	}
 
+	orgIDsAreInternational := true
 	for _, id := range c.Subject.OrganizationIDs {
 		submatches := countryRegex.FindStringSubmatch(id)
 		if len(submatches) < 3 {
 			return false
 		}
+
+		orgIDsAreInternational = orgIDsAreInternational && (submatches[1] == "INT" || submatches[1] == "LEI")
+	}
+
+	if orgIDsAreInternational {
+		return false
 	}
 
 	return util.IsOrganizationValidatedCertificate(c) || util.IsSponsorValidatedCertificate(c)
@@ -81,6 +88,11 @@ func (l *registrationSchemeIDMatchesSubjectCountry) Execute(c *x509.Certificate)
 // verifySMIMEOrganizationIdentifierContainSubjectNameCountry verifies that the country code used in the subject:organizationIdentifier matches subject:countryName
 func verifySMIMEOrganizationIdentifierContainsSubjectNameCountry(id string, country string) error {
 	submatches := countryRegex.FindStringSubmatch(id)
+
+	if submatches[1] == "INT" || submatches[1] == "LEI" {
+		return nil
+	}
+
 	// Captures the country code from the organization identifier
 	// Note that this raw indexing into the second position is only safe
 	// due to a length check done in CheckApplies
