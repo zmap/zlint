@@ -1,7 +1,7 @@
 package lints
 
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -25,7 +25,7 @@ import (
 	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
-const want = `6247a4fbe902f83e571ee5ff2e7d8443ac198db70318bbc9f6ee62f893e88a55`
+const want = `e113c11b7c4897c7e96579f175016094e48951a117b63c967d053e5ce83ec1cd`
 
 type NotCommittingGenTestCerts struct{}
 
