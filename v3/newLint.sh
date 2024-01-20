@@ -5,7 +5,7 @@ function usage() {
   echo ""
   echo "Options:"
   echo "  -h|--help   Prints this help text."
-  echo "  -r|--req    The name of the requirements body governing this list. Valid options are $(valid_requirement_names)."
+  echo "  -r|--req    The name of the requirements body governing this lint. Valid options are $(valid_requirement_names)."
   echo "  -f|--file   The target filename for the given lint (no file extension is required)."
   echo "  -s|--struct The name of the Golang struct to create."
   echo ""
