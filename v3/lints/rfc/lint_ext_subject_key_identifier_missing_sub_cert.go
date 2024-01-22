@@ -23,6 +23,7 @@ import (
 type subjectKeyIdMissingSubscriber struct{}
 
 /**********************************************************************
+RFC5280 suggested the addition of SKI extension:
    To facilitate certification path construction, this extension MUST
    appear in all conforming CA certificates, that is, all certificates
    including the basic constraints extension (Section 4.2.1.9) where the
@@ -40,16 +41,20 @@ type subjectKeyIdMissingSubscriber struct{}
    quickly identify the set of certificates containing a particular public key.
    To assist applications in identifying the appropriate end entity certificate,
    this extension SHOULD be included in all end entity certificates.
+
+CABF BR SC62 marked the extension as NOT RECOMMENDED for subscriber
+certificates
 **********************************************************************/
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "w_ext_subject_key_identifier_missing_sub_cert",
-			Description:   "Sub certificates SHOULD include Subject Key Identifier in end entity certs",
-			Citation:      "RFC 5280: 4.2 & 4.2.1.2",
-			Source:        lint.RFC5280,
-			EffectiveDate: util.RFC2459Date,
+			Name:            "w_ext_subject_key_identifier_missing_sub_cert",
+			Description:     "Sub certificates SHOULD include Subject Key Identifier in end entity certs",
+			Citation:        "RFC 5280: 4.2 & 4.2.1.2",
+			Source:          lint.RFC5280,
+			EffectiveDate:   util.RFC2459Date,
+			IneffectiveDate: util.SC62EffectiveDate,
 		},
 		Lint: NewSubjectKeyIdMissingSubscriber,
 	})
