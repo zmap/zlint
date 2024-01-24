@@ -15,6 +15,7 @@ package cabf_br
  */
 
 import (
+	"net"
 	"net/url"
 	"time"
 
@@ -62,6 +63,11 @@ func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
+
+		if net.ParseIP(purl.Host) != nil {
+			continue
+		}
+
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}
@@ -71,6 +77,11 @@ func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error}
 		}
+
+		if net.ParseIP(purl.Host) != nil {
+			continue
+		}
+
 		if !util.HasValidTLD(purl.Hostname(), time.Now()) {
 			return &lint.LintResult{Status: lint.Warn}
 		}

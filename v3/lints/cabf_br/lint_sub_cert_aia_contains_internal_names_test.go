@@ -23,6 +23,11 @@ func TestAIAInternalName(t *testing.T) {
 			InputFilename:  "aiaWithInternalNames.pem",
 			ExpectedResult: lint.Warn,
 		},
+		{
+			Name:           "pass - aia with an IP address",
+			InputFilename:  "aiaWithIP.pem",
+			ExpectedResult: lint.Pass,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
