@@ -29,7 +29,7 @@ func TestSingleEmailIfPresent(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Error - email address present with mutliple values",
+			Name:           "Error - email address present with multiple values",
 			InputFilename:  "smime/email_with_multiple_values.pem",
 			ExpectedResult: lint.Error,
 		},
