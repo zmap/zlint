@@ -1,7 +1,7 @@
 package rfc
 
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -70,12 +70,12 @@ func (l *serialNumberTooLong) Execute(c *x509.Certificate) *lint.LintResult {
 	// DER encoded lengths are without having to guess.
 	encoding, err := asn1.Marshal(c.SerialNumber)
 	if err != nil {
-		return &lint.LintResult{Status: lint.Fatal, Details: fmt.Sprint(err)}
+		return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
 	}
 	serial := new(asn1.RawValue)
 	_, err = asn1.Unmarshal(encoding, serial)
 	if err != nil {
-		return &lint.LintResult{Status: lint.Fatal, Details: fmt.Sprint(err)}
+		return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
 	}
 	length := len(serial.Bytes)
 	if length > 20 {
