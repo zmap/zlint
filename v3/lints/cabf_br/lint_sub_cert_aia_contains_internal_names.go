@@ -54,7 +54,7 @@ func NewSubCertAIAInternalName() lint.LintInterface {
 }
 
 func (l *subCertAIAInternalName) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.AiaOID)
 }
 
 func (l *subCertAIAInternalName) Execute(c *x509.Certificate) *lint.LintResult {
