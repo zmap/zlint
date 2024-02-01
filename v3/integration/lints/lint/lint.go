@@ -1,7 +1,7 @@
 package lint
 
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -137,7 +137,7 @@ type File struct {
 //
 // The word "remember" begins at position 81 within this text, therefor LineOf(81) should return line 3.
 func (f *File) LineOf(pos token.Pos) int {
-	start := 0
+	var start int
 	end := 0
 	for lineno, line := range f.Lines {
 		start = end

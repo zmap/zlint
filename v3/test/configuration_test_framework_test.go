@@ -1,7 +1,7 @@
 package test
 
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -183,7 +183,7 @@ type LintEmbedsAConfiguration struct {
 }
 
 type embeddedConfiguration struct {
-	IsWebPKI bool `toml:"is_web_pki" comment:"Indicates that the certificate is intended for the Web PKI."`
+	IsWebPKI bool `comment:"Indicates that the certificate is intended for the Web PKI." toml:"is_web_pki"`
 }
 
 func init() {

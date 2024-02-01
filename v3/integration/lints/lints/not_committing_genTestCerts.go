@@ -1,7 +1,7 @@
 package lints
 
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -16,6 +16,7 @@ package lints
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"go/ast"
 	"os"
@@ -24,7 +25,7 @@ import (
 	"github.com/zmap/zlint/v3/integration/lints/lint"
 )
 
-const want = `6247a4fbe902f83e571ee5ff2e7d8443ac198db70318bbc9f6ee62f893e88a55`
+const want = `e113c11b7c4897c7e96579f175016094e48951a117b63c967d053e5ce83ec1cd`
 
 type NotCommittingGenTestCerts struct{}
 
@@ -42,7 +43,7 @@ func (i *NotCommittingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.
 	if err != nil {
 		return lint.NewResult(fmt.Sprintf("failed to hash the contents of %s", file.Name))
 	}
-	got := fmt.Sprintf("%x", hasher.Sum([]byte{}))
+	got := hex.EncodeToString(hasher.Sum([]byte{}))
 	if got == want {
 		return nil
 	}
