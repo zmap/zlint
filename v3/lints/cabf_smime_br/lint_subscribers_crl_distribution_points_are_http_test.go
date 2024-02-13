@@ -9,24 +9,38 @@ import (
 
 func TestSubscriberCrlDistributionPointsAreHTTP(t *testing.T) {
 	testCases := []struct {
-		Name           string
-		InputFilename  string
-		ExpectedResult lint.LintStatus
+		Name            string
+		InputFilename   string
+		ExpectedResult  lint.LintStatus
+		ExpectedDetails string
 	}{
 		{
-			Name:           "pass - cert with HTTP CRL distribution point",
+			Name:           "pass - cert with only HTTP CRL distribution points",
 			InputFilename:  "smime/subscriber_with_http_crl_distribution_point.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "error - cert without a non-HTTP CRL distribution point",
-			InputFilename:  "smime/subscriber_with_non_http_crl_distribution_point.pem",
-			ExpectedResult: lint.Error,
+			Name:            "error - cert with a non-HTTP CRL distribution point",
+			InputFilename:   "smime/subscriber_with_non_http_crl_distribution_point.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "SMIME certificate contains invalid URL scheme in CRL distribution point",
 		},
 		{
-			Name:           "error - cert without no HTTP CRL distribution points",
-			InputFilename:  "smime/legacy_subscriber_with_non_http_crl_distribution_point.pem",
-			ExpectedResult: lint.Error,
+			Name:            "error - legacy cert with no HTTP CRL distribution points",
+			InputFilename:   "smime/legacy_subscriber_with_non_http_crl_distribution_point.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "SMIME certificate contains no HTTP URL schemes as CRL distribution points",
+		},
+		{
+			Name:           "pass - legacy cert with HTTP and non-HTTP CRL distribution points",
+			InputFilename:  "smime/legacy_subscriber_with_mixed_crl_distribution_points.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:            "error - cert with HTTP and non-HTTP CRL distribution points",
+			InputFilename:   "smime/subscriber_with_mixed_crl_distribution_points.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "SMIME certificate contains invalid URL scheme in CRL distribution point",
 		},
 	}
 	for _, tc := range testCases {
@@ -34,6 +48,10 @@ func TestSubscriberCrlDistributionPointsAreHTTP(t *testing.T) {
 			result := test.TestLint("e_subscribers_crl_distribution_points_are_http", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v - details: %v", tc.ExpectedResult, result.Status, result.Details)
+			}
+
+			if tc.ExpectedDetails != "" && tc.ExpectedDetails != result.Details {
+				t.Errorf("expected details: %s, was %s", tc.ExpectedDetails, result.Details)
 			}
 		})
 	}
