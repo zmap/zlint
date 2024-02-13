@@ -24,8 +24,13 @@ func TestSingleEmailIfPresent(t *testing.T) {
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:           "Error - cert with multiple email addresses",
+			Name:           "Pass - cert with multiple email addresses",
 			InputFilename:  "smime/multiple_email_present.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Error - email address present with multiple values",
+			InputFilename:  "smime/email_with_multiple_values.pem",
 			ExpectedResult: lint.Error,
 		},
 	}
