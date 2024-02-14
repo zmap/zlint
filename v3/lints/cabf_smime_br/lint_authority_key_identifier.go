@@ -67,8 +67,6 @@ func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *lint.LintR
 		}
 	}
 
-	fmt.Printf("%+v\n", keyID)
-
 	hasKeyID := len(keyID.KeyIdentifier.Bytes) > 0
 	hasCertIssuer := len(keyID.AuthorityCertIssuer.Bytes) > 0
 	hasCertSerial := len(keyID.AuthorityCertSerialNumber.Bytes) > 0
