@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -16,6 +16,7 @@ package cabf_smime_br
 
 import (
 	"fmt"
+	"net/mail"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -42,19 +43,22 @@ func NewSingleEmailIfPresent() lint.LintInterface {
 }
 
 func (l *singleEmailIfPresent) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && c.EmailAddresses != nil && len(c.EmailAddresses) != 0
+	return util.IsSubscriberCert(c) && c.EmailAddresses != nil && len(c.EmailAddresses) != 0 && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *singleEmailIfPresent) Execute(c *x509.Certificate) *lint.LintResult {
-	if len(c.EmailAddresses) == 1 {
-		return &lint.LintResult{
-			Status: lint.Pass,
+	for _, email := range c.EmailAddresses {
+		_, err := mail.ParseAddress(email)
+		if err != nil {
+			return &lint.LintResult{
+				Status:       lint.Error,
+				Details:      fmt.Sprintf("subject:emailAddress was present and contained an invalid email address (%s)", email),
+				LintMetadata: lint.LintMetadata{},
+			}
 		}
-	} else {
-		return &lint.LintResult{
-			Status:       lint.Error,
-			Details:      fmt.Sprintf("subject:emailAddress was present and containted %d names (%s)", len(c.EmailAddresses), c.EmailAddresses),
-			LintMetadata: lint.LintMetadata{},
-		}
+	}
+
+	return &lint.LintResult{
+		Status: lint.Pass,
 	}
 }
