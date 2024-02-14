@@ -20,7 +20,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-// shallHaveCrlDistributionPoints - linter to enforce requirement that SMIME certificates SHALL contain emailProtecton EKU
+// legacyMultipurposeEKUCheck - linter to enforce requirement that SMIME certificates SHALL contain emailProtecton EKU
 type legacyMultipurposeEKUCheck struct {
 }
 
@@ -37,7 +37,7 @@ func init() {
 	})
 }
 
-// NewShallHaveCrlDistributionPoints creates a new linter to enforce MAY/SHALL NOT field requirements for mailbox validated SMIME certs
+// NewLegacyMultipurposeEKUCheck creates a new linter to enforce MAY/SHALL NOT field requirements for mailbox validated SMIME certs
 func NewLegacyMultipurposeEKUCheck() lint.CertificateLintInterface {
 	return &legacyMultipurposeEKUCheck{}
 }
