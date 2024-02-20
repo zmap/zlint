@@ -49,17 +49,19 @@ func NewAuthorityKeyIdentifierCorrect() lint.LintInterface {
 }
 
 func (l *authorityKeyIdentifierCorrect) CheckApplies(c *x509.Certificate) bool {
-	return util.IsExtInCert(c, util.AuthkeyOID)
+	return util.IsSubscriberCert(c) && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *lint.LintResult {
-	var keyID keyIdentifier
-
-	// ext is assumed not-nil based on CheckApplies.
 	ext := util.GetExtFromCert(c, util.AuthkeyOID)
-	if ext.Critical {
-		return &lint.LintResult{Status: lint.Error}
+	if ext == nil {
+		return &lint.LintResult{Status: lint.Error, Details: "missing authorityKeyIdentifier"}
 	}
+	if ext.Critical {
+		return &lint.LintResult{Status: lint.Error, Details: "authorityKeyIdentifier is critical"}
+	}
+
+	var keyID keyIdentifier
 	if _, err := asn1.Unmarshal(ext.Value, &keyID); err != nil {
 		return &lint.LintResult{
 			Status:  lint.Fatal,
@@ -71,10 +73,13 @@ func (l *authorityKeyIdentifierCorrect) Execute(c *x509.Certificate) *lint.LintR
 	hasCertIssuer := len(keyID.AuthorityCertIssuer.Bytes) > 0
 	hasCertSerial := len(keyID.AuthorityCertSerialNumber.Bytes) > 0
 	if !hasKeyID {
-		return &lint.LintResult{Status: lint.Error}
+		return &lint.LintResult{Status: lint.Error, Details: "keyIdentifier not present"}
 	}
-	if hasCertIssuer || hasCertSerial {
-		return &lint.LintResult{Status: lint.Error}
+	if hasCertIssuer {
+		return &lint.LintResult{Status: lint.Error, Details: "authorityCertIssuer is present"}
+	}
+	if hasCertSerial {
+		return &lint.LintResult{Status: lint.Error, Details: "authorityCertSerialNumber is present"}
 	}
 	return &lint.LintResult{Status: lint.Pass}
 }
