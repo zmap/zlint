@@ -23,13 +23,15 @@ import (
 )
 
 func init() {
-	lint.RegisterLint(&lint.Lint{
-		Name:          "e_subscribers_crl_distribution_points_are_http",
-		Description:   "cRLDistributionPoints SHALL have URI scheme HTTP.",
-		Citation:      "7.1.2.3.b",
-		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint:          NewSubscriberCrlDistributionPointsHTTP,
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_subscribers_crl_distribution_points_are_http",
+			Description:   "cRLDistributionPoints SHALL have URI scheme HTTP.",
+			Citation:      "7.1.2.3.b",
+			Source:        lint.CABFSMIMEBaselineRequirements,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+		},
+		Lint: NewSubscriberCrlDistributionPointsHTTP,
 	})
 }
 
