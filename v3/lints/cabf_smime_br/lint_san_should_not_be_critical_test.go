@@ -14,14 +14,20 @@ func TestSubjectAlternativeNameNotCritical(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "pass - cert without a CRL distribution point",
-			InputFilename:  "smime/san_not_critical_with_subject.pem",
+			Name:           "pass - certificate with non-critical SAN and non-empty subject",
+			InputFilename:  "smime/san_non_critical_non_empty_subject.pem",
 			ExpectedResult: lint.Pass,
 		},
-		// I admit that it is very difficult to construct a negative case
-		// since the Go standard library does the correct thing on your
-		// behalf at time of signing. Plus no certs came up bad in
-		// the test corpus, so we don't have any live examples.
+		{
+			Name:           "warn - certificate with critical SAN and non-empty subject",
+			InputFilename:  "smime/san_critical_non_empty_subject.pem",
+			ExpectedResult: lint.Warn,
+		},
+		{
+			Name:           "na - certificate has no SMIME BR policy",
+			InputFilename:  "ecdsaP224.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {

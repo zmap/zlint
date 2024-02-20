@@ -23,6 +23,11 @@ func TestSubscriberCrlDistributionPoints(t *testing.T) {
 			InputFilename:  "smime/subscriber_no_crl_distribution_points.pem",
 			ExpectedResult: lint.Error,
 		},
+		{
+			Name:           "na - certificate has no SMIME BR policy",
+			InputFilename:  "smime/with_subject_alternative_name_no_br.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {

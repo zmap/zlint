@@ -1,7 +1,7 @@
 package main
 
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -272,34 +272,36 @@ func newIntermediate(parent *Certificate) (*Certificate, error) {
 // Formats the given certificate into OpenSSL's textual output. For example:
 //
 // Certificate:
-//    Data:
-//        Version: 3 (0x2)
-//        Serial Number: 1 (0x1)
-//        Signature Algorithm: ecdsa-with-SHA256
-//        Issuer:
-//        Validity
-//            Not Before: Feb 14 17:21:17 2021 GMT
-//            Not After : Feb 14 17:21:17 2021 GMT
-//        Subject:
-//        Subject Public Key Info:
-//            Public Key Algorithm: id-ecPublicKey
-//                Public-Key: (256 bit)
-//                pub:
-//                    04:76:2b:19:b8:b4:f4:d9:9e:66:8a:6a:f3:bf:c5:
-//                    df:83:43:d6:53:bf:9e:5a:b8:b1:5d:99:8c:4e:d7:
-//                    59:25:fd:5c:08:16:23:19:61:c4:cc:c2:f7:db:ac:
-//                    72:a5:5e:65:35:f3:64:e2:9b:af:f9:04:c9:99:61:
-//                    57:3e:ee:9c:b3
-//                ASN1 OID: prime256v1
-//                NIST CURVE: P-256
-//        X509v3 extensions:
-//            X509v3 Subject Key Identifier:
-//                6E:3F:50:3A:07:4E:10:AA:74:31:8F:3B:B3:4F:30:96:D3:6F:EF:AE
-//    Signature Algorithm: ecdsa-with-SHA256
-//         30:44:02:20:11:3f:4a:25:63:10:fa:2d:96:00:e8:23:8c:62:
-//         40:c4:8d:31:31:d0:96:f2:7d:28:34:3a:2c:23:9f:bb:28:7e:
-//         02:20:1b:8a:68:6d:ef:c4:d7:19:46:48:bf:b0:18:85:31:37:
-//         ce:2f:04:27:7c:a3:d2:47:4d:e1:1f:c3:1a:3e:e3:8f
+//
+//	Data:
+//	    Version: 3 (0x2)
+//	    Serial Number: 1 (0x1)
+//	    Signature Algorithm: ecdsa-with-SHA256
+//	    Issuer:
+//	    Validity
+//	        Not Before: Feb 14 17:21:17 2021 GMT
+//	        Not After : Feb 14 17:21:17 2021 GMT
+//	    Subject:
+//	    Subject Public Key Info:
+//	        Public Key Algorithm: id-ecPublicKey
+//	            Public-Key: (256 bit)
+//	            pub:
+//	                04:76:2b:19:b8:b4:f4:d9:9e:66:8a:6a:f3:bf:c5:
+//	                df:83:43:d6:53:bf:9e:5a:b8:b1:5d:99:8c:4e:d7:
+//	                59:25:fd:5c:08:16:23:19:61:c4:cc:c2:f7:db:ac:
+//	                72:a5:5e:65:35:f3:64:e2:9b:af:f9:04:c9:99:61:
+//	                57:3e:ee:9c:b3
+//	            ASN1 OID: prime256v1
+//	            NIST CURVE: P-256
+//	    X509v3 extensions:
+//	        X509v3 Subject Key Identifier:
+//	            6E:3F:50:3A:07:4E:10:AA:74:31:8F:3B:B3:4F:30:96:D3:6F:EF:AE
+//	Signature Algorithm: ecdsa-with-SHA256
+//	     30:44:02:20:11:3f:4a:25:63:10:fa:2d:96:00:e8:23:8c:62:
+//	     40:c4:8d:31:31:d0:96:f2:7d:28:34:3a:2c:23:9f:bb:28:7e:
+//	     02:20:1b:8a:68:6d:ef:c4:d7:19:46:48:bf:b0:18:85:31:37:
+//	     ce:2f:04:27:7c:a3:d2:47:4d:e1:1f:c3:1a:3e:e3:8f
+//
 // -----BEGIN CERTIFICATE-----
 // MIIBDjCBtqADAgECAgEBMAoGCCqGSM49BAMCMAAwHhcNMjEwMjE0MTcyMTE3WhcN
 // MjEwMjE0MTcyMTE3WjAAMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEdisZuLT0
