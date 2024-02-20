@@ -25,7 +25,7 @@ import (
 func init() {
 	lint.RegisterLint(&lint.Lint{
 		Name:          "e_subscribers_crl_distribution_points_are_http",
-		Description:   "cRLDistributionPoints SHALL have URL scheme HTTP.",
+		Description:   "cRLDistributionPoints SHALL have URI scheme HTTP.",
 		Citation:      "7.1.2.3.b",
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
@@ -61,13 +61,13 @@ func (l *subscriberCrlDistributionPointsHTTP) Execute(c *x509.Certificate) *lint
 	if (util.IsMultipurposeSMIMECertificate(c) || util.IsStrictSMIMECertificate(c)) && httpCount != len(c.CRLDistributionPoints) {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "SMIME certificate contains invalid URL scheme in CRL distribution point",
+			Details: "SMIME certificate contains invalid URI scheme in CRL distribution point",
 		}
 	}
 	if util.IsLegacySMIMECertificate(c) && httpCount == 0 {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "SMIME certificate contains no HTTP URL schemes as CRL distribution points",
+			Details: "SMIME certificate contains no HTTP URI schemes as CRL distribution points",
 		}
 	}
 
