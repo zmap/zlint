@@ -18,9 +18,16 @@ func TestSMIMEQCStatementsNotCritical(t *testing.T) {
 			InputFilename:  "smime/legacyAiaOneHTTPOneLdap.pem",
 			ExpectedResult: lint.NA,
 		},
-		// Test cases are hard to construct because:
-		//  - while the zcrypto x509.Certificate struct has an QCStatements field, it is ignored when creating a certificate
-		//  - OpenSSL doesn't support writing the qcStatements extension.
+		{
+			Name:           "Pass - qcStatements not critical",
+			InputFilename:  "smime/e_smime_qc_statements_must_not_be_critical_pass.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Fail - qcStatements critical",
+			InputFilename:  "smime/e_smime_qc_statements_must_not_be_critical_fail.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
