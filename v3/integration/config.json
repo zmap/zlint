@@ -552,9 +552,7 @@
     },
     "e_key_usage_incorrect_length": {},
     "e_key_usage_presence": {},
-    "e_mailbox_address_shall_contain_an_rfc822_name": {
-      "ErrCount": 6
-    },
+    "e_mailbox_address_shall_contain_an_rfc822_name": {},
     "e_mailbox_validated_enforce_subject_field_restrictions": {},
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 3704

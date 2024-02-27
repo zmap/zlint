@@ -54,6 +54,12 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
+			Name:          "NE - before effective date",
+			InputFilename: "NotEffective.pem",
+
+			ExpectedResult: lint.NE,
+		},
+		{
 			Name:          "NA - does not contain smime certificate policy",
 			InputFilename: "NotApplicable.pem",
 
@@ -68,7 +74,7 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 		},
 		{
 			Name:          "fail - subject:commonName email address does not match the email value under san:otherName",
-			InputFilename: "WithOtherNameAsEmailUnmatched.pem",
+			InputFilename: "WithOtherNameIncorrectType.pem",
 
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "all certificate mailbox addresses must be present in san:emailAddresses or san:otherNames in addition to any other field they may appear",

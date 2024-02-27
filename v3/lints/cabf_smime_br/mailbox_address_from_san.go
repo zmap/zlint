@@ -32,7 +32,7 @@ func init() {
 		Description:   "All Mailbox Addresses in the subject field or entries of type dirName of this extension SHALL be repeated as rfc822Name or otherName values of type id-on-SmtpUTF8Mailbox in this extension",
 		Citation:      "SMIME BRs: 7.1.4.2.1",
 		Source:        lint.CABFSMIMEBaselineRequirements,
-		EffectiveDate: util.ZeroDate,
+		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		Lint: func() lint.LintInterface {
 			return NewMailboxAddressFromSAN()
 		},
