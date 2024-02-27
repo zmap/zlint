@@ -26,5 +26,5 @@ func HasEmailSAN(c *x509.Certificate) bool {
 // mailbox address.
 func IsMailboxAddress(address string) bool {
 	validAddress, err := mail.ParseAddress(address)
-	return err != nil || validAddress.Address != address
+	return err == nil && validAddress.Address == address
 }
