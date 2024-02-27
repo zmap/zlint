@@ -45,7 +45,7 @@ func (l *subDirAttr) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subDirAttr) Execute(c *x509.Certificate) *lint.LintResult {
 	if util.IsExtInCert(c, util.SubjectDirAttrOID) {
-		return &lint.LintResult{Status: lint.Error}
+		return &lint.LintResult{Status: lint.Error, Details: "subject direcotry attribute present"}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
