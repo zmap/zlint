@@ -30,7 +30,6 @@ import (
 
 	"github.com/zmap/zlint/v3/util"
 
-	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zcrypto/x509/pkix"
 )
@@ -42,12 +41,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	//printCertificate(ca, "Trust Anchor")
+	printCertificate(ca, "Trust Anchor")
 	intermediate, err := newIntermediate(ca)
 	if err != nil {
 		panic(err)
 	}
-	//printCertificate(intermediate, "Intermediate")
+	printCertificate(intermediate, "Intermediate")
 	leaf, err := newLeaf(ca, []*Certificate{intermediate})
 	if err != nil {
 		panic(err)
@@ -85,38 +84,26 @@ func newLeaf(trustAnchor *Certificate, intermediates []*Certificate) (*Certifica
 	}
 	// Edit this template to look like whatever leaf cert you need.
 	template := x509.Certificate{
-		Raw:                     nil,
-		RawTBSCertificate:       nil,
-		RawSubjectPublicKeyInfo: nil,
-		RawSubject:              nil,
-		RawIssuer:               nil,
-		Signature:               nil,
-		SignatureAlgorithm:      0,
-		PublicKeyAlgorithm:      0,
-		PublicKey:               nil,
-		Version:                 0,
-		SerialNumber:            nextSerial(),
-		Issuer:                  pkix.Name{},
-		Subject: pkix.Name{
-			//CommonName: "test@example.com",
-		},
-		NotBefore:  util.CABF_SMIME_BRs_1_0_0_Date,
-		NotAfter:   time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
-		KeyUsage:   0,
-		Extensions: nil,
-		/*
-			ExtraExtensions: []pkix.Extension{
-				{
-					Id:       asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 3},
-					Critical: false,
-					Value:    []byte{0x30, 0x00},
-				},
-			},
-		*/
+		Raw:                         nil,
+		RawTBSCertificate:           nil,
+		RawSubjectPublicKeyInfo:     nil,
+		RawSubject:                  nil,
+		RawIssuer:                   nil,
+		Signature:                   nil,
+		SignatureAlgorithm:          0,
+		PublicKeyAlgorithm:          0,
+		PublicKey:                   nil,
+		Version:                     0,
+		SerialNumber:                nextSerial(),
+		Issuer:                      pkix.Name{},
+		Subject:                     pkix.Name{},
+		NotBefore:                   util.RFC5280Date,
+		NotAfter:                    time.Date(9999, 0, 0, 0, 0, 0, 0, time.UTC),
+		KeyUsage:                    0,
+		Extensions:                  nil,
+		ExtraExtensions:             nil,
 		UnhandledCriticalExtensions: nil,
-		ExtKeyUsage:                 []x509.ExtKeyUsage{
-			x509.ExtKeyUsageEmailProtection,
-		},
+		ExtKeyUsage:                 nil,
 		UnknownExtKeyUsage:          nil,
 		BasicConstraintsValid:       false,
 		IsCA:                        false,
@@ -127,61 +114,14 @@ func newLeaf(trustAnchor *Certificate, intermediates []*Certificate) (*Certifica
 		OCSPServer:                  nil,
 		IssuingCertificateURL:       nil,
 		DNSNames:                    nil,
+		EmailAddresses:              nil,
 		IPAddresses:                 nil,
 		URIs:                        nil,
 		PermittedEmailAddresses:     nil,
 		ExcludedEmailAddresses:      nil,
 		CRLDistributionPoints:       nil,
-		PolicyIdentifiers: nil,
+		PolicyIdentifiers:           nil,
 	}
-
-	innerOtherName, err := asn1.Marshal(asn1.RawValue{
-		Tag:   asn1.TagUTF8String,
-		Bytes: []byte("test@example.com"),
-	})
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal innerOtherName: %v", err)
-	}
-
-	idOnSMTPUTF8MailboxOID := asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 8, 9}
-	otherName := pkix.OtherName{
-		TypeID: idOnSMTPUTF8MailboxOID,
-		Value: asn1.RawValue{
-			Class:      asn1.ClassContextSpecific,
-			Tag:        0,
-			IsCompound: true,
-			Bytes:      innerOtherName,
-		},
-	}
-
-	otherNameRaw, err := asn1.MarshalWithParams(otherName, "tag:0")
-	if err != nil {
-		return nil, fmt.Errorf("gsx509: SAN error marshaling otherName: %v", err)
-	}
-
-	rawValues := []asn1.RawValue{
-		{
-			FullBytes: otherNameRaw,
-		},
-	}
-
-	rawBytes, err := asn1.Marshal(rawValues)
-	if err != nil {
-		return nil, err
-	}
-
-	oidSAN := asn1.ObjectIdentifier{2, 5, 29, 17}
-
-	sansExtension := pkix.Extension{
-		Id:       oidSAN,
-		Critical: true,
-		Value:    rawBytes,
-	}
-
-	_ = sansExtension
-
-	template.ExtraExtensions = append(template.ExtraExtensions, sansExtension)
-
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
 		return nil, err
