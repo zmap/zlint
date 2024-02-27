@@ -61,9 +61,7 @@ func (l *MailboxAddressFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	// build list of Mailbox addresses from subject:commonName, subject:emailAddress, dirName
-	toFindMailboxAddresses := []string{}
-
-	toFindMailboxAddresses = append(toFindMailboxAddresses, getMailboxAddressesFromDistinguishedName(c.Subject)...)
+	toFindMailboxAddresses := getMailboxAddressesFromDistinguishedName(c.Subject)
 
 	for _, dirName := range c.DirectoryNames {
 		toFindMailboxAddresses = append(toFindMailboxAddresses, getMailboxAddressesFromDistinguishedName(dirName)...)
