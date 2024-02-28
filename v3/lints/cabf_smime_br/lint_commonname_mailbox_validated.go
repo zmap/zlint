@@ -15,9 +15,6 @@
 package cabf_smime_br
 
 import (
-	"fmt"
-
-	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -47,27 +44,6 @@ func (l *commonNameMailboxValidated) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *commonNameMailboxValidated) Execute(c *x509.Certificate) *lint.LintResult {
-	rdnSequence := util.RawRDNSequence{}
-	rest, err := asn1.Unmarshal(c.RawSubject, &rdnSequence)
-	if err != nil {
-		return &lint.LintResult{
-			Status:  lint.Fatal,
-			Details: "Failed to Unmarshal RawSubject into RawRDNSequence",
-		}
-	}
-	if len(rest) > 0 {
-		return &lint.LintResult{
-			Status:  lint.Fatal,
-			Details: "Trailing data after RawSubject RawRDNSequence",
-		}
-	}
-
-	for _, attrTypeAndValueSet := range rdnSequence {
-		for _, attrTypeAndValue := range attrTypeAndValueSet {
-			fmt.Printf("%+v\n", attrTypeAndValue)
-		}
-	}
-
 	commonNames := []string{c.Subject.CommonName}
 	commonNames = append(commonNames, c.Subject.CommonNames...)
 	for _, cn := range commonNames {
