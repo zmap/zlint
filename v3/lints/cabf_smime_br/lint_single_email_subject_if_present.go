@@ -28,11 +28,11 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_single_email_subject_if_present",
 			Description:   "If present, the subject:emailAddress SHALL contain a single Mailbox Address",
-			Citation:      "7.1.4.2.h",
+			Citation:      "7.1.4.2.2.h",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
-		Lint: func() lint.LintInterface { return &singleEmailSubjectIfPresent{} },
+		Lint: NewSingleEmailSubjectIfPresent,
 	})
 }
 
@@ -43,20 +43,18 @@ func NewSingleEmailSubjectIfPresent() lint.LintInterface {
 }
 
 func (l *singleEmailSubjectIfPresent) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && c.Subject.EmailAddress != nil && util.IsSMIMEBRCertificate(c)
+	emailAddress := c.Subject.EmailAddress
+	return util.IsSubscriberCert(c) && emailAddress != nil && len(emailAddress) != 0 && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *singleEmailSubjectIfPresent) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, email := range c.Subject.EmailAddress {
-		_, err := mail.ParseAddress(email)
-		if err != nil {
+		if _, err := mail.ParseAddress(email); err != nil {
 			return &lint.LintResult{
-				Status:       lint.Error,
-				Details:      fmt.Sprintf("subject:emailAddress was present and contained an invalid email address (%s)", email),
-				LintMetadata: lint.LintMetadata{},
+				Status:  lint.Error,
+				Details: fmt.Sprintf("subject:emailAddress was present and contained an invalid email address (%s)", email),
 			}
 		}
 	}
-
 	return &lint.LintResult{Status: lint.Pass}
 }

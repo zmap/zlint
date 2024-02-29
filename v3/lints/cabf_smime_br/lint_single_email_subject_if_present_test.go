@@ -14,17 +14,17 @@ func TestSingleEmailSubjectIfPresent(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "Error - email address present in subjectDN with multiple values",
+			Name:           "error - email address present in subjectDN with multiple values",
 			InputFilename:  "smime/twoEmailAddressesInSubjectDN.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "Error - email address present in subjectDN with one value",
+			Name:           "pass - email address present in subjectDN with one value",
 			InputFilename:  "smime/oneEmailAddressInSubjectDN.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Error - no email address present in subjectDN",
+			Name:           "na - no email address present in subjectDN",
 			InputFilename:  "smime/noEmailAddressInSubjectDN.pem",
 			ExpectedResult: lint.NA,
 		},
