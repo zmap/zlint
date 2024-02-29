@@ -33,7 +33,7 @@ func init() {
 		Citation:      "SMIME BRs: 7.1.4.2.1",
 		Source:        lint.CABFSMIMEBaselineRequirements,
 		EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
-		Lint: NewMailboxAddressFromSAN,
+		Lint:          NewMailboxAddressFromSAN,
 	})
 }
 
