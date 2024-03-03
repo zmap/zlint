@@ -26,7 +26,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_strict_multipurpose_smime_ext_subject_directory_attr",
-			Description:   "SMIME Strict and Multipurpose certificates cannot have Subject Directory Attribute",
+			Description:   "SMIME Strict and Multipurpose certificates cannot have Subject Directory Attributes",
 			Citation:      "BRs: 7.1.2.3j",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
