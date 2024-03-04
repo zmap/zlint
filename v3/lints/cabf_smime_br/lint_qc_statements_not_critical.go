@@ -1,5 +1,3 @@
-package cabf_smime_br
-
 /*
  * ZLint Copyright 2024 Regents of the University of Michigan
  *
@@ -14,39 +12,44 @@ package cabf_smime_br
  * permissions and limitations under the License.
  */
 
+package cabf_smime_br
+
 import (
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-type subDirAttr struct{}
-
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_strict_multipurpose_smime_ext_subject_directory_attr",
-			Description:   "SMIME Strict and Multipurpose certificates cannot have Subject Directory Attributes",
-			Citation:      "BRs: 7.1.2.3j",
+			Name:          "e_smime_qc_statements_must_not_be_critical",
+			Description:   "This extension MAY be present and SHALL NOT be marked critical.",
+			Citation:      "7.1.2.3.k",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
-		Lint: NewSubDirAttr,
+		Lint: NewQCStatementNotCritical,
 	})
 }
 
-func NewSubDirAttr() lint.LintInterface {
-	return &subDirAttr{}
+type qcStatementNotCritical struct{}
+
+func NewQCStatementNotCritical() lint.LintInterface {
+	return &qcStatementNotCritical{}
 }
 
-func (l *subDirAttr) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && (util.IsStrictSMIMECertificate(c) || util.IsMultipurposeSMIMECertificate(c))
+func (l *qcStatementNotCritical) CheckApplies(c *x509.Certificate) bool {
+	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.QcStateOid) && util.IsSMIMEBRCertificate(c)
 }
 
-func (l *subDirAttr) Execute(c *x509.Certificate) *lint.LintResult {
-	if util.IsExtInCert(c, util.SubjectDirAttrOID) {
-		return &lint.LintResult{Status: lint.Error}
-	} else {
-		return &lint.LintResult{Status: lint.Pass}
+func (l *qcStatementNotCritical) Execute(c *x509.Certificate) *lint.LintResult {
+	san := util.GetExtFromCert(c, util.QcStateOid)
+	if san.Critical {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "qc statements extension is marked critical",
+		}
 	}
+	return &lint.LintResult{Status: lint.Pass}
 }
