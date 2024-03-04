@@ -15,13 +15,13 @@ func TestSubscriberCrlDistributionPointsAreHTTP(t *testing.T) {
 		ExpectedDetails string
 	}{
 		{
-			Name:           "pass - cert with only HTTP CRL distribution points",
-			InputFilename:  "smime/subscriber_with_http_crl_distribution_point.pem",
+			Name:           "pass - strict cert with only HTTP CRL distribution points",
+			InputFilename:  "smime/strict_subscriber_with_http_crl_distribution_point.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:            "error - cert with a non-HTTP CRL distribution point",
-			InputFilename:   "smime/subscriber_with_non_http_crl_distribution_point.pem",
+			Name:            "error - strict cert with a non-HTTP CRL distribution point",
+			InputFilename:   "smime/strict_subscriber_with_non_http_crl_distribution_point.pem",
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "SMIME certificate contains invalid URI scheme in CRL distribution point",
 		},
@@ -37,8 +37,8 @@ func TestSubscriberCrlDistributionPointsAreHTTP(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:            "error - cert with HTTP and non-HTTP CRL distribution points",
-			InputFilename:   "smime/subscriber_with_mixed_crl_distribution_points.pem",
+			Name:            "error - strict cert with HTTP and non-HTTP CRL distribution points",
+			InputFilename:   "smime/strict_subscriber_with_mixed_crl_distribution_points.pem",
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "SMIME certificate contains invalid URI scheme in CRL distribution point",
 		},
