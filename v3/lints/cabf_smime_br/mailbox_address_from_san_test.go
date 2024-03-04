@@ -86,6 +86,19 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 			ExpectedResult:  lint.Error,
 			ExpectedDetails: "all certificate mailbox addresses must be present in san:emailAddresses or san:otherNames in addition to any other field they may appear",
 		},
+		{
+			Name:          "fail - subject:commonName email address does not match san:emailAddress, certificate is sponsor validated",
+			InputFilename: "sponsorValidatedMultipurposeEmailInSubjectNotInSAN.pem",
+
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "all certificate mailbox addresses must be present in san:emailAddresses or san:otherNames in addition to any other field they may appear",
+		},
+		{
+			Name:          "pass - subject:commonName is personal name, san:emailAddress contains an email",
+			InputFilename: "sponsorValidatedMultipurposePersonalNameInCN.pem",
+
+			ExpectedResult: lint.Pass,
+		},
 	}
 
 	for _, tc := range testCases {
