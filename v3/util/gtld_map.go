@@ -1426,7 +1426,7 @@ var tldMap = map[string]GTLDPeriod{
 	"comcast": {
 		GTLD:           "comcast",
 		DelegationDate: "2016-07-07",
-		RemovalDate:    "",
+		RemovalDate:    "2024-02-06",
 	},
 	"commbank": {
 		GTLD:           "commbank",
@@ -2771,7 +2771,7 @@ var tldMap = map[string]GTLDPeriod{
 	"guardian": {
 		GTLD:           "guardian",
 		DelegationDate: "2016-05-13",
-		RemovalDate:    "",
+		RemovalDate:    "2024-03-05",
 	},
 	"gucci": {
 		GTLD:           "gucci",
@@ -6956,7 +6956,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xfinity": {
 		GTLD:           "xfinity",
 		DelegationDate: "2016-07-07",
-		RemovalDate:    "",
+		RemovalDate:    "2024-02-06",
 	},
 	"xihuan": {
 		GTLD:           "xihuan",

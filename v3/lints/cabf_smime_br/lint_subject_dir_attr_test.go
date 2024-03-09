@@ -18,8 +18,16 @@ func TestSMIMESubjectDirAttributes(t *testing.T) {
 			InputFilename:  "smime/mailboxValidatedStrictWithCommonName.pem",
 			ExpectedResult: lint.Pass,
 		},
-		// A negative test case is hard to construct because neither the x509 package
-		// nor OpenSSL support writing the subject directory attributes extension.
+		{
+			Name:           "error - multipurpose with subject dir attributes extension",
+			InputFilename:  "smime/multipurposeWithSubjectDirectoryAttributes.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "NA - legacy no subject dir attributes extension",
+			InputFilename:  "smime/ec_legacy_digital_signature_ku.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {

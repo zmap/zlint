@@ -44,7 +44,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "w_ext_subject_key_identifier_not_recommended_subscriber",
-			Description:   "Subcriber certificates use of Subject Key Identifier is NOT RECOMMENDED",
+			Description:   "Subscriber certificates use of Subject Key Identifier is NOT RECOMMENDED",
 			Citation:      "BRs v2: 7.1.2.7.6",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.SC62EffectiveDate,
