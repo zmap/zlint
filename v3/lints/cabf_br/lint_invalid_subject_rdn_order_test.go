@@ -26,6 +26,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
+//nolint:all
 /*
    === Proper RDN order test cases
    subject_rdn_order_ok_01.pem             C, ST, L, O, CN
