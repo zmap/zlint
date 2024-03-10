@@ -53,28 +53,28 @@ func (l *invalidSubjectRDNOrder) CheckApplies(c *x509.Certificate) bool {
 
 func getShortOIDName(oid string) string {
 	switch oid {
-	case "2.5.4.3":
-		return "CN"
-	case "2.5.4.4":
-		return "SN"
+	case "0.9.2342.19200300.100.1.25":
+		return "DC"
 	case "2.5.4.6":
 		return "C"
-	case "2.5.4.7":
-		return "L"
 	case "2.5.4.8":
 		return "ST"
+	case "2.5.4.7":
+		return "L"
+	case "2.5.4.17":
+		return "postalCode"
 	case "2.5.4.9":
 		return "street"
 	case "2.5.4.10":
 		return "O"
-	case "2.5.4.11":
-		return "OU"
-	case "2.5.4.17":
-		return "postalCode"
+	case "2.5.4.4":
+		return "SN"
 	case "2.5.4.42":
 		return "givenName"
-	case "0.9.2342.19200300.100.1.25":
-		return "DC"
+	case "2.5.4.11":
+		return "OU"
+	case "2.5.4.3":
+		return "CN"
 	default:
 		return ""
 	}
