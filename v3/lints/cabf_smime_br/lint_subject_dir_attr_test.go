@@ -24,7 +24,7 @@ func TestSMIMESubjectDirAttributes(t *testing.T) {
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "error - legacy no subject dir attributes extension",
+			Name:           "NA - legacy no subject dir attributes extension",
 			InputFilename:  "smime/ec_legacy_digital_signature_ku.pem",
 			ExpectedResult: lint.NA,
 		},
