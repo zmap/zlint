@@ -47,128 +47,76 @@ import (
    subject_rdn_order_ko_07.pem             CN, C
 */
 
-func TestInvalidSubjectRDNOrder_OK_01(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_01.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestInvalidSubjectRDNOrder(t *testing.T) {
+	type Data struct {
+		input string
+		want  lint.LintStatus
 	}
-}
-
-func TestInvalidSubjectRDNOrder_OK_02(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_02.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	data := []Data{
+		{
+			input: "subject_rdn_order_ok_01.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ok_02.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ok_03.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ok_04.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ok_05.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ok_06.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ok_07.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "subject_rdn_order_ko_01.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "subject_rdn_order_ko_02.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "subject_rdn_order_ko_03.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "subject_rdn_order_ko_04.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "subject_rdn_order_ko_05.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "subject_rdn_order_ko_06.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "subject_rdn_order_ko_07.pem",
+			want:  lint.Error,
+		},
 	}
-}
-
-func TestInvalidSubjectRDNOrder_OK_03(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_03.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_OK_04(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_04.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_OK_05(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_05.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_OK_06(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_06.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_OK_07(t *testing.T) {
-	inputPath := "subject_rdn_order_ok_07.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_01(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_01.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_02(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_02.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_03(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_03.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_04(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_04.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_05(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_05.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_06(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_06.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestInvalidSubjectRDNOrder_KO_07(t *testing.T) {
-	inputPath := "subject_rdn_order_ko_07.pem"
-	expected := lint.Error
-	out := test.TestLint("e_invalid_subject_rdn_order", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, testData := range data {
+		testData := testData
+		t.Run(testData.input, func(t *testing.T) {
+			out := test.TestLint("e_invalid_subject_rdn_order", testData.input)
+			if out.Status != testData.want {
+				t.Errorf("expected %s, got %s", testData.want, out.Status)
+			}
+		})
 	}
 }
