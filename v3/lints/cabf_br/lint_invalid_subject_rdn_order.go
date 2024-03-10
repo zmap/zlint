@@ -48,7 +48,7 @@ func NewInvalidSubjectRDNOrder() lint.LintInterface {
 }
 
 func (l *invalidSubjectRDNOrder) CheckApplies(c *x509.Certificate) bool {
-	return !util.IsCACert(c)
+	return util.IsSubscriberCert(c)
 }
 
 func getShortOIDName(oid string) string {
