@@ -24,7 +24,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_commonname_mailbox_validated",
-			Description:   "If present, the commonName attribute SHALL contain one of the following values",
+			Description:   "If present, the commonName attribute of a mailbox-validated certificate SHALL contain a mailbox address",
 			Citation:      "S/MIME BRs: 7.1.4.2.2a",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
