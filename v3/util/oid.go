@@ -158,6 +158,14 @@ func TypeInName(name *pkix.Name, oid asn1.ObjectIdentifier) bool {
 	return false
 }
 
+func GetTypesInName(name *pkix.Name) []asn1.ObjectIdentifier {
+	types := make([]asn1.ObjectIdentifier, 0)
+	for _, name := range name.Names {
+		types = append(types, name.Type)
+	}
+	return types
+}
+
 // helper function to parse policyMapping extensions, returns slices of CertPolicyIds separated by domain
 func GetMappedPolicies(polMap *pkix.Extension) ([][2]asn1.ObjectIdentifier, error) {
 	if polMap == nil {
