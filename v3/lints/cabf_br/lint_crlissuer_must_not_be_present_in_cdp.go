@@ -26,7 +26,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_crlissuer_must_not_be_present_in_cdp",
-			Description:   "crlIssuer field MUST NOT be present in the CDP extension.",
+			Description:   "crlIssuer and/or Reason field MUST NOT be present in the CDP extension.",
 			Citation:      "BR Section 7.1.2.11.2",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.SC62EffectiveDate,
@@ -55,9 +55,10 @@ func (l *CrlissuerMustNotBePresentInCdp) Execute(c *x509.Certificate) *lint.Lint
 				return &lint.LintResult{Status: lint.Fatal}
 			}
 			for _, dp := range cdp {
-				if len(dp.CRLIssuer.Bytes) > 0 {
+				if (len(dp.CRLIssuer.Bytes) > 0) || (len(dp.Reason.Bytes) > 0) {
 					return &lint.LintResult{Status: lint.Error}
 				}
+
 			}
 
 		}
