@@ -32,7 +32,7 @@ func init() {
 			Description:   "EV Certificates issued to Subscribers MUST include a CPS URI policy qualifier",
 			Citation:      "CA/Browser Forum EV Guidelines v1.8.1, Sec. 9.7.3",
 			Source:        lint.CABFEVGuidelines,
-			EffectiveDate: util.ZeroDate, // TODO: Find effective date
+			EffectiveDate: util.CABFEV_1_2,
 		},
 		Lint: NewEvTechnicalRequirements,
 	})

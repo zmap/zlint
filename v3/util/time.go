@@ -85,6 +85,7 @@ var (
 )
 
 var (
+	CABFEV_1_2   = time.Date(2008, time.April, 10, 0, 0, 0, 0, time.UTC)
 	CABFEV_9_8_2 = CABV170Date
 )
 
