@@ -44,11 +44,7 @@ func NewMailboxAddressFromSAN() lint.LintInterface {
 
 // CheckApplies is returns true if the certificate's policies assert that it conforms to the SMIME BRs
 func (l *MailboxAddressFromSAN) CheckApplies(c *x509.Certificate) bool {
-	if util.HasEKU(c, x509.ExtKeyUsageEmailProtection) || util.HasEKU(c, x509.ExtKeyUsageAny) {
-		return true
-	}
-
-	return util.IsMailboxValidatedCertificate(c) && util.IsSubscriberCert(c)
+	return util.IsSMIMEBRCertificate(c) && util.IsSubscriberCert(c)
 }
 
 // Execute checks all the places where Mailbox Addresses may be found in an SMIME certificate and confirms that they are present in the SAN rfc822Name or SAN otherName
