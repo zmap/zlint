@@ -44,27 +44,35 @@ func (l *legalEntityIdentifier) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *legalEntityIdentifier) Execute(c *x509.Certificate) *lint.LintResult {
-	present := util.IsExtInCert(c, util.LegalEntityIdentifierOID)
+	leiPresent := util.IsExtInCert(c, util.LegalEntityIdentifierOID)
+	leiExt := util.GetExtFromCert(c, util.LegalEntityIdentifierOID)
+	leiRolePresent := util.IsExtInCert(c, util.LegalEntityIdentifierRoleOID)
+	leiRoleExt := util.GetExtFromCert(c, util.LegalEntityIdentifierRoleOID)
+
 	switch {
 	case util.IsMailboxValidatedCertificate(c), util.IsIndividualValidatedCertificate(c):
-		if present {
+		if leiPresent {
+			// Mailbox-validated and Individual-validated prohibited.
 			return &lint.LintResult{Status: lint.Error, Details: "Legal Entity Identifier extension present"}
 		}
 	case util.IsOrganizationValidatedCertificate(c):
-		if present {
-			lei := util.GetExtFromCert(c, util.LegalEntityIdentifierOID)
-			if lei.Critical {
-				return &lint.LintResult{Status: lint.Error, Details: "Legal Entity Identifier extension present and critical"}
-			}
+		if leiPresent && leiExt.Critical {
+			// LEI (1.3.6.1.4.1.52266.1) MAY be present and SHALL NOT be marked critical.
+			return &lint.LintResult{Status: lint.Error, Details: "Legal Entity Identifier extension present and critical"}
 		}
-		if util.IsExtInCert(c, util.LegalEntityIdentifierRoleOID) {
+		if leiRolePresent {
+			// This is affirming the negative. Sponsor validated certificates MAY have an LEI Role, so
+			// it is being taken here that not explicitly as such for organization validated certificates
+			// implies that they are not allowed.
 			return &lint.LintResult{Status: lint.Error, Details: "Legal Entity Identifier Role extension present"}
 		}
 	case util.IsSponsorValidatedCertificate(c):
-		if present && util.GetExtFromCert(c, util.LegalEntityIdentifierOID).Critical {
+		if leiPresent && leiExt.Critical {
+			// LEI (1.3.6.1.4.1.52266.1) MAY be present and SHALL NOT be marked critical.
 			return &lint.LintResult{Status: lint.Error, Details: "Legal Entity Identifier extension present and critical"}
 		}
-		if util.IsExtInCert(c, util.LegalEntityIdentifierRoleOID) && util.GetExtFromCert(c, util.LegalEntityIdentifierRoleOID).Critical {
+		if leiRolePresent && leiRoleExt.Critical {
+			// LEI Role (1.3.6.1.4.1.52266.2) MAY be present and SHALL NOT be marked critical.
 			return &lint.LintResult{Status: lint.Error, Details: "Legal Entity Identifier Role extension present and critical"}
 		}
 	default:
