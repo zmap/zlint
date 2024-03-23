@@ -23,16 +23,33 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
+/*************************************************************************
+7.1.4.2.1 Subject alternative name extension
+
+All Mailbox Addresses in the subject field or entries of type dirName of this extension SHALL be
+repeated as rfc822Name or otherName values of type id-on-SmtpUTF8Mailbox in this
+extension.
+
+7.1.4.2.2 Subject distinguished name fields
+
+h. Certificate Field: subject:emailAddress (1.2.840.113549.1.9.1) Contents: If present, the
+subject:emailAddress SHALL contain a single Mailbox Address as verified under
+Section 3.2.2.
+
+Combining these requirements, this lint checks for malformed email addresses in SAN entries
+covering the case of a non-single Mailbox Address.
+*************************************************************************/
+
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_single_email_if_present",
-			Description:   "If present, the subject:emailAddress SHALL contain a single Mailbox Address",
-			Citation:      "7.1.4.2.h",
+			Description:   "If present, the subject:emailAddress SHALL contain a single Mailbox Address. All Mailbox Addresses in the subject field SHALL be repeated as rfc822Name or otherName values of type id-on-SmtpUTF8Mailbox in SAN extension.",
+			Citation:      "7.1.4.2.1 and 7.1.4.2.2.h",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
 		},
-		Lint: func() lint.LintInterface { return &singleEmailIfPresent{} },
+		Lint: NewSingleEmailIfPresent,
 	})
 }
 
@@ -43,22 +60,18 @@ func NewSingleEmailIfPresent() lint.LintInterface {
 }
 
 func (l *singleEmailIfPresent) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c) && c.EmailAddresses != nil && len(c.EmailAddresses) != 0 && util.IsSMIMEBRCertificate(c)
+	addresses := c.EmailAddresses
+	return util.IsSubscriberCert(c) && addresses != nil && len(addresses) != 0 && util.IsSMIMEBRCertificate(c)
 }
 
 func (l *singleEmailIfPresent) Execute(c *x509.Certificate) *lint.LintResult {
 	for _, email := range c.EmailAddresses {
-		_, err := mail.ParseAddress(email)
-		if err != nil {
+		if _, err := mail.ParseAddress(email); err != nil {
 			return &lint.LintResult{
-				Status:       lint.Error,
-				Details:      fmt.Sprintf("subject:emailAddress was present and contained an invalid email address (%s)", email),
-				LintMetadata: lint.LintMetadata{},
+				Status:  lint.Error,
+				Details: fmt.Sprintf("san:emailAddress was present and contained an invalid email address (%s)", email),
 			}
 		}
 	}
-
-	return &lint.LintResult{
-		Status: lint.Pass,
-	}
+	return &lint.LintResult{Status: lint.Pass}
 }
