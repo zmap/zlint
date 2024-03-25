@@ -31,7 +31,7 @@ func TestEkuCrit(t *testing.T) {
 }
 
 func TestEkuNotCrit(t *testing.T) {
-	inputPath := "EkuNoCrit.pem"
+	inputPath := "ekuNoCrit.pem"
 	expected := lint.Pass
 	out := test.TestLint("e_eku_critical", inputPath)
 	if out.Status != expected {
