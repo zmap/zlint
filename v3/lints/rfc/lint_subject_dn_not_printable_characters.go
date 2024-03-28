@@ -57,7 +57,7 @@ func (l *subjectDNNotPrintableCharacters) Execute(c *x509.Certificate) *lint.Lin
 	for _, attrTypeAndValueSet := range rdnSequence {
 		for _, attrTypeAndValue := range attrTypeAndValueSet {
 			bytes := attrTypeAndValue.Value.Bytes
-			runes := []rune{}
+			var runes []rune
 			if attrTypeAndValue.Value.Tag == tagBMPString {
 				runestr, _ := util.ParseBMPString(bytes)
 				runes = []rune(runestr)
