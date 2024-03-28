@@ -15,8 +15,6 @@
 package rfc
 
 import (
-	"unicode/utf8"
-
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -59,15 +57,20 @@ func (l *subjectDNNotPrintableCharacters) Execute(c *x509.Certificate) *lint.Lin
 	for _, attrTypeAndValueSet := range rdnSequence {
 		for _, attrTypeAndValue := range attrTypeAndValueSet {
 			bytes := attrTypeAndValue.Value.Bytes
-			for len(bytes) > 0 {
-				r, size := utf8.DecodeRune(bytes)
+			runes := []rune{}
+			if attrTypeAndValue.Value.Tag == tagBMPString {
+				runestr, _ := util.ParseBMPString(bytes)
+				runes = []rune(runestr)
+			} else {
+				runes = []rune(string(bytes))
+			}
+			for _, r := range runes {
 				if r < 0x20 {
 					return &lint.LintResult{Status: lint.Error}
 				}
 				if r >= 0x7F && r <= 0x9F {
 					return &lint.LintResult{Status: lint.Error}
 				}
-				bytes = bytes[size:]
 			}
 		}
 	}
