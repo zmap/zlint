@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -458,9 +458,9 @@ var globalRegistry = NewRegistry()
 // RegisterLint is called from the Go init() function of a lint implementation.
 //
 // IMPORTANT: RegisterLint will panic if given a nil lint, or a lint with a nil
-// Lint pointer, or if the lint's Initialize function errors, or if the lint
-// name matches a previously registered lint's name. These conditions all
-// indicate a bug that should be addressed by a developer.
+// Lint pointer, or if the lint name matches a previously registered lint's
+// name. These conditions all indicate a bug that should be addressed by a
+// developer.
 //
 // @deprecated - use RegisterCertificateLint instead.
 func RegisterLint(l *Lint) {
@@ -470,10 +470,10 @@ func RegisterLint(l *Lint) {
 // RegisterCertificateLint must be called once for each CertificateLint to be executed.
 // Normally, RegisterCertificateLint is called from the Go init() function of a lint implementation.
 //
-// IMPORTANT: RegisterCertificateLint will panic if given a nil lint, or a lint with a nil
-// Lint pointer, or if the lint's Initialize function errors, or if the lint
-// name matches a previously registered lint's name. These conditions all
-// indicate a bug that should be addressed by a developer.
+// IMPORTANT: RegisterCertificateLint will panic if given a nil lint, or a lint
+// with a nil Lint pointer, or if the lint name matches a previously registered
+// lint's name. These conditions all indicate a bug that should be addressed by
+// a developer.
 func RegisterCertificateLint(l *CertificateLint) {
 	if err := globalRegistry.registerCertificateLint(l); err != nil {
 		panic(fmt.Sprintf("RegisterLint error: %v\n", err.Error()))
@@ -483,10 +483,10 @@ func RegisterCertificateLint(l *CertificateLint) {
 // RegisterRevocationListLint must be called once for each RevocationListLint to be executed.
 // Normally, RegisterRevocationListLint is called from the Go init() function of a lint implementation.
 //
-// IMPORTANT: RegisterRevocationListLint will panic if given a nil lint, or a lint with a nil
-// Lint pointer, or if the lint's Initialize function errors, or if the lint
-// name matches a previously registered lint's name. These conditions all
-// indicate a bug that should be addressed by a developer.
+// IMPORTANT: RegisterRevocationListLint will panic if given a nil lint, or a
+// lint with a nil Lint pointer, or if the lint name matches a previously
+// registered lint's name. These conditions all indicate a bug that should be
+// addressed by a developer.
 func RegisterRevocationListLint(l *RevocationListLint) {
 	// RegisterLint always sets initialize to true. It's assumed this is called by
 	// the package init() functions and therefore must be doing the first

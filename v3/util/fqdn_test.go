@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2023 Regents of the University of Michigan
+ * ZLint Copyright 2024 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -1010,5 +1010,29 @@ func TestGetHostWithUserinfoWithPortWithAbsolutePathWithQueryWithFragment(t *tes
 			"expected", expected,
 			"got", actual,
 		)
+	}
+}
+
+func TestIsLDHLabel(t *testing.T) {
+	data := map[string]bool{
+		"": false,
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": false,
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa":  true,
+		"9":   true,
+		"9a":  true,
+		"a9":  true,
+		"a":   true,
+		".":   false,
+		"a-b": true,
+		"-a":  false,
+		"a-":  false,
+		"-":   false,
+		"%":   false,
+	}
+	for input, want := range data {
+		got := IsLDHLabel(input)
+		if got != want {
+			t.Errorf("expected %v got %v for '%s'", want, got, input)
+		}
 	}
 }

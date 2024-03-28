@@ -153,7 +153,7 @@
     "e_issuer_dn_country_not_printable_string": {},
     "e_issuer_field_empty": {},
     "e_key_usage_and_extended_key_usage_inconsistent": {
-      "ErrCount": 18858
+      "ErrCount": 1020
     },
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 125
@@ -430,6 +430,9 @@
     "w_tls_server_cert_valid_time_longer_than_397_days": {},
     "w_rfc_dnsname_underscore_in_trd": {
       "WarnCount": 13
+    },
+    "w_sub_cert_aia_contains_internal_names": {
+      "WarnCount": 7
     }
   }
 }
