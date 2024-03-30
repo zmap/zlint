@@ -21,28 +21,19 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubCertValidTimeLongerThan39Months(t *testing.T) {
-	inputPath := "subCertValidTimeTooLong.pem"
+func TestEkuCrit(t *testing.T) {
+	inputPath := "ekuCrit.pem"
 	expected := lint.Error
-	out := test.TestLint("e_sub_cert_valid_time_longer_than_39_months", inputPath)
+	out := test.TestLint("e_eku_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestSubCertValidTimeGood(t *testing.T) {
-	inputPath := "subCertValidTimeGood.pem"
+func TestEkuNotCrit(t *testing.T) {
+	inputPath := "ekuNoCrit.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_sub_cert_valid_time_longer_than_39_months", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestSubCertValidTimeExactly39months(t *testing.T) {
-	inputPath := "39months.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_sub_cert_valid_time_longer_than_39_months", inputPath)
+	out := test.TestLint("e_eku_critical", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
