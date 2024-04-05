@@ -16,6 +16,7 @@ package cabf_br
 
 import (
 	"fmt"
+
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -56,60 +57,72 @@ func (l *subjectRdnsCorrectEncoding) Execute(c *x509.Certificate) *lint.LintResu
 			oid := attrTypeAndValue.Type.String()
 			tag := attrTypeAndValue.Value.Tag
 
-			if "0.9.2342.19200300.100.1.25" == oid && tag != 22 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute domainComponent in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
+			errors := []string{}
+
+			result := isIA5String("0.9.2342.19200300.100.1.25", oid, tag, "domainComponent")
+			errors = append(errors, result)
+			result = isPrintable("2.5.4.6", oid, tag, "countryName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.8", oid, tag, "stateOrProvinceName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.7", oid, tag, "localityName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.17", oid, tag, "postalCode")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.9", oid, tag, "streetAddress")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.10", oid, tag, "organizationName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.4", oid, tag, "surname")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.42", oid, tag, "givenName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.11", oid, tag, "organizationalUnitName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.3", oid, tag, "commonName")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.15", oid, tag, "businessCategory")
+			errors = append(errors, result)
+			result = isPrintable("1.3.6.1.4.1.311.60.2.1.3", oid, tag, "jurisdictionCountry")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("1.3.6.1.4.1.311.60.2.1.2", oid, tag, "jurisdictionStateOrProvince")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("1.3.6.1.4.1.311.60.2.1.1", oid, tag, "jurisdictionLocality")
+			errors = append(errors, result)
+			result = isPrintable("2.5.4.5", oid, tag, "serialNumber")
+			errors = append(errors, result)
+			result = isPrintableOrUTF8("2.5.4.97", oid, tag, "organizationIdentifier")
+			errors = append(errors, result)
+
+			for _, encodingError := range errors {
+				if encodingError != "" {
+					return &lint.LintResult{Status: lint.Error, Details: encodingError}
+				}
 			}
-			if "2.5.4.6" == oid && tag != 19 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute countryName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.8" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute stateOrProvinceName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.7" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute localityName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.17" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute postalCode in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.9" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute streetAddress in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.10" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute organizationName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.4" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute surname in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.42" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute givenName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.11" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute organizationalUnitName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.3" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute commonName in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.15" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute businessCategory in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "1.3.6.1.4.1.311.60.2.1.3" == oid && tag != 19 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute jurisdictionCountry in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "1.3.6.1.4.1.311.60.2.1.2" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute jurisdictionStateOrProvince in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "1.3.6.1.4.1.311.60.2.1.1" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute jurisdictionLocality in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.5" == oid && tag != 19 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute serialNumber in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
-			if "2.5.4.97" == oid && tag != 19 && tag != 12 {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Attribute organizationIdentifier in subjectDN has the wrong encoding %s.", getEncodingName(tag))}
-			}
+
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
+}
+
+func isPrintableOrUTF8(referenceOid string, oid string, tag int, attributeName string) string {
+	if referenceOid == oid && tag != 19 && tag != 12 {
+		return fmt.Sprintf("Attribute %s in subjectDN has the wrong encoding %s.", attributeName, getEncodingName(tag))
+	}
+	return ""
+}
+
+func isPrintable(referenceOid string, oid string, tag int, attributeName string) string {
+	if referenceOid == oid && tag != 19 {
+		return fmt.Sprintf("Attribute %s in subjectDN has the wrong encoding %s.", attributeName, getEncodingName(tag))
+	}
+	return ""
+}
+func isIA5String(referenceOid string, oid string, tag int, attributeName string) string {
+	if referenceOid == oid && tag != 22 {
+		return fmt.Sprintf("Attribute %s in subjectDN has the wrong encoding %s.", attributeName, getEncodingName(tag))
+	}
+	return ""
 }
 
 //Tag BMPString: 0x1e = 30
