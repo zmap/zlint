@@ -49,30 +49,34 @@ type OrganizationIdentifier struct {
 	Reference string
 }
 
+// This is according to the EVG (stricter than ETSI EN 319 412-1)
+var OrgIdPattern = `^(?P<scheme>[A-Z]{3})(?P<country>[A-Z]{2})(?:\+(?P<state>[A-Z]{2}))?\-(?P<reference>.+)$`
+
 func ParseOrgId(orgIdString string, orgId *OrganizationIdentifier) error {
 
-	// This is according to the EVG (stricter than ETSI EN 319 412-1)
-	OrgIdPattern := `^[A-Z]{3}[A-Z]{2}(?:\+[A-Z]{2})?\-.+$`
+	re := regexp.MustCompile(OrgIdPattern)
 
-	compiledRegexp, err := regexp.Compile(OrgIdPattern)
-	if err != nil {
-		// This should neve occur, but one never knows....
-		panic(err)
-	}
-
-	if !compiledRegexp.MatchString(orgIdString) {
+	if !re.MatchString(orgIdString) {
 		return errors.New("Cannot parse organizationIdentifier: it is probably invalid")
 	}
 
-	orgId.Scheme = orgIdString[0:3]
-	orgId.Country = orgIdString[3:5]
+	names := re.SubexpNames()
+	match := re.FindStringSubmatch(orgIdString)
 
-	if orgIdString[5] == '+' {
-		orgId.State = orgIdString[6:8]
-		orgId.Reference = orgIdString[9:]
-	} else {
-		orgId.Reference = orgIdString[6:]
+	// Initialize a map to hold group names and values
+	result := make(map[string]string)
+
+	// Populate the map
+	for i, name := range names {
+		if i != 0 && name != "" { // Skip the whole match and unnamed groups
+			result[name] = match[i]
+		}
 	}
+
+	orgId.Scheme = result["scheme"]
+	orgId.Country = result["country"]
+	orgId.State = result["state"]
+	orgId.Reference = result["reference"]
 
 	return nil
 }
