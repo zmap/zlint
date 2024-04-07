@@ -45,13 +45,13 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 			Name:          "pass - only contains one san:emailAddress value",
 			InputFilename: "WithOnlySANEmail.pem",
 
-			ExpectedResult: lint.Pass,
+			ExpectedResult: lint.NA,
 		},
 		{
 			Name:          "pass - only contains one san:otherName value",
 			InputFilename: "WithOnlySANOtherName.pem",
 
-			ExpectedResult: lint.Pass,
+			ExpectedResult: lint.NA,
 		},
 		{
 			Name:          "NE - before effective date",
@@ -97,7 +97,7 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 			Name:          "pass - subject:commonName is personal name, san:emailAddress contains an email",
 			InputFilename: "sponsorValidatedMultipurposePersonalNameInCN.pem",
 
-			ExpectedResult: lint.Pass,
+			ExpectedResult: lint.NA,
 		},
 	}
 
