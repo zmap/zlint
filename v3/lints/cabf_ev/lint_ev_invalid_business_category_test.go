@@ -14,7 +14,10 @@
 
 /*
    === Pass test cases ===
-   invalid_business_cat_ok_01.pem       EV cert with valid businessCategory
+   invalid_business_cat_ok_01.pem       EV cert with valid businessCategory == "Private Organization"
+   invalid_business_cat_ok_04.pem       EV cert with valid businessCategory == "Government Entity"
+   invalid_business_cat_ok_05.pem       EV cert with valid businessCategory == "Business Entity"
+   invalid_business_cat_ok_06.pem       EV cert with valid businessCategory == "Non‐Commercial Entity"
 
    === NA test cases ===
    invalid_business_cat_ok_02.pem       EV cert without businessCategory
@@ -42,6 +45,18 @@ func TestInvalidBusinessCategory(t *testing.T) {
 	data := []Data{
 		{
 			input: "invalid_business_cat_ok_01.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "invalid_business_cat_ok_04.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "invalid_business_cat_ok_05.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "invalid_business_cat_ok_06.pem",
 			want:  lint.Pass,
 		},
 		{
