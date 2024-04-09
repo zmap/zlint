@@ -42,13 +42,13 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:          "pass - only contains one san:emailAddress value",
+			Name:          "NA - only contains one san:emailAddress value",
 			InputFilename: "WithOnlySANEmail.pem",
 
 			ExpectedResult: lint.NA,
 		},
 		{
-			Name:          "pass - only contains one san:otherName value",
+			Name:          "NA - only contains one san:otherName value",
 			InputFilename: "WithOnlySANOtherName.pem",
 
 			ExpectedResult: lint.NA,
@@ -94,7 +94,7 @@ func TestMailboxAddressFromSANLint(t *testing.T) {
 			ExpectedDetails: "all certificate mailbox addresses must be present in san:emailAddresses or san:otherNames in addition to any other field they may appear",
 		},
 		{
-			Name:          "pass - subject:commonName is personal name, san:emailAddress contains an email",
+			Name:          "NA - subject:commonName is personal name, san:emailAddress contains an email",
 			InputFilename: "sponsorValidatedMultipurposePersonalNameInCN.pem",
 
 			ExpectedResult: lint.NA,
