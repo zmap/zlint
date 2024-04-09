@@ -31,8 +31,9 @@ func init() {
 			Description: "DSA modulus size must be at least 2048 bits",
 			Citation:    "BRs v1.7.0: 6.1.5",
 			// Refer to BRs: 6.1.5, taking the statement "Before 31 Dec 2010" literally
-			Source:        lint.CABFBaselineRequirements,
-			EffectiveDate: util.ZeroDate,
+			Source:          lint.CABFBaselineRequirements,
+			EffectiveDate:   util.ZeroDate,
+			IneffectiveDate: util.CABFBRs_1_7_1_Date,
 		},
 		Lint: NewDsaTooShort,
 	})
