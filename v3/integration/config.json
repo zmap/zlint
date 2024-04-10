@@ -426,6 +426,8 @@
       "ErrCount": 2
     },
     "e_ev_country_name_missing": {},
+    "e_ev_invalid_business_category": {
+      "ErrCount": 11306
     "e_ev_not_wildcard": {
       "ErrCount": 1
     },
