@@ -44,7 +44,19 @@ func NewMailboxAddressFromSAN() lint.LintInterface {
 
 // CheckApplies is returns true if the certificate's policies assert that it conforms to the SMIME BRs
 func (l *MailboxAddressFromSAN) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSMIMEBRCertificate(c) && util.IsSubscriberCert(c)
+
+	if !(util.IsSMIMEBRCertificate(c) && util.IsSubscriberCert(c)) {
+		return false
+	}
+
+	toFindMailboxAddresses := getMailboxAddressesFromDistinguishedName(c.Subject, util.IsMailboxValidatedCertificate(c))
+
+	for _, dirName := range c.DirectoryNames {
+		toFindMailboxAddresses = append(toFindMailboxAddresses, getMailboxAddressesFromDistinguishedName(dirName, false)...)
+	}
+
+	return len(toFindMailboxAddresses) > 0
+
 }
 
 // Execute checks all the places where Mailbox Addresses may be found in an SMIME certificate and confirms that they are present in the SAN rfc822Name or SAN otherName
@@ -55,10 +67,11 @@ func (l *MailboxAddressFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	// build list of Mailbox addresses from subject:commonName, subject:emailAddress, dirName
-	toFindMailboxAddresses := getMailboxAddressesFromDistinguishedName(c.Subject)
+
+	toFindMailboxAddresses := getMailboxAddressesFromDistinguishedName(c.Subject, util.IsMailboxValidatedCertificate(c))
 
 	for _, dirName := range c.DirectoryNames {
-		toFindMailboxAddresses = append(toFindMailboxAddresses, getMailboxAddressesFromDistinguishedName(dirName)...)
+		toFindMailboxAddresses = append(toFindMailboxAddresses, getMailboxAddressesFromDistinguishedName(dirName, false)...)
 	}
 
 	sanNames := map[string]bool{}
@@ -90,12 +103,14 @@ func (l *MailboxAddressFromSAN) Execute(c *x509.Certificate) *lint.LintResult {
 	return &lint.LintResult{Status: lint.Pass}
 }
 
-func getMailboxAddressesFromDistinguishedName(name pkix.Name) []string {
+func getMailboxAddressesFromDistinguishedName(name pkix.Name, includeCN bool) []string {
 	mailboxAddresses := []string{}
 
-	for _, commonName := range name.CommonNames {
-		if util.IsMailboxAddress(commonName) {
-			mailboxAddresses = append(mailboxAddresses, commonName)
+	if includeCN {
+		for _, commonName := range name.CommonNames {
+			if util.IsMailboxAddress(commonName) {
+				mailboxAddresses = append(mailboxAddresses, commonName)
+			}
 		}
 	}
 
