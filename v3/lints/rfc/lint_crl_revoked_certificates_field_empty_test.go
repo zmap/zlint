@@ -147,3 +147,12 @@ func TestPopulatedRevokedCertificatesField(t *testing.T) {
 		t.Errorf("expected %d revoked certificates in CRL, got %d", expectedRevokedCerts, len(crl.RevokedCertificates))
 	}
 }
+
+func TestRevokedCertificatesContainerExistsButIsEmpty(t *testing.T) {
+	expected := lint.Error
+	// Negative test data created outside the purview of Golang.
+	out := test.TestRevocationListLint(t, lintUnderTest, "crlWithRevokedCertificatesContainerButNoActualRevokedCerts.crl")
+	if out.Status != expected {
+		t.Errorf("expected %s, got %s", expected, out.Status)
+	}
+}
