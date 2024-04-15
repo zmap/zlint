@@ -151,7 +151,7 @@ func TestPopulatedRevokedCertificatesField(t *testing.T) {
 func TestRevokedCertificatesContainerExistsButIsEmpty(t *testing.T) {
 	expected := lint.Error
 	// Negative test data created outside the purview of Golang.
-	out := test.TestRevocationListLint(t, lintUnderTest, "crlWithRevokedCertificatesContainerButNoActualRevokedCerts.crl")
+	out := test.TestRevocationListLint(t, lintUnderTest, "crlWithRevokedCertificatesContainerButNoActualRevokedCerts.pem")
 	if out.Status != expected {
 		t.Errorf("expected %s, got %s", expected, out.Status)
 	}
