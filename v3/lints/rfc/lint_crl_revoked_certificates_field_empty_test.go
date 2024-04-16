@@ -149,10 +149,19 @@ func TestPopulatedRevokedCertificatesField(t *testing.T) {
 }
 
 func TestRevokedCertificatesContainerExistsButIsEmpty(t *testing.T) {
-	expected := lint.Error
 	// Negative test data created outside the purview of Golang.
-	out := test.TestRevocationListLint(t, lintUnderTest, "crlWithRevokedCertificatesContainerButNoActualRevokedCerts.pem")
-	if out.Status != expected {
-		t.Errorf("expected %s, got %s", expected, out.Status)
+	badCRLFiles := []string{
+		"crlWithRevokedCertificatesContainerButNoActualRevokedCerts-ReallyReallyBroken.pem",
+		"crlWithRevokedCertificatesContainerButNoActualRevokedCerts-CBonnell.pem",
+		"crlEntrustNoRevokedCerts01.pem", // https://bugzilla.mozilla.org/show_bug.cgi?id=1889217
+		"crlEntrustNoRevokedCerts02.pem",
+	}
+
+	expected := lint.Error
+	for _, crl := range badCRLFiles {
+		out := test.TestRevocationListLint(t, lintUnderTest, crl)
+		if out.Status != expected {
+			t.Errorf("expected %s, got %s", expected, out.Status)
+		}
 	}
 }
