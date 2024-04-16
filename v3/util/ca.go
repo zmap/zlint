@@ -60,6 +60,12 @@ func IsServerAuthCert(cert *x509.Certificate) bool {
 			return true
 		}
 	}
+	for _, policy := range cert.PolicyIdentifiers {
+		if policy.Equal(BRDomainValidatedOID) || policy.Equal(BROrganizationValidatedOID) ||
+			policy.Equal(BRIndividualValidatedOID) || policy.Equal(BRExtendedValidatedOID) {
+			return true
+		}
+	}
 	return false
 }
 
