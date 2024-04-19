@@ -42,7 +42,7 @@ func NewSubExtKeyUsageCheck() lint.LintInterface {
 }
 
 func (l *subExtKeyUsageCheck) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert() && util.IsExtInCert(c, util.EkuSynOid)
+	return util.IsSubscriberCert(c) && util.IsExtInCert(c, util.EkuSynOid)
 }
 
 func (l *subExtKeyUsageCheck) Execute(c *x509.Certificate) *lint.LintResult {
