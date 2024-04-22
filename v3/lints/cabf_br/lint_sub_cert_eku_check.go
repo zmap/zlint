@@ -67,13 +67,11 @@ func (l *subExtKeyUsageCheck) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Error, Details: "id-kp-serverAuth MUST be present"}
 	}
 
-	if len(c.UnknownExtKeyUsage) > 0 {
-		for _, eku := range c.UnknownExtKeyUsage {
-			if eku.Equal(util.PreCertificateSigningCertificateEKU) {
-				return &lint.LintResult{Status: lint.Error, Details: "Precertificate Signing Certificate extKeyUsage MUST NOT be present"}
-			}
-		}
+for _, eku := range c.UnknownExtKeyUsage {
+	if eku.Equal(util.PreCertificateSigningCertificateEKU) {
+		return &lint.LintResult{Status: lint.Error, Details: "Precertificate Signing Certificate extKeyUsage MUST NOT be present"}
 	}
+}
 
 	if (len(c.ExtKeyUsage) > 2 && !hasClientAuthEKU) || len(c.UnknownExtKeyUsage) > 0 {
 		return &lint.LintResult{Status: lint.Warn, Details: "any other value than id-kp-serverAuth and id-kp-clientAuth is NOT RECOMMENDED"}
