@@ -56,7 +56,7 @@ func (l *invalidBusinessCategory) Execute(c *x509.Certificate) *lint.LintResult 
 			if (businessCategory == "Private Organization") ||
 				(businessCategory == "Government Entity") ||
 				(businessCategory == "Business Entity") ||
-				(businessCategory == "Non‐Commercial Entity") {
+				(businessCategory == "Non-Commercial Entity") {
 				return &lint.LintResult{Status: lint.Pass}
 			} else {
 				return &lint.LintResult{Status: lint.Error}
