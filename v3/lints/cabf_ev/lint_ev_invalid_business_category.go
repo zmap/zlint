@@ -29,8 +29,8 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_ev_invalid_business_category",
-			Description:   "Checks that businessCategory contains a valid value as per EV Guidelines 9.2.3",
-			Citation:      "EVGs 9.2.3",
+			Description:   "Checks that businessCategory contains a valid value as per EV Guidelines 7.1.4.2.3",
+			Citation:      "EVGs 7.1.4.2.3",
 			Source:        lint.CABFEVGuidelines,
 			EffectiveDate: util.ZeroDate,
 		},
