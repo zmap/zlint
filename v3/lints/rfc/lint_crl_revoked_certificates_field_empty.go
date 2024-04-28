@@ -39,11 +39,11 @@ func init() {
 			Source:        lint.RFC5280,
 			EffectiveDate: util.RFC5280Date,
 		},
-		Lint: NewEmptyRevokedCertificates,
+		Lint: NewEmptyRevokedCerts,
 	})
 }
 
-func NewEmptyRevokedCertificates() lint.RevocationListLintInterface {
+func NewEmptyRevokedCerts() lint.RevocationListLintInterface {
 	return &revokedCertificates{}
 }
 
