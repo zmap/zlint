@@ -1,5 +1,3 @@
-package cabf_br
-
 /*
  * ZLint Copyright 2024 Regents of the University of Michigan
  *
@@ -14,6 +12,8 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
+package rfc
+
 import (
 	"testing"
 
@@ -21,19 +21,19 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubCAEKUValidFields(t *testing.T) {
-	inputPath := "subCAEKUValidFields.pem"
+func TestEmptyRevokedCertificatesOK(t *testing.T) {
+	inputPath := "crl_empty_revoked_certificates_ok.pem"
 	expected := lint.Pass
-	out := test.TestLint("n_sub_ca_eku_not_technically_constrained", inputPath)
+	out := test.TestRevocationListLint(t, "e_crl_empty_revoked_certificates", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestSubCAEKUNotValidFields(t *testing.T) {
-	inputPath := "subCAEKUNotValidFields.pem"
-	expected := lint.Notice
-	out := test.TestLint("n_sub_ca_eku_not_technically_constrained", inputPath)
+func TestEmptyRevokedCertificatesKO(t *testing.T) {
+	inputPath := "crl_empty_revoked_certificates_ko.pem"
+	expected := lint.Error
+	out := test.TestRevocationListLint(t, "e_crl_empty_revoked_certificates", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
