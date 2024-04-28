@@ -383,7 +383,7 @@
     "e_cert_unique_identifier_version_not_2_or_3": {},
     "e_distribution_point_incomplete": {},
     "e_dnsname_bad_character_in_label": {
-      "ErrCount": 55927
+      "ErrCount": 55930
     },
     "e_dnsname_contains_bare_iana_suffix": {
       "ErrCount": 8
@@ -400,7 +400,7 @@
       "ErrCount": 17
     },
     "e_dnsname_not_valid_tld": {
-      "ErrCount": 86371
+      "ErrCount": 86374
     },
     "e_dnsname_underscore_in_sld": {
       "ErrCount": 5
@@ -491,7 +491,7 @@
       "ErrCount": 2
     },
     "e_ext_san_missing": {
-      "ErrCount": 52385
+      "ErrCount": 52388
     },
     "e_ext_san_no_entries": {
       "ErrCount": 3
@@ -576,7 +576,7 @@
       "ErrCount": 370
     },
     "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth": {
-      "ErrCount": 93
+      "ErrCount": 95
     },
     "e_old_root_ca_rsa_mod_less_than_2048_bits": {
       "ErrCount": 1
@@ -711,7 +711,7 @@
       "ErrCount": 81098
     },
     "e_sub_cert_eku_server_auth_client_auth_missing": {
-      "ErrCount": 4934
+      "ErrCount": 4943
     },
     "e_sub_cert_given_name_surname_contains_correct_policy": {
       "ErrCount": 1793
@@ -751,7 +751,7 @@
       "ErrCount": 2
     },
     "e_subject_common_name_not_from_san": {
-      "ErrCount": 94976
+      "ErrCount": 94979
     },
     "e_subject_contains_noninformational_value": {
       "ErrCount": 338
@@ -818,7 +818,7 @@
     },
     "e_cab_dv_subject_invalid_values": {},
     "n_ca_digital_signature_not_set": {
-      "NoticeCount": 1409
+      "NoticeCount": 1411
     },
     "n_contains_redacted_dnsname": {
       "NoticeCount": 464
@@ -845,10 +845,10 @@
       "NoticeCount": 1415
     },
     "n_sub_ca_eku_not_technically_constrained": {
-      "NoticeCount": 10
+      "NoticeCount": 12
     },
     "n_subject_common_name_included": {
-      "NoticeCount": 712639
+      "NoticeCount": 712866
     },
     "w_ct_sct_policy_count_unsatisfied": {
       "NoticeCount": 5003
@@ -935,17 +935,17 @@
       "WarnCount": 9
     },
     "w_sub_ca_name_constraints_not_critical": {
-      "WarnCount": 115
+      "WarnCount": 116
     },
     "w_sub_cert_aia_contains_internal_names": {
       "WarnCount": 210
     },
     "w_sub_cert_aia_does_not_contain_issuing_ca_url": {
-      "WarnCount": 48465
+      "WarnCount": 48469
     },
     "w_sub_cert_certificate_policies_marked_critical": {},
     "w_sub_cert_eku_extra_values": {
-      "WarnCount": 25405
+      "WarnCount": 25412
     },
     "w_sub_cert_sha1_expiration_too_long": {
       "WarnCount": 11058
