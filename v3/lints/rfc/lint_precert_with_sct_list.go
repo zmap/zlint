@@ -44,12 +44,10 @@ func NewPreCertWithSCTList() lint.LintInterface {
 }
 
 func (l *preCertWithSCTList) CheckApplies(c *x509.Certificate) bool {
-	// Add conditions for application here
 	return util.IsExtInCert(c, util.CtPoisonOID)
 }
 
 func (l *preCertWithSCTList) Execute(c *x509.Certificate) *lint.LintResult {
-	// Add actual lint here
 	if util.IsExtInCert(c, util.TimestampOID) {
 		return &lint.LintResult{
 			Status:  lint.Error,
