@@ -32,6 +32,7 @@ const (
 	RFC5280                       LintSource = "RFC5280"
 	RFC5480                       LintSource = "RFC5480"
 	RFC5891                       LintSource = "RFC5891"
+	RFC6962                       LintSource = "RFC6962"
 	RFC8813                       LintSource = "RFC8813"
 	CABFBaselineRequirements      LintSource = "CABF_BR"
 	CABFSMIMEBaselineRequirements LintSource = "CABF_SMIME_BR"
