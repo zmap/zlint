@@ -3,6 +3,7 @@ on:
   pull_request:
     types: [edited, opened, reopened, synchronize]
     branches: [master]
+  issue_comment:
 
 jobs:
   validate:
