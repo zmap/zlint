@@ -1,1 +1,1 @@
-select * from driver;
+select * from driver limit 100;
