@@ -2,7 +2,7 @@ name: checkbox-test
 on:
   pull_request:
     types: [edited, opened, reopened, synchronize]
-    branches: [main]
+    branches: [master]
 
 jobs:
   validate:
