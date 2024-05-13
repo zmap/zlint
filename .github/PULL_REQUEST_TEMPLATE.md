@@ -13,8 +13,12 @@ Fixes [DUNLOP-1234](google.com)
 Standard qualitative check list
 <!--Checkmate-->
 - [ ] I have performed a self-review of my code
+- [ ] I have tested my changes work locally
+- [ ] I have made appropriate documentation changes
+- [ ] I have a plan to monitor after merging
 
-Sandboxes
+
+Sandboxes (select 1)
 <!-- Checkmate select=1 -->
 - [ ] The changes do not affect sandboxes
 - [ ] I have tested my changes work as expected in a sandbox
