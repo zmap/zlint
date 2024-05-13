@@ -4,13 +4,25 @@ on:
     types: [edited, opened, reopened, synchronize]
     branches: [master]
   issue_comment:
+    types:
+      - edited
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
     name: checkbox validation
     runs-on: ubuntu-latest
     steps:
+      - name: Get PR branch
+        uses: xt0rted/pull-request-comment-branch@v2
+        id: comment-branch
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Validate Checklists
         uses: roryq/checkmate@master
         with:
