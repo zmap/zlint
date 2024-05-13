@@ -10,6 +10,8 @@ Fixes [DUNLOP-1234](google.com)
 * Dunlop compiles and starts up
 
 # Checklist:
+Please complete the following qualitative checks and tick the checklists when complete.
+
 Standard qualitative check list
 <!--Checkmate-->
 - [ ] I have performed a self-review of my code
@@ -22,7 +24,3 @@ Sandboxes (select 1)
 <!-- Checkmate select=1 -->
 - [ ] The changes do not affect sandboxes
 - [ ] I have tested my changes work as expected in a sandbox
-
-SQL changes
-<!-- Checkmate filepath=v3/sql/*.sql -->
-- [ ] I have benchmarked the SQL changes
