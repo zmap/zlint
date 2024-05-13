@@ -23,3 +23,6 @@ Sandboxes (select 1)
 - [ ] The changes do not affect sandboxes
 - [ ] I have tested my changes work as expected in a sandbox
 
+SQL changes
+<!-- Checkmate filepath=v3/sql/*.sql -->
+- [ ] I have benchmarked the SQL changes
