@@ -139,8 +139,8 @@ func TestRegister(t *testing.T) {
 				Source: RFC6962,
 			},
 			registry:      dupeReg,
-			expectNames:   []string{egLint.Name, "sct"},
-			expectSources: SourceList{egLint.Source, RFC6962},
+			expectNames:   []string{"goodLint", egLint.Name, "sct"},
+			expectSources: SourceList{egLint.Source, MozillaRootStorePolicy, RFC6962},
 		},
 	}
 
