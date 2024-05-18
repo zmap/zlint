@@ -88,6 +88,8 @@ func (s *LintSource) FromString(src string) {
 		*s = AppleRootStorePolicy
 	case Community:
 		*s = Community
+	case RFC6962:
+		*s = RFC6962
 	case EtsiEsi:
 		*s = EtsiEsi
 	}
