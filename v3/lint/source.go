@@ -52,7 +52,7 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 	}
 
 	switch LintSource(throwAway) {
-	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, CABFSMIMEBaselineRequirements, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi:
+	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, CABFSMIMEBaselineRequirements, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi, RFC6962:
 		*s = LintSource(throwAway)
 		return nil
 	default:
