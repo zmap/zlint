@@ -45,10 +45,10 @@ func NewCaInvalidEKU() lint.LintInterface {
 	return &caInvalidEKU{}
 }
 
+// This lint applies to any SubCA certificate to which the CABF BRs are applicable and which contains
+// the EKU extension. Given that the lint source is lint.CABFBaselineRequirements, if we arrive here
+// it's been already checked that the certificate falls within the purview of the CABF BRs.
 func (l *caInvalidEKU) CheckApplies(c *x509.Certificate) bool {
-	// This lint applies to any SubCA certificate to which the CABF BRs are applicable and which contains
-	// the EKU extension. Given that the lint source is lint.CABFBaselineRequirements, if we arrive here
-	// it's been already checked that the certificate falls within the purview of the CABF BRs.
 	return util.IsSubCA(c) && len(c.ExtKeyUsage) != 0
 }
 
