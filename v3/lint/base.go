@@ -89,6 +89,8 @@ type LintMetadata struct {
 	// true but with NotBefore >= IneffectiveDate. This check is bypassed if
 	// IneffectiveDate is zero. Please see CheckEffective for more information.
 	IneffectiveDate time.Time `json:"-"`
+
+	OverrideFrameworkFilter bool
 }
 
 // A Lint struct represents a single lint, e.g.
@@ -218,11 +220,13 @@ func (l *CertificateLint) CheckEffective(c *x509.Certificate) bool {
 // CheckEffective()
 // Execute()
 func (l *CertificateLint) Execute(cert *x509.Certificate, config Configuration) *LintResult {
-	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
-		return &LintResult{Status: NA}
-	}
-	if l.Source == CABFSMIMEBaselineRequirements && !((util.IsEmailProtectionCert(cert) && util.HasEmailSAN(cert)) || util.IsSMIMEBRCertificate(cert)) {
-		return &LintResult{Status: NA}
+	if !l.OverrideFrameworkFilter {
+		if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
+			return &LintResult{Status: NA}
+		}
+		if l.Source == CABFSMIMEBaselineRequirements && !((util.IsEmailProtectionCert(cert) && util.HasEmailSAN(cert)) || util.IsSMIMEBRCertificate(cert)) {
+			return &LintResult{Status: NA}
+		}
 	}
 	lint := l.Lint()
 	err := config.MaybeConfigure(lint, l.Name)
