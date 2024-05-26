@@ -90,7 +90,7 @@ type LintMetadata struct {
 	// IneffectiveDate is zero. Please see CheckEffective for more information.
 	IneffectiveDate time.Time `json:"-"`
 
-	OverrideFrameworkFilter bool
+	OverrideFrameworkFilter bool `json:"overrideFrameworkFilter,omitempty"`
 }
 
 // A Lint struct represents a single lint, e.g.
