@@ -42,7 +42,7 @@ func NewOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth() lint.LintInterface {
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth) CheckApplies(c *x509.Certificate) bool {
-	return util.IsDelegatedOCSPResponderCert(c) && util.IsServerAuthCert(c)
+	return util.IsDelegatedOCSPResponderCert(c)
 }
 
 func (l *OCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth) Execute(c *x509.Certificate) *lint.LintResult {
