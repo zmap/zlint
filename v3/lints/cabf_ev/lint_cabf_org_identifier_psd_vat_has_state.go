@@ -23,32 +23,32 @@ import (
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "cabf_org_identifier_psd_has_state",
-			Description:   "The cabfOrganizationIdentifier field for PSD organization identifiers cannot include the state or province.",
-			Citation:      "Current PSDs identifiers are issued from Country level only. No state or province information is included.",
+			Name:          "cabf_org_identifier_psd_vat_has_state",
+			Description:   "The cabfOrganizationIdentifier field for PSD org VAT Registration Schemes cannot include the referenceStateOrProvince field.",
+			Citation:      "Current PSD and VAT based identifiers are issued from Country level only. No state or province information is included.",
 			Source:        lint.CABFEVGuidelines,
-			EffectiveDate: util.CABFEV_9_8_2,
+			EffectiveDate: util.SC17EffectiveDate,
 		},
-		Lint: NewCabfOrgIdentifierPsdHasState,
+		Lint: NewCabfOrgIdentifierPsdVatHasState,
 	})
 }
 
-type CabfOrgIdentifierPsdHasState struct{}
+type CabfOrgIdentifierPsdVatHasState struct{}
 
-func NewCabfOrgIdentifierPsdHasState() lint.LintInterface {
-	return &CabfOrgIdentifierPsdHasState{}
+func NewCabfOrgIdentifierPsdVatHasState() lint.LintInterface {
+	return &CabfOrgIdentifierPsdVatHasState{}
 }
 
-func (l *CabfOrgIdentifierPsdHasState) CheckApplies(c *x509.Certificate) bool {
+func (l *CabfOrgIdentifierPsdVatHasState) CheckApplies(c *x509.Certificate) bool {
 	for _, ext := range c.Extensions {
-		if ext.Id.Equal(util.CabfExtensionOrganizationIdentifier) && c.CABFOrganizationIdentifier.Scheme == "PSD" {
+		if ext.Id.Equal(util.CabfExtensionOrganizationIdentifier) && (c.CABFOrganizationIdentifier.Scheme == "PSD" || c.CABFOrganizationIdentifier.Scheme == "VAT") {
 			return true
 		}
 	}
 	return false
 }
 
-func (l *CabfOrgIdentifierPsdHasState) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *CabfOrgIdentifierPsdVatHasState) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.CABFOrganizationIdentifier.State == "" {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
