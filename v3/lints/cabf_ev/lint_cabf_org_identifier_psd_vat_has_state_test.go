@@ -24,7 +24,7 @@ import (
 func TestCabfOrgIdentifierPsdVatHasState(t *testing.T) {
 	inputPath := "cabfOrgIdentifierPSDState.pem"
 	expected := lint.Error
-	out := test.TestLint("cabf_org_identifier_psd_vat_has_state", inputPath)
+	out := test.TestLint("e_cabf_org_identifier_psd_vat_has_state", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
