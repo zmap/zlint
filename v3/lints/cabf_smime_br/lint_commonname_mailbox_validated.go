@@ -40,7 +40,7 @@ func NewCommonNameMailboxValidated() lint.LintInterface {
 }
 
 func (l *commonNameMailboxValidated) CheckApplies(c *x509.Certificate) bool {
-	return util.IsMailboxValidatedCertificate(c)
+	return util.IsMailboxValidatedCertificate(c) && util.IsSubscriberCert(c)
 }
 
 func (l *commonNameMailboxValidated) Execute(c *x509.Certificate) *lint.LintResult {
