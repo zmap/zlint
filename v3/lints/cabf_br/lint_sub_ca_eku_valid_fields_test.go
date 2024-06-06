@@ -32,7 +32,7 @@ func TestSubCAEKUValidFields(t *testing.T) {
 
 func TestSubCAEKUNotValidFields(t *testing.T) {
 	inputPath := "subCAEKUNotValidFields.pem"
-	expected := lint.NA
+	expected := lint.Notice
 	out := test.TestLint("n_sub_ca_eku_not_technically_constrained", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
