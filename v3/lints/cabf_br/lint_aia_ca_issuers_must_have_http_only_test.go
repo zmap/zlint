@@ -50,6 +50,12 @@ func TestBRAIACAIssuersHasHTTPOnly(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
+			Name:          "pass - AIA has only one HTTP(S) URI for id-ad-caIssuers accessMethod.",
+			InputFilename: "aiaCaIssuersHttpsOnly.pem",
+
+			ExpectedResult: lint.Pass,
+		},
+		{
 			Name:          "NE - AIA has only one HTTP URI for id-ad-caIssuers accessMethod and it is issued before September 15th 2023.",
 			InputFilename: "aiaCaIssuersHttpOnlyNE.pem",
 
