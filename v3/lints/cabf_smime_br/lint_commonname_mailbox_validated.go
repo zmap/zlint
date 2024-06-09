@@ -44,7 +44,10 @@ func (l *commonNameMailboxValidated) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *commonNameMailboxValidated) Execute(c *x509.Certificate) *lint.LintResult {
-	commonNames := []string{c.Subject.CommonName}
+	var commonNames []string
+	if c.Subject.CommonName != "" {
+		commonNames = append(commonNames, c.Subject.CommonName)
+	}
 	commonNames = append(commonNames, c.Subject.CommonNames...)
 	for _, cn := range commonNames {
 		if !util.IsMailboxAddress(cn) {
