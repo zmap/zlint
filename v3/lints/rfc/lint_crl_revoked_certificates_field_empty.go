@@ -64,23 +64,14 @@ func (l *revokedCertificates) Execute(c *x509.RevocationList) *lint.LintResult {
 	// or confirmed to be missing from the ASN.1 data structure.
 	input := cryptobyte.String(c.Raw)
 
-	// From crypto/x509/parser.go: we read the SEQUENCE including length and tag
-	// bytes so that we can populate RevocationList.Raw, before unwrapping the
-	// SEQUENCE so it can be operated on
-	if !input.ReadASN1Element(&input, cryptobyte_asn1.SEQUENCE) {
-		return &lint.LintResult{Status: lint.Fatal, Details: "malformed CRL"}
-	}
+	// Extract the CertificateList
 	if !input.ReadASN1(&input, cryptobyte_asn1.SEQUENCE) {
 		return &lint.LintResult{Status: lint.Fatal, Details: "malformed CRL"}
 	}
 
 	var tbs cryptobyte.String
-	// From crypto/x509/parser.go: do the same trick again as above to extract
-	// the raw bytes for Certificate.RawTBSCertificate
-	if !input.ReadASN1Element(&tbs, cryptobyte_asn1.SEQUENCE) {
-		return &lint.LintResult{Status: lint.Fatal, Details: "malformed TBS CRL"}
-	}
-	if !tbs.ReadASN1(&tbs, cryptobyte_asn1.SEQUENCE) {
+	// Extract the TBSCertList from the CertificateList
+	if !input.ReadASN1(&tbs, cryptobyte_asn1.SEQUENCE) {
 		return &lint.LintResult{Status: lint.Fatal, Details: "malformed TBS CRL"}
 	}
 
