@@ -25,7 +25,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_cabf_org_identifier_psd_vat_has_state",
 			Description:   "The cabfOrganizationIdentifier field for PSD org VAT Registration Schemes cannot include the referenceStateOrProvince field.",
-			Citation:      "Current PSD and VAT based identifiers are issued from Country level only. No state or province information is included.",
+			Citation:      "7.1.4.2.8",
 			Source:        lint.CABFEVGuidelines,
 			EffectiveDate: util.SC17EffectiveDate,
 		},
