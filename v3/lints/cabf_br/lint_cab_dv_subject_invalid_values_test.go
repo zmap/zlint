@@ -46,9 +46,10 @@ func TestNewDvSubjectInvalidValues(t *testing.T) {
 			ExpectedDetails: "DV certificate contains the invalid attribute type 2.5.4.5",
 		},
 		{
-			Name:           "pass - DV with valid values in subjectDN, with CN, on SC62",
-			InputFilename:  "dvWithCNAndCountry.pem",
-			ExpectedResult: lint.Pass,
+			Name:            "pass - DV with valid values in subjectDN, with CN, on SC62",
+			InputFilename:   "dvWithCNAndCountry.pem",
+			ExpectedResult:  lint.Pass,
+			ExpectedDetails: "DV certificate contains a subject common name, this is not recommended",
 		},
 		{
 			Name:           "pass - DV with valid values in subjectDN, country only, on SC62",
