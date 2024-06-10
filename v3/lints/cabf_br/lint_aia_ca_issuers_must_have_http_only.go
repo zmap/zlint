@@ -70,7 +70,7 @@ func (l *bRAIACAIssuersHasHTTPOnly) Execute(c *x509.Certificate) *lint.LintResul
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error, Details: "Could not parse caIssuers in AIA."}
 		}
-		if purl.Scheme != "http" && purl.Scheme != "https" {
+		if purl.Scheme != "http" {
 			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Found scheme %s in caIssuers of AIA, which is not allowed.", purl.Scheme)}
 		}
 	}
