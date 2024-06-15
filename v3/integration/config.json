@@ -818,7 +818,7 @@
     },
     "e_cab_dv_subject_invalid_values": {},
     "n_ca_digital_signature_not_set": {
-      "NoticeCount": 1411
+      "NoticeCount": 1405
     },
     "n_contains_redacted_dnsname": {
       "NoticeCount": 464
@@ -845,10 +845,10 @@
       "NoticeCount": 1415
     },
     "n_sub_ca_eku_not_technically_constrained": {
-      "NoticeCount": 12
+      "NoticeCount": 2
     },
     "n_subject_common_name_included": {
-      "NoticeCount": 712866
+      "NoticeCount": 712865
     },
     "w_ct_sct_policy_count_unsatisfied": {
       "NoticeCount": 5003
