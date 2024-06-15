@@ -52,7 +52,7 @@ func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
 }
 
 func IsServerAuthCert(cert *x509.Certificate) bool {
-	if len(cert.ExtKeyUsage) == 0 {
+	if len(cert.ExtKeyUsage) == 0 && len(cert.UnknownExtKeyUsage) == 0 {
 		return true
 	}
 	for _, eku := range cert.ExtKeyUsage {
