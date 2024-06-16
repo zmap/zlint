@@ -345,7 +345,7 @@
       "ErrCount": 1
     },
     "e_ca_key_usage_missing": {
-      "ErrCount": 13
+      "ErrCount": 9
     },
     "e_ca_key_usage_not_critical": {
       "ErrCount": 40
@@ -677,7 +677,7 @@
       "ErrCount": 292
     },
     "e_sub_ca_certificate_policies_missing": {
-      "ErrCount": 59
+      "ErrCount": 50
     },
     "e_sub_ca_crl_distribution_points_does_not_contain_url": {
       "ErrCount": 2
@@ -751,7 +751,7 @@
       "ErrCount": 2
     },
     "e_subject_common_name_not_from_san": {
-      "ErrCount": 94979
+      "ErrCount": 94978
     },
     "e_subject_contains_noninformational_value": {
       "ErrCount": 338
@@ -818,7 +818,7 @@
     },
     "e_cab_dv_subject_invalid_values": {},
     "n_ca_digital_signature_not_set": {
-      "NoticeCount": 1411
+      "NoticeCount": 1405
     },
     "n_contains_redacted_dnsname": {
       "NoticeCount": 464
@@ -845,10 +845,10 @@
       "NoticeCount": 1415
     },
     "n_sub_ca_eku_not_technically_constrained": {
-      "NoticeCount": 12
+      "NoticeCount": 2
     },
     "n_subject_common_name_included": {
-      "NoticeCount": 712866
+      "NoticeCount": 712865
     },
     "w_ct_sct_policy_count_unsatisfied": {
       "NoticeCount": 5003
@@ -925,14 +925,14 @@
     "w_san_should_not_be_critical": {},
     "w_smime_aia_contains_internal_names": {},
     "w_sub_ca_aia_does_not_contain_issuing_ca_url": {
-      "WarnCount": 990
+      "WarnCount": 989
     },
     "w_sub_ca_aia_missing": {
       "WarnCount": 4
     },
     "w_sub_ca_certificate_policies_marked_critical": {},
     "w_sub_ca_eku_critical": {
-      "WarnCount": 9
+      "WarnCount": 0
     },
     "w_sub_ca_name_constraints_not_critical": {
       "WarnCount": 116
