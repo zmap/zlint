@@ -967,6 +967,9 @@
     },
     "e_ca_invalid_eku": {
         "ErrCount": 1
-    }    
+    },
+    "e_subj_country_not_uppercase": {
+        "ErrCount": 1303
+    }
   }
 }
