@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,7 +16,8 @@ package lints
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/util"
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/util"
 )
 
 type serialNumberLowEntropy struct{}
@@ -29,21 +30,25 @@ func (l *serialNumberLowEntropy) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) *LintResult {
-	if len(c.SerialNumber.Bytes()) < 8 {
-		return &LintResult{Status: Warn}
+func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) *lint.LintResult {
+	if len(c.SerialNumber.Bytes()) <= 8 {
+		return &lint.LintResult{Status: lint.Warn}
 	} else {
-		return &LintResult{Status: Pass}
+		return &lint.LintResult{Status: lint.Pass}
 	}
 }
 
 func init() {
-	RegisterLint(&Lint{
-		Name:          "w_serial_number_low_entropy",
-		Description:   "Effective September 30, 2016, CAs SHALL generate non‐sequential Certificate serial numbers greater than zero (0) containing at least 64 bits of output from a CSPRNG.",
-		Citation:      "BRs: 7.1",
-		Source:        CABFBaselineRequirements,
-		EffectiveDate: util.CABSerialNumberEntropyDate,
-		Lint:          &serialNumberLowEntropy{},
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "w_serial_number_low_entropy",
+			Description:   "Using a serial of length 64 or lower is inadvisable as it is right on the edge of the BRs 7.1 limit of 64 bits minimum of entropy.",
+			Citation:      "BRs: 7.1",
+			Source:        lint.Community,
+			EffectiveDate: util.CABSerialNumberEntropyDate,
+		},
+		Lint: func() lint.CertificateLintInterface {
+			return &serialNumberLowEntropy{}
+		},
 	})
 }

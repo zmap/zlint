@@ -1,4 +1,4 @@
-package lints
+package community
 
 /*
  * ZLint Copyright 2018 Regents of the University of Michigan
@@ -16,12 +16,15 @@ package lints
 
 import (
 	"testing"
+
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/test"
 )
 
 func TestSnLowEntropy(t *testing.T) {
-	inputPath := "../testlint/testCerts/serialNumberLowEntropy.pem"
-	expected := Warn
-	out := Lints["w_serial_number_low_entropy"].Execute(ReadCertificate(inputPath))
+	inputPath := "serialNumberLowEntropy.pem"
+	expected := lint.Warn
+	out := test.TestLint("w_serial_number_low_entropy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
