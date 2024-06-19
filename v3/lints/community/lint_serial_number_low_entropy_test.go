@@ -23,8 +23,8 @@ import (
 
 func TestSnLowEntropy(t *testing.T) {
 	inputPath := "serialNumberLowEntropy.pem"
-	expected := lint.Warn
-	out := test.TestLint("w_serial_number_low_entropy", inputPath)
+	expected := lint.Notice
+	out := test.TestLint("n_serial_number_low_entropy", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

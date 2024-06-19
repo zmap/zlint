@@ -32,7 +32,7 @@ func (l *serialNumberLowEntropy) CheckApplies(c *x509.Certificate) bool {
 
 func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) *lint.LintResult {
 	if len(c.SerialNumber.Bytes()) <= 8 {
-		return &lint.LintResult{Status: lint.Warn}
+		return &lint.LintResult{Status: lint.Notice}
 	} else {
 		return &lint.LintResult{Status: lint.Pass}
 	}
@@ -41,7 +41,7 @@ func (l *serialNumberLowEntropy) Execute(c *x509.Certificate) *lint.LintResult {
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "w_serial_number_low_entropy",
+			Name:          "n_serial_number_low_entropy",
 			Description:   "Using a serial of length 64 or lower is inadvisable as it is right on the edge of the BRs 7.1 limit of 64 bits minimum of entropy.",
 			Citation:      "BRs: 7.1",
 			Source:        lint.Community,
