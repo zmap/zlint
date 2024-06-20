@@ -16,10 +16,11 @@ package cabf_br
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
-	"strings"
 )
 
 type bRAIAAccessLocationUnique struct{}
