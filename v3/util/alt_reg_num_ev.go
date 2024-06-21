@@ -38,13 +38,6 @@ type ParsedEvOrgId struct {
 	Rsi, Country, StateOrProvince, RegRef string
 }
 
-type cabfOrgIdExt struct {
-	Rsi             string `asn1:"printable"`
-	Country         string `asn1:"printable"`
-	StateOrProvince string `asn1:"printable,optional,tag:0"`
-	RegRef          string `asn1:"utf8"`
-}
-
 func GetSubjectOrgId(rawSubject []byte) parsedSubjectElement {
 	return GetSubjectElement(rawSubject, CabfSubjectOrganizationIdentifier)
 }
