@@ -141,7 +141,7 @@ const (
 	RoleIc Psd2RoleOfPspType = 4
 )
 
-// 	=== ASN.1 Types ==>
+// === ASN.1 Types ==>
 type Psd2RoleOfPsp struct {
 	RoleType      asn1.ObjectIdentifier
 	RoleOfPspName string `asn1:"utf8"`
