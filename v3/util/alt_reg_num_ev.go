@@ -15,11 +15,7 @@ package util
  */
 
 import (
-	"reflect"
-	"regexp"
-
 	"github.com/zmap/zcrypto/encoding/asn1"
-	"github.com/zmap/zcrypto/x509"
 )
 
 type RDNSequence []RelativeDistinguishedNameSET
@@ -47,57 +43,6 @@ type cabfOrgIdExt struct {
 	Country         string `asn1:"printable"`
 	StateOrProvince string `asn1:"printable,optional,tag:0"`
 	RegRef          string `asn1:"utf8"`
-}
-
-func ParseCabfOrgIdExt(c *x509.Certificate) (string, ParsedEvOrgId) {
-	var result ParsedEvOrgId
-
-	ext := GetExtFromCert(c, CabfExtensionOrganizationIdentifier)
-	var parsedExt cabfOrgIdExt
-	// check that we can parse the extension:
-	rest, err := asn1.Unmarshal(ext.Value, &parsedExt)
-	if len(rest) != 0 {
-		return "trailing bytes after extension", result
-	}
-	if err != nil {
-		return "could not parse extension value:" + err.Error(), result
-	}
-	errStr := CheckAsn1Reencoding(reflect.ValueOf(parsedExt).Interface(), ext.Value, "invalid string type in extension")
-	if errStr != "" {
-		return "", result
-	}
-	result.Country = parsedExt.Country
-	result.RegRef = parsedExt.RegRef
-	result.Rsi = parsedExt.Rsi
-	result.StateOrProvince = parsedExt.StateOrProvince
-	return "", result
-}
-
-func ParseCabfOrgId(oi string, isEtsi bool) (string, ParsedEvOrgId) {
-	var result ParsedEvOrgId
-	re_ntr := regexp.MustCompile(`^(NTR)([A-Z]{2})([+]([A-Z]{2}))?-(.+)$`)
-	re_vat_psd := regexp.MustCompile(`^(VAT|PSD)([A-Z]{2})(())-(.+)$`)
-	re_lei := regexp.MustCompile(`^(LEI)(XG)(())-(.+)$`)
-	var sm []string
-	if re_ntr.MatchString(oi) {
-		sm = re_ntr.FindStringSubmatch(oi)
-	} else if re_vat_psd.MatchString(oi) {
-		sm = re_vat_psd.FindStringSubmatch(oi)
-	} else if re_lei.MatchString(oi) {
-		if isEtsi {
-			sm = re_lei.FindStringSubmatch(oi)
-		} else {
-			return "CAB/F subject:organizationIdentifier does not allow LEI", result
-		}
-	} else {
-		return "CAB/F subject:organizationIdentifier has an invalid format", result
-	}
-	result.Rsi = sm[1]
-	result.Country = sm[2]
-	result.StateOrProvince = sm[3]
-	result.RegRef = sm[5]
-	return "", result
-
 }
 
 func GetSubjectOrgId(rawSubject []byte) parsedSubjectElement {
