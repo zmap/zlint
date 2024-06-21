@@ -817,6 +817,7 @@
       "ErrCount": 23
     },
     "e_cab_dv_subject_invalid_values": {},
+    "e_qcstatem_psd2_national_scheme": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1405
     },
