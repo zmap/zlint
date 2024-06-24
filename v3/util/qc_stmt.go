@@ -522,3 +522,10 @@ func handleIdEtsiQcsQcCompliance(statem qcStatementWithInfoField, raw anyContent
 		"invalid format of ETSI Complicance statement"))
 	return etsiObj
 }
+
+func AppendToStringSemicolonDelim(this *string, s string) {
+	if len(*this) > 0 && len(s) > 0 {
+		(*this) += "; "
+	}
+	(*this) += s
+}
