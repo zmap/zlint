@@ -1,5 +1,3 @@
-package cabf_br
-
 /*
  * ZLint Copyright 2024 Regents of the University of Michigan
  *
@@ -14,6 +12,8 @@ package cabf_br
  * permissions and limitations under the License.
  */
 
+package cabf_ev
+
 import (
 	"testing"
 
@@ -21,27 +21,10 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubCertNoIssuerOcsp(t *testing.T) {
-	inputPath := "subCertWIssuerURL.pem"
+func TestCabfOrgIdentifierPsdVatHasState(t *testing.T) {
+	inputPath := "cabfOrgIdentifierPSDState.pem"
 	expected := lint.Error
-	out := test.TestLint("e_sub_cert_aia_does_not_contain_ocsp_url", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-
-func TestSubCertHasIssuerOcsp(t *testing.T) {
-	inputPath := "subCertWOcspURL.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_sub_cert_aia_does_not_contain_ocsp_url", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
-func TestSubCertHasIssuerOcspWithHTTPAndLDAP(t *testing.T) {
-	inputPath := "aiaOCSPOneHTTPOneLDAP.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_sub_cert_aia_does_not_contain_ocsp_url", inputPath)
+	out := test.TestLint("e_cabf_org_identifier_psd_vat_has_state", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
