@@ -59,6 +59,7 @@ var evoids = map[string]bool{
 	"1.3.6.1.4.1.6334.1.100.1":         true,
 	"2.16.840.1.114171.500.9":          true,
 	"1.3.6.1.4.1.36305.2":              true,
+	"2.23.140.1.3":                     true, // EV Code Signing OID
 }
 
 // IsEV returns true if the input is a known Extended Validation OID.
