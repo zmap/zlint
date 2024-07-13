@@ -37,10 +37,16 @@ func (l *crlDistributionPoints) CheckApplies(c *x509.Certificate) bool {
 
 func (l *crlDistributionPoints) Execute(c *x509.Certificate) *lint.LintResult {
 	cdp := util.GetExtFromCert(c, util.CrlDistOID)
-	if cdp == nil || cdp.Critical {
+	if cdp == nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "The cRLDistributionPoints extension MUST be present. It MUST NOT be marked critical"}
+			Details: "The cRLDistributionPoints extension MUST be present."}
+	}
+
+	if cdp.Critical {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "The cRLDistributionPoints MUST NOT be marked critical."}
 	}
 
 	// MUST contain the HTTP URL of the CA’s CRL service

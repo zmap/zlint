@@ -39,10 +39,17 @@ func (l *csKeyUsageRequired) CheckApplies(c *x509.Certificate) bool {
 
 func (l *csKeyUsageRequired) Execute(c *x509.Certificate) *lint.LintResult {
 	ku := util.GetExtFromCert(c, util.KeyUsageOID)
-	if ku == nil || !ku.Critical {
+	if ku == nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "Key usage extension MUST be present and MUST be marked critical",
+			Details: "Key usage extension MUST be present.",
+		}
+	}
+
+	if !ku.Critical {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "Key usage extension MUST be marked critical",
 		}
 	}
 
