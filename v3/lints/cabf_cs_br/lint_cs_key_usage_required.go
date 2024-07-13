@@ -18,7 +18,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_cs_key_usage_required",
-			Description:   "This extension MUST be present and MUST be marked critical. The bit position for digitalSignature MUST be set.",
+			Description:   "This extension MUST be present and MUST be marked critical. The bit position for digitalSignature MUST be set. The bit positions for keyCertSign and cRLSign MUST NOT be set. All other bit positions SHOULD NOT be set.",
 			Citation:      "CABF CS BRs 7.1.2.3e",
 			Source:        lint.CABFCSBaselineRequirements,
 			EffectiveDate: util.CABF_CS_BRs_1_2_Date,
