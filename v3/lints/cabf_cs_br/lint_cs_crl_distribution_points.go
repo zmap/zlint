@@ -16,7 +16,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_cs_crl_distribution_points",
-			Description:   "This extension MUST be present. It MUST NOT be marked critical.",
+			Description:   "This extension MUST be present. It MUST NOT be marked critical. It MUST contain the HTTP URL of the CA's CRL service",
 			Citation:      "CABF CS BRs 7.1.2.3.b",
 			Source:        lint.CABFCSBaselineRequirements,
 			EffectiveDate: util.CABF_CS_BRs_1_2_Date,
