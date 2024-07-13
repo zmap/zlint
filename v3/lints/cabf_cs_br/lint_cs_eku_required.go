@@ -32,7 +32,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_cs_eku_required",
-			Description:   "If the Certificate is a Code Signing Certificate, then id-kp-codeSigning MUST be present",
+			Description:   "If the Certificate is a Code Signing Certificate, then id-kp-codeSigning MUST be present. anyExtendedKeyUsage and id-kp-serverAuth MUST NOT be present.",
 			Citation:      "CABF CS BRs 7.1.2.3.f",
 			Source:        lint.CABFCSBaselineRequirements,
 			EffectiveDate: util.CABF_CS_BRs_1_2_Date,
