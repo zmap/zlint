@@ -28,7 +28,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_subj_orgunit_in_ca_cert",
-			Description:   "The organizationalUnitName MUST NOT be included in Root CA certs or TLS Subordinate CA certs",
+			Description:   "The organizationalUnitName MUST NOT be included in Root CA certs or TLS Subordinate CA certs. organizationalUnitName is allowed for cross signed certificates, although not recommended. This lint may be configured to signify that the target is a cross signed certificate.",
 			Citation:      "CABF BR §7.1.2.10.2 (CA Certificate Naming)",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.CABFBRs_2_0_0_Date,
