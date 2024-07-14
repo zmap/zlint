@@ -57,7 +57,7 @@ func (l *subjectOrgUnitInCACert) CheckApplies(c *x509.Certificate) bool {
 
 func (l *subjectOrgUnitInCACert) Execute(c *x509.Certificate) *lint.LintResult {
 	if c.Subject.OrganizationalUnit != nil {
-		if !(l.CrossCert) {
+		if !l.CrossCert {
 			return &lint.LintResult{
 				Status:  lint.Error,
 				Details: "The OU attribute in the Subject is prohibited in Root and TLS CA certificates",
