@@ -28,6 +28,11 @@ func TestCommonNameMailboxValidated(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
+			Name:           "pass - no commonName attribute present",
+			InputFilename:  "smime/mailbox_validated_common_name_absent.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
 			Name:           "pass - valid email in commonName",
 			InputFilename:  "smime/mailbox_validated_common_name_good_email.pem",
 			ExpectedResult: lint.Pass,
