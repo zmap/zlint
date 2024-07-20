@@ -37,7 +37,7 @@ func NewCsRsaKeySize() lint.CertificateLintInterface {
 }
 
 func (l *csRsaKeySize) CheckApplies(c *x509.Certificate) bool {
-	return util.IsCodeSigning(c.PolicyIdentifiers) && util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c)
 }
 
 func (l *csRsaKeySize) Execute(c *x509.Certificate) *lint.LintResult {
