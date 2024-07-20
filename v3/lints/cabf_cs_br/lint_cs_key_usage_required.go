@@ -34,7 +34,7 @@ func NewCsKeyUsageRequired() lint.LintInterface {
 }
 
 func (l *csKeyUsageRequired) CheckApplies(c *x509.Certificate) bool {
-	return util.IsCodeSigning(c.PolicyIdentifiers) && util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c)
 }
 
 func (l *csKeyUsageRequired) Execute(c *x509.Certificate) *lint.LintResult {
