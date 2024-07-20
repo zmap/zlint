@@ -57,6 +57,10 @@ func (l *csEKURequired) Execute(c *x509.Certificate) *lint.LintResult {
 		x509.ExtKeyUsageServerAuth: {},
 	}
 
+	if util.IsSubCA(c) {
+		prohibitedEKUs[x509.ExtKeyUsageEmailProtection] = struct{}{}
+	}
+
 	hasCodeSigningEKU := false
 
 	for _, eku := range c.ExtKeyUsage {
