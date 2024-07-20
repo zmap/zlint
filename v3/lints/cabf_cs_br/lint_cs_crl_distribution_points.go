@@ -32,7 +32,7 @@ func NewCrlDistributionPoints() lint.LintInterface {
 }
 
 func (l *crlDistributionPoints) CheckApplies(c *x509.Certificate) bool {
-	return util.IsCodeSigning(c.PolicyIdentifiers) && util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) || util.IsSubCA(c)
 }
 
 func (l *crlDistributionPoints) Execute(c *x509.Certificate) *lint.LintResult {
