@@ -48,7 +48,7 @@ func NewCsEKURequired() lint.LintInterface {
 }
 
 func (l *csEKURequired) CheckApplies(c *x509.Certificate) bool {
-	return util.IsCodeSigning(c.PolicyIdentifiers) && util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) || util.IsSubCA(c)
 }
 
 func (l *csEKURequired) Execute(c *x509.Certificate) *lint.LintResult {
