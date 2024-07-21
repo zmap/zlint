@@ -326,6 +326,7 @@
     "e_incorrect_ku_encoding": {
       "ErrCount": 239
     },
+    "e_qcstatem_psd2_national_scheme": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
