@@ -21,6 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/lint"
 	_ "github.com/zmap/zlint/v3/lints/apple"
 	_ "github.com/zmap/zlint/v3/lints/cabf_br"
+	_ "github.com/zmap/zlint/v3/lints/cabf_cs_br"
 	_ "github.com/zmap/zlint/v3/lints/cabf_ev"
 	_ "github.com/zmap/zlint/v3/lints/cabf_smime_br"
 	_ "github.com/zmap/zlint/v3/lints/community"
@@ -48,6 +49,7 @@ func TestNotMissingAnyLintSources(t *testing.T) {
 	expected := map[string]bool{
 		"apple":         true,
 		"cabf_br":       true,
+		"cabf_cs_br":    true,
 		"cabf_ev":       true,
 		"cabf_smime_br": true,
 		"community":     true,
