@@ -35,6 +35,7 @@ const (
 	RFC6962                       LintSource = "RFC6962"
 	RFC8813                       LintSource = "RFC8813"
 	CABFBaselineRequirements      LintSource = "CABF_BR"
+	CABFCSBaselineRequirements    LintSource = "CABF_CS_BR"
 	CABFSMIMEBaselineRequirements LintSource = "CABF_SMIME_BR"
 	CABFEVGuidelines              LintSource = "CABF_EV"
 	MozillaRootStorePolicy        LintSource = "Mozilla"

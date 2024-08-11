@@ -251,7 +251,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Microsoft](https://www.microsoft.com)
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
 * [QuoVadis](https://www.quovadisglobal.com/)
-* [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
+* [Sectigo](https://sectigo.com/), [crt.sh](https://crt.sh/), and [pkimetal](https://github.com/pkimetal/pkimetal)
 * [Siemens](https://siemens.com/pki)
 * [SSL.com](https://www.ssl.com/)
 * [PKI Insights](https://www.codegic.com/pki-insights-health-monitoring-for-microsoft-ca/)
