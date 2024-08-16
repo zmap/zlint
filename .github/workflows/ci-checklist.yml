@@ -2,6 +2,7 @@ on:
   pull_request:
     types: [edited, opened, reopened, synchronize]
   issue_comment:
+    types: [created, edited, deleted]
 
 # cancel old edit events being processed
 concurrency:
