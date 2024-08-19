@@ -28,7 +28,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           paths: |
-            v3/sql/*.sql:
+            *:
               - I have benchmarked the SQL changes
 #              - <!--Checkmate select=2-->
 #              - Partition Tolerance
