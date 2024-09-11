@@ -114,24 +114,26 @@ func (l *orgIdInconsistentSubjAndExt) Execute(c *x509.Certificate) *lint.LintRes
 		(c.CABFOrganizationIdentifier.State != orgId.State) ||
 		(c.CABFOrganizationIdentifier.Reference != orgId.Reference) {
 
-		if orgId.Scheme == "PSD" {
+		if orgId.Scheme != "PSD" {
 
-			err := ParseOrgId(c.Subject.OrganizationIDs[0], &orgId, true)
-			if err != nil {
-				return &lint.LintResult{
-					Status:  lint.Error,
-					Details: "the organizationIdentifier Subject attribute probably has an invalid value"}
-			}
-			if (c.CABFOrganizationIdentifier.Scheme != orgId.Scheme) ||
-				(c.CABFOrganizationIdentifier.Country != orgId.Country) ||
-				(c.CABFOrganizationIdentifier.State != orgId.State) ||
-				(c.CABFOrganizationIdentifier.Reference != orgId.Reference) {
-				return &lint.LintResult{
-					Status:  lint.Error,
-					Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
-			}
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+		}
 
-		} else {
+		//Now check PSD2 without an NCA in the registrationReference
+		err := ParseOrgId(c.Subject.OrganizationIDs[0], &orgId, true)
+		if err != nil {
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "the organizationIdentifier Subject attribute probably has an invalid value"}
+		}
+
+		if (c.CABFOrganizationIdentifier.Scheme != orgId.Scheme) ||
+			(c.CABFOrganizationIdentifier.Country != orgId.Country) ||
+			(c.CABFOrganizationIdentifier.State != orgId.State) ||
+			(c.CABFOrganizationIdentifier.Reference != orgId.Reference) {
+
 			return &lint.LintResult{
 				Status:  lint.Error,
 				Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
