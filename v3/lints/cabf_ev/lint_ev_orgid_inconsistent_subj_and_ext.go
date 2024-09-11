@@ -51,8 +51,13 @@ type OrganizationIdentifier struct {
 
 // This is according to the EVG (stricter than ETSI EN 319 412-1)
 var OrgIdPattern = `^(?P<scheme>[A-Z]{3})(?P<country>[A-Z]{2})(?:\+(?P<state>[A-Z]{2}))?\-(?P<reference>.+)$`
+var PsdOrgIdPattern = `^(?P<scheme>[A-Z]{3})(?P<country>[A-Z]{2})(?:\+(?P<state>[A-Z]{2}))?\-(?P<nca>[A-Z]*)\-(?P<reference>.+)$`
 
-func ParseOrgId(orgIdString string, orgId *OrganizationIdentifier) error {
+func ParseOrgId(orgIdString string, orgId *OrganizationIdentifier, psdScheme bool) error {
+
+	if psdScheme {
+		OrgIdPattern = PsdOrgIdPattern
+	}
 
 	re := regexp.MustCompile(OrgIdPattern)
 
@@ -97,7 +102,7 @@ func (l *orgIdInconsistentSubjAndExt) CheckApplies(c *x509.Certificate) bool {
 func (l *orgIdInconsistentSubjAndExt) Execute(c *x509.Certificate) *lint.LintResult {
 	// It should be safe to assume there is only one element in OrganizationIDs
 	var orgId OrganizationIdentifier
-	err := ParseOrgId(c.Subject.OrganizationIDs[0], &orgId)
+	err := ParseOrgId(c.Subject.OrganizationIDs[0], &orgId, false)
 	if err != nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
@@ -109,9 +114,29 @@ func (l *orgIdInconsistentSubjAndExt) Execute(c *x509.Certificate) *lint.LintRes
 		(c.CABFOrganizationIdentifier.State != orgId.State) ||
 		(c.CABFOrganizationIdentifier.Reference != orgId.Reference) {
 
-		return &lint.LintResult{
-			Status:  lint.Error,
-			Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+		if orgId.Scheme == "PSD" {
+
+			err := ParseOrgId(c.Subject.OrganizationIDs[0], &orgId, true)
+			if err != nil {
+				return &lint.LintResult{
+					Status:  lint.Error,
+					Details: "the organizationIdentifier Subject attribute probably has an invalid value"}
+			}
+			if (c.CABFOrganizationIdentifier.Scheme != orgId.Scheme) ||
+				(c.CABFOrganizationIdentifier.Country != orgId.Country) ||
+				(c.CABFOrganizationIdentifier.State != orgId.State) ||
+				(c.CABFOrganizationIdentifier.Reference != orgId.Reference) {
+				return &lint.LintResult{
+					Status:  lint.Error,
+					Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+			}
+
+		} else {
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+		}
+
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
