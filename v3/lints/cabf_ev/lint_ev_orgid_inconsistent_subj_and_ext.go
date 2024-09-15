@@ -21,11 +21,11 @@ package cabf_ev
 
 import (
 	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 
-	"errors"
 	"regexp"
 )
 
@@ -54,7 +54,7 @@ type OrganizationIdentifier struct {
 func (o OrganizationIdentifier) Parse(orgId string) (OrganizationIdentifier, error) {
 	re := o.regexForOrgID()
 	if !re.MatchString(orgId) {
-		return o, errors.New(fmt.Sprintf("Cannot parse organizationIdentifier ('%s'): it is probably invalid", orgId))
+		return o, fmt.Errorf("Cannot parse organizationIdentifier ('%s'): it is probably invalid", orgId)
 	}
 	names := re.SubexpNames()
 	match := re.FindStringSubmatch(orgId)
