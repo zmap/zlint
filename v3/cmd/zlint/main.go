@@ -200,7 +200,7 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		if err != nil {
 			log.Fatalf("unable to parse certificate revocation list: %s", err)
 		}
-		zlintResult = zlint.LintRevocationList(crl)
+		zlintResult = zlint.LintRevocationListEx(crl, registry)
 	} else {
 		c, err := x509.ParseCertificate(asn1Data)
 		if err != nil {
