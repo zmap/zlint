@@ -74,11 +74,11 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 		}, {
 			Name:           "o1s0ep0a0nc0",
 			Filename:       "o1s0ep0a0nc0.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Error,
 		}, {
 			Name:           "o1s0ep0a0nc1",
 			Filename:       "o1s0ep0a0nc1.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Pass,
 		}, {
 			Name:           "o1s0ep0a1nc0",
 			Filename:       "o1s0ep0a1nc0.pem",
@@ -142,11 +142,11 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 		}, {
 			Name:           "o1s0ep1a0nc0",
 			Filename:       "o1s0ep1a0nc0.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Error,
 		}, {
 			Name:           "o1s0ep1a0nc1",
 			Filename:       "o1s0ep1a0nc1.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Pass,
 		}, {
 			Name:           "o1s0ep1a1nc0",
 			Filename:       "o1s0ep1a1nc0.pem",
