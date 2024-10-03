@@ -48,7 +48,6 @@ func (l *invalidCACertificatePolicies) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *invalidCACertificatePolicies) Execute(c *x509.Certificate) *lint.LintResult {
-
 	if !util.IsExtInCert(c, util.CertPolicyOID) {
 		return &lint.LintResult{
 			Status:  lint.Error,
