@@ -12,8 +12,8 @@
  * permissions and limitations under the License.
  */
 
-/* 
- * Contributed by asantoni64@gmail.com 
+/*
+ * Contributed by asantoni64@gmail.com
  */
 
 package cabf_br
@@ -63,29 +63,30 @@ func (l *invalidCACertificatePolicies) Execute(c *x509.Certificate) *lint.LintRe
 				Details: "If a CA cert contains only one policy OID, then it MUST be AnyPolicy",
 			}
 		}
-	} else {
-		// If there are two or more policy OIDs, check for the presence of
-		// at least one reserved policy OID and ensure AnyPolicy is absent
-		reservedOIDFound := false
-		for _, oid := range c.PolicyIdentifiers {
-			if oid.Equal(util.AnyPolicyOID) {
-				return &lint.LintResult{
-					Status:  lint.Error,
-					Details: "The AnyPolicy OID must not be accompanied by any other policy OIDs",
-				}
-			}
-			if oid.Equal(util.BROrganizationValidatedOID) ||
-				oid.Equal(util.BRExtendedValidatedOID) ||
-				oid.Equal(util.BRDomainValidatedOID) ||
-				oid.Equal(util.BRIndividualValidatedOID) {
-				reservedOIDFound = true
-			}
-		}
-		if !reservedOIDFound {
+		return &lint.LintResult{Status: lint.Pass}
+	}
+
+	// There are two or more policy OIDs, so check for the presence of
+	// at least one reserved policy OID and ensure AnyPolicy is absent
+	reservedOIDFound := false
+	for _, oid := range c.PolicyIdentifiers {
+		if oid.Equal(util.AnyPolicyOID) {
 			return &lint.LintResult{
 				Status:  lint.Error,
-				Details: "At least one CABF reserved policy OIDs MUST be present in a policy-restricted CA cert",
+				Details: "The AnyPolicy OID must not be accompanied by any other policy OIDs",
 			}
+		}
+		if oid.Equal(util.BROrganizationValidatedOID) ||
+			oid.Equal(util.BRExtendedValidatedOID) ||
+			oid.Equal(util.BRDomainValidatedOID) ||
+			oid.Equal(util.BRIndividualValidatedOID) {
+			reservedOIDFound = true
+		}
+	}
+	if !reservedOIDFound {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "At least one CABF reserved policy OIDs MUST be present in a policy-restricted CA cert",
 		}
 	}
 
