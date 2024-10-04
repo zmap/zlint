@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-/* 
+/*
  * Test file naming convention: (cacp_cXrXpXmXaXbXeX.pem)
  *      X = 0/1 for no/yes
  *      c = CA certificate
@@ -62,6 +62,10 @@ func TestInvalidCACertificatePolicies(t *testing.T) {
 		},
 		{
 			input: "cacp_c1r0p1m0a1b0e0.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "cacp_c1r0p1m0a0b1e1.pem",
 			want:  lint.Pass,
 		},
 		{

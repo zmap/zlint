@@ -28,7 +28,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_invalid_ca_certificate_policies",
-			Description:   "Checks compliance with CABF section 7.1.2.10.5",
+			Description:   "Checks that the Policy OIDs in the CertificatePolicies extension of a SubCA certificate comply with CABF requirements",
 			Citation:      "CABF BRs §7.1.2.10.5",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.CABFBRs_2_0_0_Date,
@@ -48,6 +48,9 @@ func (l *invalidCACertificatePolicies) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *invalidCACertificatePolicies) Execute(c *x509.Certificate) *lint.LintResult {
+
+	// Any type of subordinate CA must have the CP extension,
+	// as can be seen from the entire chapter 7 of the BR
 	if !util.IsExtInCert(c, util.CertPolicyOID) {
 		return &lint.LintResult{
 			Status:  lint.Error,
@@ -55,25 +58,11 @@ func (l *invalidCACertificatePolicies) Execute(c *x509.Certificate) *lint.LintRe
 		}
 	}
 
-	if len(c.PolicyIdentifiers) == 1 {
-		if !c.PolicyIdentifiers[0].Equal(util.AnyPolicyOID) {
-			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: "If a CA cert contains only one policy OID, then it MUST be AnyPolicy",
-			}
-		}
-		return &lint.LintResult{Status: lint.Pass}
-	}
-
-	// There are two or more policy OIDs, so check for the presence of
-	// at least one reserved policy OID and ensure AnyPolicy is absent
+	anyPolicyOIDFound := false
 	reservedOIDFound := false
 	for _, oid := range c.PolicyIdentifiers {
 		if oid.Equal(util.AnyPolicyOID) {
-			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: "The AnyPolicy OID must not be accompanied by any other policy OIDs",
-			}
+			anyPolicyOIDFound = true
 		}
 		if oid.Equal(util.BROrganizationValidatedOID) ||
 			oid.Equal(util.BRExtendedValidatedOID) ||
@@ -82,7 +71,21 @@ func (l *invalidCACertificatePolicies) Execute(c *x509.Certificate) *lint.LintRe
 			reservedOIDFound = true
 		}
 	}
+
+	if anyPolicyOIDFound {
+		if len(c.PolicyIdentifiers) > 1 {
+			// See the BR, Table 69: No Policy Restrictions
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "The AnyPolicy OID must not be accompanied by any other policy OIDs",
+			}
+		} else {
+			return &lint.LintResult{Status: lint.Pass}
+		}
+	}
+
 	if !reservedOIDFound {
+		// See the BR, Table 70: Policy Restricted
 		return &lint.LintResult{
 			Status:  lint.Error,
 			Details: "At least one CABF reserved policy OIDs MUST be present in a policy-restricted CA cert",
