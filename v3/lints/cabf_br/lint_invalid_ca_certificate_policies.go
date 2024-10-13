@@ -49,12 +49,12 @@ func (l *invalidCACertificatePolicies) CheckApplies(c *x509.Certificate) bool {
 
 func (l *invalidCACertificatePolicies) Execute(c *x509.Certificate) *lint.LintResult {
 
-	// Any type of subordinate CA must have the CP extension,
+	// Any type of TLS subordinate CA must have the CP extension,
 	// as can be seen from the entire chapter 7 of the BR
 	if !util.IsExtInCert(c, util.CertPolicyOID) {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "In a non-Root CA certificate, the CertificatePolicies extension is mandatory",
+			Details: "In a TLS subordinate CA certificate, the CertificatePolicies extension is mandatory",
 		}
 	}
 

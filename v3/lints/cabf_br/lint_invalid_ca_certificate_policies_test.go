@@ -57,15 +57,11 @@ func TestInvalidCACertificatePolicies(t *testing.T) {
 			want:  lint.Error,
 		},
 		{
-			input: "cacp_c1r0p1m0a0b0e0.pem",
-			want:  lint.NE,
-		},
-		{
-			input: "cacp_c1r0p1m0a1b0e0.pem",
+			input: "cacp_c1r0p1m0a0b1e1.pem",
 			want:  lint.Pass,
 		},
 		{
-			input: "cacp_c1r0p1m0a0b1e1.pem",
+			input: "cacp_c1r0p1m0a1b0e1.pem",
 			want:  lint.Pass,
 		},
 		{
