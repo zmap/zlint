@@ -820,6 +820,7 @@
       "ErrCount": 23
     },
     "e_cab_dv_subject_invalid_values": {},
+    "e_qcstatem_psd2_national_scheme": {},
     "e_aia_must_contain_permitted_access_method": {},
     "e_aia_ocsp_must_have_http_only": {},
     "e_aia_unique_access_locations": {},
