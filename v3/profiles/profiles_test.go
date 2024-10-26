@@ -15,7 +15,7 @@
 package profiles
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/zmap/zlint/v3/lint"
@@ -57,7 +57,7 @@ func TestNotMissingAnyLintSources(t *testing.T) {
 		"mozilla":       true,
 		"rfc":           true,
 	}
-	dir, err := ioutil.ReadDir("../lints")
+	dir, err := os.ReadDir("../lints")
 	if err != nil {
 		t.Fatal(err)
 	}
