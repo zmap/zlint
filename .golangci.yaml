@@ -54,6 +54,7 @@ linters:
     - forcetypeassert
     - tagliatelle
     - nilnil
+    - mnd
 
 issues:
   exclude-rules:

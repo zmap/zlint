@@ -124,7 +124,7 @@ func TestLintRevocationList(tb testing.TB, lintName string, crl *x509.Revocation
 // Important: ReadTestCert is only appropriate for unit tests. It will panic if
 // the inPath file can not be loaded.
 func ReadTestCert(inPath string) *x509.Certificate {
-	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
+	fullPath := "../../testdata/" + inPath
 	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		panic(fmt.Sprintf(
@@ -162,7 +162,7 @@ func ReadTestCert(inPath string) *x509.Certificate {
 // the inPath file can not be loaded.
 func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	tb.Helper()
-	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
+	fullPath := "../../testdata/" + inPath
 	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		tb.Fatalf(

@@ -17,7 +17,6 @@ package lints
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
 	"go/ast"
 	"os"
 	"strings"
@@ -36,18 +35,18 @@ func (i *NotCommittingGenTestCerts) CheckApplies(tree *ast.File, file *lint.File
 func (i *NotCommittingGenTestCerts) Lint(tree *ast.File, file *lint.File) *lint.Result {
 	contents, err := os.ReadFile(file.Path)
 	if err != nil {
-		return lint.NewResult(fmt.Sprintf("failed to open %s", file.Name))
+		return lint.NewResult("failed to open " + file.Name)
 	}
 	hasher := sha256.New()
 	_, err = hasher.Write(contents)
 	if err != nil {
-		return lint.NewResult(fmt.Sprintf("failed to hash the contents of %s", file.Name))
+		return lint.NewResult("failed to hash the contents of " + file.Name)
 	}
 	got := hex.EncodeToString(hasher.Sum([]byte{}))
 	if got == want {
 		return nil
 	}
-	return lint.NewResult(fmt.Sprintf(`%s appears to have been modified and committed 
+	return lint.NewResult(file.Path + ` appears to have been modified and committed 
 as a part of your change. This file is intended to be changed at your leisure, however we 
 ask that these changed not be committed to the repo.
 
@@ -55,5 +54,5 @@ If you intended to submit changes to this file, then please run the following...
 
 sha256sum cmd/genTestCerts/genTestCerts.go
 
-...and update the "want" constant in v3/integration/lints/lints/not_committing_genTestCerts.go`, file.Path))
+...and update the "want" constant in v3/integration/lints/lints/not_committing_genTestCerts.go`)
 }

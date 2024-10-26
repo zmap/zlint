@@ -24,13 +24,13 @@ import (
 // TestLintSourceMarshal tests that a LintSource can be correctly marshaled and
 // unmarshalled.
 func TestLintSourceMarshal(t *testing.T) {
-	//nolint:musttag
 	throwAway := struct {
 		Source LintSource
 	}{
 		Source: Community,
 	}
 
+	//nolint:musttag
 	jsonBytes, err := json.Marshal(&throwAway)
 	if err != nil {
 		t.Fatalf("failed to marshal LintSource: %v", err)
@@ -41,6 +41,7 @@ func TestLintSourceMarshal(t *testing.T) {
 		t.Fatalf("expected JSON %q got %q", expectedJSON, string(jsonBytes))
 	}
 
+	//nolint:musttag
 	err = json.Unmarshal(jsonBytes, &throwAway)
 	if err != nil {
 		t.Fatalf("err unmarshalling prev. marshaled LintSource: %v", err)
@@ -50,6 +51,7 @@ func TestLintSourceMarshal(t *testing.T) {
 	}
 
 	badJSON := []byte(`{"Source":"cpu"}`)
+	//nolint:musttag
 	err = json.Unmarshal(badJSON, &throwAway)
 	if err == nil {
 		t.Fatalf("expected err unmarshalling bad LintSource value. Got nil")
