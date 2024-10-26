@@ -185,10 +185,10 @@ func getGTLDData() ([]util.GTLDPeriod, error) {
 		return nil, fmt.Errorf("error getting ICANN gTLD JSON : %s", err)
 	}
 
-	//nolint:musttag
 	var results struct {
 		GTLDs []util.GTLDPeriod
 	}
+	//nolint:musttag
 	if err := json.Unmarshal(respBody, &results); err != nil {
 		return nil, fmt.Errorf("unexpected error unmarshaling ICANN gTLD JSON response "+
 			"body from %q : %s",
