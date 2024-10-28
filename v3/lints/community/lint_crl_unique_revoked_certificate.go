@@ -49,7 +49,7 @@ func (l *uniqueRevokedCertificate) Execute(c *x509.RevocationList) *lint.LintRes
 	for _, rc := range c.RevokedCertificates {
 		if serials[rc.SerialNumber.String()] {
 			return &lint.LintResult{
-				Status:  lint.Error,
+				Status:  lint.Warn,
 				Details: fmt.Sprintf("Revoked certificates list contains duplicate serial number: %x", rc.SerialNumber),
 			}
 		}

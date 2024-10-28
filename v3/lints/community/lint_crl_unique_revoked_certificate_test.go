@@ -33,7 +33,7 @@ func TestUniqueRevokedCertificate(t *testing.T) {
 		{
 			name: "CRL with duplicates in revoked certificates list",
 			path: "crlWithDuplicatesInRevokedCertificateList.pem",
-			want: lint.Error,
+			want: lint.Warn,
 		},
 		{
 			name: "CRL with no duplicates in revoked certificates list",
