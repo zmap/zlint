@@ -15,7 +15,6 @@ package main
  */
 
 import (
-	"context"
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
@@ -27,7 +26,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/golang/glog"
+	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/v3/util"
@@ -50,7 +49,6 @@ type tbsCertificateList struct {
 }
 
 func main() {
-	ctx := context.Background()
 	//	CN=Root CA, C=US, O=Example Root CA
 	issuer := pkix.Name{
 		CommonName:   "Root CA",
@@ -94,7 +92,7 @@ func main() {
 	tbsBytes := encode(tbs)
 	signature, err := generateSignature(tbsBytes)
 	if err != nil {
-		glog.ExitContextf(ctx, "Failed to generate signature: %v", err)
+		log.Fatalf("Failed to generate signature: %v", err)
 	}
 
 	// Create the final CRL
@@ -113,12 +111,12 @@ func main() {
 	// Marshal the complete CRL
 	crlBytes, err := asn1.Marshal(crl)
 	if err != nil {
-		glog.ExitContextf(ctx, "Failed to marshal CRL: %v", err)
+		log.Fatalf("Failed to marshal CRL: %v", err)
 	}
 	pem := pem.EncodeToMemory(&pem.Block{Type: "X509 CRL", Bytes: crlBytes})
 	fmted, err := openSSLFormatCRL(pem)
 	if err != nil {
-		glog.ExitContextf(ctx, "Failed to format CRL: %v", err)
+		log.Fatalf("Failed to format CRL: %v", err)
 	}
 	fmt.Println(fmted)
 }
