@@ -63,10 +63,10 @@ func main() {
 		},
 		Issuer:     asn1.RawValue{Tag: asn1.TagSequence, FullBytes: encode(issuer.ToRDNSequence())},
 		ThisUpdate: time.Now(),
-		NextUpdate: time.Now().Add(365 * 24 * time.Hour), // 1 year later
+		NextUpdate: time.Now().Add(365 * 24 * time.Hour),
 		RevokedCertificates: []pkix.RevokedCertificate{
 			{
-				SerialNumber:   big.NewInt(1), // CRL Serial Number
+				SerialNumber:   big.NewInt(1), // Revoked Certificate Serial Number
 				RevocationTime: time.Now(),
 				Extensions: []pkix.Extension{
 					{
