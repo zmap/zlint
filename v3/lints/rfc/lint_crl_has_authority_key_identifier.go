@@ -30,7 +30,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_crl_has_authority_key_identifier",
 			Description:   "The CRL must include Authority Key Identifier extension.",
-			Citation:      "RFC5280 §5.2,1",
+			Citation:      "RFC5280 §5.2.1",
 			Source:        lint.RFC5280,
 			EffectiveDate: util.RFC5280Date,
 		},
