@@ -9,16 +9,18 @@ on:
 jobs:
   golangci:
     name: Lint Sourcecode
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
 
       - name: Check out code
         uses: actions/checkout@v2
       - name: Install golangci-lint
         run: |
-          wget https://github.com/golangci/golangci-lint/releases/download/v1.62.0/golangci-lint-1.62.0-linux-amd64.tar.gz
-          tar zxvf golangci-lint-1.62.0-linux-amd64.tar.gz
+          VERSION=1.62.0
+          wget https://github.com/golangci/golangci-lint/releases/download/v${VERSION}/golangci-lint-${VERSION}-linux-amd64.tar.gz
+          tar zxvf golangci-lint-${VERSION}-linux-amd64.tar.gz
+          mv golangci-lint-${VERSION}-linux-amd64/golangci-lint . 
       - name: Run golangci-lint
         run: |
           cd v3
-          ../golangci-lint-1.62.0-linux-amd64/golangci-lint run
+          ../golangci-lint run
