@@ -22,8 +22,7 @@ import (
 
 // LintStatus is an enum returned by lints inside of a LintResult.
 //
-//nolint:revive
-//nolint:recvcheck
+//nolint:revive,recvcheck
 type LintStatus int
 
 // Known LintStatus values
