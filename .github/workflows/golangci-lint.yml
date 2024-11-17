@@ -14,17 +14,10 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v2
-
-#      - name: Set up Go
-#        uses: actions/setup-go@v2
-#        with:
-#          go-version: ^1.18
       - name: Install golangci-lint
         run: |
           wget https://github.com/golangci/golangci-lint/releases/download/v1.62.0/golangci-lint-1.62.0-linux-amd64.tar.gz
           tar zxvf golangci-lint-1.62.0-linux-amd64.tar.gz
-          #wget https://github.com/golangci/golangci-lint/releases/download/v1.62.0/golangci-lint-1.62.0-linux-amd64.deb
-          #sudo apt install -y ./golangci-lint-1.62.0-linux-amd64.deb
       - name: Run golangci-lint
         run: |
           cd v3

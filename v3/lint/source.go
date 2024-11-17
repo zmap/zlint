@@ -24,6 +24,7 @@ import (
 // requirements from.
 //
 //nolint:revive
+//nolint:recvcheck
 type LintSource string
 
 const (
