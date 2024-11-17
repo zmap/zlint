@@ -23,7 +23,7 @@ import (
 // LintSource is a type representing a known lint source that lints cite
 // requirements from.
 //
-//nolint:revive,recvcheck
+//nolint:revive
 type LintSource string
 
 const (
@@ -99,6 +99,8 @@ func (s *LintSource) FromString(src string) {
 }
 
 // SourceList is a slice of LintSources that can be sorted.
+//
+//nolint:recvcheck
 type SourceList []LintSource
 
 // Len returns the length of the list.
