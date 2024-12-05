@@ -131,6 +131,17 @@ func TestRegister(t *testing.T) {
 			expectNames:   []string{"goodLint", egLint.Name},
 			expectSources: SourceList{egLint.Source, MozillaRootStorePolicy},
 		},
+		{
+			name: "new lint source category",
+			lint: &Lint{
+				Name:   "sct",
+				Lint:   func() LintInterface { return &mockLint{} },
+				Source: RFC6962,
+			},
+			registry:      dupeReg,
+			expectNames:   []string{"goodLint", egLint.Name, "sct"},
+			expectSources: SourceList{egLint.Source, MozillaRootStorePolicy, RFC6962},
+		},
 	}
 
 	for _, tc := range testCases {

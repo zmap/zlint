@@ -329,6 +329,9 @@
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
+    "e_aia_must_contain_permitted_access_method": {},
+    "e_aia_ocsp_must_have_http_only": {},
+    "e_aia_unique_access_locations": {},
     "n_contains_redacted_dnsname": {
       "NoticeCount": 8
     },

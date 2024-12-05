@@ -61,21 +61,21 @@ var ( // flags
 )
 
 func init() {
-	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Print lints in JSON format, one per line")
-	flag.BoolVar(&listLintSources, "list-lints-source", false, "Print list of lint sources, one per line")
-	flag.BoolVar(&listProfiles, "list-profiles", false, "Print profiles in JSON format, one per line")
-	flag.BoolVar(&summary, "summary", false, "Prints a short human-readable summary report")
-	flag.BoolVar(&longSummary, "longSummary", false, "Prints a human-readable summary report with details")
-	flag.StringVar(&format, "format", "pem", "One of {pem, der, base64}")
-	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. (Can not be used with -includeNames/-excludeNames)")
-	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name")
-	flag.StringVar(&excludeNames, "excludeNames", "", "Comma-separated list of lints to exclude by name")
-	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include")
-	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude")
-	flag.StringVar(&profile, "profile", "", "Name of the linting profile to use. Equivalent to enumerating all of the lints in a given profile using includeNames")
+	flag.BoolVar(&listLintsJSON, "list-lints-json", false, "Prints a line delimited list of JSON. Each line prints the name, description, and source of the given lint")
+	flag.BoolVar(&listLintSources, "list-lints-source", false, "Prints a line-delimited list of lint sources. A lint source is a governing body, or document, such as CABF or an individual RFC.")
+	flag.BoolVar(&listProfiles, "list-profiles", false, "Prints a line delimited list of JSON. Each line the prints name, description, source, and a list of all lints that comprise the profile")
+	flag.BoolVar(&summary, "summary", false, "Prints a succinct, tabular, human-readable, summary report in place of the default JSON report. Only the counts of info/warn/error/fatal occurrences are reported")
+	flag.BoolVar(&longSummary, "longSummary", false, "Prints a tabular, human-readable, summary report in place of the default JSON report. This prints the same contents as '-summary', but with the additional detail of what lints produced a non-PASS code")
+	flag.StringVar(&format, "format", "pem", "Informs ZLint of the format of the incoming file. One of {pem, der, base64}. Default: pem")
+	flag.StringVar(&nameFilter, "nameFilter", "", "Only run lints with a name matching the provided regex. The regex syntax used is that used in the Golang regexp package (please see https://pkg.go.dev/regexp/syntax) (Can not be used with -includeNames/-excludeNames)")
+	flag.StringVar(&includeNames, "includeNames", "", "Comma-separated list of lints to include by name. The names provided must be precise. If you wish to use a pattern instead, please see -nameFilter")
+	flag.StringVar(&excludeNames, "excludeNames", "", "Comma-separated list of lints to exclude by name. The names provided must be precise. If you wish to use a pattern instead, please see -nameFilter")
+	flag.StringVar(&includeSources, "includeSources", "", "Comma-separated list of lint sources to include. For a list of sources, please see '-list-lints-source'")
+	flag.StringVar(&excludeSources, "excludeSources", "", "Comma-separated list of lint sources to exclude. For a list of sources, please see '-list-lints-source'")
+	flag.StringVar(&profile, "profile", "", "Name of the linting profile to use. Only the lints falling under this profile will be ran. For a list of lints per-profile, please see '-list-profiles'")
 	flag.BoolVar(&printVersion, "version", false, "Print ZLint version and exit")
-	flag.StringVar(&config, "config", "", "A path to valid a TOML file that is to service as the configuration for a single run of ZLint")
-	flag.BoolVar(&exampleConfig, "exampleConfig", false, "Print a complete example of a configuration that is usable via the '-config' flag and exit. All values listed in this example will be set to their default.")
+	flag.StringVar(&config, "config", "", "A path to valid a TOML file that is to service as the configuration for a single run of ZLint. Providing a configuration file allows for modifying the behavior of select lints. For an example configuration, please see '-exampleConfig'")
+	flag.BoolVar(&exampleConfig, "exampleConfig", false, "Prints a complete example of a configuration that is usable via the '-config' flag and exit. All values listed in this example will be set to their default.")
 
 	flag.BoolVar(&prettyprint, "pretty", false, "Pretty-print JSON output")
 	flag.Usage = func() {
@@ -200,7 +200,7 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		if err != nil {
 			log.Fatalf("unable to parse certificate revocation list: %s", err)
 		}
-		zlintResult = zlint.LintRevocationList(crl)
+		zlintResult = zlint.LintRevocationListEx(crl, registry)
 	} else {
 		c, err := x509.ParseCertificate(asn1Data)
 		if err != nil {
