@@ -58,7 +58,7 @@ func (l *extraSubjectAttribs) CheckApplies(c *x509.Certificate) bool {
  *
  * The organizationIdentifier attribute is only permitted starting from 21-may-2019 (EVGL 1.7.0),
  * that is slightly later than SC16 came into force, however any certificates that contain this
- * attribute and were issued before that date have long since expired, so let's not split hairs.
+ * attribute and were issued before that date have long since expired, so it makes no difference.
  */
 var allowedAttribs = map[string]bool{
 	"1.3.6.1.4.1.311.60.2.1.1": true, // joiLocalityName
