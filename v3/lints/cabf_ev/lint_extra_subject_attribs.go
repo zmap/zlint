@@ -57,7 +57,7 @@ func (l *extraSubjectAttribs) CheckApplies(c *x509.Certificate) bool {
  * and there is already another lint that deals with the OU attribute specifically.
  *
  * The organizationIdentifier attribute is only permitted starting from 21-may-2019 (EVGL 1.7.0),
- * that is slightly later than SC16 came into force, however any certificates that contain this
+ * which is slightly after SC16 came into force, however any certificates that contain this
  * attribute and were issued before that date have long since expired, so it makes no difference.
  */
 var allowedAttribs = map[string]bool{
