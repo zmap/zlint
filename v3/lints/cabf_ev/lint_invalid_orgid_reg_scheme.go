@@ -53,6 +53,14 @@ func (l *invalidOrgIDRegistrationScheme) Execute(c *x509.Certificate) *lint.Lint
 	orgId := c.Subject.OrganizationIDs[0]
 
 	runes := []rune(orgId)
+
+	if len(runes) < 3 {
+		return &lint.LintResult{
+			Status:  lint.Error,
+			Details: "Invalid registration scheme in Subject.organizationIdentifier",
+		}
+	}
+
 	firstThreeRunes := runes[:3]
 	registrationScheme := string(firstThreeRunes)
 
