@@ -49,6 +49,10 @@ func (l *invalidOrgIDRegistrationScheme) CheckApplies(c *x509.Certificate) bool 
 
 func (l *invalidOrgIDRegistrationScheme) Execute(c *x509.Certificate) *lint.LintResult {
 
+	if len(c.Subject.OrganizationIDs) == 0 {
+		return &lint.LintResult{Status: lint.Pass}
+	}
+
 	// Let's assume there is just one OrganizationID; if not so, it's not this lint's business to raise an alarm
 	orgId := c.Subject.OrganizationIDs[0]
 
