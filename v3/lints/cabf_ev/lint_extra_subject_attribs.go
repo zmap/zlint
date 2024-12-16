@@ -71,7 +71,6 @@ var allowedAttribs = map[string]bool{
 	"2.5.4.8":                  true, // stateOrProvinceName
 	"2.5.4.9":                  true, // streetAddress
 	"2.5.4.10":                 true, // organizationName
-	"2.5.4.11":                 true, // organizationalUnitName
 	"2.5.4.15":                 true, // businessCategory
 	"2.5.4.17":                 true, // postalCode
 	"2.5.4.97":                 true, // organizationIdentifier
