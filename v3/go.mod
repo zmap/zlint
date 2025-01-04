@@ -8,7 +8,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	github.com/zmap/zcrypto v0.0.0-20240803002437-3a861682ac77
 	golang.org/x/crypto v0.31.0
-	golang.org/x/net v0.27.0
+	golang.org/x/net v0.33.0
 	golang.org/x/text v0.21.0
 )
 
