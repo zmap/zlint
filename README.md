@@ -255,6 +255,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Siemens](https://siemens.com/pki)
 * [SSL.com](https://www.ssl.com/)
 * [PKI Insights](https://www.codegic.com/pki-insights-health-monitoring-for-microsoft-ca/)
+* [NETLOCK](https://www.netlock.hu/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.
