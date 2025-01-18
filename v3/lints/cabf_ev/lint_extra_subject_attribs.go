@@ -35,7 +35,7 @@ func init() {
 			Description:   "CAs SHALL NOT include any Subject Distinguished Name attributes except as specified...",
 			Citation:      "EVGs §7.1.4.2.9",
 			Source:        lint.CABFEVGuidelines,
-			EffectiveDate: util.SC16EffectiveDate,
+			EffectiveDate: util.CABFBRs_OU_Prohibited_Date,
 		},
 		Lint: NewExtraSubjectAttribs,
 	})
@@ -52,13 +52,7 @@ func (l *extraSubjectAttribs) CheckApplies(c *x509.Certificate) bool {
 }
 
 /*
- * We also include the OU attribute here, even though it is now banned, because this lint
- * deals with a more general requirement that came into force long before the OU ban,
- * and there is already another lint that deals with the OU attribute specifically.
- *
- * The organizationIdentifier attribute is only permitted starting from 21-may-2019 (EVGL 1.7.0),
- * which is slightly after SC16 came into force, however any certificates that contain this
- * attribute and were issued before that date have long since expired, so it makes no difference.
+ * This list is effective from EVG 1.7.7 when SC47 came into force.
  */
 var allowedAttribs = map[string]bool{
 	"1.3.6.1.4.1.311.60.2.1.1": true, // joiLocalityName
