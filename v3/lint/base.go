@@ -15,6 +15,7 @@ package lint
  */
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
@@ -217,7 +218,31 @@ func (l *CertificateLint) CheckEffective(c *x509.Certificate) bool {
 // CheckApplies()
 // CheckEffective()
 // Execute()
-func (l *CertificateLint) Execute(cert *x509.Certificate, config Configuration) *LintResult {
+func (l *CertificateLint) Execute(cert *x509.Certificate, config Configuration) (result *LintResult) {
+	defer func() {
+		if err := recover(); err != nil {
+			details := fmt.Sprintf("'%s' panicked. Error: %v", l.Name, err)
+			result = &LintResult{
+				Status:  Fatal,
+				Details: details,
+			}
+		}
+	}()
+	result = l.execute(cert, config)
+	return
+}
+
+// Execute runs the lint against a certificate. For lints that are
+// sourced from the CA/B Forum Baseline Requirements, we first determine
+// if they are within the purview of the BRs. See CertificateLintInterface
+// for details about the other methods called.
+// The ordering is as follows:
+//
+// Configure() ----> only if the lint implements Configurable
+// CheckApplies()
+// CheckEffective()
+// Execute()
+func (l *CertificateLint) execute(cert *x509.Certificate, config Configuration) *LintResult {
 	if l.Source == CABFBaselineRequirements && !util.IsServerAuthCert(cert) {
 		return &LintResult{Status: NA}
 	}
