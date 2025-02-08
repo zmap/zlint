@@ -15,10 +15,11 @@ package lint
  */
 
 import (
-	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zlint/v3/util"
 	"testing"
 	"time"
+
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/util"
 )
 
 // This test attempts to simplify the truth table by assigning dates to the
