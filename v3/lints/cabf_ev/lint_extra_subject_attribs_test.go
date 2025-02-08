@@ -53,6 +53,10 @@ func TestExtraSubjectAttribs(t *testing.T) {
 			want:  lint.Pass,
 		},
 		{
+			input: "extra_subj_attrs_with_ou_ok2.pem",
+			want:  lint.Pass,
+		},
+		{
 			input: "extra_subj_attrs_ne1.pem",
 			want:  lint.NE,
 		},
