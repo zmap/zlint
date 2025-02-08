@@ -15,11 +15,10 @@ package lint
  */
 
 import (
+	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/util"
 	"testing"
 	"time"
-
-	"github.com/zmap/zcrypto/x509"
 )
 
 // This test attempts to simplify the truth table by assigning dates to the
@@ -318,7 +317,7 @@ func TestPanicLint(t *testing.T) {
 	lint := &CertificateLint{
 		LintMetadata: LintMetadata{
 			Name:          "lgtm",
-			Description:   "bad code go boom boom",
+			Description:   "bad code go boom",
 			Citation:      "not a chance",
 			Source:        RFC5280,
 			EffectiveDate: util.RFC5280Date,
