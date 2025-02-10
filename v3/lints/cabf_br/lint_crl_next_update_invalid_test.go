@@ -21,6 +21,15 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
+/*
+ * Explanation of test file names:
+ *
+ *      nup(1|0) = CRL nextUpdate is present (1) or absent (0)
+ *      sub(1|0) = CRL covers (1) Subscriber certificates or not (0)
+ *      len(1|0) = CRL lifespan is within (0) or beyond (1) the limit set by BRs
+ *      eff(1|0) = CRL thisUpdate is before (0) this lint's effective date or after it (1)
+ */
+
 func TestCrlNextUpdateInvalid(t *testing.T) {
 
 	type Data struct {
