@@ -20,11 +20,12 @@
 package cabf_ev
 
 import (
+	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 
-	"errors"
 	"regexp"
 )
 
@@ -43,42 +44,46 @@ func init() {
 
 // According to EVGs 9.2.8
 type OrganizationIdentifier struct {
-	Scheme    string
-	Country   string
-	State     string
-	Reference string
+	ParseAsPSD bool
+	Scheme     string
+	Country    string
+	State      string
+	Reference  string
 }
 
-// This is according to the EVG (stricter than ETSI EN 319 412-1)
-var OrgIdPattern = `^(?P<scheme>[A-Z]{3})(?P<country>[A-Z]{2})(?:\+(?P<state>[A-Z]{2}))?\-(?P<reference>.+)$`
-
-func ParseOrgId(orgIdString string, orgId *OrganizationIdentifier) error {
-
-	re := regexp.MustCompile(OrgIdPattern)
-
-	if !re.MatchString(orgIdString) {
-		return errors.New("Cannot parse organizationIdentifier: it is probably invalid")
+func (o OrganizationIdentifier) Parse(orgId string) (OrganizationIdentifier, error) {
+	re := o.regexForOrgID()
+	if !re.MatchString(orgId) {
+		return o, fmt.Errorf("Cannot parse organizationIdentifier ('%s'): it is probably invalid", orgId)
 	}
-
 	names := re.SubexpNames()
-	match := re.FindStringSubmatch(orgIdString)
-
+	match := re.FindStringSubmatch(orgId)
 	// Initialize a map to hold group names and values
 	result := make(map[string]string)
-
 	// Populate the map
 	for i, name := range names {
 		if i != 0 && name != "" { // Skip the whole match and unnamed groups
 			result[name] = match[i]
 		}
 	}
+	o.Scheme = result["scheme"]
+	o.Country = result["country"]
+	o.State = result["state"]
+	o.Reference = result["reference"]
+	return o, nil
+}
 
-	orgId.Scheme = result["scheme"]
-	orgId.Country = result["country"]
-	orgId.State = result["state"]
-	orgId.Reference = result["reference"]
-
-	return nil
+func (o OrganizationIdentifier) regexForOrgID() *regexp.Regexp {
+	// This is according to the EVG (stricter than ETSI EN 319 412-1)
+	const OrgIdPattern = `^(?P<scheme>[A-Z]{3})(?P<country>[A-Z]{2})(?:\+(?P<state>[A-Z]{2}))?\-(?P<reference>.+)$`
+	const PsdOrgIdPattern = `^(?P<scheme>[A-Z]{3})(?P<country>[A-Z]{2})(?:\+(?P<state>[A-Z]{2}))?\-(?P<nca>[A-Z]*)\-(?P<reference>.+)$`
+	var pattern string
+	if o.ParseAsPSD {
+		pattern = PsdOrgIdPattern
+	} else {
+		pattern = OrgIdPattern
+	}
+	return regexp.MustCompile(pattern)
 }
 
 type orgIdInconsistentSubjAndExt struct{}
@@ -96,8 +101,7 @@ func (l *orgIdInconsistentSubjAndExt) CheckApplies(c *x509.Certificate) bool {
 
 func (l *orgIdInconsistentSubjAndExt) Execute(c *x509.Certificate) *lint.LintResult {
 	// It should be safe to assume there is only one element in OrganizationIDs
-	var orgId OrganizationIdentifier
-	err := ParseOrgId(c.Subject.OrganizationIDs[0], &orgId)
+	orgId, err := OrganizationIdentifier{ParseAsPSD: false}.Parse(c.Subject.OrganizationIDs[0])
 	if err != nil {
 		return &lint.LintResult{
 			Status:  lint.Error,
@@ -109,9 +113,30 @@ func (l *orgIdInconsistentSubjAndExt) Execute(c *x509.Certificate) *lint.LintRes
 		(c.CABFOrganizationIdentifier.State != orgId.State) ||
 		(c.CABFOrganizationIdentifier.Reference != orgId.Reference) {
 
-		return &lint.LintResult{
-			Status:  lint.Error,
-			Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+		if orgId.Scheme != "PSD" {
+
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+		}
+
+		psdOrgId, err := OrganizationIdentifier{ParseAsPSD: true}.Parse(c.Subject.OrganizationIDs[0])
+		if err != nil {
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "the organizationIdentifier Subject attribute probably has an invalid value"}
+		}
+
+		if (c.CABFOrganizationIdentifier.Scheme != psdOrgId.Scheme) ||
+			(c.CABFOrganizationIdentifier.Country != psdOrgId.Country) ||
+			(c.CABFOrganizationIdentifier.State != psdOrgId.State) ||
+			(c.CABFOrganizationIdentifier.Reference != psdOrgId.Reference) {
+
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "CABFOrganizationIdentifier is NOT consistent with organizationIdentifier"}
+		}
+
 	}
 
 	return &lint.LintResult{Status: lint.Pass}

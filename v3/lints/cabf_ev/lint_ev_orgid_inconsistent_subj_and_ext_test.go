@@ -73,6 +73,10 @@ func TestOrgIdInconsistentSubjAndExt(t *testing.T) {
 			want:  lint.NA,
 		},
 		{
+			input: "orgid_subj_and_ext_ok_06.pem",
+			want:  lint.Pass,
+		},
+		{
 			input: "orgid_subj_and_ext_ko_01.pem",
 			want:  lint.Error,
 		},

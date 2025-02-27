@@ -426,6 +426,9 @@
       "ErrCount": 2
     },
     "e_ev_country_name_missing": {},
+    "e_ev_invalid_business_category": {
+      "ErrCount": 10957
+    },
     "e_ev_not_wildcard": {
       "ErrCount": 1
     },
@@ -817,6 +820,9 @@
       "ErrCount": 23
     },
     "e_cab_dv_subject_invalid_values": {},
+    "e_aia_must_contain_permitted_access_method": {},
+    "e_aia_ocsp_must_have_http_only": {},
+    "e_aia_unique_access_locations": {},
     "e_qcstatem_qctype_web_esign_eseal": {
       "ErrCount": 55
     },
@@ -967,6 +973,15 @@
     },
     "e_ca_invalid_eku": {
         "ErrCount": 1
-    }    
+    },
+    "e_subj_country_not_uppercase": {
+        "ErrCount": 1303
+    },
+    "e_ev_extra_subject_attribs": {
+        "ErrCount": 63
+    },
+    "e_subj_contains_html_entities": {
+        "ErrCount": 14
+    }
   }
 }

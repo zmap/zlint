@@ -35,6 +35,7 @@ const (
 	RFC6962                       LintSource = "RFC6962"
 	RFC8813                       LintSource = "RFC8813"
 	CABFBaselineRequirements      LintSource = "CABF_BR"
+	CABFCSBaselineRequirements    LintSource = "CABF_CS_BR"
 	CABFSMIMEBaselineRequirements LintSource = "CABF_SMIME_BR"
 	CABFEVGuidelines              LintSource = "CABF_EV"
 	MozillaRootStorePolicy        LintSource = "Mozilla"
@@ -52,7 +53,7 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 	}
 
 	switch LintSource(throwAway) {
-	case RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, CABFSMIMEBaselineRequirements, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi, RFC6962:
+	case RFC8813, RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, CABFSMIMEBaselineRequirements, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi, RFC6962:
 		*s = LintSource(throwAway)
 		return nil
 	default:
@@ -76,6 +77,8 @@ func (s *LintSource) FromString(src string) {
 		*s = RFC5480
 	case RFC5891:
 		*s = RFC5891
+	case RFC8813:
+		*s = RFC8813
 	case CABFBaselineRequirements:
 		*s = CABFBaselineRequirements
 	case CABFEVGuidelines:
@@ -96,6 +99,8 @@ func (s *LintSource) FromString(src string) {
 }
 
 // SourceList is a slice of LintSources that can be sorted.
+//
+//nolint:recvcheck
 type SourceList []LintSource
 
 // Len returns the length of the list.
