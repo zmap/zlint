@@ -23,30 +23,30 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type qcStatemQctypeWeb struct{}
+type qcStatemQctypeWebEsignEseal struct{}
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "w_qcstatem_qctype_web",
-			Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features at least the type IdEtsiQcsQctWeb",
+			Name:          "e_qcstatem_qctype_web_esign_eseal",
+			Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features at least the type IdEtsiQcsQctWeb, in case of a server certificate, or it features one of the types IdEtsiQcsQctEsign or IdEtsiQcsQctEseal, in case of an S/MIME certificate.",
 			Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 			Source:        lint.EtsiEsi,
 			EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		},
-		Lint: NewQcStatemQctypeWeb,
+		Lint: NewQcStatemQctypeWebEsignEseal,
 	})
 }
 
-func NewQcStatemQctypeWeb() lint.LintInterface {
-	return &qcStatemQctypeWeb{}
+func NewQcStatemQctypeWebEsignEseal() lint.LintInterface {
+	return &qcStatemQctypeWebEsignEseal{}
 }
 
-func (this *qcStatemQctypeWeb) getStatementOid() *asn1.ObjectIdentifier {
+func (this *qcStatemQctypeWebEsignEseal) getStatementOid() *asn1.ObjectIdentifier {
 	return &util.IdEtsiQcsQcType
 }
 
-func (l *qcStatemQctypeWeb) CheckApplies(c *x509.Certificate) bool {
+func (l *qcStatemQctypeWebEsignEseal) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
@@ -56,37 +56,39 @@ func (l *qcStatemQctypeWeb) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *qcStatemQctypeWebEsignEseal) Execute(c *x509.Certificate) *lint.LintResult {
 
 	errString := ""
-	wrnString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	s := util.ParseQcStatem(ext.Value, *l.getStatementOid())
 	errString += s.GetErrorInfo()
-	if len(errString) == 0 {
-		qcType := s.(util.Etsi423QcType)
-		if len(qcType.TypeOids) == 0 {
-			errString += "no QcType present, sequence of OIDs is empty"
-		}
-		found := false
-		for _, t := range qcType.TypeOids {
 
-			if t.Equal(util.IdEtsiQcsQctWeb) {
-				found = true
-			}
+	if len(errString) != 0 {
+		return &lint.LintResult{Status: lint.Error, Details: errString}
+	}
+
+	qcType := s.(util.Etsi423QcType)
+	if len(qcType.TypeOids) == 0 {
+		errString += "no QcType present, sequence of OIDs is empty"
+	}
+	found := false
+	for _, t := range qcType.TypeOids {
+
+		if t.Equal(util.IdEtsiQcsQctWeb) && util.IsServerAuthCert(c) {
+			found = true
 		}
-		if !found {
-			wrnString += fmt.Sprintf("etsi Type does not indicate certificate as a 'web' certificate")
+		if (t.Equal(util.IdEtsiQcsQctEseal) || t.Equal(util.IdEtsiQcsQctEsign)) && util.IsSMIMEBRCertificate(c) {
+			found = true
 		}
+	}
+	if !found {
+		errString += fmt.Sprintf("etsi Type does not indicate certificate as a 'web' or 'eSeal' or 'eSign' certificate")
 	}
 
 	if len(errString) == 0 {
-		if len(wrnString) == 0 {
-			return &lint.LintResult{Status: lint.Pass}
-		} else {
-			return &lint.LintResult{Status: lint.Warn, Details: wrnString}
-		}
+		return &lint.LintResult{Status: lint.Pass}
 	} else {
 		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
+
 }
