@@ -15,8 +15,6 @@
 package etsi
 
 import (
-	"fmt"
-
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -82,7 +80,7 @@ func (l *qcStatemQctypeWebEsignEseal) Execute(c *x509.Certificate) *lint.LintRes
 		}
 	}
 	if !found {
-		errString += fmt.Sprintf("etsi Type does not indicate certificate as a 'web' or 'eSeal' or 'eSign' certificate")
+		errString += "etsi Type does not indicate certificate as a 'web' or 'eSeal' or 'eSign' certificate"
 	}
 
 	if len(errString) == 0 {
