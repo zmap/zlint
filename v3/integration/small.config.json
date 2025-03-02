@@ -326,6 +326,7 @@
     "e_incorrect_ku_encoding": {
       "ErrCount": 239
     },
+    "e_qcstatem_qctype_web_esign_eseal": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 29
     },
@@ -403,7 +404,6 @@
     "w_qcstatem_qcpds_lang_case": {
       "WarnCount": 25
     },
-    "w_qcstatem_qctype_web": {},
     "w_root_ca_basic_constraints_path_len_constraint_field_present": {},
     "w_root_ca_contains_cert_policy": {},
     "w_rsa_mod_factors_smaller_than_752": {},

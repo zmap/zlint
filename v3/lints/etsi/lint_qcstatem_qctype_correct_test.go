@@ -21,14 +21,17 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestEtsiQcTypeWeb(t *testing.T) {
+func TestEtsiQcTypeWebEsealEsign(t *testing.T) {
 	m := map[string]lint.LintStatus{
 		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Warn,
+		"QcStmtEtsiEsealValidCert02.pem":    lint.Error,
 		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
+		"qcSmimeNatural.pem":                lint.Pass,
+		"qcSmimeLegal.pem":                  lint.Pass,
+		"qcLegal.pem":                       lint.Error,
 	}
 	for inputPath, expected := range m {
-		out := test.TestLint("w_qcstatem_qctype_web", inputPath)
+		out := test.TestLint("e_qcstatem_qctype_web_esign_eseal", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
