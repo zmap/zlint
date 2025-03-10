@@ -823,9 +823,10 @@
     "e_aia_must_contain_permitted_access_method": {},
     "e_aia_ocsp_must_have_http_only": {},
     "e_aia_unique_access_locations": {},
-    "e_qcstatem_qctype_web_esign_eseal": {
-      "ErrCount": 55
+    "e_qcstatem_qctype_web": {
+      "ErrCount": 14
     },
+    "e_qcstatem_qctype_smime": { },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1405
     },

@@ -1,7 +1,7 @@
 package etsi
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2025 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,17 +21,18 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestEtsiQcTypeWebEsealEsign(t *testing.T) {
+func TestEtsiQcTypeSmime(t *testing.T) {
 	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Error,
+		"QcStmtEtsiValidCert11.pem":         lint.NA,
+		"QcStmtEtsiEsealValidCert02.pem":    lint.NA,
 		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
 		"qcSmimeNatural.pem":                lint.Pass,
 		"qcSmimeLegal.pem":                  lint.Pass,
-		"qcLegal.pem":                       lint.Error,
+		"qcLegal.pem":                       lint.NA,
+		"qcSmimeWeb.pem":                    lint.Error,
 	}
 	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qctype_web_esign_eseal", inputPath)
+		out := test.TestLint("e_qcstatem_qctype_smime", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

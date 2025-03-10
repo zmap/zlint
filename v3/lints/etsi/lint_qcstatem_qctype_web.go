@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2025 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,40 +21,40 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type qcStatemQctypeWebEsignEseal struct{}
+type qcStatemQctypeWeb struct{}
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_qcstatem_qctype_web_esign_eseal",
-			Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features at least the type IdEtsiQcsQctWeb, in case of a server certificate, or it features one of the types IdEtsiQcsQctEsign or IdEtsiQcsQctEseal, in case of an S/MIME certificate.",
+			Name:          "e_qcstatem_qctype_web",
+			Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features at least the type IdEtsiQcsQctWeb",
 			Citation:      "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
 			Source:        lint.EtsiEsi,
 			EffectiveDate: util.EtsiEn319_412_5_V2_2_1_Date,
 		},
-		Lint: NewQcStatemQctypeWebEsignEseal,
+		Lint: NewQcStatemQctypeWeb,
 	})
 }
 
-func NewQcStatemQctypeWebEsignEseal() lint.LintInterface {
-	return &qcStatemQctypeWebEsignEseal{}
+func NewQcStatemQctypeWeb() lint.LintInterface {
+	return &qcStatemQctypeWeb{}
 }
 
-func (this *qcStatemQctypeWebEsignEseal) getStatementOid() *asn1.ObjectIdentifier {
+func (this *qcStatemQctypeWeb) getStatementOid() *asn1.ObjectIdentifier {
 	return &util.IdEtsiQcsQcType
 }
 
-func (l *qcStatemQctypeWebEsignEseal) CheckApplies(c *x509.Certificate) bool {
+func (l *qcStatemQctypeWeb) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
 	if util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, *l.getStatementOid()).IsPresent() {
-		return true
+		return util.IsServerAuthCert(c)
 	}
 	return false
 }
 
-func (l *qcStatemQctypeWebEsignEseal) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *qcStatemQctypeWeb) Execute(c *x509.Certificate) *lint.LintResult {
 
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
@@ -72,15 +72,12 @@ func (l *qcStatemQctypeWebEsignEseal) Execute(c *x509.Certificate) *lint.LintRes
 	found := false
 	for _, t := range qcType.TypeOids {
 
-		if t.Equal(util.IdEtsiQcsQctWeb) && util.IsServerAuthCert(c) {
-			found = true
-		}
-		if (t.Equal(util.IdEtsiQcsQctEseal) || t.Equal(util.IdEtsiQcsQctEsign)) && util.IsSMIMEBRCertificate(c) {
+		if t.Equal(util.IdEtsiQcsQctWeb) {
 			found = true
 		}
 	}
 	if !found {
-		errString += "etsi Type does not indicate certificate as a 'web' or 'eSeal' or 'eSign' certificate"
+		errString += "etsi Type does not indicate certificate as a 'web' certificate"
 	}
 
 	if len(errString) == 0 {
@@ -88,5 +85,4 @@ func (l *qcStatemQctypeWebEsignEseal) Execute(c *x509.Certificate) *lint.LintRes
 	} else {
 		return &lint.LintResult{Status: lint.Error, Details: errString}
 	}
-
 }
