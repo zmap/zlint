@@ -9,19 +9,15 @@ linters-settings:
 linters:
   enable-all: true
   disable:
-    - interfacer
-    - nosnakecase
     - tparallel
     - nonamedreturns
     - exhaustruct
     - stylecheck
     - gosec
     - dupl
-    - maligned
     - depguard
     - lll
     - prealloc
-    - scopelint
     - gocritic
     - gochecknoinits
     - gochecknoglobals
@@ -31,12 +27,9 @@ linters:
     - whitespace
     - gocognit
     - testpackage
-    - goerr113
-    - gomnd
     - gofumpt
     - exhaustive
     - goconst
-    - golint
     - godot
     - forbidigo
     - nlreturn
@@ -44,9 +37,7 @@ linters:
     - paralleltest
     - varnamelen
     - wrapcheck
-    - ifshort
     - gci
-    - exhaustivestruct
     - cyclop
     - errorlint
     - revive
@@ -55,6 +46,9 @@ linters:
     - tagliatelle
     - nilnil
     - mnd
+    - copyloopvar
+    - intrange
+    - err113
 
 issues:
   exclude-rules:
