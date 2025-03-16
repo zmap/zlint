@@ -20,7 +20,7 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Check for cached integration corpus
+    - name: Check for cached integration corpuss
       uses: actions/cache@v2
       with:
         path: v3/data
