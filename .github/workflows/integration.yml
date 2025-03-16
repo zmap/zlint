@@ -20,8 +20,8 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Check for cached integration corpuss
-      uses: actions/cache@v2
+    - name: Check for cached integration corpus
+      uses: actions/cache@v4
       with:
         path: v3/data
         key: ${{ runner.os }}-${{ hashFiles('v3/integration/**') }}
