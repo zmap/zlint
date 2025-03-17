@@ -112,12 +112,15 @@ type Registry interface { //nolint: interfacebloat // Somewhat unavoidable here.
 	CertificateLints() CertificateLinterLookup
 	// RevocationListLitns returns an interface used to lookup RevocationListLints.
 	RevocationListLints() RevocationListLinterLookup
+	// OcspResponseLints returns an interface used to lookup OcspResponseLints.
+	OcspResponseLints() OcspResponseLinterLookup
 }
 
 // registryImpl implements the Registry interface to provide a global collection
 // of Lints that have been registered.
 type registryImpl struct {
 	certificateLints    certificateLinterLookupImpl
+	ocspResponseLints   ocspResponseLinterLookupImpl
 	revocationListLints revocationListLinterLookupImpl
 	configuration       Configuration
 }
@@ -173,7 +176,7 @@ func (r *registryImpl) registerCertificateLint(l *CertificateLint) error {
 	return r.certificateLints.register(l, l.Name, l.Source)
 }
 
-// registerCertificateLint registers a CertificateLint to the registry.
+// registerRevocationListLint registers a RevocationListLint to the registry.
 //
 // An error is returned if the lint or lint's Lint pointer is nil, if the Lint
 // has an empty Name or if the Name was previously registered.
@@ -185,6 +188,23 @@ func (r *registryImpl) registerRevocationListLint(l *RevocationListLint) error {
 		return errNilLintPtr
 	}
 	return r.revocationListLints.register(l, l.Name, l.Source)
+}
+
+// register OcspResponseLint registers a OcspResponseLint to the registry.
+//
+// An error is returned if the lint or lint's Lint pointer is nil, if the Lint
+// has an empty Name or if the Name was previously registered.
+func (r *registryImpl) registerOcspResponseLint(l *OcspResponseLint) error {
+	if l == nil {
+		return errNilLint
+	}
+	if l.Lint() == nil {
+		return errNilLintPtr
+	}
+	if l.Name == "" {
+		return errEmptyName
+	}
+	return r.ocspResponseLints.register(l, l.Name, l.Source)
 }
 
 // ByName returns the Lint previously registered under the given name with
@@ -205,6 +225,7 @@ func (r *registryImpl) ByName(name string) *Lint {
 func (r *registryImpl) Names() []string {
 	var names []string
 	names = append(names, r.certificateLints.lintNames...)
+	names = append(names, r.ocspResponseLints.lintNames...)
 	names = append(names, r.revocationListLints.lintNames...)
 
 	sort.Strings(names)
@@ -236,6 +257,7 @@ func (r *registryImpl) Sources() SourceList {
 
 	sources = append(sources, r.certificateLints.Sources()...)
 	sources = append(sources, r.revocationListLints.Sources()...)
+	sources = append(sources, r.ocspResponseLints.Sources()...)
 	return sources
 }
 
@@ -245,6 +267,10 @@ func (r *registryImpl) CertificateLints() CertificateLinterLookup {
 
 func (r *registryImpl) RevocationListLints() RevocationListLinterLookup {
 	return &r.revocationListLints
+}
+
+func (r *registryImpl) OcspResponseLints() OcspResponseLinterLookup {
+	return &r.ocspResponseLints
 }
 
 // lintNamesToMap converts a list of lit names into a bool hashmap useful for
@@ -262,6 +288,11 @@ func (r *registryImpl) lintNamesToMap(names []string) (map[string]bool, error) {
 			namesMap[n] = true
 			continue
 		}
+		if l := r.ocspResponseLints.ByName(n); l != nil {
+			namesMap[n] = true
+			continue
+		}
+
 		if l := r.revocationListLints.ByName(n); l != nil {
 			namesMap[n] = true
 			continue
@@ -326,6 +357,14 @@ func (r *registryImpl) Filter(opts FilterOptions) (Registry, error) {
 			registerFunc = func() error {
 				return filteredRegistry.registerCertificateLint(l)
 			}
+		} else if l := r.ocspResponseLints.ByName(name); l != nil {
+			meta = l.LintMetadata
+			registerFunc = func() error {
+				if err := filteredRegistry.registerOcspResponseLint(l); err != nil {
+					return err
+				}
+				return nil
+			}
 		} else if l := r.revocationListLints.ByName(name); l != nil {
 			meta = l.LintMetadata
 			registerFunc = func() error {
@@ -366,6 +405,10 @@ func (r *registryImpl) WriteJSON(w io.Writer) {
 		//nolint:errchkjson
 		_ = enc.Encode(lint)
 	}
+	for _, lint := range r.ocspResponseLints.Lints() {
+		//nolint:errchkjson
+		_ = enc.Encode(lint)
+	}
 
 	for _, lint := range r.revocationListLints.Lints() {
 		//nolint:errchkjson
@@ -399,6 +442,15 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 		case Configurable:
 			configurables[name] = stripGlobalsFromExample(configurable.Configure())
 		default:
+		}
+	}
+
+	for name, lint := range r.ocspResponseLints.lintsByName {
+		switch configurable := lint.Lint().(type) {
+		case Configurable:
+			configurables[name] = stripGlobalsFromExample(configurable.Configure())
+		default:
+
 		}
 	}
 
@@ -446,6 +498,7 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 func NewRegistry() *registryImpl {
 	registry := &registryImpl{
 		certificateLints:    newCertificateLintLookup(),
+		ocspResponseLints:   newOcspResponseLintLookup(),
 		revocationListLints: newRevocationListLintLookup(),
 	}
 	registry.SetConfiguration(NewEmptyConfig())
@@ -478,6 +531,22 @@ func RegisterLint(l *Lint) {
 // a developer.
 func RegisterCertificateLint(l *CertificateLint) {
 	if err := globalRegistry.registerCertificateLint(l); err != nil {
+		panic(fmt.Sprintf("RegisterLint error: %v\n", err.Error()))
+	}
+}
+
+// RegisterOcspResponseLint must be called once for each OcspResponseLint to be executed.
+// Normally, RegisterOcspResponseLint is called from the Go init() function of a lint implementation.
+//
+// IMPORTANT: RegisterOcspResponseLint will panic if given a nil lint, or a lint
+// with a nil Lint pointer, or if the lint name matches a previously registered
+// lint's name. These conditions all indicate a bug that should be addressed by
+// a developer.
+func RegisterOcspResponseLint(l *OcspResponseLint) {
+	// RegisterLint always sets initialize to true. It's assumed this is called by
+	// the package init() functions and therefore must be doing the first
+	// initialization of a lint.
+	if err := globalRegistry.registerOcspResponseLint(l); err != nil {
 		panic(fmt.Sprintf("RegisterLint error: %v\n", err.Error()))
 	}
 }

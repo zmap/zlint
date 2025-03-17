@@ -17,6 +17,7 @@ package test
 // Contains resources necessary to the Unit Test Cases
 
 import (
+	"encoding/base64"
 	"encoding/pem"
 	"fmt"
 	"os"
@@ -26,6 +27,7 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
+	"golang.org/x/crypto/ocsp"
 )
 
 // TestLint executes the given lintName against a certificate read from
@@ -66,6 +68,25 @@ func TestRevocationListLintWithConfig(tb testing.TB, lintName string, testCRLFil
 		tb.Fatal(err)
 	}
 	return TestLintRevocationList(tb, lintName, ReadTestRevocationList(tb, testCRLFilename), config)
+}
+
+// TestOCSPResponseLint executes the given lintName against a OCSP Response read from
+// a testocspresponse data file with the given filename. Filenames should be relative to
+// `testdata/` and not absolute file paths.
+//
+//nolint:revive
+func TestOCSPResponseLint(tb testing.TB, lintName string, testOCSPResponseFilename string) *lint.LintResult {
+	tb.Helper()
+	return TestOCSPResponseLintWithConfig(tb, lintName, testOCSPResponseFilename, "")
+}
+
+func TestOCSPResponseLintWithConfig(tb testing.TB, lintName string, testOCSPResponseFilename string, configuration string) *lint.LintResult {
+	tb.Helper()
+	config, err := lint.NewConfigFromString(configuration)
+	if err != nil {
+		tb.Fatal(err)
+	}
+	return TestLintOCSPResponse(tb, lintName, ReadTestOCSPResponse(tb, testOCSPResponseFilename), config)
 }
 
 // TestLintCert executes a lint with the given name against an already parsed
@@ -113,6 +134,30 @@ func TestLintRevocationList(tb testing.TB, lintName string, crl *x509.Revocation
 	if res == nil {
 		tb.Fatalf(
 			"Running lint %q on test revocation list generated a nil LintResult.\n",
+			lintName)
+	}
+	return res
+}
+
+// TestLintOCSPResponse executes a lint with the given name against an already parsed
+// OCSP Response. This is useful when a unit test reads a OCSP Response from disk
+// and then mutates it in some way before trying to lint it.
+//
+//nolint:revive
+func TestLintOCSPResponse(tb testing.TB, lintName string, ocspResponse *ocsp.Response, ctx lint.Configuration) *lint.LintResult {
+	tb.Helper()
+	l := lint.GlobalRegistry().OcspResponseLints().ByName(lintName)
+	if l == nil {
+		tb.Fatalf(
+			"Lint name %q does not exist in lint.Lints. "+
+				"Did you forget to RegisterLint?\n",
+			lintName)
+	}
+	res := l.Execute(ocspResponse, ctx)
+	// We never expect a lint to return a nil LintResult
+	if res == nil {
+		tb.Fatalf(
+			"Running lint %q on test ocsp response generated a nil LintResult.\n",
 			lintName)
 	}
 	return res
@@ -191,4 +236,39 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	}
 
 	return theCrl
+}
+
+// ReadTestOCSPResponse loads a ocsp.Response from the given inPath which is assumed
+// to be relative to `testdata/`. The OCSP file must contain the OCSP response in
+// Base64 encoding. openssl ocsp -resp_text -respin <(base64 -d the_filename)
+// To decode it using OpenSSL, store the base64-encoded in string in a file, and run:
+// Important: ReadTestOCSPResponse is only appropriate for unit tests. It will panic if
+// the inPath file can not be loaded.
+func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
+	tb.Helper()
+	fullPath := "../../testdata/" + inPath
+	base64Data, err := os.ReadFile(fullPath)
+	if err != nil {
+		tb.Fatalf("Failed to read file: %v", err)
+	}
+	data, err := base64.StdEncoding.DecodeString(string(base64Data))
+	if err != nil {
+		tb.Fatalf("Failed to decode base64 data: %v", err)
+	}
+	if err != nil {
+		tb.Fatalf(
+			"Unable to read test ocsp response from %q - %q "+
+				"Does a unit test have an incorrect test file name?\n",
+			fullPath, err)
+	}
+
+	theOcspResponse, err := ocsp.ParseResponse(data, nil)
+	if err != nil {
+		tb.Fatalf(
+			"Failed to parse ocsp response from %q - %q "+
+				"Does a unit test have a buggy test file?\n",
+			fullPath, err)
+	}
+
+	return theOcspResponse
 }
