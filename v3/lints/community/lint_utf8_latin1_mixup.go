@@ -29,7 +29,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_utf8_latin1_mixup",
 			Description:   "Checks for wrongly encoded diacritics due to UTF-8 mistaken for Latin-1",
-			Citation:      "Fill this in...",
+			Citation:      "See https://en.wikipedia.org/wiki/ISO/IEC_8859-1",
 			Source:        lint.Community,
 			EffectiveDate: util.ZeroDate,
 		},
