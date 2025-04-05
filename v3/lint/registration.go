@@ -253,11 +253,20 @@ func (r *registryImpl) BySource(s LintSource) []*Lint {
 // Sources returns a SourceList of registered LintSources. The list is not
 // sorted but can be sorted by the caller with sort.Sort() if required.
 func (r *registryImpl) Sources() SourceList {
+	set := map[LintSource]struct{}{}
+	for _, source := range r.certificateLints.Sources() {
+		set[source] = struct{}{}
+	}
+	for _, source := range r.revocationListLints.Sources() {
+		set[source] = struct{}{}
+	}
+	for _, source := range r.ocspResponseLints.Sources() {
+		set[source] = struct{}{}
+	}
 	var sources SourceList
-
-	sources = append(sources, r.certificateLints.Sources()...)
-	sources = append(sources, r.revocationListLints.Sources()...)
-	sources = append(sources, r.ocspResponseLints.Sources()...)
+	for source := range set {
+		sources = append(sources, source)
+	}
 	return sources
 }
 
