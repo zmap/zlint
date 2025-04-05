@@ -53,7 +53,20 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 	}
 
 	switch LintSource(throwAway) {
-	case RFC8813, RFC5280, RFC5480, RFC5891, CABFBaselineRequirements, CABFEVGuidelines, CABFSMIMEBaselineRequirements, MozillaRootStorePolicy, AppleRootStorePolicy, Community, EtsiEsi, RFC6962:
+	case RFC3279,
+		RFC5280,
+		RFC5480,
+		RFC5891,
+		RFC6962,
+		RFC8813,
+		CABFBaselineRequirements,
+		CABFCSBaselineRequirements,
+		CABFSMIMEBaselineRequirements,
+		CABFEVGuidelines,
+		MozillaRootStorePolicy,
+		AppleRootStorePolicy,
+		Community,
+		EtsiEsi:
 		*s = LintSource(throwAway)
 		return nil
 	default:
@@ -71,28 +84,32 @@ func (s *LintSource) FromString(src string) {
 	// Trim space and try to match a known value
 	src = strings.TrimSpace(src)
 	switch LintSource(src) {
+	case RFC3279:
+		*s = RFC3279
 	case RFC5280:
 		*s = RFC5280
 	case RFC5480:
 		*s = RFC5480
 	case RFC5891:
 		*s = RFC5891
+	case RFC6962:
+		*s = RFC6962
 	case RFC8813:
 		*s = RFC8813
 	case CABFBaselineRequirements:
 		*s = CABFBaselineRequirements
-	case CABFEVGuidelines:
-		*s = CABFEVGuidelines
+	case CABFCSBaselineRequirements:
+		*s = CABFCSBaselineRequirements
 	case CABFSMIMEBaselineRequirements:
 		*s = CABFSMIMEBaselineRequirements
+	case CABFEVGuidelines:
+		*s = CABFEVGuidelines
 	case MozillaRootStorePolicy:
 		*s = MozillaRootStorePolicy
 	case AppleRootStorePolicy:
 		*s = AppleRootStorePolicy
 	case Community:
 		*s = Community
-	case RFC6962:
-		*s = RFC6962
 	case EtsiEsi:
 		*s = EtsiEsi
 	}
