@@ -1631,7 +1631,7 @@ var tldMap = map[string]GTLDPeriod{
 	"dabur": {
 		GTLD:           "dabur",
 		DelegationDate: "2015-01-24",
-		RemovalDate:    "",
+		RemovalDate:    "2024-09-25",
 	},
 	"dad": {
 		GTLD:           "dad",
@@ -3426,7 +3426,7 @@ var tldMap = map[string]GTLDPeriod{
 	"kerrylogistics": {
 		GTLD:           "kerrylogistics",
 		DelegationDate: "2016-03-05",
-		RemovalDate:    "",
+		RemovalDate:    "2025-02-27",
 	},
 	"kerryproperties": {
 		GTLD:           "kerryproperties",
@@ -3776,7 +3776,7 @@ var tldMap = map[string]GTLDPeriod{
 	"lipsy": {
 		GTLD:           "lipsy",
 		DelegationDate: "2016-05-03",
-		RemovalDate:    "",
+		RemovalDate:    "2025-02-27",
 	},
 	"live": {
 		GTLD:           "live",
@@ -5701,7 +5701,7 @@ var tldMap = map[string]GTLDPeriod{
 	"shaw": {
 		GTLD:           "shaw",
 		DelegationDate: "2016-03-22",
-		RemovalDate:    "",
+		RemovalDate:    "2024-07-09",
 	},
 	"shell": {
 		GTLD:           "shell",

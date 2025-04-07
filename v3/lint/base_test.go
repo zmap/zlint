@@ -19,6 +19,7 @@ import (
 	"time"
 
 	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/util"
 )
 
 // This test attempts to simplify the truth table by assigning dates to the
@@ -311,4 +312,36 @@ func TestLint_RevocationListLint_CheckEffective(t *testing.T) {
 				d.Lint.Description, d.RevocationList.Description, got, d.Want)
 		}
 	}
+}
+
+func TestPanicLint(t *testing.T) {
+	lint := &CertificateLint{
+		LintMetadata: LintMetadata{
+			Name:          "lgtm",
+			Description:   "bad code go boom",
+			Citation:      "not a chance",
+			Source:        RFC5280,
+			EffectiveDate: util.RFC5280Date,
+		},
+		Lint: NewPanicLint,
+	}
+	result := lint.Execute(&x509.Certificate{NotBefore: time.Now()}, Configuration{})
+	if result.Status != Fatal {
+		t.Errorf("Lint failed, expected Fatal, got %v", result.Status)
+	}
+}
+
+type PanicLint struct {
+}
+
+func NewPanicLint() LintInterface {
+	return &PanicLint{}
+}
+
+func (l *PanicLint) CheckApplies(_ *x509.Certificate) bool {
+	return true
+}
+
+func (l *PanicLint) Execute(_ *x509.Certificate) *LintResult {
+	panic("Earth shattering kaboom")
 }

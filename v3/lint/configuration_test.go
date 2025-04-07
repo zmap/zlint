@@ -16,7 +16,6 @@ package lint
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 	"reflect"
 	"sync"
@@ -389,7 +388,7 @@ func TestSmokeExamplePrinting(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := ioutil.ReadAll(rr)
+	b, err := io.ReadAll(rr)
 	if err != nil {
 		t.Fatal(err)
 	}
