@@ -40,7 +40,7 @@ BY id-etsi-qcs-QcPDS }
 
 QcEuPDS ::= PdsLocations
 
-PdsLocations ::= SEQUENCE SIZE (1..MAX) OF PdsLocation
+PdsLocations ::= SEQUENCE SIZE (1..MAX) OF PdsLocation //nolint:dupword // dup comes from the specification
 
 PdsLocation::= SEQUENCE {
 url IA5String,
@@ -100,7 +100,7 @@ func (l *qcStatemPdsHttpsOnly) Execute(c *x509.Certificate) *lint.LintResult {
 	errString := s.GetErrorInfo()
 
 	if len(errString) != 0 {
-		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Could not parse qcStatement with PDS: %s", errString)}
+		return &lint.LintResult{Status: lint.Error, Details: "Could not parse qcStatement with PDS: " + errString}
 	}
 
 	pds := s.(util.EtsiQcPds)
