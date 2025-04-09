@@ -38,7 +38,7 @@ Syntax:
 esi4-qcStatement-5 QC-STATEMENT ::= { SYNTAX QcEuPDS IDENTIFIED
 BY id-etsi-qcs-QcPDS }
 
-QcEuPDS ::= PdsLocations
+QcEuPDS ::= PdsLocations //nolint:dupword
 
 PdsLocations ::= SEQUENCE SIZE (1..MAX) OF PdsLocation //nolint:dupword // dup comes from the specification
 
