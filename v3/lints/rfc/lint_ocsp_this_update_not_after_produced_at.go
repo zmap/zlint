@@ -23,24 +23,22 @@ import (
 type OCSPThisUpdateNotAfterProducedAt struct{}
 
 /*
-***********************************************
-RFC 5280: 5.3.1
-
-	CRL issuers are strongly
-	  encouraged to include meaningful reason codes in CRL entries;
-	  however, the reason code CRL entry extension SHOULD be absent instead
-	  of using the unspecified (0) reasonCode value.
-
-***********************************************
+RFC 6960: 2.4
+thisUpdate      The most recent time at which the status being
+                indicated is known by the responder to have been
+                correct.
+producedAt      The time at which the OCSP responder signed this
+                response.
 */
+
 func init() {
 	lint.RegisterOcspResponseLint(&lint.OcspResponseLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_this_update_not_after_produced_at",
-			Description:   "If a CRL entry has a reason code, it MUST be in RFC5280 section 5.3.1 and SHOULD be absent instead of using unspecified (0)",
-			Citation:      "RFC 5280: 5.3.1",
-			Source:        lint.RFC5280,
-			EffectiveDate: util.RFC5280Date,
+			Description:   "The value of thisUpdate MUST be prior to the time at which the response is produced, i.e., the value of producedAt",
+			Source:        lint.RFC6960,
+			Citation:      "RFC 6960: 2.4",
+			EffectiveDate: util.RFC6960Date,
 		},
 		Lint: NewOCSPThisUpdateNotAfterProducedAt,
 	})
