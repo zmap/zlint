@@ -18,7 +18,7 @@ jobs:
         go-version: ^1.18
 
     - name: Check out code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Check for cached integration corpus
       uses: actions/cache@v4
