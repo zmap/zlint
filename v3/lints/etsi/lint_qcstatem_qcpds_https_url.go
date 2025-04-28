@@ -95,7 +95,7 @@ func (l *qcStatemPdsHttpsOnly) Execute(c *x509.Certificate) *lint.LintResult {
 	qcEuPDS := &util.IdEtsiQcsQcEuPDS
 
 	ext := util.GetExtFromCert(c, util.QcStateOid)
-	s := util.ParseQcStatem(ext.Value, *qcEuPDS)
+	s := util.ParseQcStatem(ext.Value, util.IdEtsiQcsQcEuPDS)
 
 	errString := s.GetErrorInfo()
 
