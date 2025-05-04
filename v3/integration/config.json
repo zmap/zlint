@@ -827,6 +827,7 @@
       "ErrCount": 14
     },
     "e_qcstatem_qctype_smime": { },
+    "e_qcstatem_pds_must_have_https_only": { },
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1405
     },
