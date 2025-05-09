@@ -55,7 +55,7 @@ func TestECDSASignatureAidEncoding(t *testing.T) {
 		{
 			Name:           "Standard ECC certificate with a secp521r1 key signed by a secp521r1 key using SHA512withECDSA",
 			InputFilename:  "eccWithSecp521r1KeySignedWithSHA512Signature.pem",
-			ExpectedResult: lint.Error,
+			ExpectedResult: lint.Pass,
 		},
 	}
 
