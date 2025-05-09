@@ -12,7 +12,7 @@
  * permissions and limitations under the License.
  */
 
-package cabf_ev
+package community
 
 import (
 	"testing"
@@ -22,56 +22,50 @@ import (
 )
 
 /*
- * Test cases
- *
- *      File                         Description
- *      ------------------------     -------------
- *      extra_subj_attrs_na1.pem     CA certificate
- *      extra_subj_attrs_na2.pem     OV Subscriber certificate
- *      extra_subj_attrs_ok1.pem     EV Subscriber certificate with valid Subject
- *      extra_subj_attrs_ne1.pem     EV Subscriber certificate with invalid Subject, issued before effective date
- *      extra_subj_attrs_ko1.pem     EV Subscriber certificate with invalid Subject, issued after effective date
- *
- */
+   TEST CASES
 
-func TestExtraSubjectAttribs(t *testing.T) {
+   File                     Result      Description
+   ===================      ======      ===========
+   utf8_lat1_mixup_ok1      Pass        Clean TLS certificate (no mixup anywhere)
+   utf8_lat1_mixup_ko1      Error       TLS certificate with mixup in stateOrProvince
+   utf8_lat1_mixup_ko2      Error       S/MIME certificate with mixup in givenName
+   utf8_lat1_mixup_ko3      Error       Code Signing certificate with mixup in organizationName
+*/
+
+func TestUTF8Latin1Mixup(t *testing.T) {
+
 	type Data struct {
 		input string
 		want  lint.LintStatus
 	}
+
 	data := []Data{
 		{
-			input: "extra_subj_attrs_na1.pem",
-			want:  lint.NA,
-		},
-		{
-			input: "extra_subj_attrs_na2.pem",
-			want:  lint.NA,
-		},
-		{
-			input: "extra_subj_attrs_ok1.pem",
+			input: "utf8_lat1_mixup_ok1.pem",
 			want:  lint.Pass,
 		},
 		{
-			input: "extra_subj_attrs_with_ou_ok2.pem",
-			want:  lint.Pass,
+			input: "utf8_lat1_mixup_ko1.pem",
+			want:  lint.Error,
 		},
 		{
-			input: "extra_subj_attrs_ne1.pem",
-			want:  lint.NE,
+			input: "utf8_lat1_mixup_ko2.pem",
+			want:  lint.Error,
 		},
 		{
-			input: "extra_subj_attrs_ko1.pem",
+			input: "utf8_lat1_mixup_ko3.pem",
 			want:  lint.Error,
 		},
 	}
+
 	for _, testData := range data {
-		testData := testData
+		//		testData := testData
 		t.Run(testData.input, func(t *testing.T) {
-			out := test.TestLint("e_ev_extra_subject_attribs", testData.input)
+			out := test.TestLint("e_utf8_latin1_mixup", testData.input)
 			if out.Status != testData.want {
 				t.Errorf("expected %s, got %s", testData.want, out.Status)
 			}
 		})
 	}
+
 }

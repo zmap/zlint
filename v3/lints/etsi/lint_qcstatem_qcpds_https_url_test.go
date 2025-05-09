@@ -21,17 +21,15 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestEtsiQcTypeWeb(t *testing.T) {
+func TestQcStatemPdsHttpsOnly(t *testing.T) {
 	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Error,
-		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
-		"qcSmimeNatural.pem":                lint.NA,
-		"qcSmimeLegal.pem":                  lint.NA,
-		"qcLegal.pem":                       lint.Error,
+		"QcStmtEtsiTwoEnglPdsCert12.pem": lint.NE,
+		"qcLegal.pem":                    lint.NA,
+		"pdsAllHttps.pem":                lint.Pass,
+		"pdsOneHttp.pem":                 lint.Error,
 	}
 	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qctype_web", inputPath)
+		out := test.TestLint("e_qcstatem_pds_must_have_https_only", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
