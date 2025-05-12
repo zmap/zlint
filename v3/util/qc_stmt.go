@@ -206,10 +206,10 @@ func CertHasSubjectOrgIdWithPrefix(c *x509.Certificate, prefix string) bool {
 	}
 
 	orgId := GetSubjectOrgId(c.RawSubject)
-	if len(orgId.ErrorString) != 0 || !orgId.IsPresent {
+	if len(orgId.Error()) != 0 || !orgId.Present() {
 		return false
 	}
-	runes := []rune(orgId.Value)
+	runes := []rune(orgId.ParsedValue())
 	prefixLen := len(prefix)
 	if len(runes) < prefixLen || string(runes[0:prefixLen]) != prefix {
 		return false
