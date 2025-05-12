@@ -90,6 +90,8 @@ func NewQcStatemNationalScheme() lint.LintInterface {
 	return &qcStatemNationalScheme{}
 }
 
+var re = regexp.MustCompile(`^[a-zA-Z]{2}:`)
+
 func (l *qcStatemNationalScheme) CheckApplies(c *x509.Certificate) bool {
 	_, isPresent := util.IsQcStatemPresent(c, &util.IdQcsPkixQCSyntaxV2)
 
@@ -101,7 +103,6 @@ func (l *qcStatemNationalScheme) CheckApplies(c *x509.Certificate) bool {
 
 	qcs2 := qcs2Generic.(util.DecodedQcS2)
 	semanticsId := qcs2.Decoded.SemanticsId
-	re := regexp.MustCompile(`^.{2}:`)
 
 	if semanticsId.Equal(util.IdEtsiQcsSemanticsIdNatural) {
 		serialNumber := c.Subject.SerialNumber
@@ -133,7 +134,6 @@ func (l *qcStatemNationalScheme) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	if semanticsId.Equal(util.IdEtsiQcsSemanticsIdLegal) {
-		re := regexp.MustCompile(`^.{2}:`)
 		for _, orgId := range c.Subject.OrganizationIDs {
 			if re.MatchString(orgId) && !util.CheckNationalScheme(orgId) {
 				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("invalid format of subject:organizationIdentifier %s for national scheme", orgId)}
