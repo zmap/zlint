@@ -74,6 +74,7 @@ func (l *ecdsaSignatureAidEncoding) CheckApplies(c *x509.Certificate) bool {
 		c.SignatureAlgorithmOID.Equal(util.OidSignatureSHA224withECDSA)
 }
 
+//nolint:nestif
 func (l *ecdsaSignatureAidEncoding) Execute(c *x509.Certificate) *lint.LintResult {
 	// We must check consistency of the issuer public key to the signature algorithm
 	// (see for example: If the signing key is P-256, the signature MUST use ECDSA with SHA-256.
