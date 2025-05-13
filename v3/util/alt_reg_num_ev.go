@@ -50,23 +50,23 @@ type ParsedSubjectElement interface {
 }
 
 func (pse *parsedSubjectElement) Present() bool {
-	return pse.Present()
+	return pse.IsPresent
 }
 
 func (pse *parsedSubjectElement) ParsedValue() string {
-	return pse.ParsedValue()
+	return pse.Value
 }
 
 func (pse *parsedSubjectElement) RawValue() asn1.RawValue {
-	return pse.RawValue()
+	return pse.Asn1RawValue
 }
 
 func (pse *parsedSubjectElement) Error() string {
-	return pse.Error()
+	return pse.ErrorString
 }
 
-func NewParsedSubjectElement(isPresent bool, value string, rawValue asn1.RawValue, error string) ParsedSubjectElement {
-	return &parsedSubjectElement{IsPresent: isPresent, Value: value, Asn1RawValue: rawValue, ErrorString: error}
+func NewParsedSubjectElement(isPresent bool, value string, rawValue asn1.RawValue, err string) ParsedSubjectElement {
+	return &parsedSubjectElement{IsPresent: isPresent, Value: value, Asn1RawValue: rawValue, ErrorString: err}
 }
 
 func GetSubjectElement(rawSubject []byte, soughtOid asn1.ObjectIdentifier) ParsedSubjectElement {
