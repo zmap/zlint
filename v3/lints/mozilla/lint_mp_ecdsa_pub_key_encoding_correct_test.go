@@ -45,7 +45,7 @@ func TestECDSAPubKeyAidEncoding(t *testing.T) {
 		{
 			Name:           "Standard ECC certificate with a P-521 key signed by a P-521 key",
 			InputFilename:  "eccP521.pem",
-			ExpectedResult: lint.Pass,
+			ExpectedResult: lint.NE,
 		},
 		{
 			Name:           "Certificate with an RSA key",
