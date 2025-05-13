@@ -53,7 +53,7 @@ func init() {
 			Description:   "The encoded algorithm identifiers for ECDSA public keys MUST match specific bytes",
 			Citation:      "Mozilla Root Store Policy / Section 5.1.2",
 			Source:        lint.MozillaRootStorePolicy,
-			EffectiveDate: util.MozillaPolicy27Date,
+			EffectiveDate: util.MozillaPolicy30Date,
 		},
 		Lint: NewEcdsaPubKeyAidEncoding,
 	})

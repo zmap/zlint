@@ -54,7 +54,7 @@ func init() {
 			Description:   "The encoded algorithm identifiers for ECDSA signatures MUST match specific hex-encoded bytes",
 			Citation:      "Mozilla Root Store Policy / Section 5.1.2",
 			Source:        lint.MozillaRootStorePolicy,
-			EffectiveDate: util.MozillaPolicy27Date,
+			EffectiveDate: util.MozillaPolicy30Date,
 		},
 		Lint: NewEcdsaSignatureAidEncoding,
 	})
