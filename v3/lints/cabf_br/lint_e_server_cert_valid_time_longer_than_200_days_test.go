@@ -33,7 +33,7 @@ func TestSC081FirstDate200ServerCertValidityTooLong(t *testing.T) {
 			ExpectedResult: lint.NE,
 		},
 		{
-			Name:           "Pass - certificate is issued at 20260315 000000, exactly on the first date and has the the full 200-day validity",
+			Name:           "Pass - certificate is issued at 20260315 000000, exactly on the first date and has the the full 200-day validity", //nolint:dupword
 			InputFilename:  "exactlyOnFirstMilestoneExactly200days.pem",
 			ExpectedResult: lint.Pass,
 		},
