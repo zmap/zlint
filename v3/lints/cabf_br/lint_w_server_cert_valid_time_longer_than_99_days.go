@@ -16,7 +16,6 @@ package cabf_br
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -73,13 +72,8 @@ func (l *sc081SecondDate99ServerCertValidityTooLong) CheckApplies(c *x509.Certif
 }
 
 func (l *sc081SecondDate99ServerCertValidityTooLong) Execute(c *x509.Certificate) *lint.LintResult {
-	maxValidity := 99 * util.DAY_LENGTH
-
-	certValidity := c.NotAfter.Add(1 * time.Second).Sub(c.NotBefore)
-
-	if certValidity > maxValidity {
-		return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf("Certificate is issued on or after March 15, 2027 and has a vailidity of %d days", certValidity)}
+	if util.GreaterThan(c, 99) {
+		return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf("Certificate is issued on or after March 15, 2027 and has a validity of %.0f days", util.CertificateValidityInDays(c))}
 	}
-
 	return &lint.LintResult{Status: lint.Pass}
 }

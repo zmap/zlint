@@ -23,9 +23,10 @@ import (
 
 func TestSC081ThirdDate46ServerCertValidityTooLong(t *testing.T) {
 	testCases := []struct {
-		Name           string
-		InputFilename  string
-		ExpectedResult lint.LintStatus
+		Name            string
+		InputFilename   string
+		ExpectedResult  lint.LintStatus
+		ExpectedDetails string
 	}{
 		{
 			Name:           "NE - certificate is issued at 20260314 235959, just before the first date",
@@ -73,9 +74,10 @@ func TestSC081ThirdDate46ServerCertValidityTooLong(t *testing.T) {
 			ExpectedResult: lint.NE,
 		},
 		{
-			Name:           "Warn - certificate is issued at 20290315 000000, exactly on the third date and has a full 47-day validity",
-			InputFilename:  "exactlyOnThirdMilestoneExactly47days.pem",
-			ExpectedResult: lint.Warn,
+			Name:            "Warn - certificate is issued at 20290315 000000, exactly on the third date and has a full 47-day validity",
+			InputFilename:   "exactlyOnThirdMilestoneExactly47days.pem",
+			ExpectedResult:  lint.Warn,
+			ExpectedDetails: "Certificate is issued on or after March 15, 2029 and has a validity of 47 days",
 		},
 		{
 			Name:           "Pass - certificate is issued at 20290315 000000, exactly on the third date and has a full 46-day validity",
@@ -83,14 +85,16 @@ func TestSC081ThirdDate46ServerCertValidityTooLong(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Warn - certificate is issued at 20290315 000000, exactly on the third date and has a full 47-day validity plus one second",
-			InputFilename:  "exactlyOnThirdMilestoneLongerThan47days.pem",
-			ExpectedResult: lint.Warn,
+			Name:            "Warn - certificate is issued at 20290315 000000, exactly on the third date and has a full 47-day validity plus one second",
+			InputFilename:   "exactlyOnThirdMilestoneLongerThan47days.pem",
+			ExpectedResult:  lint.Warn,
+			ExpectedDetails: "Certificate is issued on or after March 15, 2029 and has a validity of 48 days",
 		},
 		{
-			Name:           "Warn - certificate is issued at 20320201 000000, considering the leap year and has a full 47-day validity",
-			InputFilename:  "withinThirdMilestoneLeapYear.pem",
-			ExpectedResult: lint.Warn,
+			Name:            "Warn - certificate is issued at 20320201 000000, considering the leap year and has a full 47-day validity",
+			InputFilename:   "withinThirdMilestoneLeapYear.pem",
+			ExpectedResult:  lint.Warn,
+			ExpectedDetails: "Certificate is issued on or after March 15, 2029 and has a validity of 47 days",
 		},
 	}
 	for _, tc := range testCases {
@@ -98,6 +102,9 @@ func TestSC081ThirdDate46ServerCertValidityTooLong(t *testing.T) {
 			result := test.TestLint("w_server_cert_valid_time_longer_than_46_days", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+			if tc.ExpectedResult == lint.Warn && tc.ExpectedDetails != result.Details {
+				t.Errorf("expected details: %q, was %q", tc.ExpectedDetails, result.Details)
 			}
 		})
 	}
