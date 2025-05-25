@@ -70,6 +70,7 @@ var (
 	MozillaPolicy24Date                              = time.Date(2017, time.February, 28, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy241Date                             = time.Date(2017, time.March, 31, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy27Date                              = time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)
+	MozillaPolicy30Date                              = time.Date(2025, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate = time.Date(2019, time.April, 1, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_6_2_Date                               = time.Date(2018, time.December, 10, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_2_1_Date                               = time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC)
