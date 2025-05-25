@@ -28,6 +28,13 @@ func TestLegacyGenerationDeprecated(t *testing.T) {
 		want  lint.LintStatus
 	}
 
+	// Test files naming scheme:
+	// leg1: legacy policy asserted
+	// leg0: legacy policy NOT asserted
+	// mv|iv|sv|ov: certificate type
+	// eff1: issued on or after effective date
+	// eff0: issued before effective date
+
 	data := []Data{
 		{
 			input: "smime_leg1_mv_eff1.pem",
