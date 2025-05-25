@@ -91,6 +91,8 @@ var (
 	SC16EffectiveDate                                = time.Date(2019, time.April, 16, 0, 0, 0, 0, time.UTC)
 	SC17EffectiveDate                                = time.Date(2019, time.June, 21, 0, 0, 0, 0, time.UTC)
 	CABF_SMIME_BRs_1_0_0_Date                        = time.Date(2023, time.September, 1, 0, 0, 0, 0, time.UTC)
+	// Date of deprecation of S/MIME legacy policies from Ballot SMC08
+	SMC08EffectiveDate = time.Date(2025, time.July, 15, 0, 0, 0, 0, time.UTC)
 	// Enforcement date of CRL reason codes from Ballot SC 061
 	CABFBRs_1_8_7_Date = time.Date(2023, time.July, 15, 0, 0, 0, 0, time.UTC)
 	// Updates to the CABF BRs and EVGLs from Ballot SC 062 https://cabforum.org/2023/03/17/ballot-sc62v2-certificate-profiles-update/
