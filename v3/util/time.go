@@ -15,6 +15,7 @@
 package util
 
 import (
+	"math"
 	"time"
 
 	"github.com/zmap/zcrypto/encoding/asn1"
@@ -109,7 +110,7 @@ var (
 )
 
 var (
-	DAY_LENGTH = 86400 * time.Second
+	DAY_LENGTH = 86400 * time.Second.Seconds()
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
@@ -170,4 +171,19 @@ func BeforeOrOn(left, right time.Time) bool {
 // OnOrAfter returns whether left is after or strictly equal to right.
 func OnOrAfter(left, right time.Time) bool {
 	return !left.Before(right)
+}
+
+func CertificateValidityInSeconds(cert *x509.Certificate) float64 {
+	return cert.NotAfter.Add(1 * time.Second).Sub(cert.NotBefore).Seconds()
+}
+
+func CertificateValidityInDays(cert *x509.Certificate) float64 {
+	return math.Ceil(CertificateValidityInSeconds(cert) / DAY_LENGTH)
+}
+
+// GreaterThan returns true if the validity of this cert in days is greater than
+// this maxDaysAllowed, false otherwise
+func GreaterThan(cert *x509.Certificate, maxDaysAllowed float64) bool {
+	maxValidity := maxDaysAllowed * DAY_LENGTH
+	return CertificateValidityInSeconds(cert) > maxValidity
 }
