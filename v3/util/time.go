@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2025 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -37,6 +37,7 @@ var (
 	RFC4630Date                = time.Date(2006, time.August, 1, 0, 0, 0, 0, time.UTC)
 	RFC5280Date                = time.Date(2008, time.May, 1, 0, 0, 0, 0, time.UTC)
 	RFC6818Date                = time.Date(2013, time.January, 1, 0, 0, 0, 0, time.UTC)
+	RFC6960Date                = time.Date(2013, time.June, 1, 0, 0, 0, 0, time.UTC)
 	RFC6962Date                = time.Date(2013, time.June, 1, 0, 0, 0, 0, time.UTC)
 	RFC8813Date                = time.Date(2020, time.August, 1, 0, 0, 0, 0, time.UTC)
 	CABEffectiveDate           = time.Date(2012, time.July, 1, 0, 0, 0, 0, time.UTC)
@@ -60,6 +61,7 @@ var (
 	SubCert825Days                                   = time.Date(2018, time.March, 2, 0, 0, 0, 0, time.UTC)
 	CABV148Date                                      = time.Date(2017, time.June, 8, 0, 0, 0, 0, time.UTC)
 	EtsiEn319_412_5_V2_2_1_Date                      = time.Date(2017, time.November, 1, 0, 0, 0, 0, time.UTC)
+	EtsiEn319_412_5_V2_4_1_Date                      = time.Date(2023, time.September, 1, 0, 0, 0, 0, time.UTC)
 	OnionOnlyEVDate                                  = time.Date(2015, time.May, 1, 0, 0, 0, 0, time.UTC)
 	CABV201Date                                      = time.Date(2017, time.July, 28, 0, 0, 0, 0, time.UTC)
 	AppleCTPolicyDate                                = time.Date(2018, time.October, 15, 0, 0, 0, 0, time.UTC)
@@ -94,12 +96,19 @@ var (
 	// Updates to the CABF BRs and EVGLs from Ballot SC 062 https://cabforum.org/2023/03/17/ballot-sc62v2-certificate-profiles-update/
 	SC62EffectiveDate = time.Date(2023, time.September, 15, 0, 0, 0, 0, time.UTC)
 	// Date when section 9.2.8 of CABF EVG became effective
-	CABFEV_Sec9_2_8_Date = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
-	CABF_CS_BRs_1_2_Date = time.Date(2019, time.August, 13, 0, 0, 0, 0, time.UTC)
+	CABFEV_Sec9_2_8_Date        = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
+	CABF_CS_BRs_1_2_Date        = time.Date(2019, time.August, 13, 0, 0, 0, 0, time.UTC)
+	CABF_SC081_FIRST_MILESTONE  = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
+	CABF_SC081_SECOND_MILESTONE = time.Date(2027, time.March, 15, 0, 0, 0, 0, time.UTC)
+	CABF_SC081_THIRD_MILESTONE  = time.Date(2029, time.March, 15, 0, 0, 0, 0, time.UTC)
 )
 
 var (
 	CABFEV_9_8_2 = CABV170Date
+)
+
+var (
+	DAY_LENGTH = 86400 * time.Second
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
