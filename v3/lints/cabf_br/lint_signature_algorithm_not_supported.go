@@ -38,17 +38,16 @@ var (
 		x509.SHA1WithRSA:   true,
 		x509.DSAWithSHA1:   true,
 		x509.ECDSAWithSHA1: true,
-	}
-	// The BRs do not forbid the use of RSA-PSS as a signature scheme in
-	// certificates but it is not broadly supported by user-agents. Since
-	// the BRs do not forbid the practice we return a warning result.
-	// NOTE: The Mozilla root program policy *does* forbid their use since v2.7.
-	// This should be covered by a lint scoped to the Mozilla source instead of in
-	// this CABF lint.
-	warnSigAlgs = map[x509.SignatureAlgorithm]bool{
+		// The BRs v2.1.2 allow the use of RSA-PSS as a signature scheme, see 
+		// 7.1.3.2.1 RSA 
+		// The Mozilla root program policy v2.9 allow RSA-PSS as a signature 
+		// scheme, see 5.1.1 RSA
 		x509.SHA256WithRSAPSS: true,
 		x509.SHA384WithRSAPSS: true,
-		x509.SHA512WithRSAPSS: true,
+		x509.SHA512WithRSAPSS: true,		
+	}
+	// currently no warnings
+	warnSigAlgs = map[x509.SignatureAlgorithm]bool{
 	}
 )
 
