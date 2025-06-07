@@ -15,6 +15,7 @@
 package util
 
 import (
+	"math"
 	"time"
 
 	"github.com/zmap/zcrypto/encoding/asn1"
@@ -69,6 +70,7 @@ var (
 	MozillaPolicy24Date                              = time.Date(2017, time.February, 28, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy241Date                             = time.Date(2017, time.March, 31, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy27Date                              = time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)
+	MozillaPolicy30Date                              = time.Date(2025, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_6_2_UnderscorePermissibilitySunsetDate = time.Date(2019, time.April, 1, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_6_2_Date                               = time.Date(2018, time.December, 10, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_2_1_Date                               = time.Date(2015, time.January, 16, 0, 0, 0, 0, time.UTC)
@@ -91,6 +93,8 @@ var (
 	SC16EffectiveDate                                = time.Date(2019, time.April, 16, 0, 0, 0, 0, time.UTC)
 	SC17EffectiveDate                                = time.Date(2019, time.June, 21, 0, 0, 0, 0, time.UTC)
 	CABF_SMIME_BRs_1_0_0_Date                        = time.Date(2023, time.September, 1, 0, 0, 0, 0, time.UTC)
+	// Date of deprecation of S/MIME legacy policies from Ballot SMC08
+	SMC08EffectiveDate = time.Date(2025, time.July, 15, 0, 0, 0, 0, time.UTC)
 	// Enforcement date of CRL reason codes from Ballot SC 061
 	CABFBRs_1_8_7_Date = time.Date(2023, time.July, 15, 0, 0, 0, 0, time.UTC)
 	// Updates to the CABF BRs and EVGLs from Ballot SC 062 https://cabforum.org/2023/03/17/ballot-sc62v2-certificate-profiles-update/
@@ -108,7 +112,7 @@ var (
 )
 
 var (
-	DAY_LENGTH = 86400 * time.Second
+	DAY_LENGTH = 86400 * time.Second.Seconds()
 )
 
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
@@ -169,4 +173,19 @@ func BeforeOrOn(left, right time.Time) bool {
 // OnOrAfter returns whether left is after or strictly equal to right.
 func OnOrAfter(left, right time.Time) bool {
 	return !left.Before(right)
+}
+
+func CertificateValidityInSeconds(cert *x509.Certificate) float64 {
+	return cert.NotAfter.Add(1 * time.Second).Sub(cert.NotBefore).Seconds()
+}
+
+func CertificateValidityInDays(cert *x509.Certificate) float64 {
+	return math.Ceil(CertificateValidityInSeconds(cert) / DAY_LENGTH)
+}
+
+// GreaterThan returns true if the validity of this cert in days is greater than
+// this maxDaysAllowed, false otherwise
+func GreaterThan(cert *x509.Certificate, maxDaysAllowed float64) bool {
+	maxValidity := maxDaysAllowed * DAY_LENGTH
+	return CertificateValidityInSeconds(cert) > maxValidity
 }
