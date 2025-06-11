@@ -15,8 +15,6 @@
 package community
 
 import (
-	"fmt"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 )
@@ -47,7 +45,7 @@ func (l *noDuplicateExtensions) Execute(c *x509.RevocationList) *lint.LintResult
 		if _, ok := extensions[oid]; ok {
 			return &lint.LintResult{
 				Status:  lint.Error,
-				Details: fmt.Sprintf("CRL contains duplicate extension: %s", oid),
+				Details: "CRL contains duplicate extension " + oid,
 			}
 		}
 		extensions[oid] = struct{}{}
