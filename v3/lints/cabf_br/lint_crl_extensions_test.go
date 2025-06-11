@@ -30,12 +30,12 @@ func TestCRLExtensionsValidity(t *testing.T) {
 	}{
 		{
 			name: "crl_with_invalid_extensions",
-			path: "crl_with_invalid_extensions",
+			path: "crl_with_invalid_extensions.pem",
 			want: lint.Error,
 		},
 		{
 			name: "crl_with_wrong_critical_for_crl_number",
-			path: "crl_with_wrong_critical_for_crl_number",
+			path: "crl_with_wrong_critical_for_crl_number.pem",
 			want: lint.Error,
 		},
 		{
@@ -45,17 +45,17 @@ func TestCRLExtensionsValidity(t *testing.T) {
 		},
 		{
 			name: "crl_with_wrong_critical_for_crl_distribution",
-			path: "crl_with_wrong_critical_for_crl_distribution",
+			path: "crl_with_wrong_critical_for_crl_distribution.pem",
 			want: lint.Error,
 		},
 		{
 			name: "crl_with_discouraged_extensions",
-			path: "crl_with_discouraged_extensions",
+			path: "crl_with_discouraged_extensions.pem",
 			want: lint.Warn,
 		},
 		{
 			name: "crl_with_valid_extensions",
-			path: "crl_with_valid_extensions",
+			path: "crl_with_valid_extensions.pem",
 			want: lint.Pass,
 		},
 	}
