@@ -99,6 +99,8 @@ var (
 	CABFBRs_1_8_7_Date = time.Date(2023, time.July, 15, 0, 0, 0, 0, time.UTC)
 	// Updates to the CABF BRs and EVGLs from Ballot SC 062 https://cabforum.org/2023/03/17/ballot-sc62v2-certificate-profiles-update/
 	SC62EffectiveDate = time.Date(2023, time.September, 15, 0, 0, 0, 0, time.UTC)
+	// Updates to the CABF BRs from Ballot SC 063 https://cabforum.org/2023/07/14/ballot-sc063v4-make-ocsp-optional-require-crls-and-incentivize-automation/
+	SC63EffectiveDate = time.Date(2024, time.March, 15, 0, 0, 0, 0, time.UTC)
 	// Date when section 9.2.8 of CABF EVG became effective
 	CABFEV_Sec9_2_8_Date        = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
 	CABF_CS_BRs_1_2_Date        = time.Date(2019, time.August, 13, 0, 0, 0, 0, time.UTC)
