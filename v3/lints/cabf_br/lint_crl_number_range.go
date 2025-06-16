@@ -61,7 +61,7 @@ func (*crlNumberLimit) Execute(c *x509.RevocationList) *lint.LintResult {
 			Details: fmt.Sprintf("CRL number is negative: %v", c.Number),
 		}
 	}
-	crlNumberUpperBound := new(big.Int).Lsh(big.NewInt(1), 159)
+	crlNumberUpperBound := new(big.Int).Exp(big.NewInt(2), big.NewInt(159), nil)
 	if c.Number.Cmp(crlNumberUpperBound) >= 0 {
 		return &lint.LintResult{
 			Status:  lint.Error,
