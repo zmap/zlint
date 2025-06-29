@@ -1108,7 +1108,7 @@ func TestConfigFromFile(t *testing.T) {
 		A *Test
 		B bool
 	}
-	f, err := os.CreateTemp("", "")
+	f, err := os.CreateTemp(t.TempDir(), "")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1141,7 +1141,7 @@ B = true
 }
 
 func TestBadConfigFromFile(t *testing.T) {
-	f, err := os.CreateTemp("", "")
+	f, err := os.CreateTemp(t.TempDir(), "")
 	if err != nil {
 		t.Fatal(err)
 	}
