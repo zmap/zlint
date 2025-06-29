@@ -827,6 +827,10 @@
       "ErrCount": 14
     },
     "e_qcstatem_qctype_smime": { },
+    "e_qcstatem_pds_must_have_https_only": { },
+    "e_server_cert_valid_time_longer_than_47_days": {},
+    "e_server_cert_valid_time_longer_than_100_days": {},
+    "e_server_cert_valid_time_longer_than_200_days": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1405
     },
@@ -972,6 +976,9 @@
     "w_tls_server_cert_valid_time_longer_than_397_days": {
       "WarnCount": 223
     },
+    "w_server_cert_valid_time_longer_than_46_days": {},
+    "w_server_cert_valid_time_longer_than_99_days": {},
+    "w_server_cert_valid_time_longer_than_199_days": {},
     "e_ca_invalid_eku": {
         "ErrCount": 1
     },
