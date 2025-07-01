@@ -38,3 +38,12 @@ func TestSubCaAiaHasIssuerUrl(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestSubCaAiaNoIssuerUrlAfterIneffective(t *testing.T) {
+	inputPath := "subCAAIANoIssuerIneffective.pem"
+	expected := lint.NE
+	out := test.TestLint("w_sub_ca_aia_does_not_contain_issuing_ca_url", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
