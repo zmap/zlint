@@ -51,7 +51,7 @@ func (l *crlExtensions) Initialize() {
 	l.allowedExtensions = map[string]bool{
 		util.CRLNumberOID.String(): false, // cRLNumber
 		util.AuthkeyOID.String():   false, // authorityKeyIdentifier
-		util.CrlDistOID.String():   true,  // issuingDistributionPoint
+		util.IssuingDistOID.String():   true,  // issuingDistributionPoint
 	}
 	l.discouragedExtensions = map[string]struct{}{
 		util.IssuerAlternateNameOID.String(): {}, // issuerAltName
