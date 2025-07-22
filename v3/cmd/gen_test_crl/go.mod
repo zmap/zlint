@@ -1,8 +1,6 @@
 module github.com/zmap/zlint/v3/cmd/gen_test_crl
 
-go 1.23.0
-
-toolchain go1.23.6
+go 1.24.0
 
 replace github.com/zmap/zlint/v3 => ../../
 

@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install golangci-lint
         run: |
-          VERSION=1.62.0
+          VERSION=1.64.8
           wget https://github.com/golangci/golangci-lint/releases/download/v${VERSION}/golangci-lint-${VERSION}-linux-amd64.tar.gz
           tar zxvf golangci-lint-${VERSION}-linux-amd64.tar.gz
           mv golangci-lint-${VERSION}-linux-amd64/golangci-lint . 

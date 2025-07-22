@@ -1,8 +1,6 @@
 module github.com/zmap/zlint/v3
 
-go 1.23.0
-
-toolchain go1.23.6
+go 1.24.0
 
 require (
 	github.com/kr/text v0.2.0 // indirect
