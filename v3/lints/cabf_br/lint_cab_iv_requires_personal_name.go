@@ -66,6 +66,7 @@ func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) *lint.L
 		out.Status = lint.Pass
 	} else {
 		out.Status = lint.Error
+		out.Details = "Subject MUST include both givenName and surname for Individual Validation (2.23.140.1.2.3) certificates"
 	}
 	return &out
 }
