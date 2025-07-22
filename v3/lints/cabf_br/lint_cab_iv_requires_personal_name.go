@@ -30,12 +30,12 @@ The following table details the acceptable AttributeTypes that may appear within
 type field of an AttributeTypeAndValue, as well as the contents permitted within the
 value field.
 
-| Attribute Name   | Presence        | Value 			        |
-| ...			   | ...             | ...      			    |
-| organizationName | NOT RECOMMENDED | ...				        |
+| Attribute Name   | Presence        | Value                    |
+| ...              | ...             | ...                      |
+| organizationName | NOT RECOMMENDED | ...                      |
 | surname          | MUST            | The Subject’s surname.   |
-| givenName 	   | MUST            | The Subject's givenName  |
-| ...			   | ...		     | ...					    |
+| givenName.       | MUST            | The Subject's givenName  |
+| ...              | ...             | ...                      |
 
 ************************************************/
 
