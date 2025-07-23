@@ -22,12 +22,44 @@ import (
 
 type caCommonNameMissing struct{}
 
+/*
+--- Citation History of this Requirement ---
+v1.4.8 to v1.8.7: 7.1.4.3.1a
+v2.0.0 to v2.1.6: 7.1.2.10.2
+
+--- Version Notes ---
+As of v2.0.0, this requirement no longer applies to CA certificates that conform to the
+Cross-Certified Subordinate CA Certificate Profile. This lint does not implement this exemption
+because it is impossible to identify certificates to which it applies from only the certificate.
+
+This requirement was baselined at v2.1.6 and is current.
+
+--- Requirements Language ---
+BRs: 7.1.2
+If the CA asserts compliance with these Baseline Requirements, all certificates that it issues MUST
+comply with one of the following certificate profiles
+
+[Each of the CA profiles, excepting the Cross-Certified Subordinate CA Certificate Profile,
+specifies the subject follows 7.1.2.10.2]
+
+BRs: 7.1.2.10.2
+The following table details the acceptable AttributeTypes that may appear within the type
+field of an AttributeTypeAndValue, as well as the contents permitted within the value field.
++----------------+----------+----------------------------------------------------------+----------------+
+| Attribute Name | Presence | Value                                                    | Verification   |
++----------------+----------+----------------------------------------------------------+----------------+
+| commonName     | MUST     | The contents SHOULD be an identifier for the certificate |                |
+|                |          | such that the certificate’s Name is unique across all    |                |
+|                |          | certificates issued by the issuing certificate.          |                |
++----------------+----------+----------------------------------------------------------+----------------+
+*/
+
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_ca_common_name_missing",
 			Description:   "CA Certificates common name MUST be included.",
-			Citation:      "BRs: 7.1.4.3.1",
+			Citation:      "BRs: 7.1.2.10.2",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.CABV148Date,
 		},
