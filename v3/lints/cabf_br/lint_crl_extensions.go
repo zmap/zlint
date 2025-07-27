@@ -49,9 +49,9 @@ type crlExtensions struct {
 // This function is not called directly but is used by the ZLint framework.
 func (l *crlExtensions) Initialize() {
 	l.allowedExtensions = map[string]bool{
-		util.CRLNumberOID.String(): false, // cRLNumber
-		util.AuthkeyOID.String():   false, // authorityKeyIdentifier
-		util.IssuingDistOID.String():   true,  // issuingDistributionPoint
+		util.CRLNumberOID.String():   false, // cRLNumber
+		util.AuthkeyOID.String():     false, // authorityKeyIdentifier
+		util.IssuingDistOID.String(): true,  // issuingDistributionPoint
 	}
 	l.discouragedExtensions = map[string]struct{}{
 		util.IssuerAlternateNameOID.String(): {}, // issuerAltName
