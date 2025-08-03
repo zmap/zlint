@@ -56,3 +56,12 @@ func TestCertPolicyIvNoPerson(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCertPolicyIvOrgNameNoPersonalName(t *testing.T) {
+	inputPath := "indivValOrgNameNoPersonalName.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
