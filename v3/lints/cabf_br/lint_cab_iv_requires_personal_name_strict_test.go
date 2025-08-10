@@ -21,37 +21,46 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestCertPolicyIvHasPerson(t *testing.T) {
+func TestCertPolicyIvHasPersonStrict(t *testing.T) {
 	inputPath := "indivValGoodAllFields.pem"
 	expected := lint.Pass
-	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
+	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestCertPolicyIvHasSurname(t *testing.T) {
+func TestCertPolicyIvHasSurnameStrict(t *testing.T) {
 	inputPath := "indivValSurnameOnly.pem"
 	expected := lint.Error
-	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
+	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestCertPolicyIvHasLastName(t *testing.T) {
+func TestCertPolicyIvHasLastNameStrict(t *testing.T) {
 	inputPath := "indivValGivenNameOnly.pem"
 	expected := lint.Error
-	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
+	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestCertPolicyIvNoPerson(t *testing.T) {
+func TestCertPolicyIvNoPersonStrict(t *testing.T) {
 	inputPath := "indivValNoOrgOrPersonalNames.pem"
 	expected := lint.Error
-	out := test.TestLint("e_cab_iv_requires_personal_name", inputPath)
+	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyIvOrgNameNoPersonalName(t *testing.T) {
+	inputPath := "indivValOrgNameNoPersonalName.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

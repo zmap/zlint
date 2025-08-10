@@ -23,30 +23,25 @@ import (
 type CertPolicyRequiresPersonalName struct{}
 
 /************************************************
-BRs: 7.1.2.7.3 Individual Validated
+BRs: 7.1.6.4
 Certificate Policy Identifier: 2.23.140.1.2.3
-
-The following table details the acceptable AttributeTypes that may appear within the
-type field of an AttributeTypeAndValue, as well as the contents permitted within the
-value field.
-
-| Attribute Name   | Presence        | Value                    |
-| ...              | ...             | ...                      |
-| organizationName | NOT RECOMMENDED | ...                      |
-| surname          | MUST            | The Subject’s surname.   |
-| givenName.       | MUST            | The Subject's givenName  |
-| ...              | ...             | ...                      |
-
+If the Certificate complies with these Requirements and includes Subject Identity Information
+that is verified in accordance with Section 3.2.3.
+Such Certificates MUST also include either organizationName or both givenName and
+surname, localityName (to the extent such field is required under Section 7.1.4.2.2),
+stateOrProvinceName (to the extent required under Section 7.1.4.2.2), and countryName in
+the Subject field.
 ************************************************/
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_cab_iv_requires_personal_name",
-			Description:   "If certificate policy 2.23.140.1.2.3 is included givenName and surname MUST be included in subject",
-			Citation:      "BRs: 7.1.2.7.3",
-			Source:        lint.CABFBaselineRequirements,
-			EffectiveDate: util.CABFBRs_2_0_0_Date,
+			Name:            "e_cab_iv_requires_personal_name",
+			Description:     "If certificate policy 2.23.140.1.2.3 is included, either organizationName or givenName and surname MUST be included in subject",
+			Citation:        "BRs: 7.1.6.4",
+			Source:          lint.CABFBaselineRequirements,
+			EffectiveDate:   util.CABV131Date,
+			IneffectiveDate: util.CABFBRs_2_0_0_Date,
 		},
 		Lint: NewCertPolicyRequiresPersonalName,
 	})
@@ -62,11 +57,10 @@ func (l *CertPolicyRequiresPersonalName) CheckApplies(cert *x509.Certificate) bo
 
 func (l *CertPolicyRequiresPersonalName) Execute(cert *x509.Certificate) *lint.LintResult {
 	var out lint.LintResult
-	if util.TypeInName(&cert.Subject, util.GivenNameOID) && util.TypeInName(&cert.Subject, util.SurnameOID) {
+	if util.TypeInName(&cert.Subject, util.OrganizationNameOID) || (util.TypeInName(&cert.Subject, util.GivenNameOID) && util.TypeInName(&cert.Subject, util.SurnameOID)) {
 		out.Status = lint.Pass
 	} else {
 		out.Status = lint.Error
-		out.Details = "Subject MUST include both givenName and surname for Individual Validation (2.23.140.1.2.3) certificates"
 	}
 	return &out
 }
