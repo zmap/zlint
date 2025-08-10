@@ -22,7 +22,7 @@ import (
 )
 
 func TestCertPolicyIvHasPersonStrict(t *testing.T) {
-	inputPath := "indivValGoodAllFields.pem"
+	inputPath := "indivValStrictGoodAllFields.pem"
 	expected := lint.Pass
 	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
@@ -31,7 +31,7 @@ func TestCertPolicyIvHasPersonStrict(t *testing.T) {
 }
 
 func TestCertPolicyIvHasSurnameStrict(t *testing.T) {
-	inputPath := "indivValSurnameOnly.pem"
+	inputPath := "indivValStrictSurnameOnly.pem"
 	expected := lint.Error
 	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
@@ -40,7 +40,7 @@ func TestCertPolicyIvHasSurnameStrict(t *testing.T) {
 }
 
 func TestCertPolicyIvHasLastNameStrict(t *testing.T) {
-	inputPath := "indivValGivenNameOnly.pem"
+	inputPath := "indivValStrictGivenNameOnly.pem"
 	expected := lint.Error
 	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
@@ -49,7 +49,7 @@ func TestCertPolicyIvHasLastNameStrict(t *testing.T) {
 }
 
 func TestCertPolicyIvNoPersonStrict(t *testing.T) {
-	inputPath := "indivValNoOrgOrPersonalNames.pem"
+	inputPath := "indivValStrictNoOrgOrPersonalNames.pem"
 	expected := lint.Error
 	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
@@ -58,7 +58,7 @@ func TestCertPolicyIvNoPersonStrict(t *testing.T) {
 }
 
 func TestCertPolicyIvOrgNameNoPersonalName(t *testing.T) {
-	inputPath := "indivValOrgNameNoPersonalName.pem"
+	inputPath := "indivValStrictOrgNameNoPersonalName.pem"
 	expected := lint.Error
 	out := test.TestLint("e_cab_iv_requires_personal_name_strict", inputPath)
 	if out.Status != expected {
