@@ -39,10 +39,6 @@ type crlExtensions struct {
 	// allowedExtensions maps the OID of an allowed extension to a boolean
 	// indicating whether the extension MUST be marked critical.
 	allowedExtensions map[string]bool
-
-	// discouragedExtensions contains OIDs of extensions that are not forbidden
-	// but should be noted with a warning.
-	discouragedExtensions map[string]struct{}
 }
 
 // newCRLExtensions initializes and returns a new crlExtensions lint.
@@ -52,12 +48,6 @@ func (l *crlExtensions) Initialize() {
 		util.CRLNumberOID.String():   false, // cRLNumber
 		util.AuthkeyOID.String():     false, // authorityKeyIdentifier
 		util.IssuingDistOID.String(): true,  // issuingDistributionPoint
-	}
-	l.discouragedExtensions = map[string]struct{}{
-		util.IssuerAlternateNameOID.String(): {}, // issuerAltName
-		util.DeltaCRLIndicatorOID.String():   {}, // deltaCRLIndicator
-		util.FreshCRLOID.String():            {}, // freshestCRL
-		util.AiaOID.String():                 {}, // authorityInfoAccess
 	}
 }
 
@@ -72,9 +62,6 @@ func (l *crlExtensions) isExtensionAllowed(ext pkix.Extension) bool {
 	if _, ok := l.allowedExtensions[oid]; ok {
 		return true
 	}
-	if _, ok := l.discouragedExtensions[oid]; ok {
-		return true
-	}
 	return false
 }
 
@@ -85,8 +72,8 @@ func (l *crlExtensions) Execute(c *x509.RevocationList) *lint.LintResult {
 	for _, ext := range c.Extensions {
 		if !l.isExtensionAllowed(ext) {
 			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: fmt.Sprintf("CRL must not contain forbidden extension %s", ext.Id),
+				Status:  lint.Warn,
+				Details: fmt.Sprintf("CRL Extension %s is NOT RECOMMENDED", ext.Id),
 			}
 		}
 	}
@@ -100,17 +87,6 @@ func (l *crlExtensions) Execute(c *x509.RevocationList) *lint.LintResult {
 					Status:  lint.Error,
 					Details: fmt.Sprintf("CRL extension %s has incorrect criticality; expected %t, got %t", ext.Id, mustBeCritical, ext.Critical),
 				}
-			}
-		}
-	}
-
-	// Third, warn about the presence of any discouraged extensions.
-	for _, ext := range c.Extensions {
-		oid := ext.Id.String()
-		if _, ok := l.discouragedExtensions[oid]; ok {
-			return &lint.LintResult{
-				Status:  lint.Warn,
-				Details: fmt.Sprintf("CRL contains discouraged extension %s", ext.Id),
 			}
 		}
 	}
