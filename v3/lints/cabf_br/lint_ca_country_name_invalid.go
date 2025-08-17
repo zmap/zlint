@@ -20,8 +20,6 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type caCountryNameInvalid struct{}
-
 /************************************************
 --- Citation History of this Requirement ---
 v1.0 to v1.2.4:   9.1.4
@@ -31,9 +29,11 @@ v1.4.8 to v1.8.7: 7.1.4.3.1c
 v2.0.0 to v2.1.6: 7.1.2.10.2
 
 --- Version Notes ---
-As of v2.0.0, this requirement no longer applies to CA certificates that conform to the
-Cross-Certified Subordinate CA Certificate Profile. This lint does not implement this exemption
-because it is infeasible to identify certificates to which it applies from only the certificate.
+As of v2.0.0, this requirement no longer applies to CA certificates that conform to the Cross-Certified
+Subordinate CA Certificate Profile. This lint uses the global CrossSignedCa setting to determine if the
+certificate under test should be treated as an exempt cross-signed CA. It does not attempt to determine
+if the issuance date is after CABFBRs_2_0_0_Date because CAs are permitted to back-date the notBefore
+to that of the earliest existing certificate under section 7.1.2.2.1
 
 This requirement was baselined at v2.1.6 and is current.
 
@@ -56,6 +56,10 @@ field of an AttributeTypeAndValue, as well as the contents permitted within the 
 +----------------+----------+--------------------------------------------------------+-----------------+
 ************************************************/
 
+type caCountryNameInvalid struct {
+	TlsBrConfig *lint.CABFBaselineRequirementsConfig
+}
+
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
@@ -73,8 +77,12 @@ func NewCaCountryNameInvalid() lint.LintInterface {
 	return &caCountryNameInvalid{}
 }
 
+func (l *caCountryNameInvalid) Configure() interface{} {
+	return l
+}
+
 func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
-	return c.IsCA
+	return c.IsCA && (l.TlsBrConfig == nil || !l.TlsBrConfig.CrossSignedCa)
 }
 
 func (l *caCountryNameInvalid) Execute(c *x509.Certificate) *lint.LintResult {

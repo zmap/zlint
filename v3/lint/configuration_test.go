@@ -934,6 +934,7 @@ func TestPrintConfiguration(t *testing.T) {
 [AppleRootStorePolicyConfig]
 
 [CABFBaselineRequirementsConfig]
+CrossSignedCa = false
 
 [CABFEVGuidelinesConfig]
 
