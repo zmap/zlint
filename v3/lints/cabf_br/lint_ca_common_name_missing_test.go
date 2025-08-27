@@ -38,3 +38,39 @@ func TestCaCommonNameNotMissing(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCaCommonNameMissingExplicitlyNotExemptCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = false`
+	inputPath := "caCommonNameMissing.pem"
+	expected := lint.Error
+	out := test.TestLintWithConfig("e_ca_common_name_missing", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaCommonNameMissingExemptCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caCommonNameMissing.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_common_name_missing", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaCommonNamePresentExemptButComplientCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caCommonNameNotMissing.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_common_name_missing", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
