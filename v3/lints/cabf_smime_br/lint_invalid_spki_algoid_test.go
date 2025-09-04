@@ -26,12 +26,11 @@ import (
    ===================================
    smc1/0      Certificate is/is not for S/MIME
    alg_xxx     Self-explanatory (followed by algo name)
-   eff1/0      Certificate issued after/before Effective Date
-   pqf1/0      Certificate issued after/before Effective Date for PQC algorithms
+   eff1/0      Certificate issued after/before CABF SMIME BRs v1.0.0 Effective Date
+   pqf1/0      Certificate issued after/before introduction of PQC algorithms (CABF SMIME BRs v1.0.11)
 */
 
 func TestInvalidSPKIAlgoId(t *testing.T) {
-
 	type Data struct {
 		input string
 		want  lint.LintStatus
@@ -69,30 +68,6 @@ func TestInvalidSPKIAlgoId(t *testing.T) {
 		{
 			input: "smime/sm1_alg_ed25519_eff1_pqfx.pem",
 			want:  lint.Pass,
-		},
-		{
-			input: "smime/sm1_alg_mld44_eff1_pqf0.pem",
-			want:  lint.Error,
-		},
-		{
-			input: "smime/sm1_alg_mld65_eff1_pqf0.pem",
-			want:  lint.Error,
-		},
-		{
-			input: "smime/sm1_alg_mld87_eff1_pqf0.pem",
-			want:  lint.Error,
-		},
-		{
-			input: "smime/sm1_alg_mlk512_eff1_pqf0.pem",
-			want:  lint.Error,
-		},
-		{
-			input: "smime/sm1_alg_mlk768_eff1_pqf0.pem",
-			want:  lint.Error,
-		},
-		{
-			input: "smime/sm1_alg_mlk1024_eff1_pqf0.pem",
-			want:  lint.Error,
 		},
 		{
 			input: "smime/sm1_alg_mld44_eff1_pqf1.pem",

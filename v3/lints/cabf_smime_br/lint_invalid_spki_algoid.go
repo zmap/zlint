@@ -38,7 +38,7 @@ func init() {
 			Description:   "Checks that SubjectPublicKeyInfo.AlgorithmIdentifier is allowed",
 			Citation:      "CABF S/MIME BR 7.1.3.1",
 			Source:        lint.CABFSMIMEBaselineRequirements,
-			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
+			EffectiveDate: util.CABF_SMIME_BRs_1_0_11_Date,
 		},
 		Lint: NewInvalidSPKIAlgoId,
 	})
@@ -54,7 +54,7 @@ func (l *InvalidSPKIAlgoId) CheckApplies(c *x509.Certificate) bool {
 	return true
 }
 
-var allowedAlgoIds = [6][]byte{
+var allowedAlgoIds = [12][]byte{
 	// RSA
 	{0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00},
 	// P-256
@@ -67,9 +67,6 @@ var allowedAlgoIds = [6][]byte{
 	{0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x70},
 	// EdDSA Curve448
 	{0x30, 0x05, 0x06, 0x03, 0x2b, 0x65, 0x71},
-}
-
-var allowedPQCAlgoIds = [6][]byte{
 	// ML-DSA-44
 	{0x30, 0x0b, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x03, 0x11},
 	// ML-DSA-65
@@ -83,8 +80,6 @@ var allowedPQCAlgoIds = [6][]byte{
 	// ML-KEM-1024
 	{0x30, 0x0b, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x04, 0x03},
 }
-
-var pqcEffectiveDate = util.CABF_SMIME_BRs_1_0_11_Date
 
 func (l *InvalidSPKIAlgoId) Execute(c *x509.Certificate) *lint.LintResult {
 	type SubjectPublicKeyInfo struct {
@@ -102,19 +97,9 @@ func (l *InvalidSPKIAlgoId) Execute(c *x509.Certificate) *lint.LintResult {
 		}
 	}
 
-	// Let's first try with the legacy algorithms
 	for _, algoId := range allowedAlgoIds {
 		if bytes.Equal(spki.Algorithm.FullBytes, algoId) {
 			return &lint.LintResult{Status: lint.Pass}
-		}
-	}
-
-	// Let's now try with the PQC algorithms
-	if !c.NotBefore.Before(pqcEffectiveDate) {
-		for _, algoId := range allowedPQCAlgoIds {
-			if bytes.Equal(spki.Algorithm.FullBytes, algoId) {
-				return &lint.LintResult{Status: lint.Pass}
-			}
 		}
 	}
 
