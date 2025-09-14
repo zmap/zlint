@@ -5226,7 +5226,7 @@ var tldMap = map[string]GTLDPeriod{
 	"redstone": {
 		GTLD:           "redstone",
 		DelegationDate: "2015-03-28",
-		RemovalDate:    "2025-08-26",
+		RemovalDate:    "",
 	},
 	"redumbrella": {
 		GTLD:           "redumbrella",
