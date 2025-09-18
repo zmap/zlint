@@ -22,7 +22,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-/*************************************************************************
+/************************************************************************* //nolint:dupword
 7.1.4.2.2 Subject distinguished name fields //nolint:dupword
 
 n. Certificate Field: subject:countryName (OID: 2.5.4.6)
