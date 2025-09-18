@@ -23,7 +23,7 @@ import (
 )
 
 /*************************************************************************
-7.1.4.2.2 Subject distinguished name fields
+7.1.4.2.2 Subject distinguished name fields //nolint:dupword
 
 n. Certificate Field: subject:countryName (OID: 2.5.4.6)
 Contents: If present, the subject:countryName SHALL contain the two?letter ISO 3166?1
