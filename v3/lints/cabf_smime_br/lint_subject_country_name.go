@@ -22,7 +22,7 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-/************************************************************************* //nolint:dupword
+/*************************************************************************
 7.1.4.2.2 Subject distinguished name fields //nolint:dupword
 
 n. Certificate Field: subject:countryName (OID: 2.5.4.6)
@@ -38,13 +38,13 @@ See also:
 countryName SHALL NOT SHALL NOT SHALL NOT
 
 7.1.4.2.4 Subject DN attributes for organization?validated profile:
-countryName MAY MAY MAY
+countryName MAY MAY MAY //nolint:dupword
 
 7.1.4.2.5 Subject DN attributes for sponsor?validated profile:
-countryName MAY MAY MAY
+countryName MAY MAY MAY //nolint:dupword
 
 7.1.4.2.6 Subject DN attributes for individual?validated profile:
-countryName MAY MAY MAY
+countryName MAY MAY MAY //nolint:dupword
 *************************************************************************/
 
 func init() {
