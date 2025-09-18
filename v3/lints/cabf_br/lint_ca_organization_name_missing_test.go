@@ -47,3 +47,39 @@ func TestCAOrgNameValid(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCaOrgNameMissingExplicitlyNotExemptCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = false`
+	inputPath := "caOrgNameMissing.pem"
+	expected := lint.Error
+	out := test.TestLintWithConfig("e_ca_organization_name_missing", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaOrgNameMissingExemptCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caOrgNameMissing.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_organization_name_missing", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaOrgNamePresentExemptButComplientCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caValOrgName.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_organization_name_missing", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}

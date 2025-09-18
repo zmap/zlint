@@ -43,7 +43,7 @@ By default ZLint will apply applicable lints from all sources but consumers may
 also customize which lints are used by including/exclduing specific sources.
 
 [BRs]: https://cabforum.org/baseline-requirements-documents/
-[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00e-Y
+[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1fNJfGZ-G2tcv6Fv6ejP-ZygZzaplgqvA9VgHI_bBeMU/edit?gid=0#gid=0
 [CABF EV]: https://cabforum.org/extended-validation/
 [MozPolicy]: https://github.com/mozilla/pkipolicy
 [ETSI ESI]: https://www.etsi.org/technologies/digital-signature

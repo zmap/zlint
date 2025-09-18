@@ -23,9 +23,10 @@ import (
 
 func TestSC081FirstDate199ServerCertValidityTooLong(t *testing.T) {
 	testCases := []struct {
-		Name           string
-		InputFilename  string
-		ExpectedResult lint.LintStatus
+		Name            string
+		InputFilename   string
+		ExpectedResult  lint.LintStatus
+		ExpectedDetails string
 	}{
 		{
 			Name:           "NE - certificate is issued at 20260314 235959, just before the first date",
@@ -33,9 +34,10 @@ func TestSC081FirstDate199ServerCertValidityTooLong(t *testing.T) {
 			ExpectedResult: lint.NE,
 		},
 		{
-			Name:           "Warn - certificate is issued at 20260315 000000, exactly on the first date and has the the full 200-day validity", //nolint:dupword
-			InputFilename:  "exactlyOnFirstMilestoneExactly200days.pem",
-			ExpectedResult: lint.Warn,
+			Name:            "Warn - certificate is issued at 20260315 000000, exactly on the first date and has the the full 200-day validity", //nolint:dupword
+			InputFilename:   "exactlyOnFirstMilestoneExactly200days.pem",
+			ExpectedResult:  lint.Warn,
+			ExpectedDetails: "Certificate is issued on or after March 15, 2026 and has a validity of 200 days",
 		},
 		{
 			Name:           "Pass - certificate is issued at 20260315 000000, exactly on the first date and has a full 199-day validity",
@@ -43,14 +45,16 @@ func TestSC081FirstDate199ServerCertValidityTooLong(t *testing.T) {
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Warn - certificate is issued at 20260315 000000, exactly on the first date and has a full 200-day validity plus one second",
-			InputFilename:  "exactlyOnFirstMilestoneLongerThan200days.pem",
-			ExpectedResult: lint.Warn,
+			Name:            "Warn - certificate is issued at 20260315 000000, exactly on the first date and has a full 200-day validity plus one second",
+			InputFilename:   "exactlyOnFirstMilestoneLongerThan200days.pem",
+			ExpectedResult:  lint.Warn,
+			ExpectedDetails: "Certificate is issued on or after March 15, 2026 and has a validity of 201 days",
 		},
 		{
-			Name:           "Warn - certificate is issued at 20270314 235959, just before the second date and has a full 200-day validity",
-			InputFilename:  "justBeforeSecondMilestoneExactly200days.pem",
-			ExpectedResult: lint.Warn,
+			Name:            "Warn - certificate is issued at 20270314 235959, just before the second date and has a full 200-day validity",
+			InputFilename:   "justBeforeSecondMilestoneExactly200days.pem",
+			ExpectedResult:  lint.Warn,
+			ExpectedDetails: "Certificate is issued on or after March 15, 2026 and has a validity of 200 days",
 		},
 		{
 			Name:           "NE - certificate is issued at 20270315 000000, exactly on the the second date and has a full 100-day validity", //nolint:dupword
@@ -98,6 +102,9 @@ func TestSC081FirstDate199ServerCertValidityTooLong(t *testing.T) {
 			result := test.TestLint("w_server_cert_valid_time_longer_than_199_days", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
+			}
+			if tc.ExpectedResult == lint.Warn && tc.ExpectedDetails != result.Details {
+				t.Errorf("expected details: %q, was %q", tc.ExpectedDetails, result.Details)
 			}
 		})
 	}
