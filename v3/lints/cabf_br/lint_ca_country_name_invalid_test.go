@@ -30,10 +30,55 @@ func TestCaCountryNameInvalid(t *testing.T) {
 	}
 }
 
+func TestCaCountryNameInvalidlyBlank(t *testing.T) {
+	inputPath := "caBlankCountry.pem"
+	expected := lint.Error
+	out := test.TestLint("e_ca_country_name_invalid", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
 func TestCaCountryNameValid(t *testing.T) {
 	inputPath := "caValCountry.pem"
 	expected := lint.Pass
 	out := test.TestLint("e_ca_country_name_invalid", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaCountryNameInvalidExplicitlyNotExemptCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = false`
+	inputPath := "caInvalCountryCode.pem"
+	expected := lint.Error
+	out := test.TestLintWithConfig("e_ca_country_name_invalid", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaCountryNameExemptCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caInvalCountryCode.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_country_name_invalid", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaCountryNameExemptButComplientCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caValCountry.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_country_name_invalid", inputPath, config)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

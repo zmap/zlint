@@ -43,7 +43,7 @@ By default ZLint will apply applicable lints from all sources but consumers may
 also customize which lints are used by including/exclduing specific sources.
 
 [BRs]: https://cabforum.org/baseline-requirements-documents/
-[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00e-Y
+[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1fNJfGZ-G2tcv6Fv6ejP-ZygZzaplgqvA9VgHI_bBeMU/edit?gid=0#gid=0
 [CABF EV]: https://cabforum.org/extended-validation/
 [MozPolicy]: https://github.com/mozilla/pkipolicy
 [ETSI ESI]: https://www.etsi.org/technologies/digital-signature
@@ -251,10 +251,12 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [Microsoft](https://www.microsoft.com)
 * [Nexus Certificate Manager](https://doc.nexusgroup.com/display/PUB/Smart+ID+Certificate+Manager)
 * [QuoVadis](https://www.quovadisglobal.com/)
-* [Sectigo](https://sectigo.com/) and [crt.sh](https://crt.sh)
+* [Sectigo](https://sectigo.com/), [crt.sh](https://crt.sh/), and [pkimetal](https://github.com/pkimetal/pkimetal)
 * [Siemens](https://siemens.com/pki)
 * [SSL.com](https://www.ssl.com/)
 * [PKI Insights](https://www.codegic.com/pki-insights-health-monitoring-for-microsoft-ca/)
+* [NETLOCK](https://www.netlock.hu/)
+* [Disig](https://eidas.disig.sk/en/)
 
 Please submit a pull request to update the README if you are aware of
 another CA/project that uses zlint.

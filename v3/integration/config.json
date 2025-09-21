@@ -426,6 +426,9 @@
       "ErrCount": 2
     },
     "e_ev_country_name_missing": {},
+    "e_ev_invalid_business_category": {
+      "ErrCount": 10957
+    },
     "e_ev_not_wildcard": {
       "ErrCount": 1
     },
@@ -820,6 +823,14 @@
     "e_aia_must_contain_permitted_access_method": {},
     "e_aia_ocsp_must_have_http_only": {},
     "e_aia_unique_access_locations": {},
+    "e_qcstatem_qctype_web": {
+      "ErrCount": 14
+    },
+    "e_qcstatem_qctype_smime": { },
+    "e_qcstatem_pds_must_have_https_only": { },
+    "e_server_cert_valid_time_longer_than_47_days": {},
+    "e_server_cert_valid_time_longer_than_100_days": {},
+    "e_server_cert_valid_time_longer_than_200_days": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1405
     },
@@ -908,9 +919,6 @@
     "w_qcstatem_qcpds_lang_case": {
       "WarnCount": 934
     },
-    "w_qcstatem_qctype_web": {
-      "WarnCount": 55
-    },
     "w_rfc_dnsname_underscore_in_trd": {
       "WarnCount": 364
     },
@@ -968,11 +976,23 @@
     "w_tls_server_cert_valid_time_longer_than_397_days": {
       "WarnCount": 223
     },
+    "w_server_cert_valid_time_longer_than_46_days": {},
+    "w_server_cert_valid_time_longer_than_99_days": {},
+    "w_server_cert_valid_time_longer_than_199_days": {},
     "e_ca_invalid_eku": {
         "ErrCount": 1
     },
     "e_subj_country_not_uppercase": {
         "ErrCount": 1303
+    },
+    "e_ev_extra_subject_attribs": {
+        "ErrCount": 63
+    },
+    "e_subj_contains_html_entities": {
+        "ErrCount": 14
+    },
+    "e_utf8_latin1_mixup": {
+        "ErrCount": 134
     }
   }
 }

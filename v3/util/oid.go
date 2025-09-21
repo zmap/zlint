@@ -32,6 +32,7 @@ var (
 	CertPolicyOID                = asn1.ObjectIdentifier{2, 5, 29, 32}                     // Certificate Policies
 	CrlDistOID                   = asn1.ObjectIdentifier{2, 5, 29, 31}                     // CRL Distribution Points
 	CtPoisonOID                  = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 3} // CT Poison
+	DeltaCRLIndicatorOID         = asn1.ObjectIdentifier{2, 5, 29, 27}                     // Delta CRL Indicator
 	EkuSynOid                    = asn1.ObjectIdentifier{2, 5, 29, 37}                     // Extended Key Usage Syntax
 	FreshCRLOID                  = asn1.ObjectIdentifier{2, 5, 29, 46}                     // Freshest CRL
 	InhibitAnyPolicyOID          = asn1.ObjectIdentifier{2, 5, 29, 54}                     // Inhibit Any Policy
@@ -54,6 +55,7 @@ var (
 	SubjectKeyIdentityOID        = asn1.ObjectIdentifier{2, 5, 29, 14}                     // Subject Key Identifier
 	ReasonCodeOID                = asn1.ObjectIdentifier{2, 5, 29, 21}                     // CRL Reason Code
 	CRLNumberOID                 = asn1.ObjectIdentifier{2, 5, 29, 20}                     // CRL Number
+	IssuingDistOID               = asn1.ObjectIdentifier{2, 5, 29, 28}                     // Issuing Distribution Point
 	// Extended Key Usage OIDs
 	PreCertificateSigningCertificateEKU = asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 11129, 2, 4, 4}
 	// CA/B Reserved Certificate Policy Identifiers
