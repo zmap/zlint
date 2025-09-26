@@ -32,6 +32,7 @@ import (
 	"github.com/zmap/zlint/v3"
 	"github.com/zmap/zlint/v3/formattedoutput"
 	"github.com/zmap/zlint/v3/lint"
+	"golang.org/x/crypto/ocsp"
 
 	_ "github.com/zmap/zlint/v3/profiles"
 )
@@ -169,19 +170,14 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 	}
 
 	var asn1Data []byte
-	var isCRL bool
 	switch inform {
 	case "pem":
 		p, _ := pem.Decode(fileBytes)
 		if p == nil {
 			log.Fatal("unable to parse PEM")
 		}
-		switch p.Type {
-		case "CERTIFICATE":
-		case "X509 CRL":
-			isCRL = true
-		default:
-			log.Fatalf("unknown PEM type (%s)", p.Type)
+		if p.Type != "CERTIFICATE" && p.Type != "X509 CRL" && p.Type != "OCSP RESPONSE" {
+			log.Fatalf("unknown PEM type %s", p.Type)
 		}
 		asn1Data = p.Bytes
 	case "der":
@@ -195,18 +191,14 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		log.Fatalf("unknown input format %s", format)
 	}
 	var zlintResult *zlint.ResultSet
-	if isCRL {
-		crl, err := x509.ParseRevocationList(asn1Data)
-		if err != nil {
-			log.Fatalf("unable to parse certificate revocation list: %s", err)
-		}
+	if cert, err := x509.ParseCertificate(asn1Data); err == nil {
+		zlintResult = zlint.LintCertificateEx(cert, registry)
+	} else if crl, err := x509.ParseRevocationList(asn1Data); err == nil {
 		zlintResult = zlint.LintRevocationListEx(crl, registry)
+	} else if resp, err := ocsp.ParseResponse(asn1Data, nil); err == nil {
+		zlintResult = zlint.LintOcspResponseEx(resp, registry)
 	} else {
-		c, err := x509.ParseCertificate(asn1Data)
-		if err != nil {
-			log.Fatalf("unable to parse certificate: %s", err)
-		}
-		zlintResult = zlint.LintCertificateEx(c, registry)
+		log.Fatalf("unable to parse input as a certificate, CRL, or OCSP response")
 	}
 	jsonBytes, err := json.Marshal(zlintResult.Results)
 	if err != nil {

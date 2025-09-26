@@ -238,28 +238,41 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	return theCrl
 }
 
-// ReadTestOCSPResponse loads a ocsp.Response from the given inPath which is assumed
-// to be relative to `testdata/`. The OCSP file must contain the OCSP response in
-// Base64 encoding. openssl ocsp -resp_text -respin <(base64 -d the_filename)
-// To decode it using OpenSSL, store the base64-encoded in string in a file, and run:
-// Important: ReadTestOCSPResponse is only appropriate for unit tests. It will panic if
-// the inPath file can not be loaded.
+// ReadTestOCSPResponse loads a ocsp.Response from the given inPath which is
+// assumed to be relative to `testdata/`. The file format is determined by the
+// inPath suffix. A `.pem` suffix is treated as a PEM encoded OCSP response. A
+// `.der` suffix is treated as a DER encoded OCSP response. If the suffix is
+// neither `.pem` nor `.der` then the file content is assumed to be base64
+// encoded.
+//
+// Important: ReadTestOCSPResponse is only appropriate for unit tests. It will
+// panic if the inPath file can not be loaded.
 func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
 	tb.Helper()
 	fullPath := "../../testdata/" + inPath
-	base64Data, err := os.ReadFile(fullPath)
+	fileContent, err := os.ReadFile(fullPath)
 	if err != nil {
 		tb.Fatalf("Failed to read file: %v", err)
 	}
-	data, err := base64.StdEncoding.DecodeString(string(base64Data))
-	if err != nil {
-		tb.Fatalf("Failed to decode base64 data: %v", err)
-	}
-	if err != nil {
-		tb.Fatalf(
-			"Unable to read test ocsp response from %q - %q "+
-				"Does a unit test have an incorrect test file name?\n",
-			fullPath, err)
+
+	var data []byte
+	switch {
+	case strings.HasSuffix(inPath, ".pem"):
+		block, _ := pem.Decode(fileContent)
+		if block == nil {
+			tb.Fatalf("failed to PEM decode OCSP response from %q", fullPath)
+		}
+		if block.Type != "OCSP RESPONSE" {
+			tb.Fatalf("PEM block from %q is not an OCSP RESPONSE", fullPath)
+		}
+		data = block.Bytes
+	case strings.HasSuffix(inPath, ".der"):
+		data = fileContent
+	default:
+		data, err = base64.StdEncoding.DecodeString(string(fileContent))
+		if err != nil {
+			tb.Fatalf("Failed to decode base64 data: %v", err)
+		}
 	}
 
 	theOcspResponse, err := ocsp.ParseResponse(data, nil)
