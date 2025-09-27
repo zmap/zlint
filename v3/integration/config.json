@@ -579,7 +579,7 @@
       "ErrCount": 370
     },
     "e_ocsp_id_pkix_ocsp_nocheck_ext_not_included_server_auth": {
-      "ErrCount": 95
+      "ErrCount": 262
     },
     "e_old_root_ca_rsa_mod_less_than_2048_bits": {
       "ErrCount": 1
