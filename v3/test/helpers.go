@@ -218,13 +218,14 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 
 	if strings.Contains(string(data), "-BEGIN X509 CRL-") {
 		block, _ := pem.Decode(data)
-		if block == nil { //nolint: staticcheck // tb.Fatalf exits
+		if block == nil {
 			tb.Fatalf(
 				"Failed to PEM decode test revocation list from %q - "+
 					"Does a unit test have a buggy test cert file?\n",
 				fullPath)
+		} else {
+			data = block.Bytes
 		}
-		data = block.Bytes //nolint: staticcheck // tb.Fatalf exits
 	}
 
 	theCrl, err := x509.ParseRevocationList(data)
@@ -261,11 +262,12 @@ func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
 		block, _ := pem.Decode(fileContent)
 		if block == nil {
 			tb.Fatalf("failed to PEM decode OCSP response from %q", fullPath)
+		} else {
+			if block.Type != "OCSP RESPONSE" {
+				tb.Fatalf("PEM block from %q is not an OCSP RESPONSE", fullPath)
+			}
+			data = block.Bytes
 		}
-		if block.Type != "OCSP RESPONSE" {
-			tb.Fatalf("PEM block from %q is not an OCSP RESPONSE", fullPath)
-		}
-		data = block.Bytes
 	case strings.HasSuffix(inPath, ".der"):
 		data = fileContent
 	default:
