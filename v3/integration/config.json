@@ -831,6 +831,7 @@
     "e_server_cert_valid_time_longer_than_47_days": {},
     "e_server_cert_valid_time_longer_than_100_days": {},
     "e_server_cert_valid_time_longer_than_200_days": {},
+    "e_mailbox_validated_allowed_subjectdn_attributes": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1405
     },
