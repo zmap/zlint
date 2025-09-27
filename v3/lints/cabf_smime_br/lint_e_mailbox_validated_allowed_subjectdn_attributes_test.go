@@ -21,41 +21,41 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestSubjectCountryName(t *testing.T) {
+func TestMBVSubjectAttributes(t *testing.T) {
 	testCases := []struct {
 		Name           string
 		InputFilename  string
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "na - valid country code in countryName in a mailbox-validated certificate",
-			InputFilename:  "smime/subject_country_name_valid.pem",
-			ExpectedResult: lint.NA,
-		},
-		{
-			Name:           "fail - invalid country code in countryName in a mailbox-validated certificate",
-			InputFilename:  "smime/subject_country_name_invalid.pem",
-			ExpectedResult: lint.NA,
-		},
-		{
-			Name:           "Error - certificate is organization-validated and has an invalid country in countryName",
-			InputFilename:  "smime/organizationValidatedWithInvalidCountry.pem",
+			Name:           "Error - certificate is mailbox-validated and has organization in subject",
+			InputFilename:  "smime/mailboxValidatedWithOrganizationInSubject.pem",
 			ExpectedResult: lint.Error,
 		},
 		{
-			Name:           "Pass - certificate is individual-validated and has an valid country in countryName",
-			InputFilename:  "smime/individualValidatedWithValidCountry.pem",
+			Name:           "Pass - certificate is mailbox-validated and has commonName in subject",
+			InputFilename:  "smime/mailboxValidatedWithCommonNameInSubject.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "Pass - certificate is individual-validated and has the valid XX code in countryName",
-			InputFilename:  "smime/individualValidatedWithXXCodeInCountry.pem",
+			Name:           "Pass - certificate is mailbox-validated and has emailAddress in subject",
+			InputFilename:  "smime/mailboxValidatedWithEmailAddressInSubject.pem",
 			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Pass - certificate is mailbox-validated and has serialNumber in subject",
+			InputFilename:  "smime/mailboxValidatedWithSerialNumberInSubject.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "NA - certificate is organization-validated",
+			InputFilename:  "smime/organization_validated_with_matching_country.pem",
+			ExpectedResult: lint.NA,
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_subject_country_name", tc.InputFilename)
+			result := test.TestLint("e_mailbox_validated_allowed_subjectdn_attributes", tc.InputFilename)
 			if result.Status != tc.ExpectedResult {
 				t.Errorf("expected result %v was %v - details: %v", tc.ExpectedResult, result.Status, result.Details)
 			}
