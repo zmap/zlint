@@ -191,14 +191,28 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		log.Fatalf("unknown input format %s", format)
 	}
 	var zlintResult *zlint.ResultSet
+	var errs []error
 	if cert, err := x509.ParseCertificate(asn1Data); err == nil {
 		zlintResult = zlint.LintCertificateEx(cert, registry)
-	} else if crl, err := x509.ParseRevocationList(asn1Data); err == nil {
-		zlintResult = zlint.LintRevocationListEx(crl, registry)
-	} else if resp, err := ocsp.ParseResponse(asn1Data, nil); err == nil {
-		zlintResult = zlint.LintOcspResponseEx(resp, registry)
 	} else {
-		log.Fatalf("unable to parse input as a certificate, CRL, or OCSP response")
+		errs = append(errs, fmt.Errorf("parsing as certificate: %v", err))
+	}
+	if zlintResult == nil {
+		if crl, err := x509.ParseRevocationList(asn1Data); err == nil {
+			zlintResult = zlint.LintRevocationListEx(crl, registry)
+		} else {
+			errs = append(errs, fmt.Errorf("parsing as CRL: %v", err))
+		}
+	}
+	if zlintResult == nil {
+		if resp, err := ocsp.ParseResponse(asn1Data, nil); err == nil {
+			zlintResult = zlint.LintOcspResponseEx(resp, registry)
+		} else {
+			errs = append(errs, fmt.Errorf("parsing as OCSP response: %v", err))
+		}
+	}
+	if zlintResult == nil {
+		log.Fatalf("unable to parse input as any known type, errors: %v", errs)
 	}
 	jsonBytes, err := json.Marshal(zlintResult.Results)
 	if err != nil {
