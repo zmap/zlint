@@ -239,15 +239,13 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	return theCrl
 }
 
-// ReadTestOCSPResponse loads a ocsp.Response from the given inPath which is
-// assumed to be relative to `testdata/`. The file format is determined by the
-// inPath suffix. A `.pem` suffix is treated as a PEM encoded OCSP response. A
-// `.der` suffix is treated as a DER encoded OCSP response. If the suffix is
-// neither `.pem` nor `.der` then the file content is assumed to be base64
-// encoded.
+// ReadTestOCSPResponse loads an OCSP response from the given inPath, which should be
+// relative to `testdata/`. If the filename ends with `.der`, the file is treated as a
+// binary DER-encoded OCSP response. Otherwise, the file is expected to contain a base64-encoded
+// OCSP response.
 //
-// Important: ReadTestOCSPResponse is only appropriate for unit tests. It will
-// panic if the inPath file can not be loaded.
+// This function is intended for use in unit tests only. It will call tb.Fatalf if the file cannot
+// be read, decoded, or parsed.
 func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
 	tb.Helper()
 	fullPath := "../../testdata/" + inPath
@@ -258,16 +256,6 @@ func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
 
 	var data []byte
 	switch {
-	case strings.HasSuffix(inPath, ".pem"):
-		block, _ := pem.Decode(fileContent)
-		if block == nil {
-			tb.Fatalf("failed to PEM decode OCSP response from %q", fullPath)
-		} else {
-			if block.Type != "OCSP RESPONSE" {
-				tb.Fatalf("PEM block from %q is not an OCSP RESPONSE", fullPath)
-			}
-			data = block.Bytes
-		}
 	case strings.HasSuffix(inPath, ".der"):
 		data = fileContent
 	default:

@@ -176,7 +176,7 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		if p == nil {
 			log.Fatal("unable to parse PEM")
 		}
-		if p.Type != "CERTIFICATE" && p.Type != "X509 CRL" && p.Type != "OCSP RESPONSE" {
+		if p.Type != "CERTIFICATE" && p.Type != "X509 CRL" {
 			log.Fatalf("unknown PEM type %s", p.Type)
 		}
 		asn1Data = p.Bytes
