@@ -31,7 +31,7 @@ func init() {
 			Description:   "The AuthKey extension must only contain the KeyIdentifier field.",
 			Citation:      "BRs: 7.2.2",
 			Source:        lint.CABFBaselineRequirements,
-			EffectiveDate: util.CABFBRs_2_0_0_Date,
+			EffectiveDate: util.CABFBRs_2_0_1_Date,
 		},
 		Lint: func() lint.RevocationListLintInterface { return &authKeyIDOnlyContainsKeyID{} },
 	})
