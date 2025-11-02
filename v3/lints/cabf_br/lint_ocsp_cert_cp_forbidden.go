@@ -24,7 +24,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:                    "e_ocsp_cert_cp_forbidden",
-			Description:             "In OCSP certificates, the CDP extension MUST NOT appear",
+			Description:             "In OCSP certificates, the CP extension MUST NOT appear",
 			Citation:                "CABF TLS BRs §7.1.2.8.2 OCSP Responder Extensions",
 			Source:                  lint.CABFBaselineRequirements,
 			EffectiveDate:           util.SC62EffectiveDate,
