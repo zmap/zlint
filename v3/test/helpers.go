@@ -218,13 +218,14 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 
 	if strings.Contains(string(data), "-BEGIN X509 CRL-") {
 		block, _ := pem.Decode(data)
-		if block == nil { //nolint: staticcheck // tb.Fatalf exits
+		if block == nil {
 			tb.Fatalf(
 				"Failed to PEM decode test revocation list from %q - "+
 					"Does a unit test have a buggy test cert file?\n",
 				fullPath)
+		} else {
+			data = block.Bytes
 		}
-		data = block.Bytes //nolint: staticcheck // tb.Fatalf exits
 	}
 
 	theCrl, err := x509.ParseRevocationList(data)
@@ -238,28 +239,30 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	return theCrl
 }
 
-// ReadTestOCSPResponse loads a ocsp.Response from the given inPath which is assumed
-// to be relative to `testdata/`. The OCSP file must contain the OCSP response in
-// Base64 encoding. openssl ocsp -resp_text -respin <(base64 -d the_filename)
-// To decode it using OpenSSL, store the base64-encoded in string in a file, and run:
-// Important: ReadTestOCSPResponse is only appropriate for unit tests. It will panic if
-// the inPath file can not be loaded.
+// ReadTestOCSPResponse loads an OCSP response from the given inPath, which should be
+// relative to `testdata/`. If the filename ends with `.der`, the file is treated as a
+// binary DER-encoded OCSP response. Otherwise, the file is expected to contain a base64-encoded
+// OCSP response.
+//
+// This function is intended for use in unit tests only. It will call tb.Fatalf if the file cannot
+// be read, decoded, or parsed.
 func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
 	tb.Helper()
 	fullPath := "../../testdata/" + inPath
-	base64Data, err := os.ReadFile(fullPath)
+	fileContent, err := os.ReadFile(fullPath)
 	if err != nil {
 		tb.Fatalf("Failed to read file: %v", err)
 	}
-	data, err := base64.StdEncoding.DecodeString(string(base64Data))
-	if err != nil {
-		tb.Fatalf("Failed to decode base64 data: %v", err)
-	}
-	if err != nil {
-		tb.Fatalf(
-			"Unable to read test ocsp response from %q - %q "+
-				"Does a unit test have an incorrect test file name?\n",
-			fullPath, err)
+
+	var data []byte
+	switch {
+	case strings.HasSuffix(inPath, ".der"):
+		data = fileContent
+	default:
+		data, err = base64.StdEncoding.DecodeString(string(fileContent))
+		if err != nil {
+			tb.Fatalf("Failed to decode base64 data: %v", err)
+		}
 	}
 
 	theOcspResponse, err := ocsp.ParseResponse(data, nil)
