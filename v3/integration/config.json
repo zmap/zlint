@@ -990,6 +990,9 @@
     },
     "e_utf8_latin1_mixup": {
         "ErrCount": 131
-    }
+    },
+    "e_basic_constr_invalid_der": {
+		"ErrCount": 5
+	}
   }
 }
