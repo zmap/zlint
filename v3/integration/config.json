@@ -835,7 +835,7 @@
       "NoticeCount": 459
     },
     "n_dnsname_wildcard_left_of_public_suffix": {
-      "NoticeCount": 3
+      "NoticeCount":4
     },
     "n_ecdsa_ee_invalid_ku": {
       "NoticeCount": 29
@@ -850,7 +850,7 @@
       "NoticeCount": 5330
     },
     "n_san_iana_pub_suffix_empty": {
-      "NoticeCount": 667
+      "NoticeCount": 671
     },
     "n_sub_ca_eku_missing": {
       "NoticeCount": 1399
@@ -992,7 +992,7 @@
         "ErrCount": 131
     },
     "e_basic_constr_invalid_der": {
-		"ErrCount": 5
-	}
+      "ErrCount": 5
+    }
   }
 }
