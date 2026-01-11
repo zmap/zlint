@@ -1,7 +1,7 @@
 package etsi
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2025 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -24,11 +24,15 @@ import (
 func TestEtsiQcTypeWeb(t *testing.T) {
 	m := map[string]lint.LintStatus{
 		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Warn,
+		"QcStmtEtsiEsealValidCert02.pem":    lint.Error,
 		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
+		"qcSmimeNatural.pem":                lint.NA,
+		"qcSmimeLegal.pem":                  lint.NA,
+		"qcLegal.pem":                       lint.NA,
+		"missingIdEtsiQcsQctWeb.pem":        lint.Error,
 	}
 	for inputPath, expected := range m {
-		out := test.TestLint("w_qcstatem_qctype_web", inputPath)
+		out := test.TestLint("e_qcstatem_qctype_web", inputPath)
 
 		if out.Status != expected {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -17,6 +17,7 @@ package test
 // Contains resources necessary to the Unit Test Cases
 
 import (
+	"encoding/base64"
 	"encoding/pem"
 	"fmt"
 	"os"
@@ -26,6 +27,7 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
+	"golang.org/x/crypto/ocsp"
 )
 
 // TestLint executes the given lintName against a certificate read from
@@ -66,6 +68,25 @@ func TestRevocationListLintWithConfig(tb testing.TB, lintName string, testCRLFil
 		tb.Fatal(err)
 	}
 	return TestLintRevocationList(tb, lintName, ReadTestRevocationList(tb, testCRLFilename), config)
+}
+
+// TestOCSPResponseLint executes the given lintName against a OCSP Response read from
+// a testocspresponse data file with the given filename. Filenames should be relative to
+// `testdata/` and not absolute file paths.
+//
+//nolint:revive
+func TestOCSPResponseLint(tb testing.TB, lintName string, testOCSPResponseFilename string) *lint.LintResult {
+	tb.Helper()
+	return TestOCSPResponseLintWithConfig(tb, lintName, testOCSPResponseFilename, "")
+}
+
+func TestOCSPResponseLintWithConfig(tb testing.TB, lintName string, testOCSPResponseFilename string, configuration string) *lint.LintResult {
+	tb.Helper()
+	config, err := lint.NewConfigFromString(configuration)
+	if err != nil {
+		tb.Fatal(err)
+	}
+	return TestLintOCSPResponse(tb, lintName, ReadTestOCSPResponse(tb, testOCSPResponseFilename), config)
 }
 
 // TestLintCert executes a lint with the given name against an already parsed
@@ -118,13 +139,37 @@ func TestLintRevocationList(tb testing.TB, lintName string, crl *x509.Revocation
 	return res
 }
 
+// TestLintOCSPResponse executes a lint with the given name against an already parsed
+// OCSP Response. This is useful when a unit test reads a OCSP Response from disk
+// and then mutates it in some way before trying to lint it.
+//
+//nolint:revive
+func TestLintOCSPResponse(tb testing.TB, lintName string, ocspResponse *ocsp.Response, ctx lint.Configuration) *lint.LintResult {
+	tb.Helper()
+	l := lint.GlobalRegistry().OcspResponseLints().ByName(lintName)
+	if l == nil {
+		tb.Fatalf(
+			"Lint name %q does not exist in lint.Lints. "+
+				"Did you forget to RegisterLint?\n",
+			lintName)
+	}
+	res := l.Execute(ocspResponse, ctx)
+	// We never expect a lint to return a nil LintResult
+	if res == nil {
+		tb.Fatalf(
+			"Running lint %q on test ocsp response generated a nil LintResult.\n",
+			lintName)
+	}
+	return res
+}
+
 // ReadTestCert loads a x509.Certificate from the given inPath which is assumed
 // to be relative to `testdata/`.
 //
 // Important: ReadTestCert is only appropriate for unit tests. It will panic if
 // the inPath file can not be loaded.
 func ReadTestCert(inPath string) *x509.Certificate {
-	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
+	fullPath := "../../testdata/" + inPath
 	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		panic(fmt.Sprintf(
@@ -162,7 +207,7 @@ func ReadTestCert(inPath string) *x509.Certificate {
 // the inPath file can not be loaded.
 func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	tb.Helper()
-	fullPath := fmt.Sprintf("../../testdata/%s", inPath)
+	fullPath := "../../testdata/" + inPath
 	data, err := os.ReadFile(fullPath)
 	if err != nil {
 		tb.Fatalf(
@@ -173,13 +218,14 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 
 	if strings.Contains(string(data), "-BEGIN X509 CRL-") {
 		block, _ := pem.Decode(data)
-		if block == nil { //nolint: staticcheck // tb.Fatalf exits
+		if block == nil {
 			tb.Fatalf(
 				"Failed to PEM decode test revocation list from %q - "+
 					"Does a unit test have a buggy test cert file?\n",
 				fullPath)
+		} else {
+			data = block.Bytes
 		}
-		data = block.Bytes //nolint: staticcheck // tb.Fatalf exits
 	}
 
 	theCrl, err := x509.ParseRevocationList(data)
@@ -191,4 +237,41 @@ func ReadTestRevocationList(tb testing.TB, inPath string) *x509.RevocationList {
 	}
 
 	return theCrl
+}
+
+// ReadTestOCSPResponse loads an OCSP response from the given inPath, which should be
+// relative to `testdata/`. If the filename ends with `.der`, the file is treated as a
+// binary DER-encoded OCSP response. Otherwise, the file is expected to contain a base64-encoded
+// OCSP response.
+//
+// This function is intended for use in unit tests only. It will call tb.Fatalf if the file cannot
+// be read, decoded, or parsed.
+func ReadTestOCSPResponse(tb testing.TB, inPath string) *ocsp.Response {
+	tb.Helper()
+	fullPath := "../../testdata/" + inPath
+	fileContent, err := os.ReadFile(fullPath)
+	if err != nil {
+		tb.Fatalf("Failed to read file: %v", err)
+	}
+
+	var data []byte
+	switch {
+	case strings.HasSuffix(inPath, ".der"):
+		data = fileContent
+	default:
+		data, err = base64.StdEncoding.DecodeString(string(fileContent))
+		if err != nil {
+			tb.Fatalf("Failed to decode base64 data: %v", err)
+		}
+	}
+
+	theOcspResponse, err := ocsp.ParseResponse(data, nil)
+	if err != nil {
+		tb.Fatalf(
+			"Failed to parse ocsp response from %q - %q "+
+				"Does a unit test have a buggy test file?\n",
+			fullPath, err)
+	}
+
+	return theOcspResponse
 }

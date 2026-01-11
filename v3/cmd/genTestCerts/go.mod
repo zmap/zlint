@@ -1,17 +1,17 @@
 module github.com/zmap/zlint/v3/cmd/genTestCerts
 
-go 1.18
+go 1.24.0
 
 replace github.com/zmap/zlint/v3 => ../../
 
 require (
-	github.com/zmap/zcrypto v0.0.0-20230310154051-c8b263fd8300
-	github.com/zmap/zlint/v3 v3.0.0
+	github.com/zmap/zcrypto v0.0.0-20251227215108-5ca1211d486b
+	github.com/zmap/zlint/v3 v3.6.8
 )
 
 require (
-	github.com/weppos/publicsuffix-go v0.30.0 // indirect
-	golang.org/x/crypto v0.21.0 // indirect
-	golang.org/x/net v0.23.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	github.com/weppos/publicsuffix-go v0.50.1 // indirect
+	golang.org/x/crypto v0.46.0 // indirect
+	golang.org/x/net v0.48.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
 )

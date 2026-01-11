@@ -40,7 +40,7 @@ func TestSubCertHasIssuerOcsp(t *testing.T) {
 }
 func TestSubCertHasIssuerOcspWithHTTPAndLDAP(t *testing.T) {
 	inputPath := "aiaOCSPOneHTTPOneLDAP.pem"
-	expected := lint.Pass
+	expected := lint.NE
 	out := test.TestLint("e_sub_cert_aia_does_not_contain_ocsp_url", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
