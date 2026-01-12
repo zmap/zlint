@@ -23,8 +23,8 @@ import (
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_cabf_policy_missing",
-			Description:   "The subscriber cert SHALL include one of the reserved policy OIDs in §7.1.6.1",
+			Name:          "e_exactly_one_smime_policy",
+			Description:   "The subscriber cert SHALL include exactly one of the reserved policy OIDs in §7.1.6.1",
 			Citation:      "CABF SMIME BRs §7.1.2.3 Subscriber certificates",
 			Source:        lint.CABFSMIMEBaselineRequirements,
 			EffectiveDate: util.CABF_SMIME_BRs_1_0_0_Date,
@@ -45,12 +45,14 @@ func (l *CABFPolicyMissing) CheckApplies(c *x509.Certificate) bool {
 
 func (l *CABFPolicyMissing) Execute(c *x509.Certificate) *lint.LintResult {
 
-	if util.IsSMIMEBRCertificate(c) {
-		return &lint.LintResult{Status: lint.Pass}
+	if util.ContainsExactlyOneSMIMEPolicy(c.PolicyIdentifiers) {
+		return &lint.LintResult{
+			Status: lint.Pass,
+		}
 	}
 
 	return &lint.LintResult{
 		Status:  lint.Error,
-		Details: "One CABF SMIME BR Reserved Policy Identifier must be present",
+		Details: "There must be exactly one CABF SMIME BR reserved policy OID in CertificatePolicies",
 	}
 }
