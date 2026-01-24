@@ -82,6 +82,26 @@ func TestStateOrProvinceNameMustNotContainControlCharacters(t *testing.T) {
 			input:    "stateWithBackslash.pem",
 			expected: lint.Error,
 		},
+		{
+			name:     "Valid locality name",
+			input:    "localityWithValidName.pem",
+			expected: lint.Pass,
+		},
+		{
+			name:     "Locality with equals",
+			input:    "localityWithEquals.pem",
+			expected: lint.Error,
+		},
+		{
+			name:     "Locality with colon",
+			input:    "localityWithColon.pem",
+			expected: lint.Error,
+		},
+		{
+			name:     "Locality with open brace",
+			input:    "localityWithOpenBrace.pem",
+			expected: lint.Error,
+		},
 	}
 
 	for _, tt := range tests {

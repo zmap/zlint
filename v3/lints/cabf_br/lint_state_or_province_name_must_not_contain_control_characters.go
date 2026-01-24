@@ -56,5 +56,10 @@ func (l *StateOrProvinceNameMustNotContainControlCharacters) Execute(c *x509.Cer
 			return &lint.LintResult{Status: lint.Error}
 		}
 	}
+	for _, locality := range c.Subject.Locality {
+		if controlCharsRegex.MatchString(locality) {
+			return &lint.LintResult{Status: lint.Error}
+		}
+	}
 	return &lint.LintResult{Status: lint.Pass}
 }
