@@ -820,7 +820,7 @@
     "e_aia_ocsp_must_have_http_only": {},
     "e_aia_unique_access_locations": {},
     "e_qcstatem_qctype_web": {
-      "ErrCount": 14
+      "ErrCount": 1
     },
     "e_qcstatem_qctype_smime": { },
     "e_qcstatem_pds_must_have_https_only": { },
@@ -835,7 +835,7 @@
       "NoticeCount": 459
     },
     "n_dnsname_wildcard_left_of_public_suffix": {
-      "NoticeCount": 3
+      "NoticeCount":4
     },
     "n_ecdsa_ee_invalid_ku": {
       "NoticeCount": 29
@@ -850,7 +850,7 @@
       "NoticeCount": 5330
     },
     "n_san_iana_pub_suffix_empty": {
-      "NoticeCount": 667
+      "NoticeCount": 671
     },
     "n_sub_ca_eku_missing": {
       "NoticeCount": 1399
@@ -990,6 +990,12 @@
     },
     "e_utf8_latin1_mixup": {
         "ErrCount": 131
+    },
+    "e_basic_constr_invalid_der": {
+      "ErrCount": 5
+    },
+    "e_state_or_province_name_must_not_contain_control_characters": {
+      "ErrCount": 11
     }
   }
 }
