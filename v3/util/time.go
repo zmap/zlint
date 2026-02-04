@@ -106,6 +106,7 @@ var (
 	// Date when section 9.2.8 of CABF EVG became effective
 	CABFEV_Sec9_2_8_Date        = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
 	CABF_CS_BRs_1_2_Date        = time.Date(2019, time.August, 13, 0, 0, 0, 0, time.UTC)
+	CABF_CS_CSC_31_Date         = time.Date(2026, time.March, 1, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_FIRST_MILESTONE  = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_SECOND_MILESTONE = time.Date(2027, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_THIRD_MILESTONE  = time.Date(2029, time.March, 15, 0, 0, 0, 0, time.UTC)
