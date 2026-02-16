@@ -24,6 +24,67 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
+func TestNestedConfigs(t *testing.T) {
+	c, err := NewConfigFromString(`
+[Test]
+A = "Test"
+[Test.Sub1]
+A = "Test.Sub1"
+[Test.Sub1.Sub2]
+A = "Test.Sub1.Sub2"
+[Test2.Sub3.Sub4]
+A = "Test2.Sub3.Sub4"
+[Test3.ConfigA.ConfigB]
+A = "Test3.ConfigA.ConfigB.A"
+`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	type Test struct {
+		A string
+	}
+	type Test2 struct {
+		ConfigA struct{ ConfigB Test }
+	}
+	t.Run("nested configs", func(t *testing.T) {
+		for _, ns := range []string{"Test", "Test.Sub1", "Test.Sub1.Sub2", "Test2.Sub3.Sub4"} {
+			test := Test{}
+			err = c.Configure(&test, ns)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if test.A != ns {
+				t.Fatalf("wanted %q got %q", ns, test.A)
+			}
+		}
+	})
+	t.Run("nested config from top", func(t *testing.T) {
+		got := Test2{}
+		err = c.Configure(&got, "Test3")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		want := Test2{}
+		want.ConfigA.ConfigB.A = "Test3.ConfigA.ConfigB.A"
+		if !reflect.DeepEqual(got, want) {
+			t.Fatalf("wanted  %+v got %+v", want, got)
+		}
+	})
+	t.Run("nested config", func(t *testing.T) {
+		got := Test{}
+		err = c.Configure(&got, "Test3.ConfigA.ConfigB")
+		if err != nil {
+			t.Fatal(err)
+		}
+		want := "Test3.ConfigA.ConfigB.A"
+		if got.A != want {
+			t.Fatalf("wanted %q got %q", want, got)
+		}
+	})
+}
+
 func TestInt(t *testing.T) {
 	type Test struct {
 		A int
