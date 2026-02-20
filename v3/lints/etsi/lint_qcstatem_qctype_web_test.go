@@ -28,7 +28,8 @@ func TestEtsiQcTypeWeb(t *testing.T) {
 		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
 		"qcSmimeNatural.pem":                lint.NA,
 		"qcSmimeLegal.pem":                  lint.NA,
-		"qcLegal.pem":                       lint.Error,
+		"qcLegal.pem":                       lint.NA,
+		"missingIdEtsiQcsQctWeb.pem":        lint.Error,
 	}
 	for inputPath, expected := range m {
 		out := test.TestLint("e_qcstatem_qctype_web", inputPath)

@@ -1896,7 +1896,7 @@ var tldMap = map[string]GTLDPeriod{
 	"dunlop": {
 		GTLD:           "dunlop",
 		DelegationDate: "2016-06-10",
-		RemovalDate:    "",
+		RemovalDate:    "2025-10-21",
 	},
 	"duns": {
 		GTLD:           "duns",
@@ -2666,7 +2666,7 @@ var tldMap = map[string]GTLDPeriod{
 	"goo": {
 		GTLD:           "goo",
 		DelegationDate: "2015-03-03",
-		RemovalDate:    "",
+		RemovalDate:    "2026-02-06",
 	},
 	"goodhands": {
 		GTLD:           "goodhands",
@@ -5226,7 +5226,7 @@ var tldMap = map[string]GTLDPeriod{
 	"redstone": {
 		GTLD:           "redstone",
 		DelegationDate: "2015-03-28",
-		RemovalDate:    "",
+		RemovalDate:    "2025-08-26",
 	},
 	"redumbrella": {
 		GTLD:           "redumbrella",
@@ -6901,7 +6901,7 @@ var tldMap = map[string]GTLDPeriod{
 	"wolterskluwer": {
 		GTLD:           "wolterskluwer",
 		DelegationDate: "2016-02-11",
-		RemovalDate:    "",
+		RemovalDate:    "2026-02-13",
 	},
 	"woodside": {
 		GTLD:           "woodside",

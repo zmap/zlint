@@ -61,8 +61,10 @@ var (
 	SubCert39Month                                   = time.Date(2016, time.July, 2, 0, 0, 0, 0, time.UTC)
 	SubCert825Days                                   = time.Date(2018, time.March, 2, 0, 0, 0, 0, time.UTC)
 	CABV148Date                                      = time.Date(2017, time.June, 8, 0, 0, 0, 0, time.UTC)
+	EtsiEn319_412_4_V1_3_0_Date                      = time.Date(2023, time.June, 1, 0, 0, 0, 0, time.UTC)
 	EtsiEn319_412_5_V2_2_1_Date                      = time.Date(2017, time.November, 1, 0, 0, 0, 0, time.UTC)
 	EtsiEn319_412_5_V2_4_1_Date                      = time.Date(2023, time.September, 1, 0, 0, 0, 0, time.UTC)
+	EtsiEn319_411_2_V2_5_0_Date                      = time.Date(2023, time.July, 1, 0, 0, 0, 0, time.UTC)
 	OnionOnlyEVDate                                  = time.Date(2015, time.May, 1, 0, 0, 0, 0, time.UTC)
 	CABV201Date                                      = time.Date(2017, time.July, 28, 0, 0, 0, 0, time.UTC)
 	AppleCTPolicyDate                                = time.Date(2018, time.October, 15, 0, 0, 0, 0, time.UTC)
@@ -106,6 +108,7 @@ var (
 	// Date when section 9.2.8 of CABF EVG became effective
 	CABFEV_Sec9_2_8_Date        = time.Date(2020, time.January, 31, 0, 0, 0, 0, time.UTC)
 	CABF_CS_BRs_1_2_Date        = time.Date(2019, time.August, 13, 0, 0, 0, 0, time.UTC)
+	CABF_CS_CSC_31_Date         = time.Date(2026, time.March, 1, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_FIRST_MILESTONE  = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_SECOND_MILESTONE = time.Date(2027, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_THIRD_MILESTONE  = time.Date(2029, time.March, 15, 0, 0, 0, 0, time.UTC)
