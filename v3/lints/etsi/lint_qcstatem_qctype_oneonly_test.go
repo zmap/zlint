@@ -59,7 +59,7 @@ func TestEtsiQcTypeOneOnly(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_qcstatem_qctype_valid_oneonly", tc.InputFilename)
+			result := test.TestLint("e_qcstatem_qctype_oneonly", tc.InputFilename)
 
 			if result.Details != tc.ExpectedDetails {
 				t.Errorf("expected result details %v was %v", tc.ExpectedDetails, result.Details)

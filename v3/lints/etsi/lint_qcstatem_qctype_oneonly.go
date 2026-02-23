@@ -28,7 +28,7 @@ type qcStatemQctypeValidOneOnly struct{}
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_qcstatem_qctype_valid_oneonly",
+			Name:          "e_qcstatem_qctype_oneonly",
 			Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features exactly one of the allowed QcType OIDs",
 			Citation:      "ETSI EN 319 412 - 5 V2.5.0 (2025 - 03) / Section 4.2.3",
 			Source:        lint.EtsiEsi,
