@@ -21,7 +21,7 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestEtsiQcType(t *testing.T) {
+func TestEtsiQcTypeOneOnly(t *testing.T) {
 	testCases := []struct {
 		Name            string
 		InputFilename   string
@@ -30,46 +30,43 @@ func TestEtsiQcType(t *testing.T) {
 	}{
 		{
 			Name:           "NE - correct data and before 2.5.0 Version of ETSI EN 319 412-5",
-			InputFilename:  "QcStmtEtsiValidCert03.pem",
-			ExpectedResult: lint.Pass,
-		},
-		{
-			Name:           "Pass - QcStmtEtsiValidCert11",
 			InputFilename:  "QcStmtEtsiValidCert11.pem",
-			ExpectedResult: lint.Pass,
-		},
-		{
-			Name:           "Error - QcStmtEtsiValidAddLangCert13",
-			InputFilename:  "QcStmtEtsiValidAddLangCert13.pem",
-			ExpectedResult: lint.Pass,
-		},
-		{
-			Name:           "Pass - QcStmtEtsiEsealValidCert02",
-			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
-			ExpectedResult: lint.Pass,
-		},
-		{
-			Name:           "NA - Certificate has no QcStatements",
-			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
-			ExpectedResult: lint.NA,
-		},
-		{
-			Name:           "NE - certificate has only eseal qc type and issued on  01. May 2025",
-			InputFilename:  "qctWithEseal.pem",
 			ExpectedResult: lint.NE,
 		},
 		{
-			Name:           "Error - certificate has a wrong qcType in QcStatements and is issued in 2024",
-			InputFilename:  "qctWithWrongType_2024.pem",
-			ExpectedResult: lint.Error,
+			Name:           "Pass - certificate has only eseal qc type",
+			InputFilename:  "qctWithEseal.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:            "Error - certificate has eseal and web qc types",
+			InputFilename:   "qctWithEsealAndWeb.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "more than one QcType present, sequence must have exactly size 1",
+		},
+		{
+			Name:            "Error - certificate has a wrong qcType in QcStatements",
+			InputFilename:   "qctWithWrongType.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "encountered invalid ETSI QcType OID: 0.4.0.1862.1.2",
+		},
+		{
+			Name:            "Error - certificate has a wrong qcType in QcStatements",
+			InputFilename:   "qctWithWrongType.pem",
+			ExpectedResult:  lint.Error,
+			ExpectedDetails: "encountered invalid ETSI QcType OID: 0.4.0.1862.1.2",
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_qcstatem_qctype_valid", tc.InputFilename)
+			result := test.TestLint("e_qcstatem_qctype_valid_oneonly", tc.InputFilename)
 
 			if result.Details != tc.ExpectedDetails {
 				t.Errorf("expected result details %v was %v", tc.ExpectedDetails, result.Details)
+			}
+
+			if result.Status != tc.ExpectedResult {
+				t.Errorf("expected result %v was %v - details: %v", tc.ExpectedResult, result.Status, result.Details)
 			}
 		})
 	}

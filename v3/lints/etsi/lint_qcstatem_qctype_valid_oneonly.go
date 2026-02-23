@@ -23,31 +23,30 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-type qcStatemQctypeValid struct{}
+type qcStatemQctypeValidOneOnly struct{}
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:            "e_qcstatem_qctype_valid",
-			Description:     "Checks that a QC Statement of the type Id-etsi-qcs-QcType features a non-empty list of only the allowed QcType OIDs",
-			Citation:        "ETSI EN 319 412 - 5 V2.2.1 (2017 - 11) / Section 4.2.3",
-			Source:          lint.EtsiEsi,
-			EffectiveDate:   util.EtsiEn319_412_5_V2_2_1_Date,
-			IneffectiveDate: util.EtsiEn319_411_2_V2_5_0_Date,
+			Name:          "e_qcstatem_qctype_valid_oneonly",
+			Description:   "Checks that a QC Statement of the type Id-etsi-qcs-QcType features exactly one of the allowed QcType OIDs",
+			Citation:      "ETSI EN 319 412 - 5 V2.5.0 (2025 - 03) / Section 4.2.3",
+			Source:        lint.EtsiEsi,
+			EffectiveDate: util.EtsiEn319_411_2_V2_5_0_Date,
 		},
-		Lint: NewQcStatemQctypeValid,
+		Lint: NewQcStatemQctypeValidOneOnly,
 	})
 }
 
-func NewQcStatemQctypeValid() lint.LintInterface {
-	return &qcStatemQctypeValid{}
+func NewQcStatemQctypeValidOneOnly() lint.LintInterface {
+	return &qcStatemQctypeValidOneOnly{}
 }
 
-func (this *qcStatemQctypeValid) getStatementOid() *asn1.ObjectIdentifier {
+func (this *qcStatemQctypeValidOneOnly) getStatementOid() *asn1.ObjectIdentifier {
 	return &util.IdEtsiQcsQcType
 }
 
-func (l *qcStatemQctypeValid) CheckApplies(c *x509.Certificate) bool {
+func (l *qcStatemQctypeValidOneOnly) CheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
@@ -57,7 +56,7 @@ func (l *qcStatemQctypeValid) CheckApplies(c *x509.Certificate) bool {
 	return false
 }
 
-func (l *qcStatemQctypeValid) Execute(c *x509.Certificate) *lint.LintResult {
+func (l *qcStatemQctypeValidOneOnly) Execute(c *x509.Certificate) *lint.LintResult {
 
 	errString := ""
 	ext := util.GetExtFromCert(c, util.QcStateOid)
@@ -67,6 +66,12 @@ func (l *qcStatemQctypeValid) Execute(c *x509.Certificate) *lint.LintResult {
 		qcType := s.(util.Etsi423QcType)
 		if len(qcType.TypeOids) == 0 {
 			errString += "no QcType present, sequence of OIDs is empty"
+		}
+		if len(qcType.TypeOids) == 0 {
+			errString += "no QcType present, sequence of OIDs is empty"
+		}
+		if len(qcType.TypeOids) > 1 {
+			errString += "more than one QcType present, sequence must have exactly size 1"
 		}
 		for _, t := range qcType.TypeOids {
 
