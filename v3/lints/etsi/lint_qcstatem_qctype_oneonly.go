@@ -67,9 +67,6 @@ func (l *qcStatemQctypeValidOneOnly) Execute(c *x509.Certificate) *lint.LintResu
 		if len(qcType.TypeOids) == 0 {
 			errString += "no QcType present, sequence of OIDs is empty"
 		}
-		if len(qcType.TypeOids) == 0 {
-			errString += "no QcType present, sequence of OIDs is empty"
-		}
 		if len(qcType.TypeOids) > 1 {
 			errString += "more than one QcType present, sequence must have exactly size 1"
 		}
