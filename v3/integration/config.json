@@ -996,6 +996,9 @@
     },
     "e_state_or_province_name_must_not_contain_control_characters": {
       "ErrCount": 11
-    }
+    },
+    "e_subj_email_not_in_san": {
+		  "ErrCount": 16576
+	  }
   }
 }
