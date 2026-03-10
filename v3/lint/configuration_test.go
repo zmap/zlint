@@ -21,8 +21,69 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/pelletier/go-toml"
+	"github.com/pelletier/go-toml/v2"
 )
+
+func TestNestedConfigs(t *testing.T) {
+	c, err := NewConfigFromString(`
+[Test]
+A = "Test"
+[Test.Sub1]
+A = "Test.Sub1"
+[Test.Sub1.Sub2]
+A = "Test.Sub1.Sub2"
+[Test2.Sub3.Sub4]
+A = "Test2.Sub3.Sub4"
+[Test3.ConfigA.ConfigB]
+A = "Test3.ConfigA.ConfigB.A"
+`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	type Test struct {
+		A string
+	}
+	type Test2 struct {
+		ConfigA struct{ ConfigB Test }
+	}
+	t.Run("nested configs", func(t *testing.T) {
+		for _, ns := range []string{"Test", "Test.Sub1", "Test.Sub1.Sub2", "Test2.Sub3.Sub4"} {
+			test := Test{}
+			err = c.Configure(&test, ns)
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			if test.A != ns {
+				t.Fatalf("wanted %q got %q", ns, test.A)
+			}
+		}
+	})
+	t.Run("nested config from top", func(t *testing.T) {
+		got := Test2{}
+		err = c.Configure(&got, "Test3")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		want := Test2{}
+		want.ConfigA.ConfigB.A = "Test3.ConfigA.ConfigB.A"
+		if !reflect.DeepEqual(got, want) {
+			t.Fatalf("wanted  %+v got %+v", want, got)
+		}
+	})
+	t.Run("nested config", func(t *testing.T) {
+		got := Test{}
+		err = c.Configure(&got, "Test3.ConfigA.ConfigB")
+		if err != nil {
+			t.Fatal(err)
+		}
+		want := "Test3.ConfigA.ConfigB.A"
+		if got.A != want {
+			t.Fatalf("wanted %q got %q", want, got)
+		}
+	})
+}
 
 func TestInt(t *testing.T) {
 	type Test struct {
@@ -383,7 +444,7 @@ func TestSmokeExamplePrinting(t *testing.T) {
 	go func() {
 		defer wg.Done()
 		defer w.Close()
-		err = toml.NewEncoder(w).Indentation("").CompactComments(true).Encode(mapping)
+		err = toml.NewEncoder(w).SetIndentSymbol("").SetIndentTables(false).Encode(mapping)
 	}()
 	if err != nil {
 		t.Fatal(err)
@@ -930,8 +991,7 @@ func TestPrintConfiguration(t *testing.T) {
 	// I'm not a huge fan of this sort of test since it will have to be updated
 	// on the slightest change, but it's better than not have a test for printing
 	// out the configuration file.
-	want := `
-[AppleRootStorePolicyConfig]
+	want := `[AppleRootStorePolicyConfig]
 
 [CABFBaselineRequirementsConfig]
 CrossSignedCa = false
@@ -1015,10 +1075,9 @@ func TestNewGlobalWithPrivateMembersDontGetPrinted(t *testing.T) {
 	// I'm not a huge fan of this sort of test since it will have to be updated
 	// on the slightest change, but it's better than not have a test for printing
 	// out the configuration file.
-	want := `
-[this_is_a_test]
+	want := `[this_is_a_test]
 A = 1
-B = "2"
+B = '2'
 `
 	if got != want {
 		t.Fatalf("wanted '%s' but got '%s'", want, got)
@@ -1095,12 +1154,8 @@ func TestStripGlobalsFromStructWithPrivates(t *testing.T) {
 
 func TestNewEmptyConfig(t *testing.T) {
 	c := NewEmptyConfig()
-	got, err := c.tree.Marshal()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got != nil {
-		t.Fatalf("wanted nil byte slice, got %s", string(got))
+	if len(c.tree) != 0 {
+		t.Fatalf("wanted empty config, got %#v", c.tree)
 	}
 }
 
@@ -1172,12 +1227,8 @@ func TestEmptyConfigFromEmptyPath(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	got, err := c.tree.Marshal()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got != nil {
-		t.Fatalf("wanted nil byte slice, got %s", string(got))
+	if len(c.tree) != 0 {
+		t.Fatalf("wanted empty config, got %#v", c.tree)
 	}
 }
 
