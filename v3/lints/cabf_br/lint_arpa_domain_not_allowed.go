@@ -30,7 +30,7 @@ func init() {
 			Description:   "CAs SHALL NOT issue Certificates containing Domain Names that end in an IP Reverse Zone Suffix",
 			Citation:      "CABF TLS BRs section 4.2.2",
 			Source:        lint.CABFBaselineRequirements,
-			EffectiveDate: util.CABF_SC091_EffectiveDate,
+			EffectiveDate: util.CABF_SC086_EffectiveDate,
 		},
 		Lint: NewARPADomainNotAllowed,
 	})
