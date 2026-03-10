@@ -112,7 +112,7 @@ var (
 	CABF_SC081_FIRST_MILESTONE  = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_SECOND_MILESTONE = time.Date(2027, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_THIRD_MILESTONE  = time.Date(2029, time.March, 15, 0, 0, 0, 0, time.UTC)
-	CABF_SC091_EffectiveDate = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
+	CABF_SC086_EffectiveDate = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
 )
 
 var (
