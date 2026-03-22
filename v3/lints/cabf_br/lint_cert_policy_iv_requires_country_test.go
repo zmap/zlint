@@ -38,3 +38,30 @@ func TestCertPolicyIvNoCountry(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCertPolicyDv(t *testing.T) {
+	inputPath := "domainValGoodSubject.pem"
+	expected := lint.NA
+	out := test.TestLint("e_cert_policy_iv_requires_country", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyIvSubCa(t *testing.T) {
+	inputPath := "ivCaWithNoCountry.pem"
+	expected := lint.NA
+	out := test.TestLint("e_cert_policy_iv_requires_country", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyIvNotEffective(t *testing.T) {
+	inputPath := "indivValNoCountryNotEffective.pem"
+	expected := lint.NE
+	out := test.TestLint("e_cert_policy_iv_requires_country", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
