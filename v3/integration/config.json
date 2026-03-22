@@ -1000,7 +1000,7 @@
     },
     "e_ext_cannot_be_empty_sequence": {
       "ErrCount": 23
-    }
+    },
     "e_subj_email_not_in_san": {
 		  "ErrCount": 16576
 	  }
