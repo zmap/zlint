@@ -28,7 +28,7 @@ v1.3.1 to v1.7.2: 7.1.6.1
 v1.7.3 to v1.8.7: 7.1.6.4
 
 --- Version Notes ---
-This requirement was rewritten in v2.0.0 and this list was replaced by e_cab_iv_requires_personal_name_strict.
+This requirement was rewritten in v2.0.0 and this lint was replaced by e_cab_iv_requires_personal_name_strict.
 The language below represents the last version of the requirement implemented by this lint as it appeared in v1.8.7.
 
 --- Requirements Language ---
