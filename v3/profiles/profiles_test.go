@@ -53,6 +53,7 @@ func TestNotMissingAnyLintSources(t *testing.T) {
 		"cabf_cs_br":    true,
 		"cabf_ev":       true,
 		"cabf_smime_br": true,
+		"chrome":        true,
 		"community":     true,
 		"etsi":          true,
 		"mozilla":       true,
