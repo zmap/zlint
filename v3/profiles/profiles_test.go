@@ -27,6 +27,7 @@ import (
 	_ "github.com/zmap/zlint/v3/lints/community"
 	_ "github.com/zmap/zlint/v3/lints/etsi"
 	_ "github.com/zmap/zlint/v3/lints/mozilla"
+	_ "github.com/zmap/zlint/v3/lints/chrome"
 	_ "github.com/zmap/zlint/v3/lints/rfc"
 )
 
