@@ -22,7 +22,7 @@ import (
 )
 
 func TestClientAuthNotAllowed(t *testing.T) {
-	
+
 	testCases := []struct {
 		desc string
 		path string
@@ -54,7 +54,7 @@ func TestClientAuthNotAllowed(t *testing.T) {
 			want: lint.Error,
 		},
 	}
-	
+
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			out := test.TestLint("e_client_auth_not_allowed", tc.path)
