@@ -28,7 +28,6 @@ type LintSource string
 
 const (
 	UnknownLintSource             LintSource = "Unknown"
-	RFC3161                       LintSource = "RFC3161"
 	RFC3279                       LintSource = "RFC3279"
 	RFC5280                       LintSource = "RFC5280"
 	RFC5480                       LintSource = "RFC5480"
@@ -57,7 +56,6 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 
 	switch LintSource(throwAway) {
 	case RFC3279,
-		RFC3161,
 		RFC5280,
 		RFC5480,
 		RFC5891,
@@ -90,8 +88,6 @@ func (s *LintSource) FromString(src string) {
 	// Trim space and try to match a known value
 	src = strings.TrimSpace(src)
 	switch LintSource(src) {
-	case RFC3161:
-		*s = RFC3161
 	case RFC3279:
 		*s = RFC3279
 	case RFC5280:
