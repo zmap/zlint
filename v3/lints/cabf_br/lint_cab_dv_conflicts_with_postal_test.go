@@ -38,3 +38,21 @@ func TestCertPolicyConflictsWithPostal(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCertPolicyConflictsWithPostalLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithPostalPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_postal", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithPostalButSuperseded(t *testing.T) {
+	inputPath := "domainValWithPostalPost200.pem"
+	expected := lint.NE
+	out := test.TestLint("e_cab_dv_conflicts_with_postal", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
