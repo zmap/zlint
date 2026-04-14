@@ -3,6 +3,7 @@ package cabf_cs_br
 import (
 	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -42,7 +43,7 @@ func (l *csAiaOcspNotHttp) Execute(c *x509.Certificate) *lint.LintResult {
 		if err != nil {
 			return &lint.LintResult{Status: lint.Error, Details: "Could not parse OCSP URL in AIA."}
 		}
-		if purl.Scheme != "http" {
+		if !strings.EqualFold(purl.Scheme, "http") {
 			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Found scheme %s in OCSP URL of AIA, which is not allowed.", purl.Scheme)}
 		}
 	}
