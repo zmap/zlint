@@ -1,6 +1,8 @@
 package cabf_cs_br
 
 import (
+	"fmt"
+	"net/url"
 	"strings"
 
 	"github.com/zmap/zcrypto/x509"
@@ -39,15 +41,26 @@ func (l *csAiaMissingCaIssuersHttpUrl) Execute(c *x509.Certificate) *lint.LintRe
 	if len(c.IssuingCertificateURL) == 0 {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: "authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's certificate (id-ad-caIssuers)."}
-	}
-
-	for _, uri := range c.IssuingCertificateURL {
-		if strings.HasPrefix(uri, "http://") {
-			return &lint.LintResult{Status: lint.Pass}
+			Details: "authorityInformationAccess MUST include an id-ad-caIssuers HTTP URL.",
 		}
 	}
-	return &lint.LintResult{
-		Status:  lint.Error,
-		Details: "authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's certificate (id-ad-caIssuers)."}
+
+	for _, u := range c.IssuingCertificateURL {
+		purl, err := url.Parse(u)
+		if err != nil {
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: "Could not parse caIssuers in AIA.",
+			}
+		}
+
+		if !strings.EqualFold(purl.Scheme, "http") {
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: fmt.Sprintf("Found scheme %s in caIssuers of AIA, which is not allowed.", purl.Scheme),
+			}
+		}
+	}
+
+	return &lint.LintResult{Status: lint.Pass}
 }

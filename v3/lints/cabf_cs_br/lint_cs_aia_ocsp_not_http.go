@@ -1,7 +1,8 @@
 package cabf_cs_br
 
 import (
-	"strings"
+	"fmt"
+	"net/url"
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
@@ -36,11 +37,13 @@ func (l *csAiaOcspNotHttp) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *csAiaOcspNotHttp) Execute(c *x509.Certificate) *lint.LintResult {
-	for _, uri := range c.OCSPServer {
-		if !strings.HasPrefix(uri, "http://") {
-			return &lint.LintResult{
-				Status:  lint.Error,
-				Details: "authorityInformationAccess MUST contain the HTTP URL of the Issuing CA's OCSP responder (id-ad-ocsp)."}
+	for _, u := range c.OCSPServer {
+		purl, err := url.Parse(u)
+		if err != nil {
+			return &lint.LintResult{Status: lint.Error, Details: "Could not parse OCSP URL in AIA."}
+		}
+		if purl.Scheme != "http" {
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Found scheme %s in OCSP URL of AIA, which is not allowed.", purl.Scheme)}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}

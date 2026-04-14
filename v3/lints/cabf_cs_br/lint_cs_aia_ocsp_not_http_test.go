@@ -24,6 +24,11 @@ func TestCsAiaOcspNotHttp(t *testing.T) {
 			ExpectedResult: lint.Error,
 		},
 		{
+			Name:           "fail - code signing certificate with caIssuers URL that can not be parsed",
+			InputFilename:  "code_signing/cs_aia_malformed_ocsp_url.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
 			Name:           "na - code signing certificate with no OCSP URL",
 			InputFilename:  "code_signing/cs_aia_no_ocsp.pem",
 			ExpectedResult: lint.NA,

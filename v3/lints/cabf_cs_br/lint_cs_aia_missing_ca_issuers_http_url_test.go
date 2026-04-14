@@ -28,6 +28,11 @@ func TestCsAiaMissingCaIssuersHttpUrl(t *testing.T) {
 			InputFilename:  "code_signing/cs_aia_no_ca_issuers.pem",
 			ExpectedResult: lint.Error,
 		},
+		{
+			Name:           "fail - code signing certificate with caIssuers URL that can not be parsed",
+			InputFilename:  "code_signing/cs_aia_malformed_ca_issuers.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
