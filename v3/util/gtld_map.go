@@ -4093,6 +4093,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2015-10-29",
 		RemovalDate:    "2018-05-26",
 	},
+	"merck": {
+		GTLD:           "merck",
+		DelegationDate: "2026-04-17",
+		RemovalDate:    "",
+	},
 	"merckmsd": {
 		GTLD:           "merckmsd",
 		DelegationDate: "2017-07-10",
