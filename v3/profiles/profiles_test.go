@@ -24,6 +24,7 @@ import (
 	_ "github.com/zmap/zlint/v3/lints/cabf_cs_br"
 	_ "github.com/zmap/zlint/v3/lints/cabf_ev"
 	_ "github.com/zmap/zlint/v3/lints/cabf_smime_br"
+	_ "github.com/zmap/zlint/v3/lints/chrome"
 	_ "github.com/zmap/zlint/v3/lints/community"
 	_ "github.com/zmap/zlint/v3/lints/etsi"
 	_ "github.com/zmap/zlint/v3/lints/mozilla"
@@ -52,6 +53,7 @@ func TestNotMissingAnyLintSources(t *testing.T) {
 		"cabf_cs_br":    true,
 		"cabf_ev":       true,
 		"cabf_smime_br": true,
+		"chrome":        true,
 		"community":     true,
 		"etsi":          true,
 		"mozilla":       true,
