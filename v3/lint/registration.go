@@ -24,7 +24,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pelletier/go-toml"
+	"github.com/pelletier/go-toml/v2"
 )
 
 // FilterOptions is a struct used by Registry.Filter to create a sub registry
@@ -493,7 +493,7 @@ func (r *registryImpl) defaultConfiguration(globals []GlobalConfiguration) ([]by
 
 	}
 	w := &bytes.Buffer{}
-	err := toml.NewEncoder(w).Indentation("").CompactComments(true).Encode(configurables)
+	err := toml.NewEncoder(w).SetIndentSymbol("").SetIndentTables(false).Encode(configurables)
 	if err != nil {
 		return nil, err
 	}

@@ -22,13 +22,13 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/pelletier/go-toml"
+	"github.com/pelletier/go-toml/v2"
 )
 
 // Configuration is a ZLint configuration which serves as a target
 // to hold the full TOML tree that is a physical ZLint configuration./
 type Configuration struct {
-	tree *toml.Tree
+	tree map[string]any
 }
 
 // MaybeConfigure is a thin wrapper over Configure.
@@ -93,11 +93,14 @@ func (c Configuration) Configure(lint interface{}, namespace string) error {
 // The contents of the provided reader MUST be in a valid TOML format. The caller of this function
 // is responsible for closing the reader, if appropriate.
 func NewConfig(r io.Reader) (Configuration, error) {
-	tree, err := toml.LoadReader(r)
-	if err != nil {
+	var tree map[string]any
+	if err := toml.NewDecoder(r).Decode(&tree); err != nil {
 		return Configuration{}, err
 	}
-	return Configuration{tree}, nil
+	if tree == nil {
+		tree = map[string]any{}
+	}
+	return Configuration{tree: tree}, nil
 }
 
 // NewConfigFromFile attempts to instantiate a configuration from the provided filesystem path.
@@ -167,13 +170,39 @@ func NewEmptyConfig() Configuration {
 // If there is no such namespace found in this configuration then provided the namespace specific data encoded
 // within `target` is left unmodified. However, configuration of higher scoped fields will still be attempted.
 func (c Configuration) deserializeConfigInto(target interface{}, namespace string) error {
-	if tree := c.tree.Get(namespace); tree != nil {
-		err := tree.(*toml.Tree).Unmarshal(target)
+	if tree := getNamespace(c.tree, namespace); tree != nil {
+		b, err := toml.Marshal(tree)
 		if err != nil {
+			return err
+		}
+		if err := toml.Unmarshal(b, target); err != nil {
 			return err
 		}
 	}
 	return c.resolveHigherScopedReferences(target)
+}
+
+func getNamespace(doc map[string]any, namespace string) any {
+	if doc == nil {
+		return nil
+	}
+	if namespace == "" {
+		return doc
+	}
+
+	cur := any(doc)
+	for part := range strings.SplitSeq(namespace, ".") {
+		m, ok := cur.(map[string]any)
+		if !ok {
+			return nil
+		}
+		next, ok := m[part]
+		if !ok {
+			return nil
+		}
+		cur = next
+	}
+	return cur
 }
 
 // resolveHigherScopeReferences takes in an interface{} value and attempts to
