@@ -21,20 +21,27 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestKeyCertSignNotCA(t *testing.T) {
-	inputPath := "keyCertSignNotCA.pem"
-	expected := lint.Error
-	out := test.TestLint("e_ca_is_ca", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestCaIsCa(t *testing.T) {
+	tests := []struct {
+		id        string
+		inputFile string
+		expected  lint.LintStatus
+	}{
+		{"TestKeyCertSignNotCA", "keyCertSignNotCA.pem", lint.Error},
+		{"TestKeyCertSignNotCAExplicitFalse", "keyCertSignNotCAExplicitly.pem", lint.Error},
+		{"TestKeyCertSignCA", "keyCertSignCA.pem", lint.Pass},
+		{"TestCaNoKeyUsageNotApplicable", "subCaNokeyUsage.pem", lint.NA},
+		{"TestCaNoCertSignNotApplicable", "subCaNoCertSign.pem", lint.NA},
+		{"TestKeyCertSignNoBasicConstraints", "subCertNoBcWithCertSign.pem", lint.NA},
+		{"TestKeyCertSignNotCAButRequirementNotEffective", "subCaNotCaButOld.pem", lint.NE},
 	}
-}
 
-func TestKeyCertSignCA(t *testing.T) {
-	inputPath := "keyCertSignCA.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ca_is_ca", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, testCase := range tests {
+		t.Run(testCase.id, func(t *testing.T) {
+			var out *lint.LintResult = test.TestLint("e_ca_is_ca", testCase.inputFile)
+			if out.Status != testCase.expected {
+				t.Errorf("%s: expected %s, got %s", testCase.inputFile, testCase.expected, out.Status)
+			}
+		})
 	}
 }
