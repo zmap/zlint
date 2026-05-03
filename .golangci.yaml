@@ -6,7 +6,6 @@ linters:
     - tparallel
     - nonamedreturns
     - exhaustruct
-    - stylecheck
     - gosec
     - dupl
     - depguard
@@ -21,7 +20,6 @@ linters:
     - whitespace
     - gocognit
     - testpackage
-    - gofumpt
     - exhaustive
     - goconst
     - godot
@@ -31,7 +29,6 @@ linters:
     - paralleltest
     - varnamelen
     - wrapcheck
-    - gci
     - cyclop
     - errorlint
     - revive
