@@ -130,7 +130,7 @@ func getData(url string) ([]byte, error) {
 		return nil, fmt.Errorf("unable to fetch data from %q : %s",
 			url, err)
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("unexpected status code fetching data "+
@@ -339,7 +339,7 @@ func main() {
 		if err != nil {
 			errQuit(err)
 		}
-		defer f.Close()
+		defer f.Close() //nolint:errcheck
 		writer = f
 	}
 

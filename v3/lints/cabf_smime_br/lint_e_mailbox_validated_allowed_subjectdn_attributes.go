@@ -80,9 +80,7 @@ func (l *mbvSubjectAttributes) Execute(c *x509.Certificate) *lint.LintResult {
 	notAllowedAttributeFound := false
 	for _, attrTypeAndValueSet := range rdnSequence {
 		for _, attrTypeAndValue := range attrTypeAndValueSet {
-			if !(attrTypeAndValue.Type.Equal(util.CommonNameOID) ||
-				attrTypeAndValue.Type.Equal(util.SerialOID) ||
-				attrTypeAndValue.Type.Equal(util.EmailAddressOID)) {
+			if !attrTypeAndValue.Type.Equal(util.CommonNameOID) && !attrTypeAndValue.Type.Equal(util.SerialOID) && !attrTypeAndValue.Type.Equal(util.EmailAddressOID) {
 				notAllowedAttributeFound = true
 			}
 		}

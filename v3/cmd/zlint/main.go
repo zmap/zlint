@@ -157,7 +157,7 @@ func main() {
 			}
 
 			doLint(inputFile, fileInform, registry)
-			inputFile.Close()
+			inputFile.Close() //nolint:errcheck
 		}
 	}
 }
@@ -223,7 +223,7 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		if err := json.Indent(&out, jsonBytes, "", " "); err != nil {
 			log.Fatalf("can't format output: %s", err)
 		}
-		os.Stdout.Write(out.Bytes())
+		os.Stdout.Write(out.Bytes()) //nolint:errcheck
 		fmt.Printf("\n\n")
 	}
 	if summary {
@@ -233,10 +233,10 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		formattedoutput.OutputSummary(zlintResult, true)
 	}
 	if !prettyprint && !summary && !longSummary {
-		os.Stdout.Write(jsonBytes)
+		os.Stdout.Write(jsonBytes) //nolint:errcheck
 	}
-	os.Stdout.Write([]byte{'\n'})
-	os.Stdout.Sync()
+	os.Stdout.Write([]byte{'\n'}) //nolint:errcheck
+	os.Stdout.Sync()              //nolint:errcheck
 }
 
 // trimmedList takes a comma separated string argument in raw, splits it by
