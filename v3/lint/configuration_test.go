@@ -382,7 +382,7 @@ func TestSmokeExamplePrinting(t *testing.T) {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		defer w.Close()
+		defer w.Close() //nolint:errcheck
 		err = toml.NewEncoder(w).Indentation("").CompactComments(true).Encode(mapping)
 	}()
 	if err != nil {
@@ -1113,14 +1113,14 @@ func TestConfigFromFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.Remove(f.Name())
+	defer os.Remove(f.Name()) //nolint:errcheck
 	_, err = f.WriteString(`
 [Test]
 A = { B = true }
 B = true
 `)
 	if err != nil {
-		f.Close()
+		f.Close() //nolint:errcheck
 		t.Fatal(err)
 	}
 	err = f.Close()
@@ -1146,7 +1146,7 @@ func TestBadConfigFromFile(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer os.Remove(f.Name())
+	defer os.Remove(f.Name()) //nolint:errcheck
 	_, err = f.WriteString(`
 nope not gonna work
 [Test]
@@ -1154,7 +1154,7 @@ A = { B = true }
 B = true
 `)
 	if err != nil {
-		f.Close()
+		f.Close() //nolint:errcheck
 		t.Fatal(err)
 	}
 	err = f.Close()

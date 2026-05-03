@@ -38,7 +38,7 @@ func TestCaCountryNameWithoutConfig(t *testing.T) {
 
 	for _, testCase := range tests {
 		t.Run(testCase.id, func(t *testing.T) {
-			var out *lint.LintResult = test.TestLint("e_ca_country_name_invalid", testCase.inputFile)
+			var out = test.TestLint("e_ca_country_name_invalid", testCase.inputFile)
 			if out.Status != testCase.expected {
 				t.Errorf("%s: expected %s, got %s", testCase.inputFile, testCase.expected, out.Status)
 			}

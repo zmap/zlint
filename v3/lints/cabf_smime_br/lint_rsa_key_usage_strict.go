@@ -42,7 +42,7 @@ func NewRSAKeyUsageStrict() lint.LintInterface {
 }
 
 func (l *rsaKeyUsageStrict) CheckApplies(c *x509.Certificate) bool {
-	if !(util.IsSubscriberCert(c) && util.IsStrictSMIMECertificate(c) && util.IsExtInCert(c, util.KeyUsageOID)) {
+	if !util.IsSubscriberCert(c) || !util.IsStrictSMIMECertificate(c) || !util.IsExtInCert(c, util.KeyUsageOID) {
 		return false
 	}
 
