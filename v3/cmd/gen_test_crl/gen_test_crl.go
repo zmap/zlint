@@ -17,7 +17,6 @@ package main
 import (
 	"crypto"
 	"crypto/rand"
-	"crypto/rsa"
 	"crypto/sha256"
 	"encoding/pem"
 	"fmt"
@@ -28,6 +27,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/zmap/zcrypto/encoding/asn1"
+	"github.com/zmap/zcrypto/rsa"
 	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/v3/util"
 )
