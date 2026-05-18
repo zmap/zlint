@@ -38,3 +38,21 @@ func TestCertPolicyConflictsWithOrg(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCertPolicyConflictsWithOrgLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithOrgPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_org", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithOrgButSuperseded(t *testing.T) {
+	inputPath := "domainValWithOrgPost200.pem"
+	expected := lint.NE
+	out := test.TestLint("e_cab_dv_conflicts_with_org", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}

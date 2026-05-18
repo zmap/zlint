@@ -82,18 +82,14 @@ func (l *caCountryNameInvalid) Configure() interface{} {
 }
 
 func (l *caCountryNameInvalid) CheckApplies(c *x509.Certificate) bool {
-	return c.IsCA && (l.TlsBrConfig == nil || !l.TlsBrConfig.CrossSignedCa)
+	return c.IsCA && c.Subject.Country != nil && (l.TlsBrConfig == nil || !l.TlsBrConfig.CrossSignedCa)
 }
 
 func (l *caCountryNameInvalid) Execute(c *x509.Certificate) *lint.LintResult {
-	if c.Subject.Country != nil {
-		for _, j := range c.Subject.Country {
-			if !util.IsISOCountryCode(j) {
-				return &lint.LintResult{Status: lint.Error}
-			}
+	for _, j := range c.Subject.Country {
+		if !util.IsISOCountryCode(j) {
+			return &lint.LintResult{Status: lint.Error}
 		}
-		return &lint.LintResult{Status: lint.Pass}
-	} else {
-		return &lint.LintResult{Status: lint.NA}
 	}
+	return &lint.LintResult{Status: lint.Pass}
 }

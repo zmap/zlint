@@ -38,3 +38,21 @@ func TestCertPolicyConflictsWithLocal(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCertPolicyConflictsWithLocalLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithLocalPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_locality", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithLocalButSuperseded(t *testing.T) {
+	inputPath := "domainValWithLocalPost200.pem"
+	expected := lint.NE
+	out := test.TestLint("e_cab_dv_conflicts_with_locality", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}

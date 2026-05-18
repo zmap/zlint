@@ -47,7 +47,7 @@ func (l *InvalidPersonalSubject) CheckApplies(c *x509.Certificate) bool {
 
 func (l *InvalidPersonalSubject) Execute(c *x509.Certificate) *lint.LintResult {
 
-	if !(isPseudonymPresent(c) || isPersonalNamePresent(c)) {
+	if !isPseudonymPresent(c) && !isPersonalNamePresent(c) {
 		return &lint.LintResult{
 			Status:  lint.Error,
 			Details: "Non-Legacy IV and SV S/MIME certificates MUST contain either a Personal Name or a Pseudonym",

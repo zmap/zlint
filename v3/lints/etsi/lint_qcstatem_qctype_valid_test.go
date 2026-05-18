@@ -1,7 +1,7 @@
 package etsi
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -22,18 +22,55 @@ import (
 )
 
 func TestEtsiQcType(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiValidCert03.pem":         lint.Pass,
-		"QcStmtEtsiValidCert11.pem":         lint.Pass,
-		"QcStmtEtsiValidAddLangCert13.pem":  lint.Pass,
-		"QcStmtEtsiEsealValidCert02.pem":    lint.Pass,
-		"QcStmtEtsiNoQcStatmentsCert22.pem": lint.NA,
+	testCases := []struct {
+		Name            string
+		InputFilename   string
+		ExpectedResult  lint.LintStatus
+		ExpectedDetails string
+	}{
+		{
+			Name:           "NE - correct data and before 2.5.0 Version of ETSI EN 319 412-5",
+			InputFilename:  "QcStmtEtsiValidCert03.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Pass - QcStmtEtsiValidCert11",
+			InputFilename:  "QcStmtEtsiValidCert11.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Error - QcStmtEtsiValidAddLangCert13",
+			InputFilename:  "QcStmtEtsiValidAddLangCert13.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "Pass - QcStmtEtsiEsealValidCert02",
+			InputFilename:  "QcStmtEtsiEsealValidCert02.pem",
+			ExpectedResult: lint.Pass,
+		},
+		{
+			Name:           "NA - Certificate has no QcStatements",
+			InputFilename:  "QcStmtEtsiNoQcStatmentsCert22.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "NE - certificate has only eseal qc type and issued on  01. May 2025",
+			InputFilename:  "qctWithEseal.pem",
+			ExpectedResult: lint.NE,
+		},
+		{
+			Name:           "Error - certificate has a wrong qcType in QcStatements and is issued in 2024",
+			InputFilename:  "qctWithWrongType_2024.pem",
+			ExpectedResult: lint.Error,
+		},
 	}
-	for inputPath, expected := range m {
-		out := test.TestLint("e_qcstatem_qctype_valid", inputPath)
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			result := test.TestLint("e_qcstatem_qctype_valid", tc.InputFilename)
 
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-		}
+			if result.Details != tc.ExpectedDetails {
+				t.Errorf("expected result details %v was %v", tc.ExpectedDetails, result.Details)
+			}
+		})
 	}
 }

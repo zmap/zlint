@@ -38,3 +38,21 @@ func TestCertPolicyConflictsWithStreet(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestCertPolicyConflictsWithStreetLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithStreetPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithStreetButSuperseded(t *testing.T) {
+	inputPath := "domainValWithStreetPost200.pem"
+	expected := lint.NE
+	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
