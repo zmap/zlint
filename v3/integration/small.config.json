@@ -334,6 +334,9 @@
     "e_aia_must_contain_permitted_access_method": {},
     "e_aia_ocsp_must_have_http_only": {},
     "e_aia_unique_access_locations": {},
+    "e_etsi_natural_person_key_usage_correct_values": {},
+    "e_etsi_natural_person_key_usage_mandatory": {},
+    "e_etsi_natural_person_key_usage_preferred_values": {},
     "n_contains_redacted_dnsname": {
       "NoticeCount": 8
     },

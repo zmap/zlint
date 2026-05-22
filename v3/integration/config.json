@@ -829,6 +829,9 @@
     "e_server_cert_valid_time_longer_than_100_days": {},
     "e_server_cert_valid_time_longer_than_200_days": {},
     "e_mailbox_validated_allowed_subjectdn_attributes": {},
+    "e_etsi_natural_person_key_usage_correct_values": {},
+    "e_etsi_natural_person_key_usage_mandatory": {},
+    "e_etsi_natural_person_key_usage_preferred_values": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1393
     },
