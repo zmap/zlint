@@ -33,7 +33,7 @@ table 1 (A, B, C, D, E or F). Type A, C or E should be used to avoid mixed usage
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_etsi_natural_person_key_usage_preferred_values",
+			Name:          "w_etsi_natural_person_key_usage_preferred_values",
 			Description:   "The key usage extension should use specific key usage settings for ETSI certificates issued to natural persons",
 			Citation:      "ETSI EN 319 412-2 V2.2.1 (2020-07) / Section 4.3.2",
 			Source:        lint.EtsiEsi,

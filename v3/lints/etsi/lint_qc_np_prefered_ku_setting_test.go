@@ -62,7 +62,7 @@ func TestQcNaturalPersonKUPreferredSetting(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
-			result := test.TestLint("e_etsi_natural_person_key_usage_preferred_values", tc.InputFilename)
+			result := test.TestLint("w_etsi_natural_person_key_usage_preferred_values", tc.InputFilename)
 
 			if result.Details != tc.ExpectedDetails {
 				t.Errorf("expected result details %v was %v", tc.ExpectedDetails, result.Details)
