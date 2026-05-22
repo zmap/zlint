@@ -46,7 +46,7 @@ func NewQcNaturalPersonKUMandatory() lint.LintInterface {
 }
 
 func (l *qcNaturalPersonKUMandatory) CheckApplies(c *x509.Certificate) bool {
-	return util.IsEtsiQcNaturalPerson(c)
+	return util.IsEtsiQcNaturalPerson(c) && util.IsSubscriberCert(c)
 }
 
 func (l *qcNaturalPersonKUMandatory) Execute(c *x509.Certificate) *lint.LintResult {

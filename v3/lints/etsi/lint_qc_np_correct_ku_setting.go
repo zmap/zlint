@@ -48,7 +48,7 @@ func NewQcNaturalPersonKUCorrectSetting() lint.LintInterface {
 }
 
 func (l *qcNaturalPersonKUCorrectSetting) CheckApplies(c *x509.Certificate) bool {
-	return util.IsEtsiQcNaturalPerson(c) && util.HasKeyUsageOID(c)
+	return util.IsEtsiQcNaturalPerson(c) && util.HasKeyUsageOID(c) && util.IsSubscriberCert(c)
 }
 
 func (l *qcNaturalPersonKUCorrectSetting) Execute(c *x509.Certificate) *lint.LintResult {
