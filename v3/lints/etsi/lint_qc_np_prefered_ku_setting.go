@@ -67,7 +67,7 @@ func (l *qcNaturalPersonKUPreferredSetting) Execute(c *x509.Certificate) *lint.L
 	}
 	return &lint.LintResult{
 		Status:  lint.Warn,
-		Details: fmt.Sprintf("KeyUsage %v (%08b) should not be used for ETSI natural person certificates", util.GetKeyUsageStrings(c.KeyUsage), c.KeyUsage),
+		Details: fmt.Sprintf("KeyUsage (%08b) should not be used for ETSI natural person certificates", c.KeyUsage),
 	}
 
 }

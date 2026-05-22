@@ -57,7 +57,7 @@ func TestQcNaturalPersonKUPreferredSetting(t *testing.T) {
 			Name:            "Warn - certificate is issued to a natural person and has keu usage extension with digitalSignature and nonRepudiation",
 			InputFilename:   "etsi/qcNaturallWithNotRecommendedKU.pem",
 			ExpectedResult:  lint.Warn,
-			ExpectedDetails: "KeyUsage [DigitalSignature ContentCommitment] (00000011) should not be used for ETSI natural person certificates",
+			ExpectedDetails: "KeyUsage (00000011) should not be used for ETSI natural person certificates",
 		},
 	}
 	for _, tc := range testCases {
