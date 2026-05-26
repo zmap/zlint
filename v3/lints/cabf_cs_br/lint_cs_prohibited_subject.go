@@ -8,7 +8,7 @@ import (
 
 /*
 7.1.4.2.2 Subject distinguished name fields - EV and Non-EV Code Signing Certificates
-d. Certificate Field: subject:domainComponent (OID 0.9.2342.19200300.100.1.25)
+c. Certificate Field: subject:domainComponent (OID 0.9.2342.19200300.100.1.25)
 Required/Optional: Prohibited
 Contents: This field MUST not be present in a Code Signing Certificate.
 */
@@ -18,7 +18,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_cs_subject_prohibited",
 			Description:   "The subject:domainComponent MUST not be present in a Code Signing Certificate.",
-			Citation:      "CABF CS BRs 7.1.4.2.3.d",
+			Citation:      "CABF CS BRs 7.1.4.2.3.c",
 			Source:        lint.CABFCSBaselineRequirements,
 			EffectiveDate: util.CABF_CS_BRs_1_2_Date,
 		},
