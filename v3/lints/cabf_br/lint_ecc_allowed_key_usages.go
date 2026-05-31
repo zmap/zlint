@@ -61,9 +61,12 @@ func NewEccAllowedKU() lint.LintInterface {
 	return &eccAllowedKU{}
 }
 
-// CheckApplies returns true when the certificate has an ECC public key and a key usage extension.
+// CheckApplies returns true on subscriber certificates when the certificate
+// has an ECC public key and a key usage extension.
 func (l *eccAllowedKU) CheckApplies(c *x509.Certificate) bool {
-	return c.PublicKeyAlgorithm == x509.ECDSA && util.HasKeyUsageOID(c)
+	return c.PublicKeyAlgorithm == x509.ECDSA &&
+		util.HasKeyUsageOID(c) &&
+		util.IsSubscriberCert(c)
 }
 
 func (l *eccAllowedKU) Execute(c *x509.Certificate) *lint.LintResult {
