@@ -334,6 +334,8 @@
     "e_aia_must_contain_permitted_access_method": {},
     "e_aia_ocsp_must_have_http_only": {},
     "e_aia_unique_access_locations": {},
+    "e_etsi_natural_person_key_usage_correct_values": {},
+    "e_etsi_natural_person_key_usage_mandatory": {},
     "n_contains_redacted_dnsname": {
       "NoticeCount": 8
     },
@@ -437,6 +439,7 @@
     },
     "w_sub_cert_aia_contains_internal_names": {
       "WarnCount": 7
-    }
+    },
+    "w_etsi_natural_person_key_usage_preferred_values": {}
   }
 }
