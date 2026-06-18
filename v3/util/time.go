@@ -23,7 +23,8 @@ import (
 )
 
 const (
-	DurationDay = 24 * time.Hour
+	DurationDay  = 24 * time.Hour
+	SecondsInDay = float64(86400)
 )
 
 var (
@@ -124,10 +125,6 @@ var (
 	CABFEV_9_8_2 = CABV170Date
 )
 
-var (
-	DAY_LENGTH = 86400 * time.Second.Seconds()
-)
-
 func FindTimeType(firstDate, secondDate asn1.RawValue) (int, int) {
 	return firstDate.Tag, secondDate.Tag
 }
@@ -193,12 +190,12 @@ func CertificateValidityInSeconds(cert *x509.Certificate) float64 {
 }
 
 func CertificateValidityInDays(cert *x509.Certificate) float64 {
-	return math.Ceil(CertificateValidityInSeconds(cert) / DAY_LENGTH)
+	return math.Ceil(CertificateValidityInSeconds(cert) / SecondsInDay)
 }
 
 // GreaterThan returns true if the validity of this cert in days is greater than
 // this maxDaysAllowed, false otherwise
 func GreaterThan(cert *x509.Certificate, maxDaysAllowed float64) bool {
-	maxValidity := maxDaysAllowed * DAY_LENGTH
+	maxValidity := maxDaysAllowed * SecondsInDay
 	return CertificateValidityInSeconds(cert) > maxValidity
 }
