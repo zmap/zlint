@@ -831,6 +831,7 @@
     "e_mailbox_validated_allowed_subjectdn_attributes": {},
     "e_etsi_natural_person_key_usage_correct_values": {},
     "e_etsi_natural_person_key_usage_mandatory": {},
+    "e_cabf_ecc_allowed_key_usages": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1393
     },
@@ -982,6 +983,7 @@
     "w_etsi_natural_person_key_usage_preferred_values": {
       "WarnCount": 14
     },
+    "w_cabf_ecc_ku_keyagreement_present": {},
     "e_ca_invalid_eku": {
         "ErrCount": 1
     },

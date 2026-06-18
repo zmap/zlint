@@ -45,47 +45,36 @@ Table 56: Key Usage for ECC Public Keys
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_cabf_ecc_allowed_key_usages",
-			Description:   "For certificates with ECC public keys, digitalSignature MUST be present and only digitalSignature and keyAgreement key usages are allowed.",
+			Name:          "w_cabf_ecc_ku_keyagreement_present",
+			Description:   "For certificates with ECC public keys the keyAgreement key usage is allowed and not recommended.",
 			Citation:      "Section 7.1.2.7.11",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.CABFBRs_2_0_0_Date, // This specific table exists in the CABF BRs as early as 2.0.0
 		},
-		Lint: NewEccAllowedKU,
+		Lint: NewEccKUKeyAgreementPresent,
 	})
 }
 
-type eccAllowedKU struct{}
+type eccKUKeyAgreementPresent struct{}
 
-func NewEccAllowedKU() lint.LintInterface {
-	return &eccAllowedKU{}
+func NewEccKUKeyAgreementPresent() lint.LintInterface {
+	return &eccKUKeyAgreementPresent{}
 }
 
 // CheckApplies returns true on subscriber certificates when the certificate
 // has an ECC public key and a key usage extension.
-func (l *eccAllowedKU) CheckApplies(c *x509.Certificate) bool {
+func (l *eccKUKeyAgreementPresent) CheckApplies(c *x509.Certificate) bool {
 	return c.PublicKeyAlgorithm == x509.ECDSA &&
 		util.HasKeyUsageOID(c) &&
 		util.IsSubscriberCert(c)
 }
 
-func (l *eccAllowedKU) Execute(c *x509.Certificate) *lint.LintResult {
-
-	if c.KeyUsage&x509.KeyUsageDigitalSignature == 0 {
+func (l *eccKUKeyAgreementPresent) Execute(c *x509.Certificate) *lint.LintResult {
+	if c.KeyUsage&x509.KeyUsageKeyAgreement != 0 {
 		return &lint.LintResult{
-			Status:  lint.Error,
-			Details: "DigitalSignature key usage is required for certificates with ECC public keys",
+			Status:  lint.Warn,
+			Details: "KeyAgreement key usage is not recommended for certificates with ECC public keys",
 		}
 	}
-
-	allowedKeyUsages := x509.KeyUsageDigitalSignature | x509.KeyUsageKeyAgreement
-
-	if c.KeyUsage & ^allowedKeyUsages != 0 {
-		return &lint.LintResult{
-			Status:  lint.Error,
-			Details: "Only DigitalSignature and KeyAgreement key usages are allowed for certificates with ECC public keys",
-		}
-	}
-
 	return &lint.LintResult{Status: lint.Pass}
 }
