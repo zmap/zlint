@@ -21,20 +21,28 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestCertPolicyOvHasOrg(t *testing.T) {
-	inputPath := "orgValGoodAllFields.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_cab_ov_requires_org", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestCertPolicyOvRequiresOrg(t *testing.T) {
+	tests := []struct {
+		id        string
+		inputFile string
+		expected  lint.LintStatus
+	}{
+		{"TestCertPolicyOvHasOrg", "orgValGoodAllFields.pem", lint.Pass},
+		{"TestCertPolicyOvNoOrg", "orgValNoOrg.pem", lint.Error},
+		{"TestCertPolicyOvHasOnlyOrg", "orgValOnlyOrg.pem", lint.Pass},
+		{"TestCertPolicyDvNotApplicable", "domainValGoodSubject.pem", lint.NA},
+		{"TestCertPolicyIvNotApplicable", "indivValGoodAllFields.pem", lint.NA},
+		{"TestCertPolicyMissingNotApplicable", "subCertPolicyMissing.pem", lint.NA},
+		{"TestCertPolicyOvButCaNotApplicable", "policyConstrainedCaOrgVal.pem", lint.NA},
+		{"TestCertPolicyOvNoOrgButOld", "orgValNoOrgButOld.pem", lint.NE},
 	}
-}
 
-func TestCertPolicyOvNoOrg(t *testing.T) {
-	inputPath := "orgValNoOrg.pem"
-	expected := lint.Error
-	out := test.TestLint("e_cab_ov_requires_org", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, testCase := range tests {
+		t.Run(testCase.id, func(t *testing.T) {
+			var out *lint.LintResult = test.TestLint("e_cab_ov_requires_org", testCase.inputFile)
+			if out.Status != testCase.expected {
+				t.Errorf("%s: expected %s, got %s", testCase.inputFile, testCase.expected, out.Status)
+			}
+		})
 	}
 }
