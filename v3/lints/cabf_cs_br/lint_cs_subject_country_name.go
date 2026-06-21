@@ -36,7 +36,7 @@ func NewCsSubjectCountryName() lint.LintInterface {
 }
 
 func (l *csSubjectCountryName) CheckApplies(c *x509.Certificate) bool {
-	return util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c) && !util.IsEVCodeSigning(c.PolicyIdentifiers)
 }
 
 func (l *csSubjectCountryName) Execute(c *x509.Certificate) *lint.LintResult {

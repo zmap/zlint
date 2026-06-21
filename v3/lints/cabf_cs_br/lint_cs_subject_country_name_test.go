@@ -33,6 +33,11 @@ func TestCsSubjectCountryName(t *testing.T) {
 			InputFilename:  "code_signing/only_meta_data_in_country_name.pem",
 			ExpectedResult: lint.Error,
 		},
+		{
+			Name:           "NA - code signing certificate with valid EV code signing",
+			InputFilename:  "code_signing/valid_ev_code_signing.pem",
+			ExpectedResult: lint.NA,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.Name, func(t *testing.T) {
