@@ -30,7 +30,7 @@ func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_invalid_certificate_version",
-			Description:   "Certificates MUST be of type X.590 v3",
+			Description:   "Certificates MUST be of type X.509 v3",
 			Citation:      "BRs: 7.1.1",
 			Source:        lint.CABFBaselineRequirements,
 			EffectiveDate: util.CABV130Date,
