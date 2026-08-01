@@ -20,7 +20,6 @@ import (
 	"github.com/zmap/zlint/v3/util"
 
 	"encoding/asn1"
-	"fmt"
 	"strings"
 	"unicode/utf8"
 )
@@ -80,7 +79,7 @@ func getAttribName(oidStr string) string {
 	if found {
 		return name
 	}
-	return fmt.Sprintf("Subject attribute with OID %s", oidStr)
+	return "Subject attribute with OID " + oidStr
 }
 
 func (l *UTF8ReplacementCharInSubject) Execute(c *x509.Certificate) *lint.LintResult {
@@ -101,8 +100,8 @@ func (l *UTF8ReplacementCharInSubject) Execute(c *x509.Certificate) *lint.LintRe
 				if strings.ContainsRune(str, utf8.RuneError) {
 					return &lint.LintResult{
 						Status: lint.Error,
-						Details: fmt.Sprintf("UTF8 Replacement Character detected in %s",
-							getAttribName(atv.Type.String())),
+						Details: "UTF8 Replacement Character detected in " +
+							getAttribName(atv.Type.String()),
 					}
 				}
 			}
