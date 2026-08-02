@@ -6818,6 +6818,11 @@ var tldMap = map[string]GTLDPeriod{
 		DelegationDate: "2016-01-28",
 		RemovalDate:    "",
 	},
+	"web": {
+		GTLD:           "web",
+		DelegationDate: "2026-07-23",
+		RemovalDate:    "",
+	},
 	"webcam": {
 		GTLD:           "webcam",
 		DelegationDate: "2014-03-19",
