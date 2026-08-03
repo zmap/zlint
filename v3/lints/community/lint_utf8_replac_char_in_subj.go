@@ -86,13 +86,13 @@ func (l *UTF8ReplacementCharInSubject) Execute(c *x509.Certificate) *lint.LintRe
 
 	var rdnSeq []asn1.RawValue // RDNSequence ::= SEQUENCE OF RDN
 	if _, err := asn1.Unmarshal(c.RawSubject, &rdnSeq); err != nil {
-		panic(err)
+		return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
 	}
 
 	for _, rdn := range rdnSeq {
 		var atvs []attributeTypeAndValue // RDN ::= SET OF AttributeTypeAndValue
 		if _, err := asn1.UnmarshalWithParams(rdn.FullBytes, &atvs, "set"); err != nil {
-			panic(err)
+			return &lint.LintResult{Status: lint.Fatal, Details: err.Error()}
 		}
 		for _, atv := range atvs {
 			if atv.Value.Tag == asn1.TagUTF8String { // tag 12 (0x0C)
