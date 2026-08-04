@@ -63,6 +63,11 @@ func TestOrgValidatedInvalidCN(t *testing.T) {
 			path: "smime/sub1_sm1_ov1_cne0_cno0_eff1.pem",
 			want: lint.Error,
 		},
+		{
+			desc: "OV S/MIME certificate with no CN",
+			path: "smime/sub1_sm1_ov1_cn_absent_eff1.pem",
+			want: lint.Pass,
+		},
 	}
 
 	for _, tc := range testCases {

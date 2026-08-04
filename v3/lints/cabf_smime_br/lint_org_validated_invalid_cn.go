@@ -55,8 +55,13 @@ func isEmail(s string) bool {
 
 func (l *OrgValidatedInvalidCN) Execute(c *x509.Certificate) *lint.LintResult {
 
+	// CN is optional per the S/MIME BRs.
+	if c.Subject.CommonName == "" {
+		return &lint.LintResult{Status: lint.Pass}
+	}
+
 	if isEmail(c.Subject.CommonName) ||
-		c.Subject.CommonName == c.Subject.Organization[0] {
+		(len(c.Subject.Organization) > 0 && c.Subject.CommonName == c.Subject.Organization[0]) {
 		return &lint.LintResult{Status: lint.Pass}
 	}
 
