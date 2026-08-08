@@ -127,6 +127,7 @@ var (
 	QEVCPwPolicyOID            = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 4}
 	QNCPwPolicyOID             = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 5}
 	QNCPwgenPolicyOID          = asn1.ObjectIdentifier{0, 4, 0, 194112, 1, 6}
+	IdEtsiPsd2Statem           = asn1.ObjectIdentifier{0, 4, 0, 19495, 2} // ETSI TS 119 495 V1.1.2, Annex A: id-etsi-psd2-qcStatement
 )
 
 const (
