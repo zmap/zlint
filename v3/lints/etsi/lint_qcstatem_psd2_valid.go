@@ -29,7 +29,7 @@ func init() {
 			Description:   "Checks that a QC Statement of the type id-etsi-psd2-qcStatement has the correct ASN.1 encoding",
 			Citation:      "ETSI TS 119 495 V1.1.2 (2018-07), Annex A (normative): ASN.1 Declaration",
 			Source:        lint.EtsiEsi,
-			EffectiveDate: util.EtsiTS119495_V1_1_2_Date,
+			EffectiveDate: util.EtsiTs119495_V1_1_2_Date,
 		},
 		Lint: NewQcStatemPsd2Valid,
 	})

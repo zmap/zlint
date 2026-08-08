@@ -33,4 +33,10 @@ func TestEtsiQcStatemPsd2Valid(t *testing.T) {
 			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 		}
 	}
+
+	const wrongEncodingDetails = "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"
+	out := test.TestLint("e_qcstatem_psd2_valid", "QcStmtEtsiPsd2WrongEncodingCert01.pem")
+	if out.Details != wrongEncodingDetails {
+		t.Errorf("QcStmtEtsiPsd2WrongEncodingCert01.pem: expected details %q, got %q", wrongEncodingDetails, out.Details)
+	}
 }

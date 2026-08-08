@@ -115,6 +115,41 @@ func TestParseQcStatemPsd2MalformedEncoding(t *testing.T) {
 	}
 }
 
+func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
+	psd2 := testPSD2QcTypeValid{
+		RolesOfPSP: []testRoleOfPSP{
+			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
+		},
+		NCAName: "Banco de España",
+		NCAId:   "ES-BDE",
+	}
+	psd2Bytes, err := asn1.Marshal(psd2)
+	if err != nil {
+		t.Fatalf("failed to marshal PSD2QcType: %v", err)
+	}
+	// Truncate the otherwise-valid, already-marshaled PSD2QcType bytes by one
+	// byte so the outer SEQUENCE's declared length no longer matches the
+	// available content. Note: appending extra trailing bytes instead does
+	// NOT work here, because zcrypto's asn1 fork tolerates unconsumed
+	// trailing content within a declared SEQUENCE length, and any bytes
+	// appended past the declared length get silently dropped when the
+	// RawValue capturing statem.Any.FullBytes reads exactly one TLV in
+	// buildPsd2ExtValue's wrapping. Truncation instead makes the declared
+	// length exceed the available bytes, which reliably makes
+	// asn1.Unmarshal fail with "data truncated" -- exercising the
+	// "error parsing the statementInfo field" branch of ParseQcStatem
+	// (asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.Decoded) failing
+	// outright), as opposed to the checkAsn1Reencoding round-trip branch
+	// already covered by TestParseQcStatemPsd2MalformedEncoding.
+	truncated := psd2Bytes[:len(psd2Bytes)-1]
+	extVal := buildPsd2ExtValue(t, truncated)
+
+	result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
+	if result.GetErrorInfo() == "" {
+		t.Fatalf("expected error info for PSD2 QC statement with truncated statementInfo bytes, got none")
+	}
+}
+
 func TestParseQcStatemPsd2NotPresent(t *testing.T) {
 	extVal := buildPsd2ExtValue(t, mustMarshal(t, testPSD2QcTypeValid{
 		RolesOfPSP: []testRoleOfPSP{{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"}},
