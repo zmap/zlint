@@ -99,6 +99,22 @@ type EtsiQcPds struct {
 	PdsLocations []PdsLocation
 }
 
+type RoleOfPSP struct {
+	RoleOfPspOid  asn1.ObjectIdentifier
+	RoleOfPspName string `asn1:"utf8"`
+}
+
+type PSD2QcType struct {
+	RolesOfPSP []RoleOfPSP
+	NCAName    string `asn1:"utf8"`
+	NCAId      string `asn1:"utf8"`
+}
+
+type EtsiPsd2 struct {
+	etsiBase
+	Decoded PSD2QcType
+}
+
 func AppendToStringSemicolonDelim(this *string, s string) {
 	if len(*this) > 0 && len(s) > 0 {
 		(*this) += "; "
@@ -244,6 +260,17 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 				return etsiBase{errorInfo: "error parsing IdEtsiQcsQcType extension statementInfo field", isPresent: true}
 			}
 			return qcType
+		} else if statem.Oid.Equal(IdEtsiPsd2Statem) {
+			etsiObj := EtsiPsd2{etsiBase: etsiBase{isPresent: true}}
+			rest, err := asn1.Unmarshal(statem.Any.FullBytes, &etsiObj.Decoded)
+			if len(rest) != 0 || err != nil {
+				etsiObj.errorInfo = "error parsing the statementInfo field"
+			} else {
+				AppendToStringSemicolonDelim(&etsiObj.errorInfo,
+					checkAsn1Reencoding(reflect.ValueOf(etsiObj.Decoded).Interface(), statem.Any.FullBytes,
+						"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+			}
+			return etsiObj
 		} else {
 			return etsiBase{errorInfo: "", isPresent: true}
 		}
