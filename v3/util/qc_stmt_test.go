@@ -20,30 +20,16 @@ import (
 	"github.com/zmap/zcrypto/encoding/asn1"
 )
 
-// test-only mirrors of the PSD2 ASN.1 types. testPSD2QcTypeMalformed
-// deliberately tags NCAName as PrintableString instead of UTF8String to
-// produce a statement that parses but does not round-trip to the same
-// bytes the real UTF8String-tagged PSD2QcType would produce.
-type testRoleOfPSP struct {
-	RoleOfPspOid  asn1.ObjectIdentifier
-	RoleOfPspName string `asn1:"utf8"`
-}
-
-type testPSD2QcTypeValid struct {
-	RolesOfPSP []testRoleOfPSP
-	NCAName    string `asn1:"utf8"`
-	NCAId      string `asn1:"utf8"`
-}
-
+// testPSD2QcTypeMalformed deliberately tags NCAName as PrintableString
+// instead of UTF8String to produce a statement that parses but does not
+// round-trip to the same bytes the real UTF8String-tagged PSD2QcType would
+// produce. RoleOfPSP and PSD2QcType themselves are used directly from
+// qc_stmt.go below; this file is package util, so it has direct access to
+// the real types and doesn't need mirrors of them.
 type testPSD2QcTypeMalformed struct {
-	RolesOfPSP []testRoleOfPSP
+	RolesOfPSP []RoleOfPSP
 	NCAName    string `asn1:"printable"`
 	NCAId      string `asn1:"utf8"`
-}
-
-type testQcStatement struct {
-	Oid  asn1.ObjectIdentifier
-	Info asn1.RawValue
 }
 
 // buildPsd2ExtValue wraps already-encoded PSD2QcType bytes into a
@@ -51,30 +37,22 @@ type testQcStatement struct {
 // ParseQcStatem expect to receive as extVal.
 func buildPsd2ExtValue(t *testing.T, psd2Bytes []byte) []byte {
 	t.Helper()
-	stmt := testQcStatement{
-		Oid:  IdEtsiPsd2Statem,
-		Info: asn1.RawValue{FullBytes: psd2Bytes},
+	stmt := qcStatementWithInfoField{
+		Oid: IdEtsiPsd2Statem,
+		Any: asn1.RawValue{FullBytes: psd2Bytes},
 	}
-	extVal, err := asn1.Marshal([]testQcStatement{stmt})
-	if err != nil {
-		t.Fatalf("failed to marshal QcStatements extension value: %v", err)
-	}
-	return extVal
+	return mustMarshal(t, []qcStatementWithInfoField{stmt})
 }
 
 func TestParseQcStatemPsd2Valid(t *testing.T) {
-	psd2 := testPSD2QcTypeValid{
-		RolesOfPSP: []testRoleOfPSP{
+	psd2 := PSD2QcType{
+		RolesOfPSP: []RoleOfPSP{
 			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
 		},
 		NCAName: "Banco de España",
 		NCAId:   "ES-BDE",
 	}
-	psd2Bytes, err := asn1.Marshal(psd2)
-	if err != nil {
-		t.Fatalf("failed to marshal PSD2QcType: %v", err)
-	}
-	extVal := buildPsd2ExtValue(t, psd2Bytes)
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, psd2))
 
 	result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
 	if !result.IsPresent() {
@@ -97,17 +75,13 @@ func TestParseQcStatemPsd2Valid(t *testing.T) {
 
 func TestParseQcStatemPsd2MalformedEncoding(t *testing.T) {
 	psd2 := testPSD2QcTypeMalformed{
-		RolesOfPSP: []testRoleOfPSP{
+		RolesOfPSP: []RoleOfPSP{
 			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
 		},
 		NCAName: "Banco de Espana",
 		NCAId:   "ES-BDE",
 	}
-	psd2Bytes, err := asn1.Marshal(psd2)
-	if err != nil {
-		t.Fatalf("failed to marshal malformed PSD2QcType: %v", err)
-	}
-	extVal := buildPsd2ExtValue(t, psd2Bytes)
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, psd2))
 
 	result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
 	if result.GetErrorInfo() == "" {
@@ -116,17 +90,14 @@ func TestParseQcStatemPsd2MalformedEncoding(t *testing.T) {
 }
 
 func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
-	psd2 := testPSD2QcTypeValid{
-		RolesOfPSP: []testRoleOfPSP{
+	psd2 := PSD2QcType{
+		RolesOfPSP: []RoleOfPSP{
 			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
 		},
 		NCAName: "Banco de España",
 		NCAId:   "ES-BDE",
 	}
-	psd2Bytes, err := asn1.Marshal(psd2)
-	if err != nil {
-		t.Fatalf("failed to marshal PSD2QcType: %v", err)
-	}
+	psd2Bytes := mustMarshal(t, psd2)
 	// Truncate the otherwise-valid, already-marshaled PSD2QcType bytes by one
 	// byte so the outer SEQUENCE's declared length no longer matches the
 	// available content. Note: appending extra trailing bytes instead does
@@ -151,8 +122,8 @@ func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
 }
 
 func TestParseQcStatemPsd2NotPresent(t *testing.T) {
-	extVal := buildPsd2ExtValue(t, mustMarshal(t, testPSD2QcTypeValid{
-		RolesOfPSP: []testRoleOfPSP{{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"}},
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, PSD2QcType{
+		RolesOfPSP: []RoleOfPSP{{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"}},
 		NCAName:    "Banco de España",
 		NCAId:      "ES-BDE",
 	}))
