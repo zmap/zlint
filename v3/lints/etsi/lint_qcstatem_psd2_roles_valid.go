@@ -17,7 +17,6 @@ package etsi
 import (
 	"fmt"
 
-	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -25,21 +24,19 @@ import (
 
 // psd2KnownRoles is the full set of role OIDs ETSI TS 119 495 Annex A
 // currently defines, verified byte-for-byte against the current edition
-// (V1.8.1). Roles whose OID isn't in this table are intentionally not
-// validated — see GEN-5.2.2-4 in the block comment below.
-var psd2KnownRoles = []struct {
-	Oid  asn1.ObjectIdentifier
-	Name string
-}{
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 0}, "Unspecified"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, "PSP_AS"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 2}, "PSP_PI"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 3}, "PSP_AI"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 4}, "PSP_IC"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 5}, "PSP_CB"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 6}, "PSP_PA"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 51}, "VOP_RS"},
-	{asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 52}, "VOP_VS"},
+// (V1.8.1), keyed by the OID's dotted string form. Roles whose OID isn't
+// in this table are intentionally not validated — see GEN-5.2.2-4 in the
+// block comment below.
+var psd2KnownRoles = map[string]string{
+	"0.4.0.19495.1.0":  "Unspecified",
+	"0.4.0.19495.1.1":  "PSP_AS",
+	"0.4.0.19495.1.2":  "PSP_PI",
+	"0.4.0.19495.1.3":  "PSP_AI",
+	"0.4.0.19495.1.4":  "PSP_IC",
+	"0.4.0.19495.1.5":  "PSP_CB",
+	"0.4.0.19495.1.6":  "PSP_PA",
+	"0.4.0.19495.1.51": "VOP_RS",
+	"0.4.0.19495.1.52": "VOP_VS",
 }
 
 type qcStatemPsd2RolesValid struct{}
@@ -89,16 +86,15 @@ func (l *qcStatemPsd2RolesValid) Execute(c *x509.Certificate) *lint.LintResult {
 	}
 
 	for _, role := range psd2.Decoded.RolesOfPSP {
-		for _, known := range psd2KnownRoles {
-			if !role.RoleOfPspOid.Equal(known.Oid) {
-				continue
-			}
-			if role.RoleOfPspName != known.Name {
-				return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf(
-					"role name %q does not match the expected name %q for role OID %s",
-					role.RoleOfPspName, known.Name, known.Oid.String())}
-			}
-			break
+		oid := role.RoleOfPspOid.String()
+		name, ok := psd2KnownRoles[oid]
+		if !ok {
+			continue
+		}
+		if role.RoleOfPspName != name {
+			return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf(
+				"role name %q does not match the expected name %q for role OID %s",
+				role.RoleOfPspName, name, oid)}
 		}
 	}
 	return &lint.LintResult{Status: lint.Pass}
