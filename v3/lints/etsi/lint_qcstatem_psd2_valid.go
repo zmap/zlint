@@ -22,6 +22,21 @@ import (
 
 type qcStatemPsd2Valid struct{}
 
+// ETSI TS 119 495 V1.1.2 (2018-07), Annex A (normative): ASN.1 Declaration:
+//
+//	PSD2QcType ::= SEQUENCE{
+//	    rolesOfPSP  RolesOfPSP,
+//	    nCAName     NCAName,
+//	    nCAId       NCAId }
+//
+//	NCAName ::= UTF8String (SIZE(1..256))
+//	NCAId ::= UTF8String (SIZE(1..256))
+//
+//	RolesOfPSP ::= SEQUENCE OF RoleOfPSP
+//
+//	RoleOfPSP ::= SEQUENCE{
+//	    roleOfPspOid    RoleOfPspOid,
+//	    roleOfPspName   RoleOfPspName}
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
