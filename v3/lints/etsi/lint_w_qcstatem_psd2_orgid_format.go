@@ -74,12 +74,20 @@ func (l *qcStatemPsd2OrgIdFormatShould) CheckApplies(c *x509.Certificate) bool {
 	return strings.HasPrefix(c.Subject.OrganizationIDs[0], "PSD")
 }
 
+// Unlike the other PSD2 lints, this deliberately does not defer on
+// GetErrorInfo(). The subject matter here is the Subject DN, which is
+// parsed independently of the qcStatements extension; a garbled
+// QCStatement neither makes OrganizationIDs unsafe to read nor makes the
+// org-id format requirement inapplicable. (Note ParseQcStatem reports
+// IsPresent() for any OID when the outer SEQUENCE fails to parse, so a
+// "PSD"-prefixed org-id is what actually establishes PSD2 applicability
+// here.)
 func (l *qcStatemPsd2OrgIdFormatShould) Execute(c *x509.Certificate) *lint.LintResult {
 	orgId := c.Subject.OrganizationIDs[0]
 	m := psd2OrgIdFormatRegexShould.FindStringSubmatch(orgId)
 	if m == nil {
 		return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf(
-			"subject:organizationIdentifier %q does not match the required PSD<country>-<NCAid>-<PSPid> structure", orgId)}
+			"subject:organizationIdentifier %q does not match the recommended PSD<country>-<NCAid>-<PSPid> structure", orgId)}
 	}
 	if !util.IsISOCountryCode(m[1]) {
 		return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf(

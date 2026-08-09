@@ -26,12 +26,14 @@ func TestEtsiQcStatemPsd2OrgIdFormatWarn(t *testing.T) {
 		status  lint.LintStatus
 		details string // empty means "don't check Details"
 	}{
-		"QcStmtEtsiPsd2OrgIdShallValidCert01.pem":      {status: lint.NE},
-		"QcStmtEtsiPsd2OrgIdShouldValidCert01.pem":     {status: lint.Pass},
-		"QcStmtEtsiPsd2OrgIdShallMalformedCert01.pem":  {status: lint.NE},
-		"QcStmtEtsiPsd2OrgIdShouldMalformedCert01.pem": {status: lint.Warn, details: "subject:organizationIdentifier \"PSDES-bde-3DFD21\" does not match the required PSD<country>-<NCAid>-<PSPid> structure"},
-		"QcStmtEtsiPsd2OrgIdShallBadCountryCert01.pem": {status: lint.NE},
-		"QcStmtEtsiValidCert11.pem":                    {status: lint.NA},
+		"QcStmtEtsiPsd2OrgIdShallValidCert01.pem":         {status: lint.NE},
+		"QcStmtEtsiPsd2OrgIdShouldValidCert01.pem":        {status: lint.Pass},
+		"QcStmtEtsiPsd2OrgIdShallMalformedCert01.pem":     {status: lint.NE},
+		"QcStmtEtsiPsd2OrgIdShouldMalformedCert01.pem":    {status: lint.Warn, details: "subject:organizationIdentifier \"PSDES-bde-3DFD21\" does not match the recommended PSD<country>-<NCAid>-<PSPid> structure"},
+		"QcStmtEtsiPsd2OrgIdShallBadCountryCert01.pem":    {status: lint.NE},
+		"QcStmtEtsiValidCert11.pem":                       {status: lint.NA},
+		"QcStmtEtsiPsd2OrgIdJustBeforeBoundaryCert01.pem": {status: lint.NE},
+		"QcStmtEtsiPsd2OrgIdOnBoundaryCert01.pem":         {status: lint.Pass},
 	}
 	for inputPath, tc := range cases {
 		out := test.TestLint("w_qcstatem_psd2_orgid_format", inputPath)
