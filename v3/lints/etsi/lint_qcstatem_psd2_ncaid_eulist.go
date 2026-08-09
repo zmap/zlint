@@ -27,10 +27,9 @@ import (
 // providers for identification of competent authorities in an eIDAS
 // certificate for PSD2 purposes," Version 4, published 2023-02-02:
 // https://www.eba.europa.eu/sites/default/files/documents/10180/2882455/5dac742c-c39d-47b5-bd73-f8befb0d2338/NCA%20abbreviations%20for%20inclusion%20in%20eIDAS%20certificates.pdf
-// This document is maintained by the EBA independently of ETSI TS 119 495
-// and can change without a new ETSI edition — that is why this lint is
-// Warn, not Error. Keyed by country code, matching the lookup convention
-// already used by util.IsISOCountryCode/util.HasValidTLD. IS and IE both
+// See the init() comment below for why this makes the lint Warn, not
+// Error. Keyed by country code, matching the lookup convention already
+// used by util.IsISOCountryCode/util.HasValidTLD. IS and IE both
 // use NCA code "CBI" (Central Bank of Iceland vs. Central Bank of
 // Ireland) — not a typo, just two countries sharing an abbreviation; the
 // map is keyed by country, so this causes no ambiguity.
