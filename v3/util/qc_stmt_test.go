@@ -44,15 +44,20 @@ func buildPsd2ExtValue(t *testing.T, psd2Bytes []byte) []byte {
 	return mustMarshal(t, []qcStatementWithInfoField{stmt})
 }
 
-func TestParseQcStatemPsd2Valid(t *testing.T) {
-	psd2 := PSD2QcType{
+// validPsd2QcType returns a well-formed PSD2QcType shared by every test in
+// this file that needs one but isn't itself testing a specific field value.
+func validPsd2QcType() PSD2QcType {
+	return PSD2QcType{
 		RolesOfPSP: []RoleOfPSP{
 			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
 		},
 		NCAName: "Banco de España",
 		NCAId:   "ES-BDE",
 	}
-	extVal := buildPsd2ExtValue(t, mustMarshal(t, psd2))
+}
+
+func TestParseQcStatemPsd2Valid(t *testing.T) {
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, validPsd2QcType()))
 
 	result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
 	if !result.IsPresent() {
@@ -90,14 +95,7 @@ func TestParseQcStatemPsd2MalformedEncoding(t *testing.T) {
 }
 
 func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
-	psd2 := PSD2QcType{
-		RolesOfPSP: []RoleOfPSP{
-			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
-		},
-		NCAName: "Banco de España",
-		NCAId:   "ES-BDE",
-	}
-	psd2Bytes := mustMarshal(t, psd2)
+	psd2Bytes := mustMarshal(t, validPsd2QcType())
 	// Truncate the otherwise-valid, already-marshaled PSD2QcType bytes by one
 	// byte so the outer SEQUENCE's declared length no longer matches the
 	// available content. Note: appending extra trailing bytes instead does
@@ -122,11 +120,7 @@ func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
 }
 
 func TestParseQcStatemPsd2NotPresent(t *testing.T) {
-	extVal := buildPsd2ExtValue(t, mustMarshal(t, PSD2QcType{
-		RolesOfPSP: []RoleOfPSP{{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"}},
-		NCAName:    "Banco de España",
-		NCAId:      "ES-BDE",
-	}))
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, validPsd2QcType()))
 	// Ask for a different (unrelated, but already-registered) statement OID:
 	// the PSD2 statement is present in extVal but we're not asking about it,
 	// so IsPresent() must be false.
