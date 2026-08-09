@@ -33,7 +33,7 @@ func TestEtsiQcStatemPsd2NcaNameValid(t *testing.T) {
 		"QcStmtEtsiPsd2NcaNamePspPaValidCert01.pem": {status: lint.Pass},
 		"QcStmtEtsiPsd2NcaNamePspCbInvalidCert01.pem": {status: lint.Error,
 			details: "NCAName must be 'NA' for a PSD2 QcStatement declaring a PSP_CB or PSP_PA role"},
-		"QcStmtEtsiPsd2WrongEncodingCert01.pem": {status: lint.Error},
+		"QcStmtEtsiPsd2WrongEncodingCert01.pem": {status: lint.Error, details: "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"},
 		"QcStmtEtsiValidCert11.pem":             {status: lint.NA},
 	}
 	for inputPath, tc := range cases {
