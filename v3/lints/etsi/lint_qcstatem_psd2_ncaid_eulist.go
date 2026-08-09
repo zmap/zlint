@@ -99,6 +99,15 @@ func (l *qcStatemPsd2NcaIdEulist) Execute(c *x509.Certificate) *lint.LintResult 
 	if len(ncaId) < 2 {
 		return &lint.LintResult{Status: lint.Pass}
 	}
+	// Require the well-formed "<country>-<code>" shape (hyphen at index 2)
+	// before treating the first two characters as a country prefix. This
+	// lint does not re-validate NCAId's syntax (that's
+	// e_qcstatem_psd2_ncaid_format's job); a malformed value like
+	// "NOTAVALIDID" must not be mistaken for country prefix "NO" and
+	// compared against Norway's table entry.
+	if len(ncaId) <= 2 || ncaId[2] != '-' {
+		return &lint.LintResult{Status: lint.Pass}
+	}
 	countryPrefix := ncaId[:2]
 
 	for _, entry := range psd2EuNcaIds {

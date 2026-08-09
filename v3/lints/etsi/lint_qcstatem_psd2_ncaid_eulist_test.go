@@ -26,8 +26,11 @@ func TestEtsiQcStatemPsd2NcaIdEulist(t *testing.T) {
 		status  lint.LintStatus
 		details string // empty means "don't check Details"
 	}{
-		"QcStmtEtsiPsd2NcaIdEuMatchCert01.pem":  {status: lint.Pass},
-		"QcStmtEtsiPsd2NcaIdNonEuCert01.pem":    {status: lint.Pass},
+		"QcStmtEtsiPsd2NcaIdEuMatchCert01.pem": {status: lint.Pass},
+		"QcStmtEtsiPsd2NcaIdNonEuCert01.pem":   {status: lint.Pass},
+		// QcStmtEtsiPsd2ValidCert01.pem is structurally valid (hence the name) but
+		// carries NCAId "ES-BDE" — ETSI's own now-stale §5.2.1 example value. Spain's
+		// current EBA code is "ES-BE", so a Warn here is the intended result.
 		"QcStmtEtsiPsd2ValidCert01.pem":         {status: lint.Warn, details: "NCAId \"ES-BDE\" does not match the current EU NCA identifier \"ES-BE\" for country ES"},
 		"QcStmtEtsiPsd2WrongEncodingCert01.pem": {status: lint.Error, details: "error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"},
 		"QcStmtEtsiValidCert11.pem":             {status: lint.NA},
