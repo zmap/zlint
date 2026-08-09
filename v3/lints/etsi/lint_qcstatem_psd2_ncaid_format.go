@@ -61,15 +61,7 @@ func (l *qcStatemPsd2NcaIdFormat) Execute(c *x509.Certificate) *lint.LintResult 
 		return &lint.LintResult{Status: lint.Fatal, Details: "parsed QC statement is not of type EtsiPsd2"}
 	}
 
-	isCentralBankOrPublicAuthority := false
-	for _, role := range psd2.Decoded.RolesOfPSP {
-		if role.RoleOfPspOid.Equal(util.IdEtsiPsd2RolePspCb) || role.RoleOfPspOid.Equal(util.IdEtsiPsd2RolePspPa) {
-			isCentralBankOrPublicAuthority = true
-			break
-		}
-	}
-
-	if isCentralBankOrPublicAuthority {
+	if util.IsPsd2CentralBankOrPublicAuthority(psd2.Decoded.RolesOfPSP) {
 		if psd2.Decoded.NCAId != "NA" {
 			return &lint.LintResult{Status: lint.Error, Details: "NCAId must be 'NA' for a PSD2 QcStatement declaring a PSP_CB or PSP_PA role"}
 		}

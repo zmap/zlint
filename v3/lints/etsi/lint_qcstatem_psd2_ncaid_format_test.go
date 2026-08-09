@@ -22,32 +22,27 @@ import (
 )
 
 func TestEtsiQcStatemPsd2NcaIdFormat(t *testing.T) {
-	m := map[string]lint.LintStatus{
-		"QcStmtEtsiPsd2ValidCert01.pem":             lint.Pass,
-		"QcStmtEtsiPsd2NcaIdBadFormatCert01.pem":    lint.Error,
-		"QcStmtEtsiPsd2NcaIdBadCountryCert01.pem":   lint.Error,
-		"QcStmtEtsiPsd2NcaIdPspPaValidCert01.pem":   lint.Pass,
-		"QcStmtEtsiPsd2NcaIdPspPaInvalidCert01.pem": lint.Error,
-		"QcStmtEtsiPsd2NcaIdPspCbValidCert01.pem":   lint.Pass,
-		"QcStmtEtsiPsd2WrongEncodingCert01.pem":     lint.Error,
-		"QcStmtEtsiValidCert11.pem":                 lint.NA,
+	cases := map[string]struct {
+		status  lint.LintStatus
+		details string // empty means "don't check Details"
+	}{
+		"QcStmtEtsiPsd2ValidCert01.pem":           {status: lint.Pass},
+		"QcStmtEtsiPsd2NcaIdBadFormatCert01.pem":  {status: lint.Error, details: "NCAId must be a 2-letter ISO 3166-1 country code, a hyphen, and a 2-8 character uppercase identifier"},
+		"QcStmtEtsiPsd2NcaIdBadCountryCert01.pem": {status: lint.Error, details: "NCAId country code prefix is not an assigned ISO 3166-1 country code"},
+		"QcStmtEtsiPsd2NcaIdPspPaValidCert01.pem": {status: lint.Pass},
+		"QcStmtEtsiPsd2NcaIdPspPaInvalidCert01.pem": {status: lint.Error,
+			details: "NCAId must be 'NA' for a PSD2 QcStatement declaring a PSP_CB or PSP_PA role"},
+		"QcStmtEtsiPsd2NcaIdPspCbValidCert01.pem": {status: lint.Pass},
+		"QcStmtEtsiPsd2WrongEncodingCert01.pem":   {status: lint.Error},
+		"QcStmtEtsiValidCert11.pem":               {status: lint.NA},
 	}
-	for inputPath, expected := range m {
+	for inputPath, tc := range cases {
 		out := test.TestLint("e_qcstatem_psd2_ncaid_format", inputPath)
-		if out.Status != expected {
-			t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+		if out.Status != tc.status {
+			t.Errorf("%s: expected %s, got %s", inputPath, tc.status, out.Status)
 		}
-	}
-
-	detailsCases := map[string]string{
-		"QcStmtEtsiPsd2NcaIdBadFormatCert01.pem":    "NCAId must be a 2-letter ISO 3166-1 country code, a hyphen, and a 2-8 character uppercase identifier",
-		"QcStmtEtsiPsd2NcaIdBadCountryCert01.pem":   "NCAId country code prefix is not an assigned ISO 3166-1 country code",
-		"QcStmtEtsiPsd2NcaIdPspPaInvalidCert01.pem": "NCAId must be 'NA' for a PSD2 QcStatement declaring a PSP_CB or PSP_PA role",
-	}
-	for inputPath, expectedDetails := range detailsCases {
-		out := test.TestLint("e_qcstatem_psd2_ncaid_format", inputPath)
-		if out.Details != expectedDetails {
-			t.Errorf("%s: expected details %q, got %q", inputPath, expectedDetails, out.Details)
+		if tc.details != "" && out.Details != tc.details {
+			t.Errorf("%s: expected details %q, got %q", inputPath, tc.details, out.Details)
 		}
 	}
 }
