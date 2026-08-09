@@ -35,6 +35,36 @@ import (
 // non-capturing.
 var psd2OrgIdFormatRegex = regexp.MustCompile(`^PSD([A-Z]{2})-(?:[A-Z]{2,8})-(?:.+)$`)
 
+type qcStatemPsd2OrgIdFormatShall struct{}
+
+// ETSI TS 119 495 V1.1.2 (2018-07) through V1.4.1 (2019-11), Section 5.2.1:
+//
+//	GEN-5.2.1-3: The organizationIdentifier attribute shall contain
+//	information using the following structure in the presented order:
+//	"PSD" as 3 character legal person identity type reference; 2 character
+//	ISO 3166 country code representing the NCA country; hyphen-minus "-";
+//	2-8 character NCA identifier (A-Z uppercase only, no separator); and
+//	hyphen-minus "-"; and PSP identifier (authorization number as
+//	specified by the NCA). There are no restrictions on the characters
+//	used [for the PSP identifier].
+//
+// This clause was downgraded from "shall" to "should" in V1.5.1
+// (2021-04) onward — this lint only covers the "shall" era. See
+// w_qcstatem_psd2_orgid_format for the "should" era that follows it.
+func init() {
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:            "e_qcstatem_psd2_orgid_format",
+			Description:     "Checks that a PSD2 certificate's subject:organizationIdentifier, when it starts with 'PSD', matches the required PSD<country>-<NCAid>-<PSPid> structure",
+			Citation:        "ETSI TS 119 495 V1.1.2 (2018-07) - V1.4.1 (2019-11), Section 5.2.1, GEN-5.2.1-3",
+			Source:          lint.EtsiEsi,
+			EffectiveDate:   util.EtsiTs119495_V1_1_2_Date,
+			IneffectiveDate: util.EtsiTs119495_V1_5_1_Date,
+		},
+		Lint: NewQcStatemPsd2OrgIdFormatShall,
+	})
+}
+
 func psd2OrgIdCheckApplies(c *x509.Certificate) bool {
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
@@ -64,36 +94,6 @@ func psd2OrgIdFormatViolation(orgId string, requirementWord string) string {
 			"subject:organizationIdentifier %q has a country code that is not an assigned ISO 3166-1 country", orgId)
 	}
 	return ""
-}
-
-type qcStatemPsd2OrgIdFormatShall struct{}
-
-// ETSI TS 119 495 V1.1.2 (2018-07) through V1.4.1 (2019-11), Section 5.2.1:
-//
-//	GEN-5.2.1-3: The organizationIdentifier attribute shall contain
-//	information using the following structure in the presented order:
-//	"PSD" as 3 character legal person identity type reference; 2 character
-//	ISO 3166 country code representing the NCA country; hyphen-minus "-";
-//	2-8 character NCA identifier (A-Z uppercase only, no separator); and
-//	hyphen-minus "-"; and PSP identifier (authorization number as
-//	specified by the NCA). There are no restrictions on the characters
-//	used [for the PSP identifier].
-//
-// This clause was downgraded from "shall" to "should" in V1.5.1
-// (2021-04) onward — this lint only covers the "shall" era. See
-// w_qcstatem_psd2_orgid_format for the "should" era that follows it.
-func init() {
-	lint.RegisterCertificateLint(&lint.CertificateLint{
-		LintMetadata: lint.LintMetadata{
-			Name:            "e_qcstatem_psd2_orgid_format",
-			Description:     "Checks that a PSD2 certificate's subject:organizationIdentifier, when it starts with 'PSD', matches the required PSD<country>-<NCAid>-<PSPid> structure",
-			Citation:        "ETSI TS 119 495 V1.1.2 (2018-07) - V1.4.1 (2019-11), Section 5.2.1, GEN-5.2.1-3",
-			Source:          lint.EtsiEsi,
-			EffectiveDate:   util.EtsiTs119495_V1_1_2_Date,
-			IneffectiveDate: util.EtsiTs119495_V1_5_1_Date,
-		},
-		Lint: NewQcStatemPsd2OrgIdFormatShall,
-	})
 }
 
 func NewQcStatemPsd2OrgIdFormatShall() lint.LintInterface {
