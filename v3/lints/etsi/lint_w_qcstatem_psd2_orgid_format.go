@@ -63,14 +63,7 @@ func (l *qcStatemPsd2OrgIdFormatShould) CheckApplies(c *x509.Certificate) bool {
 	return psd2OrgIdCheckApplies(c)
 }
 
-// Unlike the other PSD2 lints, this deliberately does not defer on
-// GetErrorInfo(). The subject matter here is the Subject DN, which is
-// parsed independently of the qcStatements extension; a garbled
-// QCStatement neither makes OrganizationIDs unsafe to read nor makes the
-// org-id format requirement inapplicable. (Note ParseQcStatem reports
-// IsPresent() for any OID when the outer SEQUENCE fails to parse, so a
-// "PSD"-prefixed org-id is what actually establishes PSD2 applicability
-// here.)
+// See psd2OrgIdCheckApplies for why this does not defer on GetErrorInfo().
 func (l *qcStatemPsd2OrgIdFormatShould) Execute(c *x509.Certificate) *lint.LintResult {
 	orgId := c.Subject.OrganizationIDs[0]
 	if msg := psd2OrgIdFormatViolation(orgId, "recommended"); msg != "" {

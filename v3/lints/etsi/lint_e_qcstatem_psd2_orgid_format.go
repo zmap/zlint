@@ -65,17 +65,27 @@ func init() {
 	})
 }
 
+// psd2OrgIdCheckApplies checks the cheap Subject-DN conditions before the
+// qcStatements extension is parsed, so certificates that don't carry a
+// "PSD"-prefixed organizationIdentifier (the common case even among
+// QCerts) skip the ASN.1 unmarshal entirely.
+//
+// Unlike the other PSD2 lints, the Execute methods that rely on this
+// deliberately do not defer on GetErrorInfo(). The subject matter here is
+// the Subject DN, which is parsed independently of the qcStatements
+// extension; a garbled QCStatement neither makes OrganizationIDs unsafe
+// to read nor makes the org-id format requirement inapplicable. (Note
+// ParseQcStatem reports IsPresent() for any OID when the outer SEQUENCE
+// fails to parse, so a "PSD"-prefixed org-id is what actually establishes
+// PSD2 applicability here.)
 func psd2OrgIdCheckApplies(c *x509.Certificate) bool {
+	if len(c.Subject.OrganizationIDs) == 0 || !strings.HasPrefix(c.Subject.OrganizationIDs[0], "PSD") {
+		return false
+	}
 	if !util.IsExtInCert(c, util.QcStateOid) {
 		return false
 	}
-	if !util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, util.IdEtsiPsd2Statem).IsPresent() {
-		return false
-	}
-	if len(c.Subject.OrganizationIDs) == 0 {
-		return false
-	}
-	return strings.HasPrefix(c.Subject.OrganizationIDs[0], "PSD")
+	return util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, util.IdEtsiPsd2Statem).IsPresent()
 }
 
 // psd2OrgIdFormatViolation returns a non-empty Details message if orgId
@@ -104,14 +114,7 @@ func (l *qcStatemPsd2OrgIdFormatShall) CheckApplies(c *x509.Certificate) bool {
 	return psd2OrgIdCheckApplies(c)
 }
 
-// Unlike the other PSD2 lints, this deliberately does not defer on
-// GetErrorInfo(). The subject matter here is the Subject DN, which is
-// parsed independently of the qcStatements extension; a garbled
-// QCStatement neither makes OrganizationIDs unsafe to read nor makes the
-// org-id format requirement inapplicable. (Note ParseQcStatem reports
-// IsPresent() for any OID when the outer SEQUENCE fails to parse, so a
-// "PSD"-prefixed org-id is what actually establishes PSD2 applicability
-// here.)
+// See psd2OrgIdCheckApplies for why this does not defer on GetErrorInfo().
 func (l *qcStatemPsd2OrgIdFormatShall) Execute(c *x509.Certificate) *lint.LintResult {
 	orgId := c.Subject.OrganizationIDs[0]
 	if msg := psd2OrgIdFormatViolation(orgId, "required"); msg != "" {
