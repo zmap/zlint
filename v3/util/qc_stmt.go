@@ -120,11 +120,12 @@ type EtsiPsd2 struct {
 // Annex A. Certificates declaring either role are subject to the
 // GEN-5.2.3-1A/GEN-5.2.3-5 "NA" carve-out for NCAName/NCAId.
 func IsPsd2CentralBankOrPublicAuthority(roles []RoleOfPSP) bool {
-	oids := make([]asn1.ObjectIdentifier, 0, len(roles))
 	for _, role := range roles {
-		oids = append(oids, role.RoleOfPspOid)
+		if role.RoleOfPspOid.Equal(IdEtsiPsd2RolePspCb) || role.RoleOfPspOid.Equal(IdEtsiPsd2RolePspPa) {
+			return true
+		}
 	}
-	return SliceContainsOID(oids, IdEtsiPsd2RolePspCb) || SliceContainsOID(oids, IdEtsiPsd2RolePspPa)
+	return false
 }
 
 func AppendToStringSemicolonDelim(this *string, s string) {
