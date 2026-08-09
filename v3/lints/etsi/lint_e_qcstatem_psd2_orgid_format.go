@@ -24,7 +24,47 @@ import (
 	"github.com/zmap/zlint/v3/util"
 )
 
-var psd2OrgIdFormatRegexShall = regexp.MustCompile(`^PSD([A-Z]{2})-([A-Z]{2,8})-(.+)$`)
+// psd2OrgIdFormatRegex, psd2OrgIdCheckApplies, and psd2OrgIdFormatViolation
+// are shared by both e_qcstatem_psd2_orgid_format (this file) and
+// w_qcstatem_psd2_orgid_format — they check the exact same condition, only
+// severity and the requirement-strength wording differ, so the check logic
+// itself is factored out here rather than duplicated. Unexported: both
+// callers are in this package, so there's no need to promote this to
+// util unless a third consumer outside package etsi shows up. Only the
+// country-code capture group is ever read, so the other two groups are
+// non-capturing.
+var psd2OrgIdFormatRegex = regexp.MustCompile(`^PSD([A-Z]{2})-(?:[A-Z]{2,8})-(?:.+)$`)
+
+func psd2OrgIdCheckApplies(c *x509.Certificate) bool {
+	if !util.IsExtInCert(c, util.QcStateOid) {
+		return false
+	}
+	if !util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, util.IdEtsiPsd2Statem).IsPresent() {
+		return false
+	}
+	if len(c.Subject.OrganizationIDs) == 0 {
+		return false
+	}
+	return strings.HasPrefix(c.Subject.OrganizationIDs[0], "PSD")
+}
+
+// psd2OrgIdFormatViolation returns a non-empty Details message if orgId
+// violates the PSD<country>-<NCAid>-<PSPid> structure, or "" if it's
+// valid. requirementWord ("required"/"recommended") reflects the calling
+// lint's own era — GEN-5.2.1-3 was "shall" through V1.4.1 and "should"
+// from V1.5.1 onward.
+func psd2OrgIdFormatViolation(orgId string, requirementWord string) string {
+	m := psd2OrgIdFormatRegex.FindStringSubmatch(orgId)
+	if m == nil {
+		return fmt.Sprintf(
+			"subject:organizationIdentifier %q does not match the %s PSD<country>-<NCAid>-<PSPid> structure", orgId, requirementWord)
+	}
+	if !util.IsISOCountryCode(m[1]) {
+		return fmt.Sprintf(
+			"subject:organizationIdentifier %q has a country code that is not an assigned ISO 3166-1 country", orgId)
+	}
+	return ""
+}
 
 type qcStatemPsd2OrgIdFormatShall struct{}
 
@@ -61,16 +101,7 @@ func NewQcStatemPsd2OrgIdFormatShall() lint.LintInterface {
 }
 
 func (l *qcStatemPsd2OrgIdFormatShall) CheckApplies(c *x509.Certificate) bool {
-	if !util.IsExtInCert(c, util.QcStateOid) {
-		return false
-	}
-	if !util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, util.IdEtsiPsd2Statem).IsPresent() {
-		return false
-	}
-	if len(c.Subject.OrganizationIDs) == 0 {
-		return false
-	}
-	return strings.HasPrefix(c.Subject.OrganizationIDs[0], "PSD")
+	return psd2OrgIdCheckApplies(c)
 }
 
 // Unlike the other PSD2 lints, this deliberately does not defer on
@@ -83,14 +114,8 @@ func (l *qcStatemPsd2OrgIdFormatShall) CheckApplies(c *x509.Certificate) bool {
 // here.)
 func (l *qcStatemPsd2OrgIdFormatShall) Execute(c *x509.Certificate) *lint.LintResult {
 	orgId := c.Subject.OrganizationIDs[0]
-	m := psd2OrgIdFormatRegexShall.FindStringSubmatch(orgId)
-	if m == nil {
-		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf(
-			"subject:organizationIdentifier %q does not match the required PSD<country>-<NCAid>-<PSPid> structure", orgId)}
-	}
-	if !util.IsISOCountryCode(m[1]) {
-		return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf(
-			"subject:organizationIdentifier %q has a country code that is not an assigned ISO 3166-1 country", orgId)}
+	if msg := psd2OrgIdFormatViolation(orgId, "required"); msg != "" {
+		return &lint.LintResult{Status: lint.Error, Details: msg}
 	}
 	return &lint.LintResult{Status: lint.Pass}
 }

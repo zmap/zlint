@@ -15,16 +15,14 @@
 package etsi
 
 import (
-	"fmt"
-	"regexp"
-	"strings"
-
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
 
-var psd2OrgIdFormatRegexShould = regexp.MustCompile(`^PSD([A-Z]{2})-([A-Z]{2,8})-(.+)$`)
+// psd2OrgIdFormatRegex, psd2OrgIdCheckApplies, and psd2OrgIdFormatViolation
+// (shared with e_qcstatem_psd2_orgid_format) are defined in
+// lint_e_qcstatem_psd2_orgid_format.go.
 
 type qcStatemPsd2OrgIdFormatShould struct{}
 
@@ -62,16 +60,7 @@ func NewQcStatemPsd2OrgIdFormatShould() lint.LintInterface {
 }
 
 func (l *qcStatemPsd2OrgIdFormatShould) CheckApplies(c *x509.Certificate) bool {
-	if !util.IsExtInCert(c, util.QcStateOid) {
-		return false
-	}
-	if !util.ParseQcStatem(util.GetExtFromCert(c, util.QcStateOid).Value, util.IdEtsiPsd2Statem).IsPresent() {
-		return false
-	}
-	if len(c.Subject.OrganizationIDs) == 0 {
-		return false
-	}
-	return strings.HasPrefix(c.Subject.OrganizationIDs[0], "PSD")
+	return psd2OrgIdCheckApplies(c)
 }
 
 // Unlike the other PSD2 lints, this deliberately does not defer on
@@ -84,14 +73,8 @@ func (l *qcStatemPsd2OrgIdFormatShould) CheckApplies(c *x509.Certificate) bool {
 // here.)
 func (l *qcStatemPsd2OrgIdFormatShould) Execute(c *x509.Certificate) *lint.LintResult {
 	orgId := c.Subject.OrganizationIDs[0]
-	m := psd2OrgIdFormatRegexShould.FindStringSubmatch(orgId)
-	if m == nil {
-		return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf(
-			"subject:organizationIdentifier %q does not match the recommended PSD<country>-<NCAid>-<PSPid> structure", orgId)}
-	}
-	if !util.IsISOCountryCode(m[1]) {
-		return &lint.LintResult{Status: lint.Warn, Details: fmt.Sprintf(
-			"subject:organizationIdentifier %q has a country code that is not an assigned ISO 3166-1 country", orgId)}
+	if msg := psd2OrgIdFormatViolation(orgId, "recommended"); msg != "" {
+		return &lint.LintResult{Status: lint.Warn, Details: msg}
 	}
 	return &lint.LintResult{Status: lint.Pass}
 }
