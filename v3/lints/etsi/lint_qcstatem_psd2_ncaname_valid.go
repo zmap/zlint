@@ -24,6 +24,18 @@ import (
 
 type qcStatemPsd2NcaNameValid struct{}
 
+// ETSI TS 119 495 V1.1.2 (2018-07), Section 5.2.3:
+//
+//	GEN-5.2.3-1: The NCAName shall be plain text using Latin alphabet
+//	provided by the Competent Authority itself for purpose of
+//	identification in certificates.
+//
+//	NCAName ::= UTF8String (SIZE(1..256))
+//
+//	GEN-5.2.3-1A (added in a later edition than V1.1.2, verified against the
+//	current edition V1.8.1): If the subject role is international central
+//	bank (PSP_CB) or international public authority (PSP_PA), NCAName shall
+//	have the value "NA".
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
