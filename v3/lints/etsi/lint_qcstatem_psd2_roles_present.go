@@ -28,6 +28,10 @@ type qcStatemPsd2RolesPresent struct{}
 //	shall be as declared by an NCA via their public register for the
 //	subject PSP. Each role is represented by role object identifier and
 //	role name.
+//
+// (The current edition, V1.8.1, additionally clarifies that a single
+// "unspecified" entry also satisfies this — the underlying non-empty
+// requirement quoted above is unchanged.)
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
