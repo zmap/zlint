@@ -26,6 +26,20 @@ var psd2NcaIdFormat = regexp.MustCompile(`^[A-Z]{2}-[A-Z]{2,8}$`)
 
 type qcStatemPsd2NcaIdFormat struct{}
 
+// ETSI TS 119 495 V1.1.2 (2018-07), Section 5.2.3:
+//
+//	GEN-5.2.3-2: The NCAId shall contain information using the following
+//	structure in the presented order:
+//	  - 2 character ISO 3166-1 country code representing the Competent
+//	    Authority country;
+//	  - hyphen-minus "-" (0x2D (ASCII), U+002D (UTF-8)); and
+//	  - 2-8 character Competent Authority identifier without country code
+//	    (A-Z uppercase only, no separator).
+//
+//	GEN-5.2.3-5 (added in a later edition than V1.1.2, verified against the
+//	current edition V1.8.1): If the subject role is international central
+//	bank (PSP_CB) or international public authority (PSP_PA), NCAId shall
+//	have the value "NA".
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
