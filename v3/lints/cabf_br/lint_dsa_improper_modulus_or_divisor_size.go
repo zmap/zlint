@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -50,8 +50,8 @@ func (l *dsaImproperSize) Execute(c *x509.Certificate) *lint.LintResult {
 	if !ok {
 		return &lint.LintResult{Status: lint.NA}
 	}
-	L := dsaKey.Parameters.P.BitLen()
-	N := dsaKey.Parameters.Q.BitLen()
+	L := dsaKey.P.BitLen()
+	N := dsaKey.Q.BitLen()
 	if (L == 2048 && N == 224) || (L == 2048 && N == 256) || (L == 3072 && N == 256) {
 		return &lint.LintResult{Status: lint.Pass}
 	}

@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -44,7 +44,7 @@ func (l *ecOtherKeyUsages) CheckApplies(c *x509.Certificate) bool {
 }
 
 func (l *ecOtherKeyUsages) Execute(c *x509.Certificate) *lint.LintResult {
-	if !(util.HasKeyUsage(c, x509.KeyUsageDigitalSignature) || util.HasKeyUsage(c, x509.KeyUsageKeyAgreement)) {
+	if !util.HasKeyUsage(c, x509.KeyUsageDigitalSignature) && !util.HasKeyUsage(c, x509.KeyUsageKeyAgreement) {
 		if c.KeyUsage != 0 {
 			return &lint.LintResult{Status: lint.Error}
 		}

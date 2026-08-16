@@ -43,7 +43,7 @@ By default ZLint will apply applicable lints from all sources but consumers may
 also customize which lints are used by including/exclduing specific sources.
 
 [BRs]: https://cabforum.org/baseline-requirements-documents/
-[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1ywp0op9mkTaggigpdF2YMTubepowJ50KQBhc_b00e-Y
+[Coverage Spreadsheet]: https://docs.google.com/spreadsheets/d/1fNJfGZ-G2tcv6Fv6ejP-ZygZzaplgqvA9VgHI_bBeMU/edit?gid=0#gid=0
 [CABF EV]: https://cabforum.org/extended-validation/
 [MozPolicy]: https://github.com/mozilla/pkipolicy
 [ETSI ESI]: https://www.etsi.org/technologies/digital-signature
@@ -238,6 +238,7 @@ Here are some projects/CAs known to integrate with ZLint in some fashion:
 * [ANF AC](https://www.anf.es/)
 * [Camerfirma](https://www.camerfirma.com/)
 * [CFSSL](https://github.com/cloudflare/cfssl)
+* [Deutsche Telekom Security GmbH](https://www.telesec.de/en)
 * [Digicert](https://www.digicert.com/)
 * [EJBCA](https://download.primekey.com/docs/EJBCA-Enterprise/6_11_1/adminguide.html#Post%20Processing%20Validators%20(Pre-Certificate%20or%20Certificate%20Validation))
 * [Entrust](https://www.entrust.com/)
@@ -265,7 +266,7 @@ another CA/project that uses zlint.
 License and Copyright
 ---------------------
 
-ZMap Copyright 2024 Regents of the University of Michigan
+ZMap Copyright 2026 Regents of the University of Michigan
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

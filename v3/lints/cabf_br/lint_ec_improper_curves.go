@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -63,7 +63,7 @@ func (l *ecImproperCurves) Execute(c *x509.Certificate) *lint.LintResult {
 		theKey = keyType
 	}
 	/* Now can actually check the params */
-	theParams := theKey.Curve.Params()
+	theParams := theKey.Params()
 	switch theParams.Name {
 	case "P-256", "P-384", "P-521":
 		return &lint.LintResult{Status: lint.Pass}

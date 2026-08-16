@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -15,8 +15,7 @@ package cabf_br
  */
 
 import (
-	"crypto/rsa"
-
+	"github.com/zmap/zcrypto/rsa"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -53,7 +52,7 @@ func (l *rsaParsedTestsKeyExpOdd) CheckApplies(c *x509.Certificate) bool {
 
 func (l *rsaParsedTestsKeyExpOdd) Execute(c *x509.Certificate) *lint.LintResult {
 	key := c.PublicKey.(*rsa.PublicKey)
-	if key.E%2 == 1 {
+	if key.E.Bit(0) == 1 {
 		return &lint.LintResult{Status: lint.Pass}
 	} else {
 		return &lint.LintResult{Status: lint.Error}

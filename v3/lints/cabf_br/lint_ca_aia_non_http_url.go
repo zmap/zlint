@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,6 +21,35 @@ import (
 
 	"strings"
 )
+
+/*
+--- Citation History of this Requirement ---
+v2.0.0 to v2.1.7: 7.1.2.10.3
+
+--- Version Notes ---
+This requirement was baselined at v2.1.7 and is current.
+
+--- Requirements Language ---
+BRs: 7.1.2
+If the CA asserts compliance with these Baseline Requirements, all certificates that it issues MUST
+comply with one of the following certificate profiles
+
+[Each of the CA profiles specifies the authorityInformationAccess extension follows 7.1.2.10.3]
+
+BRs: 7.1.2.10.3
+If present, the AuthorityInfoAccessSyntax MUST contain one or moreAccessDescriptions. Each
+AccessDescription MUST only contain a permitted accessMethod, as detailed below, and each accessLocation
+MUST be encoded as the specified GeneralName type.
++-----------------+-----------+---------------------------+----------+---------+---------------------------+
+| Access Method   | OID       | Access Location           | Presence | Maximum | Description               |
++-----------------+-----------+---------------------------+----------+---------+---------------------------+
+| id-ad-ocsp      | 1.3.6.1.5 | uniformResourceIdentifier | MAY      | *       | A HTTP URL of the Issuing |
+|                 | .5.7.48.1 |                           |          |         | CA’s OCSP responder.      |
++-----------------+-----------+---------------------------+----------+---------+---------------------------+
+| id-ad-caIssuers | 1.3.6.1.5 | uniformResourceIdentifier | MAY      | *       | A HTTP URL of the Issuing |
+|                 | .5.7.48.2 |                           |          |         | CA’s certificate.         |
++-----------------+-----------+---------------------------+----------+---------+---------------------------+
+*/
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{

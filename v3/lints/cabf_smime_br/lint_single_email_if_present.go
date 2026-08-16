@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -30,7 +30,7 @@ All Mailbox Addresses in the subject field or entries of type dirName of this ex
 repeated as rfc822Name or otherName values of type id-on-SmtpUTF8Mailbox in this
 extension.
 
-7.1.4.2.2 Subject distinguished name fields
+7.1.4.2.2 Subject distinguished name fields //nolint:dupword // dup comes from the specification
 
 h. Certificate Field: subject:emailAddress (1.2.840.113549.1.9.1) Contents: If present, the
 subject:emailAddress SHALL contain a single Mailbox Address as verified under

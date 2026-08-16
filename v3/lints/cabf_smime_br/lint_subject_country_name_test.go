@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2025 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -28,14 +28,29 @@ func TestSubjectCountryName(t *testing.T) {
 		ExpectedResult lint.LintStatus
 	}{
 		{
-			Name:           "pass - valid email in commonName",
+			Name:           "na - valid country code in countryName in a mailbox-validated certificate",
 			InputFilename:  "smime/subject_country_name_valid.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "fail - invalid country code in countryName in a mailbox-validated certificate",
+			InputFilename:  "smime/subject_country_name_invalid.pem",
+			ExpectedResult: lint.NA,
+		},
+		{
+			Name:           "Error - certificate is organization-validated and has an invalid country in countryName",
+			InputFilename:  "smime/organizationValidatedWithInvalidCountry.pem",
+			ExpectedResult: lint.Error,
+		},
+		{
+			Name:           "Pass - certificate is individual-validated and has an valid country in countryName",
+			InputFilename:  "smime/individualValidatedWithValidCountry.pem",
 			ExpectedResult: lint.Pass,
 		},
 		{
-			Name:           "fail - invalid email in commonName",
-			InputFilename:  "smime/subject_country_name_invalid.pem",
-			ExpectedResult: lint.Error,
+			Name:           "Pass - certificate is individual-validated and has the valid XX code in countryName",
+			InputFilename:  "smime/individualValidatedWithXXCodeInCountry.pem",
+			ExpectedResult: lint.Pass,
 		},
 	}
 	for _, tc := range testCases {

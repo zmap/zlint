@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -23,19 +23,27 @@ import (
 type CertPolicyRequiresPersonalNameStrict struct{}
 
 /************************************************
-BRs: 7.1.2.7.3 Individual Validated
+--- Citation History of this Requirement ---
+v2.0.0 to v2.2.5: 7.1.2.7.3
+
+--- Version Notes ---
+This requirement was baselined at v2.2.5 and is current.
+
+--- Requirements Language ---
+TLS BRs: 7.1.2.7.3 Individual Validated
 Certificate Policy Identifier: 2.23.140.1.2.3
 
 The following table details the acceptable AttributeTypes that may appear within the
 type field of an AttributeTypeAndValue, as well as the contents permitted within the
 value field.
 
-| Attribute Name   | Presence        | Value                    |
-| ...              | ...             | ...                      |
-| organizationName | NOT RECOMMENDED | ...                      |
-| surname          | MUST            | The Subject’s surname.   |
-| givenName.       | MUST            | The Subject's givenName  |
-| ...              | ...             | ...                      |
++----------------+----------+---------------------------+---------------+
+| Attribute Name | Presence | Value                     | Verification  |
++----------------+----------+---------------------------+---------------+
+| surname        | MUST     | The Subject’s surname.    | Section 3.2.3 |
++----------------+----------+---------------------------+---------------+
+| givenName      | MUST     | The Subject’s given name. | Section 3.2.3 |
++----------------+----------+---------------------------+---------------+
 
 ************************************************/
 

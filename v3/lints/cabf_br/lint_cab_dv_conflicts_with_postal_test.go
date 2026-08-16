@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -33,6 +33,24 @@ func TestCertPolicyNotConflictWithPostal(t *testing.T) {
 func TestCertPolicyConflictsWithPostal(t *testing.T) {
 	inputPath := "domainValWithPostal.pem"
 	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_postal", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithPostalLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithPostalPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_postal", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithPostalButSuperseded(t *testing.T) {
+	inputPath := "domainValWithPostalPost200.pem"
+	expected := lint.NE
 	out := test.TestLint("e_cab_dv_conflicts_with_postal", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

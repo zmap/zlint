@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -15,8 +15,7 @@
 package cabf_smime_br
 
 import (
-	"crypto/rsa"
-
+	"github.com/zmap/zcrypto/rsa"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -42,7 +41,7 @@ func NewRSAKeyUsageStrict() lint.LintInterface {
 }
 
 func (l *rsaKeyUsageStrict) CheckApplies(c *x509.Certificate) bool {
-	if !(util.IsSubscriberCert(c) && util.IsStrictSMIMECertificate(c) && util.IsExtInCert(c, util.KeyUsageOID)) {
+	if !util.IsSubscriberCert(c) || !util.IsStrictSMIMECertificate(c) || !util.IsExtInCert(c, util.KeyUsageOID) {
 		return false
 	}
 

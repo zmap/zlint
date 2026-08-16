@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -74,11 +74,11 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 		}, {
 			Name:           "o1s0ep0a0nc0",
 			Filename:       "o1s0ep0a0nc0.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Error,
 		}, {
 			Name:           "o1s0ep0a0nc1",
 			Filename:       "o1s0ep0a0nc1.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Pass,
 		}, {
 			Name:           "o1s0ep0a1nc0",
 			Filename:       "o1s0ep0a1nc0.pem",
@@ -142,11 +142,11 @@ func TestOCSPIDPKIXOCSPNocheckExtNotIncludedServerAuth(t *testing.T) {
 		}, {
 			Name:           "o1s0ep1a0nc0",
 			Filename:       "o1s0ep1a0nc0.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Error,
 		}, {
 			Name:           "o1s0ep1a0nc1",
 			Filename:       "o1s0ep1a0nc1.pem",
-			ExpectedResult: lint.NA,
+			ExpectedResult: lint.Pass,
 		}, {
 			Name:           "o1s0ep1a1nc0",
 			Filename:       "o1s0ep1a1nc0.pem",

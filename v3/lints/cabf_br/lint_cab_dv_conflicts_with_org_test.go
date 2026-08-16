@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -33,6 +33,24 @@ func TestCertPolicyNotConflictWithOrg(t *testing.T) {
 func TestCertPolicyConflictsWithOrg(t *testing.T) {
 	inputPath := "domainValWithOrg.pem"
 	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_org", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithOrgLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithOrgPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_org", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithOrgButSuperseded(t *testing.T) {
+	inputPath := "domainValWithOrgPost200.pem"
+	expected := lint.NE
 	out := test.TestLint("e_cab_dv_conflicts_with_org", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

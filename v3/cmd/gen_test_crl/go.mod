@@ -1,19 +1,19 @@
 module github.com/zmap/zlint/v3/cmd/gen_test_crl
 
-go 1.24.0
+go 1.25.0
 
 replace github.com/zmap/zlint/v3 => ../../
 
 require (
-	github.com/sirupsen/logrus v1.9.3
-	github.com/zmap/zcrypto v0.0.0-20250129210703-03c45d0bae98
-	github.com/zmap/zlint/v3 v3.6.5
+	github.com/sirupsen/logrus v1.9.4
+	github.com/zmap/zcrypto v0.0.0-20260514033604-a1159eb3cad9
+	github.com/zmap/zlint/v3 v3.6.8
 )
 
 require (
-	github.com/weppos/publicsuffix-go v0.40.3-0.20250127173806-e489a31678ca // indirect
-	golang.org/x/crypto v0.36.0 // indirect
-	golang.org/x/net v0.38.0 // indirect
-	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
+	github.com/weppos/publicsuffix-go v0.50.4-0.20260507075217-1bd47f85b3da // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 )

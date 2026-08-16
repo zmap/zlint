@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -92,7 +92,7 @@ func (l *bRAIAAccessMethodAllowed) Execute(c *x509.Certificate) *lint.LintResult
 					return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Certificate has an invalid GeneralName with tag %d in an accessLocation.", v.Location.Tag)}
 				}
 
-				if !(v.Method.Equal(idAdCaIssuers) || v.Method.Equal(idAdOCSP)) {
+				if !v.Method.Equal(idAdCaIssuers) && !v.Method.Equal(idAdOCSP) {
 					return &lint.LintResult{Status: lint.Error, Details: fmt.Sprintf("Certificate has an invalid accessMethod with OID %s.", v.Method)}
 				}
 			}

@@ -1,7 +1,7 @@
 package rfc
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -16,7 +16,6 @@ package rfc
 
 import (
 	"github.com/zmap/zcrypto/x509"
-	"github.com/zmap/zcrypto/x509/pkix"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 )
@@ -49,7 +48,7 @@ func (l *ExtFreshestCrlMarkedCritical) CheckApplies(cert *x509.Certificate) bool
 }
 
 func (l *ExtFreshestCrlMarkedCritical) Execute(cert *x509.Certificate) *lint.LintResult {
-	var fCRL *pkix.Extension = util.GetExtFromCert(cert, util.FreshCRLOID)
+	var fCRL = util.GetExtFromCert(cert, util.FreshCRLOID)
 	if fCRL != nil && fCRL.Critical {
 		return &lint.LintResult{Status: lint.Error}
 	} else if fCRL != nil && !fCRL.Critical {

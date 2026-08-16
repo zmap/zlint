@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -33,6 +33,24 @@ func TestCertPolicyNotConflictWithStreet(t *testing.T) {
 func TestCertPolicyConflictsWithStreet(t *testing.T) {
 	inputPath := "domainValWithStreet.pem"
 	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithStreetLastCheckedTime(t *testing.T) {
+	inputPath := "domainValWithStreetPre200.pem"
+	expected := lint.Error
+	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCertPolicyConflictsWithStreetButSuperseded(t *testing.T) {
+	inputPath := "domainValWithStreetPost200.pem"
+	expected := lint.NE
 	out := test.TestLint("e_cab_dv_conflicts_with_street", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)

@@ -1,7 +1,7 @@
 package cabf_smime_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -61,9 +61,10 @@ func (l *legacyMultipurposeEKUCheck) Execute(c *x509.Certificate) *lint.LintResu
 	ekusOK := true
 
 	for _, eku := range c.ExtKeyUsage {
-		if eku == x509.ExtKeyUsageEmailProtection {
+		switch eku {
+		case x509.ExtKeyUsageEmailProtection:
 			hasEmailProtectionEKU = true
-		} else if eku == x509.ExtKeyUsageServerAuth || eku == x509.ExtKeyUsageCodeSigning || eku == x509.ExtKeyUsageTimeStamping || eku == x509.ExtKeyUsageAny {
+		case x509.ExtKeyUsageServerAuth, x509.ExtKeyUsageCodeSigning, x509.ExtKeyUsageTimeStamping, x509.ExtKeyUsageAny:
 			ekusOK = false
 		}
 	}

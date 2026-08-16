@@ -1,7 +1,7 @@
 package cabf_br
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -21,19 +21,62 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestCaCountryNameInvalid(t *testing.T) {
+func TestCaCountryNameWithoutConfig(t *testing.T) {
+	tests := [7]struct {
+		id        string
+		inputFile string
+		expected  lint.LintStatus
+	}{
+		{"TestCaCountryNameInvalid", "caInvalCountryCode.pem", lint.Error},
+		{"TestCaCountryNameInvalidlyBlank", "caBlankCountry.pem", lint.Error},
+		{"TestCaCountryNameValid", "caValCountry.pem", lint.Pass},
+		{"TestCaMultipleValidCountryName", "caMultipleValidCountires.pem", lint.Pass},
+		{"TestCaMultipleCountryNameOneInvalid", "caManyCountriesWithInvalid.pem", lint.Error},
+		{"TestCaCountryNameNotIncluded", "caMissingCountry.pem", lint.NA},
+		{"TestCaCountryNameInvalidButRequirementNotEffective", "caInvalidCountryButOld.pem", lint.NE},
+	}
+
+	for _, testCase := range tests {
+		t.Run(testCase.id, func(t *testing.T) {
+			var out = test.TestLint("e_ca_country_name_invalid", testCase.inputFile)
+			if out.Status != testCase.expected {
+				t.Errorf("%s: expected %s, got %s", testCase.inputFile, testCase.expected, out.Status)
+			}
+		})
+	}
+}
+
+func TestCaCountryNameInvalidExplicitlyNotExemptCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = false`
 	inputPath := "caInvalCountryCode.pem"
 	expected := lint.Error
-	out := test.TestLint("e_ca_country_name_invalid", inputPath)
+	out := test.TestLintWithConfig("e_ca_country_name_invalid", inputPath, config)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
 
-func TestCaCountryNameValid(t *testing.T) {
+func TestCaCountryNameExemptCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
+	inputPath := "caInvalCountryCode.pem"
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_country_name_invalid", inputPath, config)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestCaCountryNameExemptButComplientCrossSignedCa(t *testing.T) {
+	config := `
+	[CABFBaselineRequirementsConfig]
+	CrossSignedCa = true`
 	inputPath := "caValCountry.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_ca_country_name_invalid", inputPath)
+	expected := lint.NA
+	out := test.TestLintWithConfig("e_ca_country_name_invalid", inputPath, config)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}

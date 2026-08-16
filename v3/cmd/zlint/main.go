@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -32,6 +32,7 @@ import (
 	"github.com/zmap/zlint/v3"
 	"github.com/zmap/zlint/v3/formattedoutput"
 	"github.com/zmap/zlint/v3/lint"
+	"golang.org/x/crypto/ocsp"
 
 	_ "github.com/zmap/zlint/v3/profiles"
 )
@@ -156,7 +157,7 @@ func main() {
 			}
 
 			doLint(inputFile, fileInform, registry)
-			inputFile.Close()
+			inputFile.Close() //nolint:errcheck
 		}
 	}
 }
@@ -169,19 +170,14 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 	}
 
 	var asn1Data []byte
-	var isCRL bool
 	switch inform {
 	case "pem":
 		p, _ := pem.Decode(fileBytes)
 		if p == nil {
 			log.Fatal("unable to parse PEM")
 		}
-		switch p.Type {
-		case "CERTIFICATE":
-		case "X509 CRL":
-			isCRL = true
-		default:
-			log.Fatalf("unknown PEM type (%s)", p.Type)
+		if p.Type != "CERTIFICATE" && p.Type != "X509 CRL" {
+			log.Fatalf("unknown PEM type %s", p.Type)
 		}
 		asn1Data = p.Bytes
 	case "der":
@@ -195,18 +191,28 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		log.Fatalf("unknown input format %s", format)
 	}
 	var zlintResult *zlint.ResultSet
-	if isCRL {
-		crl, err := x509.ParseRevocationList(asn1Data)
-		if err != nil {
-			log.Fatalf("unable to parse certificate revocation list: %s", err)
-		}
-		zlintResult = zlint.LintRevocationListEx(crl, registry)
+	var errs []error
+	if cert, err := x509.ParseCertificate(asn1Data); err == nil {
+		zlintResult = zlint.LintCertificateEx(cert, registry)
 	} else {
-		c, err := x509.ParseCertificate(asn1Data)
-		if err != nil {
-			log.Fatalf("unable to parse certificate: %s", err)
+		errs = append(errs, fmt.Errorf("parsing as certificate: %v", err))
+	}
+	if zlintResult == nil {
+		if crl, err := x509.ParseRevocationList(asn1Data); err == nil {
+			zlintResult = zlint.LintRevocationListEx(crl, registry)
+		} else {
+			errs = append(errs, fmt.Errorf("parsing as CRL: %v", err))
 		}
-		zlintResult = zlint.LintCertificateEx(c, registry)
+	}
+	if zlintResult == nil {
+		if resp, err := ocsp.ParseResponse(asn1Data, nil); err == nil {
+			zlintResult = zlint.LintOcspResponseEx(resp, registry)
+		} else {
+			errs = append(errs, fmt.Errorf("parsing as OCSP response: %v", err))
+		}
+	}
+	if zlintResult == nil {
+		log.Fatalf("unable to parse input as any known type, errors: %v", errs)
 	}
 	jsonBytes, err := json.Marshal(zlintResult.Results)
 	if err != nil {
@@ -217,7 +223,7 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		if err := json.Indent(&out, jsonBytes, "", " "); err != nil {
 			log.Fatalf("can't format output: %s", err)
 		}
-		os.Stdout.Write(out.Bytes())
+		os.Stdout.Write(out.Bytes()) //nolint:errcheck
 		fmt.Printf("\n\n")
 	}
 	if summary {
@@ -227,10 +233,10 @@ func doLint(inputFile *os.File, inform string, registry lint.Registry) {
 		formattedoutput.OutputSummary(zlintResult, true)
 	}
 	if !prettyprint && !summary && !longSummary {
-		os.Stdout.Write(jsonBytes)
+		os.Stdout.Write(jsonBytes) //nolint:errcheck
 	}
-	os.Stdout.Write([]byte{'\n'})
-	os.Stdout.Sync()
+	os.Stdout.Write([]byte{'\n'}) //nolint:errcheck
+	os.Stdout.Sync()              //nolint:errcheck
 }
 
 // trimmedList takes a comma separated string argument in raw, splits it by

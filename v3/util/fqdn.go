@@ -1,5 +1,5 @@
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -127,5 +127,5 @@ func IsLDHLabel(label string) bool {
 		!nonLDHCharacterRegex.MatchString(label) &&
 		!strings.HasPrefix(label, "-") &&
 		!strings.HasSuffix(label, "-") &&
-		!(HasReservedLabelPrefix(label) && !HasXNLabelPrefix(label))
+		(!HasReservedLabelPrefix(label) || HasXNLabelPrefix(label))
 }
