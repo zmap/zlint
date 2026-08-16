@@ -62,27 +62,32 @@ func (l *qcStatemPsd2NcaNameValid) CheckApplies(c *x509.Certificate) bool {
 func (l *qcStatemPsd2NcaNameValid) Execute(c *x509.Certificate) *lint.LintResult {
 	ext := util.GetExtFromCert(c, util.QcStateOid)
 	s := util.ParseQcStatem(ext.Value, util.IdEtsiPsd2Statem)
-	if s.GetErrorInfo() != "" {
-		return &lint.LintResult{Status: lint.Error, Details: s.GetErrorInfo()}
-	}
 	psd2, ok := s.(util.EtsiPsd2)
 	if !ok {
 		return &lint.LintResult{Status: lint.Fatal, Details: "parsed QC statement is not of type EtsiPsd2"}
 	}
 
+	// Check NCAName itself against psd2.Decoded (populated whenever the
+	// PSD2QcType SEQUENCE itself unmarshaled, even if e_qcstatem_psd2_valid's
+	// structural SIZE(1..256) check already flagged it) before falling back
+	// to s.GetErrorInfo()'s generic message, so this lint's own
+	// NCAName-specific Details take precedence over that structural check.
 	if util.IsPsd2CentralBankOrPublicAuthority(psd2.Decoded.RolesOfPSP) {
 		if psd2.Decoded.NCAName != "NA" {
 			return &lint.LintResult{Status: lint.Error, Details: "NCAName must be 'NA' for a PSD2 QcStatement declaring a PSP_CB or PSP_PA role"}
 		}
-		return &lint.LintResult{Status: lint.Pass}
+	} else {
+		nameLen := utf8.RuneCountInString(psd2.Decoded.NCAName)
+		if nameLen == 0 {
+			return &lint.LintResult{Status: lint.Error, Details: "NCAName must not be empty"}
+		}
+		if nameLen > 256 {
+			return &lint.LintResult{Status: lint.Error, Details: "NCAName must be at most 256 characters"}
+		}
 	}
 
-	nameLen := utf8.RuneCountInString(psd2.Decoded.NCAName)
-	if nameLen == 0 {
-		return &lint.LintResult{Status: lint.Error, Details: "NCAName must not be empty"}
-	}
-	if nameLen > 256 {
-		return &lint.LintResult{Status: lint.Error, Details: "NCAName must be at most 256 characters"}
+	if s.GetErrorInfo() != "" {
+		return &lint.LintResult{Status: lint.Error, Details: s.GetErrorInfo()}
 	}
 	return &lint.LintResult{Status: lint.Pass}
 }
