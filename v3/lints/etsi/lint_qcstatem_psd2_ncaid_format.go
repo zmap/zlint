@@ -26,7 +26,7 @@ var psd2NcaIdFormat = regexp.MustCompile(`^[A-Z]{2}-[A-Z]{2,8}$`)
 
 type qcStatemPsd2NcaIdFormat struct{}
 
-// ETSI TS 119 495 V1.1.2 (2018-07), Section 5.2.3:
+// ETSI TS 119 495 V1.8.1 (2026-04), Section 5.2.3:
 //
 //	GEN-5.2.3-2: The NCAId shall contain information using the following
 //	structure in the presented order:
@@ -36,16 +36,15 @@ type qcStatemPsd2NcaIdFormat struct{}
 //	  - 2-8 character Competent Authority identifier without country code
 //	    (A-Z uppercase only, no separator).
 //
-//	GEN-5.2.3-5 (added in a later edition than V1.1.2, verified against the
-//	current edition V1.8.1): If the subject role is international central
-//	bank (PSP_CB) or international public authority (PSP_PA), NCAId shall
-//	have the value "NA".
+//	GEN-5.2.3-5: If the subject role is international central bank (PSP_CB)
+//	or international public authority (PSP_PA), NCAId shall have the value
+//	"NA".
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_qcstatem_psd2_ncaid_format",
 			Description:   "Checks that the NCAId field of a PSD2 QcStatement has the correct syntax: a 2-letter ISO 3166-1 country code, a hyphen, and a 2-8 character uppercase identifier, or 'NA' for a certificate declaring a PSP_CB or PSP_PA role",
-			Citation:      "ETSI TS 119 495 V1.1.2 (2018-07), Section 5.2.3, GEN-5.2.3-2",
+			Citation:      "ETSI TS 119 495 V1.8.1 (2026-04), Section 5.2.3, GEN-5.2.3-2, GEN-5.2.3-5",
 			Source:        lint.EtsiEsi,
 			EffectiveDate: util.EtsiTs119495_V1_1_2_Date,
 		},
