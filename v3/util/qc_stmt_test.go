@@ -15,6 +15,7 @@ package util
  */
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/zmap/zcrypto/encoding/asn1"
@@ -116,6 +117,41 @@ func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
 	result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
 	if result.GetErrorInfo() == "" {
 		t.Fatalf("expected error info for PSD2 QC statement with truncated statementInfo bytes, got none")
+	}
+}
+
+// TestParseQcStatemPsd2SizeConstraints exercises the Annex A SIZE(1..256)
+// bound on NCAName, NCAId, and RoleOfPspName: exactly at the min/max bounds
+// must pass, and one below/above must fail. Also confirms the bound is
+// counted in Unicode characters, not bytes, since these are UTF8Strings.
+func TestParseQcStatemPsd2SizeConstraints(t *testing.T) {
+	tests := []struct {
+		name    string
+		mutate  func(psd2 *PSD2QcType)
+		wantErr bool
+	}{
+		{"NCAName at min length (1) passes", func(psd2 *PSD2QcType) { psd2.NCAName = "A" }, false},
+		{"NCAName at max length (256) passes", func(psd2 *PSD2QcType) { psd2.NCAName = strings.Repeat("A", 256) }, false},
+		{"NCAName empty fails", func(psd2 *PSD2QcType) { psd2.NCAName = "" }, true},
+		{"NCAName over max length (257) fails", func(psd2 *PSD2QcType) { psd2.NCAName = strings.Repeat("A", 257) }, true},
+		{"NCAId empty fails", func(psd2 *PSD2QcType) { psd2.NCAId = "" }, true},
+		{"NCAId over max length (257) fails", func(psd2 *PSD2QcType) { psd2.NCAId = strings.Repeat("A", 257) }, true},
+		{"RoleOfPspName empty fails", func(psd2 *PSD2QcType) { psd2.RolesOfPSP[0].RoleOfPspName = "" }, true},
+		{"RoleOfPspName over max length (257) fails", func(psd2 *PSD2QcType) { psd2.RolesOfPSP[0].RoleOfPspName = strings.Repeat("A", 257) }, true},
+		{"256-character NCAName counted in runes, not bytes, passes", func(psd2 *PSD2QcType) { psd2.NCAName = strings.Repeat("é", 256) }, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			psd2 := validPsd2QcType()
+			tt.mutate(&psd2)
+			extVal := buildPsd2ExtValue(t, mustMarshal(t, psd2))
+
+			result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
+			gotErr := result.GetErrorInfo() != ""
+			if gotErr != tt.wantErr {
+				t.Errorf("GetErrorInfo() = %q, wantErr %v", result.GetErrorInfo(), tt.wantErr)
+			}
+		})
 	}
 }
 
