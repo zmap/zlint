@@ -46,7 +46,7 @@ var psd2EuNcaIds = map[string]string{
 
 type qcStatemPsd2NcaIdEulist struct{}
 
-// ETSI TS 119 495 (current edition, V1.8.1), Annex D (informative):
+// ETSI TS 119 495 V1.8.1 (2026-04), Annex D (informative):
 //
 //	The current list of NCA abbreviations is published on the European
 //	Banking Authority website. [...] NCAs can sometimes use underscore
@@ -63,7 +63,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "w_qcstatem_psd2_ncaid_eulist",
 			Description:   "Warns if the NCAId field of a PSD2 QcStatement has a country prefix matching an EU/EEA national competent authority, but the full value does not match that authority's current EBA-published code",
-			Citation:      "ETSI TS 119 495, Annex D; European Banking Authority, \"National identification codes to be used by qualified trust service providers for identification of competent authorities in an eIDAS certificate for PSD2 purposes,\" Version 4 (2023-02-02)",
+			Citation:      "ETSI TS 119 495 V1.8.1 (2026-04), Annex D; European Banking Authority, \"National identification codes to be used by qualified trust service providers for identification of competent authorities in an eIDAS certificate for PSD2 purposes,\" Version 4 (2023-02-02)",
 			Source:        lint.EtsiEsi,
 			EffectiveDate: util.EtsiTs119495_V1_2_1_Date,
 		},
