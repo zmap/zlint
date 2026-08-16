@@ -22,22 +22,19 @@ import (
 
 type qcStatemPsd2RolesPresent struct{}
 
-// ETSI TS 119 495 V1.1.2 (2018-07), Section 5.2.2:
+// ETSI TS 119 495 V1.8.1 (2026-04), Section 5.2.2:
 //
-//	GEN-5.2.2-1: RolesOfPSP shall contain one or more roles. The roles
-//	shall be as declared by an NCA via their public register for the
-//	subject PSP. Each role is represented by role object identifier and
-//	role name.
-//
-// (The current edition, V1.8.1, additionally clarifies that a single
-// "unspecified" entry also satisfies this — the underlying non-empty
-// requirement quoted above is unchanged.)
+//	GEN-5.2.2-1: RolesOfPSP shall contain one or more roles or contain a
+//	single entry indicating that the role is unspecified. The roles shall
+//	be as declared by a Competent Authority via its public records for the
+//	subject PSP. Each role is represented by a role ASN.1 Object Identifier
+//	and a name string.
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_qcstatem_psd2_roles_present",
 			Description:   "Checks that the RolesOfPSP field of a PSD2 QcStatement contains at least one role",
-			Citation:      "ETSI TS 119 495 V1.1.2 (2018-07), Section 5.2.2, GEN-5.2.2-1",
+			Citation:      "ETSI TS 119 495 V1.8.1 (2026-04), Section 5.2.2, GEN-5.2.2-1",
 			Source:        lint.EtsiEsi,
 			EffectiveDate: util.EtsiTs119495_V1_1_2_Date,
 		},
