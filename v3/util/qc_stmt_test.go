@@ -174,3 +174,25 @@ func mustMarshal(t *testing.T, v interface{}) []byte {
 	}
 	return b
 }
+
+func TestIsPsd2CentralBankOrPublicAuthority(t *testing.T) {
+	cb := RoleOfPSP{RoleOfPspOid: IdEtsiPsd2RolePspCb, RoleOfPspName: "PSP_CB"}
+	pa := RoleOfPSP{RoleOfPspOid: IdEtsiPsd2RolePspPa, RoleOfPspName: "PSP_PA"}
+	as := RoleOfPSP{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"}
+
+	if !IsPsd2CentralBankOrPublicAuthority([]RoleOfPSP{cb}) {
+		t.Errorf("expected true for a role list containing only PSP_CB")
+	}
+	if !IsPsd2CentralBankOrPublicAuthority([]RoleOfPSP{pa}) {
+		t.Errorf("expected true for a role list containing only PSP_PA")
+	}
+	if !IsPsd2CentralBankOrPublicAuthority([]RoleOfPSP{as, cb}) {
+		t.Errorf("expected true for a role list containing PSP_AS and PSP_CB")
+	}
+	if IsPsd2CentralBankOrPublicAuthority([]RoleOfPSP{as}) {
+		t.Errorf("expected false for a role list containing only PSP_AS")
+	}
+	if IsPsd2CentralBankOrPublicAuthority(nil) {
+		t.Errorf("expected false for an empty role list")
+	}
+}

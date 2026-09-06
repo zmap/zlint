@@ -116,6 +116,19 @@ type EtsiPsd2 struct {
 	Decoded PSD2QcType
 }
 
+// IsPsd2CentralBankOrPublicAuthority reports whether roles declares a PSP_CB
+// (Central Bank) or PSP_PA (Public authority) role, per ETSI TS 119 495
+// Annex A. Certificates declaring either role are subject to the
+// GEN-5.2.3-1A/GEN-5.2.3-5 "NA" carve-out for NCAName/NCAId.
+func IsPsd2CentralBankOrPublicAuthority(roles []RoleOfPSP) bool {
+	for _, role := range roles {
+		if role.RoleOfPspOid.Equal(IdEtsiPsd2RolePspCb) || role.RoleOfPspOid.Equal(IdEtsiPsd2RolePspPa) {
+			return true
+		}
+	}
+	return false
+}
+
 func AppendToStringSemicolonDelim(this *string, s string) {
 	if len(*this) > 0 && len(s) > 0 {
 		(*this) += "; "
