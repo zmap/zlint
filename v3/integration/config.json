@@ -1010,6 +1010,9 @@
     },
     "e_subj_email_not_in_san": {
 		  "ErrCount": 16576
+	  },
+    "e_utf8_replacement_char_in_subject": {
+		  "ErrCount": 2
 	  }
   }
 }
