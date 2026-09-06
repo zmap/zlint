@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"unicode/utf8"
 
 	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
@@ -144,6 +145,34 @@ func checkAsn1Reencoding(i interface{}, originalEncoding []byte, appendIfCompari
 	}
 	if !bytes.Equal(reencoded, originalEncoding) {
 		AppendToStringSemicolonDelim(&result, appendIfComparisonFails)
+	}
+	return result
+}
+
+// psd2NameFieldMinLen and psd2NameFieldMaxLen are the SIZE(1..256) bounds
+// that ETSI TS 119 495, Annex A places on the NCAName, NCAId, and
+// RoleOfPspName UTF8String fields of PSD2QcType.
+const (
+	psd2NameFieldMinLen = 1
+	psd2NameFieldMaxLen = 256
+)
+
+// checkPsd2QcTypeSizeConstraints validates the Annex A SIZE(1..256) bound on
+// NCAName, NCAId, and each RoleOfPspName. It counts Unicode characters
+// (runes), not bytes, since the bound applies to a UTF8String's SIZE.
+func checkPsd2QcTypeSizeConstraints(psd2 PSD2QcType) string {
+	result := ""
+	checkFieldLen := func(fieldName, value string) {
+		if n := utf8.RuneCountInString(value); n < psd2NameFieldMinLen || n > psd2NameFieldMaxLen {
+			AppendToStringSemicolonDelim(&result, fmt.Sprintf(
+				"%s must be between %d and %d UTF8String characters, got %d",
+				fieldName, psd2NameFieldMinLen, psd2NameFieldMaxLen, n))
+		}
+	}
+	checkFieldLen("NCAName", psd2.NCAName)
+	checkFieldLen("NCAId", psd2.NCAId)
+	for _, role := range psd2.RolesOfPSP {
+		checkFieldLen("RoleOfPspName", role.RoleOfPspName)
 	}
 	return result
 }
@@ -282,6 +311,7 @@ func ParseQcStatem(extVal []byte, sought asn1.ObjectIdentifier) EtsiQcStmtIf {
 				AppendToStringSemicolonDelim(&etsiObj.errorInfo,
 					checkAsn1Reencoding(reflect.ValueOf(etsiObj.Decoded).Interface(), statem.Any.FullBytes,
 						"error with ASN.1 encoding, possibly a wrong ASN.1 string type was used"))
+				AppendToStringSemicolonDelim(&etsiObj.errorInfo, checkPsd2QcTypeSizeConstraints(etsiObj.Decoded))
 			}
 			return etsiObj
 		} else {
