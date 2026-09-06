@@ -22,7 +22,14 @@ import (
 
 type qcStatemPsd2Valid struct{}
 
-// ETSI TS 119 495 V1.1.2 (2018-07), Annex A (normative): ASN.1 Declaration:
+// ETSI TS 119 495 V1.8.1 (2026-04), Section 5.1:
+//
+//	GEN-5.1-3: The syntax of the defined statement shall comply with ASN.1 [6]. The
+//	complete ASN.1 module for all defined statements shall be as provided in Annex A;
+//	it takes precedence over the ASN.1 definition provided in the body of the present
+//	document, in case of discrepancy.
+//
+// ETSI TS 119 495 V1.8.1 (2026-04), Annex A (normative): ASN.1 Declaration:
 //
 //	PSD2QcType ::= SEQUENCE{
 //	    rolesOfPSP  RolesOfPSP,
@@ -42,7 +49,7 @@ func init() {
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_qcstatem_psd2_valid",
 			Description:   "Checks that a QC Statement of the type id-etsi-psd2-qcStatement has the correct ASN.1 encoding",
-			Citation:      "ETSI TS 119 495 V1.1.2 (2018-07), Annex A (normative): ASN.1 Declaration",
+			Citation:      "ETSI TS 119 495 V1.8.1 (2026-04), Section 5.1, GEN-5.1-3, and Annex A (normative): ASN.1 Declaration",
 			Source:        lint.EtsiEsi,
 			EffectiveDate: util.EtsiTs119495_V1_1_2_Date,
 		},
