@@ -15,6 +15,7 @@ package util
  */
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/zmap/zcrypto/encoding/asn1"
@@ -44,15 +45,20 @@ func buildPsd2ExtValue(t *testing.T, psd2Bytes []byte) []byte {
 	return mustMarshal(t, []qcStatementWithInfoField{stmt})
 }
 
-func TestParseQcStatemPsd2Valid(t *testing.T) {
-	psd2 := PSD2QcType{
+// validPsd2QcType returns a well-formed PSD2QcType shared by every test in
+// this file that needs one but isn't itself testing a specific field value.
+func validPsd2QcType() PSD2QcType {
+	return PSD2QcType{
 		RolesOfPSP: []RoleOfPSP{
 			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
 		},
 		NCAName: "Banco de España",
 		NCAId:   "ES-BDE",
 	}
-	extVal := buildPsd2ExtValue(t, mustMarshal(t, psd2))
+}
+
+func TestParseQcStatemPsd2Valid(t *testing.T) {
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, validPsd2QcType()))
 
 	result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
 	if !result.IsPresent() {
@@ -90,14 +96,7 @@ func TestParseQcStatemPsd2MalformedEncoding(t *testing.T) {
 }
 
 func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
-	psd2 := PSD2QcType{
-		RolesOfPSP: []RoleOfPSP{
-			{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"},
-		},
-		NCAName: "Banco de España",
-		NCAId:   "ES-BDE",
-	}
-	psd2Bytes := mustMarshal(t, psd2)
+	psd2Bytes := mustMarshal(t, validPsd2QcType())
 	// Truncate the otherwise-valid, already-marshaled PSD2QcType bytes by one
 	// byte so the outer SEQUENCE's declared length no longer matches the
 	// available content. Note: appending extra trailing bytes instead does
@@ -121,12 +120,43 @@ func TestParseQcStatemPsd2UnmarshalFailure(t *testing.T) {
 	}
 }
 
+// TestParseQcStatemPsd2SizeConstraints exercises the Annex A SIZE(1..256)
+// bound on NCAName, NCAId, and RoleOfPspName: exactly at the min/max bounds
+// must pass, and one below/above must fail. Also confirms the bound is
+// counted in Unicode characters, not bytes, since these are UTF8Strings.
+func TestParseQcStatemPsd2SizeConstraints(t *testing.T) {
+	tests := []struct {
+		name    string
+		mutate  func(psd2 *PSD2QcType)
+		wantErr bool
+	}{
+		{"NCAName at min length (1) passes", func(psd2 *PSD2QcType) { psd2.NCAName = "A" }, false},
+		{"NCAName at max length (256) passes", func(psd2 *PSD2QcType) { psd2.NCAName = strings.Repeat("A", 256) }, false},
+		{"NCAName empty fails", func(psd2 *PSD2QcType) { psd2.NCAName = "" }, true},
+		{"NCAName over max length (257) fails", func(psd2 *PSD2QcType) { psd2.NCAName = strings.Repeat("A", 257) }, true},
+		{"NCAId empty fails", func(psd2 *PSD2QcType) { psd2.NCAId = "" }, true},
+		{"NCAId over max length (257) fails", func(psd2 *PSD2QcType) { psd2.NCAId = strings.Repeat("A", 257) }, true},
+		{"RoleOfPspName empty fails", func(psd2 *PSD2QcType) { psd2.RolesOfPSP[0].RoleOfPspName = "" }, true},
+		{"RoleOfPspName over max length (257) fails", func(psd2 *PSD2QcType) { psd2.RolesOfPSP[0].RoleOfPspName = strings.Repeat("A", 257) }, true},
+		{"256-character NCAName counted in runes, not bytes, passes", func(psd2 *PSD2QcType) { psd2.NCAName = strings.Repeat("é", 256) }, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			psd2 := validPsd2QcType()
+			tt.mutate(&psd2)
+			extVal := buildPsd2ExtValue(t, mustMarshal(t, psd2))
+
+			result := ParseQcStatem(extVal, IdEtsiPsd2Statem)
+			gotErr := result.GetErrorInfo() != ""
+			if gotErr != tt.wantErr {
+				t.Errorf("GetErrorInfo() = %q, wantErr %v", result.GetErrorInfo(), tt.wantErr)
+			}
+		})
+	}
+}
+
 func TestParseQcStatemPsd2NotPresent(t *testing.T) {
-	extVal := buildPsd2ExtValue(t, mustMarshal(t, PSD2QcType{
-		RolesOfPSP: []RoleOfPSP{{RoleOfPspOid: asn1.ObjectIdentifier{0, 4, 0, 19495, 1, 1}, RoleOfPspName: "PSP_AS"}},
-		NCAName:    "Banco de España",
-		NCAId:      "ES-BDE",
-	}))
+	extVal := buildPsd2ExtValue(t, mustMarshal(t, validPsd2QcType()))
 	// Ask for a different (unrelated, but already-registered) statement OID:
 	// the PSD2 statement is present in extVal but we're not asking about it,
 	// so IsPresent() must be false.
