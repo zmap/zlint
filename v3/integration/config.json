@@ -1016,6 +1016,9 @@
 	  },
     "e_utf8_replacement_char_in_subject": {
 		  "ErrCount": 2
-	  }
+	  },
+    "w_suspicious_chars_in_address": {
+		  "WarnCount": 1231
+	}
   }
 }
