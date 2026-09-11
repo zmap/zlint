@@ -19,7 +19,7 @@ import (
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
 
-	"fmt"
+	"errors"
 	"unicode/utf8"
 )
 
@@ -62,7 +62,7 @@ func isASCII(s string) bool {
 
 func getOrgIdParts(orgId string) (*orgIdPartsType, error) {
 	if len(orgId) < 5 || !isASCII(orgId[:5]) {
-		return nil, fmt.Errorf("The Subject::organizationIdentifier attribute has an invalid value")
+		return nil, errors.New("The Subject::organizationIdentifier attribute has an invalid value")
 	}
 	scheme := orgId[:3]
 	country := orgId[3:5]
