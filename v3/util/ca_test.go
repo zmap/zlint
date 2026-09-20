@@ -73,6 +73,16 @@ func TestIsServerAuthCertEidasNonWebQualified(t *testing.T) {
 			policyIdentifiers: []asn1.ObjectIdentifier{BRDomainValidatedOID},
 			expected:          true,
 		},
+		{
+			// A real-world regression case: some certificates in the wild
+			// carry both a CABF BR reserved policy OID and an eIDAS
+			// non-website QCP OID with no EKU extension. The BR policy OID
+			// affirmatively puts the cert back in scope for the CABF BRs
+			// (and thus server auth), overriding the eIDAS carve-out.
+			name:              "no EKU, both a BR reserved policy and QCP-n-qscd -- BR policy wins",
+			policyIdentifiers: []asn1.ObjectIdentifier{BRDomainValidatedOID, QCPnqscdPolicyOID},
+			expected:          true,
+		},
 	}
 
 	for _, tc := range testCases {
