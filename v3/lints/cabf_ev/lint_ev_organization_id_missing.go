@@ -41,7 +41,9 @@ func NewEvOrgIdExtMissing() lint.LintInterface {
 }
 
 func (l *evOrgIdExtMissing) CheckApplies(c *x509.Certificate) bool {
-	return util.IsEV(c.PolicyIdentifiers) && len(c.Subject.OrganizationIDs) > 0
+	return !c.IsCA &&
+		util.IsEV(c.PolicyIdentifiers) &&
+		len(c.Subject.OrganizationIDs) > 0
 }
 
 func (l *evOrgIdExtMissing) Execute(c *x509.Certificate) *lint.LintResult {

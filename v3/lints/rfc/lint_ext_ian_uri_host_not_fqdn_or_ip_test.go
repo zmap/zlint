@@ -74,3 +74,47 @@ func TestIANHostAsterisk(t *testing.T) {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
 }
+
+func TestIANURINoAuthority(t *testing.T) {
+	// This certificate has an IAN with URI=sip:alice@sip.uri.com
+	// Since this has no authority section, it should be accepted.
+	inputPath := "IANURINoAuthority.pem"
+	expected := lint.Pass
+	out := test.TestLint("e_ext_ian_uri_host_not_fqdn_or_ip", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestIANURIHostOpaqueURN(t *testing.T) {
+	// This certificate has an IAN with URI=urn:isbn:0451450523
+	// Since this has no authority section, it should be accepted.
+	inputPath := "IANURIHostOpaqueURN.pem"
+	expected := lint.Pass
+	out := test.TestLint("e_ext_ian_uri_host_not_fqdn_or_ip", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestIANURIHostIPv6(t *testing.T) {
+	// This certificate has an IAN with URI=https://[2001:db8::1]/
+	// A bracketed IPv6 literal host should be accepted.
+	inputPath := "IANURIHostIPv6.pem"
+	expected := lint.Pass
+	out := test.TestLint("e_ext_ian_uri_host_not_fqdn_or_ip", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
+
+func TestIANURIHostURIExampleCom(t *testing.T) {
+	// Control case: this certificate has an IAN with URI=https://example.com/,
+	// an authority whose host is a plain FQDN.
+	inputPath := "IANURIHostURIExampleCom.pem"
+	expected := lint.Pass
+	out := test.TestLint("e_ext_ian_uri_host_not_fqdn_or_ip", inputPath)
+	if out.Status != expected {
+		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	}
+}
