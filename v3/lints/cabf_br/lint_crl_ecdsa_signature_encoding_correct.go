@@ -78,6 +78,7 @@ func isSHA224WithECDSA(r *x509.RevocationList) bool {
 	return aid.Algorithm.Equal(util.OidSignatureSHA224withECDSA)
 }
 
+//nolint:nestif
 func (l *crlEcdsaSignatureAidEncoding) Execute(r *x509.RevocationList) *lint.LintResult {
 	signature := r.Signature
 	signatureSize := len(signature)
