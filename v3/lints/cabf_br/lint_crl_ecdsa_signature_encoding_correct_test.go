@@ -32,6 +32,14 @@ func TestCrlEcdsaSignatureAidEncoding(t *testing.T) {
 		{"crlEcdsaP384SHA256.pem", lint.Error},
 		{"crlEcdsaP384SHA384NullParams.pem", lint.Error},
 		{"crlEcdsaP256SHA224.pem", lint.Error},
+		{"crlEcdsaP521SHA512.pem", lint.Pass},
+		{"crlEcdsaP521SHA256.pem", lint.Error},
+		// Signature length boundaries that select the expected curve.
+		{"crlEcdsaP256SHA256Sig72.pem", lint.Pass},
+		{"crlEcdsaP256SHA256Sig73.pem", lint.Error},
+		{"crlEcdsaP384SHA384Sig105.pem", lint.Error},
+		{"crlEcdsaP521SHA512Sig105.pem", lint.Pass},
+		{"crlEcdsaSig141.pem", lint.Error},
 		{"crlRsaSHA256.pem", lint.NA},
 	}
 	for _, tc := range testCases {

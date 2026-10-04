@@ -88,6 +88,7 @@ var (
 	CABFBRs_1_6_9_Date                               = time.Date(2020, time.March, 27, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_7_1_Date                               = time.Date(2020, time.August, 20, 0, 0, 0, 0, time.UTC)
 	AppleReducedLifetimeDate                         = time.Date(2020, time.September, 1, 0, 0, 0, 0, time.UTC)
+	CABFBRs_1_7_4_Date                               = time.Date(2021, time.April, 5, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_7_9_Date                               = time.Date(2021, time.August, 16, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_8_0_Date                               = time.Date(2021, time.August, 25, 0, 0, 0, 0, time.UTC)
 	CABFBRs_2_0_0_Date                               = time.Date(2023, time.September, 15, 0, 0, 0, 0, time.UTC)
