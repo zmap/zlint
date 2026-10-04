@@ -35,7 +35,7 @@ func init() {
 type SUBST struct{}
 
 func NewPASCAL_CASE_SUBST() lint.LintInterface {
-    return &SUBST{}
+	return &SUBST{}
 }
 
 func (l *SUBST) CheckApplies(c *x509.Certificate) bool {
