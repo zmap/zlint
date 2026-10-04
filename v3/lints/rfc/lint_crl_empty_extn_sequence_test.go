@@ -21,20 +21,22 @@ import (
 	"github.com/zmap/zlint/v3/test"
 )
 
-func TestCRLEmptyExtnSequenceOK(t *testing.T) {
-	inputPath := "crl_empty_extn_seq_ok.pem"
-	expected := lint.Pass
-	out := test.TestRevocationListLint(t, "e_crl_empty_extn_sequence", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+func TestCRLEmptyExtnSequence(t *testing.T) {
+	testCases := []struct {
+		name     string
+		input    string
+		expected lint.LintStatus
+	}{
+		{"all entries with non-empty or absent extensions", "crl_empty_extn_seq_ok.pem", lint.Pass},
+		{"first entry without extensions", "crl_empty_extn_seq_first_entry_no_ext_ok.pem", lint.Pass},
+		{"entry with empty extensions SEQUENCE", "crl_empty_extn_seq_ko.pem", lint.Error},
 	}
-}
-
-func TestCRLEmptyExtnSequenceKO(t *testing.T) {
-	inputPath := "crl_empty_extn_seq_ko.pem"
-	expected := lint.Error
-	out := test.TestRevocationListLint(t, "e_crl_empty_extn_sequence", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			out := test.TestRevocationListLint(t, "e_crl_empty_extn_sequence", tc.input)
+			if out.Status != tc.expected {
+				t.Errorf("%s: expected %s, got %s", tc.input, tc.expected, out.Status)
+			}
+		})
 	}
 }
