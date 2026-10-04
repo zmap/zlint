@@ -3401,7 +3401,7 @@ var tldMap = map[string]GTLDPeriod{
 	"juniper": {
 		GTLD:           "juniper",
 		DelegationDate: "2016-08-02",
-		RemovalDate:    "",
+		RemovalDate:    "2026-09-30",
 	},
 	"kaufen": {
 		GTLD:           "kaufen",
