@@ -79,30 +79,42 @@ func NewCrlEcdsaSignatureAidEncoding() lint.RevocationListLintInterface {
 	return &crlEcdsaSignatureAidEncoding{}
 }
 
+// A CRL carries no copy of the signing key, so the curve is inferred from the
+// signature length. The limits are the maximum DER ECDSA-Sig-Value lengths:
+// P-256: 2+2+2+33+33 = 72, P-384: 2+2+2+49+49 = 104, P-521: 2+2+2+67+67 = 140.
+// A signature with unusually small r and s can be classified as a smaller
+// curve than it was made with.
+var ecdsaSignatureLimits = []struct {
+	maxSignatureLen int
+	curve           string
+	algorithmID     []byte
+}{
+	{72, "P-256", []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x02}},
+	{104, "P-384", []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x03}},
+	{140, "P-521", []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x04}},
+}
+
 func (l *crlEcdsaSignatureAidEncoding) CheckApplies(r *x509.RevocationList) bool {
-	if r.SignatureAlgorithm == x509.ECDSAWithSHA1 ||
+	return r.SignatureAlgorithm == x509.ECDSAWithSHA1 ||
 		r.SignatureAlgorithm == x509.ECDSAWithSHA256 ||
 		r.SignatureAlgorithm == x509.ECDSAWithSHA384 ||
-		r.SignatureAlgorithm == x509.ECDSAWithSHA512 {
-		return true
-	}
-	return isSHA224WithECDSAOrUnparseable(r)
+		r.SignatureAlgorithm == x509.ECDSAWithSHA512 ||
+		isSHA224WithECDSA(r)
 }
 
 // ecdsa-with-SHA224 has no x509.SignatureAlgorithm constant, so inspect the
-// OID directly. If the AlgorithmIdentifier cannot be parsed, the lint applies
-// so that Execute reports it: BRs 7.1.3.2 permits no other encodings.
-func isSHA224WithECDSAOrUnparseable(r *x509.RevocationList) bool {
+// OID directly.
+func isSHA224WithECDSA(r *x509.RevocationList) bool {
 	encoded, err := util.GetSignatureAlgorithmInTBSCertListEncoded(r)
 	if err != nil {
-		return true
+		return false
 	}
 	var aid struct {
 		Algorithm  asn1.ObjectIdentifier
 		Parameters asn1.RawValue `asn1:"optional"`
 	}
 	if _, err := asn1.Unmarshal(encoded, &aid); err != nil {
-		return true
+		return false
 	}
 	return aid.Algorithm.Equal(util.OidSignatureSHA224withECDSA)
 }
@@ -113,33 +125,21 @@ func (l *crlEcdsaSignatureAidEncoding) Execute(r *x509.RevocationList) *lint.Lin
 		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
 	}
 
-	// A CRL carries no copy of the signing key, so the curve is inferred from
-	// the signature length. Maximum DER ECDSA-Sig-Value lengths:
-	// P-256: 2+2+2+33+33 = 72, P-384: 2+2+2+49+49 = 104, P-521: 2+2+2+67+67 = 140.
-	// A signature with unusually small r and s can be classified as a smaller
-	// curve than it was made with.
-	var curve string
-	var expected []byte
 	signatureSize := len(r.Signature)
-	switch {
-	case signatureSize <= 72:
-		curve, expected = "P-256", []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x02}
-	case signatureSize <= 104:
-		curve, expected = "P-384", []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x03}
-	case signatureSize <= 140:
-		curve, expected = "P-521", []byte{0x30, 0x0a, 0x06, 0x08, 0x2a, 0x86, 0x48, 0xce, 0x3d, 0x04, 0x03, 0x04}
-	default:
-		return &lint.LintResult{
-			Status:  lint.Error,
-			Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key. Got signature length %v", signatureSize),
+	for _, limit := range ecdsaSignatureLimits {
+		if signatureSize > limit.maxSignatureLen {
+			continue
 		}
-	}
-
-	if !bytes.Equal(encoded, expected) {
-		return &lint.LintResult{
-			Status:  lint.Error,
-			Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key on %s curve. Got the unsupported %s", curve, hex.EncodeToString(encoded)),
+		if !bytes.Equal(encoded, limit.algorithmID) {
+			return &lint.LintResult{
+				Status:  lint.Error,
+				Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key on %s curve. Got the unsupported %s", limit.curve, hex.EncodeToString(encoded)),
+			}
 		}
+		return &lint.LintResult{Status: lint.Pass}
 	}
-	return &lint.LintResult{Status: lint.Pass}
+	return &lint.LintResult{
+		Status:  lint.Error,
+		Details: fmt.Sprintf("Encoding of signature algorithm does not match signing key. Got signature length %v", signatureSize),
+	}
 }
