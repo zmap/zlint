@@ -69,17 +69,19 @@ type revokedCertificate struct {
 
 func (l *CRLEmptyExtnSequence) Execute(c *x509.RevocationList) *lint.LintResult {
 
-	revCert := revokedCertificate{}
-
 	for _, rce := range c.RevokedCertificates {
+		// Declared per entry: asn1.Unmarshal does not reset an absent optional
+		// field, so a shared struct would carry over the previous entry's value.
+		revCert := revokedCertificate{}
 		_, err := asn1.Unmarshal(rce.Raw, &revCert)
 		if err == nil {
 			// Get the extensions of the current CRL entry
 			ext := revCert.CrlEntryExtensions
 
-			// Now, 0x30 is the ASN.1 universal tag for SEQUENCE
+			// crlEntryExtensions is OPTIONAL, so FullBytes is empty when absent.
+			// Otherwise, 0x30 is the ASN.1 universal tag for SEQUENCE
 			// and the byte at offset 1 is the length, which cannot be zero
-			if ext.FullBytes[0] == 0x30 && ext.FullBytes[1] == 0 {
+			if len(ext.FullBytes) >= 2 && ext.FullBytes[0] == 0x30 && ext.FullBytes[1] == 0 {
 				return &lint.LintResult{
 					Status: lint.Error,
 					Details: fmt.Sprintf(
