@@ -40,6 +40,13 @@ func TestCrlEcdsaSignatureAidEncoding(t *testing.T) {
 		{"crlEcdsaP384SHA384Sig105.pem", lint.Error},
 		{"crlEcdsaP521SHA512Sig105.pem", lint.Pass},
 		{"crlEcdsaSig141.pem", lint.Error},
+		// Mozilla Bugzilla 2075819: SHECA issued CRLs from P-384 CAs using
+		// ecdsa-with-SHA256. The first is a live CRL (fixed, SHA-384) fetched
+		// from http://crl.global.sheca.com/gevtlsecc2026s1.crl; the second is
+		// the same CRL with the AlgorithmIdentifiers rewritten to SHA-256 to
+		// reproduce the reported encoding (300a06082a8648ce3d040302).
+		{"crlSHECAGevTLSECC2026S1.pem", lint.Pass},
+		{"crlSHECAGevTLSECC2026S1Sha256Incident.pem", lint.Error},
 		{"crlRsaSHA256.pem", lint.NA},
 	}
 	for _, tc := range testCases {
