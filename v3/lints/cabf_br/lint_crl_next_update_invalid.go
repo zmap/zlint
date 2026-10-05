@@ -15,11 +15,13 @@
 package cabf_br
 
 import (
+	"encoding/asn1"
+	"errors"
+	"fmt"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
-
-	"fmt"
 )
 
 func init() {
@@ -60,7 +62,25 @@ func (l *CrlNextUpdateInvalid) Execute(c *x509.RevocationList) *lint.LintResult 
 	CabfMaxEECRLValidityDays := 10
 	CabfMaxCACRLValidityMonths := 12
 
-	if l.SubscriberCRL {
+	// Which limit applies depends on whether the CRL covers subscriber or CA
+	// certificates, and that cannot be determined from an arbitrary CRL. The
+	// SubscriberCRL configuration field is therefore used by default.
+	//
+	// However, when the CRL carries an Issuing Distribution Point (RFC 5280,
+	// Section 5.2.5) that explicitly scopes itself to CA or subscriber
+	// certificates, that unambiguous in-band signal is preferred over the
+	// configuration default.
+	subscriberCRL := l.SubscriberCRL
+	switch scope, err := idpCRLScope(c); {
+	case err != nil:
+		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
+	case scope == crlScopeCA:
+		subscriberCRL = false
+	case scope == crlScopeSubscriber:
+		subscriberCRL = true
+	}
+
+	if subscriberCRL {
 		if c.NextUpdate.After(c.ThisUpdate.AddDate(0, 0, CabfMaxEECRLValidityDays)) {
 			return &lint.LintResult{
 				Status: lint.Error,
@@ -81,4 +101,61 @@ func (l *CrlNextUpdateInvalid) Execute(c *x509.RevocationList) *lint.LintResult 
 	}
 
 	return &lint.LintResult{Status: lint.Pass}
+}
+
+var errAmbiguousIDPScope = errors.New("IDP does not unambiguously scope the CRL")
+
+//	IssuingDistributionPoint ::= SEQUENCE {
+//	     distributionPoint          [0] DistributionPointName OPTIONAL,
+//	     onlyContainsUserCerts      [1] BOOLEAN DEFAULT FALSE,
+//	     onlyContainsCACerts        [2] BOOLEAN DEFAULT FALSE,
+//	     onlySomeReasons            [3] ReasonFlags OPTIONAL,
+//	     indirectCRL                [4] BOOLEAN DEFAULT FALSE,
+//	     onlyContainsAttributeCerts [5] BOOLEAN DEFAULT FALSE }
+type issuingDistPoint struct {
+	DistributionPoint     asn1.RawValue  `asn1:"optional,tag:0"`
+	OnlyContainsUserCerts bool           `asn1:"optional,tag:1"`
+	OnlyContainsCACerts   bool           `asn1:"optional,tag:2"`
+	OnlySomeReasons       asn1.BitString `asn1:"optional,tag:3"`
+	IndirectCRL           bool           `asn1:"optional,tag:4"`
+	OnlyContainsAttrCerts bool           `asn1:"optional,tag:5"`
+}
+
+type crlScope int
+
+const (
+	crlScopeUnknown crlScope = iota
+	crlScopeSubscriber
+	crlScopeCA
+)
+
+// idpCRLScope inspects the CRL's Issuing Distribution Point extension, if
+// present, and reports whether it unambiguously scopes the CRL to CA or
+// subscriber certificates. It returns (crlScopeUnknown, nil) when there is
+// no IDP extension, or when it's present but doesn't assert either scope
+// boolean. It returns a non-nil error when the extension can't be parsed,
+// or when it asserts both scope booleans (which BR §7.2.2.1 prohibits).
+func idpCRLScope(c *x509.RevocationList) (crlScope, error) {
+	for _, ext := range c.Extensions {
+		if !ext.Id.Equal(util.IssuingDistOID) {
+			continue
+		}
+
+		var idp issuingDistPoint
+		if _, err := asn1.Unmarshal(ext.Value, &idp); err != nil {
+			return crlScopeUnknown, err
+		}
+
+		switch {
+		case idp.OnlyContainsCACerts && idp.OnlyContainsUserCerts:
+			return crlScopeUnknown, errAmbiguousIDPScope
+		case idp.OnlyContainsCACerts:
+			return crlScopeCA, nil
+		case idp.OnlyContainsUserCerts:
+			return crlScopeSubscriber, nil
+		default:
+			return crlScopeUnknown, nil
+		}
+	}
+	return crlScopeUnknown, nil
 }
