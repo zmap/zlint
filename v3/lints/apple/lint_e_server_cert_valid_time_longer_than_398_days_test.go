@@ -44,6 +44,15 @@ func TestServerCertValidityTooLong(t *testing.T) {
 			testCert: "caBasicConstCrit.pem",
 			expected: lint.NA,
 		},
+		{
+			// eIDAS Qualified Certificate (QCP-n-qscd policy) with no EKU
+			// extension at all and lifetime > 398 days. Not a TLS server
+			// certificate despite the RFC 5280 "no EKU means every purpose"
+			// default, so it's out of scope. See
+			// https://github.com/zmap/zlint/issues/951.
+			testCert: "eeServerCertValidOver398EidasQscdNoEku.pem",
+			expected: lint.NA,
+		},
 	}
 
 	for _, tc := range testCases {
