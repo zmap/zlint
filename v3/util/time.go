@@ -88,6 +88,7 @@ var (
 	CABFBRs_1_6_9_Date                               = time.Date(2020, time.March, 27, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_7_1_Date                               = time.Date(2020, time.August, 20, 0, 0, 0, 0, time.UTC)
 	AppleReducedLifetimeDate                         = time.Date(2020, time.September, 1, 0, 0, 0, 0, time.UTC)
+	CABFBRs_1_7_4_Date                               = time.Date(2021, time.April, 5, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_7_9_Date                               = time.Date(2021, time.August, 16, 0, 0, 0, 0, time.UTC)
 	CABFBRs_1_8_0_Date                               = time.Date(2021, time.August, 25, 0, 0, 0, 0, time.UTC)
 	CABFBRs_2_0_0_Date                               = time.Date(2023, time.September, 15, 0, 0, 0, 0, time.UTC)
@@ -122,6 +123,7 @@ var (
 	CABF_SC081_SECOND_MILESTONE = time.Date(2027, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_THIRD_MILESTONE  = time.Date(2029, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC086_EffectiveDate    = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
+	CABFEV_2_0_2_Date           = time.Date(2026, time.May, 4, 0, 0, 0, 0, time.UTC)
 )
 
 var (
