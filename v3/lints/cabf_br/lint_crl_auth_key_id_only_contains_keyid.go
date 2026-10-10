@@ -59,7 +59,7 @@ func (l *authKeyIDOnlyContainsKeyID) Execute(r *x509.RevocationList) *lint.LintR
 		if authKey.KeyIdentifier == nil {
 			return &lint.LintResult{Status: lint.Error, Details: "keyIdentifier field is missing in authorityKeyIdentifier extension"}
 		}
-		if authKey.AuthorityCertIssuer != nil || authKey.AuthorityCertSerialNumber != nil {
+		if authKey.AuthorityCertIssuer.FullBytes != nil || authKey.AuthorityCertSerialNumber != nil {
 			return &lint.LintResult{Status: lint.Error, Details: "Forbidden authorityCertIssuer or authorityCertSerialNumber in authorityKeyIdentifier extension"}
 		}
 	}
@@ -69,6 +69,6 @@ func (l *authKeyIDOnlyContainsKeyID) Execute(r *x509.RevocationList) *lint.LintR
 
 type authKey struct {
 	KeyIdentifier             []byte   `asn1:"optional,tag:0"`
-	AuthorityCertIssuer       []byte   `asn1:"optional,tag:1"`
+	AuthorityCertIssuer       asn1.RawValue   `asn1:"optional,tag:1"`
 	AuthorityCertSerialNumber *big.Int `asn1:"optional,tag:2"`
 }
