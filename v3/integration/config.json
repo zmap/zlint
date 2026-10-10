@@ -869,7 +869,7 @@
       "NoticeCount": 702973
     },
     "w_ct_sct_policy_count_unsatisfied": {
-      "NoticeCount": 4916
+      "WarnCount": 4916
     },
     "w_distribution_point_missing_ldap_or_uri": {
       "WarnCount": 1248

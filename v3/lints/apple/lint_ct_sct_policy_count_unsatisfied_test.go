@@ -43,13 +43,13 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 			Name: "No SCTs, no poison",
 			// go run sctTestCerts.go -lifetime 3 -scts 0 > testlint/testCerts/ctNoSCTs.pem
 			Filename:       "ctNoSCTs.pem",
-			ExpectedResult: lint.Notice,
+			ExpectedResult: lint.Warn,
 		},
 		{
 			Name: "Lifetime <15mo, 1 SCT",
 			// go run sctTestCerts.go -lifetime 3 -scts 1 > testlint/testCerts/ct3mo1SCTs.pem
 			Filename:       "ct3mo1SCTs.pem",
-			ExpectedResult: lint.Notice,
+			ExpectedResult: lint.Warn,
 		},
 		{
 			Name: "Lifetime <15mo, 2 SCTs diff logs",
@@ -61,13 +61,13 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 			Name: "Lifetime <15mo, 2 SCTs same logs",
 			// go run sctTestCerts.go -lifetime 3 -scts 2 -differentLogs=false > testlint/testCerts/ct3mo2DupeSCTs.pem
 			Filename:       "ct3mo2DupeSCTs.pem",
-			ExpectedResult: lint.Notice,
+			ExpectedResult: lint.Warn,
 		},
 		{
 			Name: "Lifetime >15mo <27mo, 2 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 18 -scts 2 > testlint/testCerts/ct18mo2SCTs.pem
 			Filename:       "ct18mo2SCTs.pem",
-			ExpectedResult: lint.Notice,
+			ExpectedResult: lint.Warn,
 		},
 		{
 			Name: "Lifetime >15mo <27mo, 3 SCTs diff logs",
@@ -79,7 +79,7 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 			Name: "Lifetime >27mo <39mo, 3 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 38 -scts 3 > testlint/testCerts/ct38mo3SCTs.pem
 			Filename:       "ct38mo3SCTs.pem",
-			ExpectedResult: lint.Notice,
+			ExpectedResult: lint.Warn,
 		},
 		{
 			Name: "Lifetime >27mo <39mo, 4 SCTs diff logs",
@@ -91,7 +91,7 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 			Name: "Lifetime >39mo, 4 SCTs diff logs",
 			// go run sctTestCerts.go -lifetime 666 -scts 4 > testlint/testCerts/ct666mo4SCTs.pem
 			Filename:       "ct666mo4SCTs.pem",
-			ExpectedResult: lint.Notice,
+			ExpectedResult: lint.Warn,
 		},
 		{
 			Name: "Lifetime >39mo, 5 SCTs diff logs",
@@ -108,5 +108,18 @@ func TestSCTCountPolicyUnsatisified(t *testing.T) {
 				t.Errorf("expected result %v was %v", tc.ExpectedResult, result.Status)
 			}
 		})
+	}
+}
+
+func TestSCTCountPolicyUnsatisfiedRegistration(t *testing.T) {
+	cl := lint.GlobalRegistry().CertificateLints().ByName("w_ct_sct_policy_count_unsatisfied")
+	if cl == nil {
+		t.Fatal("lint w_ct_sct_policy_count_unsatisfied not registered in global registry")
+	}
+	if cl.Source != lint.AppleRootStorePolicy {
+		t.Errorf("expected source %v, got %v", lint.AppleRootStorePolicy, cl.Source)
+	}
+	if cl.Name != "w_ct_sct_policy_count_unsatisfied" {
+		t.Errorf("expected name w_ct_sct_policy_count_unsatisfied, got %s", cl.Name)
 	}
 }

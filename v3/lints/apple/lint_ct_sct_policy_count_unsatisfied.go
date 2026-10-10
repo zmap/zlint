@@ -58,7 +58,7 @@ func (l *sctPolicyCount) CheckApplies(c *x509.Certificate) bool {
 //
 // The number of required SCTs from different logs is calculated based on the
 // Certificate's lifetime. If the number of required SCTs are not embedded in
-// the certificate a Notice level lint.LintResult is returned.
+// the certificate a Warn level lint.LintResult is returned.
 //
 // | Certificate lifetime | # of SCTs from separate logs |
 // -------------------------------------------------------
@@ -72,7 +72,7 @@ func (l *sctPolicyCount) CheckApplies(c *x509.Certificate) bool {
 // alongside the certificate via OCSP stapling. This linter assumes only
 // embedded SCTs are used and ignores the portion of the Apple policy related to
 // SCTs delivered via OCSP. This is one limitation that restricts the linter's
-// findings to Notice level. See more background discussion in Issue 226[1].
+// findings to Warn level. See more background discussion in Issue 226[1].
 //
 // Important note 2: The linter doesn't maintain a list of Apple's trusted
 // logs. The SCTs embedded in the certificate may not be from log's Apple
@@ -85,11 +85,11 @@ func (l *sctPolicyCount) Execute(c *x509.Certificate) *lint.LintResult {
 	// Determine the required number of SCTs from separate logs
 	expected := appleCTPolicyExpectedSCTs(c)
 
-	// If there are no SCTs then the job is easy. We can return a Notice
+	// If there are no SCTs then the job is easy. We can return a Warn
 	// lint.LintResult immediately.
 	if len(c.SignedCertificateTimestampList) == 0 && expected > 0 {
 		return &lint.LintResult{
-			Status: lint.Notice,
+			Status: lint.Warn,
 			Details: fmt.Sprintf(
 				"Certificate had 0 embedded SCTs. Browser policy may require %d for this certificate.",
 				expected),
@@ -109,11 +109,11 @@ func (l *sctPolicyCount) Execute(c *x509.Certificate) *lint.LintResult {
 		return &lint.LintResult{Status: lint.Pass}
 	}
 
-	// Otherwise return a Notice result - there weren't enough SCTs embedded in
+	// Otherwise return a Warn result - there weren't enough SCTs embedded in
 	// the certificate. More must be provided by OCSP stapling if the certificate
 	// is to meet Apple's CT policy.
 	return &lint.LintResult{
-		Status: lint.Notice,
+		Status: lint.Warn,
 		Details: fmt.Sprintf(
 			"Certificate had %d embedded SCTs from distinct log IDs. "+
 				"Browser policy may require %d for this certificate.",
