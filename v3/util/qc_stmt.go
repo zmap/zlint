@@ -348,6 +348,31 @@ authentication
 QSCD Qualified electronic Signature/Seal Creation Device
 ************************************************/
 
+// IsEtsiNonWebQualifiedCert returns true if cert's policy identifiers
+// affirmatively declare it as an eIDAS Qualified Certificate issued under one
+// of the non-website QCP policies (QCP-n, QCP-n-qscd, QCP-l, or QCP-l-qscd),
+// per ETSI EN 319 411-2, with none of the QWAC (qualified website
+// certificate) policies -- QEVCP-w, QNCP-w, QNCP-w-gen -- also present.
+//
+// This is used to override the conservative "no EKU extension means every
+// purpose, including server auth, is in scope" assumption elsewhere in this
+// package: an eIDAS qualified certificate carrying one of these non-website
+// policy OIDs (e.g. for a qualified electronic signature/seal) is not a TLS
+// server certificate even when it has no EKU extension at all. See
+// https://github.com/zmap/zlint/issues/951.
+func IsEtsiNonWebQualifiedCert(cert *x509.Certificate) bool {
+	sawNonWebPolicy := false
+	for _, policy := range cert.PolicyIdentifiers {
+		switch {
+		case policy.Equal(QEVCPwPolicyOID), policy.Equal(QNCPwPolicyOID), policy.Equal(QNCPwgenPolicyOID):
+			return false
+		case policy.Equal(QCPnPolicyOID), policy.Equal(QCPnqscdPolicyOID), policy.Equal(QCPlPolicyOID), policy.Equal(QCPlqscdPolicyOID):
+			sawNonWebPolicy = true
+		}
+	}
+	return sawNonWebPolicy
+}
+
 func IsEtsiQcNaturalPerson(cert *x509.Certificate) bool {
 	for _, policyIds := range cert.PolicyIdentifiers {
 		if policyIds.Equal(QCPnPolicyOID) {

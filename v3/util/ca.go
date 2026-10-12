@@ -52,21 +52,30 @@ func IsDelegatedOCSPResponderCert(cert *x509.Certificate) bool {
 }
 
 func IsServerAuthCert(cert *x509.Certificate) bool {
+	hasBRReservedPolicy := false
+	for _, policy := range cert.PolicyIdentifiers {
+		if policy.Equal(BRDomainValidatedOID) || policy.Equal(BROrganizationValidatedOID) ||
+			policy.Equal(BRIndividualValidatedOID) || policy.Equal(BRExtendedValidatedOID) {
+			hasBRReservedPolicy = true
+			break
+		}
+	}
 	if len(cert.ExtKeyUsage) == 0 && len(cert.UnknownExtKeyUsage) == 0 {
-		return true
+		// RFC 5280, section 4.2.1.12: the absence of an EKU extension means
+		// the certificate is valid for all purposes, including server auth.
+		// But an eIDAS Qualified Certificate issued under a non-website QCP
+		// policy affirmatively declares itself out of scope for TLS server
+		// authentication, so don't fall back to that default for those --
+		// unless one of the BR reserved policy OIDs is also present, which
+		// affirmatively puts it back in scope.
+		return hasBRReservedPolicy || !IsEtsiNonWebQualifiedCert(cert)
 	}
 	for _, eku := range cert.ExtKeyUsage {
 		if eku == x509.ExtKeyUsageAny || eku == x509.ExtKeyUsageServerAuth {
 			return true
 		}
 	}
-	for _, policy := range cert.PolicyIdentifiers {
-		if policy.Equal(BRDomainValidatedOID) || policy.Equal(BROrganizationValidatedOID) ||
-			policy.Equal(BRIndividualValidatedOID) || policy.Equal(BRExtendedValidatedOID) {
-			return true
-		}
-	}
-	return false
+	return hasBRReservedPolicy
 }
 
 // IsEmailProtectionCert returns true if the certificate presented is for use protecting emails.
