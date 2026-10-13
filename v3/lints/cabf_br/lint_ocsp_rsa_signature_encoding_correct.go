@@ -16,7 +16,6 @@ package cabf_br
 
 import (
 	"encoding/hex"
-	"fmt"
 	"time"
 
 	"github.com/zmap/zcrypto/encoding/asn1"
@@ -123,6 +122,6 @@ func (l *ocspRsaSignatureAidEncoding) Execute(o *ocsp.Response) *lint.LintResult
 	}
 	return &lint.LintResult{
 		Status:  lint.Error,
-		Details: fmt.Sprintf("Encoding of RSA signature algorithm is not permitted. Got %s", encodedHex),
+		Details: "Encoding of RSA signature algorithm is not permitted. Got " + encodedHex,
 	}
 }

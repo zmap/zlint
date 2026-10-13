@@ -122,7 +122,7 @@ func (l *ocspEcdsaSignatureAidEncoding) Execute(o *ocsp.Response) *lint.LintResu
 	if curve != "" {
 		return &lint.LintResult{
 			Status:  lint.Error,
-			Details: fmt.Sprintf("Signing key is on the unsupported curve %s", curve),
+			Details: "Signing key is on the unsupported curve " + curve,
 		}
 	}
 	return &lint.LintResult{
