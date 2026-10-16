@@ -1,0 +1,69 @@
+package mtc
+
+import (
+	"github.com/zmap/zcrypto/x509"
+	"github.com/zmap/zlint/v3/lint"
+	mtcparser "github.com/zmap/zlint/v3/mtc"
+	"github.com/zmap/zlint/v3/util"
+)
+
+func init() {
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_mtc_proof_structure_valid",
+			Description:   "MTC proof certificates use the draft-plants-07 structure",
+			Citation:      "draft-ietf-plants-merkle-tree-certs-07, Sections 4 and 5",
+			Source:        lint.Community,
+			EffectiveDate: util.ZeroDate,
+		},
+		Lint: NewProofStructure,
+	})
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_mtc_proof_self_contained_valid",
+			Description:   "MTC proof certificates contain a valid self-contained log entry and inclusion proof",
+			Citation:      "draft-ietf-plants-merkle-tree-certs-07, Section 5",
+			Source:        lint.Community,
+			EffectiveDate: util.ZeroDate,
+		},
+		Lint: NewProofSelfContained,
+	})
+}
+
+type proofStructure struct{}
+
+type proofSelfContained struct{}
+
+func NewProofStructure() lint.LintInterface {
+	return &proofStructure{}
+}
+
+func NewProofSelfContained() lint.LintInterface {
+	return &proofSelfContained{}
+}
+
+func (l *proofStructure) CheckApplies(c *x509.Certificate) bool {
+	return mtcparser.IsProofCertificate(c)
+}
+
+func (l *proofSelfContained) CheckApplies(c *x509.Certificate) bool {
+	return mtcparser.IsProofCertificate(c)
+}
+
+func (l *proofStructure) Execute(c *x509.Certificate) *lint.LintResult {
+	if _, err := mtcparser.ParseCertificate(c); err != nil {
+		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
+	}
+	return &lint.LintResult{Status: lint.Pass}
+}
+
+func (l *proofSelfContained) Execute(c *x509.Certificate) *lint.LintResult {
+	parsed, err := mtcparser.ParseCertificate(c)
+	if err != nil {
+		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
+	}
+	if err := mtcparser.ValidateSelfContained(c, parsed); err != nil {
+		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
+	}
+	return &lint.LintResult{Status: lint.Pass}
+}
