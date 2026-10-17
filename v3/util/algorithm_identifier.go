@@ -138,6 +138,35 @@ func GetSignatureAlgorithmInTBSEncoded(c *x509.Certificate) ([]byte, error) {
 	return signatureAlgoID, nil
 }
 
+// Returns the signature algorithm ID of the tbsCertList as DER encoded bytes or
+// an error.
+//
+//	RFC 5280: 5.1
+//	CertificateList  ::=  SEQUENCE  {
+//	     tbsCertList          TBSCertList,
+//	     signatureAlgorithm   AlgorithmIdentifier,
+//	     signatureValue       BIT STRING  }
+//
+//	TBSCertList  ::=  SEQUENCE  {
+//	     version                 Version OPTIONAL,
+//	     signature               AlgorithmIdentifier,
+//	     ...
+func GetSignatureAlgorithmInTBSCertListEncoded(r *x509.RevocationList) ([]byte, error) {
+	input := cryptobyte.String(r.RawTBSRevocationList)
+	var tbsCertList cryptobyte.String
+	if !input.ReadASN1(&tbsCertList, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading tbsCertList")
+	}
+	if !tbsCertList.SkipOptionalASN1(cryptobyte_asn1.INTEGER) {
+		return nil, errors.New("error reading tbsCertList.version")
+	}
+	var signatureAlgoID cryptobyte.String
+	if !tbsCertList.ReadASN1Element(&signatureAlgoID, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading tbsCertList.signature")
+	}
+	return signatureAlgoID, nil
+}
+
 // Returns the algorithm field of the SubjectPublicKeyInfo of the certificate or an error
 // if the algorithm field could not be extracted.
 //
