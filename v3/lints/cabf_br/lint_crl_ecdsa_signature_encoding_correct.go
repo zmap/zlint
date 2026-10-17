@@ -19,7 +19,6 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/zmap/zcrypto/encoding/asn1"
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -109,14 +108,8 @@ func isSHA224WithECDSA(r *x509.RevocationList) bool {
 	if err != nil {
 		return false
 	}
-	var aid struct {
-		Algorithm  asn1.ObjectIdentifier
-		Parameters asn1.RawValue `asn1:"optional"`
-	}
-	if _, err := asn1.Unmarshal(encoded, &aid); err != nil {
-		return false
-	}
-	return aid.Algorithm.Equal(util.OidSignatureSHA224withECDSA)
+	oid, err := util.GetAlgorithmIdentifierOID(encoded)
+	return err == nil && oid.Equal(util.OidSignatureSHA224withECDSA)
 }
 
 func (l *crlEcdsaSignatureAidEncoding) Execute(r *x509.RevocationList) *lint.LintResult {
