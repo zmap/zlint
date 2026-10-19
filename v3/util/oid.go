@@ -99,7 +99,11 @@ var (
 	SHA384OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 2}
 	SHA512OID = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 2, 3}
 	// other OIDs
-	OidRSAEncryption           = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
+	OidRSAEncryption = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 1}
+	// RFC 9881, Section 2
+	OidMLDSA44                 = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 3, 17}
+	OidMLDSA65                 = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 3, 18}
+	OidMLDSA87                 = asn1.ObjectIdentifier{2, 16, 840, 1, 101, 3, 4, 3, 19}
 	OidRSASSAPSS               = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 10}
 	OidMD2WithRSAEncryption    = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 2}
 	OidMD5WithRSAEncryption    = asn1.ObjectIdentifier{1, 2, 840, 113549, 1, 1, 4}
@@ -225,4 +229,9 @@ func GetMappedPolicies(polMap *pkix.Extension) ([][2]asn1.ObjectIdentifier, erro
 	}
 
 	return out, nil
+}
+
+// IsMLDSAOID returns true when oid identifies one of the ML-DSA parameter sets (RFC 9881, Section 2).
+func IsMLDSAOID(oid asn1.ObjectIdentifier) bool {
+	return oid.Equal(OidMLDSA44) || oid.Equal(OidMLDSA65) || oid.Equal(OidMLDSA87)
 }
