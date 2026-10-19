@@ -8,12 +8,22 @@ import (
 )
 
 func init() {
+	lint.RegisterProfile(lint.Profile{
+		Name:        "mtc_plants_07",
+		Description: "Merkle Tree Certificates draft-plants-07 structural checks",
+		Citation:    "draft-ietf-plants-merkle-tree-certs-07",
+		Source:      lint.MerkleTreeCertificates,
+		LintNames: []string{
+			"e_mtc_proof_structure_valid",
+			"e_mtc_proof_self_contained_valid",
+		},
+	})
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
 			Name:          "e_mtc_proof_structure_valid",
 			Description:   "MTC proof certificates use the draft-plants-07 structure",
 			Citation:      "draft-ietf-plants-merkle-tree-certs-07, Sections 4 and 5",
-			Source:        lint.Community,
+			Source:        lint.MerkleTreeCertificates,
 			EffectiveDate: util.ZeroDate,
 		},
 		Lint: NewProofStructure,
@@ -23,7 +33,7 @@ func init() {
 			Name:          "e_mtc_proof_self_contained_valid",
 			Description:   "MTC proof certificates contain a valid self-contained log entry and inclusion proof",
 			Citation:      "draft-ietf-plants-merkle-tree-certs-07, Section 5",
-			Source:        lint.Community,
+			Source:        lint.MerkleTreeCertificates,
 			EffectiveDate: util.ZeroDate,
 		},
 		Lint: NewProofSelfContained,
