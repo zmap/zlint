@@ -20,7 +20,7 @@ func TestMTCProfile(t *testing.T) {
 	if profile.Source != lint.MerkleTreeCertificates {
 		t.Fatalf("profile source = %q", profile.Source)
 	}
-	if len(profile.LintNames) != 2 {
+	if len(profile.LintNames) != 3 {
 		t.Fatalf("profile lint count = %d", len(profile.LintNames))
 	}
 }

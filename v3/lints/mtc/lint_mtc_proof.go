@@ -14,9 +14,20 @@ func init() {
 		Citation:    "draft-ietf-plants-merkle-tree-certs-07",
 		Source:      lint.MerkleTreeCertificates,
 		LintNames: []string{
+			"e_mtc_ca_structure_valid",
 			"e_mtc_proof_structure_valid",
 			"e_mtc_proof_self_contained_valid",
 		},
+	})
+	lint.RegisterCertificateLint(&lint.CertificateLint{
+		LintMetadata: lint.LintMetadata{
+			Name:          "e_mtc_ca_structure_valid",
+			Description:   "MTC CA certificates use the draft-plants-07 CA extension structure",
+			Citation:      "draft-ietf-plants-merkle-tree-certs-07, Section 5.5",
+			Source:        lint.MerkleTreeCertificates,
+			EffectiveDate: util.ZeroDate,
+		},
+		Lint: NewCAStructure,
 	})
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
@@ -40,9 +51,15 @@ func init() {
 	})
 }
 
+type caStructure struct{}
+
 type proofStructure struct{}
 
 type proofSelfContained struct{}
+
+func NewCAStructure() lint.LintInterface {
+	return &caStructure{}
+}
 
 func NewProofStructure() lint.LintInterface {
 	return &proofStructure{}
@@ -52,12 +69,23 @@ func NewProofSelfContained() lint.LintInterface {
 	return &proofSelfContained{}
 }
 
+func (l *caStructure) CheckApplies(c *x509.Certificate) bool {
+	return mtcparser.IsCACertificate(c)
+}
+
 func (l *proofStructure) CheckApplies(c *x509.Certificate) bool {
 	return mtcparser.IsProofCertificate(c)
 }
 
 func (l *proofSelfContained) CheckApplies(c *x509.Certificate) bool {
 	return mtcparser.IsProofCertificate(c)
+}
+
+func (l *caStructure) Execute(c *x509.Certificate) *lint.LintResult {
+	if err := mtcparser.ValidateCA(c); err != nil {
+		return &lint.LintResult{Status: lint.Error, Details: err.Error()}
+	}
+	return &lint.LintResult{Status: lint.Pass}
 }
 
 func (l *proofStructure) Execute(c *x509.Certificate) *lint.LintResult {

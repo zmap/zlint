@@ -3,8 +3,10 @@ package mtc
 import (
 	"bytes"
 	"crypto/sha256"
-	"encoding/asn1"
 	"errors"
+
+	"github.com/zmap/zcrypto/encoding/asn1"
+	"github.com/zmap/zcrypto/x509/pkix"
 	"math/bits"
 
 	"github.com/zmap/zcrypto/x509"
@@ -13,6 +15,7 @@ import (
 )
 
 var ProofAlgorithmOID = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 6, 67}
+var CAExtensionOID = asn1.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 38}
 
 var proofAlgorithmDER = []byte{0x30, 0x0a, 0x06, 0x08, 0x2b, 0x06, 0x01, 0x05, 0x05, 0x07, 0x06, 0x43}
 
@@ -27,6 +30,54 @@ type Certificate struct {
 	Proof          Proof
 	Serial         uint64
 	TBSCertificate []byte
+}
+
+func IsCACertificate(c *x509.Certificate) bool {
+	return c.IsCA && extension(c, CAExtensionOID) != nil
+}
+
+func ValidateCA(c *x509.Certificate) error {
+	extension := extension(c, CAExtensionOID)
+	if extension == nil {
+		return errors.New("MTC CA extension is absent")
+	}
+	if !extension.Critical {
+		return errors.New("MTC CA extension is not critical")
+	}
+	if !c.BasicConstraintsValid || !c.IsCA {
+		return errors.New("MTC CA basic constraints are invalid")
+	}
+	if c.KeyUsage&x509.KeyUsageCertSign == 0 {
+		return errors.New("MTC CA key usage lacks keyCertSign")
+	}
+	var sequence cryptobyte.String
+	contents := cryptobyte.String(extension.Value)
+	if !contents.ReadASN1(&sequence, cbasn1.SEQUENCE) || !contents.Empty() {
+		return errors.New("malformed MTC CA extension")
+	}
+	var algorithm cryptobyte.String
+	var minSerial, maxSerial uint64
+	if !sequence.ReadASN1Element(&algorithm, cbasn1.SEQUENCE) ||
+		!sequence.ReadASN1Integer(&minSerial) ||
+		!sequence.ReadASN1Integer(&maxSerial) || !sequence.Empty() {
+		return errors.New("malformed MTC CA extension")
+	}
+	if len(algorithm) == 0 {
+		return errors.New("MTC CA signature algorithm is absent")
+	}
+	if minSerial < 1<<48 || maxSerial < 1<<48 || minSerial > maxSerial {
+		return errors.New("MTC CA serial range is invalid")
+	}
+	return nil
+}
+
+func extension(c *x509.Certificate, oid asn1.ObjectIdentifier) *pkix.Extension {
+	for _, extension := range c.Extensions {
+		if extension.Id.Equal(oid) {
+			return &extension
+		}
+	}
+	return nil
 }
 
 func IsProofCertificate(c *x509.Certificate) bool {
