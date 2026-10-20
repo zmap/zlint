@@ -841,6 +841,9 @@
     "n_contains_redacted_dnsname": {
       "NoticeCount": 459
     },
+    "n_ct_sct_policy_count_unsatisfied": {
+      "NoticeCount": 4916
+    },
     "n_dnsname_wildcard_left_of_public_suffix": {
       "NoticeCount":4
     },
@@ -867,9 +870,6 @@
     },
     "n_subject_common_name_included": {
       "NoticeCount": 702973
-    },
-    "w_ct_sct_policy_count_unsatisfied": {
-      "NoticeCount": 4916
     },
     "w_distribution_point_missing_ldap_or_uri": {
       "WarnCount": 1248
@@ -1016,6 +1016,9 @@
 	  },
     "e_utf8_replacement_char_in_subject": {
 		  "ErrCount": 2
-	  }
+	  },
+    "n_suspicious_chars_in_address": {
+      "NoticeCount": 1231
+    }
   }
 }

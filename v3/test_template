@@ -24,7 +24,7 @@ import (
 func TestPASCAL_CASE_SUBST(t *testing.T) {
 	inputPath := "TEST_CERT.pem"
 	expected := lint.Error
-	out := test.TestLint("LINT_NAME", inputPath)
+	out := test.TestLint("SUBTEST", inputPath)
 	if out.Status != expected {
 		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
 	}
