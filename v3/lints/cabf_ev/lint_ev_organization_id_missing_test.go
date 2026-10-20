@@ -1,7 +1,7 @@
 package cabf_ev
 
 /*
- * ZLint Copyright 2024 Regents of the University of Michigan
+ * ZLint Copyright 2026 Regents of the University of Michigan
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -24,6 +24,7 @@ import (
 func TestOrganizationIDMissing(t *testing.T) {
 	var tests = map[string]lint.LintStatus{
 		"evOrgIdExtMissing_NoOrgId.pem":                                   lint.NA,
+		"evSubCaOrgIdExt_NoCABFOrgId.pem":                                 lint.NA,
 		"evOrgIdExtMissing_CABFOrgIdExtMissingButBeforeEffectiveDate.pem": lint.NE,
 		"evOrgIdExtMissing_ValidButBeforeEffectiveDate.pem":               lint.NE,
 		"evOrgIdExtMissing_Invalid.pem":                                   lint.Error,

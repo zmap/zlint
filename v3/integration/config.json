@@ -825,17 +825,24 @@
     },
     "e_qcstatem_qctype_smime": { },
     "e_qcstatem_pds_must_have_https_only": { },
+    "e_qcstatem_psd2_ncaid_format": {
+      "ErrCount": 2
+    },
     "e_server_cert_valid_time_longer_than_47_days": {},
     "e_server_cert_valid_time_longer_than_100_days": {},
     "e_server_cert_valid_time_longer_than_200_days": {},
     "e_mailbox_validated_allowed_subjectdn_attributes": {},
     "e_etsi_natural_person_key_usage_correct_values": {},
     "e_etsi_natural_person_key_usage_mandatory": {},
+    "e_cabf_ecc_allowed_key_usages": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1393
     },
     "n_contains_redacted_dnsname": {
       "NoticeCount": 459
+    },
+    "n_ct_sct_policy_count_unsatisfied": {
+      "NoticeCount": 4916
     },
     "n_dnsname_wildcard_left_of_public_suffix": {
       "NoticeCount":4
@@ -863,9 +870,6 @@
     },
     "n_subject_common_name_included": {
       "NoticeCount": 702973
-    },
-    "w_ct_sct_policy_count_unsatisfied": {
-      "NoticeCount": 4916
     },
     "w_distribution_point_missing_ldap_or_uri": {
       "WarnCount": 1248
@@ -982,6 +986,7 @@
     "w_etsi_natural_person_key_usage_preferred_values": {
       "WarnCount": 14
     },
+    "w_cabf_ecc_ku_keyagreement_present": {},
     "e_ca_invalid_eku": {
         "ErrCount": 1
     },
@@ -1008,6 +1013,12 @@
     },
     "e_subj_email_not_in_san": {
 		  "ErrCount": 16576
-	  }
+	  },
+    "e_utf8_replacement_char_in_subject": {
+		  "ErrCount": 2
+	  },
+    "n_suspicious_chars_in_address": {
+      "NoticeCount": 1231
+    }
   }
 }
