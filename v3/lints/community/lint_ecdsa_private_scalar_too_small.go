@@ -44,7 +44,6 @@ func NewEcdsaPrivateScalarTooSmall() lint.LintInterface {
 }
 
 func (l *ecdsaPrivateScalarTooSmall) CheckApplies(c *x509.Certificate) bool {
-	fmt.Println(c.PublicKeyAlgorithm)
 	return c.PublicKeyAlgorithm == x509.ECDSA
 }
 
@@ -53,10 +52,8 @@ func (l *ecdsaPrivateScalarTooSmall) Execute(c *x509.Certificate) *lint.LintResu
 	var key *ecdsa.PublicKey
 	switch t := c.PublicKey.(type) {
 	case *x509.AugmentedECDSA:
-		fmt.Println("here")
 		key = t.Pub
 	case *ecdsa.PublicKey:
-		fmt.Println("there")
 		key = t
 	}
 
