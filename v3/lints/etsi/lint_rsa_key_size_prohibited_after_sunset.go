@@ -71,14 +71,14 @@ func etsiRsaModulusLength(c *x509.Certificate) (int, bool) {
 // etsiCertificatePolicyOIDs are the certificate policies defined in
 // ETSI EN 319 411-1 (0.4.0.2042.1.x) and EN 319 411-2 (0.4.0.194112.1.x).
 var etsiCertificatePolicyOIDs = []asn1.ObjectIdentifier{
-	{0, 4, 0, 2042, 1, 1}, // NCP
-	{0, 4, 0, 2042, 1, 2}, // NCP+
-	{0, 4, 0, 2042, 1, 3}, // LCP
-	{0, 4, 0, 2042, 1, 4}, // EVCP
-	{0, 4, 0, 2042, 1, 5}, // EVCP+ (legacy)
-	{0, 4, 0, 2042, 1, 6}, // DVCP
-	{0, 4, 0, 2042, 1, 7}, // OVCP
-	{0, 4, 0, 2042, 1, 8}, // IVCP
+	util.NCPPolicyOID,
+	util.NCPPlusPolicyOID,
+	util.LCPPolicyOID,
+	util.EVCPPolicyOID,
+	util.EVCPPlusPolicyOID,
+	util.DVCPPolicyOID,
+	util.OVCPPolicyOID,
+	util.IVCPPolicyOID,
 	util.QCPnPolicyOID,
 	util.QCPlPolicyOID,
 	util.QCPnqscdPolicyOID,
