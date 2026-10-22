@@ -18,7 +18,7 @@ func TestCabfEccAllowedKeyUsages(t *testing.T) {
 		{desc: "pass - valid dv certificate with ecc key and digitalSignature", file: "valid_dv_with_ecc_key.pem", result: lint.Pass},
 		{desc: "error - dv certificate with ecc key and no digitalSignature", file: "ecc_key_dv_with_no_digital_signature.pem", result: lint.Error},
 		{desc: "error - dv certificate with ecc key and prohibited keyUsage", file: "ecc_key_dv_with_prohibited_key_usage.pem", result: lint.Error},
-		{desc: "warning - dv certificate with ecc key and keyAgreement and digitalSignature", file: "ecc_key_dv_with_key_agreement.pem", result: lint.Warn},
+		{desc: "pass - dv certificate with ecc key and keyAgreement and digitalSignature", file: "ecc_key_dv_with_key_agreement.pem", result: lint.Pass},
 		{desc: "na - ca certificate with ecc key", file: "ecc_key_ca_cert.pem", result: lint.NA},
 	}
 

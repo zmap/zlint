@@ -229,11 +229,11 @@ written in a [table driven style][table-tests]. Each testcase should be invoked
 as a [subtest][subtests] so that it's easy to figure out which subtest failed
 and to allow control over which subtests are run.
 
-Example: see [`lint_ct_sct_policy_count_unsatisfied_test.go`][sct_test_eg]
+Example: see [`lint_n_ct_sct_policy_count_unsatisfied_test.go`][sct_test_eg]
 
 [table-tests]: https://github.com/golang/go/wiki/TableDrivenTests
 [subtests]: https://golang.org/pkg/testing/#hdr-Subtests_and_Sub_benchmarks
-[sct_test_eg]: https://github.com/zmap/zlint/blob/master/v3/lints/apple/lint_ct_sct_policy_count_unsatisfied_test.go
+[sct_test_eg]: https://github.com/zmap/zlint/blob/master/v3/lints/apple/lint_n_ct_sct_policy_count_unsatisfied_test.go
 
 **Integration Tests.** ZLint's [continuous integration][CI] includes an
 integration test phase where all lints are run against a large corpus of
