@@ -208,3 +208,33 @@ func GreaterThan(cert *x509.Certificate, maxDaysAllowed float64) bool {
 	maxValidity := maxDaysAllowed * DAY_LENGTH
 	return CertificateValidityInSeconds(cert) > maxValidity
 }
+
+// CRLTimeBetweenTUAndNUInSeconds returns the time between the CRL's thisUpdate and nextUpdate, in seconds.
+// It returns -1 if nextUpdate is absent.
+func CRLTimeBetweenTUAndNUInSeconds(crl *x509.RevocationList) float64 {
+	if crl.NextUpdate.IsZero() {
+		return -1
+	}
+
+	return crl.NextUpdate.Add(1 * time.Second).Sub(crl.ThisUpdate).Seconds()
+}
+
+// CRLTimeBetweenTUAndNUInDays returns the time between the CRL's thisUpdate and nextUpdate, in days.
+// It returns -1 if nextUpdate is absent.
+func CRLTimeBetweenTUAndNUInDays(crl *x509.RevocationList) float64 {
+	if crl.NextUpdate.IsZero() {
+		return -1
+	}
+	return math.Ceil(CRLTimeBetweenTUAndNUInSeconds(crl) / DAY_LENGTH)
+}
+
+// TimeBetweenTUAndNUExceeds returns true if the time between the CRL's thisUpdate and nextUpdate is greater than
+// this maxDaysAllowed, false otherwise
+// It returns false if nextUpdate is absent.
+func TimeBetweenTUAndNUExceeds(crl *x509.RevocationList, maxDaysAllowed float64) bool {
+	if crl.NextUpdate.IsZero() {
+		return false
+	}
+	maxSecondsAllowed := maxDaysAllowed * DAY_LENGTH
+	return CRLTimeBetweenTUAndNUInSeconds(crl) > maxSecondsAllowed
+}

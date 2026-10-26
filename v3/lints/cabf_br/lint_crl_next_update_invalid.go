@@ -15,6 +15,8 @@
 package cabf_br
 
 import (
+	"time"
+
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/lint"
 	"github.com/zmap/zlint/v3/util"
@@ -57,20 +59,20 @@ func (l *CrlNextUpdateInvalid) CheckApplies(c *x509.RevocationList) bool {
 func (l *CrlNextUpdateInvalid) Execute(c *x509.RevocationList) *lint.LintResult {
 
 	// As set out in the CABF BRs
-	CabfMaxEECRLValidityDays := 10
+	CabfMaxEECRLValidityDays := float64(10)
 	CabfMaxCACRLValidityMonths := 12
 
 	if l.SubscriberCRL {
-		if c.NextUpdate.After(c.ThisUpdate.AddDate(0, 0, CabfMaxEECRLValidityDays)) {
+		if util.TimeBetweenTUAndNUExceeds(c, CabfMaxEECRLValidityDays) {
 			return &lint.LintResult{
 				Status: lint.Error,
 				Details: fmt.Sprintf(
-					"For CRLs covering Subscriber Certificates, nextUpdate must be at most %d days after thisUpdate",
+					"For CRLs covering Subscriber Certificates, nextUpdate must be at most %g days after thisUpdate",
 					CabfMaxEECRLValidityDays),
 			}
 		}
 	} else {
-		if c.NextUpdate.After(c.ThisUpdate.AddDate(0, CabfMaxCACRLValidityMonths, 0)) {
+		if c.NextUpdate.After(c.ThisUpdate.AddDate(0, CabfMaxCACRLValidityMonths, 0).Add(-time.Second)) {
 			return &lint.LintResult{
 				Status: lint.Error,
 				Details: fmt.Sprintf(
