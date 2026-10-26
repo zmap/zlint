@@ -280,3 +280,78 @@ func GetPublicKeyAidEncoded(c *x509.Certificate) ([]byte, error) {
 
 	return algorithm, nil
 }
+
+// AlgorithmIdentifierHasParameters reports whether the DER-encoded AlgorithmIdentifier (including tag and length)
+// has anything after the algorithm OID, i.e. whether the parameters field is present.
+func AlgorithmIdentifierHasParameters(encoded []byte) (bool, error) {
+	input := cryptobyte.String(encoded)
+
+	var algorithmIdentifier cryptobyte.String
+	if !input.ReadASN1(&algorithmIdentifier, cryptobyte_asn1.SEQUENCE) {
+		return false, errors.New("error reading algorithm identifier")
+	}
+
+	if !algorithmIdentifier.SkipASN1(cryptobyte_asn1.OBJECT_IDENTIFIER) {
+		return false, errors.New("error reading algorithm OID")
+	}
+
+	return !algorithmIdentifier.Empty(), nil
+}
+
+// GetSignatureAlgorithmEncoded returns the signatureAlgorithm field of the certificate (the one outside the
+// tbsCertificate) in its encoded form, containing tag and length, or an error if it could not be extracted.
+//
+//	Certificate  ::=  SEQUENCE  {
+//	    tbsCertificate       TBSCertificate,
+//	    signatureAlgorithm   AlgorithmIdentifier,
+//	    signatureValue       BIT STRING  }
+func GetSignatureAlgorithmEncoded(c *x509.Certificate) ([]byte, error) {
+	input := cryptobyte.String(c.Raw)
+
+	var cert cryptobyte.String
+	if !input.ReadASN1(&cert, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading certificate")
+	}
+
+	if !cert.SkipASN1(cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading certificate.tbsCertificate")
+	}
+
+	var signatureAlgoID cryptobyte.String
+	var tag cryptobyte_asn1.Tag
+	// use ReadAnyElement to preserve tag and length octets
+	if !cert.ReadAnyASN1Element(&signatureAlgoID, &tag) {
+		return nil, errors.New("error reading certificate.signatureAlgorithm")
+	}
+
+	return signatureAlgoID, nil
+}
+
+// GetSignatureAlgorithmInCertListEncoded returns the signatureAlgorithm field of the CRL (the one outside the
+// tbsCertList) in its encoded form, containing tag and length, or an error if it could not be extracted.
+//
+//	CertificateList  ::=  SEQUENCE  {
+//	    tbsCertList          TBSCertList,
+//	    signatureAlgorithm   AlgorithmIdentifier,
+//	    signatureValue       BIT STRING  }
+func GetSignatureAlgorithmInCertListEncoded(r *x509.RevocationList) ([]byte, error) {
+	input := cryptobyte.String(r.Raw)
+
+	var certList cryptobyte.String
+	if !input.ReadASN1(&certList, cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading certificateList")
+	}
+
+	if !certList.SkipASN1(cryptobyte_asn1.SEQUENCE) {
+		return nil, errors.New("error reading certificateList.tbsCertList")
+	}
+
+	var signatureAlgoID cryptobyte.String
+	var tag cryptobyte_asn1.Tag
+	// use ReadAnyElement to preserve tag and length octets
+	if !certList.ReadAnyASN1Element(&signatureAlgoID, &tag) {
+		return nil, errors.New("error reading certificateList.signatureAlgorithm")
+	}
+
+	return signatureAlgoID, nil
+}
