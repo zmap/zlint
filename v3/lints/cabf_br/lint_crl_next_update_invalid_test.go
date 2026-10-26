@@ -52,7 +52,7 @@ func TestCrlNextUpdateInvalid(t *testing.T) {
 		},
 		{
 			input: "crl_nextupdate_nup1_sub0_len0_eff0.pem",
-			want:  lint.Pass,
+			want:  lint.Error,
 			config: `
 [e_crl_next_update_invalid]
 SubscriberCRL = false`,
@@ -75,10 +75,31 @@ SubscriberCRL = false`,
 			input: "crl_nextupdate_nup0_sub0_len0_eff0.pem",
 			want:  lint.NA,
 		},
+		{
+			input: "crl-ten-days-and-one-second.pem",
+			want:  lint.Error,
+		},
+		{
+			input: "crl-exactly-ten-days.pem",
+			want:  lint.Pass,
+		},
+		{
+			input: "crl-exactly-twelve-months-and-one-second.pem",
+			want:  lint.Error,
+			config: `
+		[e_crl_next_update_invalid]
+		SubscriberCRL = false`,
+		},
+		{
+			input: "crl-exactly-twelve-months.pem",
+			want:  lint.Pass,
+			config: `
+		[e_crl_next_update_invalid]
+		SubscriberCRL = false`,
+		},
 	}
 
 	for _, testData := range data {
-		testData := testData
 		t.Run(testData.input, func(t *testing.T) {
 			out := test.TestRevocationListLintWithConfig(t, "e_crl_next_update_invalid", testData.input, testData.config)
 			if out.Status != testData.want {
