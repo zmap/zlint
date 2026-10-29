@@ -2861,7 +2861,7 @@ var tldMap = map[string]GTLDPeriod{
 	"helsinki": {
 		GTLD:           "helsinki",
 		DelegationDate: "2016-01-26",
-		RemovalDate:    "",
+		RemovalDate:    "2026-10-28",
 	},
 	"here": {
 		GTLD:           "here",
