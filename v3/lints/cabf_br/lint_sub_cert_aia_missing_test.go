@@ -22,19 +22,40 @@ import (
 )
 
 func TestSubCertAiaMissing(t *testing.T) {
-	inputPath := "subCertWNoURL.pem"
-	expected := lint.Error
-	out := test.TestLint("e_sub_cert_aia_missing", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
-	}
-}
 
-func TestSubCertAiaPresent(t *testing.T) {
-	inputPath := "subCertWBothURL.pem"
-	expected := lint.Pass
-	out := test.TestLint("e_sub_cert_aia_missing", inputPath)
-	if out.Status != expected {
-		t.Errorf("%s: expected %s, got %s", inputPath, expected, out.Status)
+	var tests = []struct {
+		name      string
+		inputPath string
+
+		expected lint.LintStatus
+	}{
+		{
+			name:      "pass - cert with an AIA extension",
+			inputPath: "subCertWBothURL.pem",
+
+			expected: lint.Pass,
+		},
+		{
+			name:      "error - cert dated before BRs 2.3.1 missing AIA",
+			inputPath: "subCertWNoURL.pem",
+
+			expected: lint.Error,
+		},
+		{
+			name:      "not effective - test case for w_sub_cert_aia_missing",
+			inputPath: "subCertWNoURLPostCABFBR231.pem",
+
+			expected: lint.NE,
+		},
+	}
+
+	for _, testCase := range tests {
+		t.Run(testCase.name, func(t *testing.T) {
+			out := test.TestLint("e_sub_cert_aia_missing", testCase.inputPath)
+
+			if out.Status != testCase.expected {
+				t.Errorf("%s: expected %s, got %s", testCase.inputPath, testCase.expected, out.Status)
+			}
+		})
 	}
 }
