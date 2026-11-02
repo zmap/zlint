@@ -195,46 +195,65 @@ func OnOrAfter(left, right time.Time) bool {
 }
 
 func CertificateValidityInSeconds(cert *x509.Certificate) float64 {
-	return cert.NotAfter.Add(1 * time.Second).Sub(cert.NotBefore).Seconds()
+	return InclusiveSecondsBetween(cert.NotBefore, cert.NotAfter)
 }
 
 func CertificateValidityInDays(cert *x509.Certificate) float64 {
-	return math.Ceil(CertificateValidityInSeconds(cert) / DAY_LENGTH)
+	return InclusiveDaysBetween(cert.NotBefore, cert.NotAfter)
 }
 
 // GreaterThan returns true if the validity of this cert in days is greater than
 // this maxDaysAllowed, false otherwise
 func GreaterThan(cert *x509.Certificate, maxDaysAllowed float64) bool {
-	maxValidity := maxDaysAllowed * DAY_LENGTH
-	return CertificateValidityInSeconds(cert) > maxValidity
+	return InclusiveSpanExceedsDays(cert.NotBefore, cert.NotAfter, maxDaysAllowed)
 }
 
 // CRLTimeBetweenTUAndNUInSeconds returns the time between the CRL's thisUpdate and nextUpdate, in seconds.
 // It returns -1 if nextUpdate is absent.
 func CRLTimeBetweenTUAndNUInSeconds(crl *x509.RevocationList) float64 {
-	if crl.NextUpdate.IsZero() {
-		return -1
-	}
-
-	return crl.NextUpdate.Add(1 * time.Second).Sub(crl.ThisUpdate).Seconds()
+	return InclusiveSecondsBetween(crl.ThisUpdate, crl.NextUpdate)
 }
 
 // CRLTimeBetweenTUAndNUInDays returns the time between the CRL's thisUpdate and nextUpdate, in days.
 // It returns -1 if nextUpdate is absent.
 func CRLTimeBetweenTUAndNUInDays(crl *x509.RevocationList) float64 {
-	if crl.NextUpdate.IsZero() {
-		return -1
-	}
-	return math.Ceil(CRLTimeBetweenTUAndNUInSeconds(crl) / DAY_LENGTH)
+	return InclusiveDaysBetween(crl.ThisUpdate, crl.NextUpdate)
 }
 
 // TimeBetweenTUAndNUExceeds returns true if the time between the CRL's thisUpdate and nextUpdate is greater than
 // this maxDaysAllowed, false otherwise
 // It returns false if nextUpdate is absent.
 func TimeBetweenTUAndNUExceeds(crl *x509.RevocationList, maxDaysAllowed float64) bool {
-	if crl.NextUpdate.IsZero() {
+	return InclusiveSpanExceedsDays(crl.ThisUpdate, crl.NextUpdate, maxDaysAllowed)
+}
+
+// InclusiveSecondsBetween returns the length of the interval [start, end] in
+// seconds, treating both endpoints as part of the interval (so the span is
+// end - start + 1s).
+// It returns -1 if end is the zero time.
+func InclusiveSecondsBetween(start, end time.Time) float64 {
+	if end.IsZero() {
+		return -1
+	}
+	return end.Add(1 * time.Second).Sub(start).Seconds()
+}
+
+// InclusiveDaysBetween returns the length of the interval [start, end] in
+// days, rounded up to the next whole day.
+// It returns -1 if end is the zero time.
+func InclusiveDaysBetween(start, end time.Time) float64 {
+	if end.IsZero() {
+		return -1
+	}
+	return math.Ceil(InclusiveSecondsBetween(start, end) / DAY_LENGTH)
+}
+
+// InclusiveSpanExceedsDays returns true if the inclusive interval [start, end]
+// is longer than maxDaysAllowed, false otherwise.
+// It returns false if end is the zero time.
+func InclusiveSpanExceedsDays(start, end time.Time, maxDaysAllowed float64) bool {
+	if end.IsZero() {
 		return false
 	}
-	maxSecondsAllowed := maxDaysAllowed * DAY_LENGTH
-	return CRLTimeBetweenTUAndNUInSeconds(crl) > maxSecondsAllowed
+	return InclusiveSecondsBetween(start, end) > maxDaysAllowed*DAY_LENGTH
 }
