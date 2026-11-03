@@ -35,6 +35,7 @@ const (
 	RFC6960                       LintSource = "RFC6960"
 	RFC6962                       LintSource = "RFC6962"
 	RFC8813                       LintSource = "RFC8813"
+	RFC9881                       LintSource = "RFC9881"
 	CABFBaselineRequirements      LintSource = "CABF_BR"
 	CABFCSBaselineRequirements    LintSource = "CABF_CS_BR"
 	CABFSMIMEBaselineRequirements LintSource = "CABF_SMIME_BR"
@@ -62,6 +63,7 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 		RFC6960,
 		RFC6962,
 		RFC8813,
+		RFC9881,
 		CABFBaselineRequirements,
 		CABFCSBaselineRequirements,
 		CABFSMIMEBaselineRequirements,
@@ -100,6 +102,8 @@ func (s *LintSource) FromString(src string) {
 		*s = RFC6962
 	case RFC8813:
 		*s = RFC8813
+	case RFC9881:
+		*s = RFC9881
 	case CABFBaselineRequirements:
 		*s = CABFBaselineRequirements
 	case CABFCSBaselineRequirements:

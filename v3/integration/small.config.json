@@ -47,6 +47,7 @@
       "ErrCount": 1
     },
     "e_cert_unique_identifier_version_not_2_or_3": {},
+    "e_crl_mldsa_sig_alg_params_not_absent": {},
     "e_distribution_point_incomplete": {},
     "e_dnsname_bad_character_in_label": {
       "ErrCount": 4
@@ -155,6 +156,8 @@
     "e_key_usage_and_extended_key_usage_inconsistent": {
       "ErrCount": 1020
     },
+    "e_mldsa_key_usages": {},
+    "e_mldsa_sig_alg_params_not_absent": {},
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 125
     },
