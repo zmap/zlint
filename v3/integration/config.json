@@ -377,6 +377,7 @@
       "ErrCount": 10
     },
     "e_cert_unique_identifier_version_not_2_or_3": {},
+    "e_crl_mldsa_sig_alg_params_not_absent": {},
     "e_distribution_point_incomplete": {},
     "e_dnsname_bad_character_in_label": {
       "ErrCount": 55930
@@ -553,6 +554,8 @@
     "e_key_usage_presence": {},
     "e_mailbox_address_shall_contain_an_rfc822_name": {},
     "e_mailbox_validated_enforce_subject_field_restrictions": {},
+    "e_mldsa_key_usages": {},
+    "e_mldsa_sig_alg_params_not_absent": {},
     "e_mp_authority_key_identifier_correct": {
       "ErrCount": 3637
     },
