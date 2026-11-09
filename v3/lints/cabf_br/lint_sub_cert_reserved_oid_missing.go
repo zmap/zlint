@@ -58,9 +58,7 @@ certificatePolicies MUST be present. MUST assert the Reserved Certificate Policy
 
 *************************************************************************/
 
-type subCertReservedPolicyMissing struct {
-	Skip bool `comment:"Set this to true to skip this lint when the certificate is outside the CA/B Forum TLS Baseline Requirements scope"`
-}
+type subCertReservedPolicyMissing struct{}
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
@@ -79,12 +77,8 @@ func NewSubCertReservedPolicyMissing() lint.LintInterface {
 	return &subCertReservedPolicyMissing{}
 }
 
-func (l *subCertReservedPolicyMissing) Configure() any {
-	return l
-}
-
 func (l *subCertReservedPolicyMissing) CheckApplies(c *x509.Certificate) bool {
-	return !l.Skip && util.IsSubscriberCert(c)
+	return util.IsSubscriberCert(c)
 }
 
 func (l *subCertReservedPolicyMissing) Execute(c *x509.Certificate) *lint.LintResult {
