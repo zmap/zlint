@@ -339,6 +339,9 @@
     "n_contains_redacted_dnsname": {
       "NoticeCount": 8
     },
+    "n_ct_sct_policy_count_unsatisfied": {
+      "NoticeCount": 176
+    },
     "n_dnsname_wildcard_left_of_public_suffix": {},
     "n_ecdsa_ee_invalid_ku": {
       "NoticeCount": 3
@@ -357,9 +360,6 @@
     "n_sub_ca_eku_not_technically_constrained": {},
     "n_subject_common_name_included": {
       "NoticeCount": 19785
-    },
-    "w_ct_sct_policy_count_unsatisfied": {
-      "NoticeCount": 176
     },
     "w_distribution_point_missing_ldap_or_uri": {
       "WarnCount": 1

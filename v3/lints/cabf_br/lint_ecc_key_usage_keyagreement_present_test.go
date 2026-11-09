@@ -1,0 +1,33 @@
+package cabf_br
+
+import (
+	"testing"
+
+	"github.com/zmap/zlint/v3/lint"
+	"github.com/zmap/zlint/v3/test"
+)
+
+const cabfEccKUKeyAgreementPresent = "w_cabf_ecc_ku_keyagreement_present"
+
+func TestCabfEccEccKUKeyAgreementPresent(t *testing.T) {
+	tests := []struct {
+		desc   string
+		file   string
+		result lint.LintStatus
+	}{
+		{desc: "pass - valid dv certificate with ecc key and digitalSignature", file: "valid_dv_with_ecc_key.pem", result: lint.Pass},
+		{desc: "warning - dv certificate with ecc key and keyAgreement only", file: "ecc_key_dv_with_no_digital_signature.pem", result: lint.Warn},
+		{desc: "pass - dv certificate with ecc key and prohibited keyUsage", file: "ecc_key_dv_with_prohibited_key_usage.pem", result: lint.Pass},
+		{desc: "warning - dv certificate with ecc key and keyAgreement and digitalSignature", file: "ecc_key_dv_with_key_agreement.pem", result: lint.Warn},
+		{desc: "na - ca certificate with ecc key", file: "ecc_key_ca_cert.pem", result: lint.NA},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.desc, func(t *testing.T) {
+			result := test.TestLint(cabfEccKUKeyAgreementPresent, tc.file)
+			if result.Status != tc.result {
+				t.Errorf("expected result %v was %v - details: %v", tc.result, result.Status, result.Details)
+			}
+		})
+	}
+}
