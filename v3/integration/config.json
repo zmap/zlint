@@ -838,6 +838,7 @@
       "ErrCount": 3
     },
     "e_cabf_ecc_allowed_key_usages": {},
+    "e_sub_cert_reserved_policy_missing": {},
     "n_ca_digital_signature_not_set": {
       "NoticeCount": 1393
     },
