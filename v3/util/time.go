@@ -80,6 +80,7 @@ var (
 	MozillaPolicy22Date                              = time.Date(2013, time.July, 26, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy24Date                              = time.Date(2017, time.February, 28, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy241Date                             = time.Date(2017, time.March, 31, 0, 0, 0, 0, time.UTC)
+	MozillaPolicy25Date                              = time.Date(2017, time.June, 23, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy27Date                              = time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC)
 	MozillaPolicy30Date                              = time.Date(2025, time.March, 15, 0, 0, 0, 0, time.UTC)
 	ChromePolicy18Date                               = time.Date(2026, time.February, 5, 0, 0, 0, 0, time.UTC)
