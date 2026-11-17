@@ -1022,6 +1022,9 @@
 	  },
     "n_suspicious_chars_in_address": {
       "NoticeCount": 1231
-    }
+    },
+    "e_key_curve_hash_func_mismatch": {
+		  "ErrCount": 4919
+	  }
   }
 }
