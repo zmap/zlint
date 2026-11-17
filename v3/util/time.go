@@ -123,8 +123,6 @@ var (
 	CABF_SC081_SECOND_MILESTONE = time.Date(2027, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC081_THIRD_MILESTONE  = time.Date(2029, time.March, 15, 0, 0, 0, 0, time.UTC)
 	CABF_SC086_EffectiveDate    = time.Date(2026, time.March, 15, 0, 0, 0, 0, time.UTC)
-	// From BIM Group
-	VMCRequirements_V1_0_Date = time.Date(2021, time.July, 9, 0, 0, 0, 0, time.UTC)
 )
 
 var (
