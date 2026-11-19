@@ -64,8 +64,8 @@ func (lookup *linterLookupImpl) Sources() SourceList {
 	return list
 }
 
-func newLinterLookup() linterLookupImpl {
-	return linterLookupImpl{
+func newLinterLookup() *linterLookupImpl {
+	return &linterLookupImpl{
 		lintNames: make([]string, 0),
 		sources:   map[LintSource]struct{}{},
 	}
@@ -85,7 +85,7 @@ type CertificateLinterLookup interface {
 }
 
 type certificateLinterLookupImpl struct {
-	linterLookupImpl
+	*linterLookupImpl
 	// lintsByName is a map of all registered lints by name.
 	lintsByName   map[string]*CertificateLint
 	lintsBySource map[LintSource][]*CertificateLint
@@ -135,8 +135,8 @@ func (lookup *certificateLinterLookupImpl) register(lint *CertificateLint, name 
 	return nil
 }
 
-func newCertificateLintLookup() certificateLinterLookupImpl {
-	return certificateLinterLookupImpl{
+func newCertificateLintLookup() *certificateLinterLookupImpl {
+	return &certificateLinterLookupImpl{
 		linterLookupImpl: newLinterLookup(),
 		lintsByName:      make(map[string]*CertificateLint),
 		lintsBySource:    make(map[LintSource][]*CertificateLint),
@@ -158,7 +158,7 @@ type RevocationListLinterLookup interface {
 }
 
 type revocationListLinterLookupImpl struct {
-	linterLookupImpl
+	*linterLookupImpl
 	// lintsByName is a map of all registered lints by name.
 	lintsByName   map[string]*RevocationListLint
 	lintsBySource map[LintSource][]*RevocationListLint
@@ -208,8 +208,8 @@ func (lookup *revocationListLinterLookupImpl) register(lint *RevocationListLint,
 	return nil
 }
 
-func newRevocationListLintLookup() revocationListLinterLookupImpl {
-	return revocationListLinterLookupImpl{
+func newRevocationListLintLookup() *revocationListLinterLookupImpl {
+	return &revocationListLinterLookupImpl{
 		linterLookupImpl: newLinterLookup(),
 		lintsByName:      make(map[string]*RevocationListLint),
 		lintsBySource:    make(map[LintSource][]*RevocationListLint),
@@ -231,7 +231,7 @@ type OcspResponseLinterLookup interface {
 }
 
 type ocspResponseLinterLookupImpl struct {
-	linterLookupImpl
+	*linterLookupImpl
 	// lintsByName is a map of all registered lints by name.
 	lintsByName   map[string]*OcspResponseLint
 	lintsBySource map[LintSource][]*OcspResponseLint
@@ -281,8 +281,8 @@ func (lookup *ocspResponseLinterLookupImpl) register(lint *OcspResponseLint, nam
 	return nil
 }
 
-func newOcspResponseLintLookup() ocspResponseLinterLookupImpl {
-	return ocspResponseLinterLookupImpl{
+func newOcspResponseLintLookup() *ocspResponseLinterLookupImpl {
+	return &ocspResponseLinterLookupImpl{
 		linterLookupImpl: newLinterLookup(),
 		lintsByName:      make(map[string]*OcspResponseLint),
 		lintsBySource:    make(map[LintSource][]*OcspResponseLint),
