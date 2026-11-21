@@ -6971,7 +6971,7 @@ var tldMap = map[string]GTLDPeriod{
 	"xihuan": {
 		GTLD:           "xihuan",
 		DelegationDate: "2016-03-30",
-		RemovalDate:    "",
+		RemovalDate:    "2026-11-20",
 	},
 	"xin": {
 		GTLD:           "xin",
