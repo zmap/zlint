@@ -17,6 +17,7 @@ package community
 import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
+	"fmt"
 	"math/big"
 	"testing"
 
@@ -74,6 +75,15 @@ func TestEcdsaSmallPrivateKey(t *testing.T) {
 		{"ecdsaSmallKeyP256EmailProtectionCA.pem", lint.Error},
 		// There is no effective date, so even a very old certificate is checked.
 		{"ecdsaSmallKeyP256NotBefore2021.pem", lint.Error},
+		// d = k^-1 mod n for a small k: k*pub = G, so d is just as recoverable.
+		{"ecdsaSmallKeyP256InverseK5.pem", lint.Error},
+		{"ecdsaSmallKeyP256NegatedInverseK5.pem", lint.Error},
+		// k = 2^16 is the largest inverse searched by default, 2^16 + 1 is the first beyond.
+		{"ecdsaSmallKeyP256InverseBoundary.pem", lint.Error},
+		{"ecdsaSmallKeyP256NegatedInverseBoundary.pem", lint.Error},
+		{"ecdsaSmallKeyP256InverseAboveBoundary.pem", lint.Pass},
+		{"ecdsaSmallKeyP384InverseK50000.pem", lint.Error},
+		{"ecdsaSmallKeyP521NegatedInverseK3.pem", lint.Error},
 	}
 	for _, d := range data {
 		t.Run(d.input, func(t *testing.T) {
@@ -92,6 +102,27 @@ func TestEcdsaSmallPrivateKeyBitsOutOfRange(t *testing.T) {
 		if got := l.Execute(c).Status; got != lint.Fatal {
 			t.Errorf("Bits=%d: expected %s, got %s", bits, lint.Fatal, got)
 		}
+	}
+}
+
+func TestEcdsaSmallPrivateKeyInverseBitsOutOfRange(t *testing.T) {
+	for _, bits := range []int{-1, 1, maxInverseKeyBits + 1} {
+		l := &ecdsaSmallPrivateKey{Bits: 16, InverseBits: bits}
+		c := test.ReadTestCert("ecdsaSmallKeyP256InverseK5.pem")
+		if got := l.Execute(c).Status; got != lint.Fatal {
+			t.Errorf("InverseBits=%d: expected %s, got %s", bits, lint.Fatal, got)
+		}
+	}
+}
+
+func TestEcdsaSmallPrivateKeyInverseDisabled(t *testing.T) {
+	l := &ecdsaSmallPrivateKey{Bits: 16, InverseBits: 0}
+	if got := l.Execute(test.ReadTestCert("ecdsaSmallKeyP256InverseK5.pem")).Status; got != lint.Pass {
+		t.Errorf("InverseBits=0 on an inverse key: expected %s, got %s", lint.Pass, got)
+	}
+	// Disabling the inverse search does not disable the small scalar search.
+	if got := l.Execute(test.ReadTestCert("ecdsaSmallKeyP256D5.pem")).Status; got != lint.Error {
+		t.Errorf("InverseBits=0 on a small key: expected %s, got %s", lint.Error, got)
 	}
 }
 
@@ -146,5 +177,54 @@ func TestSmallDiscreteLog(t *testing.T) {
 				}
 			}
 		}
+	}
+}
+
+// TestSmallInverseDiscreteLog checks the inverse search directly on every
+// supported curve, as TestSmallDiscreteLog does for the small scalar search.
+func TestSmallInverseDiscreteLog(t *testing.T) {
+	const bits = 16
+	m := int64(1) << (bits / 2)
+	stride := 2*m + 1
+	inRange := []int64{1, 2, m - 1, m, m + 1, m + 2, stride - 1, stride, stride + 1, 2 * stride,
+		3*stride - m - 1, 3*stride - m, 7 * stride, 1<<bits - 1, 1 << bits}
+	for k := int64(1); k <= 1<<bits; k += 4999 {
+		inRange = append(inRange, k)
+	}
+	outOfRange := []int64{1<<bits + 1, 1<<bits + 2, 1<<bits + stride, 100000}
+	for _, curve := range []elliptic.Curve{elliptic.P256(), elliptic.P384(), elliptic.P521()} {
+		n := curve.Params().N
+		pub := func(k int64, negate bool) *ecdsa.PublicKey {
+			d := new(big.Int).ModInverse(big.NewInt(k), n)
+			if negate {
+				d.Sub(n, d)
+			}
+			x, y := curve.ScalarBaseMult(d.Bytes())
+			return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}
+		}
+		for _, negate := range []bool{false, true} {
+			for _, k := range inRange {
+				if got := smallInverseDiscreteLog(pub(k, negate), bits); got == nil || got.Int64() != k {
+					t.Errorf("%s k=%d negated=%v: got %v", curve.Params().Name, k, negate, got)
+				}
+			}
+			for _, k := range outOfRange {
+				if got := smallInverseDiscreteLog(pub(k, negate), bits); got != nil {
+					t.Errorf("%s k=%d negated=%v: expected no result, got %v", curve.Params().Name, k, negate, got)
+				}
+			}
+		}
+	}
+}
+
+func BenchmarkEcdsaSmallPrivateKey(b *testing.B) {
+	c := test.ReadTestCert("ecdsaSmallKeyP384Random.pem")
+	for _, inverseBits := range []int{0, 16} {
+		b.Run(fmt.Sprintf("InverseBits=%d", inverseBits), func(b *testing.B) {
+			l := &ecdsaSmallPrivateKey{Bits: 16, InverseBits: inverseBits}
+			for b.Loop() {
+				l.Execute(c)
+			}
+		})
 	}
 }
