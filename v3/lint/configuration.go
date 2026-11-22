@@ -272,7 +272,7 @@ func stripGlobalsFromExample(i interface{}) interface{} {
 //
 // If the provided reflect.Value is not a nil pointer, then the original reflect.Value is returned.
 func initializePtr(value reflect.Value) reflect.Value {
-	if value.Kind() == reflect.Ptr && value.IsZero() {
+	if value.Kind() == reflect.Pointer && value.IsZero() {
 		return reflect.New(value.Type().Elem())
 	}
 	return value

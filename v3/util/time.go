@@ -42,6 +42,7 @@ var (
 	RFC6960Date                = time.Date(2013, time.June, 1, 0, 0, 0, 0, time.UTC)
 	RFC6962Date                = time.Date(2013, time.June, 1, 0, 0, 0, 0, time.UTC)
 	RFC8813Date                = time.Date(2020, time.August, 1, 0, 0, 0, 0, time.UTC)
+	RFC9881Date                = time.Date(2025, time.October, 1, 0, 0, 0, 0, time.UTC)
 	CABEffectiveDate           = time.Date(2012, time.July, 1, 0, 0, 0, 0, time.UTC)
 	CABReservedIPDate          = time.Date(2016, time.October, 1, 0, 0, 0, 0, time.UTC)
 	CABGivenNameDate           = time.Date(2016, time.September, 7, 0, 0, 0, 0, time.UTC)
