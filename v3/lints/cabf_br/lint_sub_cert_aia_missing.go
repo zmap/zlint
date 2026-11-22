@@ -23,22 +23,22 @@ import (
 type subCertAiaMissing struct{}
 
 /**************************************************************************************************
-BRs: 7.1.2.3
-authorityInformationAccess
-With the exception of stapling, which is noted below, this extension MUST be present. It MUST NOT be
-marked critical, and it MUST contain the HTTP URL of the Issuing CA’s OCSP responder (accessMethod
-= 1.3.6.1.5.5.7.48.1). It SHOULD also contain the HTTP URL of the Issuing CA’s certificate
-(accessMethod = 1.3.6.1.5.5.7.48.2). See Section 13.2.1 for details.
+BRs v2.3.0: 7.1.2.7.6 Subscriber Certificate Extensions
+authorityInformationAccess MUST be present.
+
+Ballot SC-104 (BRs v2.3.1, effective 2026-10-04) changed this to SHOULD; w_sub_cert_aia_missing
+covers certificates issued on or after that date.
 ***************************************************************************************************/
 
 func init() {
 	lint.RegisterCertificateLint(&lint.CertificateLint{
 		LintMetadata: lint.LintMetadata{
-			Name:          "e_sub_cert_aia_missing",
-			Description:   "Subscriber Certificate: authorityInformationAccess MUST be present.",
-			Citation:      "BRs: 7.1.2.3",
-			Source:        lint.CABFBaselineRequirements,
-			EffectiveDate: util.CABEffectiveDate,
+			Name:            "e_sub_cert_aia_missing",
+			Description:     "Subscriber Certificate: authorityInformationAccess MUST be present.",
+			Citation:        "BRs: 7.1.2.3 / 7.1.2.7.6",
+			Source:          lint.CABFBaselineRequirements,
+			EffectiveDate:   util.CABEffectiveDate,
+			IneffectiveDate: util.CABFBRs_2_3_1_Date,
 		},
 		Lint: NewSubCertAiaMissing,
 	})

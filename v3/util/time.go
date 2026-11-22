@@ -102,6 +102,7 @@ var (
 	CABFBRs_2_0_6_Date                               = time.Date(2024, time.August, 6, 0, 0, 0, 0, time.UTC)
 	CABFBRs_2_0_7_Date                               = time.Date(2024, time.September, 6, 0, 0, 0, 0, time.UTC)
 	CABFBRs_2_0_8_Date                               = time.Date(2024, time.October, 2, 0, 0, 0, 0, time.UTC)
+	CABFBRs_2_3_1_Date                               = time.Date(2026, time.October, 4, 0, 0, 0, 0, time.UTC)
 	NoReservedDomainLabelsDate                       = time.Date(2021, time.October, 1, 0, 0, 0, 0, time.UTC)
 	CABFBRs_OU_Prohibited_Date                       = time.Date(2022, time.September, 1, 0, 0, 0, 0, time.UTC)
 	SC16EffectiveDate                                = time.Date(2019, time.April, 16, 0, 0, 0, 0, time.UTC)
