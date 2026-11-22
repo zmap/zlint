@@ -28,7 +28,7 @@ import (
 
 type ecdsaSmallPrivateKey struct {
 	Bits        int `comment:"The lint reports any ECDSA public key whose private scalar d satisfies 0 < d <= 2^Bits (or the negation of such a d). Each certificate costs about 2^(Bits/2 - 4) elliptic curve additions, and the first use of each curve builds a table of 2^(Bits/2 + 4) entries, so keep this small when linting large corpora."`
-	InverseBits int `comment:"The lint also reports any ECDSA public key whose private scalar is k^-1 modulo the group order (or its negation) for some 0 < k <= 2^InverseBits. Nothing in this search can be cached, so each certificate costs about 2^(InverseBits/2 + 1) elliptic curve additions. 0 disables it."`
+	InverseBits int `comment:"The lint also reports any ECDSA public key whose private scalar is k^-1 modulo the group order (or its negation) for some 0 < k <= 2^InverseBits. Nothing in this search can be cached, so each certificate costs about 2^(InverseBits/2 + 1) elliptic curve additions (about 8ms per P-384 certificate at 16, more for P-521, less for P-256). 0 disables it."`
 }
 
 func init() {
@@ -179,6 +179,11 @@ func ecdsaKey(c *x509.Certificate) *ecdsa.PublicKey {
 // babySteps is a table of points whose discrete logarithm to some base B is
 // known: j*B has logarithm j, for 1 <= j <= m. See above.
 type babySteps struct {
+	// baseX, baseY are B, used to confirm a candidate logarithm. They are
+	// never modified.
+	baseX, baseY *big.Int
+	// m is the number of entries. The giant step is 2m+1 wide.
+	m int
 	// logByX maps the low 64 bits of the X coordinate of j*B to its logarithm j, for
 	// 1 <= j <= m. Using only 64 bits of X keeps lookups allocation free. It
 	// means two different points can share a key. That has two consequences.
@@ -198,7 +203,7 @@ type babySteps struct {
 // newBabySteps builds the table of j*B for 1 <= j <= m, where B = (bx, by),
 // and the giant step -(2m+1)*B. bx and by are not modified.
 func newBabySteps(curve elliptic.Curve, bx, by *big.Int, m int) *babySteps {
-	steps := &babySteps{logByX: make(map[uint64]int, m)}
+	steps := &babySteps{baseX: bx, baseY: by, m: m, logByX: make(map[uint64]int, m)}
 
 	// (x, y) starts at 1*B and has B added to it m-1 times, so that on
 	// loop iteration j it holds j*B. Copy B's coordinates so that the
@@ -217,27 +222,22 @@ func newBabySteps(curve elliptic.Curve, bx, by *big.Int, m int) *babySteps {
 	x, y = curve.Double(x, y)
 	x, y = curve.Add(x, y, bx, by)
 
-	// Keep -S, which has the same X as S and the negated Y. Modulo the
-	// field prime P, -y is P - y. That is already fully reduced because y
-	// is never 0 for a point on these curves (a point with y = 0 has order
-	// 2 and the group order is an odd prime).
 	steps.giantStepX = x
-	steps.giantStepNegY = new(big.Int).Sub(curve.Params().P, y)
+	steps.giantStepNegY = negY(curve, y)
 	return steps
 }
 
-// knownLogs is the per-curve table of baby steps to the base G, j*G for
-// 1 <= j <= m. It is shared by every certificate on that curve.
-type knownLogs struct {
-	// once makes the table be built exactly once, even when many goroutines
-	// lint certificates at the same time, and without making anyone wait on
-	// tables for other curves.
-	once  sync.Once
-	steps *babySteps
+// negY returns the Y coordinate of -P for a point P = (x, y): modulo the field
+// prime P, -y is P - y. That is already fully reduced because y is never 0 for
+// a point on these curves (a point with y = 0 has order 2 and the group order
+// is an odd prime).
+func negY(curve elliptic.Curve, y *big.Int) *big.Int {
+	return new(big.Int).Sub(curve.Params().P, y)
 }
 
-// knownLogsKey identifies a knownLogs table. m is part of it because Bits is
-// configurable and a different Bits means a different table size.
+// knownLogsKey identifies a cached table of baby steps to the base G. m is part
+// of it because Bits is configurable and a different Bits means a different
+// table size.
 type knownLogsKey struct {
 	curve string
 	m     int
@@ -246,75 +246,55 @@ type knownLogsKey struct {
 var (
 	// knownLogsMu guards knownLogsCache, and only that. It is never held while
 	// a table is built.
-	knownLogsMu    sync.Mutex
-	knownLogsCache = map[knownLogsKey]*knownLogs{}
+	knownLogsMu sync.Mutex
+	// knownLogsCache holds, per curve and m, a function that builds the table
+	// of j*G for 1 <= j <= m on its first call and returns it on every call.
+	// The table is built exactly once, even when many goroutines lint
+	// certificates at the same time, and without making anyone wait on tables
+	// for other curves.
+	knownLogsCache = map[knownLogsKey]func() *babySteps{}
 )
 
-// knownLogsFor returns the table for the curve and table size m, building it on
-// the first call.
+// knownLogsFor returns the table of baby steps to the base G for the curve and
+// table size m, building it on the first call.
 func knownLogsFor(curve elliptic.Curve, m int) *babySteps {
 	params := curve.Params()
 	key := knownLogsKey{curve: params.Name, m: m}
 
-	// Under the lock, only find or create the (still empty) cache entry.
+	// Under the lock, only find or create the (still unbuilt) cache entry.
 	knownLogsMu.Lock()
-	logs, ok := knownLogsCache[key]
+	build, ok := knownLogsCache[key]
 	if !ok {
-		logs = &knownLogs{}
-		knownLogsCache[key] = logs
+		build = sync.OnceValue(func() *babySteps {
+			return newBabySteps(curve, params.Gx, params.Gy, m)
+		})
+		knownLogsCache[key] = build
 	}
 	knownLogsMu.Unlock()
 
 	// Build outside the lock. The first goroutine here runs the function,
 	// anyone else arriving for the same table blocks until it is done, and
 	// goroutines that want another curve are unaffected.
-	logs.once.Do(func() {
-		logs.steps = newBabySteps(curve, params.Gx, params.Gy, m)
-	})
-	return logs.steps
-}
-
-// searchable reports whether the search can run on pub's curve. The table is
-// cached by curve name and the search needs the base point, so a custom curve
-// without those cannot be searched.
-func searchable(pub *ecdsa.PublicKey) bool {
-	params := pub.Curve.Params()
-	return params.Name != "" && params.Gx != nil
+	return build()
 }
 
 // smallDiscreteLog returns d with 0 < d <= 2^bits such that d*G = pub or
 // d*G = -pub, or nil if there is no such d. The caller guarantees pub is a
 // valid point on the curve and that bits is within the supported range.
 func smallDiscreteLog(pub *ecdsa.PublicKey, bits int) *big.Int {
-	// Defensive, Execute has already rejected out of range values.
-	if bits < minSmallKeyBits || bits > maxSmallKeyBits || !searchable(pub) {
+	// The table is cached by curve name and the search needs the base
+	// point, so a custom curve without those cannot be searched.
+	params := pub.Curve.Params()
+	if params.Name == "" || params.Gx == nil {
 		return nil
 	}
-	params := pub.Curve.Params()
 
-	// m is the number of baby steps, that is the entries in the knownLogs
-	// table: 2^(bits/2 + 4). The +4 trades a bigger one-time table (a few thousand entries at the default of 16 bits) for
-	// 16x fewer giant steps on every certificate, and most certificates
-	// are not weak, so they pay the full walk.
-	m := 1 << (bits/2 + 4)
-	steps := knownLogsFor(pub.Curve, m)
-
-	// Confirm a candidate by computing d*G directly. Comparing X is enough,
-	// d*G could be pub or -pub and we accept both.
-	confirm := func(d int64) bool {
-		gx, _ := pub.Curve.ScalarBaseMult(big.NewInt(d).Bytes())
-		return gx.Cmp(pub.X) == 0
-	}
-
-	// First walk from pub itself. This finds pub = +d*G for any d in range,
-	// and pub = -d*G only for d <= m (see "One wrinkle").
-	if d := searchFromPoint(pub.Curve, pub.X, pub.Y, steps, m, bits, confirm); d != nil {
-		return d
-	}
-	// Then walk from -pub (same X, negated Y) to find pub = -d*G. This is
-	// skipped when the first walk already found the key. A key that is not
-	// weak always pays for both.
-	return searchFromPoint(pub.Curve, pub.X, new(big.Int).Sub(params.P, pub.Y), steps, m, bits, confirm)
+	// m is the number of baby steps, that is the entries in the cached
+	// table: 2^(bits/2 + 4). The +4 trades a bigger one-time table (a few
+	// thousand entries at the default of 16 bits) for 16x fewer giant steps
+	// on every certificate, and most certificates are not weak, so they pay
+	// the full walk.
+	return discreteLog(pub.Curve, knownLogsFor(pub.Curve, 1<<(bits/2+4)), pub.X, pub.Y, bits)
 }
 
 // smallInverseDiscreteLog returns k with 0 < k <= 2^bits such that k*pub = G
@@ -322,42 +302,43 @@ func smallDiscreteLog(pub *ecdsa.PublicKey, bits int) *big.Int {
 // order, or nil if there is no such k. The caller guarantees pub is a valid
 // point on the curve and that bits is within the supported range.
 func smallInverseDiscreteLog(pub *ecdsa.PublicKey, bits int) *big.Int {
-	// Defensive, Execute has already rejected out of range values.
-	if bits < minInverseKeyBits || bits > maxInverseKeyBits || !searchable(pub) {
+	// The search needs the base point, so a custom curve without one cannot
+	// be searched.
+	params := pub.Curve.Params()
+	if params.Gx == nil {
 		return nil
 	}
-	params := pub.Curve.Params()
 
 	// The table depends on pub, so it is built for every certificate. Its
 	// size m = 2^(bits/2) balances building the table (m additions) against
 	// the two walks (about 2^bits / (2m+1) additions each), which is the
 	// cheapest split when nothing can be cached.
-	m := 1 << (bits / 2)
-	steps := newBabySteps(pub.Curve, pub.X, pub.Y, m)
+	steps := newBabySteps(pub.Curve, pub.X, pub.Y, 1<<(bits/2))
+	return discreteLog(pub.Curve, steps, params.Gx, params.Gy, bits)
+}
 
-	// Confirm a candidate by computing k*pub directly. Comparing X is enough,
-	// k*pub could be G or -G and we accept both.
-	confirm := func(k int64) bool {
-		x, _ := pub.Curve.ScalarMult(pub.X, pub.Y, big.NewInt(k).Bytes())
-		return x.Cmp(params.Gx) == 0
+// discreteLog returns d with 0 < d <= 2^bits such that d*B = target or
+// d*B = -target, where B is the base of steps, or nil if there is no such d.
+func discreteLog(curve elliptic.Curve, steps *babySteps, targetX, targetY *big.Int, bits int) *big.Int {
+	// First walk from target itself. This finds target = +d*B for any d in
+	// range, and target = -d*B only for d <= m (see "One wrinkle").
+	if d := searchFromPoint(curve, steps, targetX, targetY, bits); d != nil {
+		return d
 	}
-
-	// Walk from G and then from -G, for the same reason smallDiscreteLog
-	// walks from pub and -pub.
-	if k := searchFromPoint(pub.Curve, params.Gx, params.Gy, steps, m, bits, confirm); k != nil {
-		return k
-	}
-	return searchFromPoint(pub.Curve, params.Gx, new(big.Int).Sub(params.P, params.Gy), steps, m, bits, confirm)
+	// Then walk from -target (same X, negated Y) to find target = -d*B. This
+	// is skipped when the first walk already found it. A target that is not
+	// found always pays for both.
+	return searchFromPoint(curve, steps, targetX, negY(curve, targetY), bits)
 }
 
 // searchFromPoint takes giant steps starting at the point (startX, startY) and
-// returns its discrete logarithm d, 0 < d <= 2^bits, to the base of the baby
-// steps, if the walk meets a point in the table and confirm accepts the
-// candidate. startX and startY are not modified.
-func searchFromPoint(curve elliptic.Curve, startX, startY *big.Int, steps *babySteps, m, bits int, confirm func(d int64) bool) *big.Int {
+// returns its discrete logarithm d, 0 < d <= 2^bits, to the base of steps, up
+// to sign, if the walk meets a point in the table. startX and startY are not
+// modified.
+func searchFromPoint(curve elliptic.Curve, steps *babySteps, startX, startY *big.Int, bits int) *big.Int {
 	// stride is the width of one giant step as a plain number, the scalar of
 	// S. limit is the largest d we are asked to find.
-	stride := int64(2*m + 1)
+	stride := int64(2*steps.m + 1)
 	limit := int64(1) << bits
 
 	// (x, y) is the current point P_i = start - i*S, beginning with i = 0. If
@@ -388,10 +369,12 @@ func searchFromPoint(curve elliptic.Curve, startX, startY *big.Int, steps *babyS
 				if d <= 0 || d > limit {
 					continue
 				}
-				// Confirming weeds out two things: the wrong one of the two
-				// candidates and a false hit from the table keeping only 64
-				// bits of X.
-				if confirm(d) {
+				// Confirm the candidate by computing d*B directly. This
+				// weeds out two things: the wrong one of the two candidates
+				// and a false hit from the table keeping only 64 bits of
+				// X. Comparing X is enough, d*B could be start or -start
+				// and we accept both. Hits are rare, so this is cheap.
+				if bx, _ := curve.ScalarMult(steps.baseX, steps.baseY, big.NewInt(d).Bytes()); bx.Cmp(startX) == 0 {
 					return big.NewInt(d)
 				}
 			}

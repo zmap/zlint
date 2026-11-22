@@ -96,21 +96,13 @@ func TestEcdsaSmallPrivateKey(t *testing.T) {
 }
 
 func TestEcdsaSmallPrivateKeyBitsOutOfRange(t *testing.T) {
-	for _, bits := range []int{-1, 0, 1, maxSmallKeyBits + 1} {
-		l := &ecdsaSmallPrivateKey{Bits: bits}
-		c := test.ReadTestCert("ecdsaSmallKeyP256D5.pem")
+	c := test.ReadTestCert("ecdsaSmallKeyP256D5.pem")
+	for _, l := range []ecdsaSmallPrivateKey{
+		{Bits: -1}, {Bits: 0}, {Bits: 1}, {Bits: maxSmallKeyBits + 1},
+		{Bits: 16, InverseBits: -1}, {Bits: 16, InverseBits: 1}, {Bits: 16, InverseBits: maxInverseKeyBits + 1},
+	} {
 		if got := l.Execute(c).Status; got != lint.Fatal {
-			t.Errorf("Bits=%d: expected %s, got %s", bits, lint.Fatal, got)
-		}
-	}
-}
-
-func TestEcdsaSmallPrivateKeyInverseBitsOutOfRange(t *testing.T) {
-	for _, bits := range []int{-1, 1, maxInverseKeyBits + 1} {
-		l := &ecdsaSmallPrivateKey{Bits: 16, InverseBits: bits}
-		c := test.ReadTestCert("ecdsaSmallKeyP256InverseK5.pem")
-		if got := l.Execute(c).Status; got != lint.Fatal {
-			t.Errorf("InverseBits=%d: expected %s, got %s", bits, lint.Fatal, got)
+			t.Errorf("Bits=%d InverseBits=%d: expected %s, got %s", l.Bits, l.InverseBits, lint.Fatal, got)
 		}
 	}
 }
@@ -142,75 +134,52 @@ func TestEcdsaSmallPrivateKeyMalformedKeyIsNotApplicable(t *testing.T) {
 	}
 }
 
-// TestSmallDiscreteLog checks the search directly on every supported curve:
+// TestSmallDiscreteLog checks both searches directly on every supported curve:
 // the edges of the search windows, exact multiples of the giant step, both signs
 // of the key, and values just outside the range.
 func TestSmallDiscreteLog(t *testing.T) {
 	const bits = 16
-	m := int64(1) << (bits/2 + 4)
-	stride := 2*m + 1
-	inRange := []int64{1, 2, m - 1, m, m + 1, m + 2, stride - 1, stride, stride + 1, 2 * stride,
-		3*stride - m - 1, 3*stride - m, 7 * stride, 1<<bits - 1, 1 << bits}
-	for d := int64(1); d <= 1<<bits; d += 4999 {
-		inRange = append(inRange, d)
-	}
-	outOfRange := []int64{1<<bits + 1, 1<<bits + 2, 8 * stride, 100000}
-	for _, curve := range []elliptic.Curve{elliptic.P256(), elliptic.P384(), elliptic.P521()} {
-		n := curve.Params().N
-		pub := func(d int64, negate bool) *ecdsa.PublicKey {
-			k := big.NewInt(d)
-			if negate {
-				k.Sub(n, k)
-			}
-			x, y := curve.ScalarBaseMult(k.Bytes())
-			return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}
+	for _, search := range []struct {
+		name string
+		// m is the number of baby steps the search uses for bits.
+		m int64
+		// scalar is the private key the search finds as k.
+		scalar func(k int64, n *big.Int) *big.Int
+		search func(pub *ecdsa.PublicKey, bits int) *big.Int
+	}{
+		{"small", 1 << (bits/2 + 4), func(k int64, _ *big.Int) *big.Int { return big.NewInt(k) }, smallDiscreteLog},
+		{"inverse", 1 << (bits / 2), func(k int64, n *big.Int) *big.Int { return new(big.Int).ModInverse(big.NewInt(k), n) }, smallInverseDiscreteLog},
+	} {
+		m := search.m
+		stride := 2*m + 1
+		limit := int64(1) << bits
+		inRange := []int64{1, 2, m - 1, m, m + 1, m + 2, stride - 1, stride, stride + 1, 2 * stride,
+			3*stride - m - 1, 3*stride - m, 7 * stride, limit - 1, limit}
+		for k := int64(1); k <= limit; k += 4999 {
+			inRange = append(inRange, k)
 		}
-		for _, negate := range []bool{false, true} {
-			for _, d := range inRange {
-				if got := smallDiscreteLog(pub(d, negate), bits); got == nil || got.Int64() != d {
-					t.Errorf("%s d=%d negated=%v: got %v", curve.Params().Name, d, negate, got)
+		// (limit/stride + 1) * stride is the first giant step past the last window.
+		outOfRange := []int64{limit + 1, limit + 2, (limit/stride + 1) * stride, 100000}
+		for _, curve := range []elliptic.Curve{elliptic.P256(), elliptic.P384(), elliptic.P521()} {
+			n := curve.Params().N
+			pub := func(k int64, negate bool) *ecdsa.PublicKey {
+				d := search.scalar(k, n)
+				if negate {
+					d.Sub(n, d)
 				}
+				x, y := curve.ScalarBaseMult(d.Bytes())
+				return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}
 			}
-			for _, d := range outOfRange {
-				if got := smallDiscreteLog(pub(d, negate), bits); got != nil {
-					t.Errorf("%s d=%d negated=%v: expected no result, got %v", curve.Params().Name, d, negate, got)
+			for _, negate := range []bool{false, true} {
+				for _, k := range inRange {
+					if got := search.search(pub(k, negate), bits); got == nil || got.Int64() != k {
+						t.Errorf("%s %s k=%d negated=%v: got %v", search.name, curve.Params().Name, k, negate, got)
+					}
 				}
-			}
-		}
-	}
-}
-
-// TestSmallInverseDiscreteLog checks the inverse search directly on every
-// supported curve, as TestSmallDiscreteLog does for the small scalar search.
-func TestSmallInverseDiscreteLog(t *testing.T) {
-	const bits = 16
-	m := int64(1) << (bits / 2)
-	stride := 2*m + 1
-	inRange := []int64{1, 2, m - 1, m, m + 1, m + 2, stride - 1, stride, stride + 1, 2 * stride,
-		3*stride - m - 1, 3*stride - m, 7 * stride, 1<<bits - 1, 1 << bits}
-	for k := int64(1); k <= 1<<bits; k += 4999 {
-		inRange = append(inRange, k)
-	}
-	outOfRange := []int64{1<<bits + 1, 1<<bits + 2, 1<<bits + stride, 100000}
-	for _, curve := range []elliptic.Curve{elliptic.P256(), elliptic.P384(), elliptic.P521()} {
-		n := curve.Params().N
-		pub := func(k int64, negate bool) *ecdsa.PublicKey {
-			d := new(big.Int).ModInverse(big.NewInt(k), n)
-			if negate {
-				d.Sub(n, d)
-			}
-			x, y := curve.ScalarBaseMult(d.Bytes())
-			return &ecdsa.PublicKey{Curve: curve, X: x, Y: y}
-		}
-		for _, negate := range []bool{false, true} {
-			for _, k := range inRange {
-				if got := smallInverseDiscreteLog(pub(k, negate), bits); got == nil || got.Int64() != k {
-					t.Errorf("%s k=%d negated=%v: got %v", curve.Params().Name, k, negate, got)
-				}
-			}
-			for _, k := range outOfRange {
-				if got := smallInverseDiscreteLog(pub(k, negate), bits); got != nil {
-					t.Errorf("%s k=%d negated=%v: expected no result, got %v", curve.Params().Name, k, negate, got)
+				for _, k := range outOfRange {
+					if got := search.search(pub(k, negate), bits); got != nil {
+						t.Errorf("%s %s k=%d negated=%v: expected no result, got %v", search.name, curve.Params().Name, k, negate, got)
+					}
 				}
 			}
 		}
