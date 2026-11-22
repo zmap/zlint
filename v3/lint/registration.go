@@ -119,9 +119,9 @@ type Registry interface { //nolint: interfacebloat // Somewhat unavoidable here.
 // registryImpl implements the Registry interface to provide a global collection
 // of Lints that have been registered.
 type registryImpl struct {
-	certificateLints    certificateLinterLookupImpl
-	ocspResponseLints   ocspResponseLinterLookupImpl
-	revocationListLints revocationListLinterLookupImpl
+	certificateLints    *certificateLinterLookupImpl
+	ocspResponseLints   *ocspResponseLinterLookupImpl
+	revocationListLints *revocationListLinterLookupImpl
 	configuration       Configuration
 }
 
@@ -271,15 +271,15 @@ func (r *registryImpl) Sources() SourceList {
 }
 
 func (r *registryImpl) CertificateLints() CertificateLinterLookup {
-	return &r.certificateLints
+	return r.certificateLints
 }
 
 func (r *registryImpl) RevocationListLints() RevocationListLinterLookup {
-	return &r.revocationListLints
+	return r.revocationListLints
 }
 
 func (r *registryImpl) OcspResponseLints() OcspResponseLinterLookup {
-	return &r.ocspResponseLints
+	return r.ocspResponseLints
 }
 
 // lintNamesToMap converts a list of lit names into a bool hashmap useful for
