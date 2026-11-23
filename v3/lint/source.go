@@ -45,6 +45,7 @@ const (
 	ChromeRootStorePolicy         LintSource = "Chrome"
 	Community                     LintSource = "Community"
 	EtsiEsi                       LintSource = "ETSI_ESI"
+	MerkleTreeCertificates        LintSource = "MTC"
 )
 
 // UnmarshalJSON implements the json.Unmarshaler interface. It ensures that the
@@ -72,7 +73,8 @@ func (s *LintSource) UnmarshalJSON(data []byte) error {
 		AppleRootStorePolicy,
 		ChromeRootStorePolicy,
 		Community,
-		EtsiEsi:
+		EtsiEsi,
+		MerkleTreeCertificates:
 		*s = LintSource(throwAway)
 		return nil
 	default:
@@ -122,6 +124,8 @@ func (s *LintSource) FromString(src string) {
 		*s = Community
 	case EtsiEsi:
 		*s = EtsiEsi
+	case MerkleTreeCertificates:
+		*s = MerkleTreeCertificates
 	}
 }
 

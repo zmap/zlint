@@ -28,6 +28,7 @@ import (
 	_ "github.com/zmap/zlint/v3/lints/community"
 	_ "github.com/zmap/zlint/v3/lints/etsi"
 	_ "github.com/zmap/zlint/v3/lints/mozilla"
+	_ "github.com/zmap/zlint/v3/lints/mtc"
 	_ "github.com/zmap/zlint/v3/lints/rfc"
 )
 
@@ -57,6 +58,7 @@ func TestNotMissingAnyLintSources(t *testing.T) {
 		"community":     true,
 		"etsi":          true,
 		"mozilla":       true,
+		"mtc":           true,
 		"rfc":           true,
 	}
 	dir, err := os.ReadDir("../lints")
