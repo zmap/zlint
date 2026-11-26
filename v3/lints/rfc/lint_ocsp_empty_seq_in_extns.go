@@ -64,7 +64,7 @@ type singleResponse struct {
 	CertID           asn1.RawValue
 	CertStatus       asn1.RawValue
 	ThisUpdate       asn1.RawValue
-	NextUpdate       asn1.RawValue `asn1:"optional"`
+	NextUpdate       asn1.RawValue `asn1:"optional,tag:0"`
 	SingleExtensions asn1.RawValue `asn1:"optional"`
 }
 

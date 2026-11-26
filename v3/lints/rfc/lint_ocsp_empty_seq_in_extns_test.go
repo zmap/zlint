@@ -57,6 +57,16 @@ func TestOCSPEmptySequenceInExtensions(t *testing.T) {
 			"ocsp_resp_rxemp_sxany.der",
 			lint.Error,
 		},
+		{
+			"nextUpdate absent; SingleExtensions present and valid",
+			"ocsp_resp_nuabs_rxabs_sxval.der",
+			lint.Pass,
+		},
+		{
+			"nextUpdate absent; SingleExtensions wrong (empty SEQUENCE)",
+			"ocsp_resp_nuabs_rxabs_sxemp.der",
+			lint.Error,
+		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.file, func(t *testing.T) {
