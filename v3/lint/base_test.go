@@ -20,6 +20,7 @@ import (
 
 	"github.com/zmap/zcrypto/x509"
 	"github.com/zmap/zlint/v3/util"
+	"golang.org/x/crypto/ocsp"
 )
 
 // This test attempts to simplify the truth table by assigning dates to the
@@ -310,6 +311,31 @@ func TestLint_RevocationListLint_CheckEffective(t *testing.T) {
 		if got != d.Want {
 			t.Errorf("Lint %s, revocation list %s, got %v want %v",
 				d.Lint.Description, d.RevocationList.Description, got, d.Want)
+		}
+	}
+}
+
+func TestLint_OcspResponseLint_CheckEffective(t *testing.T) {
+	zero := time.Time{}
+	one := time.Unix(1, 0)
+	two := time.Unix(2, 0)
+	three := time.Unix(3, 0)
+	four := time.Unix(4, 0)
+	l := OcspResponseLint{LintMetadata: LintMetadata{EffectiveDate: two, IneffectiveDate: four}}
+	data := []struct {
+		Description string
+		Response    *ocsp.Response
+		Want        bool
+	}{
+		{"produced in range, nextUpdate absent", &ocsp.Response{ProducedAt: three, ThisUpdate: three, NextUpdate: zero}, true},
+		{"produced in range, thisUpdate before range", &ocsp.Response{ProducedAt: three, ThisUpdate: one, NextUpdate: three}, true},
+		{"produced before range, nextUpdate in range", &ocsp.Response{ProducedAt: one, ThisUpdate: one, NextUpdate: three}, false},
+		{"produced before range, nextUpdate absent", &ocsp.Response{ProducedAt: one, ThisUpdate: one, NextUpdate: zero}, false},
+		{"produced on ineffective date", &ocsp.Response{ProducedAt: four, ThisUpdate: four, NextUpdate: zero}, false},
+	}
+	for _, d := range data {
+		if got := l.CheckEffective(d.Response); got != d.Want {
+			t.Errorf("%s: got %v want %v", d.Description, got, d.Want)
 		}
 	}
 }
