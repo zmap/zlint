@@ -42,6 +42,14 @@ func TestOCSPThisUpdateNotAfterProducedAt(t *testing.T) {
 			inputPath: "ocspThisUpdateAfterProducedAt.der",
 			want:      lint.Error,
 		},
+		{
+			inputPath: "ocspThisUpdateNotAfterProducedAtNoNextUpdate.der",
+			want:      lint.Pass,
+		},
+		{
+			inputPath: "ocspThisUpdateAfterProducedAtNoNextUpdate.der",
+			want:      lint.Error,
+		},
 	}
 	for _, tc := range cases {
 		t.Run(tc.inputPath, func(t *testing.T) {

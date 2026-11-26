@@ -374,13 +374,13 @@ type OcspResponseLint struct {
 // AND before (but not on) the Ineffective date. That is, CheckEffective
 // returns true if...
 //
-//	o.NextUpdate in [EffectiveDate, IneffectiveDate)
+//	o.ProducedAt in [EffectiveDate, IneffectiveDate)
 //
 // If EffectiveDate is zero, then only IneffectiveDate is checked. Conversely,
 // if IneffectiveDate is zero then only EffectiveDate is checked. If both EffectiveDate
 // and IneffectiveDate are zero then CheckEffective always returns true.
 func (l *OcspResponseLint) CheckEffective(o *ocsp.Response) bool {
-	return checkEffective(l.EffectiveDate, l.IneffectiveDate, o.NextUpdate)
+	return checkEffective(l.EffectiveDate, l.IneffectiveDate, o.ProducedAt)
 }
 
 // Execute runs the lint against an OCSP response.
